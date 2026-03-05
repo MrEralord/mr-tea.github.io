@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Efficiency — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on algorithm efficiency, Big-O notation, time and space complexity, comparing algorithms. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                <span>11.3A — Algorithm Efficiency</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">Algorithm Efficiency</h1>
+                <p class="lesson-intro">Two algorithms can solve the same problem, but one may be vastly faster or use
+                    less memory. Algorithm efficiency analysis lets us predict performance <strong>without running the
+                        code</strong>. We use <strong>Big-O notation</strong> to express how an algorithm's time or
+                    space grows as the input size increases. This is essential for choosing the right algorithm for a
+                    problem.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.2.6</span> Evaluate the efficiency of an algorithm</li>
+                    <li><span class="lo-code">11.5.2.7</span> Determine the complexity of an algorithm using Big-O
+                        notation</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-algorithm-efficiency.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-road"></i> The Route Analogy</h4>
+                    <p>Imagine two routes from home to school. Route A takes 10 minutes regardless of traffic. Route B
+                        takes 5 minutes with no traffic but 2 hours in rush hour. Route B has a better <strong>best
+                            case</strong> but a terrible <strong>worst case</strong>. Like routes, algorithms have
+                        different performance in different scenarios. Big-O describes the <strong>worst case</strong> —
+                        the maximum time you'd ever need.</p>
+                </div>
+            </section>
+
+            <!-- Rules & Theory -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">What is Big-O
+                    Notation?</h3>
+                <p class="concept-text">Big-O notation describes the <strong>upper bound</strong> of an algorithm's
+                    growth rate. It tells us how the number of operations scales as the input size <strong>n</strong>
+                    increases. We ignore constants and lower-order terms because they become insignificant for large n.
+                </p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Big-O</th>
+                            <th>Name</th>
+                            <th>Example</th>
+                            <th>n=10</th>
+                            <th>n=1000</th>
+                            <th>n=1M</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>O(1)</code></td>
+                            <td>Constant</td>
+                            <td>Array access by index</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><code>O(log n)</code></td>
+                            <td>Logarithmic</td>
+                            <td>Binary search</td>
+                            <td>3</td>
+                            <td>10</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td><code>O(n)</code></td>
+                            <td>Linear</td>
+                            <td>Linear search, single loop</td>
+                            <td>10</td>
+                            <td>1,000</td>
+                            <td>1,000,000</td>
+                        </tr>
+                        <tr>
+                            <td><code>O(n log n)</code></td>
+                            <td>Linearithmic</td>
+                            <td>Merge sort, quick sort</td>
+                            <td>33</td>
+                            <td>10,000</td>
+                            <td>20,000,000</td>
+                        </tr>
+                        <tr>
+                            <td><code>O(n²)</code></td>
+                            <td>Quadratic</td>
+                            <td>Bubble sort, nested loops</td>
+                            <td>100</td>
+                            <td>1,000,000</td>
+                            <td>10¹²</td>
+                        </tr>
+                        <tr>
+                            <td><code>O(2ⁿ)</code></td>
+                            <td>Exponential</td>
+                            <td>Brute-force subsets</td>
+                            <td>1,024</td>
+                            <td>impractical</td>
+                            <td>impossible</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Rules for
+                    Determining Big-O</h3>
+                <div class="definition-grid">
+                    <div class="definition-item">
+                        <dt>Rule 1: Drop Constants</dt>
+                        <dd>O(3n) → O(n). O(5n² + 100) → O(n²). Constants don't affect the growth rate.</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>Rule 2: Drop Lower-Order Terms</dt>
+                        <dd>O(n² + n) → O(n²). O(n³ + n² + n) → O(n³). The highest term dominates.</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>Rule 3: Consecutive Steps Add</dt>
+                        <dd>If step 1 is O(n) and step 2 is O(n²), the total is O(n + n²) = O(n²).</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>Rule 4: Nested Steps Multiply</dt>
+                        <dd>A loop inside a loop: O(n) × O(n) = O(n²). Three nested loops = O(n³).</dd>
+                    </div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Time vs
+                    Space Complexity</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Time Complexity</th>
+                            <th>Space Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Measures</td>
+                            <td>Number of operations</td>
+                            <td>Amount of memory used</td>
+                        </tr>
+                        <tr>
+                            <td>Example: Bubble Sort</td>
+                            <td>O(n²)</td>
+                            <td>O(1) — only uses a temp variable</td>
+                        </tr>
+                        <tr>
+                            <td>Example: Creating a copy of array</td>
+                            <td>O(n)</td>
+                            <td>O(n) — new array of same size</td>
+                        </tr>
+                        <tr>
+                            <td>Trade-off</td>
+                            <td colspan="2">Often you can trade time for space or vice versa</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Worked Examples -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Identify the Big-O of Code Fragments</h4>
+                    <p><strong>Fragment A — Single loop:</strong></p>
+                    <div class="code-block"><code>total ← 0
+FOR i ← 0 TO n - 1
+    total ← total + arr[i]
+NEXT i</code></div>
+                    <p class="concept-text">The loop runs <strong>n</strong> times, each iteration does O(1) work →
+                        <strong>O(n)</strong></p>
+
+                    <p><strong>Fragment B — Nested loops:</strong></p>
+                    <div class="code-block"><code>FOR i ← 0 TO n - 1
+    FOR j ← 0 TO n - 1
+        OUTPUT arr[i][j]
+    NEXT j
+NEXT i</code></div>
+                    <p class="concept-text">Outer loop: n times. Inner loop: n times per outer iteration. Total: n × n =
+                        <strong>O(n²)</strong></p>
+
+                    <p><strong>Fragment C — Halving loop:</strong></p>
+                    <div class="code-block"><code>i ← n
+WHILE i > 1
+    i ← i DIV 2
+    OUTPUT i
+ENDWHILE</code></div>
+                    <p class="concept-text">Each iteration halves i. Starting from n, it takes log₂(n) halvings to reach
+                        1 → <strong>O(log n)</strong></p>
+
+                    <p><strong>Fragment D — Consecutive loops:</strong></p>
+                    <div class="code-block"><code>// Loop 1
+FOR i ← 0 TO n - 1
+    OUTPUT arr[i]
+NEXT i
+
+// Loop 2
+FOR i ← 0 TO n - 1
+    FOR j ← 0 TO n - 1
+        IF arr[i] = arr[j] THEN count ← count + 1
+    NEXT j
+NEXT i</code></div>
+                    <p class="concept-text">Loop 1 is O(n), Loop 2 is O(n²). Total: O(n + n²) = <strong>O(n²)</strong>
+                        (drop lower-order term)</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Compare Two Algorithms</h4>
+                    <p>Algorithm X processes n items in 3n² + 5n + 100 operations.<br>
+                        Algorithm Y processes n items in 200n log₂(n) operations.</p>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>n</th>
+                                <th>Algorithm X (3n² + 5n + 100)</th>
+                                <th>Algorithm Y (200n log₂n)</th>
+                                <th>Winner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10</td>
+                                <td>450</td>
+                                <td>6,644</td>
+                                <td>X</td>
+                            </tr>
+                            <tr>
+                                <td>100</td>
+                                <td>30,600</td>
+                                <td>132,877</td>
+                                <td>X</td>
+                            </tr>
+                            <tr>
+                                <td>1,000</td>
+                                <td>3,005,100</td>
+                                <td>1,993,157</td>
+                                <td>Y</td>
+                            </tr>
+                            <tr>
+                                <td>1,000,000</td>
+                                <td>3 × 10¹²</td>
+                                <td>3.99 × 10⁹</td>
+                                <td>Y (750× faster)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="concept-text">For small n, the constants matter. For large n, the <strong>growth
+                            rate</strong> dominates. X is O(n²), Y is O(n log n). Y wins for large inputs.</p>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing Big-O with Exact Count</h4>
+                    <p>Big-O is <strong>not</strong> the exact number of operations. It describes the <strong>growth
+                            rate</strong>. O(n²) means "grows proportionally to n-squared" — the actual count could be
+                        3n² or 0.5n² + 100.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Thinking O(1) Means "Fast"</h4>
+                    <p>O(1) means constant time — it doesn't depend on input size. But it could be a large constant
+                        (e.g., 10,000 operations). O(1) just means it's the same regardless of n.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Nested Loops ≠ Always O(n²)</h4>
+                    <p>Only if both loops depend on n. If the inner loop runs a fixed number of times (e.g., always 5),
+                        then nested loops can be O(5n) = O(n).</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Quick Pattern Recognition</h4>
+                    <ul>
+                        <li>Single loop → likely <strong>O(n)</strong></li>
+                        <li>Nested loops (both depend on n) → likely <strong>O(n²)</strong></li>
+                        <li>Loop variable halved/doubled each iteration → <strong>O(log n)</strong></li>
+                        <li>No loops, no recursion → <strong>O(1)</strong></li>
+                        <li>Loop inside a halving loop → <strong>O(n log n)</strong></li>
+                    </ul>
+                </div>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Know These by Heart</h4>
+                    <ul>
+                        <li>Linear search → O(n)</li>
+                        <li>Binary search → O(log n)</li>
+                        <li>Bubble sort → O(n²)</li>
+                        <li>Insertion sort → O(n²)</li>
+                        <li>Array access → O(1)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List the Big-O complexities from fastest to slowest: O(n²), O(1), O(n log n), O(log n), O(n),
+                            O(2ⁿ).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why we "drop constants" in Big-O. Why is O(3n) simplified to O(n)?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Determine the Big-O of the following: a loop from 1 to n containing another loop from 1 to n,
+                            where the inner loop contains an IF statement that calls a function running a loop from 1 to
+                            n.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Algorithm A has complexity O(n²) and processes 100 items in 1 second. Algorithm B has O(n log
+                            n) and processes 100 items in 2 seconds. At what input size will B become faster than A?
+                            Show your reasoning.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Write two different algorithms to find if an array contains any duplicates. One should be
+                            O(n²) and the other should sort the array first. State the Big-O of each approach.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does Big-O notation describe?</div>
+                    <div class="quiz-answer">Click to reveal: The upper bound (worst case) growth rate of an algorithm
+                        as input size increases.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Simplify: O(5n³ + 200n² + 10000)</div>
+                    <div class="quiz-answer">Click to reveal: O(n³) — drop constants and lower-order terms.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. A loop runs n times and contains a loop that runs n times. What is the
+                        Big-O?</div>
+                    <div class="quiz-answer">Click to reveal: O(n²) — nested loops multiply.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is the Big-O of accessing arr[5] directly?</div>
+                    <div class="quiz-answer">Click to reveal: O(1) — constant time, array access by index is instant.
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Which grows faster: O(n²) or O(2ⁿ)?</div>
+                    <div class="quiz-answer">Click to reveal: O(2ⁿ) — exponential grows faster than polynomial for large
+                        n.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="binary-search.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Binary Search</span></div>
+                </a>
+                <a href="html-css.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">HTML &amp; CSS</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>
