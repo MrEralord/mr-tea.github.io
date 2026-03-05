@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation &amp; Verification — mr. TEA</title>
+    <meta name="description"
+        content="Difference between validation and verification. Check types: range, type, length, presence, format. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4A — Validation &amp; Verification</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Validation &amp; Verification</h1>
+                <p class="lesson-intro">Before data is processed, we must ensure it is both <strong>reasonable</strong>
+                    (validation) and <strong>correct</strong> (verification). These are two different but complementary
+                    processes that prevent errors from entering a system.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.1.2.5</span> Explain the difference between verification and validation
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-validation-verification.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+
+                <div class="analogy-box">
+                    <h4><i class="fas fa-passport"></i> The Airport Security Analogy</h4>
+                    <p><strong>Validation</strong> is like the X-ray scanner — it checks whether your bag contains
+                        <em>allowed</em> items (reasonable data), but it can't tell if it's <em>your</em> bag.
+                        <strong>Verification</strong> is like checking your passport photo against your face — it
+                        confirms the data is <em>correct</em> and belongs to you. Both are needed for security.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Rules & Theory -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Key Definitions</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Definition</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Validation</strong></td>
+                            <td>An automated check to ensure data is <strong>reasonable, sensible, and within acceptable
+                                    limits</strong>. Does NOT guarantee correctness.</td>
+                            <td>Age must be 0–150</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Verification</strong></td>
+                            <td>A manual or automated check to ensure data has been <strong>accurately transferred or
+                                    entered</strong>. Confirms data matches the original.</td>
+                            <td>Re-type email to confirm</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Key Distinction</h4>
+                    <p><strong>Validation</strong> answers: "Is this data reasonable?"<br>
+                        <strong>Verification</strong> answers: "Is this data what was intended?"<br>
+                        Example: Entering age as 25 passes validation (0–150). But if the person is actually 52,
+                        it's valid but <em>not verified</em>.
+                    </p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
+                    Validation Checks</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Check Type</th>
+                            <th>What It Does</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Range check</strong></td>
+                            <td>Value falls within a specified range</td>
+                            <td>Mark must be 0–100</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Type check</strong></td>
+                            <td>Data is of the correct data type</td>
+                            <td>Age must be an integer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Length check</strong></td>
+                            <td>Data has the correct number of characters</td>
+                            <td>Password at least 8 characters</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Presence check</strong></td>
+                            <td>A required field is not left empty</td>
+                            <td>Name field cannot be blank</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Format check</strong></td>
+                            <td>Data matches a specific pattern</td>
+                            <td>Date must be DD/MM/YYYY</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Check digit</strong></td>
+                            <td>Final digit is calculated from others to detect errors</td>
+                            <td>ISBN barcode, credit card (Luhn)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lookup check</strong></td>
+                            <td>Value must exist in a predefined list</td>
+                            <td>Country code must be in ISO list</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
+                    Verification</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>How It Works</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Double entry</strong></td>
+                            <td>User enters data twice — both entries must match (e.g., "Confirm password")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Screen/visual check</strong></td>
+                            <td>User reviews entered data on screen before submission ("Is this correct? Y/N")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parity check</strong></td>
+                            <td>Extra bit added during transmission to detect errors</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Checksum</strong></td>
+                            <td>Mathematical value calculated from data; recalculated at destination to verify integrity
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Worked Examples -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Range Check — Mark Input (Pseudocode)</h4>
+                    <div class="code-block"><code>REPEAT
+    OUTPUT "Enter mark (0-100): "
+    INPUT mark
+    IF mark &lt; 0 OR mark &gt; 100 THEN
+        OUTPUT "Invalid! Must be 0-100."
+    ENDIF
+UNTIL mark &gt;= 0 AND mark &lt;= 100
+OUTPUT "Valid mark entered: ", mark</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Length Check — Password (C++)</h4>
+                    <div class="code-block"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string password;
+    do {
+        cout &lt;&lt; "Enter password (min 8 chars): ";
+        cin &gt;&gt; password;
+        if (password.length() &lt; 8)
+            cout &lt;&lt; "Too short!" &lt;&lt; endl;
+    } while (password.length() &lt; 8);
+    cout &lt;&lt; "Password accepted." &lt;&lt; endl;
+    return 0;
+}</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Double Entry Verification (Pseudocode)</h4>
+                    <div class="code-block"><code>OUTPUT "Enter email: "
+INPUT email1
+OUTPUT "Confirm email: "
+INPUT email2
+IF email1 = email2 THEN
+    OUTPUT "Email confirmed."
+ELSE
+    OUTPUT "Emails do not match! Try again."
+ENDIF</code></div>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing Validation with Verification</h4>
+                    <p>Students often mix them up. Remember: <strong>Validation</strong> = automated + reasonable.
+                        <strong>Verification</strong> = correctness + matches original. A value can be valid but
+                        incorrect (age = 25 when it should be 52).
+                    </p>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Thinking Validation Guarantees Correctness</h4>
+                    <p>Validation only ensures data is <em>reasonable</em>. Entering 30 as your age passes a range check
+                        (0–150) even if you're actually 17. Validation cannot catch this.</p>
+                </div>
+            </section>
+
+            <!-- Pro Tips -->
+            <section class="lesson-section">
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-star"></i> Exam Tips</h4>
+                    <ul>
+                        <li>Always state the <strong>type</strong> of validation check (range, type, length, etc.)</li>
+                        <li>For verification, specify the <strong>method</strong> (double entry, visual check)</li>
+                        <li>A good answer explains <strong>why</strong> a specific check is appropriate for the data
+                        </li>
+                        <li>Remember: validation is done by the <strong>computer</strong>, verification involves the
+                            <strong>user</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tasks -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Define validation and verification. Give one example of each.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>A registration form asks for a phone number. Which validation checks would be appropriate?
+                            Explain why each check is needed.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Write pseudocode for a program that asks the user to enter their age, validates it
+                            (0–120 range + integer type check), and then uses double-entry verification.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>A student enters "abc" into an age field. The program rejects it. Is this validation or
+                            verification? What type of check caught the error?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the main difference between validation and verification?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Validation checks if data is
+                        reasonable/sensible (automated); verification checks if data is correct/matches the original
+                        (often involves the user).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Which validation check ensures a password is at least 8 characters?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Length check</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What verification method asks the user to type their email twice?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Double entry verification</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q4: Can valid data still be incorrect? Give an example.</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Yes. Entering age as 25 passes
+                        range validation (0–150) but may be wrong if the actual age is 52.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="algorithmic-structures.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Algorithmic Structures</span>
+                </a>
+                <a href="good-programming-style.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Good Programming Style</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

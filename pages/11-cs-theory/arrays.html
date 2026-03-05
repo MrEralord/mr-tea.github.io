@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1D &amp; 2D Arrays — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on 1D and 2D arrays: bounds, declaration, traversal, and manipulation in C++ and pseudocode. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <!-- Header (shared) -->
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <!-- Breadcrumb -->
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.3A — Arrays</span>
+            </nav>
+
+            <!-- Header -->
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">1D &amp; 2D Arrays</h1>
+                <p class="lesson-intro">Arrays are the most fundamental data structure in programming. They store
+                    fixed-size collections of elements of the same type in contiguous memory. Understanding arrays is
+                    critical for efficient data processing, forming the basis for sorting, searching, and more complex
+                    structures like matrices.</p>
+            </div>
+
+            <!-- LO Card -->
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.2.1</span> Use the terms upper and lower bounds of an array</li>
+                    <li><span class="lo-code">11.5.2.3</span> Write code using one-dimensional and two-dimensional
+                        arrays</li>
+                </ul>
+            </div>
+
+            <!-- PDF Presentation -->
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-arrays.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- SECTION 1: Conceptual Anchor       -->
+            <!-- ═══════════════════════════════════ -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+
+                <div class="analogy-box">
+                    <h4><i class="fas fa-box-open"></i> The Locker Row Analogy</h4>
+                    <p>Imagine a row of numbered lockers in a school hallway. Each locker has a <strong>fixed
+                            number</strong> (its index), can hold <strong>exactly one item</strong> (a value), and all
+                        lockers are the <strong>same size</strong> (same data type). You can go directly to locker #5 —
+                        you don't need to open lockers #1 through #4 first. This is <strong>random access</strong>, and
+                        it's what makes arrays fast.</p>
+                </div>
+
+                <p class="concept-text">A <strong>one-dimensional (1D) array</strong> is a single row of lockers. A
+                    <strong>two-dimensional (2D) array</strong> is a grid of lockers — like a wall of mailboxes with
+                    rows and columns. To find your mailbox, you need two numbers: the row and the column.</p>
+            </section>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- SECTION 2: Fundamental Rules       -->
+            <!-- ═══════════════════════════════════ -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Key Terminology</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Array</strong></td>
+                            <td>An ordered, fixed-size collection of elements of the same data type stored in contiguous
+                                memory locations.</td>
+                            <td><code>int marks[5];</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Index</strong></td>
+                            <td>The position number used to access a specific element. In C++ and pseudocode, indexing
+                                starts at <strong>0</strong>.</td>
+                            <td><code>marks[0]</code> = first element</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lower Bound</strong></td>
+                            <td>The smallest valid index of the array.</td>
+                            <td>For <code>marks[5]</code> → lower bound = 0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Upper Bound</strong></td>
+                            <td>The largest valid index of the array.</td>
+                            <td>For <code>marks[5]</code> → upper bound = 4</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Size / Length</strong></td>
+                            <td>The total number of elements. <code>size = upper bound − lower bound + 1</code></td>
+                            <td>For <code>marks[5]</code> → size = 5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Element</strong></td>
+                            <td>A single value stored at a specific index.</td>
+                            <td><code>marks[2] = 87;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">1D Array
+                    — Declaration &amp; Initialization</h3>
+
+                <p class="concept-text"><strong>Pseudocode:</strong></p>
+                <div class="code-block"><code>DECLARE marks : ARRAY[0:4] OF INTEGER
+marks[0] ← 90
+marks[1] ← 78
+marks[2] ← 85
+marks[3] ← 92
+marks[4] ← 88</code></div>
+
+                <p class="concept-text"><strong>C++:</strong></p>
+                <div class="code-block"><code>// Declaration and initialization
+int marks[5] = {90, 78, 85, 92, 88};
+
+// Or declare first, then assign
+int marks[5];
+marks[0] = 90;
+marks[1] = 78;
+marks[2] = 85;
+marks[3] = 92;
+marks[4] = 88;</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Memory Layout</h4>
+                    <p>Arrays are stored in <strong>contiguous memory</strong>. If <code>marks[0]</code> is at memory
+                        address 1000 and each <code>int</code> is 4 bytes, then <code>marks[1]</code> is at 1004,
+                        <code>marks[2]</code> at 1008, etc. The formula is:
+                        <code>address = base + index × sizeof(type)</code>.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2D Array
+                    — Declaration &amp; Initialization</h3>
+
+                <p class="concept-text">A 2D array is essentially an <strong>array of arrays</strong> — a table with
+                    rows and columns.</p>
+
+                <p class="concept-text"><strong>Pseudocode:</strong></p>
+                <div class="code-block"><code>DECLARE grid : ARRAY[0:2, 0:3] OF INTEGER
+
+// 3 rows × 4 columns
+// Access: grid[row, col]
+grid[0, 0] ← 1
+grid[0, 1] ← 2
+grid[1, 0] ← 5
+grid[2, 3] ← 12</code></div>
+
+                <p class="concept-text"><strong>C++:</strong></p>
+                <div class="code-block"><code>// 3 rows, 4 columns
+int grid[3][4] = {
+    {1,  2,  3,  4},
+    {5,  6,  7,  8},
+    {9, 10, 11, 12}
+};
+
+// Access element at row 1, column 2
+cout &lt;&lt; grid[1][2];  // Output: 7</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>1D Array</th>
+                            <th>2D Array</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Indices needed</td>
+                            <td>1 (position)</td>
+                            <td>2 (row, column)</td>
+                        </tr>
+                        <tr>
+                            <td>Real-world analogy</td>
+                            <td>A single row of seats</td>
+                            <td>A cinema seating plan</td>
+                        </tr>
+                        <tr>
+                            <td>C++ declaration</td>
+                            <td><code>int a[5];</code></td>
+                            <td><code>int a[3][4];</code></td>
+                        </tr>
+                        <tr>
+                            <td>Pseudocode</td>
+                            <td><code>ARRAY[0:4] OF INT</code></td>
+                            <td><code>ARRAY[0:2, 0:3] OF INT</code></td>
+                        </tr>
+                        <tr>
+                            <td>Total elements</td>
+                            <td>size</td>
+                            <td>rows × columns</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- SECTION 3: Worked Examples         -->
+            <!-- ═══════════════════════════════════ -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <!-- Example 1 -->
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Traversing a 1D Array — Linear Search</h4>
+                    <p>Find whether a value exists in an array.</p>
+
+                    <p><strong>Pseudocode:</strong></p>
+                    <div class="code-block"><code>DECLARE names : ARRAY[0:4] OF STRING
+names ← ["Alice", "Bob", "Clara", "David", "Eve"]
+
+DECLARE target : STRING
+OUTPUT "Enter name to find: "
+INPUT target
+
+DECLARE found : BOOLEAN ← FALSE
+FOR i ← 0 TO 4
+    IF names[i] = target THEN
+        OUTPUT target, " found at index ", i
+        found ← TRUE
+    ENDIF
+NEXT i
+
+IF found = FALSE THEN
+    OUTPUT target, " not found"
+ENDIF</code></div>
+
+                    <p><strong>C++:</strong></p>
+                    <div class="code-block"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string names[5] = {"Alice", "Bob", "Clara", "David", "Eve"};
+    string target;
+
+    cout &lt;&lt; "Enter name to find: ";
+    cin &gt;&gt; target;
+
+    bool found = false;
+    for (int i = 0; i &lt; 5; i++) {
+        if (names[i] == target) {
+            cout &lt;&lt; target &lt;&lt; " found at index " &lt;&lt; i &lt;&lt; endl;
+            found = true;
+        }
+    }
+
+    if (!found) {
+        cout &lt;&lt; target &lt;&lt; " not found" &lt;&lt; endl;
+    }
+    return 0;
+}</code></div>
+                </div>
+
+                <!-- Example 2 -->
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Sum &amp; Average of Array Elements</h4>
+                    <p>Calculate the total and average of numeric values stored in a 1D array.</p>
+
+                    <p><strong>Pseudocode:</strong></p>
+                    <div class="code-block"><code>DECLARE scores : ARRAY[0:4] OF INTEGER ← [90, 78, 85, 92, 88]
+DECLARE total : INTEGER ← 0
+
+FOR i ← 0 TO 4
+    total ← total + scores[i]
+NEXT i
+
+DECLARE average : REAL ← total / 5
+OUTPUT "Total: ", total
+OUTPUT "Average: ", average</code></div>
+
+                    <p><strong>C++:</strong></p>
+                    <div class="code-block"><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int scores[5] = {90, 78, 85, 92, 88};
+    int total = 0;
+
+    for (int i = 0; i &lt; 5; i++) {
+        total += scores[i];
+    }
+
+    double average = (double)total / 5;
+    cout &lt;&lt; "Total: " &lt;&lt; total &lt;&lt; endl;
+    cout &lt;&lt; "Average: " &lt;&lt; average &lt;&lt; endl;
+
+    return 0;
+}</code></div>
+                </div>
+
+                <!-- Example 3 -->
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Finding Maximum in a 1D Array</h4>
+
+                    <p><strong>Pseudocode:</strong></p>
+                    <div class="code-block"><code>DECLARE temps : ARRAY[0:6] OF REAL ← [23.1, 19.5, 28.3, 22.0, 31.7, 25.4, 20.8]
+DECLARE maxVal : REAL ← temps[0]
+DECLARE maxIdx : INTEGER ← 0
+
+FOR i ← 1 TO 6
+    IF temps[i] > maxVal THEN
+        maxVal ← temps[i]
+        maxIdx ← i
+    ENDIF
+NEXT i
+
+OUTPUT "Maximum temperature: ", maxVal, " at day ", maxIdx + 1</code></div>
+
+                    <p><strong>C++:</strong></p>
+                    <div class="code-block"><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double temps[7] = {23.1, 19.5, 28.3, 22.0, 31.7, 25.4, 20.8};
+    double maxVal = temps[0];
+    int maxIdx = 0;
+
+    for (int i = 1; i &lt; 7; i++) {
+        if (temps[i] > maxVal) {
+            maxVal = temps[i];
+            maxIdx = i;
+        }
+    }
+
+    cout &lt;&lt; "Maximum temperature: " &lt;&lt; maxVal
+         &lt;&lt; " at day " &lt;&lt; maxIdx + 1 &lt;&lt; endl;
+    return 0;
+}</code></div>
+                </div>
+
+                <!-- Example 4 -->
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Working with a 2D Array — Classroom Grades</h4>
+                    <p>Store grades for 3 students across 4 subjects and find each student's average.</p>
+
+                    <p><strong>Pseudocode:</strong></p>
+                    <div class="code-block"><code>// grades[student][subject]
+DECLARE grades : ARRAY[0:2, 0:3] OF INTEGER
+grades ← [[85, 90, 78, 92],
+           [70, 88, 95, 80],
+           [92, 76, 84, 91]]
+
+DECLARE studentNames : ARRAY[0:2] OF STRING ← ["Alice", "Bob", "Clara"]
+
+FOR s ← 0 TO 2
+    DECLARE total : INTEGER ← 0
+    FOR subj ← 0 TO 3
+        total ← total + grades[s, subj]
+    NEXT subj
+    DECLARE avg : REAL ← total / 4
+    OUTPUT studentNames[s], " average: ", avg
+NEXT s</code></div>
+
+                    <p><strong>C++:</strong></p>
+                    <div class="code-block"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    int grades[3][4] = {
+        {85, 90, 78, 92},
+        {70, 88, 95, 80},
+        {92, 76, 84, 91}
+    };
+    string names[3] = {"Alice", "Bob", "Clara"};
+
+    for (int s = 0; s &lt; 3; s++) {
+        int total = 0;
+        for (int subj = 0; subj &lt; 4; subj++) {
+            total += grades[s][subj];
+        }
+        double avg = (double)total / 4;
+        cout &lt;&lt; names[s] &lt;&lt; " average: " &lt;&lt; avg &lt;&lt; endl;
+    }
+
+    return 0;
+}</code></div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- SECTION 4: Pitfalls & Logic        -->
+            <!-- ═══════════════════════════════════ -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Off-by-One Error (Fence Post Error)</h4>
+                    <p>The most common array mistake. An array of size 5 has indices 0–4, <strong>not</strong> 1–5.
+                        Accessing <code>arr[5]</code> on a 5-element array causes undefined behaviour in C++ (buffer
+                        overflow).</p>
+                    <ul>
+                        <li><strong>Wrong:</strong> <code>for (int i = 0; i &lt;= 5; i++)</code> — iterates 6 times!
+                        </li>
+                        <li><strong>Correct:</strong> <code>for (int i = 0; i &lt; 5; i++)</code> — iterates 5 times ✓
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Uninitialized Arrays</h4>
+                    <p>In C++, local arrays are <strong>not automatically initialized to zero</strong>. They contain
+                        garbage values. Always initialize explicitly:</p>
+                    <div class="code-block"><code>int arr[5] = {0};  // All elements set to 0
+int arr[5] = {};   // Same effect in C++</code></div>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Fixed Size</h4>
+                    <p>Arrays in C++ have a <strong>fixed size determined at compile time</strong>. You cannot resize
+                        them after declaration. If you declare <code>int arr[10];</code>, you always have exactly 10
+                        slots — no more, no less. Plan your size carefully.</p>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> 2D Array Row/Column Confusion</h4>
+                    <p>In <code>grid[row][col]</code>, the <strong>first index is the row</strong> and the
+                        <strong>second is the column</strong>. Swapping them gives wrong data. Think:
+                        <strong>R</strong>ow comes before <strong>C</strong>olumn, just like <strong>R</strong> comes
+                        before <strong>C</strong> in the alphabet.</p>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- SECTION 5: Pro-Tips                -->
+            <!-- ═══════════════════════════════════ -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Strategy — Bounds Questions</h4>
+                    <p>When asked about bounds, always state: <strong>Lower bound = 0</strong>, <strong>Upper bound =
+                            size − 1</strong>. For a 2D array <code>ARRAY[0:R-1, 0:C-1]</code> the total elements = R ×
+                        C. Examiners love asking "how many elements?" — multiply rows by columns.</p>
+                </div>
+
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Strategy — Writing Pseudocode Loops</h4>
+                    <ul>
+                        <li>For 1D arrays: <code>FOR i ← 0 TO n-1</code></li>
+                        <li>For 2D arrays: Use <strong>nested loops</strong>. Outer loop = rows, inner loop = columns.
+                        </li>
+                        <li>Always declare the array with its type: <code>DECLARE arr : ARRAY[0:N-1] OF INTEGER</code>
+                        </li>
+                        <li>Use meaningful variable names: <code>row</code>, <code>col</code> instead of <code>i</code>,
+                            <code>j</code> to avoid confusion.</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Strategy — Trace Table Tips</h4>
+                    <p>When tracing array operations in an exam, draw the array as a row of boxes with indices above
+                        them. Update values in the boxes as the loop iterates. This visual approach prevents mistakes
+                        and earns method marks even if the final answer is wrong.</p>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- SECTION 6: Assessment              -->
+            <!-- ═══════════════════════════════════ -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Define the terms: <strong>array</strong>, <strong>index</strong>, <strong>lower
+                                bound</strong>, <strong>upper bound</strong>. Give the lower and upper bounds of
+                            <code>ARRAY[0:99] OF REAL</code>.</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain, using a diagram, how elements of a 1D array of 6 integers are stored in memory
+                            starting at address 2000. What is the address of the element at index 4 if each integer
+                            occupies 4 bytes?</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Write a C++ program that reads 10 integers from the user into an array, then outputs them in
+                            reverse order.</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Write pseudocode that takes a 2D array <code>ARRAY[0:4, 0:2] OF INTEGER</code> representing 5
+                            students' marks in 3 subjects, and finds the student with the highest total.</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>A programmer writes <code>for (int i = 1; i &lt;= 10; i++)</code> to traverse an array
+                            declared as <code>int data[10];</code>. Identify the two bugs in this loop and explain the
+                            consequences of each.</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level create">Create</span>
+                        <p>Design a C++ program that uses a 2D array to store a 5×5 multiplication table. The program
+                            should fill the table automatically and display it in a formatted grid.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Self-Check Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the upper bound of <code>ARRAY[0:7] OF STRING</code>?</div>
+                    <div class="quiz-answer" data-answer="7">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. How many elements does <code>int grid[4][6];</code> contain?</div>
+                    <div class="quiz-answer" data-answer="24 elements (4 × 6 = 24)">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. In C++, what happens if you access <code>arr[10]</code> on an array
+                        declared as <code>int arr[10];</code>?</div>
+                    <div class="quiz-answer"
+                        data-answer="Undefined behaviour — you are reading memory outside the array (buffer overflow). Valid indices are 0–9.">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Write the pseudocode to declare a 2D array of 3 rows and 5 columns of
+                        type REAL.</div>
+                    <div class="quiz-answer" data-answer="DECLARE data : ARRAY[0:2, 0:4] OF REAL">Click to reveal answer
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is the formula to calculate the memory address of element
+                        <code>arr[i]</code>?</div>
+                    <div class="quiz-answer" data-answer="address = base_address + i × sizeof(data_type)">Click to
+                        reveal answer</div>
+                </div>
+            </section>
+
+            <!-- Lesson Navigation -->
+            <nav class="lesson-nav">
+                <a href="../../index.html#syllabus">
+                    <i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Back to</span><span class="nav-title">Syllabus</span></div>
+                </a>
+                <a href="sorting-algorithms.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Sorting Algorithms</span>
+                    </div>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

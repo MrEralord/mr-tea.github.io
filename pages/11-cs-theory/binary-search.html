@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on Binary Search algorithm with pseudocode, C++ implementation, trace tables, and comparison with linear search. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                <span>11.3A — Binary Search</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">Binary Search</h1>
+                <p class="lesson-intro">Binary Search is a highly efficient algorithm for finding a target value within
+                    a <strong>sorted</strong> array. Instead of checking every element one by one (linear search), it
+                    repeatedly divides the search space in half, eliminating half the remaining elements with each
+                    comparison. This makes it dramatically faster for large datasets.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.2.5</span> Write pseudocode for a binary search algorithm</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-binary-search.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-book-reader"></i> The Dictionary Analogy</h4>
+                    <p>When looking up a word in a dictionary, you don't start from page 1. You open to the
+                        <strong>middle</strong>, check if your word comes before or after that page, then repeat with
+                        the correct half. Each time you halve the remaining pages. A 1000-page dictionary only needs
+                        about <strong>10 steps</strong> to find any word. That's binary search.</p>
+                </div>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Critical Prerequisite</h4>
+                    <p>Binary search <strong>only works on sorted data</strong>. If the array is unsorted, you must sort
+                        it first. This is the #1 fact examiners test — always state this in your answer.</p>
+                </div>
+            </section>
+
+            <!-- Rules & Theory -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">How Binary Search
+                    Works</h3>
+                <ul class="concept-list">
+                    <li>Set <strong>low = 0</strong> (first index) and <strong>high = n − 1</strong> (last index)</li>
+                    <li>Calculate <strong>mid = (low + high) / 2</strong> (integer division, round down)</li>
+                    <li>Compare <code>arr[mid]</code> with the target:
+                        <ul style="list-style:none;padding-left:var(--space-md);margin-top:var(--space-xs);">
+                            <li>● If <code>arr[mid] = target</code> → <strong>Found!</strong> Return mid</li>
+                            <li>● If <code>arr[mid] &lt; target</code> → target is in the right half →
+                                <code>low = mid + 1</code></li>
+                            <li>● If <code>arr[mid] > target</code> → target is in the left half →
+                                <code>high = mid − 1</code></li>
+                        </ul>
+                    </li>
+                    <li>Repeat until <code>low > high</code> → target not found</li>
+                </ul>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Binary Search</th>
+                            <th>Linear Search</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Time Complexity (Best)</td>
+                            <td>O(1) — target at middle</td>
+                            <td>O(1) — target at start</td>
+                        </tr>
+                        <tr>
+                            <td>Time Complexity (Worst)</td>
+                            <td>O(log₂ n)</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>Requires sorted data?</td>
+                            <td><strong>Yes</strong></td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>1,000 elements worst case</td>
+                            <td>~10 comparisons</td>
+                            <td>1,000 comparisons</td>
+                        </tr>
+                        <tr>
+                            <td>1,000,000 elements worst case</td>
+                            <td>~20 comparisons</td>
+                            <td>1,000,000 comparisons</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="concept-text"><strong>Pseudocode:</strong></p>
+                <div class="code-block"><code>FUNCTION BinarySearch(arr : ARRAY, n : INTEGER, target : INTEGER) RETURNS INTEGER
+    DECLARE low : INTEGER ← 0
+    DECLARE high : INTEGER ← n - 1
+
+    WHILE low &lt;= high
+        DECLARE mid : INTEGER ← (low + high) DIV 2
+
+        IF arr[mid] = target THEN
+            RETURN mid                    // Found — return index
+        ELSE IF arr[mid] &lt; target THEN
+            low ← mid + 1                // Search right half
+        ELSE
+            high ← mid - 1               // Search left half
+        ENDIF
+    ENDWHILE
+
+    RETURN -1                             // Not found
+ENDFUNCTION</code></div>
+
+                <p class="concept-text"><strong>C++:</strong></p>
+                <div class="code-block"><code>#include &lt;iostream&gt;
+using namespace std;
+
+int binarySearch(int arr[], int n, int target) {
+    int low = 0, high = n - 1;
+
+    while (low &lt;= high) {
+        int mid = (low + high) / 2;
+
+        if (arr[mid] == target) {
+            return mid;               // Found
+        } else if (arr[mid] &lt; target) {
+            low = mid + 1;            // Search right half
+        } else {
+            high = mid - 1;           // Search left half
+        }
+    }
+    return -1;                        // Not found
+}
+
+int main() {
+    int data[] = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};
+    int n = 10;
+    int target = 23;
+
+    int result = binarySearch(data, n, target);
+
+    if (result != -1) {
+        cout &lt;&lt; target &lt;&lt; " found at index " &lt;&lt; result &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; target &lt;&lt; " not found" &lt;&lt; endl;
+    }
+    return 0;
+}</code></div>
+            </section>
+
+            <!-- Worked Examples -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">T</span> Trace — Binary Search for 23 in [2, 5, 8, 12, 16, 23, 38, 56,
+                        72, 91]</h4>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Step</th>
+                                <th>low</th>
+                                <th>high</th>
+                                <th>mid</th>
+                                <th>arr[mid]</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>9</td>
+                                <td>4</td>
+                                <td>16</td>
+                                <td>16 &lt; 23 → low = 5</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>5</td>
+                                <td>9</td>
+                                <td>7</td>
+                                <td>56</td>
+                                <td>56 > 23 → high = 6</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>5</td>
+                                <td>6</td>
+                                <td>5</td>
+                                <td>23</td>
+                                <td>23 = 23 → <strong>Found at index 5!</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="concept-text">Only <strong>3 comparisons</strong> for a 10-element array. Linear search
+                        would have needed 6 comparisons.</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">T</span> Trace — Binary Search for 15 (NOT in array) in [2, 5, 8, 12, 16,
+                        23, 38]</h4>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Step</th>
+                                <th>low</th>
+                                <th>high</th>
+                                <th>mid</th>
+                                <th>arr[mid]</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>6</td>
+                                <td>3</td>
+                                <td>12</td>
+                                <td>12 &lt; 15 → low = 4</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>4</td>
+                                <td>6</td>
+                                <td>5</td>
+                                <td>23</td>
+                                <td>23 > 15 → high = 4</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>16</td>
+                                <td>16 > 15 → high = 3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td>low > high → <strong>Not found, return −1</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting to State "Array Must Be Sorted"</h4>
+                    <p>This is the most frequent exam mark lost. If asked to describe or explain binary search,
+                        <strong>always</strong> state: "The array must be sorted first." Examiners specifically look for
+                        this.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Using = Instead of &lt;= in the While Condition</h4>
+                    <p><code>while (low &lt;= high)</code> is correct. Using <code>while (low &lt; high)</code> will
+                        miss the case where the target is the last remaining element (when low == high).</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Integer Overflow in mid Calculation</h4>
+                    <p>For very large arrays, <code>(low + high)</code> can overflow. A safer formula is
+                        <code>mid = low + (high - low) / 2</code>. Not required for exams, but good to know for
+                        real-world code.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Off-by-One in low/high Updates</h4>
+                    <p>After comparing, set <code>low = mid + 1</code> or <code>high = mid − 1</code>. NOT
+                        <code>low = mid</code> or <code>high = mid</code> — this causes infinite loops because mid never
+                        moves past the current element.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Maximum Comparisons Formula</h4>
+                    <p>The maximum number of comparisons for binary search on n elements is <strong>⌊log₂ n⌋ +
+                            1</strong>. For n=1000: ⌊log₂ 1000⌋ + 1 = 9 + 1 = <strong>10</strong>. Learn this — it's a
+                        common exam question.</p>
+                </div>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> When to Use Which Search</h4>
+                    <ul>
+                        <li>Data is <strong>sorted</strong> → Binary Search (O(log n))</li>
+                        <li>Data is <strong>unsorted</strong> → Linear Search (O(n)), OR sort first then binary search
+                            if searching multiple times</li>
+                        <li>Data is <strong>small</strong> (< 20 elements) → Linear search is simpler and fast
+                                enough</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>State two preconditions for using binary search. What is its time complexity?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why binary search is O(log₂ n) using the concept of "halving the search space."</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Trace binary search for the value 42 in [3, 7, 11, 19, 27, 35, 42, 50, 63]. Show low, high,
+                            mid, and arr[mid] at each step.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a C++ program that reads 10 sorted integers and a target from the user, performs binary
+                            search, and outputs either the index or "Not found."</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>An array has 1,000,000 elements. Compare the maximum number of comparisons needed by linear
+                            search vs binary search. Show your calculation.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Write pseudocode for a modified binary search that finds the <strong>first
+                                occurrence</strong> of a duplicate value (e.g., finding the first "23" in [5, 12, 23,
+                            23, 23, 30]).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. Can binary search be used on an unsorted array?</div>
+                    <div class="quiz-answer">Click to reveal: No — the array must be sorted for binary search to work
+                        correctly.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is the maximum number of comparisons for binary search on 128
+                        elements?</div>
+                    <div class="quiz-answer">Click to reveal: ⌊log₂ 128⌋ + 1 = 7 + 1 = 8 comparisons.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. If arr[mid] &lt; target, do you search left or right?</div>
+                    <div class="quiz-answer">Click to reveal: Right — set low = mid + 1 because the target must be in
+                        the larger half.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does binary search return if the target is not found?</div>
+                    <div class="quiz-answer">Click to reveal: −1 (a sentinel value indicating "not found").</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is the loop condition for binary search?</div>
+                    <div class="quiz-answer">Click to reveal: while (low &lt;= high) — note: &lt;= not just &lt;</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="sorting-algorithms.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Sorting Algorithms</span></div>
+                </a>
+                <a href="algorithm-efficiency.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Algorithm Efficiency</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

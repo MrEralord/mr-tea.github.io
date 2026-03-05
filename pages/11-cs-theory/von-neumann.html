@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Von Neumann Architecture — mr. TEA</title>
+    <meta name="description"
+        content="Von Neumann architecture, CPU components, FDE cycle, peripheral interaction. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.1A — Von Neumann Architecture</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-desktop"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">Von Neumann Architecture</h1>
+                <p class="lesson-intro">Nearly every modern computer follows the <strong>Von Neumann
+                        architecture</strong>, designed in 1945. It describes how a CPU fetches instructions from
+                    memory, processes them, and interacts with input/output devices.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.2.1</span> Describe the interaction of CPU with peripheral devices
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-von-neumann.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-utensils"></i> The Kitchen Analogy</h4>
+                    <p>A CPU is like a <strong>chef</strong>. The recipe (program) is in a <strong>cupboard
+                            (memory)</strong>. The chef <strong>fetches</strong> one instruction, <strong>reads</strong>
+                        (decodes) it, and <strong>executes</strong> it. Ingredients come from <strong>input</strong>
+                        (delivery), finished dishes go to <strong>output</strong> (serving window).</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Architecture Diagram
+                </h3>
+                <div class="code-block"><code>              ┌───────────────────────────┐
+              │           CPU             │
+              │  ┌─────┐    ┌─────────┐   │
+              │  │ CU   │    │  ALU    │   │
+              │  └──┬───┘    └────┬────┘   │
+              │     │  Registers  │        │
+              │     │ ACC,PC,MAR  │        │
+              │     │ MDR, CIR   │        │
+              └─────┼─────────────┼────────┘
+                    │ SYSTEM BUS  │
+              ══════╪═════════════╪════════
+              ┌─────┴─────────────┴──────┐
+              │      MAIN MEMORY         │
+              │   (Instructions + Data)  │
+              └──────────────────────────┘
+              /                          \
+     ┌──────────┐                ┌──────────┐
+     │  INPUT   │                │  OUTPUT  │
+     │ keyboard │                │ monitor  │
+     │  mouse   │                │ printer  │
+     └──────────┘                └──────────┘</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Key
+                    Principles</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Principle</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Stored Program</strong></td>
+                            <td>Instructions and data stored in the same memory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sequential Execution</strong></td>
+                            <td>Instructions fetched and executed one at a time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Single Memory</strong></td>
+                            <td>One memory for data + instructions (unlike Harvard)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Binary</strong></td>
+                            <td>All data represented in binary</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">CPU
+                    Components</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Full Name</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CU</strong></td>
+                            <td>Control Unit</td>
+                            <td>Directs operations, sends control signals, manages FDE cycle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ALU</strong></td>
+                            <td>Arithmetic Logic Unit</td>
+                            <td>Performs calculations and logic (AND, OR, NOT)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ACC</strong></td>
+                            <td>Accumulator</td>
+                            <td>Stores the result of ALU operations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PC</strong></td>
+                            <td>Program Counter</td>
+                            <td>Holds address of the NEXT instruction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MAR</strong></td>
+                            <td>Memory Address Register</td>
+                            <td>Holds address being accessed in memory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MDR</strong></td>
+                            <td>Memory Data Register</td>
+                            <td>Holds data being transferred to/from memory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CIR</strong></td>
+                            <td>Current Instruction Register</td>
+                            <td>Holds instruction being decoded/executed</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Fetch-Decode-Execute (FDE) Cycle</h3>
+                <div class="code-block"><code>FETCH:
+  1. PC contains address of next instruction
+  2. PC copied to MAR
+  3. CU sends READ signal via control bus
+  4. Instruction copied into MDR
+  5. MDR copied into CIR
+  6. PC incremented (PC = PC + 1)
+
+DECODE:
+  7. CU decodes instruction in CIR
+  8. CU determines what operation is needed
+
+EXECUTE:
+  9. CU sends signals to appropriate component
+  10. ALU performs calculation (if needed)
+  11. Result stored in ACC or memory
+
+→ Cycle repeats</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">CPU ↔
+                    Peripheral Interaction</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Peripheral Type</th>
+                            <th>Direction</th>
+                            <th>How CPU Interacts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Input</strong> (keyboard)</td>
+                            <td>Peripheral → CPU</td>
+                            <td>Sends interrupt; CPU reads data via I/O bus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Output</strong> (monitor)</td>
+                            <td>CPU → Peripheral</td>
+                            <td>CPU sends data + control signals</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage</strong> (SSD)</td>
+                            <td>Both</td>
+                            <td>CPU reads/writes via controller</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Von Neumann Bottleneck</h4>
+                    <p>Instructions and data share the <strong>same bus</strong>, so they can't be fetched
+                        simultaneously. Solutions: cache memory, Harvard architecture (separate buses).</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> PC = Personal Computer</h4>
+                    <p>Here <strong>PC = Program Counter</strong> — a register holding the address of the next
+                        instruction.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 3 stages of the FDE cycle.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the role of MAR and MDR during a memory read.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Trace one FDE cycle for "ADD 5" at memory address 100.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain the Von Neumann bottleneck and suggest two solutions.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the "stored program concept"?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Both instructions and data are
+                        stored in the same main memory.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What does the Program Counter do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Holds the memory address of the
+                        next instruction to be fetched.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What is the difference between CU and ALU?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">CU manages and coordinates all
+                        operations. ALU performs arithmetic and logic operations.</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="operating-systems.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Operating Systems</span></a>
+                <a href="system-bus.html"><span class="nav-label">Next →</span><span class="nav-title">System
+                        Bus</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

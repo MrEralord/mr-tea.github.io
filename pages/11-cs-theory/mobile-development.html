@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Application Development — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on mobile app development with MIT App Inventor: blocks programming, event handlers, variables, procedures, sensors, and data storage. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                <span>11.3C — Mobile App Development</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-mobile-alt"></i> Unit 11.3C · Term 3</div>
+                <h1 class="lesson-title">Mobile Application Development</h1>
+                <p class="lesson-intro">Now that you can design interfaces, it's time to make them
+                    <strong>functional</strong>. In MIT App Inventor, you program application logic using the
+                    <strong>Blocks editor</strong> — a visual, drag-and-drop programming environment where you snap
+                    together blocks to define what happens when users interact with your app. This lesson covers
+                    event-driven programming, variables, conditionals, lists, procedures, sensors, and persistent data
+                    storage.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.4.3</span> Apply block-based programming to implement mobile
+                        application logic</li>
+                    <li><span class="lo-code">11.5.4.4</span> Use event handlers, variables, and procedures in a mobile
+                        application</li>
+                    <li><span class="lo-code">11.5.4.5</span> Use device sensors and features in a mobile application
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3C-mobile-development.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-theater-masks"></i> The Stage Director Analogy</h4>
+                    <p>Think of blocks as <strong>stage directions</strong> in a play. <strong>Events</strong> are cues
+                        ("When the curtain rises..."). <strong>Handlers</strong> are instructions ("...the actors walk
+                        to center stage"). <strong>Variables</strong> are props the actors carry.
+                        <strong>Procedures</strong> are choreographed routines they can perform on demand. You're the
+                        director, arranging instructions so the performance (your app) runs smoothly.</p>
+                </div>
+            </section>
+
+            <!-- Blocks Editor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> The Blocks Editor</h2>
+
+                <p class="concept-text">Switch to the Blocks editor by clicking <strong>"Blocks"</strong> (top right).
+                    Block categories appear on the left — these are called <strong>drawers</strong>.</p>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Block
+                    Categories</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Colour</th>
+                            <th>Contains</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Control</strong></td>
+                            <td>Brown</td>
+                            <td>if/else, for each, while, open screen, close app</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Logic</strong></td>
+                            <td>Green</td>
+                            <td>true, false, and, or, not, comparisons (=, ≠, &lt;, >)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Math</strong></td>
+                            <td>Blue</td>
+                            <td>Numbers, arithmetic (+, −, ×, ÷), random, min, max, round</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Text</strong></td>
+                            <td>Pink</td>
+                            <td>Text strings, join, length, contains, replace, split</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lists</strong></td>
+                            <td>Teal</td>
+                            <td>Create list, add to list, select item, remove, length</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Variables</strong></td>
+                            <td>Orange</td>
+                            <td>Initialize global/local variable, get, set</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Procedures</strong></td>
+                            <td>Purple</td>
+                            <td>Define procedure (with/without return value), call</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Event-Driven Programming -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-bolt"></i> Event-Driven Programming</h2>
+
+                <p class="concept-text">App Inventor uses <strong>event-driven programming</strong>: nothing happens
+                    until an event occurs. Every block program starts with a <strong>when</strong> block (an event
+                    handler). Events include button clicks, screen loads, timer ticks, sensor data changes, etc.</p>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
+                    Events (Pseudocode Representation)</h3>
+
+                <div class="code-block"><code>// Event: Button clicked
+when ButtonLogin.Click do
+    if TextBoxUsername.Text = "admin" AND PasswordTextBox1.Text = "1234" then
+        set LabelResult.Text to "Welcome!"
+        set LabelResult.TextColor to Green
+    else
+        set LabelResult.Text to "Invalid credentials"
+        set LabelResult.TextColor to Red
+    end if
+end when
+
+// Event: Screen initialized
+when Screen1.Initialize do
+    set LabelDate.Text to Clock1.Now
+    set LabelWelcome.Text to "Welcome back!"
+end when
+
+// Event: Text changed
+when TextBoxSearch.TextChanged do
+    // Filter results as user types
+    call FilterList(TextBoxSearch.Text)
+end when</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Blocks ↔ Pseudocode</h4>
+                    <p>In App Inventor, you drag and snap blocks visually. In exams, you may need to write the logic as
+                        <strong>pseudocode</strong>. The structure is the same: <code>when [event] do [actions]</code>.
+                        Always describe what the event is and what the response should be.</p>
+                </div>
+            </section>
+
+            <!-- Variables & Data -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-database"></i> Variables &amp; Data Types</h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>In App Inventor</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Global variable</td>
+                            <td><code>initialize global [name] to [value]</code></td>
+                            <td>initialize global score to 0</td>
+                        </tr>
+                        <tr>
+                            <td>Local variable</td>
+                            <td><code>initialize local [name] to [value] in do</code></td>
+                            <td>initialize local temp to TextBox1.Text</td>
+                        </tr>
+                        <tr>
+                            <td>Set variable</td>
+                            <td><code>set [global name] to [value]</code></td>
+                            <td>set global score to global score + 10</td>
+                        </tr>
+                        <tr>
+                            <td>Get variable</td>
+                            <td><code>get [global name]</code></td>
+                            <td>set Label1.Text to get global score</td>
+                        </tr>
+                        <tr>
+                            <td>List</td>
+                            <td><code>create empty list</code> or <code>make a list</code></td>
+                            <td>initialize global tasks to create empty list</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Working
+                    with Lists</h3>
+                <div class="code-block"><code>// Initialize a list
+initialize global tasks to create empty list
+
+// Add item to list
+when ButtonAdd.Click do
+    add items to list: list = get global tasks, item = TextBoxTask.Text
+    set TextBoxTask.Text to ""
+    set ListView1.Elements to get global tasks
+end when
+
+// Remove selected item
+when ButtonDelete.Click do
+    remove list item: list = get global tasks, index = ListView1.SelectionIndex
+    set ListView1.Elements to get global tasks
+end when
+
+// Count items
+set LabelCount.Text to join("Tasks: ", length of list: get global tasks)</code></div>
+            </section>
+
+            <!-- Procedures -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code-branch"></i> Procedures (Functions)</h2>
+
+                <p class="concept-text">Procedures are reusable blocks of code. In App Inventor, there are two types:
+                </p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Block</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Procedure (no return)</td>
+                            <td><code>to procedure [name] do</code></td>
+                            <td>Performs actions (like void in C++)</td>
+                        </tr>
+                        <tr>
+                            <td>Procedure with result</td>
+                            <td><code>to procedure [name] result</code></td>
+                            <td>Returns a value (like int/string functions in C++)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block"><code>// Procedure without return value
+to procedure showMessage(msg)
+    set LabelMessage.Text to msg
+    set LabelMessage.Visible to true
+end procedure
+
+// Call it
+when ButtonSubmit.Click do
+    call showMessage("Form submitted successfully!")
+end when
+
+// Procedure with return value
+to procedure calculateBMI(weight, height) result
+    return weight / (height * height)
+end procedure
+
+// Call it
+when ButtonCalc.Click do
+    initialize local bmi to call calculateBMI(TextBoxWeight.Text, TextBoxHeight.Text)
+    set LabelBMI.Text to join("Your BMI: ", round(get local bmi))
+end when</code></div>
+            </section>
+
+            <!-- Sensors -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-satellite"></i> Device Sensors &amp; Features</h2>
+
+                <p class="concept-text">App Inventor can access phone hardware features through <strong>non-visible
+                        components</strong> (added from the Palette but don't appear on screen).</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Category</th>
+                            <th>What It Does</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>AccelerometerSensor</strong></td>
+                            <td>Sensors</td>
+                            <td>Detects device tilt and shake</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LocationSensor</strong></td>
+                            <td>Sensors</td>
+                            <td>Gets GPS coordinates (latitude, longitude)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OrientationSensor</strong></td>
+                            <td>Sensors</td>
+                            <td>Detects device orientation (angle, pitch, roll)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Camera</strong></td>
+                            <td>Media</td>
+                            <td>Take photos with the device camera</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sound / Player</strong></td>
+                            <td>Media</td>
+                            <td>Play audio files</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TextToSpeech</strong></td>
+                            <td>Media</td>
+                            <td>Convert text to spoken audio</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clock</strong></td>
+                            <td>Sensors</td>
+                            <td>Timer events, get current date/time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TinyDB</strong></td>
+                            <td>Storage</td>
+                            <td>Store data locally on the device (persists after close)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Web</strong></td>
+                            <td>Connectivity</td>
+                            <td>Make HTTP requests (connect to APIs)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Notifier</strong></td>
+                            <td>User Interface</td>
+                            <td>Show alerts, confirmations, progress dialogs</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Example: Shake to Roll Dice</h4>
+                    <div class="code-block"><code>// Add: AccelerometerSensor, Label (LabelDice), Sound (for effect)
+
+when AccelerometerSensor1.Shaking do
+    initialize local roll to random integer from 1 to 6
+    set LabelDice.Text to get local roll
+    call Sound1.Play  // dice rolling sound
+end when</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Example: Save &amp; Load Data with TinyDB</h4>
+                    <div class="code-block"><code>// Save user's name when they click Save
+when ButtonSave.Click do
+    call TinyDB1.StoreValue(tag: "username", valueToStore: TextBoxName.Text)
+    call Notifier1.ShowAlert(notice: "Saved!")
+end when
+
+// Load saved name when screen opens
+when Screen1.Initialize do
+    initialize local savedName to call TinyDB1.GetValue(tag: "username", valueIfTagNotThere: "")
+    if get local savedName ≠ "" then
+        set LabelWelcome.Text to join("Welcome back, ", get local savedName)
+    end if
+end when</code></div>
+                </div>
+            </section>
+
+            <!-- Worked Example: To-Do App -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Complete Worked Example — To-Do App
+                </h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Full To-Do List Application</h4>
+                    <p><strong>UI Components (Designer):</strong> TextBoxTask, ButtonAdd, ButtonDelete, ButtonClear,
+                        ListView1, LabelCount, TinyDB1</p>
+                    <p><strong>Blocks (Logic):</strong></p>
+                    <div class="code-block"><code>// Global list to store tasks
+initialize global tasks to create empty list
+
+// Load tasks on screen start
+when Screen1.Initialize do
+    set global tasks to TinyDB1.GetValue(tag: "taskList", valueIfTagNotThere: create empty list)
+    set ListView1.Elements to get global tasks
+    call updateCount()
+end when
+
+// Add task
+when ButtonAdd.Click do
+    if TextBoxTask.Text ≠ "" then
+        add items to list: list = get global tasks, item = TextBoxTask.Text
+        set ListView1.Elements to get global tasks
+        set TextBoxTask.Text to ""
+        call TinyDB1.StoreValue(tag: "taskList", valueToStore: get global tasks)
+        call updateCount()
+    else
+        call Notifier1.ShowAlert(notice: "Please enter a task!")
+    end if
+end when
+
+// Delete selected task
+when ButtonDelete.Click do
+    if ListView1.SelectionIndex > 0 then
+        remove list item: list = get global tasks, index = ListView1.SelectionIndex
+        set ListView1.Elements to get global tasks
+        call TinyDB1.StoreValue(tag: "taskList", valueToStore: get global tasks)
+        call updateCount()
+    end if
+end when
+
+// Clear all tasks
+when ButtonClear.Click do
+    set global tasks to create empty list
+    set ListView1.Elements to get global tasks
+    call TinyDB1.StoreValue(tag: "taskList", valueToStore: get global tasks)
+    call updateCount()
+end when
+
+// Procedure: update task count
+to procedure updateCount()
+    set LabelCount.Text to join("Tasks: ", length of list: get global tasks)
+end procedure</code></div>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> List Index Starts at 1</h4>
+                    <p>Unlike C++ arrays (which start at 0), App Inventor lists are <strong>1-indexed</strong>. The
+                        first element is at position 1, not 0. Accessing index 0 causes an error.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Not Validating Input</h4>
+                    <p>Always check if text boxes are empty before processing. An empty TextBox.Text in a math operation
+                        causes a crash. Use <code>if TextBox.Text ≠ ""</code> before any operation.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting to Store Data</h4>
+                    <p>TinyDB must be explicitly called to save data. Changing a global variable does NOT automatically
+                        save it. Always call <code>TinyDB.StoreValue</code> after modifying data you want to persist.
+                    </p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing Global and Local Variables</h4>
+                    <p>Global variables persist throughout the app. Local variables exist only within their block. If
+                        you initialize a variable inside "when Button.Click", it resets every time the button is
+                        clicked.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Writing App Inventor Logic in Pseudocode</h4>
+                    <ul>
+                        <li>Start with <code>when [Event] do</code> — always identify the trigger</li>
+                        <li>Use <code>set [Component].[Property] to [value]</code> for changing UI</li>
+                        <li>Use standard IF/ELSE, FOR, WHILE for control flow</li>
+                        <li>For lists: use <code>add to list</code>, <code>select item at index</code>,
+                            <code>length of list</code></li>
+                        <li>Always mention <strong>TinyDB</strong> if the question asks about persistent data</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define: event handler, global variable, local variable, procedure. Name 3 sensors available
+                            in App Inventor.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between a procedure with a return value and one without. Give an
+                            example of when each would be used.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a BMI calculator app: two text boxes (weight in kg, height in m), a "Calculate"
+                            button, and a label showing the BMI result and category
+                            (Underweight/Normal/Overweight/Obese).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a quiz app with 5 questions. Track the score using a global variable. Show the final
+                            score when the quiz ends. Save the high score using TinyDB.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>A student's app crashes when the user presses "Calculate" without entering a number. Explain
+                            why this happens and write the pseudocode to fix it with input validation.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Design and build a "Contact Book" app that allows adding names and phone numbers to a list,
+                            displaying all contacts, and deleting selected contacts. Data must persist using TinyDB.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the first index of a list in App Inventor?</div>
+                    <div class="quiz-answer">Click to reveal: 1 (not 0 like in C++)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Which component stores data locally on the phone?</div>
+                    <div class="quiz-answer">Click to reveal: TinyDB</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What event fires when the user shakes the phone?</div>
+                    <div class="quiz-answer">Click to reveal: AccelerometerSensor.Shaking</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. How do you define a reusable block of code in App Inventor?</div>
+                    <div class="quiz-answer">Click to reveal: Using a procedure block (to procedure [name] do ... end
+                        procedure)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What happens if you use a global variable vs a local variable inside a
+                        Click event?</div>
+                    <div class="quiz-answer">Click to reveal: Global variable retains its value between clicks. Local
+                        variable resets to its initial value every time the event fires.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="mobile-interface.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Application Interface</span>
+                    </div>
+                </a>
+                <a href="publishing-apps.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Publishing
+                            Applications</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

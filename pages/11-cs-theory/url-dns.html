@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL &amp; DNS — mr. TEA</title>
+    <meta name="description"
+        content="URLs and the Domain Name System: structure, DNS resolution, domain hierarchy. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4C — URL &amp; DNS</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-network-wired"></i> Unit 11.4C · Term 4</div>
+                <h1 class="lesson-title">URL &amp; Domain Name System</h1>
+                <p class="lesson-intro">Every website has an address you type in your browser — a <strong>URL</strong>.
+                    Behind the scenes, the <strong>Domain Name System (DNS)</strong> translates human-readable names
+                    into IP addresses that computers understand.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.6.2.1</span> Explain the structure and purpose of URL and DNS</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4C-url-dns.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-address-book"></i> The Phone Book Analogy</h4>
+                    <p>You remember your friend's name but not their phone number. A <strong>phone book</strong> maps
+                        names → numbers. DNS is the internet's phone book: you type <code>google.com</code> (name)
+                        and DNS looks up <code>142.250.74.46</code> (number) so your browser knows where to connect.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">URL Structure</h3>
+
+                <div class="code-block"><code>    https://www.example.com:443/courses/cs11/index.html?page=2#section3
+    ──┬───  ─┬─ ────┬──── ─┬─ ─┬─ ──────────┬──────── ───┬─── ───┬────
+      │      │      │      │   │             │            │       │
+  Protocol  Sub  Domain  Port  │           Path         Query  Fragment
+           domain  name        │                        String
+                          TLD (.com)
+
+Protocol  – https:// (secure) or http:// (not secure)
+Subdomain – www (optional prefix)
+Domain    – example.com (registered name)
+TLD       – .com, .org, .kz, .edu (Top-Level Domain)
+Port      – 443 (HTTPS default) or 80 (HTTP default) — usually hidden
+Path      – /courses/cs11/index.html (specific page/resource)
+Query     – ?page=2 (parameters sent to the server)
+Fragment  – #section3 (jumps to a section on the page)</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">How DNS
+                    Resolution Works</h3>
+
+                <div class="code-block"><code>You type: www.example.com
+
+Step 1: Browser checks its LOCAL CACHE (already visited?)
+Step 2: If not cached → asks the OS resolver
+Step 3: OS asks the RECURSIVE DNS SERVER (usually your ISP)
+Step 4: Recursive server asks ROOT DNS SERVER → "Who handles .com?"
+Step 5: Root says → "Ask the .com TLD server"
+Step 6: TLD server says → "example.com is handled by ns1.example.com"
+Step 7: Authoritative server for example.com → "IP is 93.184.216.34"
+Step 8: IP address returned to browser → connection established!</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">DNS
+                    Hierarchy</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Server</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Root</strong></td>
+                            <td>13 root servers worldwide (labeled A–M)</td>
+                            <td>a.root-servers.net</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TLD</strong></td>
+                            <td>Handles top-level domains</td>
+                            <td>.com, .org, .kz, .edu</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Authoritative</strong></td>
+                            <td>Knows the IP of a specific domain</td>
+                            <td>ns1.example.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
+                    DNS Records</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Record</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>A</strong></td>
+                            <td>Maps domain → IPv4 address</td>
+                            <td>example.com → 93.184.216.34</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AAAA</strong></td>
+                            <td>Maps domain → IPv6 address</td>
+                            <td>example.com → 2606:2800:…</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CNAME</strong></td>
+                            <td>Alias — points to another domain</td>
+                            <td>www.example.com → example.com</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MX</strong></td>
+                            <td>Mail server for the domain</td>
+                            <td>mail.example.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> DNS Caching</h4>
+                    <p>DNS results are cached at every level (browser, OS, ISP) to speed up future lookups. Each
+                        record has a <strong>TTL (Time To Live)</strong> — after this expires, the cache is refreshed.
+                        This is why domain changes can take hours to propagate globally.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> URL = Domain Name</h4>
+                    <p>The domain name is only PART of the URL. The full URL includes protocol, subdomain, domain, path,
+                        query, and fragment. <code>google.com</code> is a domain;
+                        <code>https://www.google.com/search?q=DNS</code>
+                        is a URL.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Label all parts of this URL:
+                            <code>https://www.school.edu.kz/students/grades.html?term=4#math</code></p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain the DNS resolution process in your own words using a real-world analogy.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>You changed your website's IP address but users still see the old version. Explain why this
+                            happens and how it will resolve.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What does DNS stand for?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Domain Name System — translates
+                        human-readable domain names into IP addresses.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is the TLD of "school.edu.kz"?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">.kz (the country-code TLD for
+                        Kazakhstan)</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What DNS record type maps a domain to an IPv4 address?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A record</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="client-server.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Client-Server Model</span>
+                </a>
+                <a href="network-protocols.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Network Protocols</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

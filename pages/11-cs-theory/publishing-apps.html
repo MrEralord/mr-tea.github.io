@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publishing Applications — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on testing, debugging, and publishing mobile applications from MIT App Inventor. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                <span>11.3C — Publishing Applications</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-mobile-alt"></i> Unit 11.3C · Term 3</div>
+                <h1 class="lesson-title">Publishing Applications</h1>
+                <p class="lesson-intro">After building and programming your mobile application, the final steps are
+                    <strong>testing</strong>, <strong>debugging</strong>, and <strong>distributing</strong> it to users.
+                    This lesson covers the full lifecycle from testing on devices to generating an APK file, and
+                    discusses the software development lifecycle (SDLC) stages that professional developers follow.
+                    Understanding this process is essential for exam questions about software engineering practices.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.4.6</span> Test and debug a mobile application</li>
+                    <li><span class="lo-code">11.5.4.7</span> Publish / distribute a mobile application</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3C-publishing-apps.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Testing -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-vial"></i> Testing Your Application</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Three Ways to Test
+                </h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>How</th>
+                            <th>Pros</th>
+                            <th>Cons</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>AI Companion (Live Testing)</strong></td>
+                            <td>Install MIT AI2 Companion app → scan QR code from App Inventor</td>
+                            <td>Real-time updates, uses real sensors</td>
+                            <td>Requires Android phone + same Wi-Fi</td>
+                        </tr>
+                        <tr>
+                            <td><strong>USB Connection</strong></td>
+                            <td>Connect phone via USB → select "USB" in Connect menu</td>
+                            <td>No Wi-Fi needed</td>
+                            <td>Requires driver installation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Emulator</strong></td>
+                            <td>Connect → Emulator (built into App Inventor)</td>
+                            <td>No phone needed</td>
+                            <td>Slower, no real sensors</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
+                    Testing</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Testing Type</th>
+                            <th>What It Checks</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Functional Testing</strong></td>
+                            <td>Does each feature work correctly?</td>
+                            <td>Does the "Add" button actually add a task to the list?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Usability Testing</strong></td>
+                            <td>Is the app easy to use?</td>
+                            <td>Can a new user figure out the app without instructions?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Boundary Testing</strong></td>
+                            <td>Does it handle extreme values?</td>
+                            <td>What happens with empty input? Very long text? Negative numbers?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Error / Exception Testing</strong></td>
+                            <td>Does it handle errors gracefully?</td>
+                            <td>What happens if GPS is turned off when the app needs location?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance Testing</strong></td>
+                            <td>Does it run smoothly?</td>
+                            <td>Is the app responsive with 100+ list items?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compatibility Testing</strong></td>
+                            <td>Does it work on different devices?</td>
+                            <td>Test on phones with different screen sizes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Writing a
+                    Test Plan</h3>
+                <p class="concept-text">A test plan documents what you'll test, the expected result, and the actual
+                    result:</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Test #</th>
+                            <th>Description</th>
+                            <th>Input</th>
+                            <th>Expected Result</th>
+                            <th>Actual Result</th>
+                            <th>Pass/Fail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Add a task</td>
+                            <td>Type "Buy milk", tap Add</td>
+                            <td>Task appears in list</td>
+                            <td>Task appears in list</td>
+                            <td>✅ Pass</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Add empty task</td>
+                            <td>Leave empty, tap Add</td>
+                            <td>Error message shown</td>
+                            <td>Error message shown</td>
+                            <td>✅ Pass</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Delete task</td>
+                            <td>Select task, tap Delete</td>
+                            <td>Task removed from list</td>
+                            <td>Task removed from list</td>
+                            <td>✅ Pass</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Delete without selection</td>
+                            <td>Tap Delete (nothing selected)</td>
+                            <td>Nothing happens / message</td>
+                            <td>App crashes</td>
+                            <td>❌ Fail</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Data persists</td>
+                            <td>Add task, close app, reopen</td>
+                            <td>Task still in list</td>
+                            <td>Task still in list</td>
+                            <td>✅ Pass</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Debugging -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-bug"></i> Debugging</h2>
+
+                <p class="concept-text">Debugging is the process of finding and fixing errors (bugs) in your code.</p>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
+                    App Inventor Errors</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Error</th>
+                            <th>Cause</th>
+                            <th>Fix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>"Select list item: List index too large"</td>
+                            <td>Trying to access an index beyond the list length</td>
+                            <td>Check <code>length of list</code> before accessing</td>
+                        </tr>
+                        <tr>
+                            <td>"Attempt to get item number 0"</td>
+                            <td>Lists start at index 1, not 0</td>
+                            <td>Use index starting from 1</td>
+                        </tr>
+                        <tr>
+                            <td>"Expected a number, got text"</td>
+                            <td>Trying to do math with text input</td>
+                            <td>Check if input is a number first</td>
+                        </tr>
+                        <tr>
+                            <td>Screen appears blank</td>
+                            <td>Components not added or set to invisible</td>
+                            <td>Check the Components panel</td>
+                        </tr>
+                        <tr>
+                            <td>Button click does nothing</td>
+                            <td>No event handler blocks for that button</td>
+                            <td>Add the "when Button.Click" blocks</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Debugging
+                    Strategies</h3>
+                <div class="definition-grid">
+                    <div class="definition-item">
+                        <dt>1. Trace Labels</dt>
+                        <dd>Add a Label to the screen and set its text to variable values. For example:
+                            <code>set LabelDebug.Text to join("Score=", get global score)</code>. This shows you what
+                            values your variables hold at any moment.</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>2. Step-by-Step Testing</dt>
+                        <dd>Test each feature one at a time. If something breaks, you know exactly which part caused it.
+                        </dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>3. Notifier Alerts</dt>
+                        <dd>Use <code>Notifier.ShowAlert</code> to display intermediate values:
+                            <code>call Notifier1.ShowAlert("Count is: " + length of list)</code></dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>4. Do It / Watch</dt>
+                        <dd>In the Blocks editor during live testing, right-click a block and choose "Do It" to execute
+                            just that block and see its result.</dd>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Building & Distributing -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-rocket"></i> Building &amp; Distributing Your App</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Exporting from App
+                    Inventor</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Menu Path</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Build APK</strong></td>
+                            <td>Build → App (provide QR code for .apk)</td>
+                            <td>APK file you can install on any Android device</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Download APK</strong></td>
+                            <td>Build → App (save .apk to my computer)</td>
+                            <td>Downloads the .apk file to your computer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Export project (.aia)</strong></td>
+                            <td>Projects → Export selected project (.aia) to my computer</td>
+                            <td>Project source file (can be imported to another account)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Distributing the APK</h3>
+                <ul class="concept-list">
+                    <li><strong>Direct sharing</strong> — Send the .apk file via email, USB, or messaging apps. The
+                        recipient must enable "Install from unknown sources" in their phone settings.</li>
+                    <li><strong>Gallery</strong> — Publish to the MIT App Inventor Gallery (gallery.appinventor.mit.edu)
+                        for others to view and remix.</li>
+                    <li><strong>Google Play Store</strong> — Requires a developer account ($25 one-time fee). Must
+                        provide app description, screenshots, privacy policy, and meet Google's guidelines.</li>
+                    <li><strong>Alternative stores</strong> — Amazon Appstore, APKPure, or hosting the APK on a website.
+                    </li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Before
+                    Publishing Checklist</h3>
+                <ul class="concept-list">
+                    <li>✅ All features tested and working</li>
+                    <li>✅ All edge cases handled (empty input, large data, network errors)</li>
+                    <li>✅ App icon set (Screen1 → Icon property)</li>
+                    <li>✅ App title set correctly</li>
+                    <li>✅ Version number updated (Screen1 → VersionCode, VersionName)</li>
+                    <li>✅ Test on at least 2 different screen sizes</li>
+                    <li>✅ Remove debug labels and test data</li>
+                </ul>
+            </section>
+
+            <!-- SDLC -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-project-diagram"></i> Software Development Lifecycle
+                    (SDLC)</h2>
+
+                <p class="concept-text">The SDLC describes the stages that every software project goes through:</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Description</th>
+                            <th>Your App Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Analysis</strong></td>
+                            <td>Understand the problem. What does the user need?</td>
+                            <td>"Students need a way to track homework tasks"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Design</strong></td>
+                            <td>Plan the solution: UI mockups, data structure, algorithms</td>
+                            <td>Sketch screens, list components needed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Implementation</strong></td>
+                            <td>Build the application (write code / blocks)</td>
+                            <td>Create the app in App Inventor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Testing</strong></td>
+                            <td>Verify the app works correctly</td>
+                            <td>Run test plan, fix bugs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Deployment</strong></td>
+                            <td>Release the app to users</td>
+                            <td>Build APK, distribute</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6. Maintenance</strong></td>
+                            <td>Fix issues, add features, update</td>
+                            <td>Add new features based on user feedback</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Iterative Development</h4>
+                    <p>Modern development often uses <strong>iterative</strong> (repeated cycle) approaches: build a
+                        basic version → test → get feedback → improve → repeat. Each cycle produces a better version.
+                        This is different from the <strong>waterfall</strong> model where each stage is completed fully
+                        before moving to the next.</p>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Not Removing Debug Elements</h4>
+                    <p>Before building the final APK, remove all debug labels, test data, and console-style outputs.
+                        Users should not see "Debug: score=42".</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Skipping Edge Case Testing</h4>
+                    <p>Most bugs occur at boundaries: empty lists, maximum values, no internet connection. Always test
+                        with unusual or extreme inputs.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> No Version Control</h4>
+                    <p>Export your .aia file regularly. If something breaks, you can revert to a working version. App
+                        Inventor does not have built-in undo for deleted screens or components.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Testing Questions Format</h4>
+                    <ul>
+                        <li>When asked "describe how you would test your application," always mention
+                            <strong>normal</strong>, <strong>boundary</strong>, and <strong>erroneous</strong> test data
+                        </li>
+                        <li>Provide a <strong>test table</strong> with: test number, description, input, expected
+                            outcome, actual outcome, pass/fail</li>
+                        <li>Mention different <strong>types of testing</strong> (functional, usability, boundary)</li>
+                        <li>For SDLC questions, list all 6 stages and briefly describe what happens at each</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 6 stages of the SDLC. Define: functional testing, boundary testing, usability
+                            testing.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between the waterfall model and iterative development. Which is better
+                            for mobile app development and why?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a complete test plan (minimum 8 tests) for a calculator app. Include tests for: normal
+                            input, edge cases (division by zero, very large numbers), and UI interaction.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>A student tests their app by only trying normal inputs and it passes all tests. The app
+                            crashes in class when a student enters an emoji in a number field. Explain why the testing
+                            was insufficient and what should have been done differently.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Choose one app you've built in this unit. Document the full SDLC: write the problem analysis,
+                            include UI design sketches, show the implementation (screenshots of blocks), provide a
+                            complete test plan with results, and describe how you would publish and maintain it.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What file format does App Inventor produce when you build an app?
+                    </div>
+                    <div class="quiz-answer">Click to reveal: .apk (Android Package Kit)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What three types of test data should you always include?</div>
+                    <div class="quiz-answer">Click to reveal: Normal data (valid input), Boundary data (edge cases),
+                        Erroneous data (invalid input)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What file format is used to export an App Inventor project source?
+                    </div>
+                    <div class="quiz-answer">Click to reveal: .aia</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Name 3 ways to distribute an APK file.</div>
+                    <div class="quiz-answer">Click to reveal: Direct sharing (email/USB), MIT Gallery, Google Play
+                        Store, alternative app stores, website hosting.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is the difference between the waterfall model and iterative
+                        development?</div>
+                    <div class="quiz-answer">Click to reveal: Waterfall completes each stage fully before moving to the
+                        next (sequential). Iterative repeats the cycle, improving the product each time (incremental).
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="mobile-development.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Mobile App Development</span>
+                    </div>
+                </a>
+                <a href="../../index.html#syllabus">
+                    <div><span class="nav-label">Back to</span><span class="nav-title">Syllabus Overview</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

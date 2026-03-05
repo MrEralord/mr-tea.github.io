@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normalization (1NF, 2NF, 3NF) — mr. TEA</title>
+    <meta name="description" content="Database normalization: 1NF, 2NF, 3NF, eliminating redundancy. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.2A — Normalization</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 11.2A · Term 2</div>
+                <h1 class="lesson-title">Normalization (1NF, 2NF, 3NF)</h1>
+                <p class="lesson-intro"><strong>Normalization</strong> is the process of organizing a database to reduce
+                    <strong>redundancy</strong> (repeated data) and <strong>dependency problems</strong>. It involves
+                    splitting large tables into smaller, well-structured ones linked by keys.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.4.1.5</span> Define connections (1NF, 2NF, 3NF)</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2A-normalization.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-archive"></i> The Filing Cabinet Analogy</h4>
+                    <p>Imagine a messy filing cabinet where each folder duplicates information (student name in every
+                        grade folder). Normalization is like <strong>reorganizing</strong> the cabinet: put student info
+                        in ONE folder, grade info in ANOTHER, and link them with a student ID number. Less duplication,
+                        fewer errors.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Why Normalize?</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Problem</th>
+                            <th>Without Normalization</th>
+                            <th>With Normalization</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data Redundancy</strong></td>
+                            <td>Same data stored multiple times</td>
+                            <td>Data stored once</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Update Anomaly</strong></td>
+                            <td>Change in one place but not another</td>
+                            <td>Change once, reflected everywhere</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Insert Anomaly</strong></td>
+                            <td>Can't add data without unrelated data</td>
+                            <td>Can add independently</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Delete Anomaly</strong></td>
+                            <td>Deleting one thing removes other data</td>
+                            <td>Deletion is isolated</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The Three
+                    Normal Forms</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Form</th>
+                            <th>Rule</th>
+                            <th>In Simple Words</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1NF</strong></td>
+                            <td>No repeating groups; each cell has a single atomic value</td>
+                            <td>"No lists in cells"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2NF</strong></td>
+                            <td>1NF + no partial dependencies (all non-key fields depend on the WHOLE PK)</td>
+                            <td>"Depends on the whole key"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3NF</strong></td>
+                            <td>2NF + no transitive dependencies (non-key fields don't depend on other non-key fields)
+                            </td>
+                            <td>"Depends on nothing but the key"</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Memory Trick</h4>
+                    <p>"Every non-key attribute must depend on <strong>the key</strong> (1NF), <strong>the whole
+                            key</strong> (2NF), and <strong>nothing but the key</strong> (3NF) — so help me Codd!"</p>
+                </div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Step-by-Step Example</h3>
+                <div class="code-block"><code>UNNORMALIZED (UNF):
+┌──────────┬────────┬──────────────────────────────────┐
+│ StudentID│ Name   │ Courses                          │
+├──────────┼────────┼──────────────────────────────────┤
+│ S001     │ Ali    │ Maths, Physics, CS               │ ← list in cell!
+│ S002     │ Dana   │ CS, English                      │ ← list in cell!
+└──────────┴────────┴──────────────────────────────────┘</code></div>
+                <div class="code-block"><code>1NF — Remove repeating groups (one value per cell):
+┌──────────┬────────┬──────────┐
+│ StudentID│ Name   │ Course   │
+├──────────┼────────┼──────────┤
+│ S001     │ Ali    │ Maths    │
+│ S001     │ Ali    │ Physics  │ ← "Ali" repeated!
+│ S001     │ Ali    │ CS       │ ← redundancy
+│ S002     │ Dana   │ CS       │
+│ S002     │ Dana   │ English  │ ← "Dana" repeated!
+└──────────┴────────┴──────────┘
+PK = (StudentID + Course)  ← composite key</code></div>
+                <div class="code-block"><code>2NF — Remove partial dependencies:
+"Name" depends only on StudentID, not on the full PK
+
+Students Table:           Enrolment Table:
+┌──────────┬────────┐    ┌──────────┬──────────┐
+│ StudentID│ Name   │    │ StudentID│ Course   │
+├──────────┼────────┤    ├──────────┼──────────┤
+│ S001     │ Ali    │    │ S001     │ Maths    │
+│ S002     │ Dana   │    │ S001     │ Physics  │
+└──────────┴────────┘    │ S001     │ CS       │
+                         │ S002     │ CS       │
+                         │ S002     │ English  │
+                         └──────────┴──────────┘</code></div>
+                <div class="code-block"><code>3NF — Remove transitive dependencies:
+Suppose Enrolment also had TeacherName (which depends on Course, not the PK):
+
+Before 3NF:                        After 3NF:
+┌─────────┬────────┬────────────┐  Enrolment:       Courses:
+│ StudentID│ Course │ TeacherName│  ┌────────┬──────┐ ┌──────┬───────────┐
+│ S001    │ Maths  │ Mr Smith   │  │StudentID│Course│ │Course│TeacherName│
+│ S001    │ CS     │ Ms Lee     │  └────────┴──────┘ └──────┴───────────┘
+│ S002    │ CS     │ Ms Lee     │  (FK to both)
+└─────────┴────────┴────────────┘
+TeacherName depends on Course (non-key → non-key) = transitive!</code></div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Skipping Normal Forms</h4>
+                    <p>You cannot jump to 3NF without achieving 1NF and 2NF first. Normalization is
+                        <strong>sequential</strong> — each form builds on the previous one.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Over-Normalizing</h4>
+                    <p>In practice, going beyond 3NF can make queries very complex with many JOINs. <strong>3NF is
+                            usually sufficient</strong> for most databases.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>State the rules for 1NF, 2NF, and 3NF.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Normalize the following table to 3NF: OrderID, CustomerName, CustomerAddress, ProductName,
+                            ProductPrice, Quantity.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain what an "update anomaly" is and how normalization prevents it.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What does 1NF require?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">No repeating groups — each cell
+                        must contain a single, atomic value (no lists or arrays in a cell).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is a partial dependency?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">When a non-key attribute
+                        depends on only PART of a composite primary key (not the whole key). Violates 2NF.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What is the memory trick for the 3 normal forms?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Every non-key attribute must
+                        depend on "the key (1NF), the whole key (2NF), and nothing but the key (3NF)".</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="er-diagrams.html"><span class="nav-label">← Previous</span><span class="nav-title">ER
+                        Diagrams</span></a>
+                <a href="sql.html"><span class="nav-label">Next →</span><span class="nav-title">SQL (DDL &amp;
+                        DML)</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

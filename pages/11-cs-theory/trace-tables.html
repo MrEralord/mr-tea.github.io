@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trace Tables — mr. TEA</title>
+    <meta name="description"
+        content="Trace tables for algorithm verification, step-by-step variable tracking. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.1B — Trace Tables</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-code"></i> Unit 11.1B · Term 1</div>
+                <h1 class="lesson-title">Trace Tables</h1>
+                <p class="lesson-intro">A <strong>trace table</strong> is a technique for tracking the values of
+                    variables as a program executes, line by line. It is the most reliable way to <strong>verify an
+                        algorithm</strong> works correctly — or to find bugs.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.1.4</span> Use trace tables to verify algorithms and predict outputs
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1B-trace-tables.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-shoe-prints"></i> The Detective Analogy</h4>
+                    <p>A trace table is like a detective's <strong>evidence log</strong>. For every step the suspect
+                        (program) takes, you record what changed. At the end, you can see the full journey and verify if
+                        the outcome matches expectations — or find where things went wrong.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">How to Build a Trace
+                    Table</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td>Create a column for each variable + one for output</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td>Add a row for each line that changes a variable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td>Execute each line mentally, recording new values</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4</strong></td>
+                            <td>Leave cells empty if a variable doesn't change</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5</strong></td>
+                            <td>For loops, add a new row for each iteration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Trace: Find the Sum of 1 to 5</h4>
+                    <div class="code-block"><code>// Pseudocode:
+sum ← 0
+FOR i ← 1 TO 5
+    sum ← sum + i
+ENDFOR
+OUTPUT sum
+
+Trace Table:
+ Step │  i  │ sum │ Output
+──────┼─────┼─────┼────────
+  1   │  —  │  0  │  —
+  2   │  1  │  1  │  —
+  3   │  2  │  3  │  —
+  4   │  3  │  6  │  —
+  5   │  4  │ 10  │  —
+  6   │  5  │ 15  │  —
+  7   │  —  │  —  │  15</code></div>
+                </div>
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Trace: Swap Two Variables</h4>
+                    <div class="code-block"><code>// Pseudocode:
+a ← 7
+b ← 3
+temp ← a
+a ← b
+b ← temp
+OUTPUT a, b
+
+Trace Table:
+ Step │  a  │  b  │ temp │ Output
+──────┼─────┼─────┼──────┼────────
+  1   │  7  │  —  │  —   │  —
+  2   │  7  │  3  │  —   │  —
+  3   │  7  │  3  │  7   │  —
+  4   │  3  │  3  │  7   │  —
+  5   │  3  │  7  │  7   │  —
+  6   │  —  │  —  │  —   │ 3, 7</code></div>
+                </div>
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Trace: Find Maximum in Array [4, 9, 2, 7]</h4>
+                    <div class="code-block"><code>// Pseudocode:
+arr ← [4, 9, 2, 7]
+max ← arr[0]
+FOR i ← 1 TO 3
+    IF arr[i] > max THEN
+        max ← arr[i]
+    ENDIF
+ENDFOR
+OUTPUT max
+
+Trace Table:
+ Step │  i  │ arr[i] │ max │ Output
+──────┼─────┼────────┼─────┼────────
+  1   │  —  │   —    │  4  │  —
+  2   │  1  │   9    │  9  │  —    (9>4 ✓)
+  3   │  2  │   2    │  9  │  —    (2>9 ✗)
+  4   │  3  │   7    │  9  │  —    (7>9 ✗)
+  5   │  —  │   —    │  —  │  9</code></div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Skipping Iterations</h4>
+                    <p>Every loop iteration needs its own row — even if no variable changes. If an IF condition is
+                        false, you still need to show that the step was checked.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Overwriting Old Values</h4>
+                    <p>Each row shows the <strong>new</strong> value of a variable. The old value is in the previous
+                        row. Never erase previous rows — the history is the whole point!</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a trace table for: x ← 10, WHILE x > 0: OUTPUT x, x ← x - 3.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Trace the following and find the output: a ← 1, FOR i ← 1 TO 4: a ← a * 2.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>A student claims this code finds the minimum of an array. Use a trace table with [5, 2, 8, 1]
+                            to verify or disprove their claim.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the purpose of a trace table?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To track variable values
+                        line-by-line to verify an algorithm works correctly or to find bugs.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What should each column represent?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Each column represents a
+                        variable in the program, plus an output column.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How many rows does a loop with 5 iterations need?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">At least 5 rows (one per
+                        iteration), plus rows for initialisation and output.</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="https://peterhigginson.co.uk/lmc/" target="_blank"><span class="nav-label">← Previous</span><span class="nav-title">LMC
+                        Simulator</span></a>
+                <a href="translators.html"><span class="nav-label">Next →</span><span
+                        class="nav-title">Translators</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

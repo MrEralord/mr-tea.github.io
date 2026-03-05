@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL (DDL &amp; DML) — mr. TEA</title>
+    <meta name="description"
+        content="SQL Data Definition Language and Data Manipulation Language: CREATE, SELECT, INSERT, UPDATE, DELETE, JOIN. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.2A — SQL (DDL &amp; DML)</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 11.2A · Term 2</div>
+                <h1 class="lesson-title">SQL: DDL &amp; DML</h1>
+                <p class="lesson-intro"><strong>SQL (Structured Query Language)</strong> is the standard language for
+                    managing relational databases. It has two main sub-languages: <strong>DDL</strong> (Data Definition
+                    Language) for structure, and <strong>DML</strong> (Data Manipulation Language) for data.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.4.2.1</span> Explain the purpose of a data dictionary</li>
+                    <li><span class="lo-code">11.4.2.2</span> Compare DDL and DML</li>
+                    <li><span class="lo-code">11.4.2.3</span> Basic SQL: CREATE, ALTER, DROP</li>
+                    <li><span class="lo-code">11.4.2.4</span> Basic SQL: SELECT, UPDATE, INSERT, DELETE</li>
+                    <li><span class="lo-code">11.4.2.5</span> Use SELECT for multiple tables (JOIN)</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2A-sql.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-tools"></i> The Warehouse Analogy</h4>
+                    <p><strong>DDL</strong> is like building the warehouse — constructing shelves (CREATE), modifying
+                        layout (ALTER), and demolishing sections (DROP). <strong>DML</strong> is like working inside the
+                        warehouse — adding stock (INSERT), finding items (SELECT), updating labels (UPDATE), and
+                        removing products (DELETE).</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">DDL vs DML</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>DDL (Data Definition)</th>
+                            <th>DML (Data Manipulation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Purpose</strong></td>
+                            <td>Define/modify table structure</td>
+                            <td>Work with the data inside tables</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Commands</strong></td>
+                            <td>CREATE, ALTER, DROP</td>
+                            <td>SELECT, INSERT, UPDATE, DELETE</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Affects</strong></td>
+                            <td>Schema (structure)</td>
+                            <td>Data (records)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">DDL
+                    Commands</h3>
+                <div class="code-block"><code>-- CREATE: Build a new table
+CREATE TABLE Students (
+    StudentID   VARCHAR(4) PRIMARY KEY,
+    Name        VARCHAR(50) NOT NULL,
+    Age         INTEGER,
+    Email       VARCHAR(100),
+    Class       VARCHAR(3)
+);
+
+-- ALTER: Modify an existing table
+ALTER TABLE Students ADD Phone VARCHAR(15);
+ALTER TABLE Students DROP COLUMN Phone;
+
+-- DROP: Delete entire table (WARNING: permanent!)
+DROP TABLE Students;</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">DML
+                    Commands</h3>
+                <div class="code-block"><code>-- INSERT: Add a new record
+INSERT INTO Students (StudentID, Name, Age, Email, Class)
+VALUES ('S001', 'Ali', 16, 'ali@nis.edu.kz', '11A');
+
+-- SELECT: Retrieve data
+SELECT * FROM Students;                      -- all columns
+SELECT Name, Age FROM Students;              -- specific columns
+SELECT * FROM Students WHERE Class = '11A';  -- with filter
+SELECT * FROM Students ORDER BY Name ASC;    -- sorted
+
+-- UPDATE: Modify existing records
+UPDATE Students SET Age = 17 WHERE StudentID = 'S001';
+
+-- DELETE: Remove records
+DELETE FROM Students WHERE StudentID = 'S003';</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">SELECT
+                    with Multiple Tables (JOIN)</h3>
+                <div class="code-block"><code>-- Tables:
+-- Students: StudentID, Name, Class
+-- Grades:   GradeID, StudentID, Subject, Mark
+
+-- INNER JOIN: Get student names with their grades
+SELECT Students.Name, Grades.Subject, Grades.Mark
+FROM Students
+INNER JOIN Grades ON Students.StudentID = Grades.StudentID;
+
+-- Result:
+-- ┌────────┬─────────┬──────┐
+-- │ Name   │ Subject │ Mark │
+-- ├────────┼─────────┼──────┤
+-- │ Ali    │ Maths   │ 85   │
+-- │ Ali    │ CS      │ 92   │
+-- │ Dana   │ CS      │ 88   │
+-- └────────┴─────────┴──────┘
+
+-- With WHERE filter:
+SELECT Students.Name, Grades.Mark
+FROM Students
+INNER JOIN Grades ON Students.StudentID = Grades.StudentID
+WHERE Grades.Mark > 90;</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Useful
+                    SELECT Clauses</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Clause</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>WHERE</strong></td>
+                            <td>Filter rows</td>
+                            <td>WHERE Age > 16</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ORDER BY</strong></td>
+                            <td>Sort results</td>
+                            <td>ORDER BY Name ASC</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AND / OR</strong></td>
+                            <td>Combine conditions</td>
+                            <td>WHERE Age > 16 AND Class = '11A'</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LIKE</strong></td>
+                            <td>Pattern matching</td>
+                            <td>WHERE Name LIKE 'A%'</td>
+                        </tr>
+                        <tr>
+                            <td><strong>COUNT()</strong></td>
+                            <td>Count records</td>
+                            <td>SELECT COUNT(*) FROM Students</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SUM() / AVG()</strong></td>
+                            <td>Aggregate functions</td>
+                            <td>SELECT AVG(Mark) FROM Grades</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GROUP BY</strong></td>
+                            <td>Group results</td>
+                            <td>GROUP BY Class</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Data Dictionary</h4>
+                    <p>A <strong>data dictionary</strong> is metadata about the database: table names, field names, data
+                        types, constraints, and relationships. It's like a "table of contents" for the database —
+                        essential for developers to understand the structure.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Create a School Database</h4>
+                    <div class="code-block"><code>-- Step 1: Create tables
+CREATE TABLE Courses (
+    CourseID   VARCHAR(5) PRIMARY KEY,
+    Title      VARCHAR(50) NOT NULL,
+    Credits    INTEGER
+);
+
+CREATE TABLE Enrolment (
+    StudentID  VARCHAR(4),
+    CourseID   VARCHAR(5),
+    Grade      INTEGER,
+    PRIMARY KEY (StudentID, CourseID),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+
+-- Step 2: Insert data
+INSERT INTO Courses VALUES ('CS101', 'Computer Science', 3);
+INSERT INTO Courses VALUES ('MA201', 'Mathematics', 4);
+
+INSERT INTO Enrolment VALUES ('S001', 'CS101', 92);
+INSERT INTO Enrolment VALUES ('S001', 'MA201', 85);
+
+-- Step 3: Query across tables
+SELECT s.Name, c.Title, e.Grade
+FROM Students s
+INNER JOIN Enrolment e ON s.StudentID = e.StudentID
+INNER JOIN Courses c ON e.CourseID = c.CourseID
+WHERE e.Grade > 80
+ORDER BY e.Grade DESC;</code></div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> DELETE without WHERE</h4>
+                    <p><code>DELETE FROM Students;</code> deletes <strong>ALL records</strong> in the table! Always
+                        include a WHERE clause unless you truly want to empty the entire table.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> DROP vs DELETE</h4>
+                    <p><strong>DROP</strong> removes the entire table (structure + data). <strong>DELETE</strong>
+                        removes only records (keeps the table structure). They are very different!</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List all DDL and DML commands and state what each does.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write SQL to: (a) Create a Products table with ProductID, Name, Price, Stock. (b) Insert 3
+                            records. (c) Select all products under $10.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a JOIN query that shows all students and their course names from the Enrolment table.
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain the difference between DROP TABLE and DELETE FROM. When would you use each?</p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the difference between DDL and DML?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">DDL defines/modifies the
+                        structure (CREATE, ALTER, DROP). DML works with the data inside tables (SELECT, INSERT, UPDATE,
+                        DELETE).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Write SQL to get all students aged over 16, sorted by name.</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">SELECT * FROM Students WHERE
+                        Age > 16 ORDER BY Name ASC;</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What does INNER JOIN do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">INNER JOIN returns only the
+                        rows where there is a match in BOTH tables being joined (based on the ON condition).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q4: What is a data dictionary?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Metadata describing the
+                        database structure: table names, field names, data types, constraints, and relationships.</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="normalization.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Normalization</span></a>
+                <a href="../../index.html#syllabus"><span class="nav-label">Back to →</span><span
+                        class="nav-title">Syllabus</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

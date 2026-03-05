@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Protocols — mr. TEA</title>
+    <meta name="description"
+        content="Network protocols: TCP/IP, HTTP/HTTPS, FTP, SMTP, POP3, IMAP. OSI model overview. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4C — Network Protocols</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-network-wired"></i> Unit 11.4C · Term 4</div>
+                <h1 class="lesson-title">Network Protocols</h1>
+                <p class="lesson-intro">A <strong>protocol</strong> is a set of rules that govern how data is
+                    transmitted across a network. Without protocols, devices couldn't communicate — like two
+                    people speaking different languages with no translator.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.6.2.2</span> Explain network protocols</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4C-network-protocols.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-handshake"></i> The Diplomatic Protocol Analogy</h4>
+                    <p>International diplomacy has <strong>protocols</strong>: how to greet, who speaks first, what
+                        language to use. Network protocols are the same — agreed-upon rules for devices to communicate.
+                        TCP/IP is like the universal "language of the internet" that every device speaks.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Key Protocols</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Protocol</th>
+                            <th>Full Name</th>
+                            <th>Purpose</th>
+                            <th>Port</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>TCP</strong></td>
+                            <td>Transmission Control Protocol</td>
+                            <td>Reliable, ordered data delivery (connection-based)</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UDP</strong></td>
+                            <td>User Datagram Protocol</td>
+                            <td>Fast, unreliable delivery (connectionless)</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IP</strong></td>
+                            <td>Internet Protocol</td>
+                            <td>Addressing and routing packets</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HTTP</strong></td>
+                            <td>HyperText Transfer Protocol</td>
+                            <td>Web page requests (not encrypted)</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HTTPS</strong></td>
+                            <td>HTTP Secure</td>
+                            <td>Encrypted web page requests</td>
+                            <td>443</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FTP</strong></td>
+                            <td>File Transfer Protocol</td>
+                            <td>Upload/download files</td>
+                            <td>21</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SMTP</strong></td>
+                            <td>Simple Mail Transfer Protocol</td>
+                            <td>Sending email</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <td><strong>POP3</strong></td>
+                            <td>Post Office Protocol v3</td>
+                            <td>Receiving email (downloads to device)</td>
+                            <td>110</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IMAP</strong></td>
+                            <td>Internet Message Access Protocol</td>
+                            <td>Receiving email (stays on server)</td>
+                            <td>143</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DNS</strong></td>
+                            <td>Domain Name System</td>
+                            <td>Translates domains to IP addresses</td>
+                            <td>53</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DHCP</strong></td>
+                            <td>Dynamic Host Config Protocol</td>
+                            <td>Automatically assigns IP addresses</td>
+                            <td>67/68</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">TCP vs
+                    UDP</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>TCP</th>
+                            <th>UDP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Connection</td>
+                            <td>Connection-based (handshake)</td>
+                            <td>Connectionless</td>
+                        </tr>
+                        <tr>
+                            <td>Reliability</td>
+                            <td>Guaranteed delivery, retransmits lost data</td>
+                            <td>No guarantee, no retransmission</td>
+                        </tr>
+                        <tr>
+                            <td>Order</td>
+                            <td>Data arrives in order</td>
+                            <td>Data may arrive out of order</td>
+                        </tr>
+                        <tr>
+                            <td>Speed</td>
+                            <td>Slower (overhead from checking)</td>
+                            <td>Faster (minimal overhead)</td>
+                        </tr>
+                        <tr>
+                            <td>Use case</td>
+                            <td>Web browsing, email, file transfer</td>
+                            <td>Live streaming, gaming, VoIP</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">TCP/IP
+                    Model (4 Layers)</h3>
+
+                <div class="code-block"><code>┌──────────────────────────────────────────────┐
+│  Layer 4: APPLICATION                        │
+│  HTTP, HTTPS, FTP, SMTP, DNS, DHCP           │
+│  (What the user interacts with)              │
+├──────────────────────────────────────────────┤
+│  Layer 3: TRANSPORT                          │
+│  TCP, UDP                                    │
+│  (Reliable/unreliable delivery)              │
+├──────────────────────────────────────────────┤
+│  Layer 2: INTERNET                           │
+│  IP, ICMP                                    │
+│  (Addressing and routing)                    │
+├──────────────────────────────────────────────┤
+│  Layer 1: NETWORK ACCESS                     │
+│  Ethernet, Wi-Fi, ARP                        │
+│  (Physical transmission)                     │
+└──────────────────────────────────────────────┘</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> POP3 vs IMAP</h4>
+                    <p><strong>POP3</strong> downloads emails to your device and deletes them from the server — good for
+                        one device. <strong>IMAP</strong> keeps emails on the server and syncs across all devices —
+                        the standard for modern email (Gmail, Outlook).</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> What Happens When You Open a Webpage?</h4>
+                    <div class="code-block"><code>1. You type https://www.example.com in the browser
+2. DNS resolves "www.example.com" to IP 93.184.216.34  (DNS protocol, port 53)
+3. Browser opens TCP connection to 93.184.216.34:443   (TCP handshake)
+4. Browser sends HTTP GET request over HTTPS           (HTTPS protocol, port 443)
+5. Server sends back HTML, CSS, JS files               (HTTP response)
+6. Browser renders the page
+7. TCP connection closed</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> HTTP = HTTPS</h4>
+                    <p>HTTP transmits data in <strong>plain text</strong> (anyone can read it). HTTPS encrypts data
+                        using TLS/SSL. Always look for the 🔒 padlock in your browser.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>List 5 network protocols, their full names, and their purposes.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain why TCP is used for web browsing but UDP is used for video calls.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Trace the protocols used when you send an email from Gmail to a friend's Yahoo account.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Compare the 4-layer TCP/IP model with a postal delivery system. Map each layer to a
+                            real-world
+                            equivalent.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What protocol is used for sending email?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">SMTP (Simple Mail Transfer
+                        Protocol)</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is the main difference between TCP and UDP?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">TCP guarantees reliable,
+                        ordered delivery (with retransmission). UDP is faster but doesn't guarantee delivery or order.
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What port does HTTPS use by default?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Port 443</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="url-dns.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">URL & DNS</span>
+                </a>
+                <a href="ip-address.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">IP Address</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

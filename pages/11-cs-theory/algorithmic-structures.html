@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithmic Structures — mr. TEA</title>
+    <meta name="description"
+        content="Sequential, branching, and loop structures in pseudocode and C++. Flowcharts and trace tables. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4A — Algorithmic Structures</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Basic Algorithmic Structures</h1>
+                <p class="lesson-intro">Every algorithm, no matter how complex, is built from just three fundamental
+                    structures: sequence, selection (branching), and iteration (loops). Understanding these building
+                    blocks is essential for designing correct and efficient programs.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.3.9</span> Describe and apply the sequential structure</li>
+                    <li><span class="lo-code">11.5.3.10</span> Describe and apply the branching structure</li>
+                    <li><span class="lo-code">11.5.3.11</span> Describe and apply the loop structure</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-algorithmic-structures.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+
+                <div class="analogy-box">
+                    <h4><i class="fas fa-route"></i> The Recipe Analogy</h4>
+                    <p>Think of an algorithm as a cooking recipe. A <strong>sequence</strong> is doing steps in order
+                        (chop, mix, cook). A <strong>branch</strong> is a decision: "If the sauce is too thick, add
+                        water." A <strong>loop</strong> is repetition: "Stir every 2 minutes until golden." Every recipe
+                        — and every algorithm — uses combinations of these three structures.</p>
+                </div>
+            </section>
+
+            <!-- Rules & Theory -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Sequential
+                    Structure</h3>
+
+                <p class="concept-text">Statements are executed <strong>one after another</strong>, in the order they
+                    appear. There are no decisions or repetitions — just straight-line execution.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Execution order</td>
+                            <td>Top to bottom, left to right</td>
+                        </tr>
+                        <tr>
+                            <td>Control flow</td>
+                            <td>No branching or looping</td>
+                        </tr>
+                        <tr>
+                            <td>Flowchart shape</td>
+                            <td>Rectangles connected by straight arrows</td>
+                        </tr>
+                        <tr>
+                            <td>Use case</td>
+                            <td>Input → Process → Output</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="concept-text"><strong>Pseudocode:</strong></p>
+                <div class="code-block"><code>INPUT radius
+area ← 3.14159 * radius * radius
+OUTPUT "Area = ", area</code></div>
+
+                <p class="concept-text"><strong>C++:</strong></p>
+                <div class="code-block"><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double radius;
+    cout &lt;&lt; "Enter radius: ";
+    cin &gt;&gt; radius;
+    double area = 3.14159 * radius * radius;
+    cout &lt;&lt; "Area = " &lt;&lt; area &lt;&lt; endl;
+    return 0;
+}</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2.
+                    Branching Structure (Selection)</h3>
+
+                <p class="concept-text">The program makes a <strong>decision</strong> based on a condition. If the
+                    condition is TRUE, one path is taken; otherwise, an alternative path is followed.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Keyword</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Simple</td>
+                            <td>One branch only</td>
+                            <td><code>IF...THEN...ENDIF</code></td>
+                        </tr>
+                        <tr>
+                            <td>Two-way</td>
+                            <td>Two alternatives</td>
+                            <td><code>IF...THEN...ELSE...ENDIF</code></td>
+                        </tr>
+                        <tr>
+                            <td>Multi-way</td>
+                            <td>Several alternatives</td>
+                            <td><code>CASE OF...ENDCASE</code></td>
+                        </tr>
+                        <tr>
+                            <td>Nested</td>
+                            <td>Condition inside condition</td>
+                            <td><code>IF inside IF</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="concept-text"><strong>Pseudocode (IF/ELSE):</strong></p>
+                <div class="code-block"><code>INPUT mark
+IF mark &gt;= 50 THEN
+    OUTPUT "Pass"
+ELSE
+    OUTPUT "Fail"
+ENDIF</code></div>
+
+                <p class="concept-text"><strong>Pseudocode (CASE):</strong></p>
+                <div class="code-block"><code>INPUT grade
+CASE OF grade
+    "A": OUTPUT "Excellent"
+    "B": OUTPUT "Good"
+    "C": OUTPUT "Satisfactory"
+    OTHERWISE: OUTPUT "Below standard"
+ENDCASE</code></div>
+
+                <p class="concept-text"><strong>C++ (if/else):</strong></p>
+                <div class="code-block"><code>int mark;
+cin &gt;&gt; mark;
+if (mark &gt;= 50) {
+    cout &lt;&lt; "Pass" &lt;&lt; endl;
+} else {
+    cout &lt;&lt; "Fail" &lt;&lt; endl;
+}</code></div>
+
+                <p class="concept-text"><strong>C++ (switch):</strong></p>
+                <div class="code-block"><code>char grade;
+cin &gt;&gt; grade;
+switch (grade) {
+    case 'A': cout &lt;&lt; "Excellent"; break;
+    case 'B': cout &lt;&lt; "Good";      break;
+    case 'C': cout &lt;&lt; "Satisfactory"; break;
+    default:  cout &lt;&lt; "Below standard";
+}</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">3. Loop
+                    Structure (Iteration)</h3>
+
+                <p class="concept-text">A group of statements is <strong>repeated</strong> while a condition is met (or
+                    a fixed number of times). There are three main loop types:</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Loop type</th>
+                            <th>Pseudocode</th>
+                            <th>C++</th>
+                            <th>When to use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Count-controlled</strong></td>
+                            <td><code>FOR...NEXT</code></td>
+                            <td><code>for</code></td>
+                            <td>Known number of iterations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pre-condition</strong></td>
+                            <td><code>WHILE...ENDWHILE</code></td>
+                            <td><code>while</code></td>
+                            <td>May execute 0 times</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Post-condition</strong></td>
+                            <td><code>REPEAT...UNTIL</code></td>
+                            <td><code>do...while</code></td>
+                            <td>Always executes at least once</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="concept-text"><strong>FOR loop — Pseudocode:</strong></p>
+                <div class="code-block"><code>FOR i ← 1 TO 5
+    OUTPUT i
+NEXT i
+// Output: 1 2 3 4 5</code></div>
+
+                <p class="concept-text"><strong>FOR loop — C++:</strong></p>
+                <div class="code-block"><code>for (int i = 1; i &lt;= 5; i++) {
+    cout &lt;&lt; i &lt;&lt; " ";
+}
+// Output: 1 2 3 4 5</code></div>
+
+                <p class="concept-text"><strong>WHILE loop — Pseudocode:</strong></p>
+                <div class="code-block"><code>total ← 0
+INPUT num
+WHILE num &lt;&gt; -1
+    total ← total + num
+    INPUT num
+ENDWHILE
+OUTPUT "Total = ", total</code></div>
+
+                <p class="concept-text"><strong>REPEAT/UNTIL — Pseudocode:</strong></p>
+                <div class="code-block"><code>REPEAT
+    OUTPUT "Enter password: "
+    INPUT password
+UNTIL password = "secret123"
+OUTPUT "Access granted"</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Flowchart Shapes</h4>
+                    <p><strong>Oval</strong> = Start/End · <strong>Rectangle</strong> = Process ·
+                        <strong>Diamond</strong> = Decision · <strong>Parallelogram</strong> = Input/Output ·
+                        <strong>Arrow</strong> = Flow direction. Branching uses a diamond with two exits (Yes/No).
+                        Loops use an arrow going back to the condition diamond.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Worked Examples -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Temperature Classifier (All Three Structures)</h4>
+                    <p>Read 5 temperatures and classify each as Cold, Warm, or Hot.</p>
+                    <div class="code-block"><code>// Sequential: variable declaration
+// Loop: FOR to repeat 5 times
+// Branching: IF/ELSE to classify
+
+FOR i ← 1 TO 5
+    OUTPUT "Enter temperature: "
+    INPUT temp
+    IF temp &lt; 10 THEN
+        OUTPUT "Cold"
+    ELSE IF temp &lt; 25 THEN
+        OUTPUT "Warm"
+    ELSE
+        OUTPUT "Hot"
+    ENDIF
+NEXT i</code></div>
+                    <div class="code-block"><code>// C++ equivalent
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    for (int i = 1; i &lt;= 5; i++) {
+        double temp;
+        cout &lt;&lt; "Enter temperature: ";
+        cin &gt;&gt; temp;
+        if (temp &lt; 10)
+            cout &lt;&lt; "Cold" &lt;&lt; endl;
+        else if (temp &lt; 25)
+            cout &lt;&lt; "Warm" &lt;&lt; endl;
+        else
+            cout &lt;&lt; "Hot" &lt;&lt; endl;
+    }
+    return 0;
+}</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Sum Until Sentinel (WHILE loop + branching)</h4>
+                    <p>Keep reading numbers until the user enters 0. Output the sum and count of positive numbers.</p>
+                    <div class="code-block"><code>sum ← 0
+count ← 0
+OUTPUT "Enter a number (0 to stop): "
+INPUT num
+WHILE num &lt;&gt; 0
+    IF num &gt; 0 THEN
+        sum ← sum + num
+        count ← count + 1
+    ENDIF
+    OUTPUT "Enter a number (0 to stop): "
+    INPUT num
+ENDWHILE
+OUTPUT "Sum = ", sum, " Count = ", count</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Menu-Driven Calculator (REPEAT + CASE)</h4>
+                    <div class="code-block"><code>REPEAT
+    OUTPUT "1. Add  2. Subtract  3. Quit"
+    INPUT choice
+    CASE OF choice
+        1: INPUT a, b
+           OUTPUT "Result = ", a + b
+        2: INPUT a, b
+           OUTPUT "Result = ", a - b
+        3: OUTPUT "Goodbye!"
+        OTHERWISE: OUTPUT "Invalid choice"
+    ENDCASE
+UNTIL choice = 3</code></div>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Infinite Loops</h4>
+                    <p>Forgetting to update the loop variable leads to an infinite loop.
+                        Always ensure the condition will eventually become false.</p>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Off-by-One Errors</h4>
+                    <p>Using <code>&lt;</code> instead of <code>&lt;=</code> (or vice versa) can cause your loop
+                        to run one time too many or too few. Trace the first and last iterations carefully.</p>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Missing ELSE / Default</h4>
+                    <p>Forgetting to handle the "otherwise" case in branching means unexpected inputs
+                        produce no output. Always include <code>ELSE</code> or <code>OTHERWISE</code>.</p>
+                </div>
+            </section>
+
+            <!-- Pro Tips -->
+            <section class="lesson-section">
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-star"></i> Pro Tips</h4>
+                    <ul>
+                        <li>Use <strong>FOR</strong> when you know how many times to repeat</li>
+                        <li>Use <strong>WHILE</strong> when the condition is checked before each iteration</li>
+                        <li>Use <strong>REPEAT/UNTIL</strong> when you need at least one execution (e.g., menu)</li>
+                        <li>Draw a <strong>flowchart first</strong> — it helps you see the logic clearly before coding
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Tasks -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Name the three basic algorithmic structures and give one real-life example of each.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain the difference between a pre-condition loop (WHILE) and a post-condition loop
+                            (REPEAT/UNTIL). When would you use each?</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Write pseudocode that reads 10 numbers and outputs how many are even and how many are odd.
+                        </p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>A student wrote: <code>FOR i ← 1 TO 10 ... NEXT i</code> but inside the loop also has
+                            <code>i ← i + 1</code>. Trace the execution and explain what goes wrong.
+                        </p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level create">Create</span>
+                        <p>Design a number-guessing game: the program picks a random number 1–100, the user guesses,
+                            and the program says "Higher" or "Lower" until correct. Use all three structures.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: Which structure executes statements one after another with no
+                        decisions?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Sequential structure</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What flowchart shape represents a decision?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Diamond (rhombus)</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: Which loop type always executes at least once?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Post-condition loop
+                        (REPEAT...UNTIL / do...while)</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q4: What is the C++ equivalent of pseudocode CASE OF?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">switch statement</div>
+                </div>
+            </section>
+
+            <!-- Nav -->
+            <nav class="lesson-nav">
+                <a href="sorting-algorithms.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Sorting Algorithms</span>
+                </a>
+                <a href="validation-verification.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Validation & Verification</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

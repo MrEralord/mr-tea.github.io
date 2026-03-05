@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client-Server Model — mr. TEA</title>
+    <meta name="description"
+        content="Client-server model: architecture, features, comparison with peer-to-peer. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4C — Client-Server Model</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-network-wired"></i> Unit 11.4C · Term 4</div>
+                <h1 class="lesson-title">Client-Server Model</h1>
+                <p class="lesson-intro">The <strong>client-server model</strong> is the dominant architecture for
+                    networked applications. A central <strong>server</strong> provides services, and
+                    <strong>clients</strong> request them. From websites to email to gaming — it's everywhere.
+                </p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.6.2.3</span> Describe the features of the client-server model</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4C-client-server.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-concierge-bell"></i> The Restaurant Analogy</h4>
+                    <p>In a restaurant, you (the <strong>client</strong>) make a request (order food). The kitchen
+                        (the <strong>server</strong>) processes your request and sends back the result (your meal).
+                        Many clients can be served simultaneously, but the kitchen manages all the resources.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">How It Works</h3>
+
+                <div class="code-block"><code>  ┌──────────┐                ┌──────────────┐
+  │  Client  │ ── Request ──→ │    Server    │
+  │ (browser)│                │  (web server)│
+  │          │ ←── Response ── │              │
+  └──────────┘                └──────────────┘
+
+1. Client sends a REQUEST (e.g., "Give me the homepage")
+2. Server PROCESSES the request (finds the file, queries DB)
+3. Server sends a RESPONSE (the webpage data)
+4. Client DISPLAYS the result</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Client vs
+                    Server</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Client</th>
+                            <th>Server</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Role</td>
+                            <td>Makes requests</td>
+                            <td>Fulfills requests</td>
+                        </tr>
+                        <tr>
+                            <td>Hardware</td>
+                            <td>Regular PC, phone, tablet</td>
+                            <td>Powerful machine, high RAM/storage</td>
+                        </tr>
+                        <tr>
+                            <td>Software</td>
+                            <td>Browser, email client, app</td>
+                            <td>Apache, Nginx, MySQL, Exchange</td>
+                        </tr>
+                        <tr>
+                            <td>Number</td>
+                            <td>Many (thousands/millions)</td>
+                            <td>One or few (can be clustered)</td>
+                        </tr>
+                        <tr>
+                            <td>Always on?</td>
+                            <td>No (turns on/off)</td>
+                            <td>Yes (24/7 uptime expected)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
+                    Servers</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Server Type</th>
+                            <th>Service Provided</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Web server</strong></td>
+                            <td>Hosts websites</td>
+                            <td>Apache, Nginx</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File server</strong></td>
+                            <td>Stores and shares files</td>
+                            <td>NAS, Windows Server</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mail server</strong></td>
+                            <td>Handles email (send/receive)</td>
+                            <td>Exchange, Postfix</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database server</strong></td>
+                            <td>Stores and queries data</td>
+                            <td>MySQL, PostgreSQL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DNS server</strong></td>
+                            <td>Translates domain names to IP</td>
+                            <td>Google DNS (8.8.8.8)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Print server</strong></td>
+                            <td>Manages print jobs</td>
+                            <td>Shared network printer</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Client-Server vs Peer-to-Peer</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Client-Server</th>
+                            <th>Peer-to-Peer (P2P)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Central server</td>
+                            <td>Yes</td>
+                            <td>No — all peers are equal</td>
+                        </tr>
+                        <tr>
+                            <td>Security</td>
+                            <td>Centralized, easier to manage</td>
+                            <td>Difficult — each peer manages own security</td>
+                        </tr>
+                        <tr>
+                            <td>Scalability</td>
+                            <td>Scales by upgrading server</td>
+                            <td>Scales by adding more peers</td>
+                        </tr>
+                        <tr>
+                            <td>Cost</td>
+                            <td>High (server hardware + admin)</td>
+                            <td>Low (no dedicated server)</td>
+                        </tr>
+                        <tr>
+                            <td>Reliability</td>
+                            <td>Server failure = service down</td>
+                            <td>No single point of failure</td>
+                        </tr>
+                        <tr>
+                            <td>Examples</td>
+                            <td>Websites, email, databases</td>
+                            <td>BitTorrent, Skype (old), blockchain</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Thin vs Thick Clients</h4>
+                    <p><strong>Thin client</strong> — most processing on server (e.g., web apps, Google Docs).
+                        <strong>Thick client</strong> — most processing on client device (e.g., desktop apps, games).
+                        Modern apps often use a mix of both.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> "Server" = Big Computer</h4>
+                    <p>A server is defined by its <strong>role</strong>, not its hardware. Any computer running server
+                        software (Apache, MySQL) is a server. Your laptop can be a server.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Define client and server. Name three types of servers.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain the request-response cycle using the example of browsing a website.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Compare client-server with peer-to-peer. Which is better for a school network? Which is
+                            better
+                            for file sharing among friends? Justify your answers.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What does a client do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Sends requests to a server and
+                        displays the response to the user.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is the main advantage of client-server over P2P?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Centralized management —
+                        security, data, backups, and user accounts are all managed from one place.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: Is a web browser a client or a server?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A client — it sends HTTP
+                        requests to web servers and displays the responses.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="network-hardware.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Network Hardware</span>
+                </a>
+                <a href="url-dns.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">URL & DNS</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

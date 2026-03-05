@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Interface — MIT App Inventor — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on mobile application interface design using MIT App Inventor: components, screen layout, properties, UI/UX principles. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                <span>11.3C — Application Interface</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-mobile-alt"></i> Unit 11.3C · Term 3</div>
+                <h1 class="lesson-title">Application Interface</h1>
+                <p class="lesson-intro">Before writing any logic, a mobile application needs a well-designed
+                    <strong>user interface (UI)</strong>. In <strong>MIT App Inventor</strong>, you design the UI in the
+                    <strong>Designer view</strong> — arranging visual components (buttons, labels, text boxes) on the
+                    screen. Good UI design follows principles of clarity, consistency, and usability. This lesson covers
+                    the App Inventor workspace, essential components, layout options, and UI/UX design principles.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.2.3</span> Present information using various types of visual
+                        representation</li>
+                    <li><span class="lo-code">11.5.4.1</span> Develop the interface for a mobile application</li>
+                    <li><span class="lo-code">11.5.4.2</span> Use components and their properties for mobile app UI
+                        design</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3C-mobile-interface.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-puzzle-piece"></i> The LEGO Analogy</h4>
+                    <p>Building a mobile app interface in App Inventor is like building with <strong>LEGO
+                            blocks</strong>. Each component (button, label, text box) is a block. You snap them together
+                        on a baseplate (the screen). Layouts are like LEGO frames that keep blocks organized in rows or
+                        columns. Just as you don't write code to build LEGO — you arrange pieces visually — in App
+                        Inventor, you design the UI by <strong>dragging and dropping</strong> components.</p>
+                </div>
+            </section>
+
+            <!-- Getting Started -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-rocket"></i> Getting Started with MIT App Inventor
+                </h2>
+
+                <ul class="concept-list">
+                    <li>Open <strong>ai2.appinventor.mit.edu</strong> in your browser (Chrome recommended)</li>
+                    <li>Sign in with your <strong>Google account</strong></li>
+                    <li>Click <strong>"Start new project"</strong> and give it a name</li>
+                    <li>You'll see the <strong>Designer</strong> view — this is where you build the interface</li>
+                    <li>To test: install <strong>MIT AI2 Companion</strong> app on your Android device, or use the
+                        built-in emulator</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The App
+                    Inventor Workspace</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Panel</th>
+                            <th>Purpose</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Palette</strong></td>
+                            <td>All available components organized by category</td>
+                            <td>Left side</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Viewer</strong></td>
+                            <td>Visual preview of the phone screen — drag components here</td>
+                            <td>Center</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Components</strong></td>
+                            <td>Tree view of all components on the current screen</td>
+                            <td>Right side (top)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Properties</strong></td>
+                            <td>Settings for the selected component (text, size, colour, etc.)</td>
+                            <td>Right side (bottom)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Designer / Blocks</strong></td>
+                            <td>Toggle between visual design and block-based programming</td>
+                            <td>Top right buttons</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- UI Components -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-th"></i> Essential UI Components</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">User Interface
+                    Components</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Purpose</th>
+                            <th>Key Properties</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Label</strong></td>
+                            <td>Display static or dynamic text</td>
+                            <td>Text, FontSize, FontBold, TextColor, BackgroundColor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Button</strong></td>
+                            <td>Trigger an action when clicked</td>
+                            <td>Text, Image, Shape, BackgroundColor, Enabled</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TextBox</strong></td>
+                            <td>Accept text input from user</td>
+                            <td>Hint, NumbersOnly, MultiLine, Text</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PasswordTextBox</strong></td>
+                            <td>Masked text input</td>
+                            <td>Hint, PasswordVisible</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CheckBox</strong></td>
+                            <td>Toggle option (on/off)</td>
+                            <td>Checked, Text</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spinner</strong></td>
+                            <td>Dropdown menu for selecting from a list</td>
+                            <td>Elements (comma-separated), Selection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Slider</strong></td>
+                            <td>Select a value by sliding</td>
+                            <td>MinValue, MaxValue, ThumbPosition</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Image</strong></td>
+                            <td>Display an image</td>
+                            <td>Picture (upload file), Width, Height, ScalePictureToFit</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ListView</strong></td>
+                            <td>Display a scrollable list of items</td>
+                            <td>Elements, Selection, TextSize</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Notifier</strong></td>
+                            <td>Show alerts, confirmations, and input dialogs</td>
+                            <td>BackgroundColor, TextColor (non-visible)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Layout
+                    Components</h3>
+                <p class="concept-text">Layouts are <strong>invisible containers</strong> that organize components on
+                    the screen. Without layouts, components just stack vertically.</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Layout</th>
+                            <th>Behaviour</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>HorizontalArrangement</strong></td>
+                            <td>Places components side by side (left to right)</td>
+                            <td>Row of buttons, label + text box on same line</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VerticalArrangement</strong></td>
+                            <td>Stacks components top to bottom</td>
+                            <td>Form fields, grouped sections</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TableArrangement</strong></td>
+                            <td>Grid layout with rows and columns</td>
+                            <td>Calculator buttons, data forms</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HorizontalScrollArrangement</strong></td>
+                            <td>Scrollable row</td>
+                            <td>Image gallery</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VerticalScrollArrangement</strong></td>
+                            <td>Scrollable column</td>
+                            <td>Long lists, content that exceeds screen</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Screen
+                    Properties</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Purpose</th>
+                            <th>Common Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Title</td>
+                            <td>Text shown in the title bar</td>
+                            <td>"My App", "Login"</td>
+                        </tr>
+                        <tr>
+                            <td>BackgroundColor</td>
+                            <td>Screen background colour</td>
+                            <td>White, #2196F3</td>
+                        </tr>
+                        <tr>
+                            <td>BackgroundImage</td>
+                            <td>Background image file</td>
+                            <td>Upload a .png or .jpg</td>
+                        </tr>
+                        <tr>
+                            <td>ScreenOrientation</td>
+                            <td>Lock orientation</td>
+                            <td>Portrait, Landscape, Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>AlignHorizontal</td>
+                            <td>Horizontal alignment of content</td>
+                            <td>Left, Center, Right</td>
+                        </tr>
+                        <tr>
+                            <td>AlignVertical</td>
+                            <td>Vertical alignment of content</td>
+                            <td>Top, Center, Bottom</td>
+                        </tr>
+                        <tr>
+                            <td>Scrollable</td>
+                            <td>Allow screen to scroll vertically</td>
+                            <td>True/False</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- UI/UX Principles -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-magic"></i> UI/UX Design Principles</h2>
+
+                <div class="definition-grid">
+                    <div class="definition-item">
+                        <dt>1. Consistency</dt>
+                        <dd>Use the same colours, fonts, and button styles throughout the app. If your "Submit" button
+                            is blue on one screen, it should be blue on all screens.</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>2. Simplicity</dt>
+                        <dd>Don't overwhelm the user. Show only what's needed. Use clear labels. Avoid clutter. Each
+                            screen should have one clear purpose.</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>3. Visual Hierarchy</dt>
+                        <dd>Important elements should be larger, bolder, or more prominently coloured. Headlines should
+                            be bigger than body text. Primary actions (like "Submit") should stand out.</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>4. Feedback</dt>
+                        <dd>Every user action should have a visible response. Button clicked → show confirmation. Error
+                            occurred → show error message. Data saved → show success notification.</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>5. Accessibility</dt>
+                        <dd>Use sufficient text size (minimum 14sp), high-contrast colours, and descriptive labels.
+                            Consider users with visual impairments.</dd>
+                    </div>
+                    <div class="definition-item">
+                        <dt>6. Touch-Friendly</dt>
+                        <dd>Buttons and interactive elements should be at least 48×48 pixels. Fingers are imprecise —
+                            give users enough space to tap accurately.</dd>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Worked Example -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Example — Login Screen</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Design a Login Screen</h4>
+                    <p><strong>Components needed:</strong></p>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Name</th>
+                                <th>Properties to Set</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Label</td>
+                                <td>LabelTitle</td>
+                                <td>Text: "Welcome", FontSize: 28, FontBold: true, TextAlignment: Center</td>
+                            </tr>
+                            <tr>
+                                <td>Image</td>
+                                <td>ImageLogo</td>
+                                <td>Picture: logo.png, Width: 150px, Height: 150px</td>
+                            </tr>
+                            <tr>
+                                <td>Label</td>
+                                <td>LabelUsername</td>
+                                <td>Text: "Username"</td>
+                            </tr>
+                            <tr>
+                                <td>TextBox</td>
+                                <td>TextBoxUsername</td>
+                                <td>Hint: "Enter username", Width: Fill parent</td>
+                            </tr>
+                            <tr>
+                                <td>Label</td>
+                                <td>LabelPassword</td>
+                                <td>Text: "Password"</td>
+                            </tr>
+                            <tr>
+                                <td>PasswordTextBox</td>
+                                <td>PasswordTextBox1</td>
+                                <td>Hint: "Enter password", Width: Fill parent</td>
+                            </tr>
+                            <tr>
+                                <td>Button</td>
+                                <td>ButtonLogin</td>
+                                <td>Text: "LOG IN", BackgroundColor: blue, TextColor: white, Width: Fill parent, Shape:
+                                    rounded</td>
+                            </tr>
+                            <tr>
+                                <td>Label</td>
+                                <td>LabelError</td>
+                                <td>Text: "", TextColor: red, Visible: false</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="concept-text"><strong>Layout structure:</strong></p>
+                    <ul class="concept-list">
+                        <li>Screen → AlignHorizontal: Center, AlignVertical: Center</li>
+                        <li>VerticalArrangement (contains all components, centered)</li>
+                        <li>Set Width of VerticalArrangement to 90% to add side padding</li>
+                        <li>Set spacing between components using Height property of empty Labels (spacers)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Not Naming Components</h4>
+                    <p>App Inventor names components automatically (Button1, Button2...). Always rename them
+                        descriptively: <code>ButtonLogin</code>, <code>TextBoxEmail</code>. This makes the Blocks editor
+                        much easier to use.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Fixed Pixel Sizes</h4>
+                    <p>Don't use fixed pixel widths for text boxes and buttons. Use <strong>"Fill parent"</strong> or
+                        <strong>percentage</strong> so the layout adapts to different screen sizes.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting Image Upload</h4>
+                    <p>Images must be uploaded to the project via the Media panel (bottom of Properties). You can't use
+                        external URLs directly — upload the file first.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Too Many Components on One Screen</h4>
+                    <p>If a screen has too many elements, consider splitting across multiple screens or using a
+                        <strong>VerticalScrollArrangement</strong> to allow scrolling.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Answer Format for UI Design</h4>
+                    <ul>
+                        <li>List each component with its <strong>type</strong>, <strong>name</strong>, and <strong>key
+                                properties</strong></li>
+                        <li>Describe the <strong>layout structure</strong> (which arrangement contains which components)
+                        </li>
+                        <li>Mention <strong>at least 2 UI/UX principles</strong> and how they are applied</li>
+                        <li>Draw a <strong>sketch</strong> of the screen layout if possible — examiners love diagrams
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name 5 UI components in App Inventor and describe what each one does. Name 3 layout types.
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between HorizontalArrangement and VerticalArrangement. When would you
+                            use each?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Design a calculator app interface in App Inventor. List all components, their names,
+                            properties, and the layout structure used.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a two-screen app: Screen1 is a welcome page with a "Start" button; Screen2 has a form
+                            with text boxes, a spinner, and a submit button.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>A student designs an app with white text on a light yellow background, tiny buttons, and no
+                            labels on input fields. Identify at least 4 UI/UX problems and suggest fixes.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Design a complete mobile app interface for a "To-Do List" application. Include: a title, text
+                            input for new tasks, an "Add" button, a list display, and a "Clear All" button. Apply at
+                            least 3 UI/UX principles.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What website is used to open MIT App Inventor?</div>
+                    <div class="quiz-answer">Click to reveal: ai2.appinventor.mit.edu</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is the difference between a TextBox and a PasswordTextBox?</div>
+                    <div class="quiz-answer">Click to reveal: A PasswordTextBox masks the input (shows dots instead of
+                        characters).</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Which layout places components side by side?</div>
+                    <div class="quiz-answer">Click to reveal: HorizontalArrangement</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What property should you use instead of fixed pixel widths?</div>
+                    <div class="quiz-answer">Click to reveal: "Fill parent" — this makes the component stretch to fit
+                        the available space.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Name 3 UI/UX design principles.</div>
+                    <div class="quiz-answer">Click to reveal: Consistency, Simplicity, Visual Hierarchy, Feedback,
+                        Accessibility, Touch-Friendly (any 3).</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="php-database.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">PHP &amp; Database</span></div>
+                </a>
+                <a href="mobile-development.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Mobile App Development</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

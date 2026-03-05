@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating Systems &amp; Types — mr. TEA</title>
+    <meta name="description"
+        content="OS purpose, functions, single-user vs multi-user, single-task vs multitasking. NIS Grade 11 CS Theory.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.1A — Operating Systems</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-desktop"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">Operating Systems &amp; Types</h1>
+                <p class="lesson-intro">The <strong>Operating System (OS)</strong> is the most important system
+                    software on any computer. It manages hardware, runs applications, and provides an interface
+                    for the user. Different types of OS serve different needs.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.1.3</span> Describe the purpose and main functions of an OS</li>
+                    <li><span class="lo-code">11.3.1.4</span> Compare single-user and multi-user OS</li>
+                    <li><span class="lo-code">11.3.1.5</span> Compare one-task and multitasking OS</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-operating-systems.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-traffic-light"></i> The Traffic Controller Analogy</h4>
+                    <p>An OS is like a <strong>traffic controller</strong> at a busy intersection. It decides which
+                        cars (programs) go when, prevents collisions (memory conflicts), directs traffic to the
+                        right lanes (CPU/memory allocation), and keeps everything flowing smoothly. Without the
+                        controller, there would be chaos.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Main Functions of an
+                    OS</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Memory Management</strong></td>
+                            <td>Allocates RAM to programs, frees it when done</td>
+                            <td>Giving Chrome 2GB, Photoshop 4GB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Process Management</strong></td>
+                            <td>Creates, schedules, terminates processes</td>
+                            <td>Task Manager showing running apps</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Management</strong></td>
+                            <td>Organises files in directories, controls access</td>
+                            <td>File Explorer, Finder</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Device Management</strong></td>
+                            <td>Communicates with hardware via drivers</td>
+                            <td>Detecting a USB when plugged in</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User Interface</strong></td>
+                            <td>Provides GUI or CLI for interaction</td>
+                            <td>Windows desktop, Linux terminal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security</strong></td>
+                            <td>User authentication, file permissions</td>
+                            <td>Login password, file permissions</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Single-User vs Multi-User OS</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Single-User OS</th>
+                            <th>Multi-User OS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Users</strong></td>
+                            <td>One user at a time</td>
+                            <td>Multiple users simultaneously</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Examples</strong></td>
+                            <td>MS-DOS, Windows (home)</td>
+                            <td>Linux Server, Windows Server, UNIX</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Use case</strong></td>
+                            <td>Personal computers, phones</td>
+                            <td>Servers, mainframes, universities</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Resources</strong></td>
+                            <td>All resources for one user</td>
+                            <td>Resources shared between users</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security</strong></td>
+                            <td>Basic (one account)</td>
+                            <td>Advanced (permissions per user)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Single-Task vs Multitasking OS</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Single-Task OS</th>
+                            <th>Multitasking OS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Programs</strong></td>
+                            <td>One program at a time</td>
+                            <td>Multiple programs simultaneously</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Examples</strong></td>
+                            <td>MS-DOS, early Palm OS</td>
+                            <td>Windows 11, macOS, Linux, Android</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU sharing</strong></td>
+                            <td>Not needed</td>
+                            <td>Time-slicing between processes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Efficiency</strong></td>
+                            <td>Simpler, less overhead</td>
+                            <td>More efficient use of CPU</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User experience</strong></td>
+                            <td>Must close one app to open another</td>
+                            <td>Switch between apps freely</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Popular
+                    Operating Systems</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>OS</th>
+                            <th>Type</th>
+                            <th>Key Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Windows</strong></td>
+                            <td>Desktop/Server</td>
+                            <td>Most popular desktop OS, GUI-based, wide software support</td>
+                        </tr>
+                        <tr>
+                            <td><strong>macOS</strong></td>
+                            <td>Desktop</td>
+                            <td>Apple-only, Unix-based, creative professionals</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Linux</strong></td>
+                            <td>Desktop/Server</td>
+                            <td>Open-source, highly customisable, server standard</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Android</strong></td>
+                            <td>Mobile</td>
+                            <td>Linux-based, most popular mobile OS</td>
+                        </tr>
+                        <tr>
+                            <td><strong>iOS</strong></td>
+                            <td>Mobile</td>
+                            <td>Apple-only, closed ecosystem, secure</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Multitasking ≠ Parallel Execution</h4>
+                    <p>On a single-core CPU, multitasking is an <strong>illusion</strong> — the OS rapidly switches
+                        between tasks (time-slicing) so fast that it seems like they run simultaneously. True
+                        parallel execution requires multiple CPU cores.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Identify the OS Type</h4>
+                    <div class="code-block"><code>Scenario: A university server runs Linux. 200 students log in remotely
+via SSH at the same time, each running their own programs.
+
+OS Type: Multi-user + Multitasking
+  Multi-user  → 200 students use it simultaneously
+  Multitasking → Each student can run multiple programs</code></div>
+                </div>
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> OS Function Analysis</h4>
+                    <div class="code-block"><code>User action: You plug in a USB flash drive
+
+OS Functions involved:
+  1. Device Management → detects the USB, loads the driver
+  2. File Management   → mounts the drive, shows files in Explorer
+  3. Security          → scans for autorun malware (if antivirus active)
+  4. User Interface    → displays notification "USB detected"</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Multi-user = Multitasking</h4>
+                    <p>They are different concepts! Multi-user = multiple people using the system. Multitasking =
+                        multiple programs running. MS-DOS was single-user AND single-task. Modern Linux servers are
+                        both multi-user AND multitasking.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>List the 6 main functions of an operating system.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain why a server uses a multi-user OS but a smartphone uses a single-user OS.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>You open Chrome, Spotify, and Word at the same time. Describe which OS functions are active
+                            and how multitasking is achieved.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What are the main functions of an OS?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Memory management, process
+                        management, file management, device management, user interface, security.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is the difference between single-user and multi-user OS?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Single-user supports one user
+                        at a time (e.g. Windows Home). Multi-user supports multiple users simultaneously (e.g. Linux
+                        Server).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How does a single-core CPU achieve multitasking?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Through time-slicing — the OS
+                        rapidly switches between processes, giving each a small time slot, creating the illusion of
+                        simultaneous execution.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="software-categories.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Software Categories</span>
+                </a>
+                <a href="von-neumann.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Von Neumann Architecture</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

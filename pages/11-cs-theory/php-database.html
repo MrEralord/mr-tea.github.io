@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP &amp; Database — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on connecting PHP to MySQL using XAMPP, CRUD operations, SQL queries, and building dynamic data-driven web pages. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                <span>11.3B — PHP &amp; Database</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-globe"></i> Unit 11.3B · Term 3</div>
+                <h1 class="lesson-title">PHP &amp; Database</h1>
+                <p class="lesson-intro">Most web applications need to store and retrieve data. PHP connects to
+                    <strong>MySQL</strong> — a relational database management system (RDBMS) — to perform
+                    <strong>CRUD</strong> operations: Create, Read, Update, Delete. XAMPP includes both Apache (for PHP)
+                    and MySQL, so you have a complete local development stack. This lesson covers SQL fundamentals,
+                    connecting PHP to MySQL, and building data-driven web pages.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.3.4</span> Use server-side scripting to interact with a database
+                        (CRUD operations)</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3B-php-database.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-archive"></i> The Library Analogy</h4>
+                    <p>A database is like a <strong>library</strong>. Tables are <strong>bookshelves</strong> (each
+                        holds a category). Rows are individual <strong>books</strong> (records). Columns are the book's
+                        <strong>properties</strong> (title, author, year). SQL is the <strong>librarian</strong> — you
+                        tell the librarian what you want, and they find, add, update, or remove books for you.</p>
+                </div>
+            </section>
+
+            <!-- SQL Fundamentals -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-database"></i> SQL Fundamentals</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Setting Up the
+                    Database (phpMyAdmin)</h3>
+                <ul class="concept-list">
+                    <li>Start <strong>Apache</strong> and <strong>MySQL</strong> in XAMPP Control Panel</li>
+                    <li>Open <code>http://localhost/phpmyadmin</code> in your browser</li>
+                    <li>Create a new database (e.g., <code>school_db</code>)</li>
+                    <li>Create tables using the GUI or SQL commands</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Creating
+                    a Table</h3>
+                <div class="code-block"><code>CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
+    age INT,
+    grade CHAR(1),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>INT</code></td>
+                            <td>Integer number</td>
+                            <td>Age, ID</td>
+                        </tr>
+                        <tr>
+                            <td><code>VARCHAR(n)</code></td>
+                            <td>Variable-length string (max n chars)</td>
+                            <td>Name, email</td>
+                        </tr>
+                        <tr>
+                            <td><code>CHAR(n)</code></td>
+                            <td>Fixed-length string</td>
+                            <td>Grade (A, B, C)</td>
+                        </tr>
+                        <tr>
+                            <td><code>TEXT</code></td>
+                            <td>Long text</td>
+                            <td>Comments, descriptions</td>
+                        </tr>
+                        <tr>
+                            <td><code>FLOAT / DOUBLE</code></td>
+                            <td>Decimal numbers</td>
+                            <td>GPA, price</td>
+                        </tr>
+                        <tr>
+                            <td><code>DATE</code></td>
+                            <td>Date (YYYY-MM-DD)</td>
+                            <td>Birth date</td>
+                        </tr>
+                        <tr>
+                            <td><code>TIMESTAMP</code></td>
+                            <td>Date and time</td>
+                            <td>Created at</td>
+                        </tr>
+                        <tr>
+                            <td><code>AUTO_INCREMENT</code></td>
+                            <td>Automatically increases by 1</td>
+                            <td>Primary key IDs</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">CRUD
+                    Operations — SQL</h3>
+
+                <p class="concept-text"><strong>CREATE (Insert):</strong></p>
+                <div class="code-block"><code>INSERT INTO students (name, email, age, grade)
+VALUES ('Alice', 'alice@school.kz', 16, 'A');
+
+INSERT INTO students (name, email, age, grade)
+VALUES ('Bob', 'bob@school.kz', 17, 'B');</code></div>
+
+                <p class="concept-text"><strong>READ (Select):</strong></p>
+                <div class="code-block"><code>-- All students
+SELECT * FROM students;
+
+-- Specific columns
+SELECT name, grade FROM students;
+
+-- With condition
+SELECT * FROM students WHERE grade = 'A';
+
+-- Sorted
+SELECT * FROM students ORDER BY name ASC;
+
+-- Limited
+SELECT * FROM students LIMIT 5;</code></div>
+
+                <p class="concept-text"><strong>UPDATE:</strong></p>
+                <div class="code-block"><code>UPDATE students SET grade = 'A' WHERE id = 2;
+
+UPDATE students SET age = 17, email = 'newemail@school.kz' WHERE name = 'Alice';</code></div>
+
+                <p class="concept-text"><strong>DELETE:</strong></p>
+                <div class="code-block"><code>DELETE FROM students WHERE id = 3;
+
+-- WARNING: Without WHERE, deletes ALL rows!
+DELETE FROM students;  -- Dangerous!</code></div>
+            </section>
+
+            <!-- PHP + MySQL -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Connecting PHP to MySQL</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Database Connection (db_connect.php)</h4>
+                    <div class="code-block"><code>&lt;?php
+    // Database connection settings
+    $host = "localhost";
+    $username = "root";         // Default XAMPP username
+    $password = "";             // Default XAMPP password (empty)
+    $database = "school_db";
+
+    // Create connection using MySQLi
+    $conn = mysqli_connect($host, $username, $password, $database);
+
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    // If no error, $conn is ready to use
+?&gt;</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> INSERT — Add a Student from a Form</h4>
+                    <p><strong>add_student.php:</strong></p>
+                    <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Add Student&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Add New Student&lt;/h1&gt;
+    &lt;form method="POST" action=""&gt;
+        &lt;label&gt;Name:&lt;/label&gt;
+        &lt;input type="text" name="name" required&gt;&lt;br&gt;
+        &lt;label&gt;Email:&lt;/label&gt;
+        &lt;input type="email" name="email"&gt;&lt;br&gt;
+        &lt;label&gt;Age:&lt;/label&gt;
+        &lt;input type="number" name="age"&gt;&lt;br&gt;
+        &lt;label&gt;Grade:&lt;/label&gt;
+        &lt;select name="grade"&gt;
+            &lt;option value="A"&gt;A&lt;/option&gt;
+            &lt;option value="B"&gt;B&lt;/option&gt;
+            &lt;option value="C"&gt;C&lt;/option&gt;
+        &lt;/select&gt;&lt;br&gt;
+        &lt;button type="submit" name="submit"&gt;Add Student&lt;/button&gt;
+    &lt;/form&gt;
+
+    &lt;?php
+    if (isset($_POST["submit"])) {
+        require_once "db_connect.php";
+
+        $name  = mysqli_real_escape_string($conn, $_POST["name"]);
+        $email = mysqli_real_escape_string($conn, $_POST["email"]);
+        $age   = (int)$_POST["age"];
+        $grade = mysqli_real_escape_string($conn, $_POST["grade"]);
+
+        $sql = "INSERT INTO students (name, email, age, grade)
+                VALUES ('$name', '$email', $age, '$grade')";
+
+        if (mysqli_query($conn, $sql)) {
+            echo "&lt;p style='color:green'&gt;Student added!&lt;/p&gt;";
+        } else {
+            echo "&lt;p style='color:red'&gt;Error: " . mysqli_error($conn) . "&lt;/p&gt;";
+        }
+        mysqli_close($conn);
+    }
+    ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> SELECT — Display All Students</h4>
+                    <p><strong>view_students.php:</strong></p>
+                    <div class="code-block"><code>&lt;?php require_once "db_connect.php"; ?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Student List&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;All Students&lt;/h1&gt;
+    &lt;table border="1"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;
+            &lt;th&gt;Age&lt;/th&gt;&lt;th&gt;Grade&lt;/th&gt;&lt;th&gt;Actions&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;?php
+        $sql = "SELECT * FROM students ORDER BY name";
+        $result = mysqli_query($conn, $sql);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "&lt;tr&gt;";
+            echo "&lt;td&gt;" . $row["id"] . "&lt;/td&gt;";
+            echo "&lt;td&gt;" . $row["name"] . "&lt;/td&gt;";
+            echo "&lt;td&gt;" . $row["email"] . "&lt;/td&gt;";
+            echo "&lt;td&gt;" . $row["age"] . "&lt;/td&gt;";
+            echo "&lt;td&gt;" . $row["grade"] . "&lt;/td&gt;";
+            echo "&lt;td&gt;";
+            echo "&lt;a href='delete_student.php?id=" . $row["id"] . "'&gt;Delete&lt;/a&gt;";
+            echo "&lt;/td&gt;";
+            echo "&lt;/tr&gt;";
+        }
+        mysqli_close($conn);
+        ?&gt;
+    &lt;/table&gt;
+    &lt;a href="add_student.php"&gt;Add New Student&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> DELETE — Remove a Student</h4>
+                    <p><strong>delete_student.php:</strong></p>
+                    <div class="code-block"><code>&lt;?php
+    require_once "db_connect.php";
+
+    if (isset($_GET["id"])) {
+        $id = (int)$_GET["id"];
+        $sql = "DELETE FROM students WHERE id = $id";
+
+        if (mysqli_query($conn, $sql)) {
+            header("Location: view_students.php");  // Redirect back
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
+    }
+    mysqli_close($conn);
+?&gt;</code></div>
+                </div>
+            </section>
+
+            <!-- Key Functions -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-wrench"></i> Key MySQLi Functions</h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>Purpose</th>
+                            <th>Returns</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>mysqli_connect()</code></td>
+                            <td>Connect to database</td>
+                            <td>Connection object or false</td>
+                        </tr>
+                        <tr>
+                            <td><code>mysqli_query($conn, $sql)</code></td>
+                            <td>Execute SQL query</td>
+                            <td>Result set or true/false</td>
+                        </tr>
+                        <tr>
+                            <td><code>mysqli_fetch_assoc($result)</code></td>
+                            <td>Get next row as associative array</td>
+                            <td>Array or null</td>
+                        </tr>
+                        <tr>
+                            <td><code>mysqli_num_rows($result)</code></td>
+                            <td>Count result rows</td>
+                            <td>Integer</td>
+                        </tr>
+                        <tr>
+                            <td><code>mysqli_real_escape_string()</code></td>
+                            <td>Sanitize input against SQL injection</td>
+                            <td>Escaped string</td>
+                        </tr>
+                        <tr>
+                            <td><code>mysqli_close($conn)</code></td>
+                            <td>Close the connection</td>
+                            <td>true/false</td>
+                        </tr>
+                        <tr>
+                            <td><code>mysqli_error($conn)</code></td>
+                            <td>Get last error message</td>
+                            <td>Error string</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> SQL Injection</h4>
+                    <p>Never put user input directly into SQL! Use <code>mysqli_real_escape_string()</code> to sanitize
+                        all input. Without it, a user could enter <code>' OR 1=1 --</code> and access all data.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> DELETE Without WHERE</h4>
+                    <p><code>DELETE FROM students;</code> deletes <strong>ALL</strong> rows! Always include a
+                        <code>WHERE</code> clause. This is the most dangerous SQL mistake.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> MySQL Not Running</h4>
+                    <p>If you get "Connection refused," check XAMPP Control Panel — MySQL must be started alongside
+                        Apache.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> String Values Need Quotes in SQL</h4>
+                    <p>Strings must be in single quotes: <code>WHERE name = 'Alice'</code>. Numbers don't need quotes:
+                        <code>WHERE age = 16</code>.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> CRUD Summary for Quick Recall</h4>
+                    <ul>
+                        <li><strong>C</strong>reate → <code>INSERT INTO table (cols) VALUES (vals)</code></li>
+                        <li><strong>R</strong>ead → <code>SELECT cols FROM table WHERE condition</code></li>
+                        <li><strong>U</strong>pdate → <code>UPDATE table SET col=val WHERE condition</code></li>
+                        <li><strong>D</strong>elete → <code>DELETE FROM table WHERE condition</code></li>
+                    </ul>
+                </div>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Always Mention Security</h4>
+                    <p>In exam answers about PHP + database, always mention <strong>input sanitization</strong>
+                        (preventing SQL injection) and <strong>input validation</strong> (checking data types and
+                        ranges). This shows deeper understanding and earns extra marks.</p>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define CRUD. Write the SQL to create a table called <code>books</code> with columns: id
+                            (auto-increment), title (varchar), author (varchar), year (int), price (float).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the complete flow from form submission to database insertion. What role do HTML, PHP,
+                            SQL, and MySQL each play?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a complete "Book Store" web app with: (1) a form to add books, (2) a page to view all
+                            books in a table, (3) the ability to delete a book. Use XAMPP, PHP, and MySQL.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain what SQL injection is. Show an example of malicious input and how
+                            <code>mysqli_real_escape_string()</code> prevents it.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a student marks system: teachers can add students and their marks for 3 subjects. The
+                            system calculates averages and displays a class leaderboard sorted by average.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does CRUD stand for?</div>
+                    <div class="quiz-answer">Click to reveal: Create, Read, Update, Delete</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is the default XAMPP MySQL username and password?</div>
+                    <div class="quiz-answer">Click to reveal: Username: "root", Password: "" (empty)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Which PHP function fetches one row from a query result?</div>
+                    <div class="quiz-answer">Click to reveal: mysqli_fetch_assoc($result)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Why should you always use WHERE in DELETE/UPDATE statements?</div>
+                    <div class="quiz-answer">Click to reveal: Without WHERE, the operation affects ALL rows in the
+                        table.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is SQL injection and how do you prevent it?</div>
+                    <div class="quiz-answer">Click to reveal: SQL injection is when malicious SQL is inserted via user
+                        input. Prevent it with mysqli_real_escape_string() or prepared statements.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="php.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">PHP Scripting</span></div>
+                </a>
+                <a href="mobile-interface.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">App Interface (MIT App
+                            Inventor)</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

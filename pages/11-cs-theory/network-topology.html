@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Topology — mr. TEA</title>
+    <meta name="description"
+        content="Network topologies: bus, ring, star, and mesh with advantages, disadvantages, and diagrams. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4C — Network Topology</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-network-wired"></i> Unit 11.4C · Term 4</div>
+                <h1 class="lesson-title">Network Topology</h1>
+                <p class="lesson-intro"><strong>Topology</strong> is the arrangement (layout) of devices and connections
+                    in a network. The choice of topology affects performance, cost, and reliability.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.6.1.2</span> Describe bus, ring, star, and mesh topologies</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4C-network-topology.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-project-diagram"></i> The Road System Analogy</h4>
+                    <p>Think of network topology like road layouts. A <strong>bus</strong> is a single main road with
+                        houses along it. A <strong>ring</strong> is a circular road. A <strong>star</strong> is a
+                        roundabout with roads radiating out. A <strong>mesh</strong> is a city grid where every
+                        intersection connects to many others.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Bus Topology</h3>
+
+                <div class="code-block"><code>     ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐
+     │ PC 1 │  │ PC 2 │  │ PC 3 │  │ PC 4 │
+     └──┬───┘  └──┬───┘  └──┬───┘  └──┬───┘
+        │         │         │         │
+  ══════╪═════════╪═════════╪═════════╪══════  ← Main cable (backbone)
+  T                                          T
+  (terminators at both ends)</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Advantages</th>
+                            <th>Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cheap — uses least cable</td>
+                            <td>If backbone fails, entire network goes down</td>
+                        </tr>
+                        <tr>
+                            <td>Easy to set up for small networks</td>
+                            <td>Performance drops as more devices are added</td>
+                        </tr>
+                        <tr>
+                            <td>No central device needed</td>
+                            <td>Difficult to troubleshoot</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2. Ring
+                    Topology</h3>
+
+                <div class="code-block"><code>        ┌──────┐
+        │ PC 1 │
+        └──┬───┘
+          ╱       ╲
+    ┌──────┐     ┌──────┐
+    │ PC 4 │     │ PC 2 │
+    └──┬───┘     └──┬───┘
+          ╲       ╱
+        ┌──────┐
+        │ PC 3 │
+        └──────┘
+  Data travels in ONE direction around the ring</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Advantages</th>
+                            <th>Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Equal access — no collisions</td>
+                            <td>If one device fails, the ring breaks</td>
+                        </tr>
+                        <tr>
+                            <td>Data travels in one direction (predictable)</td>
+                            <td>Adding/removing devices disrupts network</td>
+                        </tr>
+                        <tr>
+                            <td>Good performance under heavy load</td>
+                            <td>Slower — data must pass through each device</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">3. Star
+                    Topology</h3>
+
+                <div class="code-block"><code>  ┌──────┐         ┌──────┐
+  │ PC 1 │─────────│ PC 2 │
+  └──────┘    │    └──────┘
+         ╲    │    ╱
+        ┌──────────┐
+        │  Switch  │  ← Central device
+        └──────────┘
+         ╱    │    ╲
+  ┌──────┐    │    ┌──────┐
+  │ PC 4 │─────────│ PC 3 │
+  └──────┘         └──────┘</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Advantages</th>
+                            <th>Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>If one cable fails, only that device is affected</td>
+                            <td>If central device fails, entire network goes down</td>
+                        </tr>
+                        <tr>
+                            <td>Easy to add/remove devices</td>
+                            <td>Requires more cable than bus</td>
+                        </tr>
+                        <tr>
+                            <td>Easy to troubleshoot</td>
+                            <td>Central device is a single point of failure</td>
+                        </tr>
+                        <tr>
+                            <td>Good performance (dedicated connections)</td>
+                            <td>More expensive (switch/hub costs)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">4. Mesh
+                    Topology</h3>
+
+                <div class="code-block"><code>  ┌──────┐─────────┌──────┐
+  │ PC 1 │╲       ╱│ PC 2 │
+  └──┬───┘  ╲   ╱  └──┬───┘
+     │        ╳        │
+     │      ╱   ╲      │
+  ┌──┴───┐╱       ╲┌──┴───┐
+  │ PC 4 │─────────│ PC 3 │
+  └──────┘         └──────┘
+  Every device connects to every other device</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Advantages</th>
+                            <th>Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Highly reliable — multiple paths</td>
+                            <td>Expensive (lots of cable and ports)</td>
+                        </tr>
+                        <tr>
+                            <td>No single point of failure</td>
+                            <td>Complex to set up and manage</td>
+                        </tr>
+                        <tr>
+                            <td>Fast — direct connections</td>
+                            <td>Not practical for large networks</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Most Common Today</h4>
+                    <p><strong>Star topology</strong> is by far the most common in modern LANs. Most home and office
+                        networks use a star layout with a central router/switch. The internet itself uses a
+                        <strong>mesh</strong> topology for redundancy and reliability.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Topology = Physical Layout</h4>
+                    <p>Students sometimes confuse <strong>logical topology</strong> (how data flows) with
+                        <strong>physical topology</strong> (how cables are arranged). A network can be physically a
+                        star but logically a ring (e.g., Token Ring).
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Draw diagrams for bus, ring, star, and mesh topologies.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain why star topology is the most popular choice for modern LANs.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>A school has 3 computer labs with 15 computers each. Recommend a topology for each lab and
+                            explain your choice.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Compare bus and star topologies in terms of cost, reliability, and scalability. Which would
+                            you recommend for a growing business? Why?</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: Which topology has a single point of failure at the central device?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Star topology (if the
+                        switch/hub fails, all devices lose connection)</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: In which topology does data travel in one direction?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Ring topology</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: Which topology uses the most cabling?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Mesh topology (every device
+                        connects to every other device)</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lan-wan.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">LAN & WAN</span>
+                </a>
+                <a href="network-hardware.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Network Hardware</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

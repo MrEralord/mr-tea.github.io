@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption &amp; Authentication — mr. TEA</title>
+    <meta name="description"
+        content="Encryption methods, symmetric and asymmetric, access rights and authentication. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4B — Encryption &amp; Auth</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-shield-alt"></i> Unit 11.4B · Term 4</div>
+                <h1 class="lesson-title">Encryption &amp; Access Rights</h1>
+                <p class="lesson-intro">Encryption transforms readable data into an unreadable format to prevent
+                    unauthorized access. Combined with <strong>access rights</strong> and
+                    <strong>authentication</strong>,
+                    it forms the core of data confidentiality.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.1.2.4</span> Explain encryption and access rights</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4B-encryption-auth.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-lock"></i> The Secret Language Analogy</h4>
+                    <p>Imagine you and your friend invent a secret code where every letter is shifted by 3 positions
+                        (A→D, B→E). Only someone who knows the rule (the <strong>key</strong>) can read your messages.
+                        This is essentially what encryption does — it scrambles data so only authorized parties can
+                        understand it.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Key Terminology</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Plaintext</strong></td>
+                            <td>Original, readable data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ciphertext</strong></td>
+                            <td>Encrypted, unreadable data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Key</strong></td>
+                            <td>Secret value used to encrypt/decrypt data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Encryption</strong></td>
+                            <td>Process of converting plaintext → ciphertext</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Decryption</strong></td>
+                            <td>Process of converting ciphertext → plaintext</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Symmetric
+                    vs Asymmetric Encryption</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Symmetric</th>
+                            <th>Asymmetric</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Keys</strong></td>
+                            <td>One shared key (same for encrypt/decrypt)</td>
+                            <td>Two keys: public (encrypt) + private (decrypt)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed</strong></td>
+                            <td>Fast</td>
+                            <td>Slower</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Key distribution</strong></td>
+                            <td>Difficult (must share key securely)</td>
+                            <td>Easy (public key is shared openly)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Examples</strong></td>
+                            <td>AES, DES, Caesar cipher</td>
+                            <td>RSA, ECC</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Use case</strong></td>
+                            <td>Encrypting files, databases</td>
+                            <td>HTTPS, email, digital signatures</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Caesar
+                    Cipher Example</h3>
+
+                <div class="code-block"><code>Plaintext:  HELLO WORLD
+Key:        Shift by 3
+Ciphertext: KHOOR ZRUOG
+
+H → K (+3)
+E → H (+3)
+L → O (+3)
+L → O (+3)
+O → R (+3)</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Access
+                    Rights</h3>
+
+                <p class="concept-text"><strong>Access rights</strong> (permissions) control what each user can do with
+                    data:</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Permission</th>
+                            <th>Allows</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Read</strong></td>
+                            <td>View/open files</td>
+                            <td>Students can view grades</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Write</strong></td>
+                            <td>Modify/edit files</td>
+                            <td>Teachers can update grades</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Execute</strong></td>
+                            <td>Run programs</td>
+                            <td>IT admin runs system utilities</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Delete</strong></td>
+                            <td>Remove files</td>
+                            <td>Only admin can delete records</td>
+                        </tr>
+                        <tr>
+                            <td><strong>No access</strong></td>
+                            <td>Cannot see the file at all</td>
+                            <td>Students can't see admin files</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Authentication Methods</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Type</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Something you know</strong></td>
+                            <td>Knowledge</td>
+                            <td>Password, PIN</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Something you have</strong></td>
+                            <td>Possession</td>
+                            <td>Smart card, phone (OTP)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Something you are</strong></td>
+                            <td>Biometric</td>
+                            <td>Fingerprint, face ID, iris scan</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Two-Factor Authentication (2FA)</h4>
+                    <p>Combining two different factors (e.g., password + SMS code) significantly increases security.
+                        Even if a password is stolen, the attacker still needs the second factor.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Caesar Cipher — Encrypt &amp; Decrypt</h4>
+                    <p><strong>Encrypt "CAT" with key = 5:</strong></p>
+                    <div class="code-block"><code>C (position 2) + 5 = H (position 7)
+A (position 0) + 5 = F (position 5)
+T (position 19) + 5 = Y (position 24)
+
+Ciphertext: HFY</code></div>
+                    <p><strong>Decrypt "HFY" with key = 5:</strong></p>
+                    <div class="code-block"><code>H (7) - 5 = C (2)
+F (5) - 5 = A (0)
+Y (24) - 5 = T (19)
+
+Plaintext: CAT</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Access Rights Matrix</h4>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Student Records</th>
+                                <th>Exam Papers</th>
+                                <th>System Settings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Student</td>
+                                <td>Read (own only)</td>
+                                <td>No access</td>
+                                <td>No access</td>
+                            </tr>
+                            <tr>
+                                <td>Teacher</td>
+                                <td>Read/Write</td>
+                                <td>Read/Write</td>
+                                <td>No access</td>
+                            </tr>
+                            <tr>
+                                <td>Admin</td>
+                                <td>Read/Write/Delete</td>
+                                <td>Read/Write/Delete</td>
+                                <td>Full access</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Symmetric ≠ Asymmetric</h4>
+                    <p>Don't confuse the two. <strong>Symmetric</strong> uses ONE key for both encryption and
+                        decryption.
+                        <strong>Asymmetric</strong> uses TWO different keys (public + private).
+                    </p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Encryption ≠ Hashing</h4>
+                    <p>Encryption is <strong>reversible</strong> (you can decrypt). Hashing is <strong>one-way</strong>
+                        (you cannot reverse a hash). Passwords are typically hashed, not encrypted.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Define plaintext, ciphertext, key, encryption, and decryption.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Encrypt the word "PYTHON" using a Caesar cipher with key = 7.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Compare symmetric and asymmetric encryption. When would you use each? Which is more secure
+                            for
+                            sending data over the internet?</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level create">Create</span>
+                        <p>Design an access rights table for a hospital system with 4 user roles (Receptionist, Nurse,
+                            Doctor, Admin) and 3 data types (Patient names, Medical records, Billing).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: How many keys does symmetric encryption use?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">One key (same key for
+                        encryption and decryption)</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What are the three authentication factors?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Something you know, something
+                        you have, something you are</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: Encrypt "DOG" with Caesar cipher, key = 4.</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">HSK (D→H, O→S, G→K)</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="backup-mirroring.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Backup & Mirroring</span>
+                </a>
+                <a href="blockchain.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Blockchain</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

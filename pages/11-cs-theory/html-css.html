@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML &amp; CSS — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on HTML5 structure, semantic elements, CSS selectors, box model, responsive layout. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                <span>11.3B — HTML &amp; CSS</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-globe"></i> Unit 11.3B · Term 3</div>
+                <h1 class="lesson-title">HTML &amp; CSS</h1>
+                <p class="lesson-intro">HTML (HyperText Markup Language) defines the <strong>structure and
+                        content</strong> of a web page. CSS (Cascading Style Sheets) controls the <strong>visual
+                        presentation</strong> — layout, colours, fonts, and spacing. Together they form the foundation
+                    of every website. This lesson covers everything you need for the exam: document structure, semantic
+                    elements, forms, CSS selectors, the box model, and responsive design.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.3.1</span> Apply HTML tags in web-page development</li>
+                    <li><span class="lo-code">11.5.3.2</span> Develop a web page using HTML tags</li>
+                    <li><span class="lo-code">11.5.3.3</span> Format web pages using CSS</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3B-html-css.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-building"></i> The House Analogy</h4>
+                    <p>Think of a web page as a house. <strong>HTML</strong> is the structure — walls, rooms, doors
+                        (content and layout). <strong>CSS</strong> is the interior design — paint colours, furniture
+                        placement, lighting (appearance and styling). You build the structure first (HTML), then
+                        decorate it (CSS).</p>
+                </div>
+            </section>
+
+            <!-- HTML Fundamentals -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code"></i> HTML Fundamentals</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">HTML Document
+                    Structure</h3>
+                <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My Page Title&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- Visible content goes here --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Purpose</th>
+                            <th>Required?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;!DOCTYPE html&gt;</code></td>
+                            <td>Declares this is an HTML5 document</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;html&gt;</code></td>
+                            <td>Root element of the page</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;head&gt;</code></td>
+                            <td>Metadata, title, links to CSS</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;meta charset="UTF-8"&gt;</code></td>
+                            <td>Character encoding (supports all languages)</td>
+                            <td>Recommended</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;title&gt;</code></td>
+                            <td>Text shown in browser tab</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;body&gt;</code></td>
+                            <td>All visible content goes here</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Essential
+                    HTML Tags</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Tag</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3">Text</td>
+                            <td><code>&lt;h1&gt;...&lt;h6&gt;</code></td>
+                            <td>Headings (h1 = largest)</td>
+                            <td><code>&lt;h1&gt;Main Title&lt;/h1&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;p&gt;</code></td>
+                            <td>Paragraph</td>
+                            <td><code>&lt;p&gt;Some text.&lt;/p&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;br&gt;</code></td>
+                            <td>Line break (self-closing)</td>
+                            <td><code>Line 1&lt;br&gt;Line 2</code></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Formatting</td>
+                            <td><code>&lt;strong&gt;</code></td>
+                            <td>Bold (semantic: important)</td>
+                            <td><code>&lt;strong&gt;Warning&lt;/strong&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;em&gt;</code></td>
+                            <td>Italic (semantic: emphasis)</td>
+                            <td><code>&lt;em&gt;Note&lt;/em&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Links &amp; Images</td>
+                            <td><code>&lt;a&gt;</code></td>
+                            <td>Hyperlink</td>
+                            <td><code>&lt;a href="url"&gt;Click&lt;/a&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;img&gt;</code></td>
+                            <td>Image (self-closing)</td>
+                            <td><code>&lt;img src="pic.jpg" alt="desc"&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Lists</td>
+                            <td><code>&lt;ul&gt; / &lt;li&gt;</code></td>
+                            <td>Unordered (bullet) list</td>
+                            <td><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;ol&gt; / &lt;li&gt;</code></td>
+                            <td>Ordered (numbered) list</td>
+                            <td><code>&lt;ol&gt;&lt;li&gt;Step 1&lt;/li&gt;&lt;/ol&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">Table</td>
+                            <td><code>&lt;table&gt;</code></td>
+                            <td>Table container</td>
+                            <td rowspan="3">
+                                <code>&lt;table&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Alice&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;tr&gt;</code></td>
+                            <td>Table row</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;th&gt; / &lt;td&gt;</code></td>
+                            <td>Header cell / Data cell</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Structure</td>
+                            <td><code>&lt;div&gt;</code></td>
+                            <td>Generic block container</td>
+                            <td><code>&lt;div class="box"&gt;...&lt;/div&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;span&gt;</code></td>
+                            <td>Generic inline container</td>
+                            <td><code>&lt;span style="color:red"&gt;text&lt;/span&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Semantic
+                    HTML5 Elements</h3>
+                <p class="concept-text">Semantic elements describe their <strong>meaning</strong> to browsers and screen
+                    readers. Always prefer them over plain <code>&lt;div&gt;</code> elements.</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;header&gt;</code></td>
+                            <td>Top section of page or article (logo, nav)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;nav&gt;</code></td>
+                            <td>Navigation links</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;main&gt;</code></td>
+                            <td>Primary content of the page (one per page)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;section&gt;</code></td>
+                            <td>Thematic grouping of content</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;article&gt;</code></td>
+                            <td>Self-contained content (e.g., blog post)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;aside&gt;</code></td>
+                            <td>Side content (sidebar, related links)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;footer&gt;</code></td>
+                            <td>Bottom section (copyright, contact info)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">HTML
+                    Forms</h3>
+                <div class="code-block"><code>&lt;form action="process.php" method="POST"&gt;
+    &lt;label for="name"&gt;Name:&lt;/label&gt;
+    &lt;input type="text" id="name" name="name" required&gt;
+
+    &lt;label for="email"&gt;Email:&lt;/label&gt;
+    &lt;input type="email" id="email" name="email"&gt;
+
+    &lt;label for="age"&gt;Age:&lt;/label&gt;
+    &lt;input type="number" id="age" name="age" min="10" max="99"&gt;
+
+    &lt;label&gt;Gender:&lt;/label&gt;
+    &lt;input type="radio" name="gender" value="male"&gt; Male
+    &lt;input type="radio" name="gender" value="female"&gt; Female
+
+    &lt;label for="subject"&gt;Subject:&lt;/label&gt;
+    &lt;select id="subject" name="subject"&gt;
+        &lt;option value="cs"&gt;Computer Science&lt;/option&gt;
+        &lt;option value="math"&gt;Mathematics&lt;/option&gt;
+    &lt;/select&gt;
+
+    &lt;label for="message"&gt;Message:&lt;/label&gt;
+    &lt;textarea id="message" name="message" rows="4"&gt;&lt;/textarea&gt;
+
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Input Type</th>
+                            <th>Purpose</th>
+                            <th>Attributes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>text</code></td>
+                            <td>Single-line text</td>
+                            <td><code>maxlength</code>, <code>placeholder</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>password</code></td>
+                            <td>Masked text input</td>
+                            <td>Same as text</td>
+                        </tr>
+                        <tr>
+                            <td><code>email</code></td>
+                            <td>Email with validation</td>
+                            <td>Built-in format check</td>
+                        </tr>
+                        <tr>
+                            <td><code>number</code></td>
+                            <td>Numeric input</td>
+                            <td><code>min</code>, <code>max</code>, <code>step</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>radio</code></td>
+                            <td>One choice from group</td>
+                            <td>Same <code>name</code> = one group</td>
+                        </tr>
+                        <tr>
+                            <td><code>checkbox</code></td>
+                            <td>Multiple selections</td>
+                            <td><code>checked</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>submit</code></td>
+                            <td>Submit button</td>
+                            <td><code>value</code> = button text</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- CSS Fundamentals -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-palette"></i> CSS Fundamentals</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Three Ways to Add
+                    CSS</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Syntax</th>
+                            <th>Priority</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Inline</td>
+                            <td><code>&lt;p style="color: red;"&gt;</code></td>
+                            <td>Highest</td>
+                            <td>Quick one-off changes</td>
+                        </tr>
+                        <tr>
+                            <td>Internal</td>
+                            <td><code>&lt;style&gt;...&lt;/style&gt;</code> in <code>&lt;head&gt;</code></td>
+                            <td>Medium</td>
+                            <td>Single-page styles</td>
+                        </tr>
+                        <tr>
+                            <td>External</td>
+                            <td><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></td>
+                            <td>Lowest</td>
+                            <td>Multi-page sites ✓ Best practice</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">CSS
+                    Selectors</h3>
+                <div class="code-block"><code>/* Element selector — targets all &lt;p&gt; elements */
+p { color: blue; }
+
+/* Class selector — targets elements with class="highlight" */
+.highlight { background-color: yellow; }
+
+/* ID selector — targets the element with id="header" */
+#header { font-size: 24px; }
+
+/* Descendant selector — targets &lt;a&gt; inside &lt;nav&gt; */
+nav a { text-decoration: none; }
+
+/* Multiple selectors — same styles for h1, h2, h3 */
+h1, h2, h3 { font-family: Arial, sans-serif; }</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The Box
+                    Model</h3>
+                <p class="concept-text">Every HTML element is a box with four layers (from inside out): <strong>Content
+                        → Padding → Border → Margin</strong>.</p>
+                <div class="code-block"><code>div {
+    width: 300px;           /* Content width */
+    padding: 20px;          /* Space between content and border */
+    border: 2px solid black;/* Visible border */
+    margin: 10px;           /* Space outside the border */
+}
+
+/* Total width = 300 + 20×2 + 2×2 + 10×2 = 364px (default) */
+
+/* Use border-box to include padding/border in width: */
+div { box-sizing: border-box; }
+/* Now total width = 300px (padding and border are included) */</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
+                    CSS Properties</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Values</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>color</code></td>
+                            <td>Text colour</td>
+                            <td><code>color: #333;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>background-color</code></td>
+                            <td>Background colour</td>
+                            <td><code>background-color: #f0f0f0;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>font-size</code></td>
+                            <td>Text size (px, em, rem)</td>
+                            <td><code>font-size: 16px;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>font-family</code></td>
+                            <td>Font face</td>
+                            <td><code>font-family: Arial, sans-serif;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>text-align</code></td>
+                            <td>left, center, right, justify</td>
+                            <td><code>text-align: center;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>display</code></td>
+                            <td>block, inline, flex, grid, none</td>
+                            <td><code>display: flex;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>width / height</code></td>
+                            <td>Dimensions</td>
+                            <td><code>width: 100%; height: auto;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Worked Example -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Example — Complete Web Page
+                </h2>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Build a Student Profile Page</h4>
+                    <p><strong>HTML (index.html):</strong></p>
+                    <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Student Profile&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;Student Profile&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;a href="#about"&gt;About&lt;/a&gt;
+            &lt;a href="#grades"&gt;Grades&lt;/a&gt;
+            &lt;a href="#contact"&gt;Contact&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;section id="about"&gt;
+            &lt;h2&gt;About Me&lt;/h2&gt;
+            &lt;img src="photo.jpg" alt="Student photo"&gt;
+            &lt;p&gt;My name is &lt;strong&gt;Alice&lt;/strong&gt;. I am a Grade 11 student.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section id="grades"&gt;
+            &lt;h2&gt;My Grades&lt;/h2&gt;
+            &lt;table&gt;
+                &lt;tr&gt;&lt;th&gt;Subject&lt;/th&gt;&lt;th&gt;Grade&lt;/th&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;td&gt;Computer Science&lt;/td&gt;&lt;td&gt;A&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;td&gt;Mathematics&lt;/td&gt;&lt;td&gt;B&lt;/td&gt;&lt;/tr&gt;
+                &lt;tr&gt;&lt;td&gt;Physics&lt;/td&gt;&lt;td&gt;A&lt;/td&gt;&lt;/tr&gt;
+            &lt;/table&gt;
+        &lt;/section&gt;
+
+        &lt;section id="contact"&gt;
+            &lt;h2&gt;Contact&lt;/h2&gt;
+            &lt;form action="submit.php" method="POST"&gt;
+                &lt;label for="msg"&gt;Message:&lt;/label&gt;
+                &lt;textarea id="msg" name="msg"&gt;&lt;/textarea&gt;
+                &lt;button type="submit"&gt;Send&lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2025 Alice. All rights reserved.&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+
+                    <p><strong>CSS (style.css):</strong></p>
+                    <div class="code-block"><code>* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin: 0 15px;
+}
+
+nav a:hover { text-decoration: underline; }
+
+main { max-width: 800px; margin: 20px auto; padding: 0 20px; }
+
+section { margin-bottom: 30px; }
+
+h2 { color: #2c3e50; margin-bottom: 10px; border-bottom: 2px solid #3498db; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th { background-color: #3498db; color: white; }
+
+img { max-width: 200px; border-radius: 50%; }
+
+textarea { width: 100%; padding: 10px; }
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover { background-color: #2980b9; }
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #2c3e50;
+    color: white;
+}</code></div>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting to Close Tags</h4>
+                    <p><code>&lt;p&gt;Hello</code> without <code>&lt;/p&gt;</code> causes layout issues. Always close
+                        tags (except self-closing ones like <code>&lt;br&gt;</code>, <code>&lt;img&gt;</code>,
+                        <code>&lt;input&gt;</code>).</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> ID vs Class Confusion</h4>
+                    <p>IDs (<code>#</code>) must be <strong>unique</strong> — one per page. Classes (<code>.</code>) can
+                        be reused. Use class for styling, ID for unique elements.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Not Linking CSS Correctly</h4>
+                    <p>The <code>href</code> path must be correct relative to the HTML file. If CSS is in a
+                        <code>css/</code> folder: <code>href="css/style.css"</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Box Model Surprise</h4>
+                    <p>By default, padding and border are <strong>added</strong> to width. Use
+                        <code>box-sizing: border-box;</code> to include them. Always add
+                        <code>* { box-sizing: border-box; }</code> at the top of your CSS.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Writing Tips</h4>
+                    <ul>
+                        <li>Always use angle brackets correctly: <code>&lt;tag&gt;</code> not <code>[tag]</code> or
+                            <code>(tag)</code></li>
+                        <li>Write attributes inside the opening tag: <code>&lt;a href="url"&gt;</code></li>
+                        <li>Know the difference between <code>&lt;b&gt;</code>(visual bold) and
+                            <code>&lt;strong&gt;</code>(semantic importance)</li>
+                        <li>When asked about forms: always mention <code>action</code>, <code>method</code>, and input
+                            <code>name</code> attributes</li>
+                        <li>For CSS questions: write <code>selector { property: value; }</code> — don't forget the
+                            semicolons!</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List the 5 required elements of an HTML5 document skeleton. Name 3 form input types and their
+                            purpose.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the CSS Box Model with a labelled diagram. Calculate the total width of an element
+                            with <code>width: 200px; padding: 15px; border: 3px; margin: 10px;</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a complete HTML page for a restaurant menu with a header, 3 food categories using
+                            tables, images, and a reservation form.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write an external CSS file to style the restaurant page with custom colours, fonts, a nav
+                            bar, and a hover effect on menu items.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain why <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>,
+                            <code>&lt;footer&gt;</code> are better than using only <code>&lt;div&gt;</code> elements.
+                            Give benefits for accessibility and SEO.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a complete 3-page website (home, about, contact) with a shared external CSS, consistent
+                            navigation, and a responsive layout that works on desktop and mobile.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the correct tag for the largest heading?</div>
+                    <div class="quiz-answer">Click to reveal: &lt;h1&gt;</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Which CSS selector has the highest specificity: element, class, or ID?
+                    </div>
+                    <div class="quiz-answer">Click to reveal: ID (#) has the highest specificity, then class (.), then
+                        element.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What is the difference between &lt;div&gt; and &lt;span&gt;?</div>
+                    <div class="quiz-answer">Click to reveal: &lt;div&gt; is a block-level container (takes full width).
+                        &lt;span&gt; is inline (flows with text).</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does the CSS property "margin: 10px 20px;" mean?</div>
+                    <div class="quiz-answer">Click to reveal: Top/bottom = 10px, left/right = 20px (two-value
+                        shorthand).</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Name the four layers of the CSS Box Model from inside to outside.
+                    </div>
+                    <div class="quiz-answer">Click to reveal: Content → Padding → Border → Margin.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="algorithm-efficiency.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Algorithm Efficiency</span>
+                    </div>
+                </a>
+                <a href="php.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">PHP Scripting</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

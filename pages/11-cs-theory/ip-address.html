@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Address — mr. TEA</title>
+    <meta name="description"
+        content="IP addresses: IPv4 vs IPv6, public vs private, static vs dynamic, subnetting basics. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4C — IP Address</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-network-wired"></i> Unit 11.4C · Term 4</div>
+                <h1 class="lesson-title">IP Address</h1>
+                <p class="lesson-intro">Every device on a network needs a unique address — its <strong>IP
+                        address</strong>.
+                    IP addresses are the foundation of all internet communication, allowing data to be routed
+                    to the correct destination.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.6.2.4</span> Explain IP addressing</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4C-ip-address.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-home"></i> The Home Address Analogy</h4>
+                    <p>Your home has a postal address so mail can reach you. An <strong>IP address</strong> is the
+                        digital equivalent — it tells the network exactly which device should receive the data. Just
+                        like postal addresses follow a format (country, city, street, number), IP addresses follow
+                        a structured format too.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">IPv4 vs IPv6</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>IPv4</th>
+                            <th>IPv6</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Format</strong></td>
+                            <td>4 numbers separated by dots</td>
+                            <td>8 groups of hexadecimal separated by colons</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Example</strong></td>
+                            <td>192.168.1.1</td>
+                            <td>2001:0db8:85a3:0000:0000:8a2e:0370:7334</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bits</strong></td>
+                            <td>32 bits (4 × 8)</td>
+                            <td>128 bits (8 × 16)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total addresses</strong></td>
+                            <td>~4.3 billion</td>
+                            <td>~340 undecillion (3.4 × 10³⁸)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Each number range</strong></td>
+                            <td>0–255 (8 bits per octet)</td>
+                            <td>0000–FFFF (16 bits per group)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Status</strong></td>
+                            <td>Running out of addresses</td>
+                            <td>Virtually unlimited</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">IPv4
+                    Structure</h3>
+
+                <div class="code-block"><code>  192  .  168  .    1   .    25
+  ───     ───      ───      ───
+ Octet1  Octet2  Octet3   Octet4
+  (8 bits each = 32 bits total)
+
+Each octet: 0–255 (binary: 00000000 – 11111111)
+
+Example in binary:
+192.168.1.25 = 11000000.10101000.00000001.00011001</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Public vs
+                    Private IP</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Public IP</th>
+                            <th>Private IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Visibility</td>
+                            <td>Visible on the internet</td>
+                            <td>Only visible within local network</td>
+                        </tr>
+                        <tr>
+                            <td>Assigned by</td>
+                            <td>ISP (Internet Service Provider)</td>
+                            <td>Router (via DHCP)</td>
+                        </tr>
+                        <tr>
+                            <td>Unique</td>
+                            <td>Globally unique</td>
+                            <td>Unique only within LAN</td>
+                        </tr>
+                        <tr>
+                            <td>Example</td>
+                            <td>203.0.113.42</td>
+                            <td>192.168.1.5</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Private
+                    IP Ranges (IPv4)</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Class</th>
+                            <th>Range</th>
+                            <th>Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>A</strong></td>
+                            <td>10.0.0.0 – 10.255.255.255</td>
+                            <td>Large organizations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>B</strong></td>
+                            <td>172.16.0.0 – 172.31.255.255</td>
+                            <td>Medium organizations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>C</strong></td>
+                            <td>192.168.0.0 – 192.168.255.255</td>
+                            <td>Home/small office networks</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Static vs
+                    Dynamic IP</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Static IP</th>
+                            <th>Dynamic IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Assignment</td>
+                            <td>Manually configured, never changes</td>
+                            <td>Assigned automatically by DHCP, may change</td>
+                        </tr>
+                        <tr>
+                            <td>Use case</td>
+                            <td>Servers, printers, routers</td>
+                            <td>Regular devices (laptops, phones)</td>
+                        </tr>
+                        <tr>
+                            <td>Management</td>
+                            <td>More work to manage</td>
+                            <td>Automatic, no manual setup</td>
+                        </tr>
+                        <tr>
+                            <td>Cost</td>
+                            <td>More expensive (ISP charges more)</td>
+                            <td>Standard/free</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> NAT (Network Address Translation)</h4>
+                    <p>Your home router uses <strong>NAT</strong> to share one public IP address among all your devices.
+                        Each device gets a private IP (192.168.x.x), and the router translates between private and
+                        public addresses. This is why we haven't completely run out of IPv4 addresses yet.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Is This IP Valid?</h4>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Valid?</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>192.168.1.1</td>
+                                <td>✅ Yes</td>
+                                <td>All octets 0–255</td>
+                            </tr>
+                            <tr>
+                                <td>256.1.1.1</td>
+                                <td>❌ No</td>
+                                <td>256 > 255 (max per octet)</td>
+                            </tr>
+                            <tr>
+                                <td>10.0.0.0</td>
+                                <td>✅ Yes</td>
+                                <td>Valid private IP (Class A)</td>
+                            </tr>
+                            <tr>
+                                <td>192.168.1</td>
+                                <td>❌ No</td>
+                                <td>Only 3 octets (need 4)</td>
+                            </tr>
+                            <tr>
+                                <td>0.0.0.0</td>
+                                <td>✅ Yes</td>
+                                <td>Special address (represents "all interfaces")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> IP Address = MAC Address</h4>
+                    <p><strong>IP</strong> is a logical address that can change (Layer 3). <strong>MAC</strong> is a
+                        physical hardware address burned into the NIC that never changes (Layer 2). Both are needed
+                        for network communication but serve different purposes.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> IPv4 Octet Values</h4>
+                    <p>Each octet is 8 bits, so the maximum value is <strong>255</strong> (2⁸ - 1), not 256. An address
+                        like 300.1.1.1 is invalid.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>State the difference between IPv4 and IPv6. How many bits does each use?</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain why IPv6 was created. Why isn't IPv4 sufficient for the future?</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Convert the IPv4 address 172.16.0.1 to binary.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Explain how NAT helps conserve IPv4 addresses. Draw a diagram showing a router using NAT
+                            with 3 devices.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: How many bits are in an IPv4 address?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">32 bits (4 octets × 8 bits
+                        each)</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Is 192.168.1.100 a public or private IP address?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Private — it falls in the
+                        192.168.0.0 – 192.168.255.255 range (Class C private).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What protocol automatically assigns IP addresses?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">DHCP (Dynamic Host
+                        Configuration Protocol)</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="network-protocols.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Network Protocols</span>
+                </a>
+                <a href="../../index.html#syllabus">
+                    <span class="nav-label">Back to →</span>
+                    <span class="nav-title">Syllabus</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

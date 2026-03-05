@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Scripting — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on PHP: variables, control structures, functions, form handling with XAMPP. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                <span>11.3B — PHP Scripting</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-globe"></i> Unit 11.3B · Term 3</div>
+                <h1 class="lesson-title">Script Language — PHP</h1>
+                <p class="lesson-intro">PHP (PHP: Hypertext Preprocessor) is a <strong>server-side scripting
+                        language</strong> designed for web development. Unlike HTML/CSS/JavaScript which run in the
+                    browser, PHP runs on the <strong>server</strong> and generates HTML dynamically. It can process form
+                    data, query databases, manage sessions, and produce personalised pages. You'll use
+                    <strong>XAMPP</strong> to run a local Apache server with PHP.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.3.8</span> Use a scripting language to process user input and
+                        generate dynamic web content</li>
+                    <li><span class="lo-code">11.5.3.6</span> Demonstrate the use of server-side scripts for handling
+                        form data</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3B-php.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-utensils"></i> The Restaurant Kitchen Analogy</h4>
+                    <p>HTML is the <strong>menu</strong> (what the customer sees). The <strong>kitchen</strong> is the
+                        server running PHP. When a customer (browser) places an order (sends a request), the kitchen
+                        (PHP) reads the order, prepares the dish (processes data, queries the database), and sends the
+                        finished plate (HTML response) to the table. The customer never sees the kitchen — they only
+                        receive the result.</p>
+                </div>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Client-Side vs Server-Side</h4>
+                    <p><strong>Client-side</strong> (HTML, CSS, JS) = runs in the browser. <strong>Server-side</strong>
+                        (PHP) = runs on the server. The browser <strong>never sees PHP code</strong> — it only receives
+                        the HTML output. This is why you need XAMPP: it provides the Apache server that executes PHP.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Setting Up XAMPP -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-server"></i> Setting Up XAMPP</h2>
+                <ul class="concept-list">
+                    <li>Download and install XAMPP from <strong>apachefriends.org</strong></li>
+                    <li>Start the <strong>Apache</strong> module from the XAMPP Control Panel</li>
+                    <li>Place your PHP files in <code>C:\xampp\htdocs\</code> (Windows) or
+                        <code>/Applications/XAMPP/htdocs/</code> (Mac)</li>
+                    <li>Access your pages at <code>http://localhost/yourfile.php</code></li>
+                    <li>PHP files must have the <code>.php</code> extension, not <code>.html</code></li>
+                </ul>
+            </section>
+
+            <!-- PHP Fundamentals -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> PHP Fundamentals</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Basic Syntax</h3>
+                <div class="code-block"><code>&lt;?php
+    // PHP code goes between these tags
+    echo "Hello, World!";  // Output text
+    echo "&lt;h1&gt;This is HTML from PHP&lt;/h1&gt;";  // Output HTML
+?&gt;
+
+&lt;!-- PHP embedded in HTML --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome&lt;/h1&gt;
+    &lt;p&gt;Today is &lt;?php echo date("l, d F Y"); ?&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Variables
+                    &amp; Data Types</h3>
+                <div class="code-block"><code>&lt;?php
+    // Variables start with $ sign — no declaration needed
+    $name = "Alice";           // String
+    $age = 16;                 // Integer
+    $gpa = 3.85;               // Float
+    $isStudent = true;         // Boolean
+
+    // String concatenation uses the dot (.) operator
+    echo "Name: " . $name . ", Age: " . $age;
+
+    // Variable inside double quotes (interpolation)
+    echo "Hello, $name! You are $age years old.";
+
+    // Constants — cannot be changed
+    define("SCHOOL", "NIS");
+    echo SCHOOL;  // Output: NIS
+?&gt;</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>PHP Feature</th>
+                            <th>Syntax</th>
+                            <th>C++ Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Variable</td>
+                            <td><code>$x = 5;</code></td>
+                            <td><code>int x = 5;</code></td>
+                        </tr>
+                        <tr>
+                            <td>Output</td>
+                            <td><code>echo "text";</code></td>
+                            <td><code>cout &lt;&lt; "text";</code></td>
+                        </tr>
+                        <tr>
+                            <td>Concatenation</td>
+                            <td><code>"a" . "b"</code> (dot)</td>
+                            <td><code>"a" + "b"</code> (not directly)</td>
+                        </tr>
+                        <tr>
+                            <td>Comparison</td>
+                            <td><code>== != &lt; > &lt;= >=</code></td>
+                            <td>Same</td>
+                        </tr>
+                        <tr>
+                            <td>Logical</td>
+                            <td><code>&amp;&amp; || !</code></td>
+                            <td>Same</td>
+                        </tr>
+                        <tr>
+                            <td>Array</td>
+                            <td><code>$a = [1, 2, 3];</code></td>
+                            <td><code>int a[] = {1, 2, 3};</code></td>
+                        </tr>
+                        <tr>
+                            <td>Typing</td>
+                            <td>Dynamic (no type declaration)</td>
+                            <td>Static (must declare type)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Control
+                    Structures</h3>
+                <div class="code-block"><code>&lt;?php
+    // IF-ELSE
+    $score = 85;
+    if ($score >= 90) {
+        echo "Grade: A";
+    } elseif ($score >= 80) {
+        echo "Grade: B";
+    } else {
+        echo "Grade: C";
+    }
+
+    // FOR loop
+    for ($i = 1; $i &lt;= 10; $i++) {
+        echo "$i ";
+    }
+
+    // WHILE loop
+    $count = 5;
+    while ($count > 0) {
+        echo "Countdown: $count &lt;br&gt;";
+        $count--;
+    }
+
+    // FOREACH (great for arrays)
+    $fruits = ["Apple", "Banana", "Cherry"];
+    foreach ($fruits as $fruit) {
+        echo "$fruit &lt;br&gt;";
+    }
+
+    // FOREACH with key
+    $grades = ["Math" => 90, "CS" => 95, "Physics" => 88];
+    foreach ($grades as $subject => $grade) {
+        echo "$subject: $grade &lt;br&gt;";
+    }
+?&gt;</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Functions
+                </h3>
+                <div class="code-block"><code>&lt;?php
+    // Define a function
+    function greet($name) {
+        return "Hello, $name!";
+    }
+    echo greet("Alice");  // Output: Hello, Alice!
+
+    // Function with default parameter
+    function power($base, $exp = 2) {
+        return $base ** $exp;
+    }
+    echo power(3);     // Output: 9 (3²)
+    echo power(2, 5);  // Output: 32 (2⁵)
+
+    // Useful built-in functions
+    echo strlen("Hello");           // 5 (string length)
+    echo strtoupper("hello");       // HELLO
+    echo str_replace("a", "o", "cat"); // cot
+    echo count([1, 2, 3, 4]);     // 4 (array length)
+?&gt;</code></div>
+            </section>
+
+            <!-- Form Handling -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Example — Form Handling</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Login Form with PHP Processing</h4>
+                    <p><strong>login.html — The form (client-side):</strong></p>
+                    <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Login&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Login&lt;/h1&gt;
+    &lt;form action="process_login.php" method="POST"&gt;
+        &lt;label&gt;Username:&lt;/label&gt;
+        &lt;input type="text" name="username" required&gt;&lt;br&gt;
+
+        &lt;label&gt;Password:&lt;/label&gt;
+        &lt;input type="password" name="password" required&gt;&lt;br&gt;
+
+        &lt;button type="submit"&gt;Log In&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+
+                    <p><strong>process_login.php — The processor (server-side):</strong></p>
+                    <div class="code-block"><code>&lt;?php
+    // Retrieve form data using $_POST
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    // Simple validation (in real apps, check against database)
+    if ($username == "admin" &amp;&amp; $password == "secret123") {
+        echo "&lt;h1&gt;Welcome, $username!&lt;/h1&gt;";
+        echo "&lt;p&gt;Login successful.&lt;/p&gt;";
+    } else {
+        echo "&lt;h1&gt;Access Denied&lt;/h1&gt;";
+        echo "&lt;p&gt;Invalid username or password.&lt;/p&gt;";
+        echo '&lt;a href="login.html"&gt;Try again&lt;/a&gt;';
+    }
+?&gt;</code></div>
+
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Concept</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>action="..."</code></td>
+                                <td>URL of the PHP file that processes the form</td>
+                            </tr>
+                            <tr>
+                                <td><code>method="POST"</code></td>
+                                <td>Send data in HTTP body (hidden). <code>GET</code> sends data in the URL (visible)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>name="username"</code></td>
+                                <td>The key used to access this field in PHP</td>
+                            </tr>
+                            <tr>
+                                <td><code>$_POST["username"]</code></td>
+                                <td>PHP superglobal that retrieves POST data by name</td>
+                            </tr>
+                            <tr>
+                                <td><code>$_GET["key"]</code></td>
+                                <td>Same but for GET method data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Grade Calculator</h4>
+                    <p><strong>calculator.php — Form and Processing in one file:</strong></p>
+                    <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Grade Calculator&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Grade Calculator&lt;/h1&gt;
+    &lt;form method="POST" action=""&gt;
+        &lt;label&gt;Student Name:&lt;/label&gt;
+        &lt;input type="text" name="name" required&gt;&lt;br&gt;
+
+        &lt;label&gt;Score 1:&lt;/label&gt;
+        &lt;input type="number" name="s1" min="0" max="100"&gt;&lt;br&gt;
+
+        &lt;label&gt;Score 2:&lt;/label&gt;
+        &lt;input type="number" name="s2" min="0" max="100"&gt;&lt;br&gt;
+
+        &lt;label&gt;Score 3:&lt;/label&gt;
+        &lt;input type="number" name="s3" min="0" max="100"&gt;&lt;br&gt;
+
+        &lt;button type="submit" name="calculate"&gt;Calculate&lt;/button&gt;
+    &lt;/form&gt;
+
+    &lt;?php
+    if (isset($_POST["calculate"])) {
+        $name = $_POST["name"];
+        $s1 = (int)$_POST["s1"];
+        $s2 = (int)$_POST["s2"];
+        $s3 = (int)$_POST["s3"];
+
+        $average = ($s1 + $s2 + $s3) / 3;
+
+        if ($average >= 90) { $grade = "A"; }
+        elseif ($average >= 80) { $grade = "B"; }
+        elseif ($average >= 70) { $grade = "C"; }
+        elseif ($average >= 60) { $grade = "D"; }
+        else { $grade = "F"; }
+
+        echo "&lt;h2&gt;Results for $name&lt;/h2&gt;";
+        echo "&lt;p&gt;Scores: $s1, $s2, $s3&lt;/p&gt;";
+        echo "&lt;p&gt;Average: " . number_format($average, 1) . "&lt;/p&gt;";
+        echo "&lt;p&gt;Grade: &lt;strong&gt;$grade&lt;/strong&gt;&lt;/p&gt;";
+    }
+    ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+                </div>
+            </section>
+
+            <!-- GET vs POST -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exchange-alt"></i> GET vs POST</h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>GET</th>
+                            <th>POST</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Data location</td>
+                            <td>URL: <code>page.php?name=Alice&amp;age=16</code></td>
+                            <td>HTTP body (hidden)</td>
+                        </tr>
+                        <tr>
+                            <td>Visible to user?</td>
+                            <td>Yes — in address bar</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Data limit</td>
+                            <td>~2048 characters</td>
+                            <td>No practical limit</td>
+                        </tr>
+                        <tr>
+                            <td>Bookmarkable?</td>
+                            <td>Yes</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Security</td>
+                            <td>Less secure (data in URL)</td>
+                            <td>More secure</td>
+                        </tr>
+                        <tr>
+                            <td>Use for</td>
+                            <td>Search, filters, non-sensitive data</td>
+                            <td>Passwords, forms, data changes</td>
+                        </tr>
+                        <tr>
+                            <td>PHP access</td>
+                            <td><code>$_GET["key"]</code></td>
+                            <td><code>$_POST["key"]</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Opening PHP Files Directly</h4>
+                    <p>Double-clicking a <code>.php</code> file opens it as text. PHP must run through a server. Always
+                        use <code>http://localhost/file.php</code> via XAMPP, <strong>not</strong>
+                        <code>file://...</code></p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting the $ Sign</h4>
+                    <p>All PHP variables start with <code>$</code>. Writing <code>name = "Alice"</code> instead of
+                        <code>$name = "Alice"</code> causes a fatal error.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting Semicolons</h4>
+                    <p>Every PHP statement must end with <code>;</code>. Missing it causes a parse error.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Form name Mismatch</h4>
+                    <p>If the HTML input is <code>name="user_name"</code> but PHP reads <code>$_POST["username"]</code>,
+                        it returns nothing. The <code>name</code> attribute in HTML must <strong>exactly match</strong>
+                        the key in <code>$_POST</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Using == Instead of === </h4>
+                    <p><code>==</code> does type coercion: <code>"0" == false</code> is TRUE. <code>===</code> checks
+                        both value AND type: <code>"0" === false</code> is FALSE. Use <code>===</code> for strict
+                        comparison.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Key Exam Points About PHP</h4>
+                    <ul>
+                        <li>PHP runs on the <strong>server</strong> — the browser never sees PHP code</li>
+                        <li>PHP can generate <strong>dynamic HTML</strong> — different output each time</li>
+                        <li>Always explain the <strong>request-response cycle</strong>: browser sends request → server
+                            runs PHP → server sends HTML response</li>
+                        <li>Know the difference between <code>$_GET</code> and <code>$_POST</code> and when to use each
+                        </li>
+                        <li><code>isset()</code> checks if a variable/form field exists before using it</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define: server-side scripting, <code>$_POST</code>, <code>$_GET</code>, <code>echo</code>.
+                            Explain what XAMPP provides.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Draw a diagram showing the request-response cycle between a browser and a PHP server. Label
+                            each step.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a registration form (HTML) with name, email, age, and gender fields. Write a PHP
+                            script that processes the form and displays a personalised welcome page.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a PHP script with a form where users enter a number. The script outputs the
+                            multiplication table (1–12) for that number in an HTML table.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>A student submits a form using GET with a password field. Explain three problems with this
+                            approach and how POST solves them.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a mini quiz application: a form with 5 multiple-choice questions. The PHP script checks
+                            answers, calculates the score, and displays results with correct answers highlighted.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What symbol must all PHP variables start with?</div>
+                    <div class="quiz-answer">Click to reveal: The dollar sign ($)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is the PHP string concatenation operator?</div>
+                    <div class="quiz-answer">Click to reveal: The dot (.) operator. Example: "Hello" . " World"</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What PHP superglobal retrieves POST form data?</div>
+                    <div class="quiz-answer">Click to reveal: $_POST["field_name"]</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Can you open a .php file directly in the browser like an HTML file?
+                    </div>
+                    <div class="quiz-answer">Click to reveal: No — PHP requires a web server (like Apache via XAMPP) to
+                        execute.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What does isset() check?</div>
+                    <div class="quiz-answer">Click to reveal: Whether a variable is defined and not null. Used to check
+                        if form was submitted.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="html-css.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">HTML &amp; CSS</span></div>
+                </a>
+                <a href="php-database.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">PHP &amp; Database</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

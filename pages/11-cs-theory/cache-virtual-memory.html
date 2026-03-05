@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cache &amp; Virtual Memory — mr. TEA</title>
+    <meta name="description"
+        content="Cache memory purpose, levels, virtual memory, paging, thrashing. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.1A — Cache &amp; Virtual Memory</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-desktop"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">Cache &amp; Virtual Memory</h1>
+                <p class="lesson-intro"><strong>Cache</strong> is a tiny, ultra-fast memory between the CPU and RAM that
+                    speeds up access to frequently used data. <strong>Virtual memory</strong> uses the hard drive to
+                    extend RAM when physical memory runs out.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.4.3</span> Explain the purpose of cache memory</li>
+                    <li><span class="lo-code">11.3.4.2</span> Explain the purpose of virtual memory</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-cache-virtual-memory.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-briefcase"></i> The Workspace Analogy</h4>
+                    <p><strong>Cache</strong> = the few papers right in front of you on your desk (instant access).
+                        <strong>RAM</strong> = your desk drawer (fast, but need to open it). <strong>Virtual
+                            memory</strong> = a filing cabinet across the room (slow, but extends your capacity when the
+                        desk is full). You always work fastest with what's right in front of you.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Memory Hierarchy
+                </h3>
+                <div class="code-block"><code>  Speed ↑   Cost ↑   Size ↓
+  ┌──────────────────────┐
+  │   CPU Registers      │  ← Fastest, smallest
+  ├──────────────────────┤
+  │   Cache (L1/L2/L3)   │  ← Very fast, small (KB–MB)
+  ├──────────────────────┤
+  │   RAM                │  ← Fast, medium (GB)
+  ├──────────────────────┤
+  │   Virtual Memory     │  ← Slow (uses HDD/SSD)
+  ├──────────────────────┤
+  │   Secondary Storage  │  ← Slowest, largest (TB)
+  └──────────────────────┘</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Cache
+                    Memory</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Location</th>
+                            <th>Speed</th>
+                            <th>Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>L1</strong></td>
+                            <td>Inside CPU core</td>
+                            <td>Fastest</td>
+                            <td>32–128 KB per core</td>
+                        </tr>
+                        <tr>
+                            <td><strong>L2</strong></td>
+                            <td>Inside/near CPU core</td>
+                            <td>Fast</td>
+                            <td>256 KB – 1 MB per core</td>
+                        </tr>
+                        <tr>
+                            <td><strong>L3</strong></td>
+                            <td>Shared across all cores</td>
+                            <td>Slower</td>
+                            <td>4–64 MB total</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">How Cache
+                    Works</h3>
+                <div class="code-block"><code>CPU needs data →
+  Check L1 cache → HIT? Use it (fast!) ✓
+  Miss → Check L2 cache → HIT? Use it ✓
+  Miss → Check L3 cache → HIT? Use it ✓
+  Miss → Fetch from RAM (slower)
+  Copy to cache for next time</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Virtual
+                    Memory</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>What it is</strong></td>
+                            <td>A section of the hard drive used as an extension of RAM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>When used</strong></td>
+                            <td>When physical RAM is full</td>
+                        </tr>
+                        <tr>
+                            <td><strong>How it works</strong></td>
+                            <td>OS swaps inactive pages from RAM to disk (paging)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Page file</strong></td>
+                            <td>The file on disk that stores swapped data (pagefile.sys on Windows)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Advantage</strong></td>
+                            <td>Allows more programs to run than physical RAM allows</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disadvantage</strong></td>
+                            <td>Much slower than RAM; excessive use causes thrashing</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Thrashing</h4>
+                    <p>When the OS spends more time <strong>swapping pages</strong> between RAM and disk than actually
+                        running programs, performance drops dramatically. This is called <strong>thrashing</strong>.
+                        Solution: add more physical RAM.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Cache = RAM</h4>
+                    <p>Cache is NOT RAM. Cache is <strong>smaller, faster, and more expensive</strong> (SRAM). RAM is
+                        larger and slower (DRAM). Cache sits between the CPU and RAM in the memory hierarchy.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Virtual Memory = More RAM</h4>
+                    <p>Virtual memory is NOT additional RAM. It's <strong>hard drive space pretending to be
+                            RAM</strong>. It's hundreds of times slower than real RAM — it's a workaround, not a
+                        replacement.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 3 levels of cache and their typical sizes.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why cache improves CPU performance even though it's much smaller than RAM.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>A user's computer becomes very slow when many programs are open. Explain what is happening in
+                            terms of virtual memory and suggest a solution.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the purpose of cache memory?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To store frequently used
+                        data/instructions for the CPU, reducing the need to access slower RAM.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is virtual memory?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A section of the hard drive
+                        used as an extension of RAM when physical RAM runs out.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What is thrashing?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">When the OS spends more time
+                        swapping pages between RAM and disk than executing programs, causing severe slowdown.</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="main-memory.html"><span class="nav-label">← Previous</span><span class="nav-title">Main Memory
+                        (RAM/ROM)</span></a>
+                <a href="boolean-logic.html"><span class="nav-label">Next →</span><span class="nav-title">Boolean Logic
+                        &amp; Gates</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

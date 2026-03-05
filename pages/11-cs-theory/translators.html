@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translators (Compilers &amp; Interpreters) — mr. TEA</title>
+    <meta name="description" content="Compilers vs interpreters, assembler, translation process. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.1B — Translators</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-code"></i> Unit 11.1B · Term 1</div>
+                <h1 class="lesson-title">Translators: Compilers &amp; Interpreters</h1>
+                <p class="lesson-intro">Computers only understand <strong>machine code</strong> (binary). Translators
+                    convert human-readable source code into machine code. The two main types —
+                    <strong>compilers</strong> and <strong>interpreters</strong> — work very differently.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.1.7</span> Differentiate between compilers and interpreters</li>
+                    <li><span class="lo-code">11.5.1.8</span> Describe advantages and disadvantages of each</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1B-translators.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-globe"></i> The Translator Analogy</h4>
+                    <p>A <strong>compiler</strong> is like translating an entire book before publishing — slow upfront,
+                        but the reader gets a fast, finished product. An <strong>interpreter</strong> is like a live
+                        translator at a conference — translates sentence by sentence, slower overall but you hear each
+                        part immediately.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Three Types of
+                    Translators</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Translator</th>
+                            <th>Source</th>
+                            <th>Output</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Assembler</strong></td>
+                            <td>Assembly (2GL)</td>
+                            <td>Machine code</td>
+                            <td>NASM, MASM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compiler</strong></td>
+                            <td>High-level (3GL)</td>
+                            <td>Machine code (executable)</td>
+                            <td>GCC (C/C++), javac</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interpreter</strong></td>
+                            <td>High-level (3GL)</td>
+                            <td>Executes directly (no file created)</td>
+                            <td>Python, JavaScript</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Compiler
+                    vs Interpreter</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Compiler</th>
+                            <th>Interpreter</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Translation</strong></td>
+                            <td>Entire program at once</td>
+                            <td>Line by line</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Output</strong></td>
+                            <td>Creates executable (.exe)</td>
+                            <td>No executable created</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Execution speed</strong></td>
+                            <td>Fast (pre-compiled)</td>
+                            <td>Slow (translates each run)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Error reporting</strong></td>
+                            <td>All errors after compilation</td>
+                            <td>Stops at first error</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Debugging</strong></td>
+                            <td>Harder (all errors at once)</td>
+                            <td>Easier (one error at a time)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Distribution</strong></td>
+                            <td>Share executable (source hidden)</td>
+                            <td>Must share source code</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Memory</strong></td>
+                            <td>Needs more (stores executable)</td>
+                            <td>Less (no extra file)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Re-translation</strong></td>
+                            <td>Only when source changes</td>
+                            <td>Every time program runs</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The
+                    Translation Process</h3>
+                <div class="code-block"><code>COMPILER:
+  Source Code (.cpp) → [Compiler] → Machine Code (.exe)
+                                     ↓
+                                   Run anytime without compiler
+
+INTERPRETER:
+  Source Code (.py) → [Interpreter] → Execute line by line
+                                       ↓
+                                     Needs interpreter every time
+
+ASSEMBLER:
+  Assembly (.asm) → [Assembler] → Machine Code
+                                   (1-to-1 translation)</code></div>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Hybrid Approach: Java</h4>
+                    <p>Java uses <strong>both</strong>: the compiler (javac) produces <strong>bytecode</strong>
+                        (.class), which is then run by the <strong>JVM (Java Virtual Machine)</strong> — an interpreter.
+                        This combines compilation speed with platform independence.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Interpreters Are Always Slow</h4>
+                    <p>Modern interpreters use <strong>JIT (Just-In-Time) compilation</strong> to compile hot code paths
+                        at runtime. JavaScript V8 engine (in Chrome) is extremely fast despite being "interpreted".</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 3 types of translators and state what each translates.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why a compiled program runs faster than an interpreted one.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>A developer is choosing between Python (interpreted) and C++ (compiled) for a real-time game
+                            engine. Which should they choose and why?</p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What does a compiler produce?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">An executable file (machine
+                        code) that can run independently without the compiler.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Why is an interpreter better for debugging?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It stops at the first error and
+                        shows exactly which line failed, making it easier to fix one issue at a time.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What does an assembler do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Converts assembly language
+                        (mnemonics) into machine code (binary), performing a 1-to-1 translation.</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="trace-tables.html"><span class="nav-label">← Previous</span><span class="nav-title">Trace
+                        Tables</span></a>
+                <a href="../../index.html#syllabus"><span class="nav-label">Back to →</span><span
+                        class="nav-title">Syllabus</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Bus — mr. TEA</title>
+    <meta name="description"
+        content="System bus: address, data, control bus. CPU components and main memory. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.1A — System Bus</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-desktop"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">System Bus</h1>
+                <p class="lesson-intro">The <strong>system bus</strong> is the highway that connects the CPU, memory,
+                    and I/O devices. It carries data, addresses, and control signals — the three things needed for every
+                    operation inside a computer.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.2.2</span> Describe the purpose of CPU components, system bus and
+                        main memory</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-system-bus.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-road"></i> The Highway System Analogy</h4>
+                    <p>The system bus is like a <strong>3-lane highway</strong>. The <strong>address lane</strong> tells
+                        traffic where to go. The <strong>data lane</strong> carries the cargo. The <strong>control
+                            lane</strong> has traffic signals (read/write/interrupt). All components are connected by
+                        this highway.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">The Three Buses</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Bus</th>
+                            <th>Carries</th>
+                            <th>Direction</th>
+                            <th>Width</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Address Bus</strong></td>
+                            <td>Memory addresses</td>
+                            <td>One-way (CPU → Memory)</td>
+                            <td>Determines max addressable memory (e.g. 32-bit = 4GB)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Bus</strong></td>
+                            <td>Data &amp; instructions</td>
+                            <td>Two-way (bidirectional)</td>
+                            <td>Determines how much data per transfer (e.g. 64-bit)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Control Bus</strong></td>
+                            <td>Control signals</td>
+                            <td>Two-way (bidirectional)</td>
+                            <td>Read, Write, Interrupt, Clock</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">System
+                    Bus Diagram</h3>
+                <div class="code-block"><code>    CPU                Memory              I/O Devices
+   ┌────┐             ┌────────┐           ┌────────┐
+   │    │─────────────│        │───────────│        │
+   │    │ Address Bus │        │           │        │
+   │    │─────────────│        │───────────│        │
+   │    │  (one-way →)│        │           │        │
+   │    │─────────────│        │───────────│        │
+   │    │ Data Bus    │        │           │        │
+   │    │─────────────│        │───────────│        │
+   │    │  (two-way ↔)│        │           │        │
+   │    │─────────────│        │───────────│        │
+   │    │ Control Bus │        │           │        │
+   │    │─────────────│        │───────────│        │
+   │    │  (two-way ↔)│        │           │        │
+   └────┘             └────────┘           └────────┘</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Control
+                    Bus Signals</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Signal</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Read</strong></td>
+                            <td>Tells memory to output data at the specified address</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Write</strong></td>
+                            <td>Tells memory to store data at the specified address</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clock</strong></td>
+                            <td>Synchronises all operations to a regular pulse</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interrupt</strong></td>
+                            <td>Peripheral signals the CPU that it needs attention</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bus Request</strong></td>
+                            <td>Device requests access to the bus</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bus Grant</strong></td>
+                            <td>CPU grants bus access to the device</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Bus Width
+                    &amp; Performance</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Bus Width</th>
+                            <th>Effect</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Wider Address Bus</strong></td>
+                            <td>More memory addresses → more RAM can be used (32-bit = 4GB max, 64-bit = 16 exabytes)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wider Data Bus</strong></td>
+                            <td>More data per transfer → faster processing</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> How a Memory Read Works</h4>
+                    <p>1) CPU places address on <strong>address bus</strong> → 2) CU sends READ on <strong>control
+                            bus</strong> → 3) Memory sends data back on <strong>data bus</strong> → 4) Data arrives in
+                        MDR register.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Address Bus is Bidirectional</h4>
+                    <p>The address bus is <strong>one-way only</strong> (CPU → Memory). The CPU sends addresses; memory
+                        never sends addresses back. Only the data bus and control bus are bidirectional.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 3 buses and state what each carries.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why the address bus is unidirectional but the data bus is bidirectional.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>A computer has a 32-bit address bus. Calculate the maximum amount of addressable memory.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain how increasing the data bus width from 32-bit to 64-bit improves performance.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What does the address bus carry?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Memory addresses — it tells the
+                        system WHERE to read/write data.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Which bus is unidirectional?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The address bus (CPU → Memory
+                        only).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What control signal tells memory to output data?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The READ signal, sent via the
+                        control bus.</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="von-neumann.html"><span class="nav-label">← Previous</span><span class="nav-title">Von Neumann
+                        Architecture</span></a>
+                <a href="main-memory.html"><span class="nav-label">Next →</span><span class="nav-title">Main Memory
+                        (RAM/ROM)</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>
