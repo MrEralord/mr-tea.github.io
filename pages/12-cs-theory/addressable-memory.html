@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addressable Memory — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on addressable memory: memory addressing principles, stored programs, and Von Neumann architecture. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3A — Addressable Memory</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-server"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Addressable Memory</h1>
+                <p class="lesson-intro">Every byte of data stored in a computer's memory has a unique
+                    <strong>address</strong> — like a house number on a street. The CPU uses these addresses to find,
+                    read, and write data. Understanding memory addressing is essential for understanding how programs
+                    are stored and executed — and it connects directly to the system bus and FDE cycle topics.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.4.1</span> Explain the principle of memory addressing</li>
+                    <li><span class="lo-code">12.3.4.2</span> Explain the principle of storing programs and data</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-addressable-memory.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Memory Addressing -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-map-marker-alt"></i> Memory Addressing</h2>
+
+                <p class="concept-text">Main memory (RAM) is organized as a sequence of <strong>addressable
+                        locations</strong>. Each location has a unique numerical address and stores a fixed number of
+                    bits (typically 1 byte = 8 bits).</p>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Visualising Memory</h4>
+                    <div class="code-block"><code>Address     Contents (1 byte each)
+──────────  ──────────────────────
+0000        01001000
+0001        01100101
+0002        01101100
+0003        01101100
+0004        01101111
+...         ...
+
+Each address holds exactly 1 byte (8 bits).
+The address is used by the CPU to locate the data.</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Key
+                    Concepts</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Explanation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Memory address</strong></td>
+                            <td>A unique number identifying each memory location (like a house number)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Addressable unit</strong></td>
+                            <td>The smallest piece of data that has its own address — usually 1 byte</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Address space</strong></td>
+                            <td>The total range of addresses available (determined by address bus width)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Address bus width</strong></td>
+                            <td>Number of bits in the address → max addresses = 2<sup>n</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Word</strong></td>
+                            <td>A group of bytes the CPU processes at once (e.g., 4 bytes for 32-bit CPU)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-calculator"></i> Calculating Address Space</h4>
+                    <p><strong>Maximum addressable memory = 2<sup>n</sup> × addressable unit size</strong></p>
+                    <ul>
+                        <li>16-bit address bus → 2<sup>16</sup> = 65,536 locations = 64 KB</li>
+                        <li>32-bit address bus → 2<sup>32</sup> = 4,294,967,296 locations = 4 GB</li>
+                        <li>64-bit address bus → 2<sup>64</sup> = 16 exabytes (theoretical)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Stored Program Concept -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-save"></i> The Stored Program Concept</h2>
+
+                <p class="concept-text">The <strong>stored program concept</strong> (Von Neumann architecture) is the
+                    idea that both <strong>programs (instructions)</strong> and <strong>data</strong> are stored in the
+                    <strong>same main memory</strong>. The CPU fetches instructions from memory in sequence and executes
+                    them.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Principle</th>
+                            <th>Explanation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Programs in memory</strong></td>
+                            <td>Instructions are stored in RAM alongside data — not on a separate device</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sequential execution</strong></td>
+                            <td>Instructions are fetched and executed in order (unless a branch/jump occurs)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Single memory</strong></td>
+                            <td>Both instructions and data share the same memory and bus (Von Neumann)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modifiable programs</strong></td>
+                            <td>Because programs are in memory, they can be loaded, removed, or modified</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Binary representation</strong></td>
+                            <td>Both instructions and data are stored as binary numbers</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Program Stored in Memory</h4>
+                    <div class="code-block"><code>Address  Contents          Type
+───────  ────────────────  ────────────
+100      LDA 200           Instruction
+101      ADD 201           Instruction
+102      STO 202           Instruction
+103      HLT               Instruction
+...      ...
+200      00001111 (= 15)   Data
+201      00011011 (= 27)   Data
+202      00000000 (= 0)    Data (result)
+
+Note: Instructions and data are in the SAME memory.
+The CPU uses the PC to know which addresses contain instructions.</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Von
+                    Neumann vs Harvard Architecture</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Von Neumann</th>
+                            <th>Harvard</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Memory</strong></td>
+                            <td>Single shared memory for instructions + data</td>
+                            <td>Separate memory for instructions and data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Buses</strong></td>
+                            <td>One set of buses (shared)</td>
+                            <td>Separate buses for instructions and data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed</strong></td>
+                            <td>Slower (bottleneck — can't fetch instruction and data simultaneously)</td>
+                            <td>Faster (can fetch both at the same time)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Use</strong></td>
+                            <td>General-purpose computers</td>
+                            <td>DSP, microcontrollers, some modern CPUs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bottleneck</strong></td>
+                            <td>Von Neumann bottleneck — bus is shared</td>
+                            <td>No bottleneck — separate pathways</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Addressing Modes -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-compass"></i> Common Addressing Modes</h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Mode</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Immediate</strong></td>
+                            <td>The operand IS the data value</td>
+                            <td>ADD #5 → add literal value 5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Direct</strong></td>
+                            <td>The operand IS the memory address</td>
+                            <td>ADD 200 → add value stored at address 200</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Indirect</strong></td>
+                            <td>The operand points to an address that CONTAINS the target address</td>
+                            <td>ADD (200) → address 200 holds "300", actual data is at 300</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Register</strong></td>
+                            <td>The operand is a CPU register</td>
+                            <td>ADD R1 → add value in register R1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Indexed</strong></td>
+                            <td>Address = base address + index register</td>
+                            <td>ADD 100+IX → address = 100 + value in index register</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing Memory Address with Memory Content</h4>
+                    <p>Address 200 is the <strong>location</strong>. The value stored at address 200 is the
+                        <strong>content</strong>. "LDA 200" means "load the VALUE at address 200" — not "load the number
+                        200."</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Thinking Programs Are Permanent in RAM</h4>
+                    <p>RAM is volatile — programs are lost when power is turned off. Programs are stored
+                        <strong>permanently</strong> on secondary storage (SSD/HDD) and loaded into RAM when executed.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Memory Questions Strategy</h4>
+                    <ul>
+                        <li>Always connect memory addressing to the <strong>address bus</strong> and the
+                            <strong>MAR</strong></li>
+                        <li>For "stored program concept" questions: mention shared memory, sequential execution, and
+                            binary representation</li>
+                        <li>If asked about the Von Neumann bottleneck — explain that the shared bus cannot carry
+                            instruction and data at the same time</li>
+                        <li>Know the formula: 2<sup>n</sup> = max addressable locations</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define: memory address, addressable unit, address space. State the formula for maximum
+                            addressable memory.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the stored program concept and why it is important for modern computing.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>A system has a 24-bit address bus. Calculate the maximum addressable memory in bytes, KB, and
+                            MB.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare Von Neumann and Harvard architectures. Explain the Von Neumann bottleneck and how
+                            Harvard architecture addresses it.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is a memory address?</div>
+                    <div class="quiz-answer">Click to reveal: A unique number that identifies a specific location in
+                        memory, allowing the CPU to access the data stored there.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is the stored program concept?</div>
+                    <div class="quiz-answer">Click to reveal: The idea that both programs (instructions) and data are
+                        stored in the same main memory, and instructions are fetched and executed sequentially.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How many addresses can a 20-bit address bus support?</div>
+                    <div class="quiz-answer">Click to reveal: 2²⁰ = 1,048,576 (1 MB)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is direct addressing?</div>
+                    <div class="quiz-answer">Click to reveal: The operand in the instruction is the actual memory
+                        address where the data is stored. E.g., ADD 200 means "add the value at memory address 200."
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is the Von Neumann bottleneck?</div>
+                    <div class="quiz-answer">Click to reveal: The limitation caused by sharing a single bus for both
+                        instructions and data, meaning the CPU cannot fetch an instruction and data at the same time.
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="risc-cisc.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">RISC vs CISC</span></div>
+                </a>
+                <a href="paging-segmentation.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Paging &amp;
+                            Segmentation</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>
