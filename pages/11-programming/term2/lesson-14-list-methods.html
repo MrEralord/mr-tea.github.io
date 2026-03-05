@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Methods — mr. TEA</title>
+    <meta name="description"
+        content="Python list methods: append, insert, remove, pop, sort, reverse, index, count, extend. NIS Grade 11 Programming 11.2.3.3.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.2A — List Methods</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.2A · Term 2</div>
+                <h1 class="lesson-title">List Methods</h1>
+                <p class="lesson-intro">Lists are <strong>mutable</strong> — you can add, remove, sort, and modify
+                    elements after creation. Python provides a rich set of built-in methods for manipulating lists
+                    efficiently.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.3.3</span> Apply list methods</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2A-lesson-14-list-methods.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-scroll"></i> The Playlist Analogy</h4>
+                    <p>A list is like a <strong>music playlist</strong>. You can <strong>append</strong> a song at the
+                        end, <strong>insert</strong> one at a specific position, <strong>remove</strong> a song you
+                        don't like, <strong>sort</strong> alphabetically, or <strong>reverse</strong> the order. Unlike
+                        strings, lists are <strong>mutable</strong> — methods modify the original list directly.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Adding Elements</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.append(x)</code></td>
+                            <td>Add x at the end</td>
+                            <td><code>[1,2].append(3)</code></td>
+                            <td><code>[1, 2, 3]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.insert(i, x)</code></td>
+                            <td>Insert x at index i</td>
+                            <td><code>[1,3].insert(1, 2)</code></td>
+                            <td><code>[1, 2, 3]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.extend(list)</code></td>
+                            <td>Add all elements from another list</td>
+                            <td><code>[1,2].extend([3,4])</code></td>
+                            <td><code>[1, 2, 3, 4]</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Removing
+                    Elements</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.remove(x)</code></td>
+                            <td>Remove first occurrence of x</td>
+                            <td><code>[1,2,3,2].remove(2)</code></td>
+                            <td><code>[1, 3, 2]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.pop(i)</code></td>
+                            <td>Remove and return item at index i</td>
+                            <td><code>[1,2,3].pop(1)</code></td>
+                            <td>returns <code>2</code>, list: <code>[1, 3]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.pop()</code></td>
+                            <td>Remove and return last item</td>
+                            <td><code>[1,2,3].pop()</code></td>
+                            <td>returns <code>3</code>, list: <code>[1, 2]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.clear()</code></td>
+                            <td>Remove all elements</td>
+                            <td><code>[1,2,3].clear()</code></td>
+                            <td><code>[]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>del lst[i]</code></td>
+                            <td>Delete item at index i</td>
+                            <td><code>del lst[0]</code></td>
+                            <td>Removes first element</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Sorting
+                    &amp; Searching</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.sort()</code></td>
+                            <td>Sort in-place (ascending)</td>
+                            <td><code>[3,1,2].sort()</code> → <code>[1,2,3]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.sort(reverse=True)</code></td>
+                            <td>Sort in-place (descending)</td>
+                            <td><code>[1,3,2].sort(reverse=True)</code> → <code>[3,2,1]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sorted(lst)</code></td>
+                            <td>Return new sorted list (original unchanged)</td>
+                            <td><code>sorted([3,1,2])</code> → <code>[1,2,3]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.reverse()</code></td>
+                            <td>Reverse in-place</td>
+                            <td><code>[1,2,3].reverse()</code> → <code>[3,2,1]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.index(x)</code></td>
+                            <td>Index of first x</td>
+                            <td><code>[10,20,30].index(20)</code> → <code>1</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.count(x)</code></td>
+                            <td>Count occurrences of x</td>
+                            <td><code>[1,2,2,3].count(2)</code> → <code>2</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Built-in
+                    Functions for Lists</h3>
+                <div class="code-block"><code>nums = [4, 2, 7, 1, 9, 3]
+
+print(len(nums))   # 6 — number of elements
+print(sum(nums))   # 26 — sum of all elements
+print(min(nums))   # 1 — smallest element
+print(max(nums))   # 9 — largest element</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> sort() vs sorted()</h4>
+                    <p><code>.sort()</code> modifies the list in-place and returns <code>None</code>.
+                        <code>sorted()</code> returns a new sorted list, leaving the original unchanged. Don't write
+                        <code>lst = lst.sort()</code> — it sets <code>lst</code> to <code>None</code>!</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Student Grade Manager</h4>
+                    <div class="code-block"><code>grades = []
+n = int(input("How many grades? "))
+
+for i in range(n):
+    g = int(input(f"Grade {i+1}: "))
+    grades.append(g)
+
+grades.sort()
+print("Sorted:", grades)
+print("Highest:", max(grades))
+print("Lowest:", min(grades))
+print("Average:", sum(grades) / len(grades))</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Stack with append/pop</h4>
+                    <div class="code-block"><code># Lists can work as a stack (LIFO)
+stack = []
+
+stack.append("Page 1")    # Push
+stack.append("Page 2")    # Push
+stack.append("Page 3")    # Push
+print("Stack:", stack)     # ['Page 1', 'Page 2', 'Page 3']
+
+last = stack.pop()         # Pop — returns "Page 3"
+print("Popped:", last)     # Page 3
+print("Stack:", stack)     # ['Page 1', 'Page 2']</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Removing Duplicates (Preserving Order)</h4>
+                    <div class="code-block"><code>nums = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+unique = []
+
+for n in nums:
+    if n not in unique:
+        unique.append(n)
+
+print("Original:", nums)
+print("Unique:", unique)   # [3, 1, 4, 5, 9, 2, 6]</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> append() vs extend()</h4>
+                    <div class="code-block"><code>a = [1, 2, 3]
+b = [4, 5, 6]
+
+# append — adds the ENTIRE list as a single element
+a_copy = a.copy()
+a_copy.append(b)
+print(a_copy)      # [1, 2, 3, [4, 5, 6]] — nested list!
+
+# extend — adds each element individually
+a_copy2 = a.copy()
+a_copy2.extend(b)
+print(a_copy2)     # [1, 2, 3, 4, 5, 6] — flat list ✓</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> lst = lst.sort() → None!</h4>
+                    <p><code>.sort()</code> returns <code>None</code> because it modifies in-place. Writing
+                        <code>lst = lst.sort()</code> overwrites <code>lst</code> with <code>None</code>. Just use
+                        <code>lst.sort()</code> alone.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> remove() Removes Only First Occurrence</h4>
+                    <p><code>[1, 2, 2, 3].remove(2)</code> gives <code>[1, 2, 3]</code> — only the first 2 is removed.
+                        To remove all, use a loop or list comprehension.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Modifying a List While Iterating</h4>
+                    <p>Removing elements during a <code>for</code> loop can skip elements. Iterate over a copy instead:
+                        <code>for x in lst.copy(): if ...: lst.remove(x)</code></p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> List Method Cheat Sheet</h4>
+                    <ul>
+                        <li><strong>In-place</strong> (modify original):
+                            <code>append, insert, extend, remove, pop, sort, reverse, clear</code></li>
+                        <li><strong>Return new</strong> (don't modify):
+                            <code>sorted(), reversed(), len(), sum(), min(), max()</code></li>
+                        <li><code>pop()</code> returns the removed element — useful for processing</li>
+                        <li><code>.index(x)</code> raises ValueError if x not found — check with
+                            <code>if x in lst</code> first</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name 4 ways to add elements to a list and 4 ways to remove them.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between <code>.sort()</code> and <code>sorted()</code>. Why is
+                            <code>x = x.sort()</code> a mistake?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that reads 10 numbers, removes the smallest and largest, and prints the
+                            average of the remaining.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that maintains a to-do list: add, remove, view, and sort tasks.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>What is the state of <code>lst</code> after:
+                            <code>lst = [5,3,1,4,2]; lst.sort(); lst.insert(2, 10); lst.pop(0); del lst[-1]</code>?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Implement a simple contact book that stores names in a sorted list and supports add, search,
+                            and delete operations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does <code>.append(x)</code> do?</div>
+                    <div class="quiz-answer" data-answer="Adds element x to the END of the list">Click to reveal answer
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is the difference between <code>.remove(x)</code> and
+                        <code>.pop(i)</code>?</div>
+                    <div class="quiz-answer"
+                        data-answer="remove(x) finds and removes the value x. pop(i) removes by INDEX and returns the removed element.">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What does <code>[3,1,2].sort()</code> return?</div>
+                    <div class="quiz-answer"
+                        data-answer="None — sort() modifies the list in-place and returns None. The list becomes [1,2,3].">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is the difference between <code>.append([4,5])</code> and
+                        <code>.extend([4,5])</code>?</div>
+                    <div class="quiz-answer"
+                        data-answer="append adds [4,5] as a single nested element. extend adds 4 and 5 as separate elements.">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. How do you find the position of value 30 in a list?</div>
+                    <div class="quiz-answer"
+                        data-answer="lst.index(30) — returns the index of the first occurrence. Raises ValueError if not found.">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-13-lists-create.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Creating Lists &amp;
+                            split/join</span></div>
+                </a>
+                <a href="lesson-15-tuples.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Tuples &amp; Type
+                            Conversion</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

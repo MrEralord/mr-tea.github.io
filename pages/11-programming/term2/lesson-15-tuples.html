@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuples &amp; Type Conversion — mr. TEA</title>
+    <meta name="description"
+        content="Python tuples: immutability, packing/unpacking, type conversion between list/tuple/set. NIS Grade 11 Programming 11.2.4.1, 11.2.4.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.2A — Tuples &amp; Type Conversion</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.2A · Term 2</div>
+                <h1 class="lesson-title">Tuples &amp; Type Conversion</h1>
+                <p class="lesson-intro">A <strong>tuple</strong> is an immutable ordered sequence — like a list that
+                    cannot be changed after creation. Tuples are used for fixed collections of values and are essential
+                    for multiple return values, dictionary keys, and data integrity.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.4.1</span> Use tuples</li>
+                    <li><span class="lo-code">11.2.4.2</span> Convert types between tuples, lists, and sets</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2A-lesson-15-tuples.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-lock"></i> The Sealed Envelope Analogy</h4>
+                    <p>A tuple is like a <strong>sealed envelope</strong> — once you put items inside and seal it, you
+                        can <strong>read</strong> the contents (indexing) but <strong>cannot add, remove, or
+                            change</strong> anything (immutable). A list is an <strong>open folder</strong> — you can
+                        freely modify its contents. Use tuples when data should remain constant.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Creating Tuples</h3>
+                <div class="code-block"><code># Method 1: Parentheses
+point = (3, 5)
+rgb = (255, 128, 0)
+name_age = ("Ali", 16)
+
+# Method 2: Without parentheses (packing)
+coords = 10, 20, 30    # Same as (10, 20, 30)
+
+# Method 3: tuple() constructor
+t = tuple([1, 2, 3])   # From list
+t2 = tuple("hello")    # ('h', 'e', 'l', 'l', 'o')
+
+# Single-element tuple — MUST have trailing comma!
+single = (5,)           # ✓ Tuple with one element
+not_tuple = (5)          # ✗ Just the integer 5!
+
+# Empty tuple
+empty = ()
+also_empty = tuple()</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Tuple vs
+                    List</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Tuple</th>
+                            <th>List</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Syntax</td>
+                            <td><code>(1, 2, 3)</code></td>
+                            <td><code>[1, 2, 3]</code></td>
+                        </tr>
+                        <tr>
+                            <td>Mutable?</td>
+                            <td>No (immutable)</td>
+                            <td>Yes (mutable)</td>
+                        </tr>
+                        <tr>
+                            <td>Use for</td>
+                            <td>Fixed data, dict keys, function returns</td>
+                            <td>Dynamic collections</td>
+                        </tr>
+                        <tr>
+                            <td>Speed</td>
+                            <td>Faster</td>
+                            <td>Slower</td>
+                        </tr>
+                        <tr>
+                            <td>Can be dict key?</td>
+                            <td>Yes</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>Can be set element?</td>
+                            <td>Yes</td>
+                            <td>No</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Tuple
+                    Operations</h3>
+                <div class="code-block"><code>t = (10, 20, 30, 40, 50)
+
+# Indexing and slicing (same as lists)
+print(t[0])      # 10
+print(t[-1])     # 50
+print(t[1:4])    # (20, 30, 40)
+
+# Cannot modify!
+# t[0] = 99      # TypeError: 'tuple' object does not support item assignment
+
+# Methods (only 2)
+print(t.count(20))   # 1
+print(t.index(30))   # 2
+
+# Concatenation and repetition
+t2 = t + (60, 70)    # (10, 20, 30, 40, 50, 60, 70)
+t3 = (1, 2) * 3      # (1, 2, 1, 2, 1, 2)
+
+# Unpacking
+x, y, z = (10, 20, 30)
+print(x, y, z)       # 10 20 30
+
+# Swap using tuple unpacking
+a, b = 5, 10
+a, b = b, a           # a=10, b=5</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Type
+                    Conversion</h3>
+                <div class="code-block"><code># List → Tuple
+lst = [1, 2, 3]
+t = tuple(lst)         # (1, 2, 3)
+
+# Tuple → List
+t = (4, 5, 6)
+lst = list(t)          # [4, 5, 6]
+
+# List → Set (removes duplicates)
+lst = [1, 2, 2, 3, 3, 3]
+s = set(lst)           # {1, 2, 3}
+
+# Set → List (order may vary)
+lst2 = list(s)         # [1, 2, 3]
+
+# Set → Tuple
+t2 = tuple(s)          # (1, 2, 3)
+
+# String → List/Tuple
+list("abc")            # ['a', 'b', 'c']
+tuple("abc")           # ('a', 'b', 'c')
+
+# Conversion chain: remove duplicates + sort
+data = [5, 3, 1, 3, 5, 2]
+clean = sorted(set(data))    # [1, 2, 3, 5]</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> When to Use Each Type</h4>
+                    <p><strong>Tuple</strong>: coordinates, RGB colors, function return values, dict keys.
+                        <strong>List</strong>: shopping list, student grades, any collection that changes.
+                        <strong>Set</strong>: unique values, membership testing, eliminating duplicates.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Function Returning Multiple Values</h4>
+                    <div class="code-block"><code>def min_max(numbers):
+    return min(numbers), max(numbers)   # Returns a tuple
+
+result = min_max([4, 7, 1, 9, 3])
+print(result)         # (1, 9)
+print(type(result))   # &lt;class 'tuple'&gt;
+
+# Unpacking the return value
+lo, hi = min_max([4, 7, 1, 9, 3])
+print(f"Min: {lo}, Max: {hi}")  # Min: 1, Max: 9</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Converting Between Types</h4>
+                    <div class="code-block"><code># Remove duplicates from a list while keeping order
+original = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+
+# Method 1: set → list (loses order)
+unique_unordered = list(set(original))
+print(unique_unordered)  # Order may vary
+
+# Method 2: sorted set (sorted order)
+unique_sorted = sorted(set(original))
+print(unique_sorted)     # [1, 2, 3, 4, 5, 6, 9]
+
+# Method 3: keep original order (using dict.fromkeys)
+unique_ordered = list(dict.fromkeys(original))
+print(unique_ordered)    # [3, 1, 4, 5, 9, 2, 6]</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Tuple as Dictionary Key</h4>
+                    <div class="code-block"><code># Tuples can be dictionary keys (lists cannot!)
+distances = {
+    ("Almaty", "Astana"): 1200,
+    ("Almaty", "Shymkent"): 700,
+    ("Astana", "Karaganda"): 230
+}
+
+route = ("Almaty", "Astana")
+print(f"Distance: {distances[route]} km")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Single-Element Tuple</h4>
+                    <p><code>(5)</code> is just the integer <code>5</code>. For a single-element tuple, use
+                        <code>(5,)</code> with a trailing comma!</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Trying to Modify a Tuple</h4>
+                    <p><code>t[0] = 99</code> raises <code>TypeError</code>. To "change" a tuple: convert to list →
+                        modify → convert back: <code>lst = list(t); lst[0] = 99; t = tuple(lst)</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> set() Loses Order</h4>
+                    <p>Converting to set and back loses the original order. If order matters, use
+                        <code>dict.fromkeys()</code> or a manual loop.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Tuple Tips</h4>
+                    <ul>
+                        <li>Tuples have only 2 methods: <code>.count()</code> and <code>.index()</code></li>
+                        <li>Tuple unpacking: <code>a, b, c = (1, 2, 3)</code> — number of variables must match</li>
+                        <li>Swap trick: <code>a, b = b, a</code> uses tuple packing/unpacking</li>
+                        <li>Common conversion question: list → set → sorted list (removes duplicates + sorts)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What are the 3 key differences between tuples and lists?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Why is <code>(5)</code> not a tuple but <code>(5,)</code> is? What is the type of each?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a function that takes a list of numbers and returns a tuple of (minimum, maximum,
+                            average).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Given a list with duplicates, convert it to a sorted tuple of unique values.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>What is the output?
+                            <code>a = [1,2,3]; b = tuple(a); c = list(b); c.append(4); print(a, b, c)</code></p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a program that stores student records as tuples (name, grade, score) in a list, and
+                            allows sorting by any field.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. How do you create a tuple with one element?</div>
+                    <div class="quiz-answer"
+                        data-answer="(element,) — with a trailing comma. Without the comma, (element) is just the element itself.">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Can tuples be used as dictionary keys?</div>
+                    <div class="quiz-answer"
+                        data-answer="Yes — tuples are immutable (hashable), so they can be dict keys. Lists cannot.">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How do you convert a list to a set?</div>
+                    <div class="quiz-answer" data-answer="set(my_list) — this also removes any duplicates">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does tuple unpacking <code>x, y = (10, 20)</code> do?</div>
+                    <div class="quiz-answer"
+                        data-answer="Assigns x = 10 and y = 20 — each variable gets the corresponding tuple element">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What methods do tuples have?</div>
+                    <div class="quiz-answer"
+                        data-answer="Only 2: .count(x) and .index(x) — because tuples are immutable, no add/remove methods exist">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-14-list-methods.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">List Methods</span></div>
+                </a>
+                <a href="../term3/lesson-16-advanced-methods.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Advanced String &amp; List
+                            Methods</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

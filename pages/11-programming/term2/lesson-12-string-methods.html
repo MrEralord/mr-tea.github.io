@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Methods — mr. TEA</title>
+    <meta name="description"
+        content="Python string methods: upper, lower, find, replace, count, strip, startswith, endswith. NIS Grade 11 Programming 11.2.2.3.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.2A — String Methods</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.2A · Term 2</div>
+                <h1 class="lesson-title">String Methods</h1>
+                <p class="lesson-intro">Python strings come with powerful built-in <strong>methods</strong> — functions
+                    attached to string objects that let you search, modify, check, and transform text without writing
+                    complex loops.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.2.3</span> Apply string methods</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2A-lesson-12-string-methods.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-toolbox"></i> The Swiss Army Knife</h4>
+                    <p>String methods are like a <strong>Swiss Army knife</strong> for text. Each blade (method) serves
+                        a specific purpose: one for converting case, another for searching, another for trimming spaces.
+                        Since strings are <strong>immutable</strong>, every method returns a <strong>new</strong> string
+                        — the original stays unchanged.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Case Methods</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.upper()</code></td>
+                            <td>All uppercase</td>
+                            <td><code>"hello".upper()</code></td>
+                            <td><code>"HELLO"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.lower()</code></td>
+                            <td>All lowercase</td>
+                            <td><code>"HELLO".lower()</code></td>
+                            <td><code>"hello"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.title()</code></td>
+                            <td>Title Case</td>
+                            <td><code>"hello world".title()</code></td>
+                            <td><code>"Hello World"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.capitalize()</code></td>
+                            <td>First char upper</td>
+                            <td><code>"hello world".capitalize()</code></td>
+                            <td><code>"Hello world"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.swapcase()</code></td>
+                            <td>Switch case</td>
+                            <td><code>"Hello".swapcase()</code></td>
+                            <td><code>"hELLO"</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Search
+                    &amp; Replace Methods</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.find(sub)</code></td>
+                            <td>Index of first occurrence (-1 if not found)</td>
+                            <td><code>"hello".find("ll")</code></td>
+                            <td><code>2</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.index(sub)</code></td>
+                            <td>Like find() but raises ValueError</td>
+                            <td><code>"hello".index("ll")</code></td>
+                            <td><code>2</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.count(sub)</code></td>
+                            <td>Count occurrences</td>
+                            <td><code>"banana".count("a")</code></td>
+                            <td><code>3</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.replace(old, new)</code></td>
+                            <td>Replace all occurrences</td>
+                            <td><code>"hello".replace("l", "r")</code></td>
+                            <td><code>"herro"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.startswith(s)</code></td>
+                            <td>Starts with prefix?</td>
+                            <td><code>"hello".startswith("he")</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.endswith(s)</code></td>
+                            <td>Ends with suffix?</td>
+                            <td><code>"hello.py".endswith(".py")</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Whitespace &amp; Checking Methods</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.strip()</code></td>
+                            <td>Remove leading/trailing whitespace</td>
+                            <td><code>"  hi  ".strip()</code></td>
+                            <td><code>"hi"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.lstrip()</code></td>
+                            <td>Remove leading whitespace</td>
+                            <td><code>"  hi  ".lstrip()</code></td>
+                            <td><code>"hi  "</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.rstrip()</code></td>
+                            <td>Remove trailing whitespace</td>
+                            <td><code>"  hi  ".rstrip()</code></td>
+                            <td><code>"  hi"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.isdigit()</code></td>
+                            <td>All characters are digits?</td>
+                            <td><code>"123".isdigit()</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.isalpha()</code></td>
+                            <td>All characters are letters?</td>
+                            <td><code>"abc".isalpha()</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.isalnum()</code></td>
+                            <td>All alphanumeric?</td>
+                            <td><code>"abc123".isalnum()</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.isupper()</code></td>
+                            <td>All uppercase?</td>
+                            <td><code>"ABC".isupper()</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.islower()</code></td>
+                            <td>All lowercase?</td>
+                            <td><code>"abc".islower()</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Methods Return NEW Strings!</h4>
+                    <p><code>s.upper()</code> does NOT change <code>s</code>. You must assign the result:
+                        <code>s = s.upper()</code>. This is because strings are immutable.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Input Validation</h4>
+                    <div class="code-block"><code># Clean and validate user input
+name = input("Enter your name: ").strip().title()
+age = input("Enter your age: ").strip()
+
+if not age.isdigit():
+    print("Error: age must be a number!")
+else:
+    print(f"Hello, {name}! You are {age} years old.")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Word Counter</h4>
+                    <div class="code-block"><code>sentence = input("Enter a sentence: ")
+word = input("Search for word: ").lower()
+
+# Case-insensitive count
+count = sentence.lower().count(word)
+print(f"'{word}' appears {count} time(s)")
+
+# Find the position
+pos = sentence.lower().find(word)
+if pos != -1:
+    print(f"First occurrence at index {pos}")
+else:
+    print("Word not found")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Censoring Words</h4>
+                    <div class="code-block"><code>text = "Python is awesome and Python is fun"
+censored = text.replace("Python", "***")
+print(censored)
+# "*** is awesome and *** is fun"
+
+# Replace only first occurrence
+censored2 = text.replace("Python", "***", 1)
+print(censored2)
+# "*** is awesome and Python is fun"</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> File Extension Checker</h4>
+                    <div class="code-block"><code>filename = input("Enter filename: ")
+
+if filename.endswith(".py"):
+    print("Python file")
+elif filename.endswith((".jpg", ".png", ".gif")):
+    print("Image file")
+elif filename.endswith(".txt"):
+    print("Text file")
+else:
+    print("Unknown file type")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting to Assign the Result</h4>
+                    <p><code>name.upper()</code> alone doesn't change <code>name</code>. You must write
+                        <code>name = name.upper()</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> find() vs index()</h4>
+                    <p><code>find()</code> returns <code>-1</code> if not found. <code>index()</code> raises
+                        <code>ValueError</code> if not found. Use <code>find()</code> when the substring might be
+                        absent.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Case Sensitivity</h4>
+                    <p><code>"Hello".find("hello")</code> returns <code>-1</code> because searches are case-sensitive.
+                        Convert both to lowercase first for case-insensitive search.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Method Chaining</h4>
+                    <ul>
+                        <li>You can chain methods: <code>"  Hello  ".strip().lower()</code> → <code>"hello"</code></li>
+                        <li><code>find()</code> returns -1 (not False), so always compare with <code>!= -1</code></li>
+                        <li><code>replace()</code> replaces ALL occurrences by default. Add 3rd argument to limit.</li>
+                        <li><code>isdigit()</code> returns False for empty strings and negative numbers</li>
+                        <li>Always clean input with <code>.strip()</code> — users often add accidental spaces</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name 5 string methods and describe what each does.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between <code>find()</code> and <code>index()</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that counts the number of vowels, consonants, digits, and spaces in a
+                            user-input string.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that validates a username: must be 3-15 characters, alphanumeric only, no
+                            spaces.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>What is the output of:
+                            <code>s = "  Hello World  "; print(s.strip().replace("World", "Python").lower())</code>?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a simple text encryptor: shift each letter by 1 position (a→b, z→a). Use
+                            <code>ord()</code> and <code>chr()</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does <code>"  hello  ".strip()</code> return?</div>
+                    <div class="quiz-answer" data-answer="'hello' — strip() removes leading and trailing whitespace">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What does <code>"banana".count("an")</code> return?</div>
+                    <div class="quiz-answer" data-answer="2 — 'an' appears twice in 'banana' (at positions 1 and 3)">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Does <code>"hello".upper()</code> change the original string?</div>
+                    <div class="quiz-answer"
+                        data-answer="No — it returns a NEW string 'HELLO'. The original 'hello' is unchanged (strings are immutable).">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does <code>"hello".find("xyz")</code> return?</div>
+                    <div class="quiz-answer" data-answer="-1 — find() returns -1 when the substring is not found">Click
+                        to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What does <code>"123abc".isdigit()</code> return?</div>
+                    <div class="quiz-answer" data-answer="False — not ALL characters are digits (it contains 'abc')">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-11-string-indexing.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">String Indexing &amp;
+                            Slicing</span></div>
+                </a>
+                <a href="lesson-13-lists-create.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Creating Lists &amp;
+                            split/join</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

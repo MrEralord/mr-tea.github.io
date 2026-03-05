@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Operations &amp; Comparison — mr. TEA</title>
+    <meta name="description"
+        content="Python set operations: union, intersection, difference, symmetric difference, subsets. NIS Grade 11 Programming 11.2.1.3, 11.2.1.4.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.2A — Set Operations &amp; Comparison</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.2A · Term 2</div>
+                <h1 class="lesson-title">Set Operations &amp; Comparison</h1>
+                <p class="lesson-intro">Set operations let you combine, compare, and filter collections of data. Python
+                    supports all standard mathematical set operations: <strong>union</strong>,
+                    <strong>intersection</strong>, <strong>difference</strong>, and <strong>symmetric
+                        difference</strong>.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.1.3</span> Use operations on sets</li>
+                    <li><span class="lo-code">11.2.1.4</span> Compare sets</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2A-lesson-10-set-operations.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-circle-notch"></i> The Venn Diagram</h4>
+                    <p>Every set operation corresponds to a region in a Venn diagram. <strong>Union</strong> =
+                        everything in both circles. <strong>Intersection</strong> = the overlapping middle.
+                        <strong>Difference</strong> = one circle minus the overlap. <strong>Symmetric
+                            difference</strong> = both circles minus the overlap.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Set Operations</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Method</th>
+                            <th>Operator</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Union</strong></td>
+                            <td><code>A.union(B)</code></td>
+                            <td><code>A | B</code></td>
+                            <td>All elements from both sets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intersection</strong></td>
+                            <td><code>A.intersection(B)</code></td>
+                            <td><code>A &amp; B</code></td>
+                            <td>Elements common to both</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Difference</strong></td>
+                            <td><code>A.difference(B)</code></td>
+                            <td><code>A - B</code></td>
+                            <td>Elements in A but not in B</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Symmetric Difference</strong></td>
+                            <td><code>A.symmetric_difference(B)</code></td>
+                            <td><code>A ^ B</code></td>
+                            <td>Elements in A or B but not both</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block"><code>A = {1, 2, 3, 4, 5}
+B = {4, 5, 6, 7, 8}
+
+print(A | B)     # {1, 2, 3, 4, 5, 6, 7, 8}  — Union
+print(A & B)     # {4, 5}                      — Intersection
+print(A - B)     # {1, 2, 3}                   — Difference (A not B)
+print(B - A)     # {6, 7, 8}                   — Difference (B not A)
+print(A ^ B)     # {1, 2, 3, 6, 7, 8}          — Symmetric difference</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Set
+                    Comparison</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Method</th>
+                            <th>Operator</th>
+                            <th>True when…</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Subset</strong></td>
+                            <td><code>A.issubset(B)</code></td>
+                            <td><code>A &lt;= B</code></td>
+                            <td>All elements of A are in B</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Proper subset</strong></td>
+                            <td>—</td>
+                            <td><code>A &lt; B</code></td>
+                            <td>A ⊂ B and A ≠ B</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Superset</strong></td>
+                            <td><code>A.issuperset(B)</code></td>
+                            <td><code>A &gt;= B</code></td>
+                            <td>All elements of B are in A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disjoint</strong></td>
+                            <td><code>A.isdisjoint(B)</code></td>
+                            <td>—</td>
+                            <td>No common elements</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Equality</strong></td>
+                            <td>—</td>
+                            <td><code>A == B</code></td>
+                            <td>Same elements (order irrelevant)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block"><code>A = {1, 2, 3}
+B = {1, 2, 3, 4, 5}
+C = {6, 7}
+
+print(A <= B)          # True — A is a subset of B
+print(A < B)           # True — A is a proper subset (A ≠ B)
+print(B >= A)          # True — B is a superset of A
+print(A.isdisjoint(C)) # True — no common elements
+print({3, 2, 1} == A)  # True — same elements, order doesn't matter</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Update Operations</h4>
+                    <p>Add <code>_update</code> to modify the set in-place: <code>A.update(B)</code> is like
+                        <code>A = A | B</code>. Similarly: <code>intersection_update()</code>,
+                        <code>difference_update()</code>, <code>symmetric_difference_update()</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Finding Common Students</h4>
+                    <div class="code-block"><code>math_class = {"Ali", "Dana", "Marat", "Aisha", "Bolat"}
+cs_class = {"Aisha", "Bolat", "Kamila", "Dias", "Ali"}
+
+# Who takes BOTH classes?
+both = math_class & cs_class
+print("Both:", both)       # {'Ali', 'Aisha', 'Bolat'}
+
+# Who takes EITHER class?
+any_class = math_class | cs_class
+print("Any:", any_class)   # All 7 unique names
+
+# Who takes Math but NOT CS?
+math_only = math_class - cs_class
+print("Math only:", math_only)  # {'Dana', 'Marat'}</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Checking Subsets</h4>
+                    <div class="code-block"><code>required = {"Math", "Science", "English"}
+student_courses = {"Math", "Science", "English", "Art", "PE"}
+
+if required <= student_courses:
+    print("All required courses are taken ✓")
+else:
+    missing = required - student_courses
+    print("Missing courses:", missing)</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Unique Characters in Two Strings</h4>
+                    <div class="code-block"><code>s1 = set(input("Word 1: ").lower())  # e.g., "hello"
+s2 = set(input("Word 2: ").lower())  # e.g., "world"
+
+print("Common letters:", s1 & s2)         # {'l', 'o'}
+print("Only in word 1:", s1 - s2)         # {'h', 'e'}
+print("In either (not both):", s1 ^ s2)   # {'h', 'e', 'w', 'r', 'd'}</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Difference is NOT Symmetric</h4>
+                    <p><code>A - B</code> ≠ <code>B - A</code>. <code>A - B</code> gives elements in A but not B.
+                        <code>B - A</code> gives elements in B but not A. These are usually different!</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing | and &amp;</h4>
+                    <p><code>|</code> (union) gives <strong>all</strong> elements. <code>&amp;</code> (intersection)
+                        gives only <strong>common</strong> elements. Think: <code>|</code> = OR (inclusive),
+                        <code>&amp;</code> = AND (restrictive).</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Set Operation Strategy</h4>
+                    <ul>
+                        <li>Draw a Venn diagram for complex set problems</li>
+                        <li><code>A | B</code> always has <code>len(A | B) ≤ len(A) + len(B)</code></li>
+                        <li><code>A &amp; B</code> always has <code>len(A &amp; B) ≤ min(len(A), len(B))</code></li>
+                        <li><code>A ^ B</code> = <code>(A | B) - (A &amp; B)</code> — everything except the overlap</li>
+                        <li>Subset check <code>A <= B</code> is the fastest way to test "all of A is in B"</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 4 set operations and their Python operators.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Given A = {1,2,3,4} and B = {3,4,5,6}, calculate by hand: A|B, A&amp;B, A-B, A^B.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that reads two lists of friends and outputs: (a) mutual friends, (b) friends
+                            unique to each person.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Is it true that <code>(A - B) | (B - A) == A ^ B</code> for any sets A, B? Prove with an
+                            example.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a "skill matcher" program: input required skills for a job and a candidate's skills.
+                            Output matched, missing, and extra skills using set operations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does <code>{1,2,3} | {3,4,5}</code> give?</div>
+                    <div class="quiz-answer" data-answer="{1, 2, 3, 4, 5} — union combines all unique elements">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What does <code>{1,2,3} & {3,4,5}</code> give?</div>
+                    <div class="quiz-answer" data-answer="{3} — intersection returns only common elements">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Is <code>{1,2} <= {1,2,3}</code> True or False?</div>
+                    <div class="quiz-answer"
+                        data-answer="True — {1,2} is a subset of {1,2,3} (all elements of the left set are in the right)">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does <code>{1,2,3} - {2,3,4}</code> give?</div>
+                    <div class="quiz-answer" data-answer="{1} — elements in the first set but not in the second">Click
+                        to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What does <code>isdisjoint()</code> check?</div>
+                    <div class="quiz-answer"
+                        data-answer="Returns True if two sets have NO common elements (empty intersection)">Click to
+                        reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-09-sets-create.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Creating Sets</span></div>
+                </a>
+                <a href="lesson-11-string-indexing.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">String Indexing &amp;
+                            Slicing</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>
