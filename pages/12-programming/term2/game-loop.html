@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Loop — mr. TEA</title>
+    <meta name="description"
+        content="PyGame game loop: event handling, update, render cycle. FPS control with Clock. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.2A — Game Loop</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.2A · Term 2</div>
+                <h1 class="lesson-title">Game Loop</h1>
+                <p class="lesson-intro">The <strong>game loop</strong> is the heartbeat of every game. It runs
+                    continuously — <strong>handling events</strong>, <strong>updating state</strong>, and
+                    <strong>rendering visuals</strong> — dozens of times per second.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.1.3</span> Code the game loop of the application</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.2A-game-loop.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-sync-alt"></i> The Film Projector Analogy</h4>
+                    <p>A movie projector shows 24 frames per second — each frame is a still image, but played fast they
+                        create the illusion of motion. A game loop does the same: <strong>clear screen → draw new frame
+                            → show it → repeat</strong>. The faster this cycle runs (FPS), the smoother the game feels.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">The 3 Phases of a
+                    Game Loop</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>What Happens</th>
+                            <th>Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Handle Events</strong></td>
+                            <td>Process user input (keys, mouse, quit)</td>
+                            <td><code>pygame.event.get()</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Update State</strong></td>
+                            <td>Move objects, check collisions, update scores</td>
+                            <td>Game logic code</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Render (Draw)</strong></td>
+                            <td>Clear screen, draw everything, display</td>
+                            <td><code>screen.fill()</code> + <code>draw</code> + <code>flip()</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">FPS
+                    Control with Clock</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>clock = pygame.time.Clock()</code></td>
+                            <td>Create a Clock object</td>
+                        </tr>
+                        <tr>
+                            <td><code>clock.tick(60)</code></td>
+                            <td>Limit loop to 60 FPS maximum</td>
+                        </tr>
+                        <tr>
+                            <td><code>clock.get_fps()</code></td>
+                            <td>Get actual frames per second</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Event
+                    Types</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>When It Fires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pygame.QUIT</code></td>
+                            <td>User clicks the window close button (✕)</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.KEYDOWN</code></td>
+                            <td>A key is pressed down</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.KEYUP</code></td>
+                            <td>A key is released</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.MOUSEBUTTONDOWN</code></td>
+                            <td>A mouse button is pressed</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.MOUSEMOTION</code></td>
+                            <td>The mouse is moved</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Standard Game Loop Template</h4>
+                    <div class="code-block"><code>import pygame
+import sys
+
+pygame.init()
+
+# --- Setup ---
+WIDTH, HEIGHT = 800, 600
+FPS = 60
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Game Loop Demo")
+clock = pygame.time.Clock()
+
+# --- Colors ---
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+
+# --- Game Loop ---
+running = True
+while running:
+    # Phase 1: HANDLE EVENTS
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+
+    # Phase 2: UPDATE STATE
+    # (game logic goes here)
+
+    # Phase 3: RENDER
+    screen.fill(BLACK)
+    # (draw objects here)
+    pygame.display.flip()
+
+    # Control FPS
+    clock.tick(FPS)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Showing FPS Counter</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("FPS Counter")
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("Arial", 24)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    screen.fill((30, 30, 30))
+
+    # Display current FPS
+    fps_text = font.render(f"FPS: {clock.get_fps():.0f}",
+                           True, (0, 255, 0))
+    screen.blit(fps_text, (10, 10))
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> No clock.tick() = Unlimited Speed</h4>
+                    <p>Without <code>clock.tick()</code>, the loop runs as fast as the CPU allows. This wastes power,
+                        heats the CPU, and makes game speed inconsistent across different computers.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Drawing BEFORE Filling</h4>
+                    <p>Always <code>screen.fill()</code> FIRST, then draw objects. If you draw first and then fill, your
+                        drawings get covered!</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 3 phases of a game loop and describe what happens in each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a game loop that changes the background color when the user presses the Space bar.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Add an FPS counter to any PyGame application displaying current frames per second.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What are the 3 phases of a game loop?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">1) Handle Events — process user
+                        input. 2) Update State — move objects, check collisions. 3) Render — clear screen, draw,
+                        display.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What does <code>clock.tick(60)</code> do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Limits the game loop to a
+                        maximum of 60 iterations per second (60 FPS), ensuring consistent speed and preventing CPU
+                        waste.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What event type is triggered when the user clicks ✕?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>pygame.QUIT</code></div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="pygame-setup.html"><span class="nav-label">← Previous</span><span class="nav-title">PyGame
+                        Setup &amp; Window</span></a>
+                <a href="pygame-drawing.html"><span class="nav-label">Next →</span><span class="nav-title">Drawing
+                        Primitives</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>
