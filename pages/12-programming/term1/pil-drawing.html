@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIL Drawing Primitives — mr. TEA</title>
+    <meta name="description"
+        content="PIL ImageDraw: lines, rectangles, ellipses, polygons, text. Creating drawings in Python. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.1A — PIL Drawing Primitives</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
+                <h1 class="lesson-title">PIL Drawing Primitives</h1>
+                <p class="lesson-intro">The <code>ImageDraw</code> module from PIL lets you draw <strong>graphic
+                        primitives</strong> — lines, rectangles, ellipses, polygons, and text — directly onto images
+                    using Python code.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.2.3</span> Apply graphic primitives to create drawings</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.1A-pil-drawing.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-drafting-compass"></i> The Canvas &amp; Brush Analogy</h4>
+                    <p><code>Image.new()</code> creates the <strong>canvas</strong>. <code>ImageDraw.Draw(img)</code>
+                        gives you a <strong>brush</strong>. You then call methods like <code>draw.rectangle()</code> or
+                        <code>draw.ellipse()</code> to paint shapes on the canvas — just like a graphics editor, but in
+                        code.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Setting Up a Drawing
+                </h3>
+                <div class="code-block"><code>from PIL import Image, ImageDraw
+
+# Create canvas and draw object
+img = Image.new("RGB", (400, 300), (255, 255, 255))  # white bg
+draw = ImageDraw.Draw(img)</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Drawing
+                    Primitives</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Parameters</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>draw.line()</code></td>
+                            <td><code>[(x1,y1), (x2,y2)], fill, width</code></td>
+                            <td>Draw a straight line</td>
+                        </tr>
+                        <tr>
+                            <td><code>draw.rectangle()</code></td>
+                            <td><code>[(x1,y1), (x2,y2)], fill, outline</code></td>
+                            <td>Draw a rectangle (top-left, bottom-right)</td>
+                        </tr>
+                        <tr>
+                            <td><code>draw.ellipse()</code></td>
+                            <td><code>[(x1,y1), (x2,y2)], fill, outline</code></td>
+                            <td>Draw an ellipse within bounding box</td>
+                        </tr>
+                        <tr>
+                            <td><code>draw.polygon()</code></td>
+                            <td><code>[(x1,y1), (x2,y2), ...], fill, outline</code></td>
+                            <td>Draw a polygon with any number of vertices</td>
+                        </tr>
+                        <tr>
+                            <td><code>draw.arc()</code></td>
+                            <td><code>[(x1,y1), (x2,y2)], start, end, fill</code></td>
+                            <td>Draw an arc (part of ellipse outline)</td>
+                        </tr>
+                        <tr>
+                            <td><code>draw.point()</code></td>
+                            <td><code>(x, y), fill</code></td>
+                            <td>Draw a single pixel</td>
+                        </tr>
+                        <tr>
+                            <td><code>draw.text()</code></td>
+                            <td><code>(x, y), "text", fill, font</code></td>
+                            <td>Draw text on the image</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Parameter
+                    Reference</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>fill</code></td>
+                            <td>Interior color as RGB tuple, e.g. <code>(255, 0, 0)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>outline</code></td>
+                            <td>Border color as RGB tuple</td>
+                        </tr>
+                        <tr>
+                            <td><code>width</code></td>
+                            <td>Line/border thickness in pixels</td>
+                        </tr>
+                        <tr>
+                            <td><code>(x1, y1)</code></td>
+                            <td>Top-left corner of bounding box</td>
+                        </tr>
+                        <tr>
+                            <td><code>(x2, y2)</code></td>
+                            <td>Bottom-right corner of bounding box</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Drawing Basic Shapes</h4>
+                    <div class="code-block"><code>from PIL import Image, ImageDraw
+
+img = Image.new("RGB", (400, 300), (255, 255, 255))
+draw = ImageDraw.Draw(img)
+
+# Red rectangle
+draw.rectangle([(50, 50), (150, 120)],
+               fill=(255, 0, 0), outline=(0, 0, 0))
+
+# Blue circle (ellipse in square bounding box)
+draw.ellipse([(200, 50), (300, 150)],
+             fill=(0, 0, 255), outline=(0, 0, 0))
+
+# Green line
+draw.line([(50, 200), (350, 200)],
+          fill=(0, 128, 0), width=3)
+
+img.save("shapes.png")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Drawing a Simple House</h4>
+                    <div class="code-block"><code>from PIL import Image, ImageDraw
+
+img = Image.new("RGB", (400, 400), (135, 206, 235))  # sky blue bg
+draw = ImageDraw.Draw(img)
+
+# Ground
+draw.rectangle([(0, 300), (400, 400)], fill=(34, 139, 34))
+
+# House body
+draw.rectangle([(100, 180), (300, 300)], fill=(210, 180, 140),
+               outline=(0, 0, 0))
+
+# Roof (triangle)
+draw.polygon([(90, 180), (200, 100), (310, 180)],
+             fill=(139, 69, 19), outline=(0, 0, 0))
+
+# Door
+draw.rectangle([(175, 230), (225, 300)], fill=(101, 67, 33),
+               outline=(0, 0, 0))
+
+# Window
+draw.rectangle([(120, 210), (160, 250)], fill=(173, 216, 230),
+               outline=(0, 0, 0))
+
+# Sun
+draw.ellipse([(320, 30), (380, 90)], fill=(255, 255, 0))
+
+img.save("house.png")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Adding Text</h4>
+                    <div class="code-block"><code>from PIL import Image, ImageDraw, ImageFont
+
+img = Image.new("RGB", (400, 200), (0, 0, 0))
+draw = ImageDraw.Draw(img)
+
+# Default font (basic)
+draw.text((20, 80), "Hello, PIL!", fill=(255, 255, 255))
+
+# Custom font (if available)
+try:
+    font = ImageFont.truetype("arial.ttf", 36)
+    draw.text((20, 30), "Big Text", fill=(255, 200, 0),
+              font=font)
+except:
+    pass
+
+img.save("text_demo.png")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Bounding Box — Not Center + Radius</h4>
+                    <p>Circles/ellipses use a <strong>bounding box</strong> [(x1,y1), (x2,y2)], NOT center + radius. For
+                        a circle at center (200, 150) with radius 50, use: <code>[(150, 100), (250, 200)]</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Draw a traffic light: black rectangle with three circles (red, yellow, green) inside.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Draw a smiley face using ellipses and arcs. Save it as "smiley.png".</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a landscape scene (sky, ground, sun, trees) using at least 5 different drawing
+                            primitives.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: How do you create a draw object?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                        <code>draw = ImageDraw.Draw(img)</code> — pass the image you want to draw on.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: How do you draw a circle with PIL?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Use <code>draw.ellipse()</code>
+                        with a square bounding box, e.g. <code>draw.ellipse([(50,50),(150,150)], fill="red")</code>.
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What's the difference between fill and outline?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>fill</code> is the
+                        interior color of the shape. <code>outline</code> is the border color.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="pil-image-basics.html"><span class="nav-label">← Previous</span><span class="nav-title">PIL
+                        Image Basics</span></a>
+                <a href="pil-filters.html"><span class="nav-label">Next →</span><span class="nav-title">PIL Image
+                        Filters</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>
