@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Control — mr. TEA</title>
+    <meta name="description"
+        content="PyGame keyboard input: KEYDOWN events, key constants, smooth movement with get_pressed. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.3A — Keyboard Control</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Keyboard Control</h1>
+                <p class="lesson-intro">Keyboard input lets players control characters, navigate menus, and trigger
+                    actions. PyGame offers two approaches: <strong>event-based</strong> (single press/release) and
+                    <strong>state-based</strong> (continuous hold).</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.3.4</span> Code keyboard control to move objects</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-keyboard-control.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-keyboard"></i> Two Listening Modes</h4>
+                    <p><strong>Event-based</strong> = a doorbell: you hear it ring once per press. Perfect for shooting,
+                        jumping, pausing. <strong>State-based</strong> = checking if a light switch is on: you check
+                        every frame. Perfect for smooth walking/running.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Method 1:
+                    Event-Based (Single Action)</h3>
+                <div class="code-block"><code>for event in pygame.event.get():
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_SPACE:
+            print("Space pressed!")
+    if event.type == pygame.KEYUP:
+        if event.key == pygame.K_SPACE:
+            print("Space released!")</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Method 2:
+                    State-Based (Continuous Movement)</h3>
+                <div class="code-block"><code>keys = pygame.key.get_pressed()
+if keys[pygame.K_LEFT]:
+    player_x -= speed
+if keys[pygame.K_RIGHT]:
+    player_x += speed
+if keys[pygame.K_UP]:
+    player_y -= speed
+if keys[pygame.K_DOWN]:
+    player_y += speed</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
+                    Key Constants</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Constant</th>
+                            <th>Key</th>
+                            <th>Constant</th>
+                            <th>Key</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>K_LEFT</code></td>
+                            <td>←</td>
+                            <td><code>K_a</code></td>
+                            <td>A</td>
+                        </tr>
+                        <tr>
+                            <td><code>K_RIGHT</code></td>
+                            <td>→</td>
+                            <td><code>K_d</code></td>
+                            <td>D</td>
+                        </tr>
+                        <tr>
+                            <td><code>K_UP</code></td>
+                            <td>↑</td>
+                            <td><code>K_w</code></td>
+                            <td>W</td>
+                        </tr>
+                        <tr>
+                            <td><code>K_DOWN</code></td>
+                            <td>↓</td>
+                            <td><code>K_s</code></td>
+                            <td>S</td>
+                        </tr>
+                        <tr>
+                            <td><code>K_SPACE</code></td>
+                            <td>Space</td>
+                            <td><code>K_RETURN</code></td>
+                            <td>Enter</td>
+                        </tr>
+                        <tr>
+                            <td><code>K_ESCAPE</code></td>
+                            <td>Esc</td>
+                            <td><code>K_TAB</code></td>
+                            <td>Tab</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Player Movement (Arrow Keys)</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Arrow Key Movement")
+clock = pygame.time.Clock()
+
+# Player
+player = pygame.Rect(375, 275, 50, 50)
+speed = 5
+RED = (255, 50, 50)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Continuous key checking
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        player.x -= speed
+    if keys[pygame.K_RIGHT]:
+        player.x += speed
+    if keys[pygame.K_UP]:
+        player.y -= speed
+    if keys[pygame.K_DOWN]:
+        player.y += speed
+
+    # Keep player on screen
+    player.clamp_ip(screen.get_rect())
+
+    # Render
+    screen.fill((30, 30, 30))
+    pygame.draw.rect(screen, RED, player)
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> WASD + Arrow Keys (Dual Control)</h4>
+                    <div class="code-block"><code>keys = pygame.key.get_pressed()
+
+# Move left with A or LEFT arrow
+if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+    player.x -= speed
+
+# Move right with D or RIGHT arrow
+if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+    player.x += speed
+
+# Move up with W or UP arrow
+if keys[pygame.K_w] or keys[pygame.K_UP]:
+    player.y -= speed
+
+# Move down with S or DOWN arrow
+if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+    player.y += speed</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Single-Press Actions (Shoot Bullet)</h4>
+                    <div class="code-block"><code>bullets = []
+
+for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+        running = False
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_SPACE:
+            # Create bullet at player position
+            bullet = pygame.Rect(player.centerx - 3,
+                                 player.top, 6, 12)
+            bullets.append(bullet)
+
+# Move all bullets upward
+for bullet in bullets[:]:
+    bullet.y -= 8
+    if bullet.bottom < 0:
+        bullets.remove(bullet)</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Using KEYDOWN for Movement</h4>
+                    <p><code>KEYDOWN</code> fires <strong>once</strong> per press. For smooth movement, use
+                        <code>get_pressed()</code> which checks key state <strong>every frame</strong>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Diagonal Speed Boost</h4>
+                    <p>Moving diagonally (right+up) moves √2 ≈ 1.41× faster! Fix with vector normalization or just limit
+                        speed separately.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a player square that moves with WASD keys and stays within the window boundaries.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Add sprint: when holding Shift, player moves at 2× speed.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a 2-player game: Player 1 uses WASD, Player 2 uses arrow keys. Both move
+                            independently.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What's the difference between KEYDOWN and get_pressed()?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>KEYDOWN</code> fires once
+                        per press (event). <code>get_pressed()</code> returns current state of all keys every frame
+                        (continuous).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: How do you keep a player inside the window?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                        <code>player.clamp_ip(screen.get_rect())</code> — clamps the player rect inside the screen rect
+                        in place.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: When should you use event-based vs state-based keyboard input?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Event-based for single actions
+                        (jump, shoot, pause). State-based for continuous actions (walking, running, holding a button).
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="../term2/mouse-control.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Mouse Control</span></a>
+                <a href="text-scoring.html"><span class="nav-label">Next →</span><span class="nav-title">Text &amp;
+                        Scoring</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprites &amp; Characters — mr. TEA</title>
+    <meta name="description"
+        content="PyGame sprites: loading images, pygame.Sprite class, sprite groups, character animation. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.3A — Sprites &amp; Characters</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Sprites &amp; Characters</h1>
+                <p class="lesson-intro"><strong>Sprites</strong> are 2D images that represent game characters, enemies,
+                    and items. PyGame's <code>Sprite</code> class lets you organize game objects with their own
+                    <strong>image</strong>, <strong>position</strong>, and <strong>behavior</strong>.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.2.2</span> Create characters for the application</li>
+                    <li><span class="lo-code">12.5.3.5</span> Code sprite management</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-sprites-characters.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-user-astronaut"></i> The Actor Analogy</h4>
+                    <p>A <code>Sprite</code> is like an actor in a play: it has a <strong>costume</strong>
+                        (<code>self.image</code>), a <strong>position on stage</strong> (<code>self.rect</code>), and a
+                        <strong>script</strong> (<code>update()</code> method). A <code>Group</code> is the cast list —
+                        it manages all actors at once.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Loading Images</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pygame.image.load("file.png")</code></td>
+                            <td>Load image from file</td>
+                        </tr>
+                        <tr>
+                            <td><code>.convert()</code></td>
+                            <td>Optimize for display (no transparency)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.convert_alpha()</code></td>
+                            <td>Optimize with transparency support (PNG)</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.transform.scale(img, (w,h))</code></td>
+                            <td>Resize image</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.transform.flip(img, H, V)</code></td>
+                            <td>Flip horizontally/vertically</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.transform.rotate(img, angle)</code></td>
+                            <td>Rotate by degrees (counter-clockwise)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The
+                    Sprite Class Template</h3>
+                <div class="code-block"><code>class Player(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        # self.image = the visual appearance
+        self.image = pygame.Surface((40, 40))
+        self.image.fill((255, 50, 50))
+        # self.rect = position and collision box
+        self.rect = self.image.get_rect(center=(x, y))
+        self.speed = 5
+
+    def update(self):
+        """Called every frame by the group."""
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.rect.x -= self.speed
+        if keys[pygame.K_RIGHT]:
+            self.rect.x += self.speed</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Sprite
+                    Groups</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>group = pygame.sprite.Group()</code></td>
+                            <td>Create an empty group</td>
+                        </tr>
+                        <tr>
+                            <td><code>group.add(sprite)</code></td>
+                            <td>Add a sprite to the group</td>
+                        </tr>
+                        <tr>
+                            <td><code>group.remove(sprite)</code></td>
+                            <td>Remove a sprite from the group</td>
+                        </tr>
+                        <tr>
+                            <td><code>group.update()</code></td>
+                            <td>Call <code>update()</code> on ALL sprites</td>
+                        </tr>
+                        <tr>
+                            <td><code>group.draw(surface)</code></td>
+                            <td>Draw ALL sprites onto surface</td>
+                        </tr>
+                        <tr>
+                            <td><code>sprite.kill()</code></td>
+                            <td>Remove sprite from ALL groups</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Player Sprite with Image</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        # Load image OR create colored surface
+        self.image = pygame.Surface((50, 50))
+        self.image.fill((0, 200, 100))
+        self.rect = self.image.get_rect(center=(400, 300))
+        self.speed = 5
+
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:  self.rect.x -= self.speed
+        if keys[pygame.K_RIGHT]: self.rect.x += self.speed
+        if keys[pygame.K_UP]:    self.rect.y -= self.speed
+        if keys[pygame.K_DOWN]:  self.rect.y += self.speed
+        self.rect.clamp_ip(screen.get_rect())
+
+# Create sprite and group
+player = Player()
+all_sprites = pygame.sprite.Group(player)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    all_sprites.update()
+
+    screen.fill((30, 30, 30))
+    all_sprites.draw(screen)
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Spawning Enemies</h4>
+                    <div class="code-block"><code>import pygame, sys, random
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((30, 30))
+        self.image.fill((255, 50, 50))
+        # Spawn at random x, above screen
+        self.rect = self.image.get_rect(
+            center=(random.randint(30, 770), -30)
+        )
+        self.speed = random.randint(2, 5)
+
+    def update(self):
+        self.rect.y += self.speed
+        if self.rect.top > 600:
+            self.kill()  # remove when off screen
+
+# Usage in game loop:
+enemies = pygame.sprite.Group()
+
+# Spawn enemy every 60 frames
+frame_count = 0
+# inside loop:
+frame_count += 1
+if frame_count % 60 == 0:
+    enemies.add(Enemy())
+
+enemies.update()
+enemies.draw(screen)</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting super().__init__()</h4>
+                    <p>Always call <code>super().__init__()</code> in your Sprite subclass. Without it, the sprite won't
+                        work with groups.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Missing .convert_alpha()</h4>
+                    <p>When loading PNG images with transparency, use <code>.convert_alpha()</code>. Plain
+                        <code>.convert()</code> loses the transparent background.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a Player sprite that moves with arrow keys and stays within screen bounds.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Add 10 randomly positioned "coin" sprites (yellow circles) to the screen using a Group.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create enemies that spawn at the top and fall down. Use <code>kill()</code> to remove them
+                            when they exit the screen.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What two attributes must every Sprite have?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>self.image</code> (the
+                        visual surface) and <code>self.rect</code> (position and collision box).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What does <code>group.update()</code> do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Calls the <code>update()</code>
+                        method on every sprite in the group — used to move, animate, or update state for all objects at
+                        once.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How do you remove a sprite from the game?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>sprite.kill()</code> —
+                        removes it from all groups it belongs to, effectively removing it from the game.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="text-scoring.html"><span class="nav-label">← Previous</span><span class="nav-title">Text &amp;
+                        Scoring</span></a>
+                <a href="collision-detection.html"><span class="nav-label">Next →</span><span
+                        class="nav-title">Collision Detection</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>

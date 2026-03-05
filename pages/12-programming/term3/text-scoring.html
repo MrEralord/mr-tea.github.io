@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text &amp; Scoring — mr. TEA</title>
+    <meta name="description"
+        content="PyGame fonts: rendering text, displaying scores, timers, game over screens. pygame.font module. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.3A — Text &amp; Scoring</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Text &amp; Scoring</h1>
+                <p class="lesson-intro">Games need <strong>text</strong> for scores, instructions, and game-over
+                    screens. PyGame's <code>pygame.font</code> module renders text as image surfaces that you blit onto
+                    the screen.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.2.4</span> Output text to the application window</li>
+                    <li><span class="lo-code">12.5.3.7</span> Code score tracking and display</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-text-scoring.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-stamp"></i> The Rubber Stamp Analogy</h4>
+                    <p>PyGame text works like a rubber stamp: first you <strong>create the stamp</strong>
+                        (<code>font.render()</code>) — this produces an image of the text. Then you <strong>stamp it
+                            onto the canvas</strong> (<code>screen.blit()</code>) at a specific position.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Font Creation</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pygame.font.SysFont()</code></td>
+                            <td>Use a system font</td>
+                            <td><code>font = pygame.font.SysFont("Arial", 36)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.font.Font()</code></td>
+                            <td>Use a custom .ttf file</td>
+                            <td><code>font = pygame.font.Font("pixel.ttf", 24)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.font.Font(None, size)</code></td>
+                            <td>PyGame default font</td>
+                            <td><code>font = pygame.font.Font(None, 48)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Text
+                    Rendering Process</h3>
+                <div class="code-block"><code># Step 1: Create font object (do this ONCE, before the loop)
+font = pygame.font.SysFont("Arial", 36)
+
+# Step 2: Render text → creates a Surface
+text_surface = font.render("Hello!", True, (255, 255, 255))
+#                           text   antialias   color
+
+# Step 3: Blit (draw) onto screen
+screen.blit(text_surface, (x, y))</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Centering
+                    Text</h3>
+                <div class="code-block"><code># Get text dimensions
+text_rect = text_surface.get_rect()
+
+# Center on screen
+text_rect.center = (WIDTH // 2, HEIGHT // 2)
+screen.blit(text_surface, text_rect)
+
+# Other anchor points:
+# text_rect.topleft = (x, y)
+# text_rect.midtop = (x, y)
+# text_rect.topright = (x, y)</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Score Counter</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Score Demo")
+clock = pygame.time.Clock()
+
+font = pygame.font.SysFont("Arial", 32)
+score = 0
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                score += 10  # gain points
+
+    screen.fill((30, 30, 30))
+
+    # Render and display score
+    score_text = font.render(f"Score: {score}", True,
+                             (255, 255, 0))
+    screen.blit(score_text, (20, 20))
+
+    # Instructions
+    hint = font.render("Press SPACE for points!", True,
+                       (150, 150, 150))
+    hint_rect = hint.get_rect(center=(WIDTH//2, HEIGHT//2))
+    screen.blit(hint, hint_rect)
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Timer Display</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("Arial", 48)
+
+start_ticks = pygame.time.get_ticks()  # ms since start
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Calculate elapsed seconds
+    elapsed = (pygame.time.get_ticks() - start_ticks) / 1000
+    minutes = int(elapsed // 60)
+    seconds = int(elapsed % 60)
+
+    screen.fill((30, 30, 30))
+
+    timer_text = font.render(f"{minutes:02d}:{seconds:02d}",
+                             True, (0, 255, 100))
+    timer_rect = timer_text.get_rect(center=(400, 300))
+    screen.blit(timer_text, timer_rect)
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Game Over Screen</h4>
+                    <div class="code-block"><code>def draw_game_over(screen, score):
+    """Display centered game-over message."""
+    overlay = pygame.Surface((800, 600))
+    overlay.set_alpha(180)
+    overlay.fill((0, 0, 0))
+    screen.blit(overlay, (0, 0))
+
+    big_font = pygame.font.SysFont("Arial", 72)
+    small_font = pygame.font.SysFont("Arial", 28)
+
+    # "GAME OVER" title
+    title = big_font.render("GAME OVER", True, (255, 50, 50))
+    title_rect = title.get_rect(center=(400, 240))
+    screen.blit(title, title_rect)
+
+    # Final score
+    score_text = small_font.render(f"Final Score: {score}",
+                                   True, (255, 255, 255))
+    score_rect = score_text.get_rect(center=(400, 320))
+    screen.blit(score_text, score_rect)
+
+    # Restart hint
+    hint = small_font.render("Press R to Restart", True,
+                             (150, 150, 150))
+    hint_rect = hint.get_rect(center=(400, 380))
+    screen.blit(hint, hint_rect)</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Creating Font INSIDE the Loop</h4>
+                    <p>Creating fonts is slow. Always create font objects <strong>before</strong> the game loop — only
+                        <code>render()</code> inside the loop.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting Anti-aliasing</h4>
+                    <p>The second argument of <code>render()</code> is anti-aliasing. Set it to <code>True</code> for
+                        smooth text edges, <code>False</code> for pixel-art style.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a score display that increases by 10 when clicking the left mouse button and decreases
+                            by 5 with right click.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Add a countdown timer (30 seconds → 0) that displays "Time's Up!" when it reaches zero.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a full HUD (heads-up display): score in top-left, timer in top-right, lives as hearts
+                            in top-center.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What two steps are needed to display text?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">1)
+                        <code>font.render("text", True, color)</code> — creates a surface. 2)
+                        <code>screen.blit(surface, (x, y))</code> — draws it on screen.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: How do you center text on screen?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                        <code>text_rect = text_surface.get_rect(center=(WIDTH//2, HEIGHT//2))</code> then
+                        <code>screen.blit(text_surface, text_rect)</code>.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What does the second argument (True/False) in render() do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Controls
+                        <strong>anti-aliasing</strong>: <code>True</code> = smooth text edges, <code>False</code> =
+                        jagged/pixelated edges.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="keyboard-control.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Keyboard Control</span></a>
+                <a href="sprites-characters.html"><span class="nav-label">Next →</span><span class="nav-title">Sprites
+                        &amp; Characters</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>
