@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List & String Methods — mr. TEA</title>
+    <meta name="description"
+        content="Python advanced list and string methods. NIS Grade 11 Programming 11.2.3.3, 11.2.2.3.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.3A — List & String Methods</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">List & String Methods</h1>
+                <p class="lesson-intro">Python provides powerful built-in methods for manipulating text (strings) and
+                    collections (lists). Mastering these tools allows you to write cleaner and more efficient code.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.3.3</span> Apply functions and methods of processing lists</li>
+                    <li><span class="lo-code">11.2.2.3</span> Apply functions and methods of processing strings</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-list-string-methods.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-tools"></i> The Power Tools Analogy</h4>
+                    <p>If basic operations are hand tools, methods are <strong>power tools</strong>.
+                        <code>split()</code> is a saw (cutting a log into planks), <code>join()</code> is glue, and
+                        <code>sort()</code> organizes your workshop instantly.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">String Methods
+                    (11.2.2.3)</h3>
+                <div class="code-block"><code># Changing Case
+s = "Hello World"
+print(s.upper())       # "HELLO WORLD"
+print(s.lower())       # "hello world"
+print(s.title())       # "Hello World"
+print(s.swapcase())    # "hELLO wORLD"
+
+# Searching & Replacing
+print(s.find("World")) # 6 (index where it starts)
+print(s.replace("World", "Python")) # "Hello Python"
+print(s.count("l"))    # 3
+
+# Checking Content
+print("123".isdigit()) # True
+print("abc".isalpha()) # True
+print(" ".isspace())   # True
+
+# Splitting & Joining
+words = s.split()      # ['Hello', 'World']
+print("-".join(words)) # "Hello-World"
+
+# Stripping Whitespace
+raw = "   user input   "
+print(raw.strip())     # "user input"</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">List
+                    Methods (11.2.3.3)</h3>
+                <div class="code-block"><code>lst = [3, 1, 4, 1, 5]
+
+# Adding Elements
+lst.append(9)          # [3, 1, 4, 1, 5, 9] (add to end)
+lst.insert(0, 2)       # [2, 3, 1, 4, 1, 5, 9] (insert at index 0)
+lst.extend([6, 7])     # [2, 3, 1, 4, 1, 5, 9, 6, 7] (add another list)
+
+# Removing Elements
+lst.pop()              # Removes last element (7)
+lst.pop(0)             # Removes element at index 0 (2)
+lst.remove(4)          # Removes first occurrence of value 4
+# lst.clear()          # Removes all elements
+
+# Ordering
+lst.sort()             # Sorts in-place: [1, 1, 3, 5, 6, 9]
+print(lst)
+lst.reverse()          # Reverses in-place: [9, 6, 5, 3, 1, 1]
+
+# Information
+print(lst.count(1))    # 2
+print(lst.index(9))    # 0 (index of first 9)</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> In-place vs Return</h4>
+                    <p>String methods return a <strong>new string</strong> (strings are immutable). List methods like
+                        <code>sort()</code> change the list <strong>in-place</strong> and return <code>None</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Palindrome Checker</h4>
+                    <div class="code-block"><code>def is_palindrome(text):
+    # Remove spaces and convert to lower case
+    clean_text = text.replace(" ", "").lower()
+    # Compare with reverse
+    return clean_text == clean_text[::-1]
+
+print(is_palindrome("Race car"))  # True
+print(is_palindrome("Hello"))     # False</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Processing a List of Names</h4>
+                    <div class="code-block"><code>names = ["  ali ", "DANA", "marat  "]
+cleaned_names = []
+
+for name in names:
+    cleaned_names.append(name.strip().title())
+
+cleaned_names.sort()
+print(cleaned_names) # ['Ali', 'Dana', 'Marat']</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Sorting Mistake</h4>
+                    <p><code>x = lst.sort()</code> sets <code>x</code> to <code>None</code>! Determine if you want to
+                        modify the list (<code>lst.sort()</code>) or create a new sorted list
+                        (<code>x = sorted(lst)</code>).</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> String Immutability</h4>
+                    <p><code>s.upper()</code> does NOT change <code>s</code>. You must assign it:
+                        <code>s = s.upper()</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What method adds a single element to the end of a list?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why <code>string.replace("a", "b")</code> doesn't verify until you print or assign
+                            it.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that takes a sentence, splits it into words, sorts them alphabetically, and
+                            joins them with hyphens.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a password validator that checks if a string has at least one uppercase letter, one
+                            digit, and no spaces, using string methods.</p>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="dictionaries.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Dictionaries</span></div>
+                </a>
+                <a href="functions.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Functions</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions — mr. TEA</title>
+    <meta name="description"
+        content="Python functions: def, parameters, return values. NIS Grade 11 Programming 11.3.1.1.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.3B — Functions</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3B · Term 3</div>
+                <h1 class="lesson-title">Functions</h1>
+                <p class="lesson-intro">A <strong>function</strong> is a reusable block of code that performs a specific
+                    task. Functions make programs shorter, more organized, and easier to debug by breaking complex
+                    problems into smaller, named pieces.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.1.1</span> Write code in a programming language using functions</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3B-functions.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-blender"></i> The Recipe Analogy</h4>
+                    <p>A function is like a <strong>recipe</strong>: you define it once (write the recipe), then use it
+                        whenever needed (cook the dish). The <strong>ingredients</strong> are parameters, and the
+                        <strong>finished dish</strong> is the return value. You don't rewrite the recipe every time you
+                        cook — you just call it by name!
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Defining & Calling
+                </h3>
+                <div class="code-block"><code># Defining a function
+def greet(name):         # def keyword, function name, parameters
+    """Greets a person by name."""
+    print(f"Hello, {name}!")
+
+# Calling a function
+greet("Ali")       # Hello, Ali!
+greet("Dana")      # Hello, Dana!</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Return Values</h3>
+                <div class="code-block"><code>def add(a, b):
+    # 'return' sends the result back to where the function was called
+    return a + b
+
+result = add(5, 3)
+print(result)      # 8
+
+# Without return, result is None
+def bad_add(a, b):
+    print(a + b)
+
+x = bad_add(5, 3)  # Prints 8
+print(x)           # None (because nothing was returned)</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Default Arguments</h4>
+                    <p>You can set default values for parameters. If the caller doesn't provide a value, the default is
+                        used.</p>
+                </div>
+                <div class="code-block"><code>def power(base, exponent=2):
+    return base ** exponent
+
+print(power(3))    # 9 (3^2)
+print(power(3, 3)) # 27 (3^3)</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Temperature Converter</h4>
+                    <div class="code-block"><code>def celsius_to_fahrenheit(c):
+    return c * 9/5 + 32
+
+temp = float(input("Enter temperature in C: "))
+f_temp = celsius_to_fahrenheit(temp)
+print(f"{temp}C is {f_temp}F")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Validation Function</h4>
+                    <div class="code-block"><code>def get_positive_integer(prompt):
+    while True:
+        try:
+            value = int(input(prompt))
+            if value > 0:
+                return value
+            else:
+                print("Must be positive!")
+        except ValueError:
+            print("Please enter a number.")
+
+age = get_positive_integer("Enter your age: ")
+print(f"You are {age} years old.")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting ()</h4>
+                    <p><code>greet</code> is the function object. <code>greet()</code> calls the function. Without
+                        parentheses, nothing happens.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Indentation Error</h4>
+                    <p>The body of the function must be indented. Unindented code is considered outside the function.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What keyword is used to define a function? What keyword returns a value?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between `print(result)` inside a function vs `return result`.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a function `max_of_three(a, b, c)` that returns the largest of three numbers.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a calculator program using separate functions for add, subtract, multiply, and divide.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="list-string-methods.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">List &amp; String Methods</span>
+                    </div>
+                </a>
+                <a href="lambda-problem-solving.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Lambda &amp; Problems</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

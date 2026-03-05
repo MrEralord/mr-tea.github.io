@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced String &amp; List Methods — mr. TEA</title>
+    <meta name="description"
+        content="Python advanced string and list methods for problem-solving. NIS Grade 11 Programming 11.3.1.1, 11.3.1.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.3A — Advanced String &amp; List Methods</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">Advanced String &amp; List Methods</h1>
+                <p class="lesson-intro">Beyond the basics, Python provides advanced methods for sophisticated text
+                    processing and list manipulation. Mastering these methods lets you write cleaner, more efficient
+                    code for complex problems.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.1.1</span> Use advanced string methods to solve problems</li>
+                    <li><span class="lo-code">11.3.1.2</span> Use advanced list methods to solve problems</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-lesson-16-advanced-methods.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-tools"></i> The Power Tools Analogy</h4>
+                    <p>If basic methods are hand tools, advanced methods are <strong>power tools</strong>.
+                        <code>enumerate()</code> is a nail gun (fast indexing), <code>zip()</code> is a clamp (holding
+                        two things together), and <code>map()</code>/<code>filter()</code> are assembly-line machines
+                        that process items in bulk.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Advanced String
+                    Techniques</h3>
+
+                <div class="code-block"><code># ord() and chr() — character ↔ ASCII code
+print(ord('A'))      # 65
+print(ord('a'))      # 97
+print(chr(65))       # 'A'
+print(chr(97))       # 'a'
+
+# Caesar cipher shift
+char = 'D'
+shifted = chr(ord(char) + 3)  # 'G'
+
+# String formatting with f-strings (advanced)
+name = "Ali"
+score = 95.5
+print(f"{name:>10}")           # "       Ali" — right-align, width 10
+print(f"{score:.1f}")          # "95.5" — 1 decimal place
+print(f"{score:06.2f}")        # "095.50" — pad with zeros
+print(f"{42:b}")               # "101010" — binary
+print(f"{255:x}")              # "ff" — hexadecimal
+
+# .center(), .ljust(), .rjust()
+print("Title".center(20, "="))  # "=======Title========"
+print("Name".ljust(15, "."))    # "Name..........."
+print("99".rjust(5, "0"))       # "00099"
+
+# .zfill()
+print("42".zfill(5))            # "00042"
+
+# .partition()
+s = "name=Ali"
+before, sep, after = s.partition("=")
+print(before, after)            # "name" "Ali"</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Advanced
+                    List Techniques</h3>
+
+                <div class="code-block"><code># enumerate() — get index + value together
+fruits = ["apple", "banana", "cherry"]
+for i, fruit in enumerate(fruits):
+    print(f"{i}: {fruit}")
+# 0: apple
+# 1: banana
+# 2: cherry
+
+# zip() — combine parallel lists
+names = ["Ali", "Dana", "Marat"]
+scores = [95, 88, 72]
+for name, score in zip(names, scores):
+    print(f"{name}: {score}")
+
+# map() — apply function to every element
+nums = ["10", "20", "30"]
+ints = list(map(int, nums))        # [10, 20, 30]
+squares = list(map(lambda x: x**2, [1,2,3,4]))  # [1, 4, 9, 16]
+
+# filter() — keep elements that satisfy condition
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+evens = list(filter(lambda x: x % 2 == 0, nums))  # [2, 4, 6, 8, 10]
+
+# List comprehension with condition (alternative to filter)
+evens2 = [x for x in nums if x % 2 == 0]           # [2, 4, 6, 8, 10]
+
+# sorted() with key function
+words = ["banana", "apple", "Cherry", "date"]
+print(sorted(words))                    # Default: case-sensitive
+print(sorted(words, key=str.lower))     # Case-insensitive
+print(sorted(words, key=len))           # By length</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Choosing the Right Approach</h4>
+                    <p><code>map()</code>/<code>filter()</code> are functional-style tools. <strong>List
+                            comprehensions</strong> are often more Pythonic and readable for the same tasks. Choose
+                        whichever is clearer for the problem at hand.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Caesar Cipher</h4>
+                    <div class="code-block"><code>def caesar_encrypt(text, shift):
+    result = ""
+    for char in text:
+        if char.isalpha():
+            base = ord('A') if char.isupper() else ord('a')
+            shifted = (ord(char) - base + shift) % 26 + base
+            result += chr(shifted)
+        else:
+            result += char   # Keep spaces, punctuation
+    return result
+
+message = "Hello World"
+encrypted = caesar_encrypt(message, 3)
+print(encrypted)   # "Khoor Zruog"
+
+# Decrypt by shifting backwards
+decrypted = caesar_encrypt(encrypted, -3)
+print(decrypted)   # "Hello World"</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Grade Report with enumerate() and zip()</h4>
+                    <div class="code-block"><code>students = ["Ali", "Dana", "Marat", "Aisha"]
+math = [85, 92, 78, 96]
+cs = [90, 88, 82, 95]
+
+print("Grade Report:")
+print(f"{'#':>3} {'Name':<10} {'Math':>6} {'CS':>6} {'Avg':>6}")
+print("-" * 35)
+
+for i, (name, m, c) in enumerate(zip(students, math, cs), 1):
+    avg = (m + c) / 2
+    print(f"{i:>3} {name:<10} {m:>6} {c:>6} {avg:>6.1f}")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Frequency Counter</h4>
+                    <div class="code-block"><code>text = "hello world programming"
+
+# Count character frequency
+freq = {}
+for char in text:
+    if char != " ":
+        freq[char] = freq.get(char, 0) + 1
+
+# Sort by frequency (most common first)
+sorted_freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+
+for char, count in sorted_freq[:5]:
+    print(f"'{char}': {'█' * count} ({count})")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> zip() Stops at Shortest</h4>
+                    <p><code>zip([1,2,3], [4,5])</code> gives only 2 pairs. If lengths differ, the extra elements are
+                        silently ignored.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> map() Returns an Iterator</h4>
+                    <p><code>map(int, ["1","2","3"])</code> returns a map object, not a list. Wrap in
+                        <code>list()</code> to get a list.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> ord() with Multi-Character Strings</h4>
+                    <p><code>ord("AB")</code> raises <code>TypeError</code>. <code>ord()</code> accepts only a single
+                        character.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Quick Reference</h4>
+                    <ul>
+                        <li><code>enumerate(lst, start=1)</code> — start counting from 1 instead of 0</li>
+                        <li><code>sorted(lst, key=len)</code> — sort by string length</li>
+                        <li><code>ord('A')=65, ord('a')=97, ord('0')=48</code> — memorize these!</li>
+                        <li>Caesar shift formula: <code>(ord(c) - base + shift) % 26 + base</code></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What do <code>ord()</code> and <code>chr()</code> do? Give the ASCII values for 'A', 'Z',
+                            'a', 'z'.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between <code>map()</code> and a list comprehension.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Use <code>enumerate()</code> and <code>zip()</code> to print a numbered comparison of two
+                            lists side by side.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a Caesar cipher that encrypts and decrypts messages with a user-chosen shift value.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>What is the output of
+                            <code>list(filter(lambda x: len(x) > 3, ["hi", "hello", "hey", "world"]))</code>?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a character frequency analyzer that reads a text and displays a horizontal bar chart of
+                            the top 10 characters.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does <code>ord('A')</code> return?</div>
+                    <div class="quiz-answer" data-answer="65 — the ASCII code for uppercase A">Click to reveal answer
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What does <code>enumerate(['x','y','z'])</code> produce?</div>
+                    <div class="quiz-answer" data-answer="Pairs of (index, value): (0,'x'), (1,'y'), (2,'z')">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What does <code>list(zip([1,2], ['a','b']))</code> give?</div>
+                    <div class="quiz-answer" data-answer="[(1, 'a'), (2, 'b')] — pairs elements from both lists">Click
+                        to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does <code>'hello'.center(11, '*')</code> return?</div>
+                    <div class="quiz-answer" data-answer="'***hello***' — centered in width 11, padded with *">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is the purpose of <code>key</code> in <code>sorted()</code>?
+                    </div>
+                    <div class="quiz-answer"
+                        data-answer="It specifies a function that extracts a comparison key from each element (e.g., key=len to sort by length)">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="../term2/lesson-15-tuples.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Tuples &amp; Type
+                            Conversion</span></div>
+                </a>
+                <a href="lesson-17-functions-define.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Defining Functions</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

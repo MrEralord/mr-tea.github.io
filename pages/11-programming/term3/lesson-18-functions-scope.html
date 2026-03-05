@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scope &amp; Built-in Functions — mr. TEA</title>
+    <meta name="description"
+        content="Python variable scope: local/global, built-in functions (len, abs, round, type, isinstance). NIS Grade 11 Programming 11.3.2.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.3A — Scope &amp; Built-in Functions</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">Scope &amp; Built-in Functions</h1>
+                <p class="lesson-intro"><strong>Scope</strong> determines where a variable can be accessed.
+                    Understanding scope prevents subtle bugs. Python also provides powerful <strong>built-in
+                        functions</strong> that handle common tasks without importing anything.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.2.2</span> Understand variable scope and use built-in functions</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-lesson-18-functions-scope.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-building"></i> The Room and Building Analogy</h4>
+                    <p><strong>Local scope</strong> is like items on your desk — only accessible in your room
+                        (function). <strong>Global scope</strong> is like the building's lobby — accessible from any
+                        room. You can <strong>see</strong> the lobby from your room but need explicit permission
+                        (<code>global</code>) to <strong>change</strong> things there.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Variable Scope</h3>
+                <div class="code-block"><code># Global variable — accessible everywhere
+message = "Hello"
+
+def greet():
+    # Local variable — only inside this function
+    name = "Ali"
+    print(message)   # ✓ Can READ global variable
+    print(name)      # ✓ Can use local variable
+
+greet()
+print(message)       # ✓ Global is accessible
+# print(name)        # ✗ NameError — local to greet()
+
+# Scope Rules:
+# 1. Local scope: variables defined INSIDE a function
+# 2. Global scope: variables defined OUTSIDE all functions
+# 3. A function CAN READ global variables
+# 4. A function CANNOT MODIFY globals without the 'global' keyword</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The
+                    <code>global</code> Keyword</h3>
+                <div class="code-block"><code>count = 0
+
+def increment():
+    global count     # Declare we're using the global variable
+    count += 1       # Now we can modify it
+
+increment()
+increment()
+print(count)         # 2
+
+# WITHOUT global keyword:
+x = 10
+def broken():
+    x = 20           # Creates a NEW local variable named x!
+    print("Inside:", x)
+
+broken()             # Inside: 20
+print("Outside:", x) # Outside: 10 — global x unchanged!</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Essential
+                    Built-in Functions</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>len(x)</code></td>
+                            <td>Length of sequence</td>
+                            <td><code>len("hello")</code></td>
+                            <td><code>5</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>abs(x)</code></td>
+                            <td>Absolute value</td>
+                            <td><code>abs(-5)</code></td>
+                            <td><code>5</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>round(x, n)</code></td>
+                            <td>Round to n decimal places</td>
+                            <td><code>round(3.14159, 2)</code></td>
+                            <td><code>3.14</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>type(x)</code></td>
+                            <td>Type of object</td>
+                            <td><code>type(42)</code></td>
+                            <td><code>&lt;class 'int'&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>isinstance(x, t)</code></td>
+                            <td>Check type</td>
+                            <td><code>isinstance(42, int)</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>int(x)</code></td>
+                            <td>Convert to integer</td>
+                            <td><code>int("42")</code></td>
+                            <td><code>42</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>float(x)</code></td>
+                            <td>Convert to float</td>
+                            <td><code>float("3.14")</code></td>
+                            <td><code>3.14</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>str(x)</code></td>
+                            <td>Convert to string</td>
+                            <td><code>str(42)</code></td>
+                            <td><code>"42"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>bool(x)</code></td>
+                            <td>Convert to boolean</td>
+                            <td><code>bool(0)</code></td>
+                            <td><code>False</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>input(p)</code></td>
+                            <td>Read user input</td>
+                            <td><code>input("Name: ")</code></td>
+                            <td>User's text</td>
+                        </tr>
+                        <tr>
+                            <td><code>print(*args)</code></td>
+                            <td>Output to screen</td>
+                            <td><code>print(1, 2, 3)</code></td>
+                            <td><code>1 2 3</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>range(a, b, s)</code></td>
+                            <td>Number sequence</td>
+                            <td><code>list(range(0,10,2))</code></td>
+                            <td><code>[0,2,4,6,8]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sum(iterable)</code></td>
+                            <td>Sum of elements</td>
+                            <td><code>sum([1,2,3])</code></td>
+                            <td><code>6</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>min(iterable)</code></td>
+                            <td>Smallest element</td>
+                            <td><code>min(3,1,2)</code></td>
+                            <td><code>1</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>max(iterable)</code></td>
+                            <td>Largest element</td>
+                            <td><code>max(3,1,2)</code></td>
+                            <td><code>3</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>sorted(iterable)</code></td>
+                            <td>New sorted list</td>
+                            <td><code>sorted([3,1,2])</code></td>
+                            <td><code>[1,2,3]</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Best Practice: Avoid global</h4>
+                    <p>Using <code>global</code> is generally discouraged because it makes code harder to debug. Prefer
+                        passing values as <strong>parameters</strong> and using <strong>return</strong> values instead.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Scope Tracing</h4>
+                    <div class="code-block"><code>x = 10         # Global
+
+def func_a():
+    x = 20     # Local to func_a
+    print("A:", x)
+
+def func_b():
+    print("B:", x)   # Reads global x
+
+func_a()       # A: 20
+func_b()       # B: 10
+print("G:", x) # G: 10 — global unchanged</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Using Built-in Functions Together</h4>
+                    <div class="code-block"><code>data = [15, -7, 23, -12, 8, 0, 42, -3]
+
+print("Length:", len(data))            # 8
+print("Sum:", sum(data))              # 66
+print("Min:", min(data))              # -12
+print("Max:", max(data))              # 42
+print("Average:", round(sum(data)/len(data), 2))  # 8.25
+
+# Filter positives using built-ins
+positives = [x for x in data if x > 0]
+abs_values = [abs(x) for x in data]
+print("Positives:", positives)         # [15, 23, 8, 42]
+print("Absolute:", abs_values)         # [15, 7, 23, 12, 8, 0, 42, 3]</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> The Right Way — No global Needed</h4>
+                    <div class="code-block"><code># BAD: using global
+score = 0
+def add_points_bad():
+    global score
+    score += 10
+
+# GOOD: parameter + return
+def add_points(current_score, points):
+    return current_score + points
+
+my_score = 0
+my_score = add_points(my_score, 10)  # 10
+my_score = add_points(my_score, 5)   # 15
+print(my_score)</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> UnboundLocalError</h4>
+                    <p>If you try to <strong>read and modify</strong> a global variable without <code>global</code>,
+                        Python assumes it's local and crashes: <code>x = x + 1</code> inside a function where
+                        <code>x</code> is global causes <code>UnboundLocalError</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Shadowing</h4>
+                    <p>Creating a local variable with the same name as a global "shadows" the global — you can no longer
+                        access the global version inside that function. Avoid using the same name.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Scope Rules Summary</h4>
+                    <ul>
+                        <li>Function parameters are <strong>local variables</strong></li>
+                        <li>Variables assigned inside a function are <strong>local</strong></li>
+                        <li>A function can <strong>read</strong> global variables without <code>global</code></li>
+                        <li>A function needs <code>global x</code> to <strong>modify</strong> global x</li>
+                        <li>Best practice: pass values as parameters, return results</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What is the difference between local and global scope?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Why does modifying a global variable inside a function without <code>global</code> cause an
+                            error?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Trace this code and predict the output:
+                            <code>x=5; def f(): x=10; print(x); f(); print(x)</code></p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program using <code>abs()</code>, <code>round()</code>, <code>min()</code>,
+                            <code>max()</code>, <code>sum()</code>, and <code>len()</code> to generate statistics for a
+                            list of numbers.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Why is using <code>global</code> considered bad practice? Give a better alternative using
+                            parameters and return values.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Write a quiz program where a function generates questions, another checks answers, and
+                            another tracks the score — without using global variables.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What happens if you define <code>x = 5</code> inside a function?</div>
+                    <div class="quiz-answer"
+                        data-answer="x becomes a LOCAL variable — it only exists inside that function and cannot be accessed outside">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What does <code>abs(-7)</code> return?</div>
+                    <div class="quiz-answer" data-answer="7 — abs() returns the absolute (non-negative) value">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What does <code>round(3.14159, 2)</code> return?</div>
+                    <div class="quiz-answer" data-answer="3.14 — rounds to 2 decimal places">Click to reveal answer
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Can a function read a global variable without <code>global</code>?
+                    </div>
+                    <div class="quiz-answer"
+                        data-answer="Yes — a function can READ globals freely. The 'global' keyword is only needed to MODIFY them.">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What does <code>isinstance("hello", str)</code> return?</div>
+                    <div class="quiz-answer" data-answer="True — 'hello' is indeed an instance of the str class">Click
+                        to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-17-functions-define.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Defining Functions</span></div>
+                </a>
+                <a href="lesson-19-dictionaries.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Dictionaries</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

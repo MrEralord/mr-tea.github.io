@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defining Functions — mr. TEA</title>
+    <meta name="description"
+        content="Python functions: def, parameters, return values, default arguments. NIS Grade 11 Programming 11.3.2.1.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.3A — Defining Functions</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">Defining Functions</h1>
+                <p class="lesson-intro">A <strong>function</strong> is a reusable block of code that performs a specific
+                    task. Functions make programs shorter, more organized, and easier to debug by breaking complex
+                    problems into smaller, named pieces.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.2.1</span> Create functions using the def keyword</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-lesson-17-functions-define.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-blender"></i> The Recipe Analogy</h4>
+                    <p>A function is like a <strong>recipe</strong>: you define it once (write the recipe), then use it
+                        whenever needed (cook the dish). The <strong>ingredients</strong> are parameters, and the
+                        <strong>finished dish</strong> is the return value. You don't rewrite the recipe every time you
+                        cook — you just call it by name!</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Function Syntax</h3>
+                <div class="code-block"><code># Defining a function
+def greet(name):         # def keyword, function name, parameters
+    """Greets a person by name."""   # Docstring (optional)
+    print(f"Hello, {name}!")
+
+# Calling a function
+greet("Ali")       # Hello, Ali!
+greet("Dana")      # Hello, Dana!
+
+# Function with no parameters
+def say_hello():
+    print("Hello, World!")
+
+say_hello()        # Hello, World!</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Parameters &amp; Arguments</h3>
+                <div class="code-block"><code># Multiple parameters
+def add(a, b):
+    return a + b
+
+result = add(10, 20)    # 30
+
+# Default parameter values
+def power(base, exp=2):
+    return base ** exp
+
+print(power(5))         # 25 — uses default exp=2
+print(power(5, 3))      # 125 — overrides exp=3
+
+# Keyword arguments
+def greet(name, greeting="Hello"):
+    print(f"{greeting}, {name}!")
+
+greet("Ali")                        # Hello, Ali!
+greet("Ali", greeting="Hi")         # Hi, Ali!
+greet(greeting="Hey", name="Dana")  # Hey, Dana!</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Return
+                    Values</h3>
+                <div class="code-block"><code># Return a single value
+def square(n):
+    return n ** 2
+
+result = square(5)    # 25
+
+# Return multiple values (as tuple)
+def divide(a, b):
+    quotient = a // b
+    remainder = a % b
+    return quotient, remainder
+
+q, r = divide(17, 5)
+print(f"17 ÷ 5 = {q} remainder {r}")  # 17 ÷ 5 = 3 remainder 2
+
+# Return vs Print
+def bad_add(a, b):
+    print(a + b)       # Prints but returns None!
+
+def good_add(a, b):
+    return a + b        # Returns the value
+
+x = bad_add(3, 4)      # Prints 7, but x = None!
+y = good_add(3, 4)     # y = 7</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Parameter</strong></td>
+                            <td>Variable in function definition</td>
+                            <td><code>def f(x):</code> — x is parameter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Argument</strong></td>
+                            <td>Value passed in function call</td>
+                            <td><code>f(5)</code> — 5 is argument</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Return</strong></td>
+                            <td>Send a value back to caller</td>
+                            <td><code>return x + 1</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>None</strong></td>
+                            <td>Returned if no explicit return</td>
+                            <td>Functions with only print()</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> return vs print</h4>
+                    <p><code>return</code> sends a value back to the code that called the function. <code>print()</code>
+                        just displays text on screen. A function that <code>print()</code>s without
+                        <code>return</code>ing gives <code>None</code> when you try to use its result.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Temperature Converter</h4>
+                    <div class="code-block"><code>def celsius_to_fahrenheit(c):
+    return c * 9/5 + 32
+
+def fahrenheit_to_celsius(f):
+    return (f - 32) * 5/9
+
+temp = float(input("Temperature: "))
+unit = input("C or F? ").upper()
+
+if unit == "C":
+    result = celsius_to_fahrenheit(temp)
+    print(f"{temp}°C = {result:.1f}°F")
+else:
+    result = fahrenheit_to_celsius(temp)
+    print(f"{temp}°F = {result:.1f}°C")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Grade Calculator</h4>
+                    <div class="code-block"><code>def get_grade(score):
+    if score >= 90:
+        return "A"
+    elif score >= 80:
+        return "B"
+    elif score >= 70:
+        return "C"
+    elif score >= 60:
+        return "D"
+    else:
+        return "F"
+
+def get_feedback(grade):
+    feedback = {
+        "A": "Excellent!", "B": "Good job!",
+        "C": "Satisfactory", "D": "Needs improvement",
+        "F": "Please see the teacher"
+    }
+    return feedback.get(grade, "Unknown")
+
+score = int(input("Enter score: "))
+grade = get_grade(score)
+print(f"Grade: {grade} — {get_feedback(grade)}")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Input Validation Function</h4>
+                    <div class="code-block"><code>def get_int(prompt, low=None, high=None):
+    """Get a valid integer from user within optional range."""
+    while True:
+        try:
+            value = int(input(prompt))
+            if low is not None and value < low:
+                print(f"Must be at least {low}")
+            elif high is not None and value > high:
+                print(f"Must be at most {high}")
+            else:
+                return value
+        except ValueError:
+            print("Please enter a valid integer")
+
+age = get_int("Enter age (1-120): ", 1, 120)
+print(f"Your age is {age}")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Calling Before Defining</h4>
+                    <p>You must define a function <strong>before</strong> calling it. Python reads top to bottom —
+                        calling <code>greet()</code> above its <code>def</code> causes <code>NameError</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting return</h4>
+                    <p>If your function doesn't have a <code>return</code> statement, it returns <code>None</code>.
+                        Writing <code>x = my_func()</code> where <code>my_func</code> only prints gives
+                        <code>x = None</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting Parentheses</h4>
+                    <p><code>greet</code> is the function object. <code>greet()</code> actually calls it. Without
+                        <code>()</code>, the function is not executed.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Function Tips</h4>
+                    <ul>
+                        <li>A function should do <strong>one thing</strong> well — keep functions focused</li>
+                        <li>Use <strong>return</strong> for values you need to use later; <strong>print</strong> for
+                            output to screen</li>
+                        <li>Default parameters must come <strong>after</strong> required parameters</li>
+                        <li>A function stops executing at the first <code>return</code> it reaches</li>
+                        <li>Use descriptive function names: <code>calculate_average()</code> not <code>calc()</code>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What are the 3 parts of a function definition? What is the difference between a parameter and
+                            an argument?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why <code>x = print("hello")</code> sets <code>x</code> to <code>None</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a function <code>is_even(n)</code> that returns True if n is even, False otherwise.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a function <code>factorial(n)</code> that returns n! using a loop.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Trace: <code>def f(x, y=2): return x * y</code>. What is <code>f(3)</code>?
+                            <code>f(3, 4)</code>? <code>f(y=5, x=2)</code>?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a mini-calculator with separate functions for addition, subtraction, multiplication,
+                            and division. Use a menu loop.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What keyword defines a function in Python?</div>
+                    <div class="quiz-answer"
+                        data-answer="def — followed by the function name and parentheses with optional parameters">Click
+                        to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What does a function return if there is no return statement?</div>
+                    <div class="quiz-answer"
+                        data-answer="None — Python implicitly returns None when there is no explicit return">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What is the difference between <code>def f(x)</code> and
+                        <code>f(5)</code>?</div>
+                    <div class="quiz-answer"
+                        data-answer="def f(x) DEFINES the function (x is a parameter). f(5) CALLS the function (5 is an argument).">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Can a function return more than one value?</div>
+                    <div class="quiz-answer"
+                        data-answer="Yes — use return a, b which returns a tuple. Unpack with x, y = f()">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What happens if you call a function without parentheses?</div>
+                    <div class="quiz-answer"
+                        data-answer="Nothing — you get the function object itself, not its result. You must use parentheses to execute it.">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-16-advanced-methods.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Advanced String &amp; List
+                            Methods</span></div>
+                </a>
+                <a href="lesson-18-functions-scope.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Scope &amp; Built-in
+                            Functions</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lambda & Applied Problems — mr. TEA</title>
+    <meta name="description"
+        content="Python lambda functions and applied problem solving strategies. NIS Grade 11 Programming 11.3.2.1, 11.4.3.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.3B — Lambda & Applied Problems</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3B · Term 3</div>
+                <h1 class="lesson-title">Lambda & Applied Problems</h1>
+                <p class="lesson-intro">In this lesson, we explore <strong>Lambda functions</strong> — small, anonymous
+                    functions used for short-term tasks. We also look at how to apply these and other tools to solve
+                    real-world problems in various subject areas.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.2.1</span> Write code in a programming language using lambda
+                        functions</li>
+                    <li><span class="lo-code">11.4.3.2</span> Solve applied problems of various subject areas</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3B-lambda-problem-solving.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-bolt"></i> The Disposable Camera Analogy</h4>
+                    <p>A normal function (<code>def</code>) is a professional camera: robust, reusable, and named. A
+                        <strong>lambda function</strong> is like a disposable camera: quick, used once for a specific
+                        snapshot (calculation), and then discarded. You don't name a disposable camera; you just use it.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Lambda Functions
+                    (11.3.2.1)</h3>
+                <div class="code-block"><code># Syntax: lambda arguments: expression
+
+# Normal function
+def square(x):
+    return x * x
+
+# Equivalent Lambda function
+square_lambda = lambda x: x * x
+
+print(square(5))        # 25
+print(square_lambda(5)) # 25
+
+# Lambda with multiple arguments
+add = lambda a, b: a + b
+print(add(3, 4))        # 7</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> When to use Lambda?</h4>
+                    <p>Lambdas are best used as arguments to higher-order functions like <code>map()</code>,
+                        <code>filter()</code>, and <code>sorted()</code>. They are rarely assigned to variables like
+                        above.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Applied
+                    Contexts (11.4.3.2)</h3>
+                <p>Solving applied problems means taking a real-world scenario (Physics, Math, Economics) and
+                    translating it into code.</p>
+
+                <div class="code-block"><code># Sorting complex data (Applied usage)
+students = [
+    {"name": "Ali", "score": 85},
+    {"name": "Dana", "score": 92},
+    {"name": "Marat", "score": 78}
+]
+
+# Sort by score using lambda
+students.sort(key=lambda s: s["score"], reverse=True)
+print(students)
+# Output: [{'name': 'Dana', 'score': 92}, {'name': 'Ali', 'score': 85}, ...]</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Physics: Kinetic Energy</h4>
+                    <p>Problem: Calculate Kinetic Energy ($KE = \frac{1}{2}mv^2$) for a list of objects.</p>
+                    <div class="code-block"><code># List of (mass, velocity) tuples
+objects = [(10, 5), (50, 2), (5, 10)]
+
+# Use map() with lambda to calculate KE for each
+kinetic_energies = list(map(lambda obj: 0.5 * obj[0] * obj[1]**2, objects))
+
+print(kinetic_energies) 
+# [125.0, 100.0, 250.0]</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Economics: Currency Conversion</h4>
+                    <p>Problem: Convert a list of prices in USD to KZT (Exchange rate: 450).</p>
+                    <div class="code-block"><code>prices_usd = [10, 25, 5, 100]
+rate = 450
+
+# Using lambda for conversion
+prices_kzt = list(map(lambda p: p * rate, prices_usd))
+
+print(prices_kzt)
+# [4500, 11250, 2250, 45000]</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Data Analysis: Filtering Outliers</h4>
+                    <p>Problem: Remove sensor readings that are below 0 or above 100.</p>
+                    <div class="code-block"><code>readings = [15, -2, 45, 102, 88, -5, 120, 33]
+
+# Using filter() with lambda
+valid_readings = list(filter(lambda x: 0 <= x <= 100, readings))
+
+print(valid_readings)
+# [15, 45, 88, 33]</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Lambda Complexity</h4>
+                    <p>Lambda functions are restricted to a <strong>single expression</strong>. You cannot write
+                        multi-line logic (if/else blocks, loops) inside a lambda. If you need complex logic, define a
+                        normal function.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What keyword creates an anonymous function? How many expressions can a lambda have?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Rewrite this function as a lambda: <code>def double(x): return x * 2</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Use `filter()` and a lambda to extract all words starting with "A" from a list of names.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p><strong>Physics Problem</strong>: Given a list of distances (m) and times (s), calculate the
+                            speed for each pair using `map()` and lambda.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a program that manages a shopping cart (list of dictionaries). Use lambda functions to
+                            sort the cart by price and filter out items cheaper than 1000 tenge.</p>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="functions.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Functions</span></div>
+                </a>
+                <a href="../term4/lesson-21-file-read.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Term 4: Files</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>
