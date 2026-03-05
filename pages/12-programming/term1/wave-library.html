@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave Library — mr. TEA</title>
+    <meta name="description"
+        content="Python wave module: reading, writing, and analysing WAV audio files. Sound processing basics. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.1A — Wave Library</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
+                <h1 class="lesson-title">Wave Library</h1>
+                <p class="lesson-intro">Python's built-in <code>wave</code> module reads and writes <strong>WAV audio
+                        files</strong>. Combined with the <code>struct</code> module, you can analyze sound data, modify
+                    volume, reverse audio, and even generate tones from scratch.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.3.1</span> Use commands of the Wave library to process sound files
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.1A-wave-library.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-music"></i> The Sound Wave Analogy</h4>
+                    <p>Sound is a <strong>pressure wave</strong> in the air. A WAV file stores this wave as a long list
+                        of numbers (<strong>samples</strong>). Each sample is the "height" of the wave at one moment in
+                        time. More samples per second (<strong>sample rate</strong>) = higher quality. <code>wave</code>
+                        gives you access to this raw data.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">WAV File Properties
+                </h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Description</th>
+                            <th>Typical Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Channels</strong></td>
+                            <td>1 = mono, 2 = stereo</td>
+                            <td>1 or 2</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sample Width</strong></td>
+                            <td>Bytes per sample</td>
+                            <td>2 (16-bit audio)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Frame Rate</strong></td>
+                            <td>Samples per second (Hz)</td>
+                            <td>44100 (CD quality)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Frames</strong></td>
+                            <td>Total number of samples</td>
+                            <td>Varies by duration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Duration</strong></td>
+                            <td>Frames ÷ Frame Rate</td>
+                            <td>Calculated</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Reading a
+                    WAV File</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>wave.open(file, "rb")</code></td>
+                            <td>Open WAV file for reading</td>
+                        </tr>
+                        <tr>
+                            <td><code>.getnchannels()</code></td>
+                            <td>Number of channels (1 or 2)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.getsampwidth()</code></td>
+                            <td>Sample width in bytes</td>
+                        </tr>
+                        <tr>
+                            <td><code>.getframerate()</code></td>
+                            <td>Sample rate (e.g., 44100)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.getnframes()</code></td>
+                            <td>Total number of frames</td>
+                        </tr>
+                        <tr>
+                            <td><code>.readframes(n)</code></td>
+                            <td>Read n frames as bytes</td>
+                        </tr>
+                        <tr>
+                            <td><code>.close()</code></td>
+                            <td>Close the file</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Writing a
+                    WAV File</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>wave.open(file, "wb")</code></td>
+                            <td>Open WAV file for writing</td>
+                        </tr>
+                        <tr>
+                            <td><code>.setnchannels(n)</code></td>
+                            <td>Set number of channels</td>
+                        </tr>
+                        <tr>
+                            <td><code>.setsampwidth(n)</code></td>
+                            <td>Set sample width in bytes</td>
+                        </tr>
+                        <tr>
+                            <td><code>.setframerate(n)</code></td>
+                            <td>Set sample rate</td>
+                        </tr>
+                        <tr>
+                            <td><code>.writeframes(data)</code></td>
+                            <td>Write audio data (bytes)</td>
+                        </tr>
+                        <tr>
+                            <td><code>.close()</code></td>
+                            <td>Close the file</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Reading WAV File Info</h4>
+                    <div class="code-block"><code>import wave
+
+with wave.open("song.wav", "rb") as wav:
+    channels = wav.getnchannels()
+    sample_width = wav.getsampwidth()
+    frame_rate = wav.getframerate()
+    n_frames = wav.getnframes()
+    duration = n_frames / frame_rate
+
+    print(f"Channels:    {channels}")
+    print(f"Sample width: {sample_width} bytes")
+    print(f"Frame rate:  {frame_rate} Hz")
+    print(f"Frames:      {n_frames}")
+    print(f"Duration:    {duration:.2f} seconds")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Generating a Pure Tone (Sine Wave)</h4>
+                    <div class="code-block"><code>import wave
+import struct
+import math
+
+# Parameters
+frequency = 440       # A4 note (Hz)
+duration = 2          # seconds
+sample_rate = 44100   # CD quality
+amplitude = 16000     # volume (max ~32767 for 16-bit)
+
+# Generate samples
+samples = []
+for i in range(int(sample_rate * duration)):
+    t = i / sample_rate
+    value = int(amplitude * math.sin(2 * math.pi * frequency * t))
+    samples.append(struct.pack('&lt;h', value))  # little-endian short
+
+# Write WAV file
+with wave.open("tone_440hz.wav", "wb") as wav:
+    wav.setnchannels(1)       # mono
+    wav.setsampwidth(2)       # 16-bit
+    wav.setframerate(sample_rate)
+    wav.writeframes(b''.join(samples))
+
+print("Created tone_440hz.wav")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Reversing Audio</h4>
+                    <div class="code-block"><code>import wave
+import struct
+
+# Read original
+with wave.open("song.wav", "rb") as wav_in:
+    params = wav_in.getparams()
+    frames = wav_in.readframes(wav_in.getnframes())
+
+# Unpack samples, reverse, repack
+sample_width = params.sampwidth
+fmt = '&lt;' + 'h' * (len(frames) // sample_width)
+samples = list(struct.unpack(fmt, frames))
+samples.reverse()
+reversed_data = struct.pack(fmt, *samples)
+
+# Write reversed WAV
+with wave.open("reversed.wav", "wb") as wav_out:
+    wav_out.setparams(params)
+    wav_out.writeframes(reversed_data)
+
+print("Audio reversed!")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Adjusting Volume</h4>
+                    <div class="code-block"><code>import wave
+import struct
+
+factor = 0.5  # 50% volume
+
+with wave.open("song.wav", "rb") as wav_in:
+    params = wav_in.getparams()
+    frames = wav_in.readframes(wav_in.getnframes())
+
+# Reduce each sample amplitude
+fmt = '&lt;' + 'h' * (len(frames) // params.sampwidth)
+samples = struct.unpack(fmt, frames)
+quieter = [max(-32768, min(32767, int(s * factor))) for s in samples]
+output = struct.pack(fmt, *quieter)
+
+with wave.open("quiet.wav", "wb") as wav_out:
+    wav_out.setparams(params)
+    wav_out.writeframes(output)
+
+print("Volume reduced to 50%")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> WAV Only!</h4>
+                    <p>The <code>wave</code> module ONLY works with <strong>.wav</strong> files. It cannot read MP3,
+                        FLAC, or other formats. Use <code>pydub</code> or <code>ffmpeg</code> to convert other formats
+                        first.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> 16-bit Range: –32768 to 32767</h4>
+                    <p>When modifying samples, always clamp values to the valid range. Values outside this range will
+                        cause distortion or errors.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that reads a WAV file and prints its properties (channels, sample rate,
+                            duration).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Generate a 3-second tone at 261 Hz (middle C) and save it as "middle_c.wav".</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Write a program that doubles the volume of a WAV file and saves it as "loud.wav".</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What does <code>getframerate()</code> return?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The sample rate in Hz — how
+                        many samples are recorded per second (e.g., 44100 for CD quality).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: How do you calculate the duration of a WAV file?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Duration = number of frames ÷
+                        frame rate. For example: 88200 frames ÷ 44100 Hz = 2 seconds.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What module helps convert between bytes and integer sample values?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The <code>struct</code> module
+                        — use <code>struct.pack('&lt;h', value)</code> to convert int → bytes, and
+                        <code>struct.unpack()</code> for bytes → int.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="pil-filters.html"><span class="nav-label">← Previous</span><span class="nav-title">PIL Image
+                        Filters</span></a>
+                <a href="../../../index.html#syllabus"><span class="nav-label">Back to →</span><span
+                        class="nav-title">Syllabus</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIL Image Basics — mr. TEA</title>
+    <meta name="description"
+        content="Python PIL/Pillow: Image.open, Image.new, size, save, resize, crop. NIS Grade 12 Programming.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.1A — PIL Image Basics</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
+                <h1 class="lesson-title">PIL Image Basics</h1>
+                <p class="lesson-intro">The <strong>PIL</strong> (Python Imaging Library) — now maintained as
+                    <strong>Pillow</strong> — lets you load, create, resize, crop, and save images directly in Python.
+                </p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.2.2</span> Use commands of module Image in PIL library (load, create,
+                        size, save) to manipulate images</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.1A-pil-image-basics.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-image"></i> The Photo Lab Analogy</h4>
+                    <p>PIL is your <strong>digital photo lab</strong>. <code>Image.open()</code> = taking a photo from
+                        the drawer. <code>Image.new()</code> = getting a blank canvas. <code>.size</code> = measuring
+                        the print. <code>.save()</code> = printing and filing the photo. <code>.crop()</code> = cutting
+                        out a section.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Installing Pillow
+                </h3>
+                <div class="code-block"><code># Install via pip (only needed once)
+pip install Pillow
+
+# Import in Python
+from PIL import Image</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Core
+                    Image Commands</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Image.open(path)</code></td>
+                            <td>Load an existing image from file</td>
+                            <td><code>img = Image.open("photo.jpg")</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Image.new(mode, size, color)</code></td>
+                            <td>Create a new blank image</td>
+                            <td><code>img = Image.new("RGB", (400,300), (255,0,0))</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>img.size</code></td>
+                            <td>Get image dimensions as (width, height)</td>
+                            <td><code>w, h = img.size</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>img.save(path)</code></td>
+                            <td>Save image to file</td>
+                            <td><code>img.save("output.png")</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>img.show()</code></td>
+                            <td>Display image in default viewer</td>
+                            <td><code>img.show()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>img.resize((w, h))</code></td>
+                            <td>Resize image (returns new image)</td>
+                            <td><code>small = img.resize((200, 150))</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>img.crop((left, top, right, bottom))</code></td>
+                            <td>Cut out a rectangular region</td>
+                            <td><code>face = img.crop((50,50,200,200))</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>img.rotate(angle)</code></td>
+                            <td>Rotate image by degrees</td>
+                            <td><code>rotated = img.rotate(90)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>img.convert(mode)</code></td>
+                            <td>Convert color mode</td>
+                            <td><code>gray = img.convert("L")</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Image
+                    Modes</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Mode</th>
+                            <th>Description</th>
+                            <th>Channels</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>"RGB"</code></td>
+                            <td>Full color (Red, Green, Blue)</td>
+                            <td>3 channels, 0–255 each</td>
+                        </tr>
+                        <tr>
+                            <td><code>"RGBA"</code></td>
+                            <td>Color + transparency (Alpha)</td>
+                            <td>4 channels</td>
+                        </tr>
+                        <tr>
+                            <td><code>"L"</code></td>
+                            <td>Grayscale</td>
+                            <td>1 channel, 0 (black) – 255 (white)</td>
+                        </tr>
+                        <tr>
+                            <td><code>"1"</code></td>
+                            <td>Black and white (binary)</td>
+                            <td>1 channel, 0 or 255</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Load, Resize, and Save</h4>
+                    <div class="code-block"><code>from PIL import Image
+
+# Load an image
+img = Image.open("landscape.jpg")
+print(f"Original size: {img.size}")  # e.g., (1920, 1080)
+
+# Resize to thumbnail
+thumbnail = img.resize((320, 180))
+print(f"Thumbnail size: {thumbnail.size}")
+
+# Save as PNG
+thumbnail.save("landscape_thumb.png")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Create a New Image</h4>
+                    <div class="code-block"><code>from PIL import Image
+
+# Create a 400×300 red image
+red_img = Image.new("RGB", (400, 300), (255, 0, 0))
+red_img.save("red_canvas.png")
+
+# Create with gradient (pixel-by-pixel)
+img = Image.new("RGB", (256, 256))
+for x in range(256):
+    for y in range(256):
+        img.putpixel((x, y), (x, y, 128))
+img.save("gradient.png")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Pixel Manipulation</h4>
+                    <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg")
+w, h = img.size
+
+# Get pixel at (10, 20)
+pixel = img.getpixel((10, 20))
+print(pixel)  # e.g., (142, 87, 201)
+
+# Set pixel to white
+img.putpixel((10, 20), (255, 255, 255))
+
+# Invert all pixels
+for x in range(w):
+    for y in range(h):
+        r, g, b = img.getpixel((x, y))
+        img.putpixel((x, y), (255-r, 255-g, 255-b))
+img.save("inverted.png")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> resize() Creates a NEW Image</h4>
+                    <p><code>img.resize()</code> returns a <strong>new</strong> image — it doesn't modify the original.
+                        Always assign the result: <code>small = img.resize((200, 100))</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Coordinate System</h4>
+                    <p>PIL uses (x, y) with the <strong>origin at top-left</strong>. x increases right, y increases
+                        downward. This is opposite to math convention!</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that creates a 500×500 image with a blue background and saves it as
+                            "canvas.png".</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that loads any image, converts it to grayscale, resizes it to 200×200, and
+                            saves the result.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Write a program that swaps the red and blue channels of every pixel in an image.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: How do you create a new 800×600 green image?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                        <code>img = Image.new("RGB", (800, 600), (0, 255, 0))</code></div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What does <code>img.size</code> return?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A tuple (width, height) in
+                        pixels, e.g., (1920, 1080).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What mode would you use for a transparent image?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">"RGBA" — includes an Alpha
+                        (transparency) channel in addition to Red, Green, Blue.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="rgb-colors.html"><span class="nav-label">← Previous</span><span class="nav-title">RGB
+                        Colors</span></a>
+                <a href="pil-drawing.html"><span class="nav-label">Next →</span><span class="nav-title">PIL Drawing
+                        Primitives</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>

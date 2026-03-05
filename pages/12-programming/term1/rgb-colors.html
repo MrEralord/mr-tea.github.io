@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Colors — mr. TEA</title>
+    <meta name="description"
+        content="Standard RGB color codes, color mixing, tuple representation in Python. NIS Grade 12 Programming.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.1A — RGB Colors</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
+                <h1 class="lesson-title">RGB Colors</h1>
+                <p class="lesson-intro">Computers represent colors using the <strong>RGB model</strong> — three channels
+                    (<strong>Red</strong>, <strong>Green</strong>, <strong>Blue</strong>) each ranging from
+                    <code>0</code> to <code>255</code>. Mixing these channels at different intensities creates over
+                    <strong>16 million</strong> possible colors.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.2.1</span> Determine standard colors by RGB code</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.1A-rgb-colors.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-paint-brush"></i> The Spotlight Analogy</h4>
+                    <p>Imagine three spotlights — <strong style="color:#e74c3c;">Red</strong>, <strong
+                            style="color:#27ae60;">Green</strong>, <strong style="color:#2980b9;">Blue</strong> —
+                        shining on a white wall. Each has a dimmer (0 = off, 255 = full brightness). Overlap all at full
+                        = <strong>white</strong>. All off = <strong>black</strong>. Different combinations = different
+                        colors.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Standard RGB Colors
+                </h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Color</th>
+                            <th>RGB Code</th>
+                            <th>Tuple in Python</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#000;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Black</strong></td>
+                            <td>(0, 0, 0)</td>
+                            <td><code>(0, 0, 0)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#fff;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>White</strong></td>
+                            <td>(255, 255, 255)</td>
+                            <td><code>(255, 255, 255)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#f00;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Red</strong></td>
+                            <td>(255, 0, 0)</td>
+                            <td><code>(255, 0, 0)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#0f0;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Green</strong></td>
+                            <td>(0, 255, 0)</td>
+                            <td><code>(0, 255, 0)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#00f;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Blue</strong></td>
+                            <td>(0, 0, 255)</td>
+                            <td><code>(0, 0, 255)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#ff0;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Yellow</strong></td>
+                            <td>(255, 255, 0)</td>
+                            <td><code>(255, 255, 0)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#0ff;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Cyan</strong></td>
+                            <td>(0, 255, 255)</td>
+                            <td><code>(0, 255, 255)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#f0f;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Magenta</strong></td>
+                            <td>(255, 0, 255)</td>
+                            <td><code>(255, 0, 255)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#808080;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Gray</strong></td>
+                            <td>(128, 128, 128)</td>
+                            <td><code>(128, 128, 128)</code></td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    style="display:inline-block;width:16px;height:16px;background:#ffa500;border:1px solid #ccc;vertical-align:middle;margin-right:6px;"></span>
+                                <strong>Orange</strong></td>
+                            <td>(255, 165, 0)</td>
+                            <td><code>(255, 165, 0)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Color
+                    Mixing Rules</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Mix</th>
+                            <th>Result</th>
+                            <th>Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Red + Green</td>
+                            <td>Yellow</td>
+                            <td>(255, 255, 0)</td>
+                        </tr>
+                        <tr>
+                            <td>Red + Blue</td>
+                            <td>Magenta</td>
+                            <td>(255, 0, 255)</td>
+                        </tr>
+                        <tr>
+                            <td>Green + Blue</td>
+                            <td>Cyan</td>
+                            <td>(0, 255, 255)</td>
+                        </tr>
+                        <tr>
+                            <td>R + G + B (all max)</td>
+                            <td>White</td>
+                            <td>(255, 255, 255)</td>
+                        </tr>
+                        <tr>
+                            <td>R + G + B (all zero)</td>
+                            <td>Black</td>
+                            <td>(0, 0, 0)</td>
+                        </tr>
+                        <tr>
+                            <td>Equal R = G = B</td>
+                            <td>Shade of gray</td>
+                            <td>(128,128,128) = mid gray</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Using RGB
+                    in Python</h3>
+                <div class="code-block"><code># Define colors as tuples
+RED    = (255, 0, 0)
+GREEN  = (0, 255, 0)
+BLUE   = (0, 0, 255)
+WHITE  = (255, 255, 255)
+BLACK  = (0, 0, 0)
+YELLOW = (255, 255, 0)
+ORANGE = (255, 165, 0)
+
+# Access individual channels
+color = (100, 200, 50)
+r = color[0]  # 100
+g = color[1]  # 200
+b = color[2]  # 50
+
+# Total possible colors: 256 × 256 × 256 = 16,777,216</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Hex Color Codes</h4>
+                    <p>RGB can also be written in hexadecimal: <code>#FF0000</code> = Red, <code>#00FF00</code> = Green,
+                        <code>#0000FF</code> = Blue. Each pair of hex digits = one channel (00–FF = 0–255).</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Additive vs Subtractive</h4>
+                    <p>RGB is <strong>additive</strong> (light-based): mixing all = white. This is the opposite of paint
+                        mixing (subtractive: mixing all = brown/black). Don't confuse the two!</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Write the RGB tuple for: red, green, blue, white, black, yellow.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>What color does (0, 128, 128) produce? What about (255, 128, 0)?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a Python program that generates a random RGB color and prints its tuple.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What RGB tuple represents pure green?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">(0, 255, 0) — only the green
+                        channel is at maximum.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What happens when R = G = B?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">You get a shade of gray.
+                        (0,0,0) = black, (128,128,128) = gray, (255,255,255) = white.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How many total colors can RGB represent?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">256 × 256 × 256 = 16,777,216
+                        colors (over 16 million).</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="random-library.html"><span class="nav-label">← Previous</span><span class="nav-title">Random
+                        Library</span></a>
+                <a href="pil-image-basics.html"><span class="nav-label">Next →</span><span class="nav-title">PIL Image
+                        Basics</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>

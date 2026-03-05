@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIL Image Filters — mr. TEA</title>
+    <meta name="description"
+        content="PIL ImageFilter: blur, sharpen, edge detection, brightness, contrast. Creating custom filters. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.1A — PIL Image Filters</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
+                <h1 class="lesson-title">PIL Image Filters</h1>
+                <p class="lesson-intro">Filters transform images by modifying pixel values based on their neighbors. PIL
+                    provides <strong>built-in filters</strong> (blur, sharpen, edge detect) and tools to build
+                    <strong>custom filters</strong> pixel by pixel.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.2.4</span> Create filters for image processing</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.1A-pil-filters.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-filter"></i> The Instagram Filter Analogy</h4>
+                    <p>Every photo filter on your phone is code that reads pixel values, applies a mathematical formula,
+                        and writes new pixel values. PIL gives you the <strong>same power</strong> — blur, sharpen, edge
+                        detection, color adjustments — all from Python.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Built-in Filters
+                    (ImageFilter)</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Filter</th>
+                            <th>Effect</th>
+                            <th>Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>BLUR</code></td>
+                            <td>Smooths image, reduces noise</td>
+                            <td><code>img.filter(ImageFilter.BLUR)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>GaussianBlur(r)</code></td>
+                            <td>Gaussian blur with radius r</td>
+                            <td><code>img.filter(ImageFilter.GaussianBlur(5))</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>SHARPEN</code></td>
+                            <td>Enhances edges, makes image crisp</td>
+                            <td><code>img.filter(ImageFilter.SHARPEN)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>CONTOUR</code></td>
+                            <td>Extracts contour lines</td>
+                            <td><code>img.filter(ImageFilter.CONTOUR)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>DETAIL</code></td>
+                            <td>Enhances fine details</td>
+                            <td><code>img.filter(ImageFilter.DETAIL)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>EDGE_ENHANCE</code></td>
+                            <td>Subtly enhances edges</td>
+                            <td><code>img.filter(ImageFilter.EDGE_ENHANCE)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>FIND_EDGES</code></td>
+                            <td>Finds all edges (like a sketch)</td>
+                            <td><code>img.filter(ImageFilter.FIND_EDGES)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>EMBOSS</code></td>
+                            <td>3D embossed effect</td>
+                            <td><code>img.filter(ImageFilter.EMBOSS)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>SMOOTH</code></td>
+                            <td>Light smoothing</td>
+                            <td><code>img.filter(ImageFilter.SMOOTH)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Pixel-Level Adjustments (ImageEnhance)</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Enhancer</th>
+                            <th>What It Adjusts</th>
+                            <th>Factor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ImageEnhance.Brightness</code></td>
+                            <td>Light/dark</td>
+                            <td>0.0 = black, 1.0 = original, 2.0 = 2× bright</td>
+                        </tr>
+                        <tr>
+                            <td><code>ImageEnhance.Contrast</code></td>
+                            <td>Difference between darks and lights</td>
+                            <td>0.0 = gray, 1.0 = original, 2.0 = 2× contrast</td>
+                        </tr>
+                        <tr>
+                            <td><code>ImageEnhance.Color</code></td>
+                            <td>Color saturation</td>
+                            <td>0.0 = grayscale, 1.0 = original</td>
+                        </tr>
+                        <tr>
+                            <td><code>ImageEnhance.Sharpness</code></td>
+                            <td>Edge definition</td>
+                            <td>0.0 = blurred, 2.0 = extra sharp</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block"><code>from PIL import Image, ImageFilter, ImageEnhance
+
+img = Image.open("photo.jpg")
+
+# Apply built-in filter
+blurred = img.filter(ImageFilter.GaussianBlur(3))
+
+# Adjust brightness
+enhancer = ImageEnhance.Brightness(img)
+bright = enhancer.enhance(1.5)  # 50% brighter</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Applying Multiple Filters</h4>
+                    <div class="code-block"><code>from PIL import Image, ImageFilter
+
+img = Image.open("photo.jpg")
+
+# Chain filters: sharpen then find edges
+result = img.filter(ImageFilter.SHARPEN)
+result = result.filter(ImageFilter.FIND_EDGES)
+result.save("sketch_effect.png")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Custom Grayscale Filter (Pixel by Pixel)</h4>
+                    <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg")
+w, h = img.size
+
+# Convert to grayscale manually
+for x in range(w):
+    for y in range(h):
+        r, g, b = img.getpixel((x, y))
+        # Weighted average (human eye sensitivity)
+        gray = int(0.299 * r + 0.587 * g + 0.114 * b)
+        img.putpixel((x, y), (gray, gray, gray))
+
+img.save("manual_gray.png")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Custom Sepia Tone Filter</h4>
+                    <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg")
+w, h = img.size
+
+for x in range(w):
+    for y in range(h):
+        r, g, b = img.getpixel((x, y))
+        # Sepia formula
+        tr = min(255, int(0.393*r + 0.769*g + 0.189*b))
+        tg = min(255, int(0.349*r + 0.686*g + 0.168*b))
+        tb = min(255, int(0.272*r + 0.534*g + 0.131*b))
+        img.putpixel((x, y), (tr, tg, tb))
+
+img.save("sepia.png")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Threshold (Black &amp; White) Filter</h4>
+                    <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg")
+w, h = img.size
+threshold = 128
+
+for x in range(w):
+    for y in range(h):
+        r, g, b = img.getpixel((x, y))
+        avg = (r + g + b) // 3
+        if avg > threshold:
+            img.putpixel((x, y), (255, 255, 255))  # white
+        else:
+            img.putpixel((x, y), (0, 0, 0))        # black
+
+img.save("bw_threshold.png")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">5</span> Custom Color Channel Filter</h4>
+                    <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg")
+w, h = img.size
+
+# Keep only the red channel
+for x in range(w):
+    for y in range(h):
+        r, g, b = img.getpixel((x, y))
+        img.putpixel((x, y), (r, 0, 0))
+
+img.save("red_only.png")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> filter() Returns a New Image</h4>
+                    <p><code>img.filter()</code> does NOT modify the original. Always assign the result:
+                        <code>blurred = img.filter(ImageFilter.BLUR)</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Pixel Values Must Be 0–255</h4>
+                    <p>When computing new pixel values, always clamp them: <code>min(255, max(0, value))</code>. Going
+                        above 255 or below 0 causes errors.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that applies Gaussian Blur, then saves the blurred version of any image.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a custom "negative" filter that inverts all pixel colors (255 – value).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create your own "warm" filter: increase red by 20, decrease blue by 20, keep green the same.
+                            Apply it pixel-by-pixel.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What module provides BLUR, SHARPEN, FIND_EDGES?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>ImageFilter</code> from
+                        PIL — used with <code>img.filter(ImageFilter.BLUR)</code>.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: How would you make an image 50% brighter?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                        <code>enhancer = ImageEnhance.Brightness(img)</code><br><code>bright = enhancer.enhance(1.5)</code>
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What does a threshold filter do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Converts each pixel to black or
+                        white based on whether its average intensity is above or below a threshold value (e.g., 128).
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="pil-drawing.html"><span class="nav-label">← Previous</span><span class="nav-title">PIL Drawing
+                        Primitives</span></a>
+                <a href="wave-library.html"><span class="nav-label">Next →</span><span class="nav-title">Wave
+                        Library</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>
