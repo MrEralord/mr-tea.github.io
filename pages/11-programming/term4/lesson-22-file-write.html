@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing Files — mr. TEA</title>
+    <meta name="description"
+        content="Python file writing: write(), writelines(), append mode, CSV output. NIS Grade 11 Programming 11.4.1.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.4A — Writing Files</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Writing Files</h1>
+                <p class="lesson-intro">Writing files allows your program to <strong>save data permanently</strong> —
+                    results, reports, logs, and user data that persist after the program ends. Master both write mode
+                    (overwrite) and append mode (add to end).</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.4.1.2</span> Write data to text files</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-lesson-22-file-write.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-pen"></i> Writing vs Appending</h4>
+                    <p><strong>Write mode ("w")</strong> is like getting a fresh notebook — it erases everything and
+                        starts from scratch. <strong>Append mode ("a")</strong> is like opening your notebook to the
+                        last page and continuing where you left off. Choose wisely!</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Writing to Files
+                </h3>
+                <div class="code-block"><code># Write mode — creates new file or OVERWRITES existing!
+with open("output.txt", "w") as file:
+    file.write("Hello, World!\n")
+    file.write("This is line 2.\n")
+    file.write(f"Score: {95}\n")
+
+# Append mode — adds to end of existing file
+with open("log.txt", "a") as file:
+    file.write("New entry added\n")
+
+# writelines() — write a list of strings
+lines = ["Line 1\n", "Line 2\n", "Line 3\n"]
+with open("output.txt", "w") as file:
+    file.writelines(lines)</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Write vs
+                    Append</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Write ("w")</th>
+                            <th>Append ("a")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Existing file</td>
+                            <td>Overwrites (deletes old content!)</td>
+                            <td>Adds to end</td>
+                        </tr>
+                        <tr>
+                            <td>New file</td>
+                            <td>Creates it</td>
+                            <td>Creates it</td>
+                        </tr>
+                        <tr>
+                            <td>Use for</td>
+                            <td>Fresh output, reports</td>
+                            <td>Logs, adding records</td>
+                        </tr>
+                        <tr>
+                            <td>Danger</td>
+                            <td>Data loss if not careful!</td>
+                            <td>File grows over time</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Writing
+                    Different Data Types</h3>
+                <div class="code-block"><code># write() only accepts strings!
+score = 95
+name = "Ali"
+
+with open("result.txt", "w") as file:
+    # Must convert to string
+    file.write(str(score) + "\n")    # Explicit conversion
+    file.write(f"{name},{score}\n")  # f-string (cleaner!)
+
+    # Writing from a list
+    scores = [85, 90, 78, 92]
+    for s in scores:
+        file.write(f"{s}\n")
+
+    # Using print() with file parameter
+    print("This goes to file!", file=file)
+    print(score, file=file)</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Remember: Newlines Are Manual</h4>
+                    <p>Unlike <code>print()</code>, <code>file.write()</code> does NOT add a newline automatically. You
+                        must include <code>\n</code> yourself at the end of each line.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Saving Student Data as CSV</h4>
+                    <div class="code-block"><code>students = [
+    ("Ali", 16, 95),
+    ("Dana", 15, 88),
+    ("Marat", 16, 72)
+]
+
+with open("students.csv", "w") as file:
+    file.write("Name,Age,Score\n")  # Header row
+    for name, age, score in students:
+        file.write(f"{name},{age},{score}\n")
+
+print("Data saved to students.csv!")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Read → Process → Write</h4>
+                    <div class="code-block"><code># Read scores, calculate grade, write results
+with open("scores.txt", "r") as infile:
+    scores = [int(line.strip()) for line in infile]
+
+def get_grade(s):
+    if s >= 90: return "A"
+    if s >= 80: return "B"
+    if s >= 70: return "C"
+    if s >= 60: return "D"
+    return "F"
+
+with open("results.txt", "w") as outfile:
+    outfile.write("Score,Grade\n")
+    for score in scores:
+        grade = get_grade(score)
+        outfile.write(f"{score},{grade}\n")
+    outfile.write(f"\nAverage: {sum(scores)/len(scores):.1f}\n")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Activity Logger</h4>
+                    <div class="code-block"><code>from datetime import datetime
+
+def log_activity(activity):
+    """Append a timestamped entry to the log file."""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open("activity_log.txt", "a") as file:
+        file.write(f"[{timestamp}] {activity}\n")
+
+# Each call ADDS to the file (doesn't overwrite)
+log_activity("User logged in")
+log_activity("Viewed dashboard")
+log_activity("Updated profile")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> "w" Mode Destroys Data!</h4>
+                    <p>Opening a file in <code>"w"</code> mode <strong>immediately erases all content</strong>, even if
+                        you don't write anything. Always double-check before using write mode on important files.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> write() Doesn't Add Newlines</h4>
+                    <p><code>file.write("Hello")</code> followed by <code>file.write("World")</code> produces
+                        <code>HelloWorld</code> — all on one line. Include <code>\n</code> yourself.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> write() Only Accepts Strings</h4>
+                    <p><code>file.write(42)</code> raises <code>TypeError</code>. Convert first:
+                        <code>file.write(str(42))</code> or use <code>f"{42}"</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> File Writing Tips</h4>
+                    <ul>
+                        <li><code>print(data, file=outfile)</code> — automatically adds <code>\n</code>, easier than
+                            <code>write()</code></li>
+                        <li>CSV pattern: <code>file.write(",".join([str(x) for x in row]) + "\n")</code></li>
+                        <li>Always use <code>"a"</code> for logs and records that should accumulate</li>
+                        <li>Use <code>"w"</code> only for creating fresh output files</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What is the difference between <code>"w"</code> and <code>"a"</code> mode?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Why does <code>file.write(42)</code> cause an error? What is the fix?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that asks for 5 names and saves them to a file, one per line.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Read numbers from <code>input.txt</code>, double each one, and write results to
+                            <code>output.txt</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>What happens if you open a file with <code>"w"</code>, write nothing, and close it? What
+                            about with <code>"a"</code>?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a diary program: users enter text entries that are appended to a file with timestamps.
+                            Include a "read all entries" option.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What mode opens a file for writing (overwriting)?</div>
+                    <div class="quiz-answer" data-answer="'w' — WARNING: this erases all existing content in the file!">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Does <code>file.write()</code> add a newline automatically?</div>
+                    <div class="quiz-answer"
+                        data-answer="No — you must include \\n manually. Use print(text, file=f) if you want automatic newlines.">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How do you add data to an existing file without erasing it?</div>
+                    <div class="quiz-answer"
+                        data-answer="Use append mode: open('file.txt', 'a') — adds new content to the end">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Can <code>write()</code> accept an integer?</div>
+                    <div class="quiz-answer"
+                        data-answer="No — write() only accepts strings. Convert with str() or use f-strings">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. How do you write a list to a file, one item per line?</div>
+                    <div class="quiz-answer"
+                        data-answer="Loop: for item in lst: file.write(str(item) + '\\n') or file.writelines() with \\n included">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-21-file-read.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Reading Files</span></div>
+                </a>
+                <a href="lesson-23-exceptions.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Exception Handling</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Arrays &amp; Matrices — mr. TEA</title>
+    <meta name="description"
+        content="Python 2D lists: creation, access, traversal, matrix operations. NIS Grade 11 Programming 11.4.3.1.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.4A — 2D Arrays &amp; Matrices</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">2D Arrays &amp; Matrices</h1>
+                <p class="lesson-intro">A <strong>2D array</strong> is a list of lists — like a table with rows and
+                    columns. They represent grids, matrices, game boards, spreadsheets, and any data organized in rows
+                    and columns.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.4.3.1</span> Use two-dimensional arrays to solve problems</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-lesson-24-2d-arrays.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-table"></i> The Spreadsheet Analogy</h4>
+                    <p>A 2D array is a <strong>spreadsheet</strong>: rows are individual lists, columns are elements at
+                        the same position. Access a cell by its <strong>row</strong> and <strong>column</strong>:
+                        <code>grid[row][col]</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Creating 2D Arrays
+                </h3>
+                <div class="code-block"><code># Direct creation
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+# Access: matrix[row][col]
+print(matrix[0][0])   # 1 (row 0, col 0)
+print(matrix[1][2])   # 6 (row 1, col 2)
+print(matrix[2][1])   # 8 (row 2, col 1)
+
+# Creating with loops
+rows, cols = 3, 4
+grid = []
+for i in range(rows):
+    grid.append([0] * cols)
+# [[0,0,0,0], [0,0,0,0], [0,0,0,0]]
+
+# List comprehension
+grid = [[0] * cols for _ in range(rows)]
+
+# ⚠ WRONG WAY (shared references!)
+# bad = [[0] * cols] * rows  # All rows point to same list!</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Traversing 2D Arrays</h3>
+                <div class="code-block"><code>matrix = [[1,2,3], [4,5,6], [7,8,9]]
+
+# Row by row
+for row in matrix:
+    for element in row:
+        print(element, end=" ")
+    print()  # New line after each row
+
+# With indices
+for i in range(len(matrix)):
+    for j in range(len(matrix[i])):
+        print(f"[{i}][{j}]={matrix[i][j]}", end="  ")
+    print()
+
+# Row info
+print("Rows:", len(matrix))         # 3
+print("Cols:", len(matrix[0]))      # 3</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Row &amp; Column Sums</h4>
+                    <div class="code-block"><code>matrix = [[10, 20, 30],
+          [40, 50, 60],
+          [70, 80, 90]]
+
+# Row sums
+for i, row in enumerate(matrix):
+    print(f"Row {i} sum: {sum(row)}")
+
+# Column sums
+cols = len(matrix[0])
+for j in range(cols):
+    col_sum = sum(matrix[i][j] for i in range(len(matrix)))
+    print(f"Col {j} sum: {col_sum}")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Matrix Addition</h4>
+                    <div class="code-block"><code>A = [[1, 2], [3, 4]]
+B = [[5, 6], [7, 8]]
+
+rows = len(A)
+cols = len(A[0])
+C = [[0]*cols for _ in range(rows)]
+
+for i in range(rows):
+    for j in range(cols):
+        C[i][j] = A[i][j] + B[i][j]
+
+# C = [[6, 8], [10, 12]]
+for row in C:
+    print(row)</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Transpose</h4>
+                    <div class="code-block"><code>matrix = [[1, 2, 3],
+          [4, 5, 6]]
+# 2 rows x 3 cols → 3 rows x 2 cols
+
+rows = len(matrix)
+cols = len(matrix[0])
+transposed = [[0]*rows for _ in range(cols)]
+
+for i in range(rows):
+    for j in range(cols):
+        transposed[j][i] = matrix[i][j]
+
+for row in transposed:
+    print(row)
+# [1, 4]
+# [2, 5]
+# [3, 6]</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Tic-Tac-Toe Board</h4>
+                    <div class="code-block"><code>board = [[" "]*3 for _ in range(3)]
+
+def print_board(b):
+    for i, row in enumerate(b):
+        print(" | ".join(row))
+        if i < 2:
+            print("---------")
+
+def place(b, row, col, symbol):
+    if b[row][col] == " ":
+        b[row][col] = symbol
+        return True
+    return False
+
+place(board, 1, 1, "X")
+place(board, 0, 2, "O")
+print_board(board)</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> [[0]*3] * 3 Bug</h4>
+                    <p>This creates 3 references to the SAME inner list. Changing one row changes all! Use
+                        <code>[[0]*3 for _ in range(3)]</code> instead.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Row vs Column Confusion</h4>
+                    <p><code>matrix[row][col]</code> — first index is row, second is column. Think [y][x], not [x][y].
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> 2D Array Tips</h4>
+                    <ul>
+                        <li>Rows: <code>len(matrix)</code>. Cols: <code>len(matrix[0])</code></li>
+                        <li>Create safely: <code>[[0]*cols for _ in range(rows)]</code></li>
+                        <li>Diagonal: elements where <code>i == j</code></li>
+                        <li>Common patterns: row sums, column sums, transpose, search</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>How do you access row 2, column 3 of a 2D array?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Why is <code>[[0]*3]*3</code> dangerous?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a 4×4 multiplication table as a 2D array.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a function that finds the max element and its position in a 2D array.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Write functions for row sums and column sums of a matrix.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a working Tic-Tac-Toe game using a 2D array.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. How do you access element at row 1, col 2?</div>
+                    <div class="quiz-answer" data-answer="matrix[1][2] — first index is row, second is column">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. How to get number of rows?</div>
+                    <div class="quiz-answer" data-answer="len(matrix)">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How to safely create a 3×4 zero matrix?</div>
+                    <div class="quiz-answer" data-answer="[[0]*4 for _ in range(3)]">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does transpose do?</div>
+                    <div class="quiz-answer" data-answer="Swaps rows and columns: element [i][j] becomes [j][i]">Click
+                        to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. How to print a 2D array row by row?</div>
+                    <div class="quiz-answer"
+                        data-answer="for row in matrix: print(row) — or use nested loops for formatted output">Click to
+                        reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-23-exceptions.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Exception Handling</span></div>
+                </a>
+                <a href="../../11-programming/index.html">
+                    <div><span class="nav-label">Back to</span><span class="nav-title">All Lessons</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

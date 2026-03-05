@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inheritance & Polymorphism — mr. TEA</title>
+    <meta name="description"
+        content="Python OOP: Inheritance and Polymorphism. Creating subclasses, overriding methods. NIS Grade 11 Programming 11.4.2.1, 11.4.2.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.4A — Inheritance & Polymorphism</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Inheritance & Polymorphism</h1>
+                <p class="lesson-intro"><strong>Inheritance</strong> allows a new class to inherit attributes and
+                    methods from an existing class. <strong>Polymorphism</strong> allows different classes to be treated
+                    as instances of the same general class through a common interface.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.4.2.2</span> Explain the concept of inheritance with examples</li>
+                    <li><span class="lo-code">11.4.2.1</span> Explain the concept of polymorphism with examples</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-oop-principles.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-sitemap"></i> The Family Tree Analogy</h4>
+                    <p><strong>Inheritance:</strong> A child inherits traits (eye color, last name) from parents but can
+                        also have unique traits (a scar) or override inherited ones (different hair color).<br>
+                        <strong>Polymorphism:</strong> If you tell a Dog, Cat, and Cow to "Speak", they all understand
+                        the command but respond differently (Woof, Meow, Moo). The interface ("Speak") is the same, but
+                        the implementation differs.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Inheritance
+                    (11.4.2.2)</h3>
+                <p>To inherit from a class, put the parent class name in parentheses when defining the child class.</p>
+                <div class="code-block"><code>class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def eat(self):
+        print(f"{self.name} is eating.")
+
+# Dog inherits from Animal
+class Dog(Animal):
+    def bark(self):
+        print("Woof!")
+
+d = Dog("Buddy")
+d.eat()   # Inherited from Animal
+d.bark()  # Defined in Dog</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> <code>super()</code></h4>
+                    <p>Use <code>super().__init__()</code> to call the parent class's constructor inside the child
+                        class. This ensures the parent part of the object is set up correctly.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Polymorphism (11.4.2.1)</h3>
+                <p>Polymorphism allows methods to be used interchangeably, even if the object type is different.</p>
+                <div class="code-block"><code>class Cat(Animal):
+    def speak(self):
+        return "Meow"
+
+class Dog(Animal):
+    def speak(self):
+        return "Woof"
+
+animals = [Cat("Kitty"), Dog("Buddy"), Cat("Luna")]
+
+for animal in animals:
+    # We treat them all as "Animal", calling separate methods
+    print(f"{animal.name} says {animal.speak()}")</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Shapes Hierarchy</h4>
+                    <div class="code-block"><code>import math
+
+class Shape:
+    def area(self):
+        pass  # Placeholder
+
+class Rectangle(Shape):
+    def __init__(self, w, h):
+        self.w = w
+        self.h = h
+    
+    def area(self):
+        return self.w * self.h
+
+class Circle(Shape):
+    def __init__(self, r):
+        self.r = r
+    
+    def area(self):
+        return math.pi * self.r ** 2
+
+shapes = [Rectangle(10, 5), Circle(7)]
+for s in shapes:
+    print(f"Area: {s.area():.2f}")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Game Characters</h4>
+                    <div class="code-block"><code>class Character:
+    def __init__(self, name):
+        self.name = name
+        self.health = 100
+
+    def attack(self):
+        print("Basic attack!")
+
+class Warrior(Character):
+    def attack(self):
+        print(f"{self.name} swings a sword!")
+
+class Mage(Character):
+    def attack(self):
+        print(f"{self.name} casts a fireball!")
+
+hero = Warrior("Arthur")
+wizard = Mage("Merlin")
+
+hero.attack()    # Warrior attack
+wizard.attack()  # Mage attack</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Overriding Mistakes</h4>
+                    <p>If you misspell the method name when trying to override it (e.g., <code>atack</code> vs
+                        <code>attack</code>), Python will treat it as a new method and the old one will still run when
+                        called polymorphically.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting <code>super().__init__</code></h4>
+                    <p>If a child class defines its own <code>__init__</code>, it DOES NOT automatically call the
+                        parent's <code>__init__</code>. You must call it manually or attributes from the parent won't be
+                        set.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What is the syntax for inheritance in Python? What does <code>super()</code> do?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain how polymorphism helps when you have a list of different objects.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a class <code>Vehicle</code> and subclasses <code>Car</code> and <code>Bike</code>.
+                            Give them a <code>move()</code> method that prints different messages.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Design a hierarchy for a school system: <code>Person</code> -> <code>Student</code>,
+                            <code>Teacher</code>. Add common attributes (name) and specific ones (grade vs subject).</p>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="classes-objects.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Classes & Objects</span></div>
+                </a>
+                <a href="oop-problems.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Applied OOP Problems</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

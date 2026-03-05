@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied OOP Problems — mr. TEA</title>
+    <meta name="description"
+        content="Solving applied problems using OOP. Decomposing tasks into classes and methods. NIS Grade 11 Programming 11.4.3.1, 11.4.3.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.4A — Applied OOP Problems</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Applied OOP Problems</h1>
+                <p class="lesson-intro">Real-world software is complex. <strong>Decomposition</strong> breaks down large
+                    problems into manageable classes and objects. This lesson focuses on applying OOP principles to
+                    solve practical problems in various domains.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.4.3.1</span> Decompose an applied task</li>
+                    <li><span class="lo-code">11.4.3.2</span> Solve applied problems of various subject areas</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-oop-problems.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-puzzle-piece"></i> The Assembly Line Analogy</h4>
+                    <p>Building a car is a huge task. But an assembly line decomposes it: the <strong>Engine</strong>
+                        team focuses on power, the <strong>Chassis</strong> team on structure, and the
+                        <strong>Interior</strong> team on comfort. In OOP, each "team" is a Class, handling its own data
+                        and logic, eventually coming together to form the complete application.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Decomposition
+                    (11.4.3.1)</h3>
+                <p>When faced with a problem, ask:</p>
+                <ul>
+                    <li><strong>What are the "nouns"?</strong> These become your Classes (e.g., Student, Course, Grade).
+                    </li>
+                    <li><strong>What are the "verbs"?</strong> These become your Methods (e.g., enroll,
+                        grade_assignment).</li>
+                    <li><strong>What data does each need?</strong> These become Attributes (e.g., student_id, score).
+                    </li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Example:
+                    Library System</h3>
+                <p><strong>Nouns:</strong> Book, Member, Library<br>
+                    <strong>Verbs:</strong> Borrow, Return, Check Availability
+                </p>
+
+                <div class="code-block"><code>class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+        self.is_borrowed = False
+
+    def borrow(self):
+        if not self.is_borrowed:
+            self.is_borrowed = True
+            return True
+        return False
+
+    def return_book(self):
+        self.is_borrowed = False
+
+class Member:
+    def __init__(self, name):
+        self.name = name
+        self.borrowed_books = []
+
+    def borrow_book(self, book):
+        if book.borrow():
+            self.borrowed_books.append(book)
+            print(f"{self.name} borrowed {book.title}")
+        else:
+            print(f"{book.title} is not available")</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> E-Commerce Shopping Cart</h4>
+                    <p><strong>Problem:</strong> Calculate total price of items in a cart, applying discounts.</p>
+                    <div class="code-block"><code>class Product:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+class Cart:
+    def __init__(self):
+        self.items = []
+
+    def add(self, product):
+        self.items.append(product)
+
+    def total_price(self):
+        return sum(item.price for item in self.items)
+
+p1 = Product("Laptop", 1000)
+p2 = Product("Mouse", 20)
+
+cart = Cart()
+cart.add(p1)
+cart.add(p2)
+print(f"Total: ${cart.total_price()}")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Geometry: Area Calculator</h4>
+                    <p><strong>Problem:</strong> Calculate area of different shapes using inheritance.</p>
+                    <div class="code-block"><code>class Shape:
+    def area(self):
+        pass
+
+class Rect(Shape):
+    def __init__(self, w, h):
+        self.w, self.h = w, h
+    def area(self): return self.w * self.h
+
+class Circle(Shape):
+    def __init__(self, r):
+        self.r = r
+    def area(self): return 3.14 * self.r**2
+
+shapes = [Rect(10,5), Circle(2)]
+total_area = sum(s.area() for s in shapes)
+print(f"Total Area: {total_area}")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Over-Coupling</h4>
+                    <p>Don't make classes too dependent on each other. A <code>Book</code> shouldn't need to know about
+                        a <code>Member</code> to exist. Keep classes independent where possible.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> God Class</h4>
+                    <p>Avoid creating one massive class (e.g., <code>SystemManager</code>) that does everything. Break
+                        it down into smaller, focused classes.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What are the three main questions to ask when decomposing a problem?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Why is it better to have many small classes than one large class?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Design a <code>TodoList</code> system with <code>Task</code> objects. Each task has a
+                            description and a completed status.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a simple <strong>RPG Battle System</strong>. Create <code>Hero</code> and
+                            <code>Monster</code> classes, each with health and attack power. Simulate a turn-based fight
+                            until one falls.</p>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="oop-principles.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Inheritance &
+                            Polymorphism</span></div>
+                </a>
+                <a href="../../../index.html">
+                    <div><span class="nav-label">End of Term 4</span><span class="nav-title">Return to Syllabus</span>
+                    </div><i class="fas fa-home"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

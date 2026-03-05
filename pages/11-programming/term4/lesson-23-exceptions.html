@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exception Handling — mr. TEA</title>
+    <meta name="description" content="Python exceptions: try/except/else/finally. NIS Grade 11 Programming 11.4.2.1.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.4A — Exception Handling</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Exception Handling</h1>
+                <p class="lesson-intro"><strong>Exceptions</strong> are runtime errors. The <code>try/except</code>
+                    mechanism lets you handle errors gracefully instead of crashing.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.4.2.1</span> Handle exceptions using try/except</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-lesson-23-exceptions.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-hard-hat"></i> The Safety Net</h4>
+                    <p><code>try</code> = the tightrope walk (risky code). <code>except</code> = the safety net that
+                        catches you if you fall.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">try / except Syntax
+                </h3>
+                <div class="code-block"><code>try:
+    num = int(input("Enter number: "))
+    result = 100 / num
+    print(f"Result: {result}")
+except ValueError:
+    print("Not a valid number!")
+except ZeroDivisionError:
+    print("Cannot divide by zero!")</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Full
+                    Structure</h3>
+                <div class="code-block"><code>try:
+    data = open("data.txt").read()
+except FileNotFoundError:
+    print("File not found!")
+    data = ""
+else:
+    print(f"Read {len(data)} chars")  # Only if NO error
+finally:
+    print("Cleanup done")             # ALWAYS runs</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
+                    Exceptions</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Exception</th>
+                            <th>Cause</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ValueError</code></td>
+                            <td>Wrong value</td>
+                            <td><code>int("hello")</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>ZeroDivisionError</code></td>
+                            <td>Divide by 0</td>
+                            <td><code>10 / 0</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>IndexError</code></td>
+                            <td>Bad index</td>
+                            <td><code>[1,2][5]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>KeyError</code></td>
+                            <td>Missing key</td>
+                            <td><code>d["x"]</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>TypeError</code></td>
+                            <td>Wrong type</td>
+                            <td><code>"3" + 5</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>FileNotFoundError</code></td>
+                            <td>No such file</td>
+                            <td><code>open("x.txt")</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Bulletproof Input</h4>
+                    <div class="code-block"><code>def get_integer(prompt):
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            print("Invalid! Enter a whole number.")
+
+age = get_integer("Enter your age: ")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Safe File Reading</h4>
+                    <div class="code-block"><code>def read_scores(filename):
+    try:
+        with open(filename, "r") as f:
+            scores = []
+            for i, line in enumerate(f, 1):
+                try:
+                    scores.append(int(line.strip()))
+                except ValueError:
+                    print(f"Line {i} invalid, skipping")
+        return scores
+    except FileNotFoundError:
+        print(f"'{filename}' not found")
+        return []
+
+scores = read_scores("grades.txt")
+if scores:
+    print(f"Average: {sum(scores)/len(scores):.1f}")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Safe Division</h4>
+                    <div class="code-block"><code>def safe_divide(a, b):
+    try:
+        return round(a / b, 4)
+    except ZeroDivisionError:
+        return "Error: division by zero"
+    except TypeError:
+        return "Error: numbers required"
+
+print(safe_divide(10, 3))    # 3.3333
+print(safe_divide(10, 0))    # Error: division by zero</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Bare except:</h4>
+                    <p>A bare <code>except:</code> catches ALL errors including system ones. Always specify the type.
+                    </p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> except: pass</h4>
+                    <p>Silently swallowing errors hides bugs. At minimum: <code>except Exception as e: print(e)</code>
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Tips</h4>
+                    <ul>
+                        <li><code>else</code> runs only if NO exception. <code>finally</code> ALWAYS runs.</li>
+                        <li>Put specific exceptions before general ones</li>
+                        <li><code>except Exception as e:</code> captures the error message</li>
+                        <li>Input validation pattern: <code>while True: try: ... break except: ...</code></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name 5 Python exception types and their causes.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain <code>else</code> vs <code>finally</code> in try/except.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a function that safely converts a string to int with a default value on failure.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Read a file with error handling for missing file and invalid lines.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>What's wrong with <code>try: x=int(input()); y=10/x except: pass</code>?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a robust calculator handling all input errors.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What keyword starts error handling?</div>
+                    <div class="quiz-answer" data-answer="try — risky code goes inside the try block">Click to reveal
+                        answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What exception does int('abc') raise?</div>
+                    <div class="quiz-answer" data-answer="ValueError">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. When does else execute?</div>
+                    <div class="quiz-answer" data-answer="Only when NO exception occurs in try">Click to reveal answer
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. When does finally execute?</div>
+                    <div class="quiz-answer" data-answer="ALWAYS — whether exception occurred or not">Click to reveal
+                        answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. How to capture the error message?</div>
+                    <div class="quiz-answer" data-answer="except ExceptionType as e: print(e)">Click to reveal answer
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-22-file-write.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Writing Files</span></div>
+                </a>
+                <a href="lesson-24-2d-arrays.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">2D Arrays &amp;
+                            Matrices</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>
