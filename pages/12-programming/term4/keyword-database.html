@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Database &amp; Events — mr. TEA</title>
+    <meta name="description"
+        content="Keyword matching for chatbots: dict/JSON database, handling user events, default responses. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.4A — Keyword Database &amp; Events</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-telegram"></i> Unit 12.4A · Term 4</div>
+                <h1 class="lesson-title">Keyword Database &amp; Events</h1>
+                <p class="lesson-intro">To make a bot "smart" without full AI, we use a <strong>keyword
+                        database</strong>. The bot checks the user's message against a list of known words and replies
+                    with a pre-written answer.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.4.5</span> Create a database of keywords for the chat bot</li>
+                    <li><span class="lo-code">12.6.4.6</span> Write event handlers (response generation)</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.4A-keyword-database.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-search"></i> The Index Card Box</h4>
+                    <p>Imagine a box of index cards. On the front of each card is a <strong>keyword</strong> (e.g.,
+                        "Hello", "Price", "Hours"). On the back is the <strong>answer</strong>. When a user sends a
+                        message, the bot searches the cards for a matching keyword. If found, it reads the back. If not,
+                        it uses the "I don't understand" card.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Structuring the
+                    Database</h3>
+                <p>We can use a Python <strong>dictionary</strong> or a <strong>JSON file</strong> as a simple database.
+                </p>
+                <div class="code-block"><code># Simple Dictionary Database
+responses = {
+    "hello": "Hi there! How can I help?",
+    "price": "Our product costs $10.",
+    "bye": "Goodbye! Have a nice day.",
+    "default": "Sorry, I didn't understand that."
+}</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Keyword
+                    Matching Logic</h3>
+                <ol class="theory-list">
+                    <li><strong>Normalization</strong>: Convert user input to lowercase (<code>.lower()</code>) so
+                        "Hello" matches "hello".</li>
+                    <li><strong>Partial Match</strong>: Check if the keyword is <em>inside</em> the message (e.g., "What
+                        is the price?" contains "price").</li>
+                    <li><strong>Exact Match</strong>: Check if the message <em>is</em> the keyword exactly.</li>
+                </ol>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Simple Dictionary Bot</h4>
+                    <div class="code-block"><code>import telebot
+
+API_TOKEN = 'YOUR_TOKEN'
+bot = telebot.TeleBot(API_TOKEN)
+
+# Database
+RESPONSES = {
+    "hello": "Greetings, human!",
+    "weather": "Look outside, I am just a script.",
+    "python": "Python is a great language!"
+}
+
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    user_text = message.text.lower()
+    
+    # Check for keywords
+    reply = "I don't understand."
+    
+    for key in RESPONSES:
+        if key in user_text:
+            reply = RESPONSES[key]
+            break  # Stop after first match
+            
+    bot.reply_to(message, reply)
+
+bot.infinity_polling()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> JSON File Database (Scalable)</h4>
+                    <p>Using an external file allows you to update answers without changing code.</p>
+                    <div class="code-block"><code>import json
+
+# content of data.json:
+# {
+#   "intents": [
+#     {"tag": "greeting", "patterns": ["hi", "hello"], "responses": ["Hi!", "Hello there"]},
+#     {"tag": "bye", "patterns": ["bye", "cya"], "responses": ["Goodbye!"]}
+#   ]
+# }
+
+import random
+
+# Load data
+with open('data.json', 'r') as f:
+    data = json.load(f)
+
+def get_response(msg):
+    msg = msg.lower()
+    for intent in data['intents']:
+        for pattern in intent['patterns']:
+            if pattern in msg:
+                # Return random response from list
+                return random.choice(intent['responses'])
+    return "Unknown command."</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Overlapping Keywords</h4>
+                    <p>If you have keywords "book" (for reading) and "booking" (for reservations), a simple check might
+                        confuse them. Order your checks from specific to general, or use exact matching for critical
+                        commands.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Case Sensitivity</h4>
+                    <p>Always <code>.lower()</code> the input! Otherwise, "Hello" won't match "hello" in your
+                        dictionary.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a "School Schedule Bot". Keywords: "Monday", "Tuesday", etc. Responses: The list of
+                            subjects for that day.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Add a "fun" command that replies with a random joke from a list when the user types "joke".
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a simplified FAQ bot for a fictional shop. Handle at least 5 topics (hours, location,
+                            returns, products, contact).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: Why convert user input to lowercase?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To ensure case-insensitive
+                        matching (so "Hi", "HI", and "hi" all trigger the greeting).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is a "default response"?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The message sent when the bot
+                        doesn't find any matching keywords (e.g., "Sorry, I didn't understand that.").</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How do you handle multiple keywords triggering the same response?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Use a list of patterns (like in
+                        the JSON example) or multiple <code>if</code> checks that map to the same answer key.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="api-configuration.html"><span class="nav-label">← Previous</span><span class="nav-title">APIs
+                        &amp; Configuration</span></a>
+                <a href="../../../index.html#syllabus"><span class="nav-label">Back to →</span><span
+                        class="nav-title">Syllabus</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>
