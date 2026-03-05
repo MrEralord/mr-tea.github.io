@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating Sets — mr. TEA</title>
+    <meta name="description"
+        content="Python sets: creating, elements, properties, methods. NIS Grade 11 Programming 11.2.1.1, 11.2.1.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.2A — Creating Sets</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.2A · Term 2</div>
+                <h1 class="lesson-title">Creating Sets</h1>
+                <p class="lesson-intro">A <strong>set</strong> is an unordered collection of <strong>unique</strong>
+                    elements. Sets automatically remove duplicates and provide powerful operations for comparing and
+                    combining groups of data.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.1.1</span> Determine the elements of the set</li>
+                    <li><span class="lo-code">11.2.1.2</span> Apply methods of creating sets</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2A-lesson-09-sets-create.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-users"></i> The Club Membership Analogy</h4>
+                    <p>A set is like a <strong>club membership list</strong> — each member appears <strong>only
+                            once</strong> (no duplicates), and the order doesn't matter (it's not a queue). You can
+                        check who's <strong>in both</strong> clubs (intersection), who's in <strong>either</strong> club
+                        (union), or who's in one but <strong>not the other</strong> (difference).</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Set Properties</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Unordered</strong></td>
+                            <td>No index, no defined order</td>
+                            <td>Cannot do <code>my_set[0]</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Unique</strong></td>
+                            <td>No duplicate elements</td>
+                            <td><code>{1, 2, 2, 3}</code> → <code>{1, 2, 3}</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mutable</strong></td>
+                            <td>Can add/remove elements</td>
+                            <td><code>my_set.add(4)</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Immutable elements</strong></td>
+                            <td>Elements must be hashable</td>
+                            <td>Strings, ints, tuples ✓ Lists ✗</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Creating
+                    Sets</h3>
+                <div class="code-block"><code># Method 1: Curly braces with values
+fruits = {"apple", "banana", "cherry"}
+numbers = {1, 2, 3, 4, 5}
+
+# Method 2: set() constructor from a list
+colors = set(["red", "green", "blue"])
+
+# Method 3: set() from a string (each character becomes an element)
+letters = set("hello")
+print(letters)   # {'h', 'e', 'l', 'o'} — note: only one 'l'!
+
+# Method 4: Empty set — MUST use set(), NOT {}
+empty_set = set()     # ✓ Empty set
+empty_dict = {}       # ✗ This is an empty DICTIONARY!
+
+# Method 5: set() from range
+even = set(range(0, 11, 2))
+print(even)   # {0, 2, 4, 6, 8, 10}
+
+# Duplicates are automatically removed
+nums = {1, 2, 2, 3, 3, 3, 4}
+print(nums)   # {1, 2, 3, 4}</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Set
+                    Methods</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.add(x)</code></td>
+                            <td>Add element x</td>
+                            <td><code>s.add(5)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.remove(x)</code></td>
+                            <td>Remove x (error if not found)</td>
+                            <td><code>s.remove(3)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.discard(x)</code></td>
+                            <td>Remove x (no error if missing)</td>
+                            <td><code>s.discard(99)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.pop()</code></td>
+                            <td>Remove and return arbitrary element</td>
+                            <td><code>s.pop()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>.clear()</code></td>
+                            <td>Remove all elements</td>
+                            <td><code>s.clear()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>len(s)</code></td>
+                            <td>Number of elements</td>
+                            <td><code>len({1,2,3})</code> → 3</td>
+                        </tr>
+                        <tr>
+                            <td><code>x in s</code></td>
+                            <td>Membership test</td>
+                            <td><code>5 in {1,2,3}</code> → False</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Removing Duplicates from Input</h4>
+                    <div class="code-block"><code>names = []
+for i in range(5):
+    name = input(f"Enter name {i+1}: ")
+    names.append(name)
+
+unique_names = set(names)
+print("Unique names:", unique_names)
+print("Duplicates removed:", len(names) - len(unique_names))</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Building a Set Dynamically</h4>
+                    <div class="code-block"><code>vowels = set()   # Empty set
+word = input("Enter a word: ").lower()   # e.g., "programming"
+
+for char in word:
+    if char in "aeiou":
+        vowels.add(char)
+
+print("Vowels found:", vowels)
+print("Number of unique vowels:", len(vowels))
+
+# Input: "programming"
+# Output: Vowels found: {'a', 'i', 'o'}
+# Number of unique vowels: 3</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Iterating Over a Set</h4>
+                    <div class="code-block"><code>subjects = {"Math", "Physics", "CS", "English"}
+
+# You CAN iterate (order may vary)
+for subject in subjects:
+    print(f"📚 {subject}")
+
+# You CANNOT access by index
+# print(subjects[0])  ← TypeError!</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> {} Creates a Dictionary, Not a Set!</h4>
+                    <p><code>x = {}</code> creates an empty <strong>dictionary</strong>. For an empty set, use
+                        <code>x = set()</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> No Indexing</h4>
+                    <p>Sets are unordered — <code>my_set[0]</code> raises a <code>TypeError</code>. To access elements,
+                        iterate or convert to a list.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> remove() vs discard()</h4>
+                    <p><code>s.remove(99)</code> raises <code>KeyError</code> if 99 is not in the set.
+                        <code>s.discard(99)</code> silently does nothing. Use <code>discard()</code> when you're not
+                        sure if the element exists.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Set Tips</h4>
+                    <ul>
+                        <li>Sets automatically eliminate duplicates — great for "find unique values" questions</li>
+                        <li><code>in</code> membership testing is very fast for sets (O(1) vs O(n) for lists)</li>
+                        <li>Remember: <code>{}</code> = dict, <code>set()</code> = empty set</li>
+                        <li>Set elements must be immutable (strings, numbers, tuples — NOT lists)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List 4 properties of a Python set.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why <code>{1, 2, 2, 3, 3}</code> becomes <code>{1, 2, 3}</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that reads 10 numbers from the user and prints only the unique ones using a
+                            set.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a set of all consonants in a user-input sentence.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Write a lottery number generator: generate a set of 6 unique random numbers between 1 and 49.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. How do you create an empty set?</div>
+                    <div class="quiz-answer" data-answer="set() — NOT {}, which creates an empty dictionary">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What does <code>set("banana")</code> produce?</div>
+                    <div class="quiz-answer" data-answer="{'b', 'a', 'n'} — each unique character (order may vary)">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Can a set contain a list?</div>
+                    <div class="quiz-answer"
+                        data-answer="No — lists are mutable (unhashable), so they cannot be set elements. Use tuples instead.">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is the difference between <code>remove()</code> and
+                        <code>discard()</code>?</div>
+                    <div class="quiz-answer"
+                        data-answer="remove() raises KeyError if element not found; discard() silently does nothing">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Can you access set elements by index?</div>
+                    <div class="quiz-answer" data-answer="No — sets are unordered, so indexing (s[0]) raises TypeError">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="../term1/lesson-08-tracing-debugging.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Tracing &amp; Debugging</span>
+                    </div>
+                </a>
+                <a href="lesson-10-set-operations.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Set Operations</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>
