@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Lab: Data Representation | mr. TEA</title>
+    <meta name="description" content="Interactive tools for floating point conversions and number systems.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .lab-workspace {
+            padding: 120px 0 60px 0;
+        }
+
+        .calc-card {
+            background: var(--card-bg, #ffffff);
+            border: 1px solid var(--border-color, #eaeaea);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .calc-header {
+            margin-top: 0;
+            color: var(--text-main, #333);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calc-header i {
+            color: var(--accent-color, #0056b3);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .calc-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color, #ccc);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--bg-main, #f9f9f9);
+            color: var(--text-main, #333);
+        }
+
+        .calc-input:focus {
+            outline: none;
+            border-color: var(--accent-color, #0056b3);
+        }
+
+        .calc-btn {
+            padding: 12px 25px;
+            background: var(--accent-color, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .calc-btn:hover {
+            background: var(--accent-hover, #004494);
+        }
+
+        .result-container {
+            background: var(--bg-alt, #f0f4f8);
+            border-left: 4px solid var(--accent-color, #0056b3);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result-highlight {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .result-highlight span {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #d9534f;
+            letter-spacing: 1px;
+        }
+
+        .steps-box {
+            background: var(--bg-dark, #2d2d2d);
+            color: #a9b7c6;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .steps-box span.highlight {
+            color: #e6b422;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <i class="fas fa-mug-hot logo-icon"></i>
+                <span class="logo-text">mr. TEA</span>
+            </a>
+            <nav class="header-nav" id="header-nav">
+                <a href="index.html#lo-of-day">LO of the Day</a>
+                <a href="index.html#interactive-lab">Lab</a>
+                <a href="index.html#assessment-hub">Assessment</a>
+                <a href="index.html#syllabus">Syllabus</a>
+                <a href="#" class="teacher-area-link"><i class="fas fa-user-tie"></i> Teacher's Area</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><i
+                        class="fas fa-sun"></i></button>
+            </nav>
+            <button id="menu-toggle" class="menu-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="main-full">
+        <section class="lab-workspace">
+            <div class="container">
+
+                <div class="section-header">
+                    <h2><i class="fas fa-microchip"></i> Data Representation Lab</h2>
+                    <p>Interactive tools aligned with Cambridge AS & A Level 9618</p>
+                </div>
+
+                <div class="calc-card">
+                    <h3 class="calc-header"><i class="fas fa-calculator"></i> Custom 16-bit Floating Point (12m / 4e)
+                    </h3>
+                    <p style="margin-bottom: 20px; color: var(--text-muted, #666);">Standard: Positive numbers stay in
+                        normal binary. Two's Complement is applied ONLY to negative mantissas and exponents.</p>
+
+                    <div class="input-group">
+                        <input type="number" id="floatInput" class="calc-input" step="any"
+                            placeholder="Enter decimal (e.g., -104.8125)">
+                        <button class="calc-btn" onclick="calcFloatingPoint()">Calculate</button>
+                    </div>
+
+                    <div id="floatResult" class="result-container">
+                        <div class="result-highlight">
+                            Mantissa (12-bit): <span id="mRes"></span> <br>
+                            Exponent (4-bit): <span id="eRes"></span>
+                        </div>
+                        <div class="steps-box" id="floatSteps"></div>
+                    </div>
+                </div>
+
+                <div class="calc-card">
+                    <h3 class="calc-header"><i class="fas fa-exchange-alt"></i> Step-by-Step Base Converter</h3>
+
+                    <div class="input-group">
+                        <select id="fromBase" class="calc-input" style="flex: 0.5;">
+                            <option value="10">From Decimal (10)</option>
+                            <option value="2">From Binary (2)</option>
+                            <option value="8">From Octal (8)</option>
+                            <option value="16">From Hexadecimal (16)</option>
+                        </select>
+                        <input type="text" id="numInput" class="calc-input" placeholder="Enter value...">
+                        <button class="calc-btn" onclick="convertSystems()">Convert</button>
+                    </div>
+
+                    <div id="convResult" class="result-container">
+                        <div class="result-highlight" id="baseOutputs"></div>
+                        <div class="steps-box" id="convSteps"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand"><i class="fas fa-mug-hot"></i> mr. TEA</div>
+            <p>NIS 2025 · Cambridge AS & A Level 9618</p>
+            <p class="footer-copy">&copy; 2025 mr. TEA — All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+
+    <script>
+        // === FLOATING POINT LOGIC (Step-by-Step for Dummies) ===
+        function calcFloatingPoint() {
+            const inputVal = document.getElementById('floatInput').value;
+            if (!inputVal) return;
+            const val = parseFloat(inputVal);
+            let steps = [];
+
+            if (val === 0) {
+                displayFloat("000000000000", "0000", "[Step 1] Value is 0.\n[Result] Zero is represented as all zeros.");
+                return;
+            }
+
+            const isNegative = val < 0;
+            const absVal = Math.abs(val);
+            const intPart = Math.floor(absVal);
+            const fracPart = absVal - intPart;
+
+            steps.push(`[Step 1] Analyze the number:`);
+            steps.push(`         Original number: ${val}`);
+            steps.push(`         Sign: ${isNegative ? "Negative (-)" : "Positive (+)"}`);
+            steps.push(`         Absolute value: ${absVal}`);
+
+            // 1. Convert Integer
+            const intBin = intPart.toString(2);
+            steps.push(`\n[Step 2] Convert integer part (${intPart}) to binary:`);
+            steps.push(`         ${intPart}₁₀ = ${intBin}₂`);
+
+            // 2. Convert Fraction
+            let tempFrac = fracPart;
+            let fracBin = "";
+            let fracLimit = 12;
+            if (fracPart === 0) {
+                fracBin = "0";
+                steps.push(`\n[Step 3] Convert fractional part (${fracPart}) to binary:`);
+                steps.push(`         ${fracPart} = 0₂`);
+            } else {
+                steps.push(`\n[Step 3] Convert fractional part (${fracPart}) to binary (multiply by 2):`);
+                while (tempFrac > 0 && fracBin.length < fracLimit) {
+                    let calc = tempFrac * 2;
+                    let bit = Math.floor(calc);
+                    steps.push(`         ${tempFrac.toFixed(4)} × 2 = ${calc.toFixed(4)}  ->  Take integer: ${bit}`);
+                    fracBin += bit;
+                    tempFrac = calc - bit;
+                }
+                steps.push(`         Fractional binary: .${fracBin}₂`);
+            }
+
+            // 3. Combine
+            let combinedBin = `${intBin}.${fracBin}`;
+            steps.push(`\n[Step 4] Combine parts (Absolute Value Binary):`);
+            steps.push(`         ${absVal}₁₀ = <span class="highlight">${combinedBin}₂</span>`);
+
+            // 4. Normalize
+            let exp = Math.floor(Math.log2(absVal)) + 1;
+            if (exp > 7 || exp < -8) {
+                displayFloat("Overflow/Underflow", "Error", steps.join('\n') + "\n\n[Error] Number is too large or too small for 4-bit exponent.");
+                return;
+            }
+
+            let normMantissa = absVal / Math.pow(2, exp);
+            let mInt = Math.round(normMantissa * Math.pow(2, 11));
+            let rawMantissaBin = (mInt >>> 0).toString(2).padStart(12, '0');
+
+            steps.push(`\n[Step 5] Normalize the binary number:`);
+            steps.push(`         We need the format to start with '0.1...'`);
+            if (exp > 0) {
+                steps.push(`         Shift the binary point LEFT by ${exp} positions.`);
+            } else if (exp < 0) {
+                steps.push(`         Shift the binary point RIGHT by ${Math.abs(exp)} positions.`);
+            } else {
+                steps.push(`         No shift needed.`);
+            }
+            steps.push(`         Normalized value: 0.${rawMantissaBin.substring(1)} × 2^${exp}`);
+            steps.push(`         Exponent = ${exp}`);
+
+            // 5. Exponent to 4-bit Two's Comp
+            steps.push(`\n[Step 6] Convert Exponent (${exp}) to 4-bit binary:`);
+            let eBin = "";
+            if (exp < 0) {
+                let posExp = Math.abs(exp).toString(2).padStart(4, '0');
+                steps.push(`         Exponent is negative. We must use Two's Complement:`);
+                steps.push(`         Positive ${Math.abs(exp)}:   ${posExp}`);
+                let invExp = posExp.split('').map(b => b === '0' ? '1' : '0').join('');
+                steps.push(`         Invert bits: ${invExp}`);
+                // Для отрицательных JS корректно выдает нужные биты через >>> 0
+                eBin = (exp >>> 0).toString(2).slice(-4);
+                steps.push(`         Add 1:       <span class="highlight">${eBin}</span>`);
+            } else {
+                // ИСПРАВЛЕНИЕ ЗДЕСЬ: используем padStart для добавления нулей спереди
+                eBin = exp.toString(2).padStart(4, '0');
+                steps.push(`         Exponent is positive, just format to 4 bits: <span class="highlight">${eBin}</span>`);
+            }
+
+            // 6. Format Mantissa
+            steps.push(`\n[Step 7] Format Positive Mantissa to 12 bits:`);
+            steps.push(`         Add leading 0 for the sign bit:`);
+            steps.push(`         <span class="highlight">${rawMantissaBin}</span>`);
+
+            let mBinFinal = rawMantissaBin;
+
+            // 7. Apply Two's Complement to Mantissa IF NEGATIVE
+            if (isNegative) {
+                steps.push(`\n[Step 8] Check original sign -> It's NEGATIVE!`);
+                steps.push(`         Apply Two's Complement to the Mantissa:`);
+                steps.push(`         Original:    ${rawMantissaBin}`);
+                let invMant = rawMantissaBin.split('').map(b => b === '0' ? '1' : '0').join('');
+                steps.push(`         Invert bits: ${invMant}`);
+
+                let mIntNeg = (-mInt >>> 0);
+                mBinFinal = mIntNeg.toString(2).slice(-12);
+
+                steps.push(`         Add 1:       <span class="highlight">${mBinFinal}</span>`);
+            } else {
+                steps.push(`\n[Step 8] Check original sign -> It's POSITIVE!`);
+                steps.push(`         <span class="highlight">Mantissa remains unchanged.</span> No Two's Complement needed.`);
+            }
+
+            displayFloat(mBinFinal, eBin, steps.join('\n'));
+        }
+
+        function displayFloat(m, e, s) {
+            document.getElementById('floatResult').style.display = 'block';
+            document.getElementById('mRes').innerText = m;
+            document.getElementById('eRes').innerText = e;
+            document.getElementById('floatSteps').innerHTML = s;
+        }
+
+        // === NUMBER SYSTEMS LOGIC (Step-by-Step for Dummies) ===
+        function generateDivisionSteps(num, base) {
+            if (num === 0) return `         0 / ${base} = 0, remainder 0\n         Result: 0`;
+            let steps = "";
+            let current = num;
+            let remainders = [];
+            while (current > 0) {
+                let quotient = Math.floor(current / base);
+                let rem = current % base;
+                let hexRem = rem > 9 ? String.fromCharCode(55 + rem) : rem;
+                steps += `         ${current} / ${base} = ${quotient}, remainder ${hexRem}\n`;
+                remainders.push(hexRem);
+                current = quotient;
+            }
+            steps += `         Read remainders bottom-up -> <span class="highlight">${remainders.reverse().join('')}</span>`;
+            return steps;
+        }
+
+        function convertSystems() {
+            const input = document.getElementById('numInput').value.trim();
+            const fromBase = parseInt(document.getElementById('fromBase').value);
+            if (!input) return;
+
+            try {
+                const dec = parseInt(input, fromBase);
+                if (isNaN(dec)) throw "Invalid input characters for selected base.";
+
+                let steps = [];
+                steps.push(`[Input] Value: ${input} (Base ${fromBase})`);
+
+                if (fromBase !== 10) {
+                    let formula = input.split('').reverse().map((char, index) => {
+                        let val = parseInt(char, fromBase);
+                        return `${val}×${fromBase}^${index}`;
+                    }).reverse().join(' + ');
+                    steps.push(`\n[Step 1] Convert to Decimal (Base 10) by multiplying by position weights:`);
+                    steps.push(`         ${formula} = <span class="highlight">${dec}</span>`);
+                } else {
+                    steps.push(`\n[Step 1] Value is already Decimal: <span class="highlight">${dec}</span>`);
+                }
+
+                const bin = dec.toString(2);
+                const oct = dec.toString(8);
+                const hex = dec.toString(16).toUpperCase();
+
+                steps.push(`\n[Step 2] Convert Decimal (${dec}) to Binary (Base 2):`);
+                steps.push(`         Divide by 2 repeatedly:`);
+                steps.push(generateDivisionSteps(dec, 2));
+
+                steps.push(`\n[Step 3] Convert Decimal (${dec}) to Octal (Base 8):`);
+                steps.push(`         Divide by 8 repeatedly:`);
+                steps.push(generateDivisionSteps(dec, 8));
+
+                steps.push(`\n[Step 4] Convert Decimal (${dec}) to Hexadecimal (Base 16):`);
+                steps.push(`         Divide by 16 repeatedly (A=10, B=11, C=12, D=13, E=14, F=15):`);
+                steps.push(generateDivisionSteps(dec, 16));
+
+                let outputs = `
+                    DEC (10): <span>${dec}</span> <br>
+                    BIN (2):  <span>${bin}</span> <br>
+                    OCT (8):  <span>${oct}</span> <br>
+                    HEX (16): <span>${hex}</span>
+                `;
+
+                document.getElementById('convResult').style.display = 'block';
+                document.getElementById('baseOutputs').innerHTML = outputs;
+                document.getElementById('convSteps').innerHTML = steps.join('\n');
+
+            } catch (e) {
+                document.getElementById('convResult').style.display = 'block';
+                document.getElementById('baseOutputs').innerHTML = "<span>Error</span>";
+                document.getElementById('convSteps').innerHTML = e;
+            }
+        }
+    </script>
+</body>
+
+</html>
