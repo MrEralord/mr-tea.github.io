@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movement &amp; Animation — mr. TEA</title>
+    <meta name="description"
+        content="PyGame animation: moving objects, velocity, bouncing, frame-based animation. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.2A — Movement &amp; Animation</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.2A · Term 2</div>
+                <h1 class="lesson-title">Movement &amp; Animation</h1>
+                <p class="lesson-intro">Animation in PyGame works by <strong>changing object coordinates</strong> each
+                    frame. Move an object by adding <strong>velocity</strong> to its position on every loop iteration —
+                    clear, move, redraw.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.3.1</span> Code the movement of graphic objects</li>
+                    <li><span class="lo-code">12.5.3.8</span> Analyse the result of the programme execution</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.2A-movement-animation.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-running"></i> The Flipbook Analogy</h4>
+                    <p>A flipbook creates motion by drawing a figure in slightly different positions on each page.
+                        PyGame animation works the same way: <strong>erase old position → draw at new position → show
+                            frame</strong>. The <strong>velocity</strong> is how far the figure moves between each page.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Movement Formula
+                </h3>
+                <div class="code-block"><code># Each frame:
+x = x + vel_x   # horizontal movement
+y = y + vel_y   # vertical movement
+
+# vel_x > 0 → moving right     vel_x < 0 → moving left
+# vel_y > 0 → moving down      vel_y < 0 → moving up</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Boundary
+                    Handling</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>Behavior</th>
+                            <th>Code Pattern</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Bounce</strong></td>
+                            <td>Reverse direction at edges</td>
+                            <td><code>if x &gt; WIDTH: vel_x = -vel_x</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wrap</strong></td>
+                            <td>Appear on opposite side</td>
+                            <td><code>x = x % WIDTH</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clamp</strong></td>
+                            <td>Stop at edge</td>
+                            <td><code>x = max(0, min(x, WIDTH))</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Destroy</strong></td>
+                            <td>Remove object when offscreen</td>
+                            <td><code>if x &gt; WIDTH: objects.remove(obj)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Bouncing Ball</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Bouncing Ball")
+clock = pygame.time.Clock()
+
+# Ball properties
+ball_x, ball_y = 400, 300
+ball_radius = 20
+vel_x, vel_y = 4, 3
+BLUE = (50, 100, 255)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # UPDATE: move ball
+    ball_x += vel_x
+    ball_y += vel_y
+
+    # Bounce off walls
+    if ball_x - ball_radius <= 0 or ball_x + ball_radius >= WIDTH:
+        vel_x = -vel_x
+    if ball_y - ball_radius <= 0 or ball_y + ball_radius >= HEIGHT:
+        vel_y = -vel_y
+
+    # RENDER
+    screen.fill((0, 0, 0))
+    pygame.draw.circle(screen, BLUE, (ball_x, ball_y), ball_radius)
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Moving Square (with Rect)</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
+
+# Using pygame.Rect for the object
+player = pygame.Rect(100, 100, 50, 50)
+vel_x, vel_y = 3, 2
+RED = (255, 50, 50)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Move
+    player.x += vel_x
+    player.y += vel_y
+
+    # Bounce using Rect properties
+    if player.left <= 0 or player.right >= WIDTH:
+        vel_x = -vel_x
+    if player.top <= 0 or player.bottom >= HEIGHT:
+        vel_y = -vel_y
+
+    # Draw
+    screen.fill((30, 30, 30))
+    pygame.draw.rect(screen, RED, player)
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Analyzing Code — Trace the Output</h4>
+                    <div class="code-block"><code># Question: What does this code do?
+x, y = 0, 300
+vel_x = 5
+
+while running:
+    x += vel_x
+    if x > 800:
+        x = 0
+    pygame.draw.circle(screen, RED, (x, y), 10)
+
+# Answer: Draws a red circle moving RIGHT at speed 5.
+# When it goes past x=800, it WRAPS back to x=0.
+# The circle moves horizontally along y=300 (middle).
+# This is a "wrap" boundary strategy.</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting screen.fill() Before Drawing</h4>
+                    <p>If you don't clear the screen each frame, old positions remain visible — you'll see a "trail" of
+                        the moving object instead of clean animation.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Bounce Misses the Radius</h4>
+                    <p>For circles, check <code>x - radius</code> and <code>x + radius</code>, not just <code>x</code>.
+                        Otherwise the ball partially exits the screen before bouncing.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a ball that bounces around the screen. Add gravity (increase <code>vel_y</code> by 0.1
+                            each frame).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create 3 balls with different speeds and colors, all bouncing independently.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Given a code snippet with <code>x += 3</code> and <code>y -= 2</code>, trace the object's
+                            path over 10 frames and describe its direction.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: How do you make an object move right?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Add a positive velocity to its
+                        x-coordinate each frame: <code>x += vel_x</code> where <code>vel_x > 0</code>.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: How do you make an object bounce off the right wall?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                        <code>if x + radius >= WIDTH: vel_x = -vel_x</code> — reverse the horizontal velocity when the
+                        object reaches the right edge.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What is the difference between bounce and wrap?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Bounce reverses direction at
+                        the edge. Wrap teleports the object to the opposite side (e.g., exits right → appears on left).
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="pygame-drawing.html"><span class="nav-label">← Previous</span><span class="nav-title">Drawing
+                        Primitives</span></a>
+                <a href="mouse-control.html"><span class="nav-label">Next →</span><span class="nav-title">Mouse
+                        Control</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>

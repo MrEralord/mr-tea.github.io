@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyGame Setup &amp; Window — mr. TEA</title>
+    <meta name="description"
+        content="Installing PyGame, importing modules, creating a game window with pygame.display. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.2A — PyGame Setup &amp; Window</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.2A · Term 2</div>
+                <h1 class="lesson-title">PyGame Setup &amp; Window</h1>
+                <p class="lesson-intro"><strong>PyGame</strong> is a Python library for building 2D games. Before you
+                    draw anything, you need to <strong>install</strong> the library, <strong>initialize</strong> its
+                    modules, and <strong>create a display window</strong>.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.1.1</span> Connect the PyGame library and its modules</li>
+                    <li><span class="lo-code">12.5.1.2</span> Create the game window</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.2A-pygame-setup.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-tv"></i> The TV Screen Analogy</h4>
+                    <p>Think of PyGame as setting up a TV: first you <strong>plug it in</strong>
+                        (<code>pygame.init()</code>), then you <strong>set the screen size</strong>
+                        (<code>set_mode()</code>), give it a <strong>channel name</strong> (<code>set_caption()</code>),
+                        and then you're ready to display content.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Installing PyGame
+                </h3>
+                <div class="code-block"><code># Install via pip
+pip install pygame
+
+# Verify installation
+python -c "import pygame; print(pygame.ver)"</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Core
+                    Setup Commands</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>import pygame</code></td>
+                            <td>Import the PyGame library</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.init()</code></td>
+                            <td>Initialize ALL PyGame modules (display, sound, fonts, etc.)</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.display.set_mode((w, h))</code></td>
+                            <td>Create the game window with width × height</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.display.set_caption("Title")</code></td>
+                            <td>Set the window title bar text</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.display.flip()</code></td>
+                            <td>Update the full display surface</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.display.update()</code></td>
+                            <td>Update portions of the display (or full if no args)</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.quit()</code></td>
+                            <td>Shut down all PyGame modules</td>
+                        </tr>
+                        <tr>
+                            <td><code>sys.exit()</code></td>
+                            <td>Exit the Python program completely</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
+                    PyGame Modules</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Module</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pygame.display</code></td>
+                            <td>Window and screen management</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.event</code></td>
+                            <td>Event handling (keyboard, mouse, quit)</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.draw</code></td>
+                            <td>Drawing shapes on surfaces</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.image</code></td>
+                            <td>Loading and saving images</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.font</code></td>
+                            <td>Rendering text</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.mixer</code></td>
+                            <td>Sound effects and music</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.time</code></td>
+                            <td>Timing and frame rate control</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.key</code></td>
+                            <td>Keyboard state checking</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.mouse</code></td>
+                            <td>Mouse position and button state</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Minimal PyGame Window</h4>
+                    <div class="code-block"><code>import pygame
+import sys
+
+# 1. Initialize PyGame
+pygame.init()
+
+# 2. Create window (800 × 600 pixels)
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# 3. Set window title
+pygame.display.set_caption("My First Game")
+
+# 4. Main loop (keeps window open)
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Fill the screen with a color
+    screen.fill((30, 30, 30))  # dark gray
+
+    # Update the display
+    pygame.display.flip()
+
+# 5. Clean up
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Window with Custom Colors</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+
+# Define colors
+SKY_BLUE = (135, 206, 235)
+DARK_GREEN = (34, 139, 34)
+
+screen = pygame.display.set_mode((640, 480))
+pygame.display.set_caption("Colored Window")
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Sky background
+    screen.fill(SKY_BLUE)
+
+    # Green ground (bottom 100px)
+    pygame.draw.rect(screen, DARK_GREEN, (0, 380, 640, 100))
+
+    pygame.display.flip()
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting pygame.init()</h4>
+                    <p>Without <code>pygame.init()</code>, modules like <code>display</code>, <code>font</code>, and
+                        <code>mixer</code> won't work. Always call it before any other PyGame function.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Window Closes Immediately</h4>
+                    <p>Without a <strong>main loop</strong> (<code>while running</code>), the window flashes and closes.
+                        The loop keeps the program alive and processing events.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List 5 PyGame modules and their purposes.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a 1024×768 window titled "Space Invaders" with a black background.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a window that changes background color every time it refreshes (hint: use
+                            <code>random.randint</code>).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What does <code>pygame.init()</code> do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Initializes all PyGame modules
+                        (display, sound, fonts, etc.) so they are ready to use.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is the difference between <code>flip()</code> and
+                        <code>update()</code>?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>flip()</code> updates the
+                        entire display surface. <code>update()</code> can update specific areas (or the whole display if
+                        no args). <code>flip()</code> is simpler and most commonly used for beginners.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: Why do we need a main loop?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To keep the window open,
+                        process events (keyboard, mouse, quit), update game state, and redraw the screen continuously.
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="../term1/wave-library.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Wave Library</span></a>
+                <a href="game-loop.html"><span class="nav-label">Next →</span><span class="nav-title">Game
+                        Loop</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>

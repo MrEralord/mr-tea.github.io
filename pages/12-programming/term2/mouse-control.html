@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Control — mr. TEA</title>
+    <meta name="description"
+        content="PyGame mouse: position tracking, button clicks, cursor interaction, drag events. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.2A — Mouse Control</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.2A · Term 2</div>
+                <h1 class="lesson-title">Mouse Control</h1>
+                <p class="lesson-intro">PyGame tracks the <strong>mouse position</strong>, <strong>button
+                        clicks</strong>, and <strong>movement</strong> through events and the <code>pygame.mouse</code>
+                    module — essential for interactive games and user interfaces.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.3.3</span> Code mouse control</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.2A-mouse-control.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-mouse-pointer"></i> The Touch Screen Analogy</h4>
+                    <p>Just like a touch screen knows <strong>where</strong> your finger is and <strong>when</strong>
+                        you tap, PyGame tracks the mouse cursor's <strong>coordinates</strong> and detects
+                        <strong>clicks</strong>. You can use this to let players aim, click buttons, drag objects, and
+                        more.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Mouse Functions</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>Returns</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pygame.mouse.get_pos()</code></td>
+                            <td>(x, y) tuple — cursor position</td>
+                            <td><code>mx, my = pygame.mouse.get_pos()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.mouse.get_pressed()</code></td>
+                            <td>(left, middle, right) — booleans</td>
+                            <td><code>buttons = pygame.mouse.get_pressed()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.mouse.set_visible(bool)</code></td>
+                            <td>Show/hide cursor</td>
+                            <td><code>pygame.mouse.set_visible(False)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.mouse.set_pos((x,y))</code></td>
+                            <td>Move cursor to position</td>
+                            <td><code>pygame.mouse.set_pos((400, 300))</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Mouse
+                    Events</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>When It Fires</th>
+                            <th>Attributes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>MOUSEBUTTONDOWN</code></td>
+                            <td>Button pressed</td>
+                            <td><code>event.pos</code>, <code>event.button</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>MOUSEBUTTONUP</code></td>
+                            <td>Button released</td>
+                            <td><code>event.pos</code>, <code>event.button</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>MOUSEMOTION</code></td>
+                            <td>Cursor moved</td>
+                            <td><code>event.pos</code>, <code>event.rel</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Button Numbers</h4>
+                    <p><code>event.button</code>: 1 = left, 2 = middle, 3 = right, 4 = scroll up, 5 = scroll down.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Object Follows Mouse</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Mouse Follower")
+clock = pygame.time.Clock()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Get mouse position
+    mx, my = pygame.mouse.get_pos()
+
+    screen.fill((30, 30, 30))
+
+    # Draw circle at mouse position
+    pygame.draw.circle(screen, (0, 200, 255), (mx, my), 25)
+
+    # Show coordinates
+    font = pygame.font.SysFont("Arial", 18)
+    text = font.render(f"({mx}, {my})", True, (255, 255, 255))
+    screen.blit(text, (mx + 30, my - 10))
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Click to Paint Dots</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Click Painter")
+clock = pygame.time.Clock()
+
+dots = []  # store painted dots
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:  # left click
+                dots.append(event.pos)
+
+    screen.fill((255, 255, 255))
+    for dot in dots:
+        pygame.draw.circle(screen, (255, 50, 50), dot, 15)
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Clickable Button</h4>
+                    <div class="code-block"><code>import pygame, sys
+
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Button Demo")
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("Arial", 28)
+
+# Button rect
+button = pygame.Rect(300, 250, 200, 60)
+clicks = 0
+
+running = True
+while running:
+    mx, my = pygame.mouse.get_pos()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if button.collidepoint(mx, my):  # click on button?
+                clicks += 1
+
+    screen.fill((30, 30, 30))
+
+    # Change color on hover
+    if button.collidepoint(mx, my):
+        color = (80, 180, 80)  # green hover
+    else:
+        color = (60, 120, 60)
+
+    pygame.draw.rect(screen, color, button, border_radius=8)
+    label = font.render(f"Clicks: {clicks}", True, (255, 255, 255))
+    screen.blit(label, (button.x + 30, button.y + 15))
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> get_pressed() vs MOUSEBUTTONDOWN Event</h4>
+                    <p><code>get_pressed()</code> returns the <strong>current state</strong> (held down?).
+                        <code>MOUSEBUTTONDOWN</code> fires <strong>once per click</strong>. For single-click actions
+                        (buttons), use the event. For continuous actions (dragging), use <code>get_pressed()</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a drawing app: hold left mouse button to draw a line trail as the mouse moves.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a "target practice" game: random circles appear, click them to score points.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a color picker: 5 colored squares at the top, click one to select the paint color, then
+                            draw with that color.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: How do you get the current mouse position?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                        <code>mx, my = pygame.mouse.get_pos()</code> — returns (x, y) tuple.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: How do you detect if a button was clicked?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Use
+                        <code>button_rect.collidepoint(mx, my)</code> inside a <code>MOUSEBUTTONDOWN</code> event to
+                        check if the click position is inside the button rectangle.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What button number is left click?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>event.button == 1</code>
+                        — 1=left, 2=middle, 3=right.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="movement-animation.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Movement &amp; Animation</span></a>
+                <a href="../term3/keyboard-control.html"><span class="nav-label">Next →</span><span
+                        class="nav-title">Keyboard Control</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>
