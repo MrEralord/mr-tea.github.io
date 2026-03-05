@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Loop &amp; Range — mr. TEA</title>
+    <meta name="description"
+        content="Python for loop, range() function with start/stop/step. NIS Grade 11 Programming 11.1.2.4, 11.1.2.5.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.1A — For Loop &amp; Range</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">For Loop &amp; Range</h1>
+                <p class="lesson-intro">The <code>for</code> loop iterates over a sequence a definite number of times.
+                    Combined with the <code>range()</code> function, it gives you precise control over start, stop, and
+                    step values — making it perfect for counting, iterating over sequences, and generating number
+                    patterns.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.1.2.4</span> Write program code using a For loop</li>
+                    <li><span class="lo-code">11.1.2.5</span> Define a range of values for a loop</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-lesson-06-for-loop.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-ruler"></i> The Measuring Tape Analogy</h4>
+                    <p>A <code>for</code> loop with <code>range()</code> is like walking along a measuring tape.
+                        <code>range(start, stop, step)</code> tells you: where to <strong>start</strong>, where to
+                        <strong>stop</strong>
+                        (but not including this mark), and how big each <strong>step</strong> is. Once you reach or pass
+                        the stop mark,
+                        you're done — you know exactly how many steps you'll take before you begin.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">range() Function
+                </h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Form</th>
+                            <th>Meaning</th>
+                            <th>Example</th>
+                            <th>Values Generated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>range(stop)</code></td>
+                            <td>0 to stop-1, step 1</td>
+                            <td><code>range(5)</code></td>
+                            <td>0, 1, 2, 3, 4</td>
+                        </tr>
+                        <tr>
+                            <td><code>range(start, stop)</code></td>
+                            <td>start to stop-1, step 1</td>
+                            <td><code>range(2, 6)</code></td>
+                            <td>2, 3, 4, 5</td>
+                        </tr>
+                        <tr>
+                            <td><code>range(start, stop, step)</code></td>
+                            <td>start to stop-1, step N</td>
+                            <td><code>range(0, 10, 2)</code></td>
+                            <td>0, 2, 4, 6, 8</td>
+                        </tr>
+                        <tr>
+                            <td><code>range(start, stop, -step)</code></td>
+                            <td>Counting down</td>
+                            <td><code>range(5, 0, -1)</code></td>
+                            <td>5, 4, 3, 2, 1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Critical: Stop value is EXCLUDED</h4>
+                    <p><code>range(1, 5)</code> generates 1, 2, 3, 4 — <strong>NOT including 5</strong>. This is the
+                        most common source of off-by-one errors. To include 5, use <code>range(1, 6)</code>.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">For Loop
+                    Patterns</h3>
+                <div class="code-block"><code># Pattern 1: Simple counting
+for i in range(5):         # i = 0, 1, 2, 3, 4
+    print(i)
+
+# Pattern 2: Custom range
+for i in range(1, 11):     # i = 1, 2, ..., 10
+    print(i)
+
+# Pattern 3: Step
+for i in range(0, 21, 5):  # i = 0, 5, 10, 15, 20
+    print(i)
+
+# Pattern 4: Countdown
+for i in range(10, 0, -1): # i = 10, 9, ..., 1
+    print(i)
+print("Go!")
+
+# Pattern 5: Iterating over a string
+for char in "Python":
+    print(char)            # P y t h o n (each on new line)
+
+# Pattern 6: Accumulator with for
+total = 0
+for i in range(1, 101):
+    total += i
+print("Sum 1-100:", total) # 5050</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">For vs
+                    While</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>for loop</th>
+                            <th>while loop</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Use when</td>
+                            <td>Number of iterations is <strong>known</strong></td>
+                            <td>Number of iterations is <strong>unknown</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Counter</td>
+                            <td>Managed automatically by range()</td>
+                            <td>You must manage manually</td>
+                        </tr>
+                        <tr>
+                            <td>Infinite loop risk</td>
+                            <td>Very low</td>
+                            <td>High if condition not updated</td>
+                        </tr>
+                        <tr>
+                            <td>Example</td>
+                            <td>Process exactly 10 items</td>
+                            <td>Read until user types "quit"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Multiplication Table</h4>
+                    <div class="code-block"><code>num = int(input("Enter a number: "))   # e.g., 7
+
+for i in range(1, 11):
+    result = num * i
+    print(f"{num} x {i} = {result}")
+
+# Output for 7:
+# 7 x 1 = 7
+# 7 x 2 = 14
+# ...
+# 7 x 10 = 70</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Even Numbers in a Range</h4>
+                    <div class="code-block"><code>start = int(input("Start: "))   # e.g., 1
+end = int(input("End: "))       # e.g., 20
+
+print("Even numbers:")
+for i in range(start, end + 1):
+    if i % 2 == 0:
+        print(i, end=" ")
+print()
+
+# Alternative using step:
+for i in range(2, end + 1, 2):
+    print(i, end=" ")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Power Table with Trace</h4>
+                    <div class="code-block"><code># Print powers of 2 from 2^0 to 2^8
+print("n\t2^n")
+print("-" * 16)
+for n in range(9):
+    print(f"{n}\t{2**n}")
+
+# Trace table:
+# n | 2**n | Output
+# 0 | 1    | 0    1
+# 1 | 2    | 1    2
+# 2 | 4    | 2    4
+# 3 | 8    | 3    8
+# ...
+# 8 | 256  | 8    256</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> break and continue</h4>
+                    <div class="code-block"><code># break — exit the loop immediately
+for i in range(1, 100):
+    if i * i > 50:
+        print(f"First square > 50: {i}^2 = {i*i}")
+        break
+
+# continue — skip to the next iteration
+for i in range(1, 11):
+    if i % 3 == 0:
+        continue           # Skip multiples of 3
+    print(i, end=" ")
+# Output: 1 2 4 5 7 8 10</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Modifying the Loop Variable</h4>
+                    <p>Changing <code>i</code> inside a for loop has no effect — it resets at the start of each
+                        iteration. Unlike while, the for loop controls <code>i</code> automatically.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Empty Range</h4>
+                    <p><code>range(5, 2)</code> produces no values (start > stop with positive step). For counting down,
+                        use a negative step: <code>range(5, 2, -1)</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> range() with Float</h4>
+                    <p><code>range(0.0, 1.0, 0.1)</code> causes a <code>TypeError</code>. <code>range()</code> only
+                        works with integers.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Range Counting Formula</h4>
+                    <ul>
+                        <li><code>range(a, b)</code> produces <code>b - a</code> values</li>
+                        <li><code>range(a, b, s)</code> produces <code>ceil((b - a) / s)</code> values</li>
+                        <li>If the question says "from 1 to N <strong>including</strong> N", use
+                            <code>range(1, N + 1)</code></li>
+                        <li>When tracing, write out the sequence generated by range() first, then iterate</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Write the values generated by: <code>range(3, 15, 3)</code> and
+                            <code>range(10, 0, -2)</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why <code>range(1, 10)</code> does not include 10. How would you include it?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that calculates the factorial of N (N!) using a for loop.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program to print all odd numbers between 1 and 50 using <code>range()</code> with a
+                            step.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>How many times does <code>for i in range(2, 100, 7)</code> execute? List the first 5 and last
+                            2 values of <code>i</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a program that prints an alphabet pattern: Line 1: A, Line 2: AB, Line 3: ABC, ...,
+                            Line 26: ABC...XYZ. Use <code>chr()</code> and <code>ord()</code>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What values does <code>range(5)</code> generate?</div>
+                    <div class="quiz-answer" data-answer="0, 1, 2, 3, 4 — starts at 0, stops BEFORE 5">Click to reveal
+                        answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What does <code>range(2, 8, 2)</code> produce?</div>
+                    <div class="quiz-answer" data-answer="2, 4, 6 — starts at 2, step 2, stops before 8">Click to reveal
+                        answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How do you count from 10 down to 1?</div>
+                    <div class="quiz-answer" data-answer="range(10, 0, -1) — start=10, stop=0 (excluded), step=-1">Click
+                        to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Can you use <code>range()</code> with floats?</div>
+                    <div class="quiz-answer"
+                        data-answer="No — range() only accepts integers. Using floats causes TypeError.">Click to reveal
+                        answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What does <code>break</code> do inside a for loop?</div>
+                    <div class="quiz-answer"
+                        data-answer="Immediately exits the loop, skipping all remaining iterations">Click to reveal
+                        answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-05-while-loop.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">While Loop &amp;
+                            Flowcharts</span></div>
+                </a>
+                <a href="lesson-07-nested-loops.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Nested Loops</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

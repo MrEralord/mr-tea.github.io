@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>While Loop &amp; Flowcharts — mr. TEA</title>
+    <meta name="description"
+        content="Python while loop, loop flowcharts, sentinel values, infinite loops. NIS Grade 11 Programming 11.1.2.1, 11.1.2.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.1A — While Loop &amp; Flowcharts</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">While Loop &amp; Flowcharts</h1>
+                <p class="lesson-intro">The <code>while</code> loop repeats a block of code as long as a condition
+                    remains <code>True</code>. It is ideal when you don't know in advance how many times the loop should
+                    run. Flowcharts provide a visual way to design and understand loop algorithms before coding.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.1.2.1</span> Write program code using a While loop</li>
+                    <li><span class="lo-code">11.1.2.2</span> Implement a loop algorithm according to a flowchart</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-lesson-05-while-loop.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-sync-alt"></i> The Guard at the Door</h4>
+                    <p>A <code>while</code> loop is like a <strong>guard</strong> checking a condition before letting
+                        you through the door again. Each time you finish the loop body, you return to the guard. If the
+                        condition is still True, you go through again. If it's False, the guard stops you and the
+                        program continues past the loop.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">While Loop Syntax
+                </h3>
+                <div class="code-block"><code># Basic pattern
+while condition:
+    # body — runs while condition is True
+    # MUST modify something to eventually make condition False
+
+# Simple counting
+count = 1
+while count <= 5:
+    print(count)
+    count += 1     # Without this → infinite loop!
+# Output: 1 2 3 4 5 (each on a new line)</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Flowchart
+                    Structure</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Flowchart Shape</th>
+                            <th>Meaning</th>
+                            <th>Python Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Oval</td>
+                            <td>Start / End</td>
+                            <td>Beginning / End of program</td>
+                        </tr>
+                        <tr>
+                            <td>Parallelogram</td>
+                            <td>Input / Output</td>
+                            <td><code>input()</code> / <code>print()</code></td>
+                        </tr>
+                        <tr>
+                            <td>Rectangle</td>
+                            <td>Process</td>
+                            <td>Assignment, calculation</td>
+                        </tr>
+                        <tr>
+                            <td>Diamond</td>
+                            <td>Decision</td>
+                            <td><code>while condition:</code></td>
+                        </tr>
+                        <tr>
+                            <td>Arrow</td>
+                            <td>Flow direction</td>
+                            <td>Sequence of execution</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> While Loop Flowchart Pattern</h4>
+                    <p>In a flowchart, a while loop always has: (1) Initialize a variable, (2) Diamond: check condition,
+                        (3) Yes → process body → loop back to diamond, (4) No → continue to next step.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
+                    While Loop Patterns</h3>
+                <div class="code-block"><code># Pattern 1: Counter-controlled
+count = 0
+while count < 10:
+    print(count)
+    count += 1
+
+# Pattern 2: Sentinel value (user says "stop")
+text = input("Enter text (or 'quit'): ")
+while text != "quit":
+    print("You said:", text)
+    text = input("Enter text (or 'quit'): ")
+
+# Pattern 3: Accumulator
+total = 0
+num = int(input("Enter number (0 to stop): "))
+while num != 0:
+    total += num
+    num = int(input("Enter number (0 to stop): "))
+print("Total:", total)
+
+# Pattern 4: Input validation
+age = int(input("Enter age (1-120): "))
+while age < 1 or age > 120:
+    print("Invalid! Try again.")
+    age = int(input("Enter age (1-120): "))</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Countdown Timer</h4>
+                    <div class="code-block"><code>count = 10
+while count > 0:
+    print(count)
+    count -= 1
+print("Launch!")
+
+# Trace table:
+# count | Output
+# 10    | 10
+# 9     | 9
+# ...
+# 1     | 1
+# 0     | Launch!</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Guessing Game (Flowchart Implementation)</h4>
+                    <p>Flowchart: Start → Set secret=7 → Input guess → Is guess == secret? → No: Too high/low → Input
+                        guess again → Yes: "Correct!" → End</p>
+                    <div class="code-block"><code>secret = 7
+guess = int(input("Guess the number (1-10): "))
+
+while guess != secret:
+    if guess > secret:
+        print("Too high!")
+    else:
+        print("Too low!")
+    guess = int(input("Try again: "))
+
+print("Correct! 🎉")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Sum of Digits</h4>
+                    <div class="code-block"><code># Extract and sum each digit of a number
+num = int(input("Enter a number: "))  # e.g., 347
+total = 0
+
+while num > 0:
+    digit = num % 10     # Get last digit
+    total += digit       # Add to total
+    num = num // 10      # Remove last digit
+
+print("Sum of digits:", total)
+
+# Trace for 347:
+# num  | digit | total
+# 347  | 7     | 7
+# 34   | 4     | 11
+# 3    | 3     | 14
+# 0    | (stop)| 14</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Password Checker with Attempt Limit</h4>
+                    <div class="code-block"><code>correct = "python123"
+attempts = 3
+
+while attempts > 0:
+    pw = input("Enter password: ")
+    if pw == correct:
+        print("Access granted!")
+        break
+    else:
+        attempts -= 1
+        print(f"Wrong! {attempts} attempts left.")
+
+if attempts == 0:
+    print("Account locked!")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Infinite Loop</h4>
+                    <p>If the condition never becomes False, the loop runs forever. Always ensure the loop variable
+                        changes inside the loop body. Press <code>Ctrl+C</code> to stop an infinite loop.</p>
+                    <div class="code-block"><code># BUG: count never changes!
+count = 1
+while count <= 5:
+    print(count)
+    # Missing: count += 1</code></div>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Off-by-One Error</h4>
+                    <p><code>while count < 5</code> runs 5 times (0,1,2,3,4). <code>while count <= 5</code> runs 6 times
+                        (0,1,2,3,4,5). Always trace the first and last iterations.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Sentinel Not Updated</h4>
+                    <p>If you use a sentinel value to exit, make sure the input is inside the loop, not just before it.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Loop Tracing Strategy</h4>
+                    <ul>
+                        <li>Always draw a trace table with columns for each variable + output</li>
+                        <li>Check the condition BEFORE each iteration (including the first)</li>
+                        <li>Count the total number of iterations carefully</li>
+                        <li>For flowchart → code: map each diamond to a <code>while</code> condition, each rectangle to
+                            a statement</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>What are the three essential parts of every while loop?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Draw a flowchart for a program that sums numbers entered by the user until they enter 0.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that asks the user for a positive integer and prints its factorial using a
+                            while loop.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Implement the following flowchart: Input a number → While number > 1 → If even: divide by 2 →
+                            If odd: multiply by 3 and add 1 → Print number → Count steps.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Trace the following code and write the output:
+                            <code>x = 100; while x > 1: x = x // 2; print(x)</code></p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a number guessing game where the computer picks a random number 1-100 and the user
+                            must guess it, receiving "higher" or "lower" hints. Count and display the number of
+                            attempts.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What happens if the while condition is False at the start?</div>
+                    <div class="quiz-answer" data-answer="The loop body never executes — it is skipped entirely">Click
+                        to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. How many times does this loop run?
+                        <code>i = 0; while i < 3: i += 1</code></div>
+                    <div class="quiz-answer" data-answer="3 times (i goes 0→1, 1→2, 2→3, then 3 < 3 is False)">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What causes an infinite loop?</div>
+                    <div class="quiz-answer"
+                        data-answer="The condition never becomes False, usually because the loop variable is not updated inside the body">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does <code>break</code> do inside a while loop?</div>
+                    <div class="quiz-answer" data-answer="It immediately exits the loop, regardless of the condition">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What flowchart shape represents a loop condition?</div>
+                    <div class="quiz-answer"
+                        data-answer="Diamond (decision shape) — with Yes/No paths, where one path loops back">Click to
+                        reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-04-boolean-branching.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Boolean Logic &amp;
+                            Branching</span></div>
+                </a>
+                <a href="lesson-06-for-loop.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">For Loop &amp; Range</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

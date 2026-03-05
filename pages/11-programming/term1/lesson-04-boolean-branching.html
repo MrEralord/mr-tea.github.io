@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolean Logic &amp; Branching — mr. TEA</title>
+    <meta name="description"
+        content="Python boolean logic, AND/OR/NOT, if/elif/else branching, flowcharts. NIS Grade 11 Programming 11.1.1.7, 11.1.1.8, 11.1.1.9.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.1A — Boolean Logic &amp; Branching</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">Boolean Logic &amp; Branching</h1>
+                <p class="lesson-intro">Programs need to make decisions. Boolean logic determines whether conditions are
+                    <code>True</code> or <code>False</code>, and branching structures (<code>if/elif/else</code>) allow
+                    the program to take different paths based on those conditions.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.1.1.7</span> Apply logic operations to Boolean variables</li>
+                    <li><span class="lo-code">11.1.1.8</span> Use logical operations AND, OR, NOT in selection structure
+                    </li>
+                    <li><span class="lo-code">11.1.1.9</span> Implement the branching algorithm according to the
+                        flowchart</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-lesson-04-boolean-branching.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-traffic-light"></i> The Traffic Light Analogy</h4>
+                    <p>A traffic light is a branching algorithm: <strong>IF</strong> the light is green → go;
+                        <strong>ELIF</strong> yellow → slow down; <strong>ELSE</strong> (red) → stop. The light's colour
+                        is a condition that evaluates to True or False for each check. Logical operators combine
+                        conditions: you cross <strong>AND</strong> the light is green <strong>AND</strong> no
+                        pedestrians are crossing.</p>
+                </div>
+            </section>
+
+            <!-- Rules & Theory -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Comparison Operators
+                </h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Meaning</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>==</code></td>
+                            <td>Equal to</td>
+                            <td><code>5 == 5</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>!=</code></td>
+                            <td>Not equal to</td>
+                            <td><code>5 != 3</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&gt;</code></td>
+                            <td>Greater than</td>
+                            <td><code>5 &gt; 3</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;</code></td>
+                            <td>Less than</td>
+                            <td><code>5 &lt; 3</code></td>
+                            <td><code>False</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&gt;=</code></td>
+                            <td>Greater or equal</td>
+                            <td><code>5 &gt;= 5</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;=</code></td>
+                            <td>Less or equal</td>
+                            <td><code>5 &lt;= 3</code></td>
+                            <td><code>False</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Logical
+                    Operators: AND, OR, NOT</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Meaning</th>
+                            <th>True when…</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>and</code></td>
+                            <td>Both conditions must be True</td>
+                            <td>A is True <strong>AND</strong> B is True</td>
+                            <td><code>(x &gt; 0) and (x &lt; 100)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>or</code></td>
+                            <td>At least one condition is True</td>
+                            <td>A is True <strong>OR</strong> B is True (or both)</td>
+                            <td><code>(x == 0) or (x == 1)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>not</code></td>
+                            <td>Inverts the value</td>
+                            <td>A is False</td>
+                            <td><code>not (x &gt; 10)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Truth
+                    Tables</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>A and B</th>
+                            <th>A or B</th>
+                            <th>not A</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>True</td>
+                            <td>False</td>
+                        </tr>
+                        <tr>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>False</td>
+                        </tr>
+                        <tr>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>False</td>
+                            <td>True</td>
+                            <td>True</td>
+                        </tr>
+                        <tr>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>False</td>
+                            <td>True</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">if / elif
+                    / else Structure</h3>
+                <div class="code-block"><code># Pattern: if → elif → else
+if condition_1:
+    # executes when condition_1 is True
+elif condition_2:
+    # executes when condition_1 is False AND condition_2 is True
+else:
+    # executes when ALL above conditions are False
+
+# Example: Grade classifier
+score = int(input("Enter score: "))
+
+if score >= 90:
+    print("Grade: A")
+elif score >= 80:
+    print("Grade: B")
+elif score >= 70:
+    print("Grade: C")
+elif score >= 60:
+    print("Grade: D")
+else:
+    print("Grade: F")</code></div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Flowchart → Code</h4>
+                    <p>A flowchart <strong>diamond</strong> (decision box) = <code>if</code> condition. The
+                        <strong>Yes</strong> arrow = the indented block. The <strong>No</strong> arrow =
+                        <code>elif</code> or <code>else</code>. Always trace the flowchart path from top to bottom,
+                        matching each diamond to a condition in code.</p>
+                </div>
+            </section>
+
+            <!-- Worked Examples -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Boolean Variables</h4>
+                    <div class="code-block"><code># Boolean variables hold True/False
+is_raining = True
+has_umbrella = False
+
+# Logical expressions
+can_go_outside = not is_raining or has_umbrella
+print(can_go_outside)   # False
+
+# Explanation:
+# not True → False
+# False or False → False</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Compound Conditions with AND/OR</h4>
+                    <div class="code-block"><code>age = int(input("Enter age: "))
+has_id = input("Do you have ID? (yes/no): ") == "yes"
+
+# AND — both must be true
+if age >= 18 and has_id:
+    print("Access granted")
+else:
+    print("Access denied")
+
+# OR — either one is enough
+day = input("Enter day: ")
+if day == "Saturday" or day == "Sunday":
+    print("Weekend!")
+else:
+    print("Weekday")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Nested if — Cinema Ticket Pricing</h4>
+                    <div class="code-block"><code>age = int(input("Enter age: "))
+is_student = input("Student? (yes/no): ") == "yes"
+
+if age < 12:
+    price = 500
+elif age >= 12 and age < 18:
+    if is_student:
+        price = 700
+    else:
+        price = 900
+else:
+    price = 1200
+
+print("Ticket price:", price, "tenge")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Flowchart Implementation — Number Classifier</h4>
+                    <p>Flowchart: Input number → Is it positive? → If yes: Is it even? → Print result</p>
+                    <div class="code-block"><code>num = int(input("Enter a number: "))
+
+if num > 0:
+    if num % 2 == 0:
+        print(num, "is positive and even")
+    else:
+        print(num, "is positive and odd")
+elif num < 0:
+    print(num, "is negative")
+else:
+    print("Zero")
+
+# Trace for input 7:
+# num = 7
+# 7 > 0 → True → enter first if
+# 7 % 2 == 0 → 1 == 0 → False → enter else
+# Output: "7 is positive and odd"</code></div>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> = vs == Confusion</h4>
+                    <p><code>=</code> is <strong>assignment</strong>, <code>==</code> is <strong>comparison</strong>.
+                        Writing <code>if x = 5:</code> is a SyntaxError. It must be <code>if x == 5:</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting the Colon</h4>
+                    <p><code>if x > 5</code> → SyntaxError. Every <code>if</code>, <code>elif</code>, <code>else</code>
+                        must end with <code>:</code></p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Indentation Errors</h4>
+                    <p>Python uses indentation to define blocks. Inconsistent indentation causes
+                        <code>IndentationError</code>. Use 4 spaces consistently.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Wrong Operator Precedence</h4>
+                    <p><code>not</code> has higher precedence than <code>and</code>, which is higher than
+                        <code>or</code>. Use parentheses when combining: <code>(a or b) and c</code> is different from
+                        <code>a or (b and c)</code>.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Strategy</h4>
+                    <ul>
+                        <li>When tracing a flowchart, follow ONLY one path at a time based on the input value</li>
+                        <li>For <code>and</code>: if the first condition is False, the whole expression is False
+                            (short-circuit)</li>
+                        <li>For <code>or</code>: if the first condition is True, the whole expression is True
+                            (short-circuit)</li>
+                        <li>Remember that <code>elif</code> is checked only if ALL previous conditions were False</li>
+                        <li>Draw a truth table if a complex boolean expression confuses you</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Complete the truth table for: <code>A and (B or not C)</code> for all combinations of A, B,
+                            C.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between <code>if/if/if</code> (three separate ifs) and
+                            <code>if/elif/else</code>. Give an example where they produce different results.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that reads a year and determines if it is a leap year. (Divisible by 4, but
+                            not 100, unless also divisible by 400.)</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Implement the following flowchart: Input a temperature → If temp > 30: "Hot" → Else if temp >
+                            20: "Warm" → Else if temp > 10: "Cool" → Else: "Cold".</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Given <code>x = 15</code>, trace and determine the output of:
+                            <code>if x > 10 and x < 20: print("A") elif x > 5 or x == 15: print("B") else: print("C")</code>
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Design a quiz program that asks 3 true/false questions, counts the score, and outputs a grade
+                            based on the number correct (3 = Excellent, 2 = Good, 1 = Fair, 0 = Fail).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the result of <code>True and False</code>?</div>
+                    <div class="quiz-answer" data-answer="False — AND requires BOTH to be True">Click to reveal answer
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is the result of <code>True or False</code>?</div>
+                    <div class="quiz-answer" data-answer="True — OR requires at least ONE to be True">Click to reveal
+                        answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What is <code>not True</code>?</div>
+                    <div class="quiz-answer" data-answer="False — NOT inverts the value">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is the difference between <code>=</code> and <code>==</code>?
+                    </div>
+                    <div class="quiz-answer"
+                        data-answer="= is assignment (x = 5 stores 5 in x). == is comparison (x == 5 checks if x equals 5, returns True/False)">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Can you have <code>elif</code> without <code>if</code>?</div>
+                    <div class="quiz-answer"
+                        data-answer="No — elif must come after an if statement. It is checked only when the preceding if (or elif) was False.">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-03-input-arithmetic.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Input &amp; Arithmetic</span>
+                    </div>
+                </a>
+                <a href="lesson-05-while-loop.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">While Loop &amp;
+                            Flowcharts</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Types &amp; Type Conversion — mr. TEA</title>
+    <meta name="description"
+        content="Python data types: int, float, str, bool. Type conversion with int(), float(), str(). NIS Grade 11 Programming 11.1.1.3, 11.1.1.4.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.1A — Data Types &amp; Type Conversion</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">Data Types &amp; Type Conversion</h1>
+                <p class="lesson-intro">Every value in Python has a <strong>type</strong> that determines what
+                    operations can be performed on it. Understanding data types and knowing how to convert between them
+                    is fundamental to writing correct programs.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.1.1.3</span> Distinguish between data types in Python</li>
+                    <li><span class="lo-code">11.1.1.4</span> Convert data types of variables</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-lesson-02-data-types.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-box-open"></i> The Container Analogy</h4>
+                    <p>Think of data types as different <strong>types of containers</strong>. A glass holds liquid
+                        (numbers), an envelope holds letters (strings), and a light switch is either on or off
+                        (boolean). You can <strong>pour</strong> liquid from a glass into a measuring cup (type
+                        conversion), but you can't pour a letter into a glass — the types must be compatible.</p>
+                </div>
+            </section>
+
+            <!-- Rules & Theory -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Python Data Types
+                </h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Examples</th>
+                            <th>Check with</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>int</code></td>
+                            <td>Whole numbers (no decimals)</td>
+                            <td><code>42</code>, <code>-7</code>, <code>0</code></td>
+                            <td><code>type(42)</code> → <code>&lt;class 'int'&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>float</code></td>
+                            <td>Decimal numbers</td>
+                            <td><code>3.14</code>, <code>-0.5</code>, <code>2.0</code></td>
+                            <td><code>type(3.14)</code> → <code>&lt;class 'float'&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>str</code></td>
+                            <td>Text (sequence of characters)</td>
+                            <td><code>"Hello"</code>, <code>'A'</code>, <code>"123"</code></td>
+                            <td><code>type("Hi")</code> → <code>&lt;class 'str'&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>bool</code></td>
+                            <td>Logical value: True or False</td>
+                            <td><code>True</code>, <code>False</code></td>
+                            <td><code>type(True)</code> → <code>&lt;class 'bool'&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="code-block"><code># Checking types
+x = 10
+y = 3.14
+name = "Ali"
+is_student = True
+
+print(type(x))           # &lt;class 'int'&gt;
+print(type(y))           # &lt;class 'float'&gt;
+print(type(name))        # &lt;class 'str'&gt;
+print(type(is_student))  # &lt;class 'bool'&gt;</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Type
+                    Conversion Functions</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>Converts to</th>
+                            <th>Example</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>int()</code></td>
+                            <td>Integer</td>
+                            <td><code>int("42")</code></td>
+                            <td><code>42</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>int()</code></td>
+                            <td>Integer (truncates)</td>
+                            <td><code>int(3.99)</code></td>
+                            <td><code>3</code> (not rounded!)</td>
+                        </tr>
+                        <tr>
+                            <td><code>float()</code></td>
+                            <td>Float</td>
+                            <td><code>float("3.14")</code></td>
+                            <td><code>3.14</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>float()</code></td>
+                            <td>Float</td>
+                            <td><code>float(5)</code></td>
+                            <td><code>5.0</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>str()</code></td>
+                            <td>String</td>
+                            <td><code>str(42)</code></td>
+                            <td><code>"42"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>bool()</code></td>
+                            <td>Boolean</td>
+                            <td><code>bool(0)</code></td>
+                            <td><code>False</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>bool()</code></td>
+                            <td>Boolean</td>
+                            <td><code>bool(1)</code></td>
+                            <td><code>True</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Important: int() truncates, not rounds!</h4>
+                    <p><code>int(3.99)</code> gives <code>3</code>, not <code>4</code>. It simply removes the decimal
+                        part. To round, use <code>round(3.99)</code> which gives <code>4</code>.</p>
+                </div>
+            </section>
+
+            <!-- Worked Examples -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Distinguishing Types</h4>
+                    <div class="code-block"><code># What type is each value?
+a = 100         # int — whole number
+b = 100.0       # float — has decimal point
+c = "100"       # str — in quotes
+d = True        # bool — True/False keyword
+
+# Note: "100" is NOT the same as 100!
+print(type("100"))  # &lt;class 'str'&gt;
+print(type(100))    # &lt;class 'int'&gt;</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Converting User Input</h4>
+                    <div class="code-block"><code># input() always returns a string!
+age_str = input("Enter your age: ")   # e.g., "16"
+print(type(age_str))                   # &lt;class 'str'&gt;
+
+# Convert to int for calculations
+age = int(age_str)
+print(type(age))                       # &lt;class 'int'&gt;
+print("Next year you'll be:", age + 1) # Next year you'll be: 17
+
+# One-line version
+age = int(input("Enter your age: "))</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Mixing Types in Expressions</h4>
+                    <div class="code-block"><code># int + float → float (automatic promotion)
+result = 5 + 2.0
+print(result)        # 7.0
+print(type(result))  # &lt;class 'float'&gt;
+
+# int / int → float (in Python 3)
+result = 10 / 3
+print(result)        # 3.3333333333333335
+
+# String + number → ERROR!
+# print("Age: " + 16)    # TypeError!
+print("Age: " + str(16))  # Age: 16  ✓</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Boolean Conversion Rules</h4>
+                    <div class="code-block"><code># What values are "truthy" vs "falsy"?
+print(bool(0))      # False  — zero is falsy
+print(bool(42))     # True   — any non-zero is truthy
+print(bool(""))     # False  — empty string is falsy
+print(bool("Hi"))   # True   — non-empty string is truthy
+print(bool(0.0))    # False
+print(bool(-1))     # True   — even negative numbers!</code></div>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Converting Invalid Strings</h4>
+                    <p><code>int("hello")</code> or <code>int("3.14")</code> will crash with a <code>ValueError</code>.
+                        You can only convert strings that look like valid integers: <code>int("42")</code> ✓. For
+                        decimals, use <code>float("3.14")</code> first, then <code>int()</code> if needed.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing "100" and 100</h4>
+                    <p>The string <code>"100"</code> and the integer <code>100</code> look similar but behave very
+                        differently. <code>"100" + "200"</code> gives <code>"100200"</code> (concatenation), while
+                        <code>100 + 200</code> gives <code>300</code> (addition).</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting input() Returns String</h4>
+                    <p><code>x = input("Number: ")</code> gives a string, even if the user types <code>5</code>. You
+                        must convert: <code>x = int(input("Number: "))</code>.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Type Questions Strategy</h4>
+                    <ul>
+                        <li>If it has a <strong>decimal point</strong>, it's a <code>float</code> (even
+                            <code>5.0</code>)</li>
+                        <li>If it's in <strong>quotes</strong>, it's a <code>str</code> (even <code>"123"</code>)</li>
+                        <li>If it's <code>True</code> or <code>False</code> (capitalized), it's <code>bool</code></li>
+                        <li><code>int()</code> <strong>truncates</strong> (cuts off decimal), it does NOT round</li>
+                        <li>Python 3: <code>10 / 3</code> = <code>3.333...</code> (float), <code>10 // 3</code> =
+                            <code>3</code> (int)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the four basic data types in Python and give two examples of each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why <code>int(7.9)</code> returns <code>7</code> and not <code>8</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that asks the user for their birth year (as a string), converts it to an
+                            integer, and calculates their age.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Predict the output and type of each: <code>"5" + "3"</code>, <code>5 + 3</code>,
+                            <code>5.0 + 3</code>, <code>int("5") + 3</code></p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Write a temperature converter: input Celsius as a string, convert to float, calculate
+                            Fahrenheit (F = C × 9/5 + 32), and output the result.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What type does <code>input()</code> always return?</div>
+                    <div class="quiz-answer" data-answer="str (string) — even if the user types a number">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is the result of <code>int(4.7)</code>?</div>
+                    <div class="quiz-answer" data-answer="4 — int() truncates (removes decimal), does NOT round">Click
+                        to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What is <code>type(True)</code>?</div>
+                    <div class="quiz-answer" data-answer="<class 'bool'>">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is <code>bool("")</code>?</div>
+                    <div class="quiz-answer" data-answer="False — empty string is falsy">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is the output of <code>print(type(10 / 2))</code>?</div>
+                    <div class="quiz-answer"
+                        data-answer="<class 'float'> — division always returns float in Python 3 (result is 5.0, not 5)">
+                        Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-01-output.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Output &amp; Escape
+                            Sequences</span></div>
+                </a>
+                <a href="lesson-03-input-arithmetic.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Input &amp; Arithmetic</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>

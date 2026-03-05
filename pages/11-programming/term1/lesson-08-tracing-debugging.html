@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracing &amp; Debugging — mr. TEA</title>
+    <meta name="description"
+        content="Python program tracing with trace tables, three error types, debugging techniques. NIS Grade 11 Programming 11.1.2.3, 11.1.2.6.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../../index.html#syllabus">Syllabus</a><a
+                    href="../../../index.html#interactive-lab">Lab</a><a
+                    href="../../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.1A — Tracing &amp; Debugging</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                <h1 class="lesson-title">Tracing &amp; Debugging</h1>
+                <p class="lesson-intro"><strong>Tracing</strong> means stepping through code line by line, recording how
+                    variables change — a critical exam skill. <strong>Debugging</strong> is the process of finding and
+                    fixing errors. Together, they make you a confident, effective programmer.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.1.2.3</span> Trace program code</li>
+                    <li><span class="lo-code">11.1.2.6</span> Debug a program</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.1A-lesson-08-tracing-debugging.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-search"></i> The Detective Analogy</h4>
+                    <p>Tracing code is like being a <strong>detective</strong> examining a crime scene step by step. A
+                        <strong>trace table</strong> is your evidence notebook — you record every variable change as it
+                        happens. Debugging is finding which "suspect" (line of code) caused the "crime" (bug).
+                        Methodical, line-by-line investigation always beats random guessing.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Trace Table Method
+                </h3>
+                <p class="concept-text">A trace table has <strong>one column per variable</strong> plus an
+                    <strong>Output column</strong>. You add a new row each time a variable changes value.</p>
+
+                <div class="code-block"><code># Code to trace:
+x = 5
+y = 3
+total = 0
+while x > 0:
+    total = total + y
+    x = x - 1
+print(total)</code></div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>x</th>
+                            <th>y</th>
+                            <th>total</th>
+                            <th>x > 0?</th>
+                            <th>Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>init</td>
+                            <td>5</td>
+                            <td>3</td>
+                            <td>0</td>
+                            <td>True</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td>3</td>
+                            <td>True</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>3</td>
+                            <td>6</td>
+                            <td>True</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>True</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>12</td>
+                            <td>True</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>15</td>
+                            <td>False</td>
+                            <td>15</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Three
+                    Types of Errors</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Error Type</th>
+                            <th>When Detected</th>
+                            <th>Cause</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Syntax Error</strong></td>
+                            <td>Before running</td>
+                            <td>Violates Python rules</td>
+                            <td><code>print("hi"</code> — missing <code>)</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Runtime Error</strong></td>
+                            <td>While running</td>
+                            <td>Impossible operation</td>
+                            <td><code>10 / 0</code> — ZeroDivisionError</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Logic Error</strong></td>
+                            <td>After running</td>
+                            <td>Wrong algorithm/formula</td>
+                            <td>Using <code>+</code> instead of <code>*</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
+                    Python Errors</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Error Name</th>
+                            <th>Cause</th>
+                            <th>Fix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>SyntaxError</code></td>
+                            <td>Missing colon, bracket, quote</td>
+                            <td>Check punctuation</td>
+                        </tr>
+                        <tr>
+                            <td><code>IndentationError</code></td>
+                            <td>Wrong whitespace</td>
+                            <td>Use consistent 4-space indentation</td>
+                        </tr>
+                        <tr>
+                            <td><code>NameError</code></td>
+                            <td>Undefined variable</td>
+                            <td>Check spelling, declare before use</td>
+                        </tr>
+                        <tr>
+                            <td><code>TypeError</code></td>
+                            <td>Wrong type in operation</td>
+                            <td>Use <code>int()</code>, <code>str()</code> conversion</td>
+                        </tr>
+                        <tr>
+                            <td><code>ValueError</code></td>
+                            <td>Invalid conversion</td>
+                            <td><code>int("abc")</code> — validate input</td>
+                        </tr>
+                        <tr>
+                            <td><code>ZeroDivisionError</code></td>
+                            <td>Division by zero</td>
+                            <td>Check divisor != 0</td>
+                        </tr>
+                        <tr>
+                            <td><code>IndexError</code></td>
+                            <td>Invalid list/string index</td>
+                            <td>Check bounds</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Reading a Traceback</h4>
+                    <p>Python tracebacks read <strong>bottom to top</strong>. The last line tells you the error type and
+                        message. The line above it shows the exact line number and code that caused the error. Always
+                        start reading from the bottom!</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Trace Table — Swapping Variables</h4>
+                    <div class="code-block"><code>a = 10
+b = 20
+temp = a
+a = b
+b = temp
+print(a, b)</code></div>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Step</th>
+                                <th>a</th>
+                                <th>b</th>
+                                <th>temp</th>
+                                <th>Output</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>10</td>
+                                <td>20</td>
+                                <td>—</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>10</td>
+                                <td>20</td>
+                                <td>10</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>20</td>
+                                <td>20</td>
+                                <td>10</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>20</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>20 10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Finding and Fixing Bugs</h4>
+                    <div class="code-block"><code># BUGGY CODE — Find 3 errors:
+num = input("Enter a number")      # Bug 1: missing colon in prompt
+total = 0
+for i in range(1, num):            # Bug 2: num is a string!
+    total += i
+    print("Sum:", totl)             # Bug 3: typo "totl"
+
+# FIXED CODE:
+num = int(input("Enter a number: "))  # Fix 1: added ": ", Fix 2: int()
+total = 0
+for i in range(1, num + 1):           # Fix: include num in range
+    total += i
+print("Sum:", total)                   # Fix 3: fixed typo, moved outside loop</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Trace — Fibonacci Sequence</h4>
+                    <div class="code-block"><code>a = 0
+b = 1
+for i in range(6):
+    print(a, end=" ")
+    a, b = b, a + b</code></div>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>i</th>
+                                <th>a (before)</th>
+                                <th>b (before)</th>
+                                <th>Output</th>
+                                <th>a (after)</th>
+                                <th>b (after)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>5</td>
+                                <td>3</td>
+                                <td>5</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>5</td>
+                                <td>8</td>
+                                <td>5</td>
+                                <td>8</td>
+                                <td>13</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>Output: <code>0 1 1 2 3 5</code></p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Debugging Strategy — print() Debugging</h4>
+                    <div class="code-block"><code># If you can't find a bug, add print() statements:
+def average(numbers):
+    total = 0
+    for n in numbers:
+        total += n
+        print(f"DEBUG: n={n}, total={total}")  # Temporary debug print
+    avg = total / len(numbers)
+    print(f"DEBUG: final total={total}, count={len(numbers)}")
+    return avg
+
+result = average([10, 20, 30])
+print("Average:", result)
+
+# Remove debug prints when the bug is fixed!</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Logic Error — Hardest to Find</h4>
+                    <p>Logic errors don't crash the program — they just give wrong results. The code runs fine, but the
+                        answer is incorrect. Only trace tables and careful testing reveal them.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Skipping Steps in Trace Tables</h4>
+                    <p>In exams, you must show <strong>every</strong> variable change, not just the final values. Each
+                        row should represent one iteration or one statement execution.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing Error Types</h4>
+                    <p>A <code>NameError</code> is a runtime error (program crashes), not a syntax error. Syntax errors
+                        prevent the program from running at all. Runtime errors occur while the program is running.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Trace Table Tips</h4>
+                    <ul>
+                        <li>Draw columns for <strong>every variable</strong> mentioned + an <strong>Output</strong>
+                            column</li>
+                        <li>Execute <strong>one line at a time</strong>, left to right, top to bottom</li>
+                        <li>For loops: check the condition <strong>before</strong> and <strong>after</strong> each
+                            iteration</li>
+                        <li>Write values <strong>exactly as Python computes them</strong> (int vs float matters!)</li>
+                        <li>If the code uses <code>print()</code>, record in the Output column at that step</li>
+                    </ul>
+                </div>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Debugging Strategy</h4>
+                    <ul>
+                        <li><strong>Read</strong> the error message carefully (especially the last line)</li>
+                        <li><strong>Locate</strong> the line number mentioned in the traceback</li>
+                        <li><strong>Add print()</strong> statements to check variable values at suspicious points</li>
+                        <li><strong>Test</strong> with simple, known inputs where you can calculate the expected output
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the three types of errors and give one characteristic of each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Classify each error: (a) <code>primt("Hello")</code> (b) <code>int("abc")</code> (c) Using
+                            <code>n + 1</code> instead of <code>n - 1</code> in a formula.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a complete trace table for:
+                            <code>n = 4; result = 1; while n > 1: result *= n; n -= 1; print(result)</code></p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>The following code should print the average of 3 numbers but has 3 bugs. Find and fix
+                            them:<br><code>total = 0; for i in range(3); n = input("Number: "); total += n; avg = total / 2; print(avg)</code>
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Trace:
+                            <code>s = ""; for i in range(1, 5): if i % 2 == 0: s += str(i); else: s += "*"; print(s)</code>
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Write a deliberately buggy program (with 1 syntax error, 1 runtime error, and 1 logic error).
+                            Then provide the corrected version with explanations.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What type of error is a misspelled variable name like
+                        <code>pritn</code> instead of <code>print</code>?</div>
+                    <div class="quiz-answer"
+                        data-answer="NameError (runtime error) — Python doesn't recognise the name 'pritn'">Click to
+                        reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What type of error gives a wrong answer but doesn't crash?</div>
+                    <div class="quiz-answer"
+                        data-answer="Logic error — the program runs fine but produces incorrect results">Click to reveal
+                        answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What columns should a trace table always include?</div>
+                    <div class="quiz-answer"
+                        data-answer="One column per variable + an Output column for print() statements">Click to reveal
+                        answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. How do you read a Python traceback?</div>
+                    <div class="quiz-answer"
+                        data-answer="Bottom to top — the last line shows the error type, the line above shows the code that caused it">
+                        Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What error does <code>int("hello")</code> cause?</div>
+                    <div class="quiz-answer" data-answer="ValueError — 'hello' cannot be converted to an integer">Click
+                        to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-07-nested-loops.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Nested Loops</span></div>
+                </a>
+                <a href="../term2/lesson-09-sets-create.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Creating Sets</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/lesson.js"></script>
+</body>
+
+</html>
