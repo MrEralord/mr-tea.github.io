@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collision Detection — mr. TEA</title>
+    <meta name="description"
+        content="PyGame collision detection: colliderect, sprite.collide_rect, group collisions. Handling impacts and triggers. NIS Grade 12.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../../index.html#syllabus">Syllabus</a>
+                <a href="../../../index.html#interactive-lab">Lab</a>
+                <a href="../../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../../index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
+                <span>12.3A — Collision Detection</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Collision Detection</h1>
+                <p class="lesson-intro"><strong>Collision detection</strong> is how games know when two objects touch —
+                    like a player hitting a coin, a bullet hitting an enemy, or a character bumping into a wall. PyGame
+                    uses <strong>rectangles</strong> to check for these overlaps efficiently.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.3.1</span> Code the movement of graphic objects</li>
+                    <li><span class="lo-code">12.5.3.6</span> Process events (collisions)</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-collision-detection.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-box-open"></i> The Bounding Box Analogy</h4>
+                    <p>Imagine every object in your game is wrapped in an invisible rectangular box. To check if two
+                        complex shapes touch, we just check <strong>"do their boxes overlap?"</strong>. It's fast,
+                        simple, and works for 99% of 2D games.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Rectangle Collisions
+                    (Rect vs Rect)</h3>
+                <div class="code-block"><code># Check if two Rects overlap
+if player_rect.colliderect(coin_rect):
+    print("Hit!")
+
+# Check if a Rect contains a point (e.g., mouse click)
+if button_rect.collidepoint(mx, my):
+    print("Clicked!")</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Sprite
+                    Collisions (Sprite vs Group)</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pygame.sprite.spritecollide(sprite, group, dokill)</code></td>
+                            <td>Returns a list of sprites from the <strong>group</strong> that intersect with the
+                                <strong>sprite</strong>. <br><code>dokill=True</code> removes hit sprites from the
+                                group.</td>
+                        </tr>
+                        <tr>
+                            <td><code>pygame.sprite.groupcollide(grp1, grp2, kill1, kill2)</code></td>
+                            <td>Checks for collisions between <strong>two groups</strong>. Returns a dictionary of hits.
+                                <br><code>kill1/kill2</code> determine if hit sprites are removed.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Collecting Coins (Sprite vs Group)</h4>
+                    <div class="code-block"><code># Player hits coins -> coins disappear, score increases
+hits = pygame.sprite.spritecollide(player, coins, True)
+
+for coin in hits:
+    # This loop runs once for every coin hit this frame
+    score += 10
+    play_coin_sound()
+    print("Coin collected!")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Bullets Hitting Enemies (Group vs Group)</h4>
+                    <div class="code-block"><code># Bullets (grp1) hit Enemies (grp2)
+# True, True -> BOTH bullet and enemy disappear
+hits = pygame.sprite.groupcollide(bullets, enemies, True, True)
+
+for bullet in hits:
+    # hits is a dict: {bullet: [enemy1, enemy2...]}
+    # usually 1 bullet hits 1 enemy
+    for enemy in hits[bullet]:
+        score += 50
+        create_explosion(enemy.rect.center)</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Wall Collision (Stop Movement)</h4>
+                    <div class="code-block"><code># Move x-axis
+player.rect.x += player.vel_x
+
+# Check wall collisions immediately
+hits = pygame.sprite.spritecollide(player, walls, False)
+for wall in hits:
+    if player.vel_x > 0: # Moving right; hit left side of wall
+        player.rect.right = wall.rect.left
+    elif player.vel_x < 0: # Moving left; hit right side of wall
+        player.rect.left = wall.rect.right
+
+# Move y-axis
+player.rect.y += player.vel_y
+
+# Check wall collisions again
+hits = pygame.sprite.spritecollide(player, walls, False)
+for wall in hits:
+    if player.vel_y > 0: # Moving down; hit top of wall
+        player.rect.bottom = wall.rect.top
+    elif player.vel_y < 0: # Moving up; hit bottom of wall
+        player.rect.top = wall.rect.bottom</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Tunneling Effect</h4>
+                    <p>If an object moves too fast (e.g., speed=50), it might "jump" completely over a thin wall
+                        (width=10) in a single frame without ever overlapping it. Fix: limit speed or use multiple
+                        smaller steps.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Modifying List While Iterating</h4>
+                    <p><code>spritecollide(..., True)</code> modifies the group internally, which is safe. But if you
+                        manually loop through a list and remove items
+                        (<code>for enemy in enemies: enemies.remove(enemy)</code>), it can cause errors. Iterate over a
+                        copy instead: <code>pixels[:]</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a game where the player collects randomly placed "food" squares. Score +1 for each.
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a "dodge the falling rocks" game. If player collides with a rock, game over.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Implement a maze game where the player cannot walk through wall sprites (use the stop
+                            movement logic).</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What does <code>dokill=True</code> mean in <code>spritecollide</code>?
+                    </p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It means the sprites in the
+                        <strong>group</strong> that are hit will be automatically removed (killed) from the group.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: How do you check if a point is inside a rectangle?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                        <code>rect.collidepoint(x, y)</code> — useful for mouse clicks on buttons.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: Why separate x and y movement for wall collisions?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To know which side was hit. If
+                        you move diagonally and hit a corner, checking x and y separately lets you slide along the wall
+                        instead of getting stuck.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="sprites-characters.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Sprites &amp; Characters</span></a>
+                <a href="full-game.html"><span class="nav-label">Next →</span><span class="nav-title">Full Game
+                        Implementation</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+    </footer>
+    <script src="../../../js/app.js"></script>
+</body>
+
+</html>
