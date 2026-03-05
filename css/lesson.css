@@ -1,0 +1,843 @@
+/* ============================================================
+   IT-Tea.org — Lesson Page Styles
+   Shared styles for all lesson material pages
+   ============================================================ */
+
+/* ---------- Layout ---------- */
+.lesson-page {
+    padding-top: calc(var(--header-height) + var(--space-lg));
+    min-height: 100vh;
+}
+
+.lesson-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 var(--space-md) var(--space-2xl);
+}
+
+/* ---------- Breadcrumb ---------- */
+.lesson-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.lesson-breadcrumb a {
+    color: var(--clr-tea);
+    text-decoration: none;
+    transition: opacity var(--transition);
+}
+
+.lesson-breadcrumb a:hover {
+    opacity: 0.7;
+}
+
+.lesson-breadcrumb .sep {
+    margin: 0 var(--space-2xs);
+}
+
+/* ---------- Page Header ---------- */
+.lesson-header {
+    margin-bottom: var(--space-xl);
+}
+
+.lesson-unit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: var(--bg-glass);
+    color: var(--clr-tea);
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-sm);
+}
+
+.lesson-title {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    line-height: 1.15;
+}
+
+.lesson-intro {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+/* ---------- LO Card ---------- */
+.lesson-lo-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--clr-tea);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.lesson-lo-card h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--clr-tea);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.lesson-lo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lesson-lo-list li {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.lesson-lo-list .lo-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(13, 148, 136, 0.12);
+    color: var(--clr-tea);
+    padding: 0.15em 0.5em;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    height: fit-content;
+    margin-top: 0.1em;
+}
+
+/* ---------- PDF Presentation ---------- */
+.lesson-pdf-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.lesson-pdf-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    background: var(--accent-warm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.lesson-pdf-info {
+    flex: 1;
+    min-width: 180px;
+}
+
+.lesson-pdf-info h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2xs);
+}
+
+.lesson-pdf-info p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.lesson-pdf-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.lesson-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.lesson-pdf-btn.view-btn {
+    background: var(--bg-glass);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.lesson-pdf-btn.view-btn:hover {
+    border-color: var(--clr-tea);
+    color: var(--clr-tea);
+}
+
+.lesson-pdf-btn.download-btn {
+    background: var(--accent-tea);
+    color: #fff;
+}
+
+.lesson-pdf-btn.download-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ---------- YouTube Video Block ---------- */
+.lesson-video-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.lesson-video-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.lesson-video-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: #ff0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.lesson-video-info h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2xs);
+}
+
+.lesson-video-info p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.lesson-video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.lesson-video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ---------- Lesson Image ---------- */
+.lesson-image-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-xl);
+    text-align: center;
+}
+
+.lesson-image-block img {
+    max-width: 100%;
+    width: auto;
+    max-height: 420px;
+    height: auto;
+    border-radius: var(--radius-md);
+    cursor: zoom-in;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.lesson-image-block img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.lesson-image-block figcaption {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: var(--space-sm);
+    font-style: italic;
+}
+
+/* Lightbox overlay */
+.image-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.image-lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.image-lightbox img {
+    max-width: 92vw;
+    max-height: 92vh;
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+    transform: scale(0.92);
+    transition: transform 0.3s ease;
+}
+
+.image-lightbox.active img {
+    transform: scale(1);
+}
+
+.image-lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    color: #fff;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    line-height: 1;
+}
+
+.image-lightbox-close:hover {
+    opacity: 1;
+}
+
+/* ---------- Section Blocks ---------- */
+.lesson-section {
+    margin-bottom: var(--space-xl);
+}
+
+.lesson-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.lesson-section-title i {
+    color: var(--clr-tea);
+    font-size: 1.1rem;
+}
+
+/* Analogy box */
+.analogy-box {
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.06), rgba(6, 182, 212, 0.06));
+    border: 1px solid rgba(13, 148, 136, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+}
+
+.analogy-box h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--clr-tea);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.analogy-box p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+
+/* Theory Tables */
+.theory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-md);
+    font-size: 0.88rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.theory-table th {
+    background: var(--bg-glass);
+    font-weight: 700;
+    text-align: left;
+    padding: var(--space-sm) var(--space-md);
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+}
+
+.theory-table td {
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.theory-table tr:last-child td {
+    border-bottom: none;
+}
+
+.theory-table tr:hover td {
+    background: var(--bg-glass);
+}
+
+.theory-table code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    background: var(--bg-code);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+}
+
+/* Concept text */
+.concept-text {
+    font-size: 0.93rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+.concept-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Concept list */
+.concept-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-md);
+}
+
+.concept-list li {
+    position: relative;
+    padding: var(--space-xs) 0 var(--space-xs) var(--space-lg);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.concept-list li::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    color: var(--clr-tea);
+    font-size: 0.6em;
+    top: 0.85em;
+}
+
+/* Definition list */
+.definition-grid {
+    display: grid;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.definition-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+}
+
+.definition-item dt {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2xs);
+}
+
+.definition-item dd {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ---------- Worked Example ---------- */
+.worked-example {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+}
+
+.worked-example h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.worked-example h4 .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    background: var(--accent-tea);
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.worked-example p,
+.worked-example ul {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+
+.worked-example code,
+.code-block code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+}
+
+/* Code block */
+.code-block {
+    background: var(--bg-code);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin: var(--space-sm) 0;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.code-block code {
+    white-space: pre;
+    display: block;
+}
+
+/* ---------- Pitfalls / Notes ---------- */
+.pitfall-box,
+.note-box,
+.pro-tip-box {
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-md);
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.pitfall-box {
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-left: 4px solid #ef4444;
+}
+
+.pitfall-box h4 {
+    color: #ef4444;
+}
+
+.note-box {
+    background: rgba(59, 130, 246, 0.06);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-left: 4px solid #3b82f6;
+}
+
+.note-box h4 {
+    color: #3b82f6;
+}
+
+.pro-tip-box {
+    background: rgba(245, 158, 11, 0.06);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-left: 4px solid #f59e0b;
+}
+
+.pro-tip-box h4 {
+    color: #f59e0b;
+}
+
+.pitfall-box h4,
+.note-box h4,
+.pro-tip-box h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.pitfall-box p,
+.note-box p,
+.pro-tip-box p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.pitfall-box ul,
+.note-box ul,
+.pro-tip-box ul {
+    padding-left: var(--space-lg);
+    margin: var(--space-xs) 0 0;
+    color: var(--text-secondary);
+}
+
+/* ---------- Assessment ---------- */
+.assessment-tasks {
+    counter-reset: task;
+}
+
+.task-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-sm);
+    counter-increment: task;
+    position: relative;
+    padding-left: calc(var(--space-lg) + 36px);
+}
+
+.task-item::before {
+    content: counter(task);
+    position: absolute;
+    left: var(--space-md);
+    top: var(--space-md);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent-tea);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-item p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.task-level {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.15em 0.5em;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-xs);
+}
+
+.task-level.remember {
+    background: rgba(59, 130, 246, 0.12);
+    color: #3b82f6;
+}
+
+.task-level.understand {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+}
+
+.task-level.apply {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.task-level.analyze {
+    background: rgba(139, 92, 246, 0.12);
+    color: #8b5cf6;
+}
+
+.task-level.create {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+}
+
+/* Self-check quiz */
+.quiz-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+}
+
+.quiz-question {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.quiz-answer {
+    font-size: 0.88rem;
+    color: transparent;
+    cursor: pointer;
+    padding: var(--space-sm);
+    background: var(--bg-glass);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+    user-select: none;
+    position: relative;
+}
+
+.quiz-answer::before {
+    content: '🔒 Click to reveal answer';
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-style: italic;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm);
+    transition: opacity var(--transition);
+}
+
+.quiz-answer:hover {
+    background: var(--bg-code);
+}
+
+.quiz-answer.revealed {
+    color: var(--clr-tea);
+    background: rgba(13, 148, 136, 0.08);
+}
+
+.quiz-answer.revealed::before {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ---------- Lesson Nav ---------- */
+.lesson-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border);
+}
+
+.lesson-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    transition: all var(--transition);
+}
+
+.lesson-nav a:hover {
+    border-color: var(--clr-tea);
+    color: var(--clr-tea);
+}
+
+.lesson-nav .nav-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    display: block;
+}
+
+.lesson-nav .nav-title {
+    display: block;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 576px) {
+    .lesson-pdf-block {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .lesson-pdf-actions {
+        width: 100%;
+    }
+
+    .lesson-pdf-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .lesson-nav {
+        flex-direction: column;
+    }
+
+    .lesson-nav a {
+        width: 100%;
+    }
+
+    .task-item {
+        padding-left: calc(var(--space-md) + 36px);
+    }
+}
