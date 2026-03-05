@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two's Complement &amp; Floating Point — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on two's complement, sign-and-magnitude, and floating point (mantissa/exponent). NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3B — Two's Complement &amp; Floating Point</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 12.3B · Term 3</div>
+                <h1 class="lesson-title">Two's Complement &amp; Floating Point</h1>
+                <p class="lesson-intro">Computers must represent <strong>negative numbers</strong> and <strong>decimal
+                        numbers</strong> using only binary. <strong>Two's complement</strong> is the standard method for
+                    negative integers, while <strong>floating point</strong> representation handles decimals. Both are
+                    essential for understanding how real-world data is stored in a binary system.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.5.3</span> Represent negative numbers using two's complement</li>
+                    <li><span class="lo-code">12.3.5.4</span> Represent real numbers using floating point (mantissa and
+                        exponent)</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3B-twos-complement-floats.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- PART 1: Two's Complement -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-minus-circle"></i> Part 1: Two's Complement</h2>
+
+                <p class="concept-text">Two's complement is the standard way computers store <strong>negative
+                        integers</strong>. The <strong>most significant bit (MSB)</strong> acts as the sign bit: 0 =
+                    positive, 1 = negative.</p>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Range of
+                    Values (8-bit)</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Representation</th>
+                            <th>Minimum</th>
+                            <th>Maximum</th>
+                            <th>Range</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Unsigned 8-bit</td>
+                            <td>0</td>
+                            <td>255</td>
+                            <td>0 to 2⁸ − 1</td>
+                        </tr>
+                        <tr>
+                            <td>Two's complement 8-bit</td>
+                            <td>−128</td>
+                            <td>+127</td>
+                            <td>−2⁷ to 2⁷ − 1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Converting to Two's Complement -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Converting to Two's Complement</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Method: Convert −45 to 8-bit two's complement</h4>
+                    <div class="code-block"><code>Step 1: Write +45 in binary
+        45 = 00101101
+
+Step 2: Flip all the bits (one's complement)
+        00101101 → 11010010
+
+Step 3: Add 1
+        11010010
+      +        1
+        ────────
+        11010011
+
+Result: −45 in two's complement = 11010011</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Converting Back: What is 11010011 in denary?</h4>
+                    <div class="code-block"><code>MSB is 1 → negative number
+
+Method 1: Flip & add 1, then negate
+  11010011 → flip → 00101100 → add 1 → 00101101 = 45
+  Answer: −45
+
+Method 2: Use negative place value for MSB
+  Place values: -128  64  32  16  8  4  2  1
+  Binary:          1   1   0   1  0  0  1  1
+  = -128 + 64 + 16 + 2 + 1 = -45 ✓</code></div>
+                </div>
+            </section>
+
+            <!-- Two's Complement Arithmetic -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-calculator"></i> Two's Complement Arithmetic</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Adding: 35 + (−20) = 15</h4>
+                    <div class="code-block"><code>  35 = 00100011
+ −20 = 11101100  (two's complement of 20)
+
+   00100011
+ + 11101100
+   ────────
+  100001111  ← 9 bits! Discard carry (overflow bit)
+   00001111  = 15 ✓</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Subtracting: 50 − 75 = −25</h4>
+                    <div class="code-block"><code>50 − 75 = 50 + (−75)
+
+  50 = 00110010
+ −75 = 10110101  (two's complement of 75)
+
+   00110010
+ + 10110101
+   ────────
+   11100111
+
+MSB is 1 → negative. Flip & add 1:
+  11100111 → 00011000 → 00011001 = 25
+  Answer: −25 ✓</code></div>
+                </div>
+            </section>
+
+            <!-- PART 2: Floating Point -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-percentage"></i> Part 2: Floating Point Representation
+                </h2>
+
+                <p class="concept-text">Floating point stores <strong>real (decimal) numbers</strong> by separating them
+                    into two parts:</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Purpose</th>
+                            <th>Analogy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mantissa</strong></td>
+                            <td>Stores the significant digits (precision)</td>
+                            <td>The "number part" of scientific notation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exponent</strong></td>
+                            <td>Stores the power (position of binary point)</td>
+                            <td>The "× 10ⁿ" part of scientific notation</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-lightbulb"></i> Scientific Notation Analogy</h4>
+                    <p>Just like 6,500,000 = 6.5 × 10⁶ in denary, binary floating point works the same way:</p>
+                    <p><strong>Value = Mantissa × 2<sup>Exponent</sup></strong></p>
+                </div>
+            </section>
+
+            <!-- Floating Point Conversion -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Floating Point Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Convert 0.1011 × 2³ to denary</h4>
+                    <div class="code-block"><code>Given: Mantissa = 0.1011, Exponent = 011 (= 3 in two's complement)
+
+Step 1: Move binary point right by exponent (3 places)
+  0.1011 → 0101.1
+
+Step 2: Convert to denary
+  Fixed point: 0101.1
+  = 4 + 1 + 0.5 = 5.5
+
+Result: 0.1011 × 2³ = 5.5</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Convert 6.75 to floating point (8-bit: 5-bit mantissa, 3-bit
+                        exponent)</h4>
+                    <div class="code-block"><code>Step 1: Convert 6.75 to fixed-point binary
+  6 = 110
+  0.75 = 0.5 + 0.25 = .11
+  6.75 = 110.11
+
+Step 2: Normalise — shift point left until format is 0.1xxxx
+  110.11 → 0.11011 × 2³
+  (shifted left 3 places → exponent = 3)
+
+Step 3: Encode
+  Mantissa (5 bits): 01101  (0.11011, truncated to 5 bits)
+  Exponent (3 bits): 011    (3 in two's complement)
+
+Result: 01101 011</code></div>
+                </div>
+            </section>
+
+            <!-- Normalisation -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-compress-arrows-alt"></i> Normalisation</h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Normalised Form</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Positive number</strong></td>
+                            <td>Mantissa starts with <strong>0.1</strong> (first two bits: 0, 1)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Negative number</strong></td>
+                            <td>Mantissa starts with <strong>1.0</strong> (first two bits: 1, 0)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Why normalise?</strong></td>
+                            <td>Maximises precision — no wasted leading zeros</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Precision vs Range Trade-off</h4>
+                    <p>More mantissa bits → <strong>more precision</strong> (more decimal places). More exponent bits →
+                        <strong>larger range</strong> (bigger/smaller numbers). Increasing one means decreasing the
+                        other.</p>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting to Add 1 in Two's Complement</h4>
+                    <p>The process is: (1) flip all bits, THEN (2) add 1. Forgetting step 2 gives one's complement, not
+                        two's complement — you'll be off by 1.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Discarding the Carry in Addition</h4>
+                    <p>When adding two values in two's complement and the result has an extra (9th) bit, the carry is
+                        <strong>discarded</strong> — this is normal, not overflow. True overflow is when adding two
+                        positives gives a negative, or two negatives give a positive.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Shifting Binary Point Wrong Way</h4>
+                    <p>Positive exponent → shift binary point <strong>right</strong>. Negative exponent → shift
+                        <strong>left</strong>. Getting this backwards gives the wrong value.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Two's Complement Strategy</h4>
+                    <ul>
+                        <li>Shortcut: scan from right, keep all bits up to and including the first 1, then flip all
+                            remaining bits</li>
+                        <li>Always check MSB: 0 = positive, 1 = negative</li>
+                        <li>Subtraction = add the negative: A − B = A + (−B)</li>
+                    </ul>
+                </div>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Floating Point Strategy</h4>
+                    <ul>
+                        <li>Always state: mantissa gives <strong>precision</strong>, exponent gives
+                            <strong>range</strong></li>
+                        <li>Normalisation = mantissa starts 0.1 (positive) or 1.0 (negative)</li>
+                        <li>Show your working clearly: convert to fixed point first, then normalise</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Convert to 8-bit two's complement: (a) −56 (b) −100 (c) −1</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Convert from 8-bit two's complement to denary: (a) 11001110 (b) 10000001 (c) 11111111</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Perform in two's complement: 40 + (−65). Show all working.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Convert 13.25 to normalised floating point (8-bit: 5-bit mantissa, 3-bit exponent).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain the trade-off between the number of bits allocated to the mantissa vs the exponent.
+                            What happens to precision and range?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the range of an 8-bit two's complement number?</div>
+                    <div class="quiz-answer">Click to reveal: −128 to +127</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Convert −30 to 8-bit two's complement.</div>
+                    <div class="quiz-answer">Click to reveal: 30 = 00011110 → flip = 11100001 → +1 = 11100010</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What does the mantissa store?</div>
+                    <div class="quiz-answer">Click to reveal: The significant digits (precision) of the floating point
+                        number.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does the exponent store?</div>
+                    <div class="quiz-answer">Click to reveal: The power of 2 — it determines the position of the binary
+                        point (range).</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is normalisation?</div>
+                    <div class="quiz-answer">Click to reveal: Adjusting the mantissa so it starts with 0.1 (positive) or
+                        1.0 (negative), maximising precision by eliminating leading zeros.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="number-systems.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Number Systems</span></div>
+                </a>
+                <a href="data-structures.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Data Structures</span></div>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

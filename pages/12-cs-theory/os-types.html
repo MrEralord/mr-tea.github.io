@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of Operating Systems — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on types of operating systems: real-time OS, network OS, and batch processing OS. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3A — Types of Operating Systems</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-server"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Types of Operating Systems</h1>
+                <p class="lesson-intro">An operating system (OS) manages hardware, software, and provides services for
+                    applications. While you already know general-purpose desktop OSes (Windows, macOS, Linux),
+                    specialised operating systems exist for <strong>real-time control</strong>, <strong>network
+                        management</strong>, and <strong>batch processing</strong>. Understanding these types is
+                    essential for exams — they appear regularly in comparison and analysis questions.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.1.1</span> Describe a real-time operating system</li>
+                    <li><span class="lo-code">12.3.1.2</span> Describe a network operating system</li>
+                    <li><span class="lo-code">12.3.1.3</span> Describe a batch processing operating system</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-os-types.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-theater-masks"></i> The Kitchen Manager Analogy</h4>
+                    <p>Imagine three different styles of kitchen management. A <strong>real-time kitchen</strong>
+                        (hospital cafeteria) must deliver meals at an exact time — a 2-second delay could be critical. A
+                        <strong>network kitchen</strong> (hotel central kitchen) coordinates chefs across multiple
+                        restaurant floors, sharing ingredients and recipes. A <strong>batch kitchen</strong> (factory)
+                        prepares 10,000 identical lunch boxes overnight with no interaction — submit the order, collect
+                        in the morning.</p>
+                </div>
+            </section>
+
+            <!-- Real-Time OS -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-clock"></i> Real-Time Operating System (RTOS)</h2>
+
+                <p class="concept-text">A <strong>real-time OS</strong> guarantees that tasks are completed within a
+                    <strong>strict time deadline</strong>. Missing a deadline is considered a system failure. It is used
+                    in situations where timing is critical.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Definition</strong></td>
+                            <td>An OS that processes inputs and produces outputs within a guaranteed time constraint
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Response time</strong></td>
+                            <td>Measured in milliseconds or microseconds — must be predictable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User interaction</strong></td>
+                            <td>Typically none — runs embedded in devices</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Task scheduling</strong></td>
+                            <td>Priority-based; highest-priority tasks always execute first</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reliability</strong></td>
+                            <td>Extremely high — failure can be life-threatening</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Two
+                    Sub-Types</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hard real-time</strong></td>
+                            <td>Absolute deadline — failure = catastrophe. Zero tolerance for delays.</td>
+                            <td>Aircraft autopilot, car airbag system, pacemaker</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Soft real-time</strong></td>
+                            <td>Deadline exists but occasional missed deadline is tolerable (degraded performance, not
+                                failure)</td>
+                            <td>Video streaming, online gaming, VoIP calls</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Examples
+                    in Practice</h3>
+                <ul class="concept-list">
+                    <li><strong>Anti-lock Braking System (ABS)</strong> — must process wheel speed sensors and control
+                        brakes within milliseconds</li>
+                    <li><strong>Air traffic control</strong> — must track aircraft positions and detect conflicts in
+                        real time</li>
+                    <li><strong>Industrial robots</strong> — welding, painting, and assembly line control require
+                        precise timing</li>
+                    <li><strong>Medical monitoring</strong> — heart rate monitors must respond immediately to critical
+                        changes</li>
+                    <li><strong>Nuclear power plant control</strong> — temperature and pressure must be checked
+                        continuously</li>
+                </ul>
+            </section>
+
+            <!-- Network OS -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-network-wired"></i> Network Operating System (NOS)
+                </h2>
+
+                <p class="concept-text">A <strong>network OS</strong> manages and coordinates resources across a
+                    computer network. It allows multiple computers to communicate, share files, printers, and
+                    applications through a central server.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Definition</strong></td>
+                            <td>An OS designed to manage networked computers and shared resources from a central server
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Architecture</strong></td>
+                            <td>Client-server model — one server manages multiple client machines</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User management</strong></td>
+                            <td>Centralised user accounts, permissions, and authentication</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Resource sharing</strong></td>
+                            <td>Files, printers, internet connections, applications shared across the network</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security</strong></td>
+                            <td>Centralised security policies, firewall management, access control</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Key
+                    Functions of a NOS</h3>
+                <ul class="concept-list">
+                    <li><strong>User account management</strong> — creating, deleting, and modifying user permissions
+                    </li>
+                    <li><strong>File sharing</strong> — allowing users to access shared folders on a central server</li>
+                    <li><strong>Print management</strong> — managing print queues across networked printers</li>
+                    <li><strong>Network security</strong> — firewalls, encryption, access control lists</li>
+                    <li><strong>Remote access</strong> — allowing users to connect to the network from outside</li>
+                    <li><strong>Backup &amp; recovery</strong> — automated backups of network data</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Examples
+                </h3>
+                <ul class="concept-list">
+                    <li><strong>Windows Server</strong> — used in most school and business networks</li>
+                    <li><strong>Linux Server</strong> (Ubuntu Server, CentOS) — used for web servers and enterprise
+                        networks</li>
+                    <li><strong>Novell NetWare</strong> — historically used in enterprise networks</li>
+                </ul>
+            </section>
+
+            <!-- Batch OS -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-layer-group"></i> Batch Processing Operating System
+                </h2>
+
+                <p class="concept-text">A <strong>batch processing OS</strong> collects similar jobs (programs) and
+                    groups them into batches. These batches are processed sequentially <strong>without user
+                        interaction</strong>. The OS handles one batch at a time — no keyboard input, no mouse clicks
+                    while processing.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Definition</strong></td>
+                            <td>An OS that groups similar jobs into batches and executes them sequentially without user
+                                interaction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User interaction</strong></td>
+                            <td>None during execution — jobs are submitted, then collected when done</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Processing order</strong></td>
+                            <td>First Come, First Served (FCFS) or priority-based</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Efficiency</strong></td>
+                            <td>High CPU utilisation — no idle time waiting for user input</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Turnaround time</strong></td>
+                            <td>Can be long — user must wait until the whole batch finishes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">How Batch
+                    Processing Works</h3>
+                <div class="code-block"><code>Step 1: Users submit jobs (programs + data) to a job queue
+Step 2: The OS groups similar jobs into a batch
+Step 3: The batch monitor loads jobs one-by-one into memory
+Step 4: Each job executes without any user interaction
+Step 5: Output is stored (printed / saved) and next job starts
+Step 6: Users collect their results when the batch is complete</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Examples
+                    in Practice</h3>
+                <ul class="concept-list">
+                    <li><strong>Payroll processing</strong> — calculate salaries for 10,000 employees overnight</li>
+                    <li><strong>Bank statement generation</strong> — produce all monthly statements in one batch</li>
+                    <li><strong>Utility billing</strong> — calculate water/electricity bills for millions of customers
+                    </li>
+                    <li><strong>Scientific simulations</strong> — run hours-long calculations on supercomputers</li>
+                    <li><strong>Report generation</strong> — compile and print large reports from database data</li>
+                </ul>
+            </section>
+
+            <!-- Comparison -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-balance-scale"></i> Comparison Table</h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Real-Time OS</th>
+                            <th>Network OS</th>
+                            <th>Batch OS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>User interaction</strong></td>
+                            <td>None (embedded)</td>
+                            <td>Multiple users simultaneously</td>
+                            <td>None during processing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Response time</strong></td>
+                            <td>Microseconds (guaranteed)</td>
+                            <td>Variable (depends on load)</td>
+                            <td>Hours/days (not time-critical)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Main purpose</strong></td>
+                            <td>Time-critical control</td>
+                            <td>Resource sharing &amp; management</td>
+                            <td>High-throughput processing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Examples</strong></td>
+                            <td>ABS, pacemaker, autopilot</td>
+                            <td>Windows Server, Linux Server</td>
+                            <td>Payroll, billing, reports</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Architecture</strong></td>
+                            <td>Embedded / dedicated hardware</td>
+                            <td>Client-server</td>
+                            <td>Centralised mainframe</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multi-user</strong></td>
+                            <td>No</td>
+                            <td>Yes</td>
+                            <td>No (indirect — submit &amp; collect)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Failure impact</strong></td>
+                            <td>Potentially life-threatening</td>
+                            <td>Users lose network access</td>
+                            <td>Batch needs re-running</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing "Real-Time" with "Fast"</h4>
+                    <p>Real-time does NOT simply mean "fast." It means the OS <strong>guarantees a response within a
+                            defined time limit</strong>. A fast OS might sometimes be slow under heavy load — an RTOS
+                        never misses its deadline.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Thinking Batch OS Is Obsolete</h4>
+                    <p>Batch processing is still widely used today (payroll, bank statements, data analysis). Exam
+                        students often think it's outdated technology — it's not.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing NOS with Any Networked Computer</h4>
+                    <p>A Network OS is specifically designed to <strong>manage a network</strong> from a server. A
+                        regular OS (Windows 11) that connects to Wi-Fi is NOT a NOS. NOS = server-side management.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Answering "Describe" Questions</h4>
+                    <ul>
+                        <li>Always give a <strong>definition</strong> + at least <strong>2 characteristics</strong> + an
+                            <strong>example</strong></li>
+                        <li>"Describe a real-time OS" → define it, mention guaranteed response time + no user
+                            interaction, give 2 examples</li>
+                        <li>For comparison questions, use the comparison table headings as your structure</li>
+                        <li>Link your examples to the OS type — don't just say "airplanes use it," explain
+                            <strong>why</strong> (time-critical safety control)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define: real-time OS, network OS, batch processing OS. Give 2 examples for each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why an anti-lock braking system needs a real-time OS and why a batch processing OS
+                            would be completely unsuitable for this purpose.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between hard real-time and soft real-time. Provide an example
+                            application for each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>A school has 200 computers, shared printers, and central file storage. What type of OS would
+                            the server need? Justify your choice with at least 3 reasons.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>A hospital uses both a patient monitoring system and a monthly billing system. Explain which
+                            type of OS each should use, and why using the wrong type could lead to problems.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a comparison poster (table + diagrams) showing all three OS types with definitions,
+                            features, advantages, disadvantages, and real-world applications.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the key characteristic of a real-time OS?</div>
+                    <div class="quiz-answer">Click to reveal: It guarantees that tasks are completed within a strict
+                        time deadline.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What architecture does a network OS use?</div>
+                    <div class="quiz-answer">Click to reveal: Client-server architecture — one server manages multiple
+                        client computers.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Is batch processing still used today? Give an example.</div>
+                    <div class="quiz-answer">Click to reveal: Yes. Examples: payroll processing, bank statement
+                        generation, utility billing.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is the difference between hard and soft real-time?</div>
+                    <div class="quiz-answer">Click to reveal: Hard real-time: missing deadline = failure (airbag). Soft
+                        real-time: missing deadline = degraded quality (video buffer).</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Why is a batch OS not suitable for an air traffic control system?
+                    </div>
+                    <div class="quiz-answer">Click to reveal: Batch OS has no user interaction and processes jobs with
+                        long turnaround times. Air traffic control requires immediate, guaranteed responses — it needs a
+                        real-time OS.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="../../index.html#syllabus"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Back to</span><span class="nav-title">Syllabus</span></div>
+                </a>
+                <a href="user-interfaces.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">User Interfaces</span></div>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Revision — mr. TEA</title>
+    <meta name="description"
+        content="Grade 12 revision: SQL DDL (CREATE, ALTER, DROP), DML (SELECT, INSERT, UPDATE, DELETE), JOINs, data dictionary. NIS Grade 12 CS Term 4.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.4A — SQL Revision</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-sync-alt"></i> Unit 12.4A · Term 4 (Revision)</div>
+                <h1 class="lesson-title">SQL Query Language Revision</h1>
+                <p class="lesson-intro">This revision lesson covers <strong>SQL (Structured Query Language)</strong> —
+                    the standard language for managing and querying relational databases. You'll review DDL and DML
+                    commands, multi-table queries, and the purpose of a data dictionary.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.4.2.3</span> Describe the basic SQL queries: CREATE, ALTER, DROP</li>
+                    <li><span class="lo-code">11.4.2.4</span> Use SQL queries: SELECT, UPDATE, INSERT, DELETE</li>
+                    <li><span class="lo-code">11.4.2.5</span> Use SQL SELECT for data selection in multiple tables</li>
+                    <li><span class="lo-code">11.4.2.1</span> Explain the purpose of a data dictionary</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.4A-revision-sql.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Key Concepts Review</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">DDL — Data
+                    Definition Language</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CREATE</strong></td>
+                            <td>Create a new table</td>
+                            <td><code>CREATE TABLE Students (ID INT PRIMARY KEY, Name VARCHAR(50));</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>ALTER</strong></td>
+                            <td>Modify an existing table structure</td>
+                            <td><code>ALTER TABLE Students ADD Age INT;</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>DROP</strong></td>
+                            <td>Delete an entire table</td>
+                            <td><code>DROP TABLE Students;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">DML —
+                    Data Manipulation Language</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Purpose</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SELECT</strong></td>
+                            <td>Retrieve data from a table</td>
+                            <td><code>SELECT Name, Grade FROM Students WHERE Grade > 8;</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>INSERT</strong></td>
+                            <td>Add a new record</td>
+                            <td><code>INSERT INTO Students VALUES (1, 'Ali', 10);</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>UPDATE</strong></td>
+                            <td>Modify existing records</td>
+                            <td><code>UPDATE Students SET Grade = 11 WHERE ID = 1;</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>DELETE</strong></td>
+                            <td>Remove records</td>
+                            <td><code>DELETE FROM Students WHERE Grade < 7;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Multi-Table Queries (JOIN)</h3>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> INNER JOIN Example</h4>
+                    <div class="code-block"><code>SELECT Students.Name, Classes.ClassName
+FROM Students
+INNER JOIN Classes ON Students.ClassID = Classes.ClassID
+WHERE Classes.ClassName = '12A';
+
+-- Returns names of students in class 12A
+-- Matches records where ClassID exists in BOTH tables</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Data
+                    Dictionary</h3>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> What Is a Data Dictionary?</h4>
+                    <p>A <strong>data dictionary</strong> is a centralized document that describes the structure of a
+                        database: table names, field names, data types, constraints, relationships, and descriptions.
+                        It serves as a reference for developers and database administrators.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Revision Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List the 4 main DML commands and explain what each does.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write SQL to: (a) create a Products table with ID, Name, Price; (b) insert 3 records; (c)
+                            select products where Price > 1000.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a JOIN query that shows order details with customer names from two tables: Orders and
+                            Customers.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the purpose of a data dictionary and what information it contains.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the difference between DDL and DML?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">DDL (Data Definition Language)
+                        defines the structure — CREATE, ALTER, DROP tables. DML (Data Manipulation Language) works with
+                        data — SELECT, INSERT, UPDATE, DELETE records.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What does INNER JOIN do?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">INNER JOIN returns only the
+                        records that have matching values in both tables being joined.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What command removes a table entirely from the database?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">DROP TABLE — it deletes the
+                        entire table structure and all its data permanently.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="revision-databases.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Databases Revision</span></a>
+                <a href="revision-paradigms.html"><span class="nav-label">Next →</span><span
+                        class="nav-title">Programming Paradigms</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

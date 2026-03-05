@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paging &amp; Segmentation — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on memory management: paging, segmentation, and virtual memory. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3A — Paging &amp; Segmentation</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-server"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Paging &amp; Segmentation</h1>
+                <p class="lesson-intro">When multiple programs run simultaneously, the OS must manage how memory is
+                    allocated to each program. <strong>Paging</strong> and <strong>segmentation</strong> are two methods
+                    of organizing memory. Both allow programs to use more memory than physically available (virtual
+                    memory) and prevent programs from interfering with each other.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.4.2</span> Explain the principle of memory organization by segment
+                        and page</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-paging-segmentation.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-theater-masks"></i> The Storage Unit Analogy</h4>
+                    <p><strong>Paging</strong> is like renting storage lockers that are all the <strong>same
+                            size</strong> — you split your belongings into equal boxes regardless of what they contain.
+                        <strong>Segmentation</strong> is like renting rooms of <strong>different sizes</strong> based on
+                        what you're storing — a big room for furniture, a small room for books, a medium room for
+                        clothes.</p>
+                </div>
+            </section>
+
+            <!-- Paging -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-th"></i> Paging</h2>
+
+                <p class="concept-text"><strong>Paging</strong> divides both physical memory (RAM) and logical memory
+                    (program) into <strong>fixed-size blocks</strong>. Physical blocks are called
+                    <strong>frames</strong>; program blocks are called <strong>pages</strong>. Each page maps to a
+                    frame.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Page</strong></td>
+                            <td>A fixed-size block of a program's logical memory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Frame</strong></td>
+                            <td>A fixed-size block of physical RAM (same size as a page)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Page table</strong></td>
+                            <td>A mapping table that records which page is in which frame</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Page size</strong></td>
+                            <td>Typically 4 KB (but can vary)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> How Paging Works</h4>
+                    <div class="code-block"><code>Program (10 KB) split into pages:     Physical RAM frames:
+┌────────────┐                         ┌────────────┐ Frame 0
+│ Page 0     │ 4 KB ──────────────────→ │ Page 0     │
+├────────────┤                         ├────────────┤ Frame 1
+│ Page 1     │ 4 KB ──────┐            │ Page 2     │ ← from another program
+├────────────┤            │            ├────────────┤ Frame 2
+│ Page 2     │ 2 KB ──┐   │            │ Page 1     │ ← Pages don't need
+└────────────┘        │   │            ├────────────┤ Frame 3    contiguous frames!
+                      └───│──────────→ │ Page 2     │
+                          └──────────→ │            │
+                                       └────────────┘
+
+Page Table:
+┌────────┬─────────┐
+│ Page # │ Frame # │
+├────────┼─────────┤
+│   0    │    0    │
+│   1    │    2    │
+│   2    │    3    │
+└────────┴─────────┘</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Advantages &amp; Disadvantages of Paging</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th style="width:50%;">✅ Advantages</th>
+                            <th style="width:50%;">❌ Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>No external fragmentation — fixed-size blocks fit exactly</td>
+                            <td><strong>Internal fragmentation</strong> — last page may not be full (wasted space)</td>
+                        </tr>
+                        <tr>
+                            <td>Pages can be stored in non-contiguous frames</td>
+                            <td>Page table overhead — requires extra memory</td>
+                        </tr>
+                        <tr>
+                            <td>Efficient memory utilization</td>
+                            <td>Page faults cause slow disk access (swapping)</td>
+                        </tr>
+                        <tr>
+                            <td>Easy to implement and manage</td>
+                            <td>No logical grouping — code and data may be split across pages</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Segmentation -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-puzzle-piece"></i> Segmentation</h2>
+
+                <p class="concept-text"><strong>Segmentation</strong> divides a program into <strong>variable-size
+                        logical units</strong> called segments. Each segment represents a meaningful part of the program
+                    (e.g., code segment, data segment, stack segment).</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Segment</strong></td>
+                            <td>A variable-size block corresponding to a logical unit of the program</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Segment table</strong></td>
+                            <td>Maps each segment to its base address and size (limit) in RAM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Base address</strong></td>
+                            <td>Starting physical address of the segment in RAM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Limit</strong></td>
+                            <td>Length/size of the segment</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> How Segmentation Works</h4>
+                    <div class="code-block"><code>Program divided into logical segments:
+┌──────────────────┐
+│ Code Segment     │ 6 KB
+├──────────────────┤
+│ Data Segment     │ 3 KB
+├──────────────────┤
+│ Stack Segment    │ 2 KB
+└──────────────────┘
+
+Segment Table:
+┌─────────┬──────────────┬─────────┐
+│ Segment │ Base Address │ Limit   │
+├─────────┼──────────────┼─────────┤
+│ Code    │ 0x1000       │ 6 KB    │
+│ Data    │ 0x3000       │ 3 KB    │
+│ Stack   │ 0x5000       │ 2 KB    │
+└─────────┴──────────────┴─────────┘
+
+Each segment is placed in RAM at its base address.
+Segments can be different sizes — each holds a complete logical unit.</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Advantages &amp; Disadvantages of Segmentation</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th style="width:50%;">✅ Advantages</th>
+                            <th style="width:50%;">❌ Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>No internal fragmentation — segments fit exactly</td>
+                            <td><strong>External fragmentation</strong> — gaps form as segments are loaded/removed</td>
+                        </tr>
+                        <tr>
+                            <td>Logical grouping — code, data, stack are separate</td>
+                            <td>More complex memory management</td>
+                        </tr>
+                        <tr>
+                            <td>Easy to share/protect individual segments</td>
+                            <td>Variable sizes make allocation harder</td>
+                        </tr>
+                        <tr>
+                            <td>Segments can grow dynamically</td>
+                            <td>Compaction may be needed to reclaim fragmented space</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Comparison -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-balance-scale"></i> Paging vs Segmentation</h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Paging</th>
+                            <th>Segmentation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Block size</strong></td>
+                            <td>Fixed (all pages same size)</td>
+                            <td>Variable (segments differ)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Division basis</strong></td>
+                            <td>Physical — arbitrary blocks</td>
+                            <td>Logical — meaningful program parts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Internal fragmentation</strong></td>
+                            <td>Yes (last page may be partly empty)</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>External fragmentation</strong></td>
+                            <td>No</td>
+                            <td>Yes (gaps between segments)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mapping table</strong></td>
+                            <td>Page table (page → frame)</td>
+                            <td>Segment table (base + limit)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sharing</strong></td>
+                            <td>Harder (pages don't align to logical units)</td>
+                            <td>Easier (share a whole segment)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Protection</strong></td>
+                            <td>Per-page (less meaningful)</td>
+                            <td>Per-segment (code, data, stack)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Mixing Up Internal and External Fragmentation</h4>
+                    <p><strong>Internal</strong> = wasted space INSIDE a block (paging — last page partly empty).
+                        <strong>External</strong> = wasted gaps BETWEEN blocks (segmentation — holes in memory). Get
+                        these right — they are commonly tested.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Saying "Paging Has No Fragmentation"</h4>
+                    <p>Paging eliminates <strong>external</strong> fragmentation but still has <strong>internal</strong>
+                        fragmentation. Always specify which type.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Memory Management Questions</h4>
+                    <ul>
+                        <li>For "explain" questions — define the method, describe how it divides memory, mention the
+                            mapping table</li>
+                        <li>For "compare" questions — use the comparison table headings as your structure</li>
+                        <li>Always distinguish between <strong>internal</strong> and <strong>external</strong>
+                            fragmentation</li>
+                        <li>Know that modern OSes often use <strong>both</strong> — segmented paging (segments divided
+                            into pages)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define: page, frame, segment, page table, segment table.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between internal fragmentation and external fragmentation, giving an
+                            example of each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>A program is 18 KB and the page size is 4 KB. How many pages will it be divided into? Will
+                            there be internal fragmentation? How much?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare paging and segmentation across 5 features. Which approach is better for sharing a
+                            library of code between programs? Justify your answer.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the difference between a page and a frame?</div>
+                    <div class="quiz-answer">Click to reveal: A page is a fixed-size block of the program's logical
+                        memory. A frame is a fixed-size block of physical RAM. Pages are mapped into frames.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Which method suffers from external fragmentation?</div>
+                    <div class="quiz-answer">Click to reveal: Segmentation — because variable-size segments leave gaps
+                        in memory when they are removed.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How does a page table work?</div>
+                    <div class="quiz-answer">Click to reveal: It maps each page number to a frame number in physical
+                        RAM, allowing the OS to find where each page is stored.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is a segment table?</div>
+                    <div class="quiz-answer">Click to reveal: It maps each segment to its base address (starting
+                        position) and limit (size) in physical RAM.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Why is segmentation better for protection?</div>
+                    <div class="quiz-answer">Click to reveal: Because segments correspond to logical units (code, data,
+                        stack), access permissions can be set per segment — e.g., code is read-only, data is read-write.
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="addressable-memory.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Addressable Memory</span></div>
+                </a>
+                <a href="virtual-machine.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Virtual Machine</span></div>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

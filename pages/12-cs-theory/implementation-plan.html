@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementation Plan — mr. TEA</title>
+    <meta name="description"
+        content="Creating an implementation plan: Gantt charts, training, data migration. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.2C — Implementation Plan</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-cogs"></i> Unit 12.2C · Term 2</div>
+                <h1 class="lesson-title">Implementation Plan</h1>
+                <p class="lesson-intro">An <strong>implementation plan</strong> is a detailed document that outlines
+                    every step needed to deploy a new system: <strong>when</strong> each task happens,
+                    <strong>who</strong> is responsible, <strong>what</strong> resources are needed, and
+                    <strong>how</strong> data will be migrated.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.2.2</span> Create an implementation plan</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.2C-implementation-plan.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-map"></i> The Moving Day Analogy</h4>
+                    <p>Moving to a new house requires a <strong>plan</strong>: pack room by room, book the truck,
+                        disconnect utilities on day X, connect at new house on day Y, unpack essentials first. An
+                        implementation plan for a system is the same — a schedule ensuring nothing is forgotten and
+                        everything happens in the right order.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Components of an
+                    Implementation Plan</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Objectives</strong></td>
+                            <td>What the implementation aims to achieve</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Timeline / Schedule</strong></td>
+                            <td>When each task happens (often shown as a Gantt chart)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Resources needed</strong></td>
+                            <td>Hardware, software, personnel, budget</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Changeover method</strong></td>
+                            <td>Direct, parallel, phased, or pilot (see previous lesson)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data migration</strong></td>
+                            <td>How existing data will be transferred to the new system</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Staff training</strong></td>
+                            <td>Training plan for users and administrators</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Testing plan</strong></td>
+                            <td>How the system will be tested before going live</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contingency plan</strong></td>
+                            <td>What to do if things go wrong (Plan B)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Roles &amp; responsibilities</strong></td>
+                            <td>Who is responsible for each task</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Gantt
+                    Chart</h3>
+                <div class="code-block"><code>GANTT CHART — School Library System Implementation
+
+Week:        1    2    3    4    5    6    7    8
+           ┌────┬────┬────┬────┬────┬────┬────┬────┐
+Hardware   │████│████│    │    │    │    │    │    │
+Setup      │    │    │    │    │    │    │    │    │
+           ├────┼────┼────┼────┼────┼────┼────┼────┤
+Software   │    │████│████│    │    │    │    │    │
+Install    │    │    │    │    │    │    │    │    │
+           ├────┼────┼────┼────┼────┼────┼────┼────┤
+Data       │    │    │████│████│████│    │    │    │
+Migration  │    │    │    │    │    │    │    │    │
+           ├────┼────┼────┼────┼────┼────┼────┼────┤
+Staff      │    │    │    │████│████│████│    │    │
+Training   │    │    │    │    │    │    │    │    │
+           ├────┼────┼────┼────┼────┼────┼────┼────┤
+Testing    │    │    │    │    │████│████│████│    │
+           │    │    │    │    │    │    │    │    │
+           ├────┼────┼────┼────┼────┼────┼────┼────┤
+Go Live!   │    │    │    │    │    │    │    │████│
+           └────┴────┴────┴────┴────┴────┴────┴────┘</code></div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Data
+                    Migration</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Audit existing data</strong></td>
+                            <td>Identify what data exists, its format, and quality</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Clean data</strong></td>
+                            <td>Remove duplicates, fix errors, standardize formats</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Map data fields</strong></td>
+                            <td>Match old field names to new system fields</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Transfer data</strong></td>
+                            <td>Import/export using CSV, SQL, APIs, or manual entry</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Verify data</strong></td>
+                            <td>Check transferred data is complete and accurate</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Training
+                    Methods</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>When to Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>In-person workshops</strong></td>
+                            <td>Instructor-led sessions with hands-on practice</td>
+                            <td>Complex systems, initial training</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Online tutorials / videos</strong></td>
+                            <td>Self-paced learning materials</td>
+                            <td>Ongoing reference, remote staff</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User manuals</strong></td>
+                            <td>Written step-by-step guides</td>
+                            <td>Quick reference during daily work</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mentoring / shadowing</strong></td>
+                            <td>New user learns from experienced user</td>
+                            <td>One-on-one, specialized roles</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Why Planning Matters</h4>
+                    <p>Without a plan, implementation fails. Studies show that <strong>70% of IT projects fail</strong>
+                        due to poor planning, not poor technology. The plan is the most important deliverable.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting the Contingency Plan</h4>
+                    <p>Students often create detailed timelines but forget to plan for failure. What if the data
+                        migration corrupts records? What if the new system crashes on day one? A contingency plan (Plan
+                        B) is essential.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List 6 components of an implementation plan.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create an implementation plan (including a Gantt chart) for a school replacing its
+                            paper-based attendance system with a digital one.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Why is data migration considered the highest-risk part of implementation? What can go wrong?
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is a Gantt chart used for?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A visual timeline showing
+                        tasks, their duration, and how they overlap — used to plan and track project progress.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Name 3 steps in data migration.</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Audit existing data, clean
+                        data, map fields, transfer data, verify transferred data.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What is a contingency plan?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A backup plan (Plan B) that
+                        describes what to do if something goes wrong during implementation — e.g., reverting to the old
+                        system.</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="implementation-methods.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Implementation Methods</span></a>
+                <a href="../../index.html#syllabus"><span class="nav-label">Back to →</span><span
+                        class="nav-title">Syllabus</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

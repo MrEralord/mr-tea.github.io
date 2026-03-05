@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Protection Measures — mr. TEA</title>
+    <meta name="description"
+        content="Physical risks, biometrics (verification vs identification), encryption, digital signatures, and digital certificates. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.1C — Data Protection Measures</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-lock"></i> Unit 12.1C · Term 1</div>
+                <h1 class="lesson-title">Data Protection Measures</h1>
+                <p class="lesson-intro">Data protection is essential to secure sensitive information from unauthorized
+                    access, loss, or damage. A robust security system must address both <strong>physical risks</strong>
+                    to the hardware and <strong>logical risks</strong> to the data using advanced authentication and
+                    encryption methods.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.2.5</span> Explain physical risks to data and protective measures
+                    </li>
+                    <li><span class="lo-code">12.5.2.6</span> Differentiate between biometric verification and
+                        identification</li>
+                    <li><span class="lo-code">12.5.2.7</span> Describe symmetric and asymmetric encryption</li>
+                    <li><span class="lo-code">12.5.2.8</span> Explain the purpose of Digital Signatures and Digital
+                        Certificates</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentations</h4>
+                    <p>12.1C-data-protection.pdf, 12.1C-encryption-security.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="../../assets/pdf/data_protection_measures.pdf" class="lesson-pdf-btn view-btn"><i
+                            class="fas fa-eye"></i> View</a>
+                    <a href="../../assets/pdf/data_protection_measures.pdf" class="lesson-pdf-btn download-btn"><i
+                            class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-id-card"></i> The Nightclub Bouncer Analogy</h4>
+                    <p>Biometric <strong>Verification</strong> is like handing the bouncer your ID: you claim to be
+                        "John", and he checks your face against the ID picture (1-to-1 comparison). Biometric
+                        <strong>Identification</strong> is like the bouncer scanning the crowd to find a known
+                        troublemaker without anyone showing an ID (1-to-many comparison).
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Physical Risks &
+                    Protection</h3>
+                <p style="margin-bottom: var(--space-md);">Before implementing complex software security, the physical
+                    hardware must be secured. Physical risks include threats to hardware and data from real-world events
+                    such as theft, fire, floods, power surges, and unauthorized physical access.</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Protection Measure</th>
+                            <th>Purpose / How it works</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Secure Server Rooms</strong></td>
+                            <td>Restricting physical access using locks, biometric scanners, and alarms.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fireproof Safes</strong></td>
+                            <td>Protecting physical backup storage media from fire and extreme heat.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UPS (Uninterruptible Power Supply)</strong></td>
+                            <td>Providing temporary battery power during power outages to prevent data loss and protect
+                                against power surges.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2.
+                    Biometrics</h3>
+                <p style="margin-bottom: var(--space-md);">Biometrics is the measurement and statistical analysis of
+                    people's unique physical and behavioral characteristics. The system captures the biometric data,
+                    converts it into a mathematical model (a template), and saves it into a secure database.</p>
+                <br>
+
+
+                <div class="worked-example">
+                    <h4><span class="step-num">A</span> Verification vs Identification</h4>
+                    <table class="theory-table" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Verification (1-to-1 comparison)</th>
+                                <th>Identification (1-to-many comparison)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>The system checks if a person is who they claim to be by comparing their live
+                                    biometric data with their specific stored template.</td>
+                                <td>The system searches the entire database to find a matching template without knowing
+                                    the person’s identity upfront.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Example:</strong> Unlocking a smartphone using FaceID.</td>
+                                <td><strong>Example:</strong> Identifying a thief using CCTV at an airport.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">B</span> Types of Biometrics</h4>
+                    <ul style="padding-left: 20px;">
+                        <li><strong>Physical:</strong> Fingerprints, Hand Geometry, Retina Scanning, Iris Scanning,
+                            Facial Recognition, DNA Matching, Ear Shape.</li>
+                        <li><strong>Behavioural:</strong> Signature recognition, Voice Recognition, Key Stroke Pattern,
+                            Gait (Body Dynamics).</li>
+                    </ul>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">3.
+                    Encryption</h3>
+                <p style="margin-bottom: var(--space-md);">Encryption is the process of converting readable data (plain
+                    text) into unreadable characters (cipher text) so that only authorized parties can access it. The
+                    security effectiveness is determined by the strength of the algorithm and the length of the key.</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Symmetric Encryption</th>
+                            <th>Asymmetric Encryption</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Uses a <strong>single key</strong> to both encrypt and decrypt the data.</td>
+                            <td>Uses a mathematically linked <strong>key pair</strong>: a Public Key to encrypt, and a
+                                Private Key to decrypt.</td>
+                        </tr>
+                        <tr>
+                            <td>Faster, but poses a major security risk: the secret key must be safely shared with the
+                                receiver.</td>
+                            <td>Slower, but highly secure. The public key is shared openly, while the private key is
+                                never shared.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+
+                [Image of Asymmetric Encryption process]
+
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">4.
+                    Digital Signatures & Digital Certificates</h3>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">A</span> Digital Signatures</h4>
+                    <p>A digital signature ensures the <strong>authenticity</strong> and <strong>integrity</strong> of a
+                        document. It works by reversing the asymmetric encryption process:</p>
+                    <ul style="padding-left: 20px;">
+                        <li>The sender encrypts a hash of the document using their <strong>Private Key</strong>. This
+                            creates the digital signature.</li>
+                        <li>The receiver uses the sender's <strong>Public Key</strong> to decrypt the signature. If it
+                            decrypts successfully, it proves the sender genuinely sent it (because only they have their
+                            private key) and that the document has not been altered.</li>
+                    </ul>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">B</span> Digital Certificates</h4>
+                    <p>An electronic document used to prove the ownership of a public key. It prevents hackers from
+                        distributing fake public keys.</p>
+                    <ul style="padding-left: 20px;">
+                        <li>A digital certificate includes information about the key, information about the owner's
+                            identity, and the digital signature of an entity that has verified the certificate's
+                            contents.</li>
+                        <li>They are issued by a trusted third party called a <strong>Certificate Authority
+                                (CA)</strong> as part of a Public Key Infrastructure (PKI).</li>
+                    </ul>
+                </div>
+
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Verification vs Identification</h4>
+                    <p>Remember the math: <strong>Verification</strong> is 1-to-1 (Are you who you say you are?).
+                        <strong>Identification</strong> is 1-to-many (Who are you among this huge database?).
+                    </p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Public vs Private Keys in Signatures</h4>
+                    <p>Normally, you encrypt with a Public key and decrypt with a Private key. But to create a
+                        <strong>Digital Signature</strong>, the roles are flipped: the sender encrypts with their
+                        <strong>Private key</strong>, and the receiver checks it using the sender's <strong>Public
+                            key</strong>.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Exam Style Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List three physical risks to computer systems and provide one protective measure for each.
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between Physical biometrics and Behavioural biometrics, providing two
+                            examples of each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain how a Certificate Authority (CA) uses a Digital Certificate to prevent a hacker from
+                            impersonating a legitimate bank's website.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the purpose of an Uninterruptible Power Supply (UPS)?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It provides temporary battery
+                        power during power outages to prevent data loss and protects hardware against power surges.
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Why is FaceID on a phone considered "Verification" rather than
+                        "Identification"?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Because the system is only
+                        performing a 1-to-1 comparison. It is checking if the live face matches the single stored
+                        template of the phone's owner, rather than searching a massive database.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What determines the security effectiveness of an encryption method?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The strength and complexity of
+                        the mathematical algorithm used, along with the length of the encryption key.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="threats-computer-system.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Threats to Computer System</span></a>
+                <a href="backup-disk-mirroring.html"><span class="nav-label">Next →</span><span class="nav-title">Backup
+                        &amp; Disk Mirroring</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

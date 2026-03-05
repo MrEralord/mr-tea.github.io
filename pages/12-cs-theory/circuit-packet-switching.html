@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit &amp; Packet Switching — mr. TEA</title>
+    <meta name="description"
+        content="Circuit switching vs packet switching: how data is routed across networks. Advantages and disadvantages. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.3C — Circuit &amp; Packet Switching</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-exchange-alt"></i> Unit 12.3C · Term 3</div>
+                <h1 class="lesson-title">Circuit Switching &amp; Packet Switching</h1>
+                <p class="lesson-intro">When data travels across a network, the path it takes depends on the
+                    <strong>switching method</strong>. <strong>Circuit switching</strong> reserves a dedicated path for
+                    the entire communication, while <strong>packet switching</strong> breaks data into packets that find
+                    their own way independently.
+                </p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.1.1</span> Explain the difference between packet switching and
+                        circuit switching</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3C-circuit-packet-switching.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-phone"></i> Phone Call vs Post Office</h4>
+                    <p><strong>Circuit switching</strong> is like a phone call — a dedicated line is reserved between
+                        you and the other person for the entire conversation. No one else can use that line.
+                        <strong>Packet switching</strong> is like sending postcards — each postcard can take a different
+                        route through the postal system, and they may arrive out of order, but the recipient
+                        reassembles them.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Circuit Switching
+                </h3>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> How It Works</h4>
+                    <div class="code-block"><code>1. A dedicated path is established BEFORE data transfer
+2. The entire path is reserved for the duration of communication
+3. Data flows continuously along this fixed path
+4. The connection is released when communication ends
+
+Example: Traditional telephone call
+  Phone A ──── Switch 1 ──── Switch 2 ──── Phone B
+  (dedicated circuit held open for entire call)</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Packet
+                    Switching</h3>
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> How It Works</h4>
+                    <div class="code-block"><code>1. Data is broken into small PACKETS (each with a header)
+2. Each packet is routed INDEPENDENTLY — may take different paths
+3. Routers forward packets based on destination address
+4. Packets may arrive out of order — reassembled at destination
+
+Example: Sending an email
+  Packet 1 → Router A → Router C → Destination
+  Packet 2 → Router A → Router B → Router C → Destination
+  Packet 3 → Router A → Router D → Destination
+  (packets reassembled in correct order)</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Comparison Table</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Circuit Switching</th>
+                            <th>Packet Switching</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Connection</strong></td>
+                            <td>Dedicated path established first</td>
+                            <td>No dedicated path — packets routed independently</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Path</strong></td>
+                            <td>Fixed for entire session</td>
+                            <td>Each packet may take a different route</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bandwidth</strong></td>
+                            <td>Reserved — wasted if not used</td>
+                            <td>Shared — efficient use of bandwidth</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Delay</strong></td>
+                            <td>Setup delay, then constant speed</td>
+                            <td>No setup delay, but variable delivery time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reliability</strong></td>
+                            <td>If a node fails, entire connection breaks</td>
+                            <td>Packets can be re-routed around failures</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Order</strong></td>
+                            <td>Data arrives in order</td>
+                            <td>Packets may arrive out of order</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost</strong></td>
+                            <td>Expensive — resources reserved</td>
+                            <td>Cost-effective — resources shared</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best for</strong></td>
+                            <td>Real-time: voice calls, video calls</td>
+                            <td>Data: web, email, file transfer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Example</strong></td>
+                            <td>Traditional telephone (PSTN)</td>
+                            <td>The Internet</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Packet
+                    Structure</h3>
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> What's Inside a Packet?</h4>
+                    <div class="code-block"><code>┌─────────────────────────────────────────┐
+│               PACKET                    │
+├──────────────┬──────────────────────────┤
+│   HEADER     │      PAYLOAD (Data)      │
+├──────────────┤                          │
+│ Source IP     │                          │
+│ Destination IP│   "Hello, how are you?" │
+│ Packet number │                          │
+│ Total packets │                          │
+│ TTL / Checksum│                          │
+└──────────────┴──────────────────────────┘</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> "Packet Switching Is Always Better"</h4>
+                    <p>Not always! For real-time communication (phone calls, live video), circuit switching provides
+                        <strong>consistent quality</strong> with no jitter or delays. Packet switching is better for
+                        <strong>data</strong> because it's more efficient, but voice/video can suffer from packet
+                        loss and reordering.
+                    </p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Thinking All Packets Take the Same Route</h4>
+                    <p>In packet switching, each packet is routed <strong>independently</strong>. Two packets from the
+                        same message may travel completely different routes and arrive at different times.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define circuit switching and packet switching in your own words.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why a traditional phone call uses circuit switching while the Internet uses packet
+                            switching.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Draw a diagram showing 3 packets being sent from device A to device B taking different routes
+                            through 4 routers.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare circuit switching and packet switching. Give 2 advantages and 2 disadvantages of
+                            each.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What happens to bandwidth in circuit switching when no data is being
+                        sent?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The bandwidth is wasted — the
+                        circuit remains reserved even when idle. No other communication can use that path until the
+                        connection is released.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Can packets arrive out of order in packet switching?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Yes — each packet is routed
+                        independently and may take different paths, so they can arrive out of order. The destination
+                        device reassembles them using packet sequence numbers.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: Which switching method does the Internet use?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Packet switching — data is
+                        broken into packets, each routed independently through the network, making efficient shared use
+                        of bandwidth.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="osi-model.html"><span class="nav-label">← Previous</span><span class="nav-title">OSI
+                        Model</span></a>
+                <a href="packet-routing.html"><span class="nav-label">Next →</span><span class="nav-title">Packet
+                        Routing & MAC</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

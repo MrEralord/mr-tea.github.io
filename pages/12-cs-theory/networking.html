@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on networking: Internet, WWW, intranet, OSI model, circuit switching, packet switching. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3C — Networking</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-network-wired"></i> Unit 12.3C · Term 3</div>
+                <h1 class="lesson-title">Networking: Internet, OSI &amp; Switching</h1>
+                <p class="lesson-intro">This lesson covers three key networking areas: the <strong>difference between
+                        the Internet, WWW, and Intranet</strong>; the <strong>OSI 7-layer model</strong> that
+                    standardizes network communication; and the two methods of data transmission — <strong>circuit
+                        switching</strong> and <strong>packet switching</strong>.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.6.1</span> Distinguish between the Internet, WWW, and Intranet</li>
+                    <li><span class="lo-code">12.3.6.2</span> Explain the purpose and layers of the OSI model</li>
+                    <li><span class="lo-code">12.3.6.3</span> Compare circuit switching and packet switching</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3C-networking.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- ==================== PART 1: Internet / WWW / Intranet ==================== -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-globe"></i> Part 1: Internet, WWW &amp; Intranet</h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Definition</th>
+                            <th>Key Feature</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Internet</strong></td>
+                            <td>A global network of interconnected networks using TCP/IP</td>
+                            <td>The <strong>physical infrastructure</strong> — cables, routers, servers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>World Wide Web (WWW)</strong></td>
+                            <td>A collection of interconnected web pages accessed via the Internet</td>
+                            <td>A <strong>service</strong> that runs ON the Internet (uses HTTP/HTTPS)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intranet</strong></td>
+                            <td>A private network within an organisation, using Internet technologies</td>
+                            <td><strong>Restricted access</strong> — only for employees/members</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="analogy-box">
+                    <h4><i class="fas fa-theater-masks"></i> Road Analogy</h4>
+                    <p>The <strong>Internet</strong> is the road network. The <strong>WWW</strong> is the delivery
+                        service that uses those roads (like Amazon deliveries). An <strong>Intranet</strong> is a
+                        private gated community with its own internal roads — it uses the same road-building technology
+                        but is restricted to residents.</p>
+                </div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Internet</th>
+                            <th>WWW</th>
+                            <th>Intranet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Scope</strong></td>
+                            <td>Global</td>
+                            <td>Global (public)</td>
+                            <td>Organisation only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Access</strong></td>
+                            <td>Public</td>
+                            <td>Public</td>
+                            <td>Private (login required)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Content</strong></td>
+                            <td>All network services</td>
+                            <td>Web pages (HTML/CSS/JS)</td>
+                            <td>Internal documents, tools</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Protocols</strong></td>
+                            <td>TCP/IP</td>
+                            <td>HTTP/HTTPS, HTML</td>
+                            <td>Same as Internet/WWW</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Example</strong></td>
+                            <td>The global network</td>
+                            <td>google.com, wikipedia.org</td>
+                            <td>Company portal, school LMS</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Common Exam Mistake</h4>
+                    <p>"The Internet and the WWW are the same thing" — <strong>FALSE</strong>. The Internet is the
+                        hardware/infrastructure. The WWW is a service (collection of web pages) that runs on the
+                        Internet. Email, FTP, gaming — these also use the Internet but are NOT part of the WWW.</p>
+                </div>
+            </section>
+
+            <!-- ==================== PART 2: OSI Model ==================== -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-layer-group"></i> Part 2: The OSI Model</h2>
+
+                <p class="concept-text">The <strong>Open Systems Interconnection (OSI)</strong> model is a conceptual
+                    framework with <strong>7 layers</strong> that standardizes how different network systems
+                    communicate. Each layer has a specific role and communicates with the layers directly above and
+                    below it.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Layer</th>
+                            <th>Function</th>
+                            <th>Example Protocol/Device</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>7</strong></td>
+                            <td><strong>Application</strong></td>
+                            <td>User interface — provides network services to applications</td>
+                            <td>HTTP, FTP, SMTP, DNS</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6</strong></td>
+                            <td><strong>Presentation</strong></td>
+                            <td>Data formatting — encryption, compression, translation</td>
+                            <td>SSL/TLS, JPEG, ASCII</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5</strong></td>
+                            <td><strong>Session</strong></td>
+                            <td>Manages sessions — establishes, maintains, and terminates connections</td>
+                            <td>NetBIOS, RPC</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4</strong></td>
+                            <td><strong>Transport</strong></td>
+                            <td>End-to-end delivery — segmentation, error checking, flow control</td>
+                            <td>TCP, UDP</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td><strong>Network</strong></td>
+                            <td>Routing — determines path from source to destination (logical addressing)</td>
+                            <td>IP, ICMP, Routers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td><strong>Data Link</strong></td>
+                            <td>Node-to-node transfer — frames, MAC addressing, error detection</td>
+                            <td>Ethernet, Wi-Fi, Switches</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td><strong>Physical</strong></td>
+                            <td>Physical transmission — raw bits over cable/wireless</td>
+                            <td>Cables, hubs, signals</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-lightbulb"></i> Mnemonic (Top → Bottom)</h4>
+                    <p><strong>A</strong>ll <strong>P</strong>eople <strong>S</strong>eem <strong>T</strong>o
+                        <strong>N</strong>eed <strong>D</strong>ata <strong>P</strong>rocessing — Application,
+                        Presentation, Session, Transport, Network, Data Link, Physical</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Why Use
+                    the OSI Model?</h3>
+                <ul class="concept-list">
+                    <li><strong>Standardisation</strong> — different manufacturers can build compatible equipment</li>
+                    <li><strong>Modular design</strong> — changes in one layer don't affect others</li>
+                    <li><strong>Troubleshooting</strong> — isolate problems to a specific layer</li>
+                    <li><strong>Interoperability</strong> — devices from different vendors can communicate</li>
+                </ul>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Data Flow: Sending an Email</h4>
+                    <div class="code-block"><code>Sender (Top → Bottom):
+Layer 7: User composes email in Outlook (Application)
+Layer 6: Email text is encoded/encrypted (Presentation)
+Layer 5: Session established with mail server (Session)
+Layer 4: Data split into segments, port number added (Transport)
+Layer 3: IP addresses added, route determined (Network)
+Layer 2: MAC addresses added, framed for local network (Data Link)
+Layer 1: Electrical/optical signals sent over cable (Physical)
+
+        ↓↓↓ Transmitted over network ↓↓↓
+
+Receiver (Bottom → Top):
+Layer 1 → 2 → 3 → 4 → 5 → 6 → 7
+(Each layer strips its header and passes data up)</code></div>
+                </div>
+            </section>
+
+            <!-- ==================== PART 3: Circuit vs Packet Switching ==================== -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exchange-alt"></i> Part 3: Circuit Switching vs Packet
+                    Switching</h2>
+
+                <!-- Circuit Switching -->
+                <h3 style="font-size:1.1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Circuit
+                    Switching</h3>
+                <p class="concept-text">A <strong>dedicated communication path</strong> is established between sender
+                    and receiver for the <strong>entire duration</strong> of the communication. The path remains
+                    reserved even during silence.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th style="width:50%;">✅ Advantages</th>
+                            <th style="width:50%;">❌ Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Guaranteed bandwidth — no congestion</td>
+                            <td>Wastes bandwidth during silence</td>
+                        </tr>
+                        <tr>
+                            <td>Constant data rate — predictable performance</td>
+                            <td>Connection setup takes time</td>
+                        </tr>
+                        <tr>
+                            <td>No packet reordering needed</td>
+                            <td>If the path breaks, entire connection fails</td>
+                        </tr>
+                        <tr>
+                            <td>Good for real-time communication (voice calls)</td>
+                            <td>Expensive — dedicated resources per connection</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="concept-text"><strong>Example:</strong> Traditional telephone system (PSTN) — a circuit is
+                    established for the entire phone call.</p>
+
+                <!-- Packet Switching -->
+                <h3 style="font-size:1.1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Packet
+                    Switching</h3>
+                <p class="concept-text">Data is broken into <strong>packets</strong>, each with a header containing the
+                    destination address. Packets can take <strong>different routes</strong> and are reassembled at the
+                    destination.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th style="width:50%;">✅ Advantages</th>
+                            <th style="width:50%;">❌ Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Efficient bandwidth use — shared network</td>
+                            <td>Packets may arrive out of order (need reassembly)</td>
+                        </tr>
+                        <tr>
+                            <td>Robust — if one route fails, packets reroute</td>
+                            <td>Variable delay (latency) — not ideal for real-time</td>
+                        </tr>
+                        <tr>
+                            <td>No connection setup needed</td>
+                            <td>Overhead — each packet carries header information</td>
+                        </tr>
+                        <tr>
+                            <td>Multiple users can share the same network</td>
+                            <td>Possible packet loss — requires error checking</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="concept-text"><strong>Example:</strong> The Internet — all web traffic, email, and streaming
+                    use packet switching.</p>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Packet Structure</h4>
+                    <div class="code-block"><code>┌──────────────────────────────────────────────────┐
+│                   PACKET                         │
+├──────────────┬──────────────────┬────────────────┤
+│    HEADER    │     PAYLOAD      │    TRAILER     │
+│              │                  │                │
+│ • Source IP  │ • Actual data    │ • Error check  │
+│ • Dest IP   │   (part of the   │   (checksum)   │
+│ • Packet #  │    message)      │                │
+│ • TTL       │                  │                │
+│ • Protocol  │                  │                │
+└──────────────┴──────────────────┴────────────────┘</code></div>
+                </div>
+
+                <!-- Comparison Table -->
+                <h3 style="font-size:1.1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Head-to-Head Comparison</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Circuit Switching</th>
+                            <th>Packet Switching</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Path</strong></td>
+                            <td>Dedicated, fixed path</td>
+                            <td>Multiple routes, dynamic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Setup</strong></td>
+                            <td>Required before data transfer</td>
+                            <td>No setup needed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bandwidth</strong></td>
+                            <td>Reserved (may be wasted)</td>
+                            <td>Shared (used efficiently)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data order</strong></td>
+                            <td>Data arrives in order</td>
+                            <td>Packets may arrive out of order</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Failure</strong></td>
+                            <td>Entire connection fails</td>
+                            <td>Packets reroute around failure</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Delay</strong></td>
+                            <td>Consistent (low jitter)</td>
+                            <td>Variable (may have jitter)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost</strong></td>
+                            <td>Expensive</td>
+                            <td>Cost-effective</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best for</strong></td>
+                            <td>Voice calls, video calls</td>
+                            <td>Web browsing, email, file transfer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Example</strong></td>
+                            <td>Phone network (PSTN)</td>
+                            <td>Internet (TCP/IP)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Saying Internet = WWW</h4>
+                    <p>The Internet is the <strong>infrastructure</strong> (hardware, cables, protocols). The WWW is a
+                        <strong>service</strong> on the Internet. Email uses the Internet but NOT the WWW.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Mixing Up OSI Layer Functions</h4>
+                    <p>Learn each layer's one-sentence purpose. Common mix-up: Network layer (IP, routing) vs Data Link
+                        layer (MAC, framing). Network = logical addressing. Data Link = physical addressing.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting Packet Header Contents</h4>
+                    <p>If asked what a packet contains — always mention: source IP, destination IP, packet number
+                        (sequence), TTL, protocol, and the actual data (payload).</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Networking Strategy</h4>
+                    <ul>
+                        <li>For Internet vs WWW: always say "Internet = infrastructure, WWW = service that uses it"</li>
+                        <li>For OSI: learn the mnemonic and the one-line function of each layer</li>
+                        <li>For switching comparisons: use the table format with at least 5 points</li>
+                        <li>Always give <strong>examples</strong>: "circuit switching is used in traditional phone
+                            calls"</li>
+                        <li>If asked about packet switching — mention: packets, different routes, reassembly, header
+                            information</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define: Internet, WWW, Intranet. List the 7 OSI layers in order.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why the Internet and WWW are not the same. Give 2 services that use the Internet but
+                            not the WWW.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Describe the function of each OSI layer. For each, give one example protocol or device.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare circuit switching and packet switching across 5 features. Explain which is better
+                            suited for a video conference and why.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level evaluate">Evaluate</span>
+                        <p>A company wants to set up internal communication. Should they use an intranet or just the
+                            public Internet? Discuss the advantages and security implications of each approach.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the difference between the Internet and the WWW?</div>
+                    <div class="quiz-answer">Click to reveal: The Internet is the global network infrastructure
+                        (hardware). The WWW is a service/collection of web pages accessed via the Internet using HTTP.
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Name the 7 OSI layers from bottom to top.</div>
+                    <div class="quiz-answer">Click to reveal: Physical, Data Link, Network, Transport, Session,
+                        Presentation, Application.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Which OSI layer handles IP addressing and routing?</div>
+                    <div class="quiz-answer">Click to reveal: Layer 3 — Network layer.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is the main advantage of packet switching?</div>
+                    <div class="quiz-answer">Click to reveal: Efficient bandwidth use — the network is shared, and
+                        packets can take different routes to avoid congestion or failures.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Why is circuit switching better for voice calls?</div>
+                    <div class="quiz-answer">Click to reveal: It provides a dedicated path with consistent bandwidth and
+                        low latency/jitter, which is essential for real-time communication.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="data-structures.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Data Structures</span></div>
+                </a>
+                <a href="../../index.html#syllabus">
+                    <div><span class="nav-label">Back to</span><span class="nav-title">Syllabus</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Systems — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on number systems: binary, hexadecimal, denary conversions, binary arithmetic. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3B — Number Systems</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 12.3B · Term 3</div>
+                <h1 class="lesson-title">Number Systems</h1>
+                <p class="lesson-intro">Computers work exclusively with binary (base-2), but we think in denary
+                    (base-10), and programmers often use hexadecimal (base-16) as a compact notation. Mastering
+                    conversions between these systems — and performing binary arithmetic — is essential for every CS
+                    topic from memory addressing to data representation.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.5.1</span> Convert between binary, denary, and hexadecimal</li>
+                    <li><span class="lo-code">12.3.5.2</span> Perform binary addition, subtraction, and shifts</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3B-number-systems.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- The Three Systems -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-sort-numeric-up-alt"></i> The Three Number Systems
+                </h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>System</th>
+                            <th>Base</th>
+                            <th>Digits</th>
+                            <th>Example</th>
+                            <th>Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Denary</strong></td>
+                            <td>10</td>
+                            <td>0–9</td>
+                            <td>255</td>
+                            <td>Human counting</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Binary</strong></td>
+                            <td>2</td>
+                            <td>0, 1</td>
+                            <td>11111111</td>
+                            <td>Computer storage &amp; processing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hexadecimal</strong></td>
+                            <td>16</td>
+                            <td>0–9, A–F</td>
+                            <td>FF</td>
+                            <td>Compact binary notation, colour codes, memory addresses</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Hex Digit Values</h4>
+                    <p>A=10, B=11, C=12, D=13, E=14, F=15. Each hex digit = exactly 4 binary bits (a nibble).</p>
+                </div>
+            </section>
+
+            <!-- Conversion: Denary ↔ Binary -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exchange-alt"></i> Denary ↔ Binary Conversion</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Denary → Binary (Repeated Division)</h4>
+                    <div class="code-block"><code>Convert 156 to binary:
+
+156 ÷ 2 = 78 remainder 0  ↑
+ 78 ÷ 2 = 39 remainder 0  │
+ 39 ÷ 2 = 19 remainder 1  │  Read remainders
+ 19 ÷ 2 =  9 remainder 1  │  from BOTTOM
+  9 ÷ 2 =  4 remainder 1  │  to TOP
+  4 ÷ 2 =  2 remainder 0  │
+  2 ÷ 2 =  1 remainder 0  │
+  1 ÷ 2 =  0 remainder 1  ┘
+
+Result: 156₁₀ = 10011100₂</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Binary → Denary (Place Values)</h4>
+                    <div class="code-block"><code>Convert 10011100 to denary:
+
+Position:  128  64  32  16   8   4   2   1
+Binary:      1   0   0   1   1   1   0   0
+
+= 128 + 16 + 8 + 4  =  156
+
+Result: 10011100₂ = 156₁₀</code></div>
+                </div>
+            </section>
+
+            <!-- Conversion: Denary ↔ Hex -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exchange-alt"></i> Denary ↔ Hexadecimal Conversion
+                </h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Denary → Hex (Repeated Division by 16)</h4>
+                    <div class="code-block"><code>Convert 492 to hex:
+
+492 ÷ 16 = 30 remainder 12 (C)  ↑
+ 30 ÷ 16 =  1 remainder 14 (E)  │  Read bottom to top
+  1 ÷ 16 =  0 remainder  1 (1)  ┘
+
+Result: 492₁₀ = 1EC₁₆</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Hex → Denary (Place Values)</h4>
+                    <div class="code-block"><code>Convert 1EC to denary:
+
+Position:  256   16    1
+           (16²) (16¹) (16⁰)
+Hex:         1     E     C
+Value:       1    14    12
+
+= (1 × 256) + (14 × 16) + (12 × 1)
+= 256 + 224 + 12
+= 492
+
+Result: 1EC₁₆ = 492₁₀</code></div>
+                </div>
+            </section>
+
+            <!-- Binary ↔ Hex shortcut -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-bolt"></i> Binary ↔ Hex (Quick Method)</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Binary → Hex: Group into nibbles (4 bits)</h4>
+                    <div class="code-block"><code>Convert 10011100 to hex:
+
+1001  1100    ← Group into 4-bit nibbles (right to left)
+  9     C     ← Convert each nibble to hex
+
+Result: 10011100₂ = 9C₁₆</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Hex → Binary: Expand each digit to 4 bits</h4>
+                    <div class="code-block"><code>Convert A3 to binary:
+
+A  →  1010
+3  →  0011
+
+Result: A3₁₆ = 10100011₂</code></div>
+                </div>
+            </section>
+
+            <!-- Binary Arithmetic -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-calculator"></i> Binary Arithmetic</h2>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Binary
+                    Addition Rules</h3>
+                <table class="theory-table" style="max-width:300px;">
+                    <thead>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>Sum</th>
+                            <th>Carry</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Binary Addition: 10110011 + 01001110</h4>
+                    <div class="code-block"><code>  Carry:  1 1 1 1 0 0 1 0
+           1 0 1 1 0 0 1 1   (= 179)
+         + 0 1 0 0 1 1 1 0   (=  78)
+         ─────────────────
+         1 0 0 0 0 0 0 0 1   (= 257)
+
+Check: 179 + 78 = 257 ✓
+
+Note: Result is 9 bits → overflow if using 8-bit representation!</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Binary
+                    Shifts</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Shift</th>
+                            <th>Action</th>
+                            <th>Effect</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Logical left shift</strong></td>
+                            <td>Shift all bits left, fill right with 0</td>
+                            <td>Multiply by 2 (per shift)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Logical right shift</strong></td>
+                            <td>Shift all bits right, fill left with 0</td>
+                            <td>Divide by 2 (per shift, integer division)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Shift Example</h4>
+                    <div class="code-block"><code>Original:    00010100  (= 20)
+
+Left shift 1:  00101000  (= 40)  → 20 × 2
+Left shift 2:  01010000  (= 80)  → 20 × 4
+
+Right shift 1: 00001010  (= 10)  → 20 ÷ 2
+Right shift 2: 00000101  (=  5)  → 20 ÷ 4</code></div>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting to Pad Binary to 8 Bits</h4>
+                    <p>Always pad with leading zeros to fill the whole byte: 101 should be written as
+                        <strong>00000101</strong>. This matters especially for hex conversions and shifts.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Reading Division Remainders Wrong Way</h4>
+                    <p>When converting denary to binary or hex, remainders are read <strong>bottom to top</strong> (last
+                        remainder = most significant digit). Reading top-to-bottom gives the wrong answer.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Overflow in Binary Addition</h4>
+                    <p>If the result needs more bits than available (e.g., 9 bits in an 8-bit system), this is
+                        <strong>overflow</strong>. The extra bit is lost and the answer wraps around. Always check for
+                        this.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Conversion Strategy</h4>
+                    <ul>
+                        <li>For binary ↔ hex, <strong>always</strong> use the 4-bit grouping shortcut — it's the fastest
+                        </li>
+                        <li>For denary → binary, write the place values (128, 64, 32, 16, 8, 4, 2, 1) as headers first
+                        </li>
+                        <li>Always <strong>verify</strong> by converting back: if you convert 156 to binary, convert it
+                            back to check you get 156</li>
+                        <li>For addition: write carry bits above the calculation to stay organized</li>
+                        <li>For shifts: "left = ×2, right = ÷2" — easy mnemonic</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Convert: (a) 217₁₀ to binary (b) 11010110₂ to denary (c) 3F7₁₆ to denary (d) 194₁₀ to hex</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Convert: (a) 10101011₂ to hex (b) B4₁₆ to binary (c) 1A3₁₆ to binary</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Add in binary: (a) 01100101 + 00111011 (b) 11001100 + 01010101</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Perform the following shifts on 00110100: (a) left shift by 2 (b) right shift by 3. State the
+                            denary value before and after each shift.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Why do programmers prefer hexadecimal over binary for writing memory addresses? Use a
+                            specific example to illustrate your answer.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. Convert 200 to binary.</div>
+                    <div class="quiz-answer">Click to reveal: 11001000</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Convert 11111111 to denary.</div>
+                    <div class="quiz-answer">Click to reveal: 255</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Convert FF to denary.</div>
+                    <div class="quiz-answer">Click to reveal: 255 (15×16 + 15 = 255)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does a left shift by 1 do to a number?</div>
+                    <div class="quiz-answer">Click to reveal: Multiplies the number by 2.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is binary overflow?</div>
+                    <div class="quiz-answer">Click to reveal: When the result of a calculation requires more bits than
+                        are available, causing the extra bit to be lost and an incorrect result.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="logic-laws.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Logic Laws</span></div>
+                </a>
+                <a href="twos-complement-floats.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Two's Complement &amp;
+                            Floating Point</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

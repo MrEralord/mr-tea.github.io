@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocols Revision — mr. TEA</title>
+    <meta name="description"
+        content="Grade 12 revision: network protocols (HTTP, FTP, SMTP, POP3), IP addresses (public/private), format. NIS Grade 12 CS Term 4.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.4A — Protocols Revision</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-sync-alt"></i> Unit 12.4A · Term 4 (Revision)</div>
+                <h1 class="lesson-title">Protocols Revision</h1>
+                <p class="lesson-intro">This revision lesson covers <strong>network protocols</strong> — the rules that
+                    govern communication between devices. You'll also review <strong>IP addresses</strong> (format,
+                    public vs private) and their role in network communication.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.6.3.1</span> Explain the role of protocols (HTTP, FTP, POP3, SMTP,
+                        HTTPS, FTPS)</li>
+                    <li><span class="lo-code">11.6.3.2</span> Explain the format of an IP address and how it is
+                        associated with a device</li>
+                    <li><span class="lo-code">11.6.3.3</span> Explain the difference between public and private IP
+                        addresses</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.4A-revision-protocols.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Key Concepts Review</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Network Protocols
+                </h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Protocol</th>
+                            <th>Full Name</th>
+                            <th>Purpose</th>
+                            <th>Port</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>HTTP</strong></td>
+                            <td>HyperText Transfer Protocol</td>
+                            <td>Transfer web pages (unsecured)</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HTTPS</strong></td>
+                            <td>HTTP Secure</td>
+                            <td>Encrypted web page transfer (SSL/TLS)</td>
+                            <td>443</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FTP</strong></td>
+                            <td>File Transfer Protocol</td>
+                            <td>Upload/download files</td>
+                            <td>21</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FTPS</strong></td>
+                            <td>FTP Secure</td>
+                            <td>Encrypted file transfer</td>
+                            <td>990</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SMTP</strong></td>
+                            <td>Simple Mail Transfer Protocol</td>
+                            <td>Sending emails</td>
+                            <td>25/587</td>
+                        </tr>
+                        <tr>
+                            <td><strong>POP3</strong></td>
+                            <td>Post Office Protocol v3</td>
+                            <td>Receiving emails (downloads to device)</td>
+                            <td>110</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IMAP</strong></td>
+                            <td>Internet Message Access Protocol</td>
+                            <td>Receiving emails (stays on server)</td>
+                            <td>143</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">IP
+                    Address Format</h3>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> IPv4 Address</h4>
+                    <div class="code-block"><code>Format:  xxx.xxx.xxx.xxx   (4 octets, dotted decimal)
+Example: 192.168.1.100
+
+Each octet = 8 bits → range 0–255
+Total address space = 32 bits → ~4.3 billion addresses
+
+IPv6: 128-bit addresses written in hexadecimal
+Example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Public vs
+                    Private IP</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Public IP</th>
+                            <th>Private IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Visibility</strong></td>
+                            <td>Visible on the Internet</td>
+                            <td>Only within local network (LAN)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Assigned by</strong></td>
+                            <td>ISP (Internet Service Provider)</td>
+                            <td>Router / DHCP server</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Uniqueness</strong></td>
+                            <td>Globally unique</td>
+                            <td>Unique only within LAN (can repeat across networks)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ranges</strong></td>
+                            <td>Any address not in private ranges</td>
+                            <td>10.x.x.x / 172.16–31.x.x / 192.168.x.x</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NAT</strong></td>
+                            <td>Not needed</td>
+                            <td>Requires NAT to access the Internet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Revision Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List 6 network protocols and explain the purpose of each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between HTTP and HTTPS. Why is HTTPS important?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Given the IP address 192.168.0.5, determine if it is public or private and explain how you
+                            know.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare POP3 and IMAP. When would you use each? Which is better for accessing email from
+                            multiple devices?</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What protocol is used to send emails?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">SMTP (Simple Mail Transfer
+                        Protocol) — it handles sending/outgoing emails from a mail client to a mail server.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Is 10.0.0.1 a public or private IP address?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Private — the 10.x.x.x range
+                        is reserved for private networks. It cannot be used directly on the Internet.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How many bits are in an IPv4 address?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">32 bits — divided into 4 octets
+                        (8 bits each), written in dotted decimal notation (e.g., 192.168.1.1).</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="revision-paradigms.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Paradigms Revision</span></a>
+                <a href="revision-internet.html"><span class="nav-label">Next →</span><span class="nav-title">Internet
+                        Revision</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

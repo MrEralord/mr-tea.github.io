@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Compilation Stages — mr. TEA</title>
+    <meta name="description"
+        content="The 6 stages of program compilation: lexical, syntax, semantic analysis, intermediate code, optimization, and target code generation. Linkers and loaders. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.1B — Compilation Stages</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-cogs"></i> Unit 12.1B · Term 1</div>
+                <h1 class="lesson-title">Program Compilation Stages</h1>
+                <p class="lesson-intro"><strong>Compilation</strong> is the rigorous process of translating high-level
+                    source code (e.g., in Python or Java) into low-level machine code that a computer's CPU can execute.
+                    A compiler processes the entire program as a whole before execution to check for errors and optimize
+                    for speed and efficiency.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.1.3</span> Describe programme compilation stages: lexical, syntactic,
+                        semantic analysis, intermediate code generation, optimization, and target code generation</li>
+                    <li><span class="lo-code">12.5.1.4</span> Understand the role of linkers, loaders, and library
+                        routines</li>
+                </ul>
+            </div>
+            <figure class="lesson-image-block">
+                <img src="../../assets/images/lessons/compilation_stages.png" width="600" height="400"
+                    alt="Compilation Stages — Lexical Analysis, Syntactic Analysis, Code Generation, Code Optimization">
+                <figcaption>Compilation Stages: Lexical Analysis, Syntactic Analysis, Code Generation, Code
+                    Optimization.</figcaption>
+            </figure>
+
+
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>Program Compilation · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="../../assets/pdf/program_compilation.pdf" target="_blank"
+                        class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="../../assets/pdf/program_compilation.pdf" download class="lesson-pdf-btn download-btn"><i
+                            class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-language"></i> The Translation Bureau</h4>
+                    <p>Imagine translating a complex academic book from English to Kazakh. First, you meticulously break
+                        the text into individual <strong>words</strong>, ignoring spaces (lexical analysis). Then you
+                        verify the <strong>grammar rules</strong> (syntax analysis). Next, you ensure the
+                        <strong>meaning</strong> makes logical sense contextually (semantic analysis). You write a
+                        <strong>rough draft</strong> (intermediate code), <strong>polish it</strong> by removing
+                        redundant phrases without changing the meaning (optimization), and finally publish the
+                        <strong>printed binary book</strong> (target code generation).
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> The 6 Phases of Compiler Design</h2>
+                <br>
+
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Lexical Analysis</h4>
+                    <p>This is the first phase of the compilation process, operating as a scanner. Its primary
+                        responsibilities include:</p>
+                    <ul style="margin-bottom: var(--space-sm); padding-left: 20px;">
+                        <li>All the comments and whitespace are strictly removed from the program.</li>
+                        <li>High-level code is turned into a series of <strong>tokens</strong>, using reserved words
+                            that the computer is able to pick out.</li>
+                        <li><strong>Symbol Table Creation:</strong> A vital data structure is created which stores the
+                            names and addresses of all variables and constants. Variables are rigorously checked to make
+                            sure they have been declared and to determine the specific data types used.</li>
+                        <li>The resulting token stream is then passed to the next stage.</li>
+                    </ul>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Syntactic Analysis (Parsing)</h4>
+                    <p>This phase evaluates the structural correctness of the token stream against the grammar of the
+                        programming language.</p>
+                    <ul style="margin-bottom: var(--space-sm); padding-left: 20px;">
+                        <li>Checks that the code is written in a valid syntax.</li>
+                        <li>Compiles a comprehensive list of errors for the user where the code does not follow the
+                            language rules.</li>
+                        <li>Produces a <strong>Parser Tree</strong>, representing the grammatical structure of the
+                            program.</li>
+                        <li>Subsequently, it produces an <strong>Abstract Syntax Tree (AST)</strong>, which is a refined
+                            representation of the program.</li>
+                    </ul>
+                    <table class="theory-table" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Parse Tree</th>
+                                <th>Abstract Syntax Tree (AST)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Uses interior nodes to represent a grammar rule.</td>
+                                <td>Uses operators/operations as root and interior nodes, and uses operands as their
+                                    children.</td>
+                            </tr>
+                            <tr>
+                                <td>Represents every detail from the real syntax, including rule nodes and parentheses.
+                                </td>
+                                <td>Does not use interior nodes to represent grammar rules. It does not represent every
+                                    detail from the real syntax (no rule nodes, no parentheses).</td>
+                            </tr>
+                            <tr>
+                                <td>Highly detailed and verbose.</td>
+                                <td>Dense compared to a parse tree for the same language construct. It is a polished
+                                    version maintaining only information relevant to understanding the code.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Semantic Analysis</h4>
+                    <p>This phase goes beyond structural grammar to verify logical consistency. It checks whether the
+                        syntactically correct statements actually make sense. For instance, it enforces type checking
+                        (ensuring a string is not multiplied by a float) and confirms that operators are applied to
+                        compatible operands.</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Intermediate Code Generation</h4>
+                    <p>The compiler generates a machine-independent intermediate representation of the source code. This
+                        acts as a bridge: it is easier to translate into target machine code than the high-level
+                        language, yet it remains independent of any specific hardware architecture, facilitating easier
+                        cross-platform compilation.</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">5</span> Code Optimization</h4>
+                    <p>The primary goal of this stage is to improve the intermediate code. It is designed to reduce
+                        execution time and minimize memory utilization without altering the actual logic or the final
+                        output of the program. It achieves this by eliminating dead code, removing redundant
+                        instructions, and streamlining loops.</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">6</span> Target Code Generation</h4>
+                    <p>In the final phase, the optimized intermediate code is translated into the actual machine code
+                        (binary instructions) or object code that is specifically tailored to the target CPU's
+                        architecture and instruction set.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-link"></i> Linkers, Loaders & Library Routines</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Library Routines
+                </h3>
+                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
+                    <li><strong>Definition:</strong> Standardized, pre-written segments of code.</li>
+                    <li><strong>Why it is needed:</strong> Library routines have already been written and tested so the
+                        programmer is saved a lot of work. The code exists in compiled form so it does not need to be
+                        re-compiled when it is used, which drastically reduces development time.</li>
+                    <li><strong>Where it is applied:</strong> Standard mathematical operations, input/output handling,
+                        and string manipulation tasks within large software projects.</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Linkers</h3>
+                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
+                    <li><strong>Definition:</strong> An essential utility program utilized during the compilation
+                        process.</li>
+                    <li><strong>Why it is needed:</strong> The linker links multiple compiled object files and library
+                        routines together into a single executable file. Crucially, it makes sure that references from
+                        one module to another are correct.</li>
+                    <li><strong>Where it is applied:</strong> Software development environments where programs are
+                        broken down into multiple separate source files and modules.</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Loaders</h3>
+                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
+                    <li><strong>Definition:</strong> A utility program employed at runtime.</li>
+                    <li><strong>Why it is needed:</strong> A loader loads all the modules into memory (RAM) and prepares
+                        them for execution. It sorts out difficulties such as changes of addresses for the variables
+                        dynamically.</li>
+                    <li><strong>Where it is applied:</strong> Operating systems use loaders every time an application or
+                        executable file is launched by the user.</li>
+                </ul>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> AST vs Parse Tree</h4>
+                    <p>Do not confuse them! An <strong>AST</strong> does not use interior nodes to represent grammar
+                        rules and strips away parentheses. A <strong>Parse Tree</strong> represents every detail from
+                        the real syntax. ASTs are dense compared to a parse tree.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Linker vs Loader Timing</h4>
+                    <p>The <strong>Linker</strong> is used <em>during the compilation process</em> to link object files
+                        into a single executable file. The <strong>Loader</strong> is used <em>at runtime</em> to load
+                        the executable file into memory and prepare it for execution.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Exam Style Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level understand">Match</span>
+                        <p>Draw a line linking each stage of compilation to its correct description.<br><br>
+                            <strong>Stages:</strong> Lexical Analysis, Syntax Analysis, Target Code Generation, Code
+                            Optimization.<br>
+                            <strong>Descriptions:</strong><br>
+                            - An abstract syntax tree is produced.<br>
+                            - The time taken to execute the program is reduced.<br>
+                            - Comments and whitespace are removed.<br>
+                            - Machine code is produced.
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create an Abstract Syntax Tree (AST) for the expression:
+                            <code>"7 + 3 * (10 / (12 / (3 + 1) - 1))"</code>. Remember that the operators act as the
+                            root nodes and the operands as the children.
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain the difference between a Linker and a Loader, specifically detailing the timeframe in
+                            the software development process when each utility is used.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the purpose of the Symbol Table and when is it created?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It is created during Lexical
+                        Analysis. It stores the names, memory addresses, and data types of all variables and constants
+                        to ensure they have been properly declared.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Why are Library Routines useful?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">They have already been written
+                        and tested, so the programmer is saved a lot of work. The code exists in compiled form, meaning
+                        it does not need to be re-compiled when used.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How does optimization affect the output of a program?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It does not change the logic or
+                        the output. It only modifies the intermediate code to reduce execution time and memory
+                        utilization.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="expert-systems.html"><span class="nav-label">← Previous</span><span class="nav-title">Expert
+                        Systems & Prolog</span></a>
+                <a href="testing-methods.html"><span class="nav-label">Next →</span><span class="nav-title">Testing
+                        Methods</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

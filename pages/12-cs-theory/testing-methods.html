@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Methods — mr. TEA</title>
+    <meta name="description"
+        content="System testing, normal, extreme, erroneous/abnormal data. Syntax, execution, runtime, and logic errors. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.1C — Testing Methods</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-vial"></i> Unit 12.1C · Term 1</div>
+                <h1 class="lesson-title">Testing Methods</h1>
+                <p class="lesson-intro"><strong>System testing</strong> evaluates the complete, integrated software
+                    system to verify that it meets the specified functional and non-functional requirements. A
+                    well-tested program handles expected, extreme, and unexpected inputs gracefully while catching
+                    various types of errors before deployment.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.3.2</span> Perform testing using normal data</li>
+                    <li><span class="lo-code">12.5.3.3</span> Perform testing using extreme data</li>
+                    <li><span class="lo-code">12.5.3.4</span> Perform testing using erroneous data</li>
+                    <li><span class="lo-code">12.5.3.1</span> Describe execution errors at program startup</li>
+                    <li><span class="lo-code">12.5.3.5</span> Describe a syntax error in a program code</li>
+                    <li><span class="lo-code">12.5.3.6</span> Describe a logic error in a program code</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>Testing Methods · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="../../assets/pdf/testing_methods.pdf" target="_blank" class="lesson-pdf-btn view-btn"><i
+                            class="fas fa-eye"></i> View</a>
+                    <a href="../../assets/pdf/testing_methods.pdf" download class="lesson-pdf-btn download-btn"><i
+                            class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-car-crash"></i> The Car Safety Test</h4>
+                    <p>Before selling a car, manufacturers test it in <strong>normal</strong> conditions (city driving),
+                        <strong>extreme</strong> conditions (desert heat, icy roads), and <strong>erroneous</strong>
+                        conditions (what if the driver presses gas and brake simultaneously?). Software testing works
+                        the same way to ensure the system is robust and reliable.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">System Testing</h3>
+                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
+                    <li><strong>Definition:</strong> A level of software testing that evaluates the complete, integrated
+                        software system to verify that it meets the specified functional (what the system should do) and
+                        non-functional (how well the system should do it) requirements.</li>
+                    <li><strong>Why it is needed:</strong> There are four primary reasons for system testing:
+                        <ul>
+                            <li><strong>Holistic Validation:</strong> Ensuring all parts work together as a whole.</li>
+                            <li><strong>Requirement Compliance:</strong> Confirming the software does exactly what the
+                                client requested.</li>
+                            <li><strong>Defect Detection:</strong> Finding bugs before the software reaches the user.
+                            </li>
+                            <li><strong>Risk Mitigation:</strong> Preventing costly or dangerous failures in real-world
+                                application.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="header-section">
+                    <h2>Test Plan</h2>
+                </div>
+
+                <div class="content-section">
+                    <p><strong>What is a test plan?</strong></p>
+                    <p class="definition">
+                        A test plan is a formal document which details the tests to be performed on the data/software.
+                    </p>
+
+                    <span class="checklist-title">It describes:</span>
+                    <ul class="test-plan-list">
+                        <li>The scope of the testing</li>
+                        <li>The tests to be performed</li>
+                        <li>The reason for each test</li>
+                        <li>The data to be used in tests</li>
+                        <li>The expected outcome of each test</li>
+                    </ul>
+
+                    <div class="test-types">
+                        <strong>A good test plan should include the type of test:</strong>
+                        <p>Normal / Extreme / Abnormal</p>
+                    </div>
+
+                    <p>
+                        Once the test has been conducted, <span class="highlight-blue">the actual result from the test,
+                            along with evidence (e.g. screenshots) is added to the plan.</span>
+                    </p>
+                </div>
+
+                <footer class="footer-note">
+                    The actual outcome can be either <strong>accepted</strong> or <strong>rejected</strong>.
+                </footer>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
+                    Test Data</h3>
+                <p>After creating a system, it is necessary to test data to see if it performs under the conditions it
+                    was created for. Below is an example validating an age range of 17 to 70.</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Definition</th>
+                            <th>Example (Valid age: 17–70)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Normal</strong></td>
+                            <td>Typical, expected values that fall within the valid boundary and should be accepted by
+                                the system.</td>
+                            <td>25, 40, 55</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extreme (Boundary)</strong></td>
+                            <td>Values at the very edges (upper and lower limits) of the valid range. These should be
+                                accepted.</td>
+                            <td>17, 70</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Erroneous (Abnormal)</strong></td>
+                            <td>Values that fall completely outside the boundary or are of the wrong data type. These
+                                must be rejected by the system.</td>
+                            <td>16, 71, "twenty"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Test Plan
+                    Structure</h3>
+                <p>A good test plan must be structured systematically. It should include: the list of tests to be
+                    performed, the data to be used, the type of test, the expected outcome, and the actual outcome.</p>
+                <div class="code-block"><code># Program requirement: The system should accept an age range of 17 - 70. Any other data is rejected.
+
+┌────────┬────────┬──────────────────┬──────────────────┬──────────────────┐
+│ Test # │ Input  │ Test Type        │ Expected Outcome │ Actual Outcome   │
+├────────┼────────┼──────────────────┼──────────────────┼──────────────────┤
+│ 1      │ 25     │ Normal           │ Accepted         │ Accepted         │
+│ 2      │ 17     │ Extreme (Lower)  │ Accepted         │ Accepted         │
+│ 3      │ 70     │ Extreme (Upper)  │ Accepted         │ Accepted         │
+│ 4      │ 16     │ Erroneous        │ Rejected         │ Rejected         │
+│ 5      │ 71     │ Erroneous        │ Rejected         │ Rejected         │
+│ 6      │ "abc"  │ Erroneous        │ Rejected         │ Rejected         │
+└────────┴────────┴──────────────────┴──────────────────┴──────────────────┘</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
+                    Programming Errors</h3>
+
+                <figure class="lesson-image-block">
+                    <img src="../../assets/images/lessons/errors.jpeg" width="600" height="400" alt="Types of Errors">
+                    <figcaption>Types of Errors.</figcaption>
+                </figure>
+
+
+                <div class="lesson-video-block">
+                    <div class="lesson-video-header">
+                        <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                        <div class="lesson-video-info">
+                            <h4>Video Explanation</h4>
+                            <p>Watch a visual walkthrough of this topic</p>
+                        </div>
+                    </div>
+                    <div class="lesson-video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/Qce-9ziTxKA" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Syntax Errors</h4>
+                    <p>These errors occur during compilation when the code violates the grammatical rules of the
+                        programming language. The compiler cannot translate the code, which prevents the program from
+                        running at all. Example: missing a parenthesis in <code>print("Hello"</code>.</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Execution Errors at Program Startup</h4>
+                    <p>These are runtime exceptions or failures that occur during the initial loading and initialization
+                        phase of a software program, right after it begins running but before it reaches its core
+                        functionality. They differ from compile-time errors.</p>
+                    <ul style="padding-left: 20px;">
+                        <li><strong>Environmental Mismatch:</strong> The program's assumptions about the system (e.g.,
+                            files, network, hardware) don't match reality.</li>
+                        <li><strong>Resource Conflicts:</strong> Attempts to access locked or unavailable resources
+                            early on.</li>
+                        <li><strong>Dependency Issues:</strong> Failure to load required external libraries or modules.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> General Run Time Errors</h4>
+                    <p>As the name suggests, the error is only detectable while the program is running. They produce
+                        unexpected application behaviors. Examples include:</p>
+                    <ul style="padding-left: 20px;">
+                        <li><strong>Memory leak:</strong> Causes a program to slowly use up more RAM until it crashes.
+                        </li>
+                        <li><strong>Program crash:</strong> The program unexpectedly quits while running (e.g., dividing
+                            by zero).</li>
+                    </ul>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Logic Errors</h4>
+                    <p>Logic errors occur when the program runs perfectly without crashing, but produces the wrong
+                        output because of a flaw in the programmer's reasoning. They are categorized into two types:</p>
+                    <table class="theory-table" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Formal Logic Error</th>
+                                <th>Informal Logic Error</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Also known as "mathematical logic". It is based on Boolean variables (True/False)
+                                    and logical thinking using AND, OR, and IF/THEN statements.</td>
+                                <td>Happens when the program follows all the rules of coding, but it doesn't solve the
+                                    problem the way it was intended.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Example:</strong> Writing <code>IF age > 17 AND age < 70</code> instead of
+                                    <code>IF age >= 17 AND age <= 70</code>. The mathematical logic misses the extreme
+                                    boundaries.
+                                </td>
+                                <td><strong>Example:</strong> Implementing an algorithm that sorts numbers, but it
+                                    unintentionally sorts them in descending order when it should have been ascending.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Additional Testing Strategies</h3>
+                <p>Beyond data input testing, software goes through several phases of validation to ensure robustness.
+                </p>
+                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
+                    <li><strong>Alpha Testing:</strong> Conducted by the internal development team in a lab environment
+                        before the software is released to external users.</li>
+                    <li><strong>Beta Testing:</strong> Conducted by a limited number of real users in a real-world
+                        environment before the final commercial release.</li>
+                    <li><strong>Dry Run Testing:</strong> A manual, paper-based walk-through of the code using a trace
+                        table to track variables without actually executing the program on a computer.</li>
+                    <li><strong>Blackbox Testing:</strong> Testing the functionality of the software without looking at
+                        the internal code structure. The tester only knows the required inputs and expected outputs.
+                    </li>
+                    <li><strong>Whitebox Testing:</strong> Testing the internal structures, logic, and workings of an
+                        application. The tester needs full access and knowledge of the source code.</li>
+                </ul>
+
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Only Testing Normal Data</h4>
+                    <p>Many students only test with "nice" values. Always construct a complete Test Plan that includes
+                        <strong>Extreme</strong> data to test the exact boundaries, and
+                        <strong>Erroneous/Abnormal</strong> data to verify the system rejects bad inputs.
+                    </p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Mixing Up Runtime and Logic Errors</h4>
+                    <p>Runtime errors <strong>crash</strong> the program or halt execution entirely. Logic errors
+                        <strong>don't crash</strong> —
+                        the program runs but gives wrong results. If the program unexpectedly quits = runtime. If it
+                        runs but the
+                        answer is wrong = logic.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level understand">Research & Discuss</span>
+                        <p>In pairs, research and prepare for a discussion to demonstrate and explain the concepts of:
+                            Alpha testing, Beta testing, Dry run testing, Blackbox testing, and Whitebox testing.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a test plan table for a program that accepts a password between 8 and 20 characters.
+                            Include columns for Test #, Input, Test Type, Expected Outcome, and Actual Outcome. Include
+                            at least 6 tests.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Differentiate between Formal Logic Errors and Informal Logic Errors using an original coding
+                            example for each.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What are Execution Errors at Startup?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Failures that occur during the
+                        initial loading and initialization phase right after the program begins running, caused by
+                        issues like environmental mismatch, resource conflicts, or dependency issues.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Why is System Testing important?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It is essential for holistic
+                        validation, requirement compliance, defect detection, and risk mitigation before the software is
+                        deployed to end users.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How does Erroneous data differ from Extreme data?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Extreme data represents the
+                        valid boundary limits and should be accepted by the system. Erroneous (Abnormal) data falls
+                        outside the acceptable range or is of the wrong data type and must be rejected.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="compilation-stages.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Compilation Stages</span></a>
+                <a href="threats-computer-system.html"><span class="nav-label">Next →</span><span
+                        class="nav-title">Threats to Computer System</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

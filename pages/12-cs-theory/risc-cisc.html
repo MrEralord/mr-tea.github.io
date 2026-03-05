@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISC vs CISC — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook comparing RISC and CISC processor architectures. Instruction sets, pipelines, and real-world examples. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3A — RISC vs CISC</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-server"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">RISC vs CISC</h1>
+                <p class="lesson-intro">Processor architectures define <strong>how instructions are designed and
+                        executed</strong>. The two major approaches are <strong>RISC</strong> (Reduced Instruction Set
+                    Computer) and <strong>CISC</strong> (Complex Instruction Set Computer). This is one of the most
+                    common comparison questions in exams — know the differences cold.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.2.1</span> Describe the RISC architecture</li>
+                    <li><span class="lo-code">12.3.2.2</span> Describe the CISC architecture</li>
+                    <li><span class="lo-code">12.3.2.3</span> Compare RISC and CISC</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-risc-cisc.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-theater-masks"></i> The Tool Box Analogy</h4>
+                    <p><strong>CISC</strong> is like a Swiss Army knife — one tool with many complex built-in functions.
+                        It can do everything, but each function is heavier and slower. <strong>RISC</strong> is like a
+                        set of simple, individual tools — a screwdriver, pliers, hammer. Each tool is light and fast,
+                        and you combine them to do complex jobs. RISC = many simple steps done quickly. CISC = fewer
+                        complex steps done slowly.</p>
+                </div>
+            </section>
+
+            <!-- RISC -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-bolt"></i> RISC — Reduced Instruction Set Computer
+                </h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>RISC Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Instruction set</strong></td>
+                            <td>Small set of simple, fixed-length instructions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Execution time</strong></td>
+                            <td>Most instructions execute in <strong>1 clock cycle</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instruction format</strong></td>
+                            <td>Fixed-length (all instructions are the same size in bits)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Addressing modes</strong></td>
+                            <td>Few, simple addressing modes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Registers</strong></td>
+                            <td>Many general-purpose registers (less need for memory access)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pipelining</strong></td>
+                            <td>Highly suited — fixed-length instructions make pipelining efficient</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Memory access</strong></td>
+                            <td>Only LOAD and STORE access memory; all other operations use registers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compiler</strong></td>
+                            <td>Complex — must break complex operations into many simple ones</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware</strong></td>
+                            <td>Simpler processor design, lower power consumption</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="concept-text"><strong>Examples:</strong> ARM (used in smartphones, tablets, Raspberry Pi,
+                    Apple M1/M2/M3 chips), MIPS, SPARC</p>
+            </section>
+
+            <!-- CISC -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-cogs"></i> CISC — Complex Instruction Set Computer
+                </h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>CISC Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Instruction set</strong></td>
+                            <td>Large set of complex, variable-length instructions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Execution time</strong></td>
+                            <td>Instructions may take <strong>multiple clock cycles</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instruction format</strong></td>
+                            <td>Variable-length (different instructions have different sizes)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Addressing modes</strong></td>
+                            <td>Many complex addressing modes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Registers</strong></td>
+                            <td>Fewer general-purpose registers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pipelining</strong></td>
+                            <td>Difficult — variable-length instructions complicate pipeline stages</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Memory access</strong></td>
+                            <td>Many instructions can directly access memory (not just LOAD/STORE)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compiler</strong></td>
+                            <td>Simpler — one complex instruction can do what RISC needs several for</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware</strong></td>
+                            <td>Complex processor design, higher power consumption</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="concept-text"><strong>Examples:</strong> x86 / x86-64 (Intel Core i-series, AMD Ryzen — used
+                    in most desktops and laptops)</p>
+            </section>
+
+            <!-- Comparison -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-balance-scale"></i> Head-to-Head Comparison</h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>RISC</th>
+                            <th>CISC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Instruction set size</strong></td>
+                            <td>Small (≈ 50–150 instructions)</td>
+                            <td>Large (≈ 200–500+ instructions)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instruction length</strong></td>
+                            <td>Fixed</td>
+                            <td>Variable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cycles per instruction</strong></td>
+                            <td>Usually 1</td>
+                            <td>Multiple (2–10+)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pipelining</strong></td>
+                            <td>Easy &amp; efficient</td>
+                            <td>Difficult</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Registers</strong></td>
+                            <td>Many</td>
+                            <td>Few</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Memory access</strong></td>
+                            <td>LOAD/STORE architecture</td>
+                            <td>Many instructions access memory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Code size</strong></td>
+                            <td>Larger (more instructions needed)</td>
+                            <td>Smaller (fewer, more powerful instructions)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compiler complexity</strong></td>
+                            <td>Complex (more work for compiler)</td>
+                            <td>Simpler (hardware does more)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Power consumption</strong></td>
+                            <td>Low</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware complexity</strong></td>
+                            <td>Simpler</td>
+                            <td>Complex</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best for</strong></td>
+                            <td>Mobile devices, embedded systems</td>
+                            <td>Desktop PCs, servers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Examples</strong></td>
+                            <td>ARM, MIPS, RISC-V</td>
+                            <td>Intel x86, AMD x86-64</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Worked Example -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Example</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Multiplying Two Numbers: CISC vs RISC Approach</h4>
+                    <div class="code-block"><code>Task: Multiply value at memory address 100 by value at address 200,
+      store result at address 300.
+
+━━━ CISC Approach (1 instruction) ━━━
+MUL [300], [100], [200]
+  → One complex instruction fetches both values from memory,
+    multiplies them, and stores the result.
+  → Takes multiple clock cycles but only 1 instruction.
+
+━━━ RISC Approach (4 instructions, each 1 cycle) ━━━
+LOAD R1, [100]      // Load value from address 100 into register R1
+LOAD R2, [200]      // Load value from address 200 into register R2
+MUL  R3, R1, R2     // Multiply R1 × R2, store in register R3
+STORE [300], R3     // Store R3 value into address 300
+  → Four simple instructions, but each executes in 1 cycle.
+  → Pipelining can overlap these instructions.</code></div>
+                </div>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Saying "RISC Is Better Than CISC"</h4>
+                    <p>Neither is inherently "better." <strong>RISC excels in power efficiency</strong> (phones,
+                        tablets). <strong>CISC excels in backward compatibility</strong> (runs decades of x86 software).
+                        Modern CPUs often combine both approaches (CISC externally, RISC-like internally).</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing "Less Instructions = Less Powerful"</h4>
+                    <p>RISC has fewer instruction <em>types</em>, but it can do everything CISC can — it just uses more
+                        instructions. Fewer types ≠ less capability.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Ignoring Pipelining</h4>
+                    <p>The main performance advantage of RISC is <strong>pipelining</strong>. Fixed-length, single-cycle
+                        instructions are ideal for pipeline stages. Always mention this in comparison answers.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Comparison Answer Template</h4>
+                    <ul>
+                        <li>For "compare" questions — use a <strong>table format</strong> with features as rows</li>
+                        <li>Minimum 5 comparison points: instruction set size, cycles per instruction, pipelining,
+                            registers, power consumption</li>
+                        <li>Always give <strong>examples</strong>: ARM = RISC, x86 = CISC</li>
+                        <li>Mention the modern trend: Apple's M-series chips (RISC/ARM) are now competing with Intel/AMD
+                            (CISC) for desktop performance</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define RISC and CISC. List 5 key differences between them.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why RISC processors are more suited to pipelining than CISC processors.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>A manufacturer is designing a processor for a smartwatch. Should they use RISC or CISC?
+                            Justify with at least 3 reasons.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Modern Intel and AMD processors are CISC externally but convert instructions to RISC-like
+                            micro-operations internally. Explain why this hybrid approach is used.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does RISC stand for?</div>
+                    <div class="quiz-answer">Click to reveal: Reduced Instruction Set Computer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. How many clock cycles does a typical RISC instruction take?</div>
+                    <div class="quiz-answer">Click to reveal: 1 clock cycle (most instructions)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Which architecture uses fixed-length instructions?</div>
+                    <div class="quiz-answer">Click to reveal: RISC — all instructions are the same length in bits.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Which architecture is used in smartphones?</div>
+                    <div class="quiz-answer">Click to reveal: RISC (specifically ARM processors) — due to low power
+                        consumption.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Why does RISC need a more complex compiler?</div>
+                    <div class="quiz-answer">Click to reveal: Because the compiler must break complex operations into
+                        many simple instructions, since the instruction set is limited.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="computer-performance.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Computer Performance</span>
+                    </div>
+                </a>
+                <a href="addressable-memory.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Addressable Memory</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

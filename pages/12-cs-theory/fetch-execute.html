@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch-Decode-Execute Cycle — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on the Fetch-Decode-Execute (FDE) cycle: CPU registers, stages, and worked examples. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3A — Fetch-Decode-Execute Cycle</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-server"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Fetch-Decode-Execute Cycle</h1>
+                <p class="lesson-intro">The <strong>Fetch-Decode-Execute (FDE) cycle</strong> is the fundamental process
+                    by which a CPU executes instructions. Every program you run — from opening a browser to calculating
+                    2 + 3 — follows this cycle billions of times per second. Understanding the FDE cycle means
+                    understanding how a computer actually works at its core.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.2.5</span> Explain three operations in a fetch-execute cycle (fetch /
+                        decode / execute)</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-fetch-execute.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- ▶ YouTube Video — copy this block to other lessons, change only the iframe src -->
+            <div class="lesson-video-block">
+                <div class="lesson-video-header">
+                    <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                    <div class="lesson-video-info">
+                        <h4>Video Explanation</h4>
+                        <p>Watch a visual walkthrough of this topic</p>
+                    </div>
+                </div>
+                <div class="lesson-video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/eoiOIfJ1IlQ?si=NzIhOD8S1BvEZdNc"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- Conceptual Anchor -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-theater-masks"></i> The Chef's Recipe Analogy</h4>
+                    <p>Imagine a chef preparing a multi-step recipe. <strong>FETCH</strong> = the chef reads the next
+                        line of the recipe. <strong>DECODE</strong> = the chef understands what the instruction means
+                        ("dice the onions" → need a knife, cutting board, onions). <strong>EXECUTE</strong> = the chef
+                        performs the action (actually dices the onions). Then the cycle repeats for the next
+                        instruction. A CPU does exactly this — billions of times per second.</p>
+                </div>
+            </section>
+
+            <!-- CPU Registers -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-microchip"></i> Key CPU Registers</h2>
+
+                <p class="concept-text">Before understanding the FDE cycle, you need to know the
+                    <strong>registers</strong> involved. Registers are tiny, ultra-fast storage locations inside the
+                    CPU.
+                </p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Register</th>
+                            <th>Full Name</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PC</strong></td>
+                            <td>Program Counter</td>
+                            <td>Holds the <strong>address</strong> of the next instruction to be fetched</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MAR</strong></td>
+                            <td>Memory Address Register</td>
+                            <td>Holds the address of the memory location being read/written</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MDR</strong></td>
+                            <td>Memory Data Register</td>
+                            <td>Holds the <strong>data</strong> read from or to be written to memory</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CIR</strong></td>
+                            <td>Current Instruction Register</td>
+                            <td>Holds the instruction currently being decoded/executed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ACC</strong></td>
+                            <td>Accumulator</td>
+                            <td>Holds the result of arithmetic/logic operations</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> MDR vs MBR</h4>
+                    <p>Some textbooks use <strong>MBR</strong> (Memory Buffer Register) instead of MDR. They mean the
+                        same thing — a temporary holding area for data being transferred between CPU and memory.</p>
+                </div>
+            </section>
+
+            <!-- The Three Stages -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-redo"></i> The Three Stages</h2>
+
+                <!-- FETCH -->
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> FETCH</h4>
+                    <p>The CPU retrieves the next instruction from main memory (RAM).</p>
+                    <div class="code-block"><code>Step 1: The address in the PC is copied to the MAR
+        PC → MAR
+
+Step 2: The instruction at that memory address is fetched
+        via the address bus and loaded into the MDR
+        Memory[MAR] → MDR
+
+Step 3: The instruction in MDR is copied to the CIR
+        MDR → CIR
+
+Step 4: The PC is incremented by 1 (to point to next instruction)
+        PC ← PC + 1</code></div>
+                </div>
+
+                <!-- DECODE -->
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> DECODE</h4>
+                    <p>The <strong>Control Unit (CU)</strong> interprets the instruction in the CIR. It splits the
+                        instruction into:</p>
+                    <div class="code-block"><code>Instruction format:  [OPCODE] [OPERAND]
+
+OPCODE  = the operation to perform (e.g., LOAD, ADD, STORE, JUMP)
+OPERAND = the data or memory address to use
+
+Example:  ADD 105
+  OPCODE  = ADD  (perform addition)
+  OPERAND = 105  (use data at memory address 105)</code></div>
+                    <p>The CU determines what signals to send, which components are needed (ALU, memory, I/O), and
+                        prepares them.</p>
+                </div>
+
+                <!-- EXECUTE -->
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> EXECUTE</h4>
+                    <p>The CPU carries out the instruction. The action depends on the type of instruction:</p>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Instruction Type</th>
+                                <th>What Happens</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Data transfer</strong></td>
+                                <td>Data moves between registers/memory</td>
+                                <td>LOAD R1, 100 → load value from address 100 into R1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Arithmetic</strong></td>
+                                <td>ALU performs calculation, result in ACC</td>
+                                <td>ADD R1, R2 → ACC = R1 + R2</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Logic</strong></td>
+                                <td>ALU performs comparison or logical op</td>
+                                <td>CMP R1, R2 → compare R1 and R2</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Branch / Jump</strong></td>
+                                <td>PC is changed to a different address</td>
+                                <td>JMP 200 → PC = 200 (skip to address 200)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>I/O</strong></td>
+                                <td>Data transferred to/from I/O device</td>
+                                <td>OUT R1 → send R1 value to output device</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Complete Worked Example -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Example — Trace Through</h2>
+
+                <p class="concept-text">Let's trace the execution of a simple program that loads two numbers, adds them,
+                    and stores the result.</p>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Program in Memory
+                </h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                            <th>Instruction</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>100</td>
+                            <td>LDA 200</td>
+                            <td>Load value at address 200 into ACC</td>
+                        </tr>
+                        <tr>
+                            <td>101</td>
+                            <td>ADD 201</td>
+                            <td>Add value at address 201 to ACC</td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>STO 202</td>
+                            <td>Store ACC value in address 202</td>
+                        </tr>
+                        <tr>
+                            <td>…</td>
+                            <td>…</td>
+                            <td>…</td>
+                        </tr>
+                        <tr>
+                            <td>200</td>
+                            <td>15</td>
+                            <td>Data: 15</td>
+                        </tr>
+                        <tr>
+                            <td>201</td>
+                            <td>27</td>
+                            <td>Data: 27</td>
+                        </tr>
+                        <tr>
+                            <td>202</td>
+                            <td>0</td>
+                            <td>Data: (empty, will hold result)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Cycle 1:
+                    LDA 200</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Action</th>
+                            <th>Register Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>FETCH</strong></td>
+                            <td>PC(100)→MAR; Memory[100]→MDR; MDR→CIR; PC←101</td>
+                            <td>PC=101, MAR=100, MDR="LDA 200", CIR="LDA 200"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DECODE</strong></td>
+                            <td>CU splits: OPCODE=LDA, OPERAND=200</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EXECUTE</strong></td>
+                            <td>MAR←200; Memory[200]→MDR; MDR→ACC</td>
+                            <td>ACC = 15</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Cycle 2:
+                    ADD 201</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Action</th>
+                            <th>Register Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>FETCH</strong></td>
+                            <td>PC(101)→MAR; Memory[101]→MDR; MDR→CIR; PC←102</td>
+                            <td>PC=102, CIR="ADD 201"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DECODE</strong></td>
+                            <td>CU splits: OPCODE=ADD, OPERAND=201</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EXECUTE</strong></td>
+                            <td>MAR←201; Memory[201]→MDR; ACC←ACC+MDR</td>
+                            <td>ACC = 15 + 27 = <strong>42</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Cycle 3:
+                    STO 202</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Action</th>
+                            <th>Register Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>FETCH</strong></td>
+                            <td>PC(102)→MAR; Memory[102]→MDR; MDR→CIR; PC←103</td>
+                            <td>PC=103, CIR="STO 202"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DECODE</strong></td>
+                            <td>CU splits: OPCODE=STO, OPERAND=202</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EXECUTE</strong></td>
+                            <td>MAR←202; MDR←ACC; MDR→Memory[202]</td>
+                            <td>Memory[202] = <strong>42</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting PC Increments During Fetch</h4>
+                    <p>The PC increments by 1 during <strong>every</strong> fetch stage (not after execute). This is
+                        crucial — examiners check for this step explicitly.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing MDR and MAR</h4>
+                    <p>MAR holds <strong>addresses</strong> (where to look). MDR holds <strong>data</strong> (what was
+                        found there). Think: MAR = postcode, MDR = the letter inside the mailbox.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Skipping the CIR</h4>
+                    <p>Students often go straight from MDR to execution. The instruction must be copied from MDR → CIR
+                        first. The CIR holds the instruction while the MDR is freed for the execute stage.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Writing FDE Cycle Answers</h4>
+                    <ul>
+                        <li>Always describe all <strong>4 fetch sub-steps</strong>: PC→MAR, Memory→MDR, MDR→CIR, PC+1
+                        </li>
+                        <li>For decode: mention the <strong>Control Unit</strong> splitting instruction into opcode +
+                            operand</li>
+                        <li>For execute: describe the specific action (depends on instruction type)</li>
+                        <li>Use <strong>register names</strong> (PC, MAR, MDR, CIR, ACC) — this is what earns marks</li>
+                        <li>If asked "what role does the [register] play?" — explain using the FDE context</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 5 key registers in the FDE cycle and state the purpose of each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why the instruction is moved from MDR to CIR before execution begins.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Trace through the FDE cycle for the instruction "SUB 305" if the PC is currently 104 and the
+                            ACC contains 50. Address 305 contains the value 12. Show all register changes.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain what would happen if the PC did not increment during the fetch stage. How would this
+                            affect program execution?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Write a simple 5-instruction assembly program and trace through all 5 FDE cycles, showing the
+                            values of PC, MAR, MDR, CIR, and ACC after each stage.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does the Program Counter (PC) hold?</div>
+                    <div class="quiz-answer">Click to reveal: The address of the next instruction to be fetched from
+                        memory.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. During which stage is PC incremented?</div>
+                    <div class="quiz-answer">Click to reveal: During the FETCH stage (after the instruction is copied to
+                        CIR).</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What is the difference between MAR and MDR?</div>
+                    <div class="quiz-answer">Click to reveal: MAR holds the address of the memory location. MDR holds
+                        the data read from or to be written to that address.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Which component decodes the instruction?</div>
+                    <div class="quiz-answer">Click to reveal: The Control Unit (CU) within the CPU.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What happens if the instruction is a JUMP?</div>
+                    <div class="quiz-answer">Click to reveal: During execute, the PC is changed to the target address
+                        instead of continuing sequentially.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="user-interfaces.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">User Interfaces</span></div>
+                </a>
+                <a href="system-bus.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">System Bus</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

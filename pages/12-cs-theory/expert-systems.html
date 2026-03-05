@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Systems & Prolog — mr. TEA</title>
+    <meta name="description"
+        content="Expert systems: knowledge base, inference engine, forward/backward chaining, and Prolog programming. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.1B — Expert Systems & Prolog</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-brain"></i> Unit 12.1B · Term 1</div>
+                <h1 class="lesson-title">Expert Systems & Prolog</h1>
+                <p class="lesson-intro">An <strong>expert system</strong> is a computer program that emulates the
+                    decision-making ability of a human expert. It uses a set of rules and facts to solve complex
+                    problems within a specific domain. We use declarative languages like <strong>Prolog</strong> to
+                    build these systems.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.1.2</span> Create a simple expert system using Prolog</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>Expert Systems & Prolog · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="../../assets/pdf/expert_system.pdf" target="_blank" class="lesson-pdf-btn view-btn"><i
+                            class="fas fa-eye"></i> View</a>
+                    <a href="../../assets/pdf/expert_system.pdf" download class="lesson-pdf-btn download-btn"><i
+                            class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <figure class="lesson-image-block">
+                <img src="../../assets/images/lessons/expert-system-diagram.png"
+                    alt="Expert System Architecture — User Interface, Inference Engine, Knowledge Base">
+                <figcaption>Expert System Architecture: The user submits a query through the UI; the Inference Engine
+                    applies rules from the Knowledge Base to produce advice.</figcaption>
+            </figure>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-user-md"></i> The Doctor's Flowchart</h4>
+                    <p>Imagine a doctor who follows a decision flowchart: "Does the patient have a fever?" → YES → "Is
+                        there a rash?" → YES → "Likely measles." An expert system works exactly like this — it stores
+                        <strong>rules</strong> written by real experts, then asks questions and uses logic to
+                        reach a conclusion. The computer doesn't "understand" medicine — it just follows the expert's
+                        rules.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-cogs"></i> Expert Systems Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Core Components</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Knowledge Base (KB)</strong></td>
+                            <td>Stores absolute <strong>facts</strong> and <strong>rules</strong> (IF-THEN statements)
+                                provided by a human domain expert.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inference Engine</strong></td>
+                            <td>The "brain" of the system. It processes the rules, applies logic to the facts in the KB,
+                                and deduces new information or conclusions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User Interface (UI)</strong></td>
+                            <td>Allows the user to interact with the system, input data (answer questions), and receive
+                                the final recommendations.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Explanation Facility</strong></td>
+                            <td>Explains <em>how</em> a conclusion was reached (showing the rules triggered) and
+                                <em>why</em> a specific question is being asked.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Reasoning
+                    Methods (Chaining)</h3>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Forward Chaining (Data-Driven)</h4>
+                    <p>Starts from known facts and applies rules to derive new facts until a conclusion or goal is
+                        reached. It answers the question: <em>"What can I conclude from this data?"</em></p>
+                    <div class="code-block"><code>Known facts: patient_has_fever, patient_has_rash
+
+Step 1: Rule 1 (IF fever AND rash THEN measles) fires.
+Step 2: New fact derived → patient_has_measles.
+
+Result: "The patient has measles."</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Backward Chaining (Goal-Driven)</h4>
+                    <p>Starts from a hypothesis (goal) and works backward to check if the facts in the Knowledge Base
+                        support it. It answers the question: <em>"Is this hypothesis true?"</em></p>
+                    <div class="code-block"><code>Hypothesis: Does the patient have measles?
+
+Step 1: System checks Rule 1 (Requires: fever AND rash).
+Step 2: System searches KB for "fever" → Found ✓
+Step 3: System searches KB for "rash" → Found ✓
+
+Result: "Yes, the hypothesis is true."</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Advantages &amp; Disadvantages</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Advantages</th>
+                            <th>Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Available 24/7 and never suffers from fatigue.</td>
+                            <td>Cannot learn from experience — only knows the rules it was explicitly given.</td>
+                        </tr>
+                        <tr>
+                            <td>Provides consistent answers; the same input always gives the same output.</td>
+                            <td>Lacks "common sense" and cannot handle situations outside its narrow domain.</td>
+                        </tr>
+                        <tr>
+                            <td>Preserves highly specialized expert knowledge even after the human expert retires.</td>
+                            <td>Expensive and time-consuming to build, update, and maintain the Knowledge Base.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code"></i> Implementing with Prolog</h2>
+                <p><strong>Prolog</strong> (Programming in Logic) is a declarative language perfectly suited for
+                    building the Knowledge Base and Inference Engine of an expert system.</p>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Prolog
+                    Syntax Rules</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Concept</th>
+                            <th>Syntax Rule</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Atoms (Constants)</strong></td>
+                            <td>Must start with a <strong>lowercase</strong> letter. Represents specific, known objects
+                                or relationships.</td>
+                            <td><code>john</code>, <code>male</code>, <code>parent</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Variables</strong></td>
+                            <td>Must start with an <strong>Uppercase</strong> letter (or underscore). Acts as a
+                                placeholder for any atom.</td>
+                            <td><code>X</code>, <code>Person</code>, <code>Child</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Facts</strong></td>
+                            <td>Unconditional statements of truth. Must end with a full stop <code>.</code></td>
+                            <td><code>male(john).</code><br><code>parent(john, mary).</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rules</strong></td>
+                            <td>Conditional statements. <code>:-</code> means IF. <code>,</code> means AND.
+                                <code>;</code> means OR. Must end with a full stop.
+                            </td>
+                            <td><code>father(X,Y) :- male(X), parent(X,Y).</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Queries</strong></td>
+                            <td>Questions asked to the Inference Engine to test a hypothesis.</td>
+                            <td><code>?- father(john, mary).</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Building
+                    a Family Tree Expert System</h3>
+                <div class="worked-example">
+                    <p>We can define a Knowledge Base using a family tree diagram, and then write Rules to let the
+                        Inference Engine deduce complex relationships.</p>
+                    <div class="code-block"><code>% KNOWLEDGE BASE: FACTS
+male(charles).
+male(william).
+male(harry).
+female(diana).
+
+parent(charles, william).
+parent(diana, william).
+parent(charles, harry).
+parent(diana, harry).
+
+% KNOWLEDGE BASE: RULES
+% "X is a mother of Y IF X is female AND X is a parent of Y"
+mother(X, Y) :- female(X), parent(X, Y).
+
+% "X is a sibling of Y IF Z is a parent of X AND Z is a parent of Y AND X is not Y"
+sibling(X, Y) :- parent(Z, X), parent(Z, Y), X \= Y.
+
+% "X is a brother of Y IF X is male AND X is a sibling of Y"
+brother(X, Y) :- male(X), sibling(X, Y).
+
+% INFERENCE ENGINE / QUERIES
+?- mother(diana, william). 
+% Output: true (Backward chaining confirms the facts)
+
+?- brother(X, william). 
+% Output: X = harry (Engine searches for X that satisfies male and sibling)</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Expert Systems ≠ Machine Learning</h4>
+                    <p>Expert systems use <strong>hand-written rules</strong> programmed by humans. Machine learning
+                        algorithms <strong>learn patterns</strong> from training data autonomously. An expert system
+                        will never improve unless a programmer manually adds new rules.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Variables vs Atoms in Prolog</h4>
+                    <p>Remember: <code>john</code> is a specific person (Atom). <code>John</code> is an unknown variable
+                        (because of the capital 'J'). If you write <code>male(John).</code>, you are telling Prolog
+                        "Every possible thing is male", not "the specific person john is male".</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the four main components of an expert system and describe the role of each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between forward chaining and backward chaining. Which one starts with
+                            a hypothesis?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Given the facts <code>parent(X,Y)</code>, write a Prolog rule to define
+                            <code>grandparent(X,Z)</code>.
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare expert systems with machine learning. In what critical situations (e.g., medicine)
+                            might an expert system with an Explanation Facility be preferred over a "black box" ML
+                            model?</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the purpose of the Explanation Facility?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It allows the user to
+                        understand the reasoning of the system by showing exactly which rules were triggered to reach a
+                        specific conclusion, increasing trust in the system.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What does the symbol <code>:-</code> mean in a Prolog rule?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It represents "IF". The left
+                        side of the symbol is the conclusion, and the right side contains the conditions that must be
+                        met.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: If you want to check if X and Y are both true in Prolog, which operator
+                        do you use?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">You use the comma
+                        <code>,</code> which represents the logical AND operator.
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="declarative-imperative.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Declarative vs Imperative</span></a>
+                <a href="compilation-stages.html"><span class="nav-label">Next →</span><span
+                        class="nav-title">Compilation Stages</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

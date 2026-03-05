@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Laws — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on logic laws: Boolean algebra, De Morgan's, distributive, absorption, and simplification. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3A — Logic Laws</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-server"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Logic Laws</h1>
+                <p class="lesson-intro">Boolean algebra provides <strong>laws</strong> (identities) that allow us to
+                    <strong>simplify</strong> logical expressions — reducing the number of gates in a circuit.
+                    Simplification means fewer components, lower cost, less power, and faster processing. This topic is
+                    all about applying rules to transform complex expressions into simpler equivalent ones.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.3.3</span> Simplify logical expressions using the laws of logic</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-logic-laws.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Notation Guide -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pen-fancy"></i> Notation Guide</h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Symbols Used</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AND</td>
+                            <td>A · B &nbsp;or&nbsp; A ∧ B &nbsp;or&nbsp; AB</td>
+                        </tr>
+                        <tr>
+                            <td>OR</td>
+                            <td>A + B &nbsp;or&nbsp; A ∨ B</td>
+                        </tr>
+                        <tr>
+                            <td>NOT</td>
+                            <td>A̅ &nbsp;or&nbsp; ¬A &nbsp;or&nbsp; NOT A</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="concept-text">In this lesson, we use: <strong>·</strong> for AND, <strong>+</strong> for OR,
+                    and <strong>A̅</strong> (overbar) for NOT.</p>
+            </section>
+
+            <!-- The Laws -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Boolean Laws Reference Table</h2>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Law</th>
+                            <th>AND Form</th>
+                            <th>OR Form</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Identity</strong></td>
+                            <td>A · 1 = A</td>
+                            <td>A + 0 = A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Null (Annulment)</strong></td>
+                            <td>A · 0 = 0</td>
+                            <td>A + 1 = 1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Idempotent</strong></td>
+                            <td>A · A = A</td>
+                            <td>A + A = A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Complement</strong></td>
+                            <td>A · A̅ = 0</td>
+                            <td>A + A̅ = 1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Double Negation</strong></td>
+                            <td colspan="2" style="text-align:center;">NOT(NOT A) = A &nbsp;&nbsp;(A̿ = A)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Commutative</strong></td>
+                            <td>A · B = B · A</td>
+                            <td>A + B = B + A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Associative</strong></td>
+                            <td>(A · B) · C = A · (B · C)</td>
+                            <td>(A + B) + C = A + (B + C)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Distributive</strong></td>
+                            <td>A · (B + C) = A·B + A·C</td>
+                            <td>A + (B · C) = (A+B) · (A+C)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Absorption</strong></td>
+                            <td>A · (A + B) = A</td>
+                            <td>A + (A · B) = A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>De Morgan's</strong></td>
+                            <td>(A · B)̅ = A̅ + B̅</td>
+                            <td>(A + B)̅ = A̅ · B̅</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- De Morgan's Deep Dive -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> De Morgan's Laws — Deep Dive</h2>
+
+                <p class="concept-text">De Morgan's laws are the most important simplification rules. They show how to
+                    "break the bar" (distribute NOT across an expression):</p>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> First Law: NOT (A AND B) = (NOT A) OR (NOT B)</h4>
+                    <div class="code-block"><code>(A · B)̅  =  A̅ + B̅
+
+"Break the bar, change the sign"
+  → The bar breaks over each variable
+  → AND changes to OR
+
+Proof by truth table:
+A  B | A·B | (A·B)̅ | A̅ | B̅ | A̅+B̅
+0  0 |  0  |   1   |  1 |  1 |  1  ✓
+0  1 |  0  |   1   |  1 |  0 |  1  ✓
+1  0 |  0  |   1   |  0 |  1 |  1  ✓
+1  1 |  1  |   0   |  0 |  0 |  0  ✓</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Second Law: NOT (A OR B) = (NOT A) AND (NOT B)</h4>
+                    <div class="code-block"><code>(A + B)̅  =  A̅ · B̅
+
+"Break the bar, change the sign"
+  → The bar breaks over each variable
+  → OR changes to AND</code></div>
+                </div>
+            </section>
+
+            <!-- Simplification Examples -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Step-by-Step Simplification</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Example 1: Simplify A · B + A · B̅</h4>
+                    <div class="code-block"><code>  A · B + A · B̅
+= A · (B + B̅)         ← Factor out A (Distributive law)
+= A · 1               ← Complement law: B + B̅ = 1
+= A                   ← Identity law: A · 1 = A
+
+Result: A · B + A · B̅ = A</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Example 2: Simplify A + A · B</h4>
+                    <div class="code-block"><code>  A + A · B
+= A · 1 + A · B       ← Identity law: A = A · 1
+= A · (1 + B)         ← Factor out A (Distributive)
+= A · 1               ← Null law: 1 + B = 1
+= A                   ← Identity law
+
+OR simply apply Absorption law directly:
+  A + A · B = A        ← Absorption law
+
+Result: A + A · B = A</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Example 3: Simplify (A + B) · (A + B̅)</h4>
+                    <div class="code-block"><code>  (A + B) · (A + B̅)
+= A·A + A·B̅ + B·A + B·B̅    ← Expand (FOIL / Distributive)
+= A + A·B̅ + A·B + 0         ← Idempotent: A·A=A; Complement: B·B̅=0
+= A + A·B̅ + A·B             ← Remove 0
+= A + A·(B̅ + B)             ← Factor out A
+= A + A·1                   ← Complement: B̅ + B = 1
+= A + A                     ← Identity: A·1 = A
+= A                         ← Idempotent: A + A = A
+
+Result: (A + B) · (A + B̅) = A</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Example 4: Apply De Morgan's to NOT(A · B + C)</h4>
+                    <div class="code-block"><code>  (A · B + C)̅
+= (A · B)̅ · C̅           ← De Morgan's: break bar, OR→AND
+= (A̅ + B̅) · C̅          ← De Morgan's again on (A · B)̅
+
+Result: NOT(A·B + C) = (A̅ + B̅) · C̅</code></div>
+                </div>
+            </section>
+
+            <!-- Common Patterns -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Simplification Patterns to Memorize
+                </h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>Simplifies To</th>
+                            <th>Law Used</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A · B + A · B̅</td>
+                            <td><strong>A</strong></td>
+                            <td>Complement + Identity</td>
+                        </tr>
+                        <tr>
+                            <td>A + A · B</td>
+                            <td><strong>A</strong></td>
+                            <td>Absorption</td>
+                        </tr>
+                        <tr>
+                            <td>A · (A + B)</td>
+                            <td><strong>A</strong></td>
+                            <td>Absorption</td>
+                        </tr>
+                        <tr>
+                            <td>(A + B) · (A + B̅)</td>
+                            <td><strong>A</strong></td>
+                            <td>Distributive + Complement</td>
+                        </tr>
+                        <tr>
+                            <td>A + A̅ · B</td>
+                            <td><strong>A + B</strong></td>
+                            <td>Distributive + Complement</td>
+                        </tr>
+                        <tr>
+                            <td>A · A</td>
+                            <td><strong>A</strong></td>
+                            <td>Idempotent</td>
+                        </tr>
+                        <tr>
+                            <td>A + A</td>
+                            <td><strong>A</strong></td>
+                            <td>Idempotent</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Applying De Morgan's Incorrectly</h4>
+                    <p>Remember: break the bar <strong>AND</strong> change the sign. Students often break the bar but
+                        forget to change AND↔OR. <code>(A·B)̅ = A̅ + B̅</code> — NOT <code>A̅ · B̅</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Not Showing Working</h4>
+                    <p>Always <strong>label each step</strong> with the law you're using. Examiners give marks for
+                        showing which law was applied, not just the answer.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing + with Addition</h4>
+                    <p>In Boolean algebra, <strong>+</strong> means OR, not arithmetic addition. 1 + 1 = 1 (not 2).
+                        Think logically, not mathematically.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Simplification Strategy</h4>
+                    <ul>
+                        <li><strong>Step 1:</strong> Look for complement pairs (A + A̅ = 1, A · A̅ = 0)</li>
+                        <li><strong>Step 2:</strong> Factor out common terms (Distributive law)</li>
+                        <li><strong>Step 3:</strong> Apply absorption if you see A + A·B or A·(A+B)</li>
+                        <li><strong>Step 4:</strong> Use De Morgan's to push NOT inward</li>
+                        <li><strong>Step 5:</strong> Verify with a truth table — original and simplified must match</li>
+                        <li>Always <strong>name the law</strong> you apply at each step</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Write out all Boolean laws from memory (Identity, Null, Idempotent, Complement, Commutative,
+                            Associative, Distributive, Absorption, De Morgan's).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Simplify: (a) A · B + A · C (b) A̅ · B + A̅ · B̅ (c) (A + B) · (A̅ + B)</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Use De Morgan's Law to simplify: NOT(A AND B AND C). Show each step.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Simplify X = A · B · C + A̅ · B · C + A · B̅ · C + A · B · C̅. Show all steps and verify with
+                            a truth table.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Given the expression X = (A + B) · (A̅ + C) · (B + C), simplify it as far as possible. Then
+                            draw both the original and simplified logic circuits. How many fewer gates does the
+                            simplified version need?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is A · A̅?</div>
+                    <div class="quiz-answer">Click to reveal: 0 (Complement law — a variable AND its inverse is always
+                        0)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What is A + A̅?</div>
+                    <div class="quiz-answer">Click to reveal: 1 (Complement law — a variable OR its inverse is always 1)
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. Apply De Morgan's to (A + B)̅</div>
+                    <div class="quiz-answer">Click to reveal: A̅ · B̅ — break the bar, change OR to AND.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Simplify: A + A · B</div>
+                    <div class="quiz-answer">Click to reveal: A (Absorption law)</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What is the Distributive law?</div>
+                    <div class="quiz-answer">Click to reveal: A · (B + C) = A·B + A·C (also: A + B·C = (A+B)·(A+C))
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="boolean-logic.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Boolean Logic</span></div>
+                </a>
+                <a href="number-systems.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Number Systems</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

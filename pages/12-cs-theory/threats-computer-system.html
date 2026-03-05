@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threats to Computer Systems — mr. TEA</title>
+    <meta name="description"
+        content="Computer security threats: intentional vs unintentional, malware types, social engineering, online tracking, and secure protocols (SSL/TLS). NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.1C — Threats to Computer Systems</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-shield-alt"></i> Unit 12.1C · Term 1</div>
+                <h1 class="lesson-title">Threats to Computer Systems</h1>
+                <p class="lesson-intro">In the digital world, data is one of the most valuable assets. <strong>Computer
+                        Security</strong> involves protecting this data, along with software and hardware, from various
+                    vulnerabilities. Threats to a computer can be either <strong>intentional</strong> (a deliberate act
+                    to destroy data) or <strong>unintentional</strong> (an accidental act that destroys data).</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.5.2.1</span> State what is meant by malware and describe different
+                        types of Malware</li>
+                    <li><span class="lo-code">12.5.2.2</span> State what is social engineering (Phishing and Pharming)
+                    </li>
+                    <li><span class="lo-code">12.5.2.3</span> Describe how online tracking is done and methods to
+                        prevent it</li>
+                    <li><span class="lo-code">12.5.2.4</span> Explain secure data transmission protocols (SSL and TLS)
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.1C-computer-threats.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="../../assets/pdf/computer_threats.pdf" class="lesson-pdf-btn view-btn"><i
+                            class="fas fa-eye"></i>
+                        View</a>
+                    <a href="../../assets/pdf/computer_threats.pdf" class="lesson-pdf-btn download-btn"><i
+                            class="fas fa-download"></i>
+                        Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-chess-knight"></i> The Castle Defense Analogy</h4>
+                    <p>Securing a computer system is like defending a medieval castle. <strong>Malware</strong>
+                        represents enemies trying to breach the walls using brute force or disguised as a Trojan Horse.
+                        <strong>Social Engineering</strong> is when an enemy spy tricks your guards into willingly
+                        opening the gates. Finally, <strong>TLS/SSL protocols</strong> act as heavily armored, encrypted
+                        carriages transporting your valuable messages safely across hostile territory.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Malware
+                    (Malicious Software)</h3>
+                <p style="margin-bottom: var(--space-md);"><strong>Definition:</strong> An abbreviated form of
+                    "malicious software." This is software specifically designed to gain access to or damage a computer,
+                    usually without the knowledge of the owner.</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description & Behavior</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Virus</strong></td>
+                            <td>A program that attaches itself to a legitimate file or executable program and spreads
+                                when that infected file is opened or executed by the user.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Worm</strong></td>
+                            <td>A program that copies itself repeatedly in the memory or on a disk drive until there is
+                                no memory or disk space left. Crucially, it stays active in the computer's memory and
+                                replicates itself over a network to infect other machines without user interaction.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trojan Horse</strong></td>
+                            <td>A malicious program that pretends to be a useful and safe application to trick the user
+                                into installing it. Once inside, it creates a "backdoor" for hackers to access the
+                                system.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ransomware</strong></td>
+                            <td>Malware that encrypts the user's files or locks the entire system, demanding a financial
+                                payment (ransom) in exchange for the decryption key.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spyware & Adware</strong></td>
+                            <td>Software that secretly monitors user activity (like keyloggers recording passwords) or
+                                bombards the user with unwanted advertising.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Symptoms
+                    of a Malware Infection</h3>
+                <p>How do you know your computer is infected? Look out for these indicators:</p>
+                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
+                    <li>Increased CPU usage and significantly slow computer or web browser speeds.</li>
+                    <li>Freezing, crashing, or unexplained problems connecting to networks.</li>
+                    <li>Modified, deleted, or renamed files without your knowledge.</li>
+                    <li>The appearance of strange files, programs, or desktop icons.</li>
+                    <li>Security programs (antivirus/firewalls) turning off or reconfiguring themselves.</li>
+                    <li>Emails or messages being sent automatically from your account without your knowledge.</li>
+                    <li>Unusually high network activity when you are not actively using the internet.</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2. Social
+                    Engineering</h3>
+                <p style="margin-bottom: var(--space-md);">Unlike malware that attacks the machine, social engineering
+                    attacks the <strong>human psychology</strong>. It is the art of manipulating people so they give up
+                    confidential information.</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Technique</th>
+                            <th>Method of Attack</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Phishing</strong></td>
+                            <td>Sending fraudulent emails that look like they are from a reputable company (e.g., your
+                                bank). The email contains a link to a fake website designed to trick you into entering
+                                your login credentials or credit card numbers.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pharming</strong></td>
+                            <td>A more advanced attack where malicious code is installed on your computer or a server.
+                                Even if you type the correct URL into your browser, the code secretly redirects you to a
+                                fake, fraudulent website to steal your data.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">3. Online
+                    Tracking</h3>
+                <p>Organizations and malicious actors track user activity across the internet to build profiles. This is
+                    done using:</p>
+                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
+                    <li><strong>Cookies:</strong> Small text files saved in your browser that track website preferences,
+                        login status, and browsing history.</li>
+                    <li><strong>Web Beacons (Pixel Tags):</strong> Tiny, invisible image pixels embedded in web pages or
+                        emails to track whether a user has viewed the content.</li>
+                    <li><strong>Browser Fingerprinting:</strong> Collecting unique data about your device (screen
+                        resolution, OS, installed fonts, browser version) to identify you even if you delete cookies.
+                    </li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">4. Secure
+                    Protocols: SSL and TLS</h3>
+                <p style="margin-bottom: var(--space-md);">To protect data as it travels across the internet, secure
+                    transmission protocols are used to encrypt the communication.</p>
+                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
+                    <li><strong>SSL (Secure Sockets Layer):</strong> The original security protocol used to establish
+                        encrypted links. It is now largely considered outdated and has been replaced by TLS.</li>
+                    <li><strong>TLS (Transport Layer Security):</strong> Works the same way as SSL but is much more
+                        secure, designed to provide encryption, authentication, and data integrity effectively to
+                        prevent a third-party hacking into the communication.</li>
+                </ul>
+                <div class="worked-example">
+                    <h4>The Two Layers of TLS</h4>
+                    <p>The TLS protocol forms two distinct layers during communication:</p>
+                    <ol style="padding-left: 20px;">
+                        <li><strong>Record Protocol:</strong> This part contains the actual data being transferred over
+                            the internet. It can be used with or without encryption.</li>
+                        <li><strong>Handshake Protocol:</strong> This permits the website and the client (user) to
+                            authenticate each other and establish the encryption algorithms to be used. This ensures a
+                            secure session is fully established before data is transferred.</li>
+                    </ol>
+                </div>
+
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Virus vs. Worm</h4>
+                    <p>Students frequently confuse these two. A <strong>Virus</strong> requires a host file and user
+                        action (like clicking an infected attachment) to spread. A <strong>Worm</strong> is a standalone
+                        program that replicates itself automatically across networks without needing a host or human
+                        interaction.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Phishing vs. Pharming</h4>
+                    <p><strong>Phishing</strong> relies on a fake email tricking you into clicking a bad link.
+                        <strong>Pharming</strong> redirects you to a fake site even if you type the 100% correct address
+                        into your browser, because the underlying DNS or host file has been poisoned.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Exam Style Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Match</span>
+                        <p>Match the following malware types to their specific behavior:<br>
+                            1. Trojan Horse<br>
+                            2. Worm<br>
+                            3. Ransomware<br>
+                            <em>A. Encrypts files and demands payment.</em><br>
+                            <em>B. Pretends to be safe software to trick the user into installing it.</em><br>
+                            <em>C. Replicates repeatedly in memory until the disk is full.</em>
+                        </p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the difference between an Intentional threat and an Unintentional threat, providing
+                            one real-world example for each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Describe the two layers of the Transport Layer Security (TLS) protocol. Explain the specific
+                            role of the Handshake Protocol versus the Record Protocol.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the main difference between Phishing and Pharming?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Phishing uses deceptive emails
+                        to trick users into clicking bad links. Pharming uses malicious code to redirect users to a fake
+                        website even when they type the correct URL.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: If your computer's firewall unexpectedly turns itself off and emails
+                        are sent to your contacts without your knowledge, what is the likely cause?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">These are classic symptoms of a
+                        malware infection. The malware is reconfiguring your security settings and using your system to
+                        spread.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What happens during the TLS Handshake Protocol?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The website and the client
+                        authenticate each other and agree on the encryption algorithms to establish a secure session.
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="testing-methods.html"><span class="nav-label">← Previous</span><span class="nav-title">Testing
+                        Methods</span></a>
+                <a href="data-protection-measures.html"><span class="nav-label">Next →</span><span
+                        class="nav-title">Data Protection Measures</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protect Data from Unauthorized Access — mr. TEA</title>
+    <meta name="description"
+        content="Methods to protect data from unauthorized access: authentication, access control, encryption. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr.
+                    TEA</span></a>
+            <nav class="header-nav" id="header-nav">
+                <a href="../../index.html#syllabus">Syllabus</a>
+                <a href="../../index.html#interactive-lab">Lab</a>
+                <a href="../../index.html#assessment-hub">Assessment</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a> <span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.2A — Unauthorized Access</span>
+            </nav>
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-shield-alt"></i> Unit 12.2A · Term 2</div>
+                <h1 class="lesson-title">Protect Data from Unauthorized Access</h1>
+                <p class="lesson-intro">Unauthorized access means someone gains entry to data or systems <strong>without
+                        permission</strong>. Protection involves controlling <em>who</em> can access <em>what</em>,
+                    through authentication, access rights, and physical security.</p>
+            </div>
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.1.2.3</span> Protect data from unauthorized access</li>
+                </ul>
+            </div>
+
+            <!-- <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.2A-unauthorized-access.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>-->
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-key"></i> The Hotel Analogy</h4>
+                    <p>A hotel gives you a <strong>key card</strong> (password) that only opens YOUR room. Staff have a
+                        <strong>master key</strong> (admin access). Guests can't enter the kitchen (access rights).
+                        Security cameras (audit logs) record who goes where.
+                    </p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Authentication
+                    Methods</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Category</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Something you know</strong></td>
+                            <td>Knowledge</td>
+                            <td>Password, PIN, security question</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Something you have</strong></td>
+                            <td>Possession</td>
+                            <td>Smart card, phone (2FA code), security token</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Something you are</strong></td>
+                            <td>Biometric</td>
+                            <td>Fingerprint, face scan, iris scan</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Multi-Factor Authentication (MFA)</h4>
+                    <p>Combining 2+ categories (e.g., password + phone code) dramatically increases security. Even if
+                        your password is stolen, the attacker still needs your phone.</p>
+                </div>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Access
+                    Control Methods</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>How It Works</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>User accounts &amp; passwords</strong></td>
+                            <td>Each user has unique credentials; password policy (length, complexity)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Access rights / permissions</strong></td>
+                            <td>Set read/write/execute per user or group (e.g., students can read but not edit)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User levels (roles)</strong></td>
+                            <td>Admin, teacher, student — each level has different permissions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Encryption of stored data</strong></td>
+                            <td>Even if accessed, data is unreadable without decryption key</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Audit logs</strong></td>
+                            <td>Record who accessed what and when — helps detect suspicious activity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Automatic lock / timeout</strong></td>
+                            <td>System locks after period of inactivity</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Strong
+                    Password Guidelines</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Rule</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>At least 8–12 characters</td>
+                            <td>✓ <code>MyD0g$Run5</code></td>
+                        </tr>
+                        <tr>
+                            <td>Mix uppercase, lowercase, numbers, symbols</td>
+                            <td>✓ <code>P@ssw0rd!23</code></td>
+                        </tr>
+                        <tr>
+                            <td>Don't use personal info</td>
+                            <td>✗ <code>Ali2008</code>, <code>almaty123</code></td>
+                        </tr>
+                        <tr>
+                            <td>Don't reuse across sites</td>
+                            <td>Use a password manager</td>
+                        </tr>
+                        <tr>
+                            <td>Change regularly</td>
+                            <td>Every 90 days for sensitive systems</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Password ≠ Full Security</h4>
+                    <p>A strong password alone is not enough. Social engineering (phishing), keyloggers, and shoulder
+                        surfing can all bypass passwords. Always use <strong>MFA</strong> when available.</p>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the 3 categories of authentication and give an example of each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Design an access control system for a school network with 3 user levels (admin, teacher,
+                            student). What permissions would each level have?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Why is MFA more secure than a single password? What are the drawbacks of MFA?</p>
+                    </div>
+                </div>
+            </section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What are the 3 categories of authentication?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Something you know (password),
+                        something you have (phone/token), something you are (biometric).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: What is the purpose of access rights?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To control what each user can
+                        do (read, write, execute, delete) — preventing unauthorized changes or viewing of data.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What is an audit log?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A record of who accessed what
+                        data, when, and what they did — used to detect and investigate suspicious activity.</div>
+                </div>
+            </section>
+            <nav class="lesson-nav">
+                <a href="backup-disk-mirroring.html"><span class="nav-label">← Previous</span><span
+                        class="nav-title">Backup &amp; Disk Mirroring</span></a>
+                <a href="privacy-policies.html"><span class="nav-label">Next →</span><span class="nav-title">Privacy
+                        Policies</span></a>
+            </nav>
+        </div>
+    </main>
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 12 Computer Science</p>
+    </footer>
+    <script src="../../js/app.js"></script>
+</body>
+
+</html>

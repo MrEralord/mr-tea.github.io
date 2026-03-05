@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on abstract data structures: Stack, Queue, and Binary Tree with C++ and pseudocode. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3B — Data Structures</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 12.3B · Term 3</div>
+                <h1 class="lesson-title">Data Structures: Stack, Queue &amp; Binary Tree</h1>
+                <p class="lesson-intro">Abstract Data Types (ADTs) define <strong>what</strong> operations are
+                    available, not <strong>how</strong> they're implemented. The three key structures at A Level are:
+                    <strong>Stack</strong> (LIFO), <strong>Queue</strong> (FIFO), and <strong>Binary Tree</strong>. You
+                    must know the operations, trace through examples, and implement them in pseudocode and C++.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.5.5</span> Explain stack, queue, and binary tree as data structures
+                    </li>
+                    <li><span class="lo-code">12.3.5.6</span> Implement stack, queue, and binary tree operations in code
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3B-data-structures.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- ==================== STACK ==================== -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-layer-group"></i> Stack (LIFO)</h2>
+
+                <p class="concept-text">A <strong>stack</strong> is a Last-In, First-Out (LIFO) structure. The last item
+                    added is the first one removed — like a stack of plates.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PUSH</strong></td>
+                            <td>Add item to the top</td>
+                            <td>Push(5) — adds 5 on top</td>
+                        </tr>
+                        <tr>
+                            <td><strong>POP</strong></td>
+                            <td>Remove &amp; return item from the top</td>
+                            <td>Pop() — removes top item</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PEEK / TOP</strong></td>
+                            <td>View top item without removing</td>
+                            <td>Peek() — returns top value</td>
+                        </tr>
+                        <tr>
+                            <td><strong>isEmpty</strong></td>
+                            <td>Check if stack is empty</td>
+                            <td>Returns true/false</td>
+                        </tr>
+                        <tr>
+                            <td><strong>isFull</strong></td>
+                            <td>Check if stack is full (for fixed-size)</td>
+                            <td>Returns true/false</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Trace: Stack Operations</h4>
+                    <div class="code-block"><code>Stack (max size 5), Top pointer starts at -1
+
+Operation        Stack State (bottom→top)     Top
+─────────        ────────────────────────     ───
+PUSH(10)         [10]                          0
+PUSH(20)         [10, 20]                      1
+PUSH(30)         [10, 20, 30]                  2
+POP()  → 30      [10, 20]                      1
+PUSH(40)         [10, 20, 40]                  2
+PEEK() → 40      [10, 20, 40]                  2  (unchanged)
+POP()  → 40      [10, 20]                      1
+POP()  → 20      [10]                          0
+POP()  → 10      []                           -1
+POP()  → ERROR!  Stack underflow              -1</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Real-World Uses</h3>
+                <ul class="concept-list">
+                    <li><strong>Undo/Redo</strong> in text editors — each action is pushed; undo = pop</li>
+                    <li><strong>Function call stack</strong> — CPU tracks return addresses</li>
+                    <li><strong>Expression evaluation</strong> — converting infix to postfix</li>
+                    <li><strong>Backtracking</strong> — maze solving, browser back button</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Pseudocode Implementation</h3>
+                <div class="code-block"><code>CONSTANT MaxSize = 100
+DECLARE Stack : ARRAY[0:MaxSize-1] OF INTEGER
+DECLARE Top : INTEGER
+Top ← -1
+
+PROCEDURE Push(value : INTEGER)
+  IF Top >= MaxSize - 1 THEN
+    OUTPUT "Stack overflow"
+  ELSE
+    Top ← Top + 1
+    Stack[Top] ← value
+  ENDIF
+ENDPROCEDURE
+
+FUNCTION Pop() RETURNS INTEGER
+  IF Top < 0 THEN
+    OUTPUT "Stack underflow"
+    RETURN -1
+  ELSE
+    value ← Stack[Top]
+    Top ← Top - 1
+    RETURN value
+  ENDIF
+ENDFUNCTION</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">C++
+                    Implementation</h3>
+                <div class="code-block"><code>#include &lt;iostream&gt;
+using namespace std;
+
+const int MAX_SIZE = 100;
+int stack[MAX_SIZE];
+int top = -1;
+
+void push(int value) {
+    if (top >= MAX_SIZE - 1) {
+        cout &lt;&lt; "Stack overflow!" &lt;&lt; endl;
+    } else {
+        top++;
+        stack[top] = value;
+    }
+}
+
+int pop() {
+    if (top &lt; 0) {
+        cout &lt;&lt; "Stack underflow!" &lt;&lt; endl;
+        return -1;
+    } else {
+        int value = stack[top];
+        top--;
+        return value;
+    }
+}
+
+int peek() {
+    if (top &lt; 0) {
+        cout &lt;&lt; "Stack is empty!" &lt;&lt; endl;
+        return -1;
+    }
+    return stack[top];
+}
+
+bool isEmpty() {
+    return top == -1;
+}
+
+int main() {
+    push(10);
+    push(20);
+    push(30);
+    cout &lt;&lt; "Top: " &lt;&lt; peek() &lt;&lt; endl;    // 30
+    cout &lt;&lt; "Pop: " &lt;&lt; pop() &lt;&lt; endl;     // 30
+    cout &lt;&lt; "Pop: " &lt;&lt; pop() &lt;&lt; endl;     // 20
+    return 0;
+}</code></div>
+            </section>
+
+            <!-- ==================== QUEUE ==================== -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-stream"></i> Queue (FIFO)</h2>
+
+                <p class="concept-text">A <strong>queue</strong> is a First-In, First-Out (FIFO) structure. The first
+                    item added is the first removed — like a queue of people at a shop.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ENQUEUE</strong></td>
+                            <td>Add item to the rear (back)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DEQUEUE</strong></td>
+                            <td>Remove &amp; return item from the front</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PEEK / FRONT</strong></td>
+                            <td>View front item without removing</td>
+                        </tr>
+                        <tr>
+                            <td><strong>isEmpty</strong></td>
+                            <td>Check if queue is empty</td>
+                        </tr>
+                        <tr>
+                            <td><strong>isFull</strong></td>
+                            <td>Check if queue is full</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Trace: Queue Operations</h4>
+                    <div class="code-block"><code>Queue (max size 5), Front=0, Rear=-1
+
+Operation           Queue State (front→rear)   Front  Rear
+─────────           ────────────────────────   ─────  ────
+ENQUEUE(10)         [10]                        0      0
+ENQUEUE(20)         [10, 20]                    0      1
+ENQUEUE(30)         [10, 20, 30]                0      2
+DEQUEUE() → 10      [20, 30]                    1      2
+DEQUEUE() → 20      [30]                        2      2
+ENQUEUE(40)         [30, 40]                    2      3
+DEQUEUE() → 30      [40]                        3      3</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Circular
+                    Queue</h3>
+                <p class="concept-text">A <strong>circular queue</strong> wraps around — when the rear reaches the end
+                    of the array, it loops back to the start. This avoids wasting space at the front after dequeuing.
+                </p>
+                <div class="code-block"><code>Rear = (Rear + 1) MOD MaxSize     // Wrap around
+Front = (Front + 1) MOD MaxSize   // Wrap around</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                    Real-World Uses</h3>
+                <ul class="concept-list">
+                    <li><strong>Print queue</strong> — documents printed in order received</li>
+                    <li><strong>CPU scheduling</strong> — processes wait in a queue</li>
+                    <li><strong>Message queues</strong> — network packets, chat messages</li>
+                    <li><strong>Breadth-first search</strong> — graph/tree traversal</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">C++
+                    Implementation</h3>
+                <div class="code-block"><code>#include &lt;iostream&gt;
+using namespace std;
+
+const int MAX_SIZE = 100;
+int queue[MAX_SIZE];
+int front = 0, rear = -1, count = 0;
+
+void enqueue(int value) {
+    if (count >= MAX_SIZE) {
+        cout &lt;&lt; "Queue overflow!" &lt;&lt; endl;
+    } else {
+        rear = (rear + 1) % MAX_SIZE;  // Circular wrap
+        queue[rear] = value;
+        count++;
+    }
+}
+
+int dequeue() {
+    if (count == 0) {
+        cout &lt;&lt; "Queue underflow!" &lt;&lt; endl;
+        return -1;
+    } else {
+        int value = queue[front];
+        front = (front + 1) % MAX_SIZE;  // Circular wrap
+        count--;
+        return value;
+    }
+}
+
+int main() {
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+    cout &lt;&lt; "Dequeue: " &lt;&lt; dequeue() &lt;&lt; endl;  // 10
+    cout &lt;&lt; "Dequeue: " &lt;&lt; dequeue() &lt;&lt; endl;  // 20
+    return 0;
+}</code></div>
+            </section>
+
+            <!-- ==================== BINARY TREE ==================== -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-sitemap"></i> Binary Tree</h2>
+
+                <p class="concept-text">A <strong>binary tree</strong> is a hierarchical data structure where each node
+                    has at most <strong>two children</strong> (left and right). A <strong>Binary Search Tree
+                        (BST)</strong> adds an ordering rule: left child &lt; parent &lt; right child.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Root</strong></td>
+                            <td>Top node of the tree (no parent)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parent</strong></td>
+                            <td>A node that has children</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Child</strong></td>
+                            <td>A node connected below a parent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leaf</strong></td>
+                            <td>A node with no children</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Subtree</strong></td>
+                            <td>A node and all its descendants</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Height / Depth</strong></td>
+                            <td>Number of edges from root to deepest leaf</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Building a BST: Insert 50, 30, 70, 20, 40, 60, 80</h4>
+                    <div class="code-block"><code>Insert 50:     50         (root)
+Insert 30:     50         (30 &lt; 50 → go left)
+              /
+            30
+Insert 70:     50         (70 &gt; 50 → go right)
+              / \
+            30   70
+Insert 20:     50         (20 &lt; 50 → left, 20 &lt; 30 → left)
+              / \
+            30   70
+           /
+         20
+Insert 40:     50         (40 &lt; 50 → left, 40 &gt; 30 → right)
+              / \
+            30   70
+           / \
+         20   40
+Insert 60:     50
+              / \
+            30   70
+           / \  /
+         20  40 60
+Insert 80:     50
+              / \
+            30   70
+           / \  / \
+         20  40 60 80</code></div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Tree
+                    Traversals</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Traversal</th>
+                            <th>Order</th>
+                            <th>Mnemonic</th>
+                            <th>Result (for tree above)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>In-order</strong></td>
+                            <td>Left → Root → Right</td>
+                            <td>L-N-R</td>
+                            <td>20, 30, 40, 50, 60, 70, 80</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pre-order</strong></td>
+                            <td>Root → Left → Right</td>
+                            <td>N-L-R</td>
+                            <td>50, 30, 20, 40, 70, 60, 80</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Post-order</strong></td>
+                            <td>Left → Right → Root</td>
+                            <td>L-R-N</td>
+                            <td>20, 40, 30, 60, 80, 70, 50</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Key Fact</h4>
+                    <p><strong>In-order traversal of a BST always gives values in ascending order.</strong> This is a
+                        common exam question.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">C++
+                    Implementation (BST)</h3>
+                <div class="code-block"><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+Node* createNode(int value) {
+    Node* newNode = new Node();
+    newNode-&gt;data = value;
+    newNode-&gt;left = nullptr;
+    newNode-&gt;right = nullptr;
+    return newNode;
+}
+
+Node* insert(Node* root, int value) {
+    if (root == nullptr) {
+        return createNode(value);
+    }
+    if (value &lt; root-&gt;data) {
+        root-&gt;left = insert(root-&gt;left, value);
+    } else {
+        root-&gt;right = insert(root-&gt;right, value);
+    }
+    return root;
+}
+
+// In-order traversal: Left → Node → Right
+void inOrder(Node* root) {
+    if (root == nullptr) return;
+    inOrder(root-&gt;left);
+    cout &lt;&lt; root-&gt;data &lt;&lt; " ";
+    inOrder(root-&gt;right);
+}
+
+// Pre-order traversal: Node → Left → Right
+void preOrder(Node* root) {
+    if (root == nullptr) return;
+    cout &lt;&lt; root-&gt;data &lt;&lt; " ";
+    preOrder(root-&gt;left);
+    preOrder(root-&gt;right);
+}
+
+// Post-order traversal: Left → Right → Node
+void postOrder(Node* root) {
+    if (root == nullptr) return;
+    postOrder(root-&gt;left);
+    postOrder(root-&gt;right);
+    cout &lt;&lt; root-&gt;data &lt;&lt; " ";
+}
+
+// Search for a value
+bool search(Node* root, int value) {
+    if (root == nullptr) return false;
+    if (root-&gt;data == value) return true;
+    if (value &lt; root-&gt;data) return search(root-&gt;left, value);
+    return search(root-&gt;right, value);
+}
+
+int main() {
+    Node* root = nullptr;
+    root = insert(root, 50);
+    insert(root, 30);
+    insert(root, 70);
+    insert(root, 20);
+    insert(root, 40);
+    insert(root, 60);
+    insert(root, 80);
+
+    cout &lt;&lt; "In-order:   "; inOrder(root);   cout &lt;&lt; endl;
+    cout &lt;&lt; "Pre-order:  "; preOrder(root);  cout &lt;&lt; endl;
+    cout &lt;&lt; "Post-order: "; postOrder(root); cout &lt;&lt; endl;
+
+    cout &lt;&lt; "Search 40: " &lt;&lt; (search(root, 40) ? "Found" : "Not found") &lt;&lt; endl;
+    return 0;
+}</code></div>
+            </section>
+
+            <!-- Comparison -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-balance-scale"></i> Stack vs Queue vs Binary Tree</h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Stack</th>
+                            <th>Queue</th>
+                            <th>Binary Tree</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Order</strong></td>
+                            <td>LIFO</td>
+                            <td>FIFO</td>
+                            <td>Hierarchical / sorted</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Insert</strong></td>
+                            <td>Push (top)</td>
+                            <td>Enqueue (rear)</td>
+                            <td>Insert (correct position)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Remove</strong></td>
+                            <td>Pop (top)</td>
+                            <td>Dequeue (front)</td>
+                            <td>Delete (maintain structure)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Access</strong></td>
+                            <td>Top only</td>
+                            <td>Front only</td>
+                            <td>Traverse (in/pre/post order)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Search</strong></td>
+                            <td>O(n) — must pop through</td>
+                            <td>O(n) — must dequeue through</td>
+                            <td>O(log n) for balanced BST</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Use case</strong></td>
+                            <td>Undo, recursion</td>
+                            <td>Scheduling, printing</td>
+                            <td>Sorted data, searching</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing LIFO and FIFO</h4>
+                    <p><strong>Stack = LIFO</strong> (Last In First Out). <strong>Queue = FIFO</strong> (First In First
+                        Out). Read the question carefully — many students mix these up under exam pressure.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting Stack/Queue Overflow/Underflow</h4>
+                    <p>Always check for overflow (push/enqueue when full) and underflow (pop/dequeue when empty).
+                        Forgetting these checks loses marks.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Getting Traversal Orders Wrong</h4>
+                    <p>Use the mnemonic: <strong>In</strong>=LNR, <strong>Pre</strong>=NLR, <strong>Post</strong>=LRN.
+                        The name tells you where N (Node/root) goes.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Data Structure Strategy</h4>
+                    <ul>
+                        <li>For trace tables: draw the structure after <strong>each</strong> operation — examiners want
+                            to see the state</li>
+                        <li>Always mention <strong>error handling</strong>: what happens if you pop an empty stack?</li>
+                        <li>BST in-order = sorted order — state this fact explicitly in BST questions</li>
+                        <li>For circular queue: always use the MOD formula and explain why it wraps</li>
+                        <li>When asked about a "suitable data structure" — justify with the ordering property
+                            (LIFO/FIFO/sorted)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define: LIFO, FIFO, push, pop, enqueue, dequeue, root, leaf, in-order traversal.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Trace: Start with an empty stack. Perform: PUSH(5), PUSH(10), PUSH(15), POP(), PUSH(20),
+                            PEEK(), POP(), POP(). Show the stack state after each operation.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Build a BST by inserting these values in order: 45, 25, 65, 15, 35, 55, 75. Draw the tree and
+                            perform in-order, pre-order, and post-order traversals.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write pseudocode for a circular queue's enqueue and dequeue operations.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>A text editor needs an undo feature. Explain why a stack is a more appropriate data structure
+                            than a queue for this purpose.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does LIFO stand for?</div>
+                    <div class="quiz-answer">Click to reveal: Last In, First Out.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What happens when you pop an empty stack?</div>
+                    <div class="quiz-answer">Click to reveal: Stack underflow — an error because there are no items to
+                        remove.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What traversal gives BST values in ascending order?</div>
+                    <div class="quiz-answer">Click to reveal: In-order traversal (Left → Node → Right).</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is the advantage of a circular queue over a linear queue?</div>
+                    <div class="quiz-answer">Click to reveal: A circular queue reuses empty spaces at the front after
+                        dequeuing, preventing wasted space.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Where are new nodes inserted in a BST?</div>
+                    <div class="quiz-answer">Click to reveal: If the value is less than the current node → go left. If
+                        greater → go right. Repeat until an empty position is found.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="twos-complement-floats.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Two's Complement &amp; Floating
+                            Point</span></div>
+                </a>
+                <a href="networking.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Networking</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>

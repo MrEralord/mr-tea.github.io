@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Performance — mr. TEA</title>
+    <meta name="description"
+        content="Complete workbook on computer performance factors: clock speed, word length, and bus width. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lesson.css">
+</head>
+
+<body>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="../../index.html" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span
+                    class="logo-text">mr. TEA</span></a>
+            <nav class="header-nav" id="header-nav"><a href="../../index.html#syllabus">Syllabus</a><a
+                    href="../../index.html#interactive-lab">Lab</a><a
+                    href="../../index.html#assessment-hub">Assessment</a></nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i
+                    class="fas fa-moon"></i></button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="../../index.html">Home</a><span class="sep">/</span>
+                <a href="../../index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                <span>12.3A — Computer Performance</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-server"></i> Unit 12.3A · Term 3</div>
+                <h1 class="lesson-title">Clock Speed, Word Length &amp; Bus Width</h1>
+                <p class="lesson-intro">Three key hardware factors determine how fast a CPU can process data:
+                    <strong>clock speed</strong> (how many cycles per second), <strong>word length</strong> (how many
+                    bits processed per operation), and <strong>bus width</strong> (how many bits transferred at once).
+                    Understanding these helps you evaluate hardware specifications and answer exam questions about
+                    system performance.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.3.2.6</span> Explain how the clock speed, word length, and bus width
+                        affect the performance</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.3A-computer-performance.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <!-- Clock Speed -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tachometer-alt"></i> Clock Speed</h2>
+
+                <p class="concept-text">The <strong>clock speed</strong> (or clock rate) measures how many instruction
+                    cycles the CPU can perform per second. It is measured in <strong>Hertz (Hz)</strong>.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Value</th>
+                            <th>Typical Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1 MHz</strong></td>
+                            <td>1 million cycles/second</td>
+                            <td>Old 1980s computers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1 GHz</strong></td>
+                            <td>1 billion cycles/second</td>
+                            <td>Basic modern processors</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3.5 GHz</strong></td>
+                            <td>3.5 billion cycles/second</td>
+                            <td>Typical modern desktop CPU</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5+ GHz</strong></td>
+                            <td>5+ billion cycles/second</td>
+                            <td>High-end gaming / overclocked CPUs</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">How It
+                    Affects Performance</h3>
+                <ul class="concept-list">
+                    <li>Higher clock speed → more cycles per second → <strong>more instructions processed</strong></li>
+                    <li>Each tick of the clock triggers one step of the FDE cycle</li>
+                    <li>Simple instructions may take 1 clock cycle; complex ones may take multiple cycles</li>
+                </ul>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Clock Speed ≠ Everything</h4>
+                    <p>A 3 GHz CPU is NOT necessarily faster than a 2.5 GHz CPU. Other factors matter: number of cores,
+                        cache size, architecture (RISC vs CISC), pipeline depth. Clock speed is just one factor.</p>
+                </div>
+            </section>
+
+            <!-- Word Length -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-ruler-horizontal"></i> Word Length</h2>
+
+                <p class="concept-text">The <strong>word length</strong> (or word size) is the number of bits that the
+                    CPU can process in a <strong>single operation</strong>. It determines the size of the CPU's
+                    registers and the amount of data processed per instruction.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Word Length</th>
+                            <th>Max Value (unsigned)</th>
+                            <th>Era / Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>8-bit</strong></td>
+                            <td>0 to 255</td>
+                            <td>Early computers (ZX Spectrum, NES)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>16-bit</strong></td>
+                            <td>0 to 65,535</td>
+                            <td>Early PCs (Intel 8086, SNES)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>32-bit</strong></td>
+                            <td>0 to ~4.29 billion</td>
+                            <td>Older desktops (until ~2010)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>64-bit</strong></td>
+                            <td>0 to ~18.4 quintillion</td>
+                            <td>All modern PCs and smartphones</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">How It
+                    Affects Performance</h3>
+                <ul class="concept-list">
+                    <li>Larger word → more data processed per instruction → <strong>fewer cycles needed</strong></li>
+                    <li>A 64-bit CPU can add two 64-bit numbers in one operation; an 8-bit CPU would need multiple
+                        operations</li>
+                    <li>Larger word length = larger registers = can handle bigger numbers directly</li>
+                    <li>Affects maximum addressable memory (32-bit → 4 GB max, 64-bit → 16 exabytes)</li>
+                </ul>
+            </section>
+
+            <!-- Bus Width -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-road"></i> Bus Width</h2>
+
+                <p class="concept-text">The <strong>bus width</strong> is the number of parallel wires in a bus,
+                    determining how many bits can be transferred <strong>simultaneously</strong>. Both address bus width
+                    and data bus width affect performance.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Bus Type</th>
+                            <th>Width Affects</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data bus width</strong></td>
+                            <td>Amount of data transferred per cycle</td>
+                            <td>64-bit data bus → 8 bytes per transfer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Address bus width</strong></td>
+                            <td>Maximum addressable memory</td>
+                            <td>32-bit → 2³² = 4 GB addresses</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">How It
+                    Affects Performance</h3>
+                <ul class="concept-list">
+                    <li>Wider data bus → more data per transfer → fewer transfers needed → <strong>faster data
+                            movement</strong></li>
+                    <li>Wider address bus → can access more memory → supports larger programs and data sets</li>
+                    <li>Think of bus width as the number of traffic lanes on a highway — more lanes = more throughput
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Summary Comparison -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-balance-scale"></i> Summary Comparison</h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Measured In</th>
+                            <th>Higher Value Means</th>
+                            <th>Limitation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Clock speed</strong></td>
+                            <td>GHz</td>
+                            <td>More cycles per second</td>
+                            <td>Heat generation, power consumption</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Word length</strong></td>
+                            <td>Bits (8, 16, 32, 64)</td>
+                            <td>More data processed per operation</td>
+                            <td>Software must support it</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bus width</strong></td>
+                            <td>Bits</td>
+                            <td>More data transferred at once</td>
+                            <td>All components must match</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">✓</span> Worked Example: Comparing Two Systems</h4>
+                    <div class="code-block"><code>System A: 2.0 GHz, 32-bit word, 32-bit data bus
+System B: 3.5 GHz, 64-bit word, 64-bit data bus
+
+System B is faster because:
+1. Clock speed: 3.5 GHz vs 2.0 GHz → 75% more cycles per second
+2. Word length: 64-bit vs 32-bit → processes twice the data per instruction
+3. Bus width: 64-bit vs 32-bit → transfers twice the data per cycle
+4. Memory: 64-bit addressing supports far more RAM than 32-bit (4 GB limit)</code></div>
+                </div>
+            </section>
+
+            <!-- Other Factors -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-plus-circle"></i> Other Performance Factors</h2>
+                <p class="concept-text">While clock speed, word length, and bus width are the three factors in the LO,
+                    other factors also affect performance:</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Effect</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Number of cores</strong></td>
+                            <td>Multiple cores process multiple instructions simultaneously (parallelism)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cache memory</strong></td>
+                            <td>Small, ultra-fast memory inside CPU — reduces memory access time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RAM size</strong></td>
+                            <td>More RAM = more programs/data held in memory (less disk swapping)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Architecture (RISC/CISC)</strong></td>
+                            <td>RISC can execute more instructions per clock cycle</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pipelining</strong></td>
+                            <td>Overlapping FDE stages for different instructions → improved throughput</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Pitfalls -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
+                    Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Assuming Clock Speed Alone Determines Speed</h4>
+                    <p>Students often say "faster GHz = faster computer." This is <strong>not always true</strong>. A 3
+                        GHz RISC CPU may outperform a 4 GHz CISC CPU due to architecture differences, number of cores,
+                        and cache.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Mixing Up Word Length and Bus Width</h4>
+                    <p>Word length = how many bits the CPU <strong>processes</strong> per operation (inside the CPU).
+                        Bus width = how many bits <strong>travel</strong> between components per transfer (outside the
+                        CPU). They are related but not the same.</p>
+                </div>
+            </section>
+
+            <!-- Pro-Tips -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Structuring Performance Answers</h4>
+                    <ul>
+                        <li>When asked "how does X affect performance" — always state: what X is → what increasing it
+                            does → why that improves performance</li>
+                        <li>Use <strong>specific numbers</strong>: "A 64-bit data bus transfers 8 bytes per cycle vs 4
+                            bytes for 32-bit"</li>
+                        <li>If asked to compare two systems — compare each factor individually, then give an overall
+                            conclusion</li>
+                        <li>Mention trade-offs: higher clock speed → more heat → needs better cooling</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Assessment -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Define: clock speed, word length, bus width. State the unit of measurement for each.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why doubling the clock speed does not always double the computer's overall
+                            performance.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>A school is choosing between two computers. System A: 3.2 GHz, 32-bit. System B: 2.8 GHz,
+                            64-bit. Which would you recommend for video editing? Justify your answer.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain how the data bus width and the word length are related. Can a system have a wider
+                            data bus than its word length? What would be the implications?</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz -->
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is clock speed measured in?</div>
+                    <div class="quiz-answer">Click to reveal: Hertz (Hz), typically GHz (gigahertz) for modern CPUs.
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. A 32-bit word processor needs to add two 64-bit numbers. What happens?
+                    </div>
+                    <div class="quiz-answer">Click to reveal: It must split the operation into at least 2 operations,
+                        each processing 32 bits. This takes more clock cycles and is slower than a 64-bit CPU.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How does data bus width affect performance?</div>
+                    <div class="quiz-answer">Click to reveal: A wider data bus transfers more bits per cycle, reducing
+                        the number of transfers needed and increasing speed.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What limits a 32-bit system to 4 GB of RAM?</div>
+                    <div class="quiz-answer">Click to reveal: The 32-bit address bus can address 2³² = 4,294,967,296
+                        bytes = 4 GB maximum.</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Name 2 other factors (besides the 3 covered) that affect CPU
+                        performance.</div>
+                    <div class="quiz-answer">Click to reveal: Number of cores, cache size, architecture (RISC/CISC),
+                        pipelining, RAM amount.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="system-bus.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">System Bus</span></div>
+                </a>
+                <a href="risc-cisc.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">RISC vs CISC</span></div><i
+                        class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/lesson.js"></script>
+</body>
+
+</html>
