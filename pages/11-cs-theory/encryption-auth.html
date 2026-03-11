@@ -25,6 +25,12 @@
                 <a href="../../index.html#interactive-lab">Lab</a>
                 <a href="../../index.html#assessment-hub">Assessment</a>
             </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
@@ -40,20 +46,32 @@
             <div class="lesson-header">
                 <div class="lesson-unit-badge"><i class="fas fa-shield-alt"></i> Unit 11.4B · Term 4</div>
                 <h1 class="lesson-title">Computer Security, Encryption &amp; Authentication</h1>
-                <p class="lesson-intro">Computer security is the protection of the computer system from any event or action that could cause a loss of or damage to hardware, software, data, or information[cite: 29]. This lesson covers the core principles, encryption mechanics, and structural defenses used to maintain secure systems at the AS/A Level standard.</p>
+                <p class="lesson-intro">Computer security is the protection of the computer system from any event or action that could cause a loss of or damage to hardware, software, data, or information. This lesson covers the core principles, encryption mechanics, access rights, and structural defenses used to maintain secure systems at the AS/A Level standard.</p>
             </div>
 
             <div class="lesson-lo-card">
                 <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
                 <ul class="lesson-lo-list">
                     <li><span class="lo-code">11.1.2.4</span> Explain the CIA triad, encryption, digital signatures, and certificates</li>
-                    <li><span class="lo-code">11.1.2.5</span> Describe authentication methods, access rights, and network security measures (Firewalls, Proxies, IDS)</li>
+                    <li><span class="lo-code">11.1.2.5</span> Describe authentication methods, access rights, and network security measures</li>
                 </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4B-security-encryption.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
             </div>
 
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-cubes"></i> 1. The CIA Triad</h2>
-                <p class="concept-text">The Computer Security Triad (CIA) is a foundational model designed to guide policies for information security within an organization[cite: 33].</p>
+                <p class="concept-text">The Computer Security Triad (CIA) is a foundational model designed to guide policies for information security within an organization.</p>
                 
                 <div style="text-align: center; margin: 20px 0;">
                     <img src="../../assets/images/lessons/CIA.jpg" alt="CIA Triad Diagram" style="max-width: 300px; margin: 0 auto; border-radius: 8px;">
@@ -71,98 +89,159 @@
                     <tbody>
                         <tr>
                             <td><strong>Confidentiality</strong></td>
-                            <td>Ensures sensitive information is accessed only by authorized persons[cite: 42].</td>
-                            <td>Implemented using usernames, passwords, Access Control Lists (ACLs), and encryption[cite: 43].</td>
+                            <td>Ensures sensitive information is accessed only by authorized persons.</td>
+                            <td>Implemented using usernames, passwords, Access Control Lists (ACLs), and encryption.</td>
                         </tr>
                         <tr>
                             <td><strong>Integrity</strong></td>
-                            <td>Ensures data has not been tampered with and is correct, authentic, and reliable[cite: 48, 49].</td>
-                            <td>Protects against unauthorized deletion, addition, or modification[cite: 50]. Implemented using hashing and data encryption[cite: 51].</td>
+                            <td>Ensures data has not been tampered with and is correct, authentic, and reliable.</td>
+                            <td>Protects against unauthorized deletion, addition, or modification. Implemented using hashing and data encryption.</td>
                         </tr>
                         <tr>
                             <td><strong>Availability</strong></td>
-                            <td>Ensures information, networks, and resources are up and running for those who need them[cite: 54, 56].</td>
-                            <td>Implemented via backups and redundant systems[cite: 62].</td>
+                            <td>Ensures information, networks, and resources are up and running for those who need them.</td>
+                            <td>Implemented via backups and redundant systems.</td>
                         </tr>
                     </tbody>
                 </table>
             </section>
 
             <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-key"></i> 2. Symmetric vs Asymmetric Encryption</h2>
-                <p class="concept-text"><strong>Encryption</strong> transforms readable plaintext into unreadable ciphertext[cite: 196].</p>
+                <h2 class="lesson-section-title"><i class="fas fa-key"></i> 2. Encryption Fundamentals</h2>
                 
-                
+                <div class="analogy-box">
+                    <h4><i class="fas fa-lock"></i> The Secret Language Analogy</h4>
+                    <p>Imagine you and your friend invent a secret code where every letter is shifted by 3 positions (A→D, B→E). Only someone who knows the rule (the <strong>key</strong>) can read your messages. This is essentially what encryption does.</p>
+                </div>
 
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Key Terminology</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Plaintext</strong></td>
+                            <td>Original, readable data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ciphertext</strong></td>
+                            <td>Encrypted, unreadable data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Key</strong></td>
+                            <td>Secret value used to encrypt/decrypt data</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Symmetric vs Asymmetric Encryption</h3>
                 <table class="theory-table">
                     <thead>
                         <tr>
                             <th>Feature</th>
                             <th>Symmetric Encryption</th>
-                            <th>Asymmetric Encryption (Public Key Cryptography)</th>
+                            <th>Asymmetric Encryption (Public Key)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong>Definition</strong></td>
-                            <td>Uses the <em>same</em> secret key for both encryption and decryption[cite: 188].</td>
-                            <td>Uses a <em>pair</em> of keys: a public key for encryption and a private key for decryption[cite: 218].</td>
+                            <td>Uses the <em>same</em> secret key for both encryption and decryption.</td>
+                            <td>Uses a <em>pair</em> of keys: a public key for encryption and a private key for decryption.</td>
                         </tr>
                         <tr>
                             <td><strong>Advantages</strong></td>
-                            <td>Fast encryption/decryption; efficient for large data volumes[cite: 208, 209].</td>
-                            <td>Eliminates the key distribution problem; increases security as private keys are never transmitted[cite: 228, 229].</td>
+                            <td>Fast encryption/decryption; efficient for large data volumes.</td>
+                            <td>Eliminates the key distribution problem; high security.</td>
                         </tr>
                         <tr>
                             <td><strong>Disadvantages</strong></td>
-                            <td>Securely sharing the key is a major risk; not scalable for large systems[cite: 213, 214].</td>
-                            <td>Slow process compared to symmetric; inappropriate for bulk message decryption[cite: 233].</td>
+                            <td>Securely sharing the key is a major risk; not scalable.</td>
+                            <td>Slow process; inappropriate for bulk message encryption.</td>
                         </tr>
                         <tr>
-                            <td><strong>Application</strong></td>
-                            <td>File/disk encryption (BitLocker), database protection, Wi-Fi (WPA2)[cite: 201, 202, 203].</td>
-                            <td>SSL/TLS (HTTPS), Encrypted email, Cryptocurrencies[cite: 226, 239, 240, 241].</td>
+                            <td><strong>Examples</strong></td>
+                            <td>AES, DES, Caesar cipher</td>
+                            <td>RSA, ECC, SSL/TLS (HTTPS)</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Caesar Cipher Example (Symmetric)</h3>
+                <div class="code-block"><code>Plaintext:  HELLO WORLD
+Key:        Shift by 3
+Ciphertext: KHOOR ZRUOG
+
+H → K (+3) | E → H (+3) | L → O (+3)</code></div>
             </section>
 
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-file-signature"></i> 3. Digital Signatures &amp; Certificates</h2>
                 
                 <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Digital Signatures</h3>
-                <p class="concept-text">A digital signature proves a digital message or document is authentic and hasn't been tampered with[cite: 1]. It includes the original content and a signature block[cite: 5].</p>
-                
-                
+                <p class="concept-text">A digital signature proves a digital message or document is authentic and hasn't been tampered with. It includes the original content and a signature block.</p>
 
                 <ul class="concept-list">
-                    <li><strong>How it works:</strong> The signature contains a hashed version of the document encrypted with the sender’s private key[cite: 6].</li>
-                    <li><strong>Authentication:</strong> Confirms the message was really sent by the claimed sender[cite: 10].</li>
-                    <li><strong>Integrity:</strong> Ensures content hasn't been altered after signing[cite: 12].</li>
-                    <li><strong>Non-repudiation:</strong> The signer cannot deny later that they signed the document[cite: 14].</li>
+                    <li><strong>How it works:</strong> The signature contains a hashed version of the document encrypted with the sender’s private key.</li>
+                    <li><strong>Authentication:</strong> Confirms the message was really sent by the claimed sender.</li>
+                    <li><strong>Integrity:</strong> Ensures content hasn't been altered after signing.</li>
+                    <li><strong>Non-repudiation:</strong> The signer cannot deny later that they signed the document.</li>
                 </ul>
 
                 <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Digital Certificates</h3>
-                <p class="concept-text">A digital certificate proves the authenticity of a device, server, or user through the use of cryptography and public key infrastructure (PKI)[cite: 244]. Only publicly trusted Certificate Authorities (CAs) can issue them[cite: 252].</p>
-                
-                
+                <p class="concept-text">A digital certificate proves the authenticity of a device, server, or user. Only publicly trusted Certificate Authorities (CAs) can issue them.</p>
 
                 <p><strong>Contents of a typical Digital Certificate:</strong></p>
                 <ul class="concept-list">
-                    <li><strong>Owner’s Name/Organization:</strong> Who the certificate is for[cite: 257].</li>
-                    <li><strong>Public Key:</strong> Used in encrypting data or verifying digital signatures[cite: 258].</li>
-                    <li><strong>Issuer (CA):</strong> The trusted entity that issued the certificate[cite: 259].</li>
-                    <li><strong>Serial Number &amp; Validity Period:</strong> Unique ID and start/end dates[cite: 260, 261].</li>
-                    <li><strong>Digital Signature:</strong> A signature from the CA proving the certificate wasn't altered[cite: 263].</li>
+                    <li><strong>Owner Info:</strong> Who the certificate is for.</li>
+                    <li><strong>Public Key:</strong> Used in encrypting data or verifying signatures.</li>
+                    <li><strong>Issuer (CA):</strong> The trusted entity that issued the certificate.</li>
+                    <li><strong>Serial Number &amp; Validity Period:</strong> Unique ID and dates.</li>
+                    <li><strong>Digital Signature:</strong> A signature from the CA proving the certificate wasn't altered.</li>
                 </ul>
             </section>
 
             <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-id-badge"></i> 4. Authentication, Authorization &amp; Access Control</h2>
+                <h2 class="lesson-section-title"><i class="fas fa-id-badge"></i> 4. Access Rights &amp; Authentication</h2>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Authentication Methods</h3>
-                <p class="concept-text">Authentication verifies that the individual is the person they claim to be[cite: 64]. <strong>Multi-Factor Authentication (MFA)</strong> requires two or more independent ways to verify identity[cite: 137, 138].</p>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Access Rights (Authorization)</h3>
+                <p class="concept-text">Access rights control what each authenticated user can do with data (Read, Write, Execute, Delete).</p>
+                
+                <div class="worked-example">
+                    <h4>Access Rights Matrix Example</h4>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>User Role</th>
+                                <th>Student Records</th>
+                                <th>System Settings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Student</strong></td>
+                                <td>Read (own only)</td>
+                                <td>No access</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Teacher</strong></td>
+                                <td>Read / Write</td>
+                                <td>No access</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Admin</strong></td>
+                                <td>Read / Write / Delete</td>
+                                <td>Full access (Execute)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Authentication Methods</h3>
                 <table class="theory-table">
                     <thead>
                         <tr>
@@ -174,36 +253,25 @@
                     <tbody>
                         <tr>
                             <td><strong>Knowledge-based</strong><br>(Something you know)</td>
-                            <td>Identifies users by asking for secret information[cite: 83].</td>
-                            <td>Usernames, passwords, PINs, passphrases[cite: 85, 87, 88].</td>
+                            <td>Identifies users by asking for secret information.</td>
+                            <td>Usernames, passwords, PINs.</td>
                         </tr>
                         <tr>
                             <td><strong>Possession-based</strong><br>(Something you have)</td>
-                            <td>Uses physical objects (tokens) the user possesses[cite: 106].</td>
-                            <td><strong>Memory tokens:</strong> Store info but do not process it (e.g., Magnetic cards). Cheap, used with PINs [cite: 114, 115].<br><strong>Smart tokens:</strong> Process info, more expensive, difficult to forge[cite: 117, 118].</td>
+                            <td>Uses physical objects (tokens) the user possesses.</td>
+                            <td><strong>Memory tokens:</strong> Magnetic cards.<br><strong>Smart tokens:</strong> OTP generators, Smart cards.</td>
                         </tr>
                         <tr>
                             <td><strong>Biometric-based</strong><br>(Something you are)</td>
-                            <td>Translates a personal characteristic into a digital code[cite: 134].</td>
-                            <td><strong>Physiological:</strong> Face, fingerprint, hand, iris, DNA [cite: 131].<br><strong>Behavioral:</strong> Keystroke, signature, voice[cite: 131].</td>
+                            <td>Translates a personal characteristic into a digital code.</td>
+                            <td><strong>Physiological:</strong> Face, fingerprint, iris.<br><strong>Behavioral:</strong> Keystroke, voice.</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Authorization, Access Control &amp; Audit Trails</h3>
-                <ul class="concept-list">
-                    <li><strong>Authorization:</strong> Ensures authenticated users access only approved resources[cite: 140]. Takes place <em>after</em> identification and authentication[cite: 141].</li>
-                    <li><strong>Access Control:</strong> Policies outlining what permission is needed, what data can be accessed, and allowed actions[cite: 146].</li>
-                    <li><strong>Audit Trail:</strong> Automatically generated records tracking every event (create, delete, read, modified)[cite: 151, 153]. Events are aligned to the user and time-stamped, allowing organizations to pinpoint the source of a breach[cite: 149, 154, 155]. Users cannot alter these logs[cite: 152].</li>
-                </ul>
             </section>
 
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-network-wired"></i> 5. Network Security Measures</h2>
-                <p class="concept-text">Technical measures are deployed to protect networks from external and internal threats.</p>
-
-                
-
                 <table class="theory-table">
                     <thead>
                         <tr>
@@ -215,29 +283,41 @@
                     <tbody>
                         <tr>
                             <td><strong>Firewall</strong></td>
-                            <td>Software/hardware that filters information coming through the internet connection[cite: 158].</td>
-                            <td>Protects from unauthorized intrusion; blocks access from the outside[cite: 159, 160].</td>
+                            <td>Software/hardware that filters information coming through the internet connection.</td>
+                            <td>Protects from unauthorized intrusion; blocks access from the outside.</td>
                         </tr>
                         <tr>
                             <td><strong>Proxy Server</strong></td>
-                            <td>Hardware/server that acts as a middleman between the user and the web server[cite: 162].</td>
-                            <td>Hides user's real IP address; filters internet traffic; stores frequently used files into CACHE to speed up access[cite: 163, 165, 166].</td>
+                            <td>Hardware/server that acts as a middleman between the user and the web server.</td>
+                            <td>Hides user's real IP address; filters internet traffic; caches files to speed up access.</td>
                         </tr>
                         <tr>
                             <td><strong>IDS (Intrusion Detection System)</strong></td>
-                            <td>Software built to monitor network traffic and discover irregularities or malicious activity[cite: 176].</td>
-                            <td>Scans for harmful activity or policy breaching; issues alerts to administrators or SIEM systems[cite: 180, 181, 182].</td>
+                            <td>Software built to monitor network traffic and discover irregularities.</td>
+                            <td>Scans for harmful activity; issues alerts to administrators.</td>
                         </tr>
                     </tbody>
                 </table>
             </section>
 
             <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Independent Practice (Cambridge AS/A Level Style)</h2>
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Encryption ≠ Hashing</h4>
+                    <p>Encryption is <strong>reversible</strong> (you can decrypt). Hashing is <strong>one-way</strong> (you cannot reverse a hash). Both are used together in Digital Signatures.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Authorization ≠ Authentication</h4>
+                    <p>Authentication verifies <em>who you are</em> (Passwords, Biometrics). Authorization determines <em>what you can do</em> (Access Rights Matrix).</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Independent Practice</h2>
                 <div class="assessment-tasks">
                     <div class="task-item">
                         <span class="task-level apply">Apply</span>
-                        <p>A bank allows customers to access their accounts online. Explain how a digital certificate guarantees to the customer that the bank's website is authentic.</p>
+                        <p>Encrypt the word "PYTHON" using a Caesar cipher with key = 7.</p>
                     </div>
                     <div class="task-item">
                         <span class="task-level analyze">Analyze</span>
@@ -245,11 +325,11 @@
                     </div>
                     <div class="task-item">
                         <span class="task-level evaluate">Evaluate</span>
-                        <p>Evaluate the use of biometric authentication versus possession-based authentication (smart tokens) for securing a high-level corporate server room. Consider aspects of security, cost, and user convenience.</p>
+                        <p>Evaluate the use of biometric authentication versus possession-based authentication (smart tokens) for securing a high-level corporate server room.</p>
                     </div>
                     <div class="task-item">
                         <span class="task-level create">Create</span>
-                        <p>Describe the exact step-by-step cryptographic process a sender uses to apply a digital signature to a document, and the process the receiver uses to verify it, ensuring non-repudiation.</p>
+                        <p>Describe the exact step-by-step cryptographic process a sender uses to apply a digital signature to a document, and the process the receiver uses to verify it.</p>
                     </div>
                 </div>
             </section>
@@ -258,17 +338,28 @@
                 <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Plenary / Self-Check</h2>
                 <div class="quiz-item">
                     <p class="quiz-question">Q1: What are the three elements of the CIA triad?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Confidentiality, Integrity, and Availability[cite: 39].</div>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Confidentiality, Integrity, and Availability.</div>
                 </div>
                 <div class="quiz-item">
-                    <p class="quiz-question">Q2: Why is symmetric encryption not scalable for a very large number of communicating users?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Because each pair of users needs a unique, securely shared secret key. Securely distributing these keys becomes unmanageable at scale[cite: 213, 214].</div>
+                    <p class="quiz-question">Q2: How many keys does symmetric encryption use?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">One key (the same key is used for both encryption and decryption).</div>
                 </div>
                 <div class="quiz-item">
-                    <p class="quiz-question">Q3: How does an Audit Trail assist in maintaining data integrity?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It automatically generates a time-stamped record of every event (create, read, modify, delete) tied to specific users, allowing tracking of any unauthorized changes[cite: 148, 153, 154, 155].</div>
+                    <p class="quiz-question">Q3: What are the three authentication factors?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Something you know (Password), something you have (Smart token), something you are (Biometrics).</div>
                 </div>
             </section>
+
+            <nav class="lesson-nav">
+                <a href="backup-mirroring.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Backup & Mirroring</span>
+                </a>
+                <a href="blockchain.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Blockchain</span>
+                </a>
+            </nav>
 
         </div>
     </main>
@@ -277,6 +368,7 @@
         <p>mr. TEA © 2026 — NIS Grade 11 Computer Science</p>
     </footer>
 
+    <script src="../../js/app.js"></script>
 </body>
 
 </html>
