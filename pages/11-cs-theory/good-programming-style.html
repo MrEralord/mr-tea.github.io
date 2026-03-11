@@ -73,7 +73,7 @@
 
 
             <!-- Conceptual Anchor -->
-            <section class="lesson-section">
+           <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
 
                 <div class="analogy-box">
@@ -84,269 +84,196 @@
                         Good style is like good grammar: it communicates your intent clearly.
                     </p>
                 </div>
+
+                <div class="lesson-media-placeholder" style="border: none; background: transparent; padding: 0; margin-top: var(--space-md);">
+                    <img src="../../assets/images/lessons/clean-code.jpg" alt="Spaghetti Code vs Clean Code" style="max-width: 100%; height: auto; border-radius: 8px; display: block; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <div class="img-caption" style="text-align: center; margin-top: 10px;">Fig 1. Transforming chaotic "spaghetti code" into structured, maintainable blocks</div>
+                </div>
             </section>
 
-            <!-- Rules & Theory -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Rules of Good
-                    Programming Style</h3>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">The 6 Pillars of Good Programming Style</h3>
+                <p class="concept-text">Proper programming style significantly reduces maintenance costs and increases the lifetime of software. A perfectly working code is not enough; it must be professional.</p>
 
                 <table class="theory-table">
                     <thead>
                         <tr>
-                            <th>Rule</th>
-                            <th>Why It Matters</th>
+                            <th>Pillar</th>
+                            <th>Description & Best Practices</th>
                             <th>Example</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Meaningful names</strong></td>
-                            <td>Variables/functions should describe their purpose</td>
-                            <td><code>totalMarks</code> not <code>tm</code></td>
+                            <td><strong>1. Readability</strong></td>
+                            <td>Code must be easily understood by colleagues. It should be consistently formatted and easily show how different parts fit into the whole.</td>
+                            <td>Using a clear, logical structure.</td>
                         </tr>
                         <tr>
-                            <td><strong>Consistent indentation</strong></td>
-                            <td>Shows the structure of code (loops, conditions)</td>
-                            <td>Use 2 or 4 spaces consistently</td>
+                            <td><strong>2. Maintainability</strong></td>
+                            <td>Code should be straightforward for another programmer to fix bugs or modify. It must be robust to handle unexpected inputs without crashing.</td>
+                            <td>Using constants (<code>const int MAX = 10;</code>) instead of hard-coded numbers.</td>
                         </tr>
                         <tr>
-                            <td><strong>Comments</strong></td>
-                            <td>Explain WHY, not WHAT the code does</td>
-                            <td><code>// Sentinel value to stop input</code></td>
+                            <td><strong>3. Comments</strong></td>
+                            <td>Explain <em>why</em> the code does something, not <em>what</em> it does. Include your name and date at the top of the file. <strong>Never leave "dead code" (commented-out code) in the final version.</strong></td>
+                            <td><code>// Calculate final tax after discount</code></td>
                         </tr>
                         <tr>
-                            <td><strong>Use constants</strong></td>
-                            <td>Named constants instead of "magic numbers"</td>
-                            <td><code>const int MAX_SIZE = 100;</code></td>
+                            <td><strong>4. Naming</strong></td>
+                            <td>Use descriptive names that reveal intent. Use <strong>camelCase</strong> (<code>studentMarks</code>) or <strong>underscores</strong> (<code>student_marks</code>). Use <code>i, j, k</code> only for loops.</td>
+                            <td><code>int currentMax;</code> instead of <code>int cMX;</code></td>
                         </tr>
                         <tr>
-                            <td><strong>Modularity</strong></td>
-                            <td>Break code into small, reusable functions</td>
-                            <td><code>calculateAverage(marks, n)</code></td>
+                            <td><strong>5. Indentation & Whitespace</strong></td>
+                            <td>Use 4 spaces to indent blocks. This clearly marks control flow (loops, ifs). Use blank lines (vertical density) to separate logical blocks.</td>
+                            <td>Aligning <code>if</code> and <code>else</code> statements properly.</td>
                         </tr>
                         <tr>
-                            <td><strong>Whitespace</strong></td>
-                            <td>Blank lines separate logical sections</td>
-                            <td>Space between functions and sections</td>
-                        </tr>
-                        <tr>
-                            <td><strong>No global variables</strong></td>
-                            <td>Pass data through parameters instead</td>
-                            <td>Prevents unintended side effects</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Error handling</strong></td>
-                            <td>Anticipate and handle edge cases</td>
-                            <td>Check for division by zero</td>
+                            <td><strong>6. Output</strong></td>
+                            <td>Provide clear instructions and results to the users. Use proper English with no spelling errors. Assume the user knows nothing about programming.</td>
+                            <td><code>cout << "Please enter your age: ";</code></td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Bad vs
-                    Good Style</h3>
+                <div class="video-container" style="margin: var(--space-xl) 0;">
+                    <h2 class="lesson-section-title"><i class="fab fa-youtube" style="color: #FF0000;"></i> Maintainability (Craig'n'Dave)</h2>
+                    <p class="concept-text">A great explanation of why clean code, meaningful identifiers, and comments are essential for passing A-Level and writing professional software.</p>
+                    <div class="iframe-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+                                src="https://www.youtube.com/embed/nFXXTtv1_9M" 
+                                title="YouTube video player" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
 
-                <p class="concept-text"><strong>❌ Bad style:</strong></p>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Bad vs Good Style Example</h3>
+
+                <p class="concept-text"><strong>❌ Bad style (Unreadable, no indentation, meaningless variables, dead code):</strong></p>
                 <div class="code-block">
-                    <code>int main(){int a,b,c;cin>>a>>b;c=a+b;if(c>100){cout<<"big";}else{cout<<"small";}return 0;}</code>
+                    <code>public void m() {
+int x; int y; // variables
+// int oldY;
+x=10;y=20;
+if(x<y){System.out.println("y is bigger");}
+}</code>
                 </div>
 
-                <p class="concept-text"><strong>✅ Good style:</strong></p>
-                <div class="code-block"><code>#include &lt;iostream&gt;
-using namespace std;
+                <p class="concept-text"><strong>✅ Good style (Indented, camelCase, commented, clean output):</strong></p>
+                <div class="code-block"><code>/**
+ * Compares two values and prints the result.
+ * Written by: John Doe, 2025
+ */
+public void compareValues() {
+    int firstValue = 10;
+    int secondValue = 20;
 
-// Calculate and classify the sum of two numbers
-int main() {
-    int firstNumber, secondNumber;
-
-    cout &lt;&lt; "Enter first number: ";
-    cin &gt;&gt; firstNumber;
-
-    cout &lt;&lt; "Enter second number: ";
-    cin &gt;&gt; secondNumber;
-
-    int sum = firstNumber + secondNumber;
-
-    // Classify the result
-    if (sum &gt; 100) {
-        cout &lt;&lt; "The sum is large." &lt;&lt; endl;
-    } else {
-        cout &lt;&lt; "The sum is small." &lt;&lt; endl;
+    if (firstValue < secondValue) {
+        System.out.println("The second value is larger.");
     }
-
-    return 0;
 }</code></div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Naming
-                    Conventions</h3>
-
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Convention</th>
-                            <th>Format</th>
-                            <th>Used For</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>camelCase</strong></td>
-                            <td><code>totalMarks</code>, <code>firstName</code></td>
-                            <td>Variables, functions (C++, Java)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>PascalCase</strong></td>
-                            <td><code>StudentRecord</code>, <code>LinkedList</code></td>
-                            <td>Classes, types</td>
-                        </tr>
-                        <tr>
-                            <td><strong>UPPER_SNAKE</strong></td>
-                            <td><code>MAX_SIZE</code>, <code>PI</code></td>
-                            <td>Constants</td>
-                        </tr>
-                        <tr>
-                            <td><strong>snake_case</strong></td>
-                            <td><code>total_marks</code></td>
-                            <td>Variables (Python, C)</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Comments: Quality Over Quantity</h4>
-                    <p>Don't comment obvious code like <code>i = i + 1; // increment i</code>. Instead, explain the
-                        <strong>intent</strong>: <code>// Move to next student record</code>. Good comments answer
-                        "Why?" not "What?".
-                    </p>
-                </div>
             </section>
 
-            <!-- Worked Examples -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
 
                 <div class="worked-example">
                     <h4><span class="step-num">1</span> Refactoring: Magic Numbers → Constants</h4>
                     <p><strong>Before:</strong></p>
-                    <div class="code-block"><code>if (score &gt;= 90) grade = 'A';
-if (score &gt;= 50) pass = true;
+                    <div class="code-block"><code>if (score >= 90) grade = 'A';
 tax = salary * 0.13;</code></div>
                     <p><strong>After:</strong></p>
                     <div class="code-block"><code>const int GRADE_A_THRESHOLD = 90;
-const int PASS_MARK = 50;
 const double TAX_RATE = 0.13;
 
-if (score &gt;= GRADE_A_THRESHOLD) grade = 'A';
-if (score &gt;= PASS_MARK)         pass = true;
+if (score >= GRADE_A_THRESHOLD) {
+    grade = 'A';
+}
 tax = salary * TAX_RATE;</code></div>
                 </div>
 
                 <div class="worked-example">
                     <h4><span class="step-num">2</span> Modularity: Breaking Into Functions</h4>
-                    <div class="code-block"><code>// FUNCTION: Calculate average of an integer array
-double calculateAverage(int arr[], int size) {
-    int total = 0;
-    for (int i = 0; i &lt; size; i++) {
-        total += arr[i];
-    }
-    return static_cast&lt;double&gt;(total) / size;
-}
-
-// FUNCTION: Find maximum value in an array
-int findMax(int arr[], int size) {
-    int maxVal = arr[0];
-    for (int i = 1; i &lt; size; i++) {
-        if (arr[i] &gt; maxVal) {
-            maxVal = arr[i];
-        }
-    }
-    return maxVal;
+                    <p>Writing modular code means different concerns should be handled by different methods. Don't put everything in <code>main()</code>.</p>
+                    <div class="code-block"><code>// FUNCTION: Calculate average
+double calculateAverage(int total, int count) {
+    return static_cast&lt;double&gt;(total) / count;
 }
 
 int main() {
-    int marks[] = {78, 92, 65, 88, 71};
-    int n = 5;
+    int sum = 250;
+    int numberOfStudents = 5;
 
-    cout &lt;&lt; "Average: " &lt;&lt; calculateAverage(marks, n) &lt;&lt; endl;
-    cout &lt;&lt; "Highest: " &lt;&lt; findMax(marks, n) &lt;&lt; endl;
+    cout << "Average: " << calculateAverage(sum, numberOfStudents) << endl;
     return 0;
 }</code></div>
                 </div>
             </section>
 
-            <!-- Pitfalls -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
 
                 <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Single-letter Variable Names</h4>
-                    <p>Using <code>a</code>, <code>b</code>, <code>x</code> for everything makes code unreadable.
-                        Exception: <code>i</code>, <code>j</code>, <code>k</code> are acceptable for loop counters.</p>
+                    <h4><i class="fas fa-bug"></i> Leaving Commented-Out Code</h4>
+                    <p>Never leave old attempts or broken code commented out in your final submission (e.g., <code>// methodTryThis(3);</code>). It confuses the reader and makes the code look unfinished.</p>
                 </div>
 
                 <div class="pitfall-box">
                     <h4><i class="fas fa-bug"></i> Over-commenting</h4>
                     <p>Comments that restate the code add clutter, not clarity.
-                        <code>count = count + 1; // add 1 to count</code> is pointless. Explain <em>why</em> instead.
+                        <code>count = count + 1; // add 1 to count</code> is pointless. Explain <em>why</em> instead: <code>// Move to next student record</code>.
                     </p>
                 </div>
 
                 <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Inconsistent Style</h4>
-                    <p>Mixing camelCase and snake_case, or using 2 spaces in some places and 4 in others, makes code
-                        confusing. Pick one style and stick with it throughout the project.</p>
+                    <h4><i class="fas fa-bug"></i> Inconsistent Naming</h4>
+                    <p>Mixing <code>camelCase</code> and <code>snake_case</code> makes code look unprofessional. Pick one convention and stick with it.</p>
                 </div>
             </section>
 
-            <!-- Tasks -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
                 <div class="assessment-tasks">
                     <div class="task-item">
                         <span class="task-level remember">Remember</span>
-                        <p>List five rules of good programming style.</p>
+                        <p>List the 6 pillars of good programming style.</p>
                     </div>
                     <div class="task-item">
                         <span class="task-level understand">Understand</span>
-                        <p>Explain why using <code>const int MAX = 100;</code> is better than using the number 100
-                            directly in your code.</p>
+                        <p>Explain the difference between "Code Readability" and "Code Maintainability".</p>
                     </div>
                     <div class="task-item">
                         <span class="task-level apply">Apply</span>
-                        <p>Take this poorly-styled code and rewrite it following good programming practices:
-                            <code>int main(){int a[5]={1,2,3,4,5};int s=0;for(int i=0;i&lt;5;i++)s+=a[i];cout&lt;&lt;s;}</code>
-                        </p>
+                        <p>A student submitted this code: <code>int x=5; // set x to 5 <br>// int y=10;</code><br>Identify three style rules broken here and fix the code.</p>
                     </div>
                     <div class="task-item">
-                        <span class="task-level create">Create</span>
-                        <p>Write a well-styled C++ program that reads student marks, calculates the average, and
-                            determines the grade. Use meaningful names, constants, comments, and at least one function.
-                        </p>
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Why is it considered bad practice to use variables like <code>a, b, c</code> for a banking application, but acceptable to use <code>i, j, k</code> in loops?</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Quiz -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
                 <div class="quiz-item">
-                    <p class="quiz-question">Q1: Why should you use meaningful variable names?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">They make code self-documenting
-                        — anyone reading the code can understand what each variable represents without extra comments.
-                    </div>
+                    <p class="quiz-question">Q1: What is "dead code" in the context of comments?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Old, unused lines of code that have been commented out instead of deleted.</div>
                 </div>
                 <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is a "magic number" and why should you avoid it?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A magic number is a hard-coded
-                        literal value (like 100 or 0.13) with no explanation. Replace with named constants for clarity
-                        and easy maintenance.</div>
+                    <p class="quiz-question">Q2: Which naming convention capitalizes the first letter of every word except the first?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">camelCase (e.g., currentMax)</div>
                 </div>
                 <div class="quiz-item">
-                    <p class="quiz-question">Q3: What naming convention uses capitalFirstLetterOfEachWord?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">camelCase (first word
-                        lowercase, subsequent words capitalized)</div>
+                    <p class="quiz-question">Q3: Why should you use vertical whitespace (blank lines)?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To visually break the code into logical sections, making it easier to read at a glance.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q4: Why is it important to check spelling in your program's Output?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Because the end-user interacts with the output. Errors look unprofessional and can confuse users.</div>
                 </div>
             </section>
 
