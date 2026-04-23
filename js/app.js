@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initSmoothScroll();
   initImageLightbox();
+  initHidePlaceholderPdf();
 });
 
 /* ============================================================
@@ -224,5 +225,21 @@ function initImageLightbox() {
   lbClose.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
+  });
+}
+
+/* ============================================================
+   Hide PDF presentation block when no real PDF is linked
+   ============================================================ */
+function initHidePlaceholderPdf() {
+  document.querySelectorAll('.lesson-pdf-block').forEach(block => {
+    const btns = block.querySelectorAll('.lesson-pdf-btn');
+    const allPlaceholder = Array.from(btns).every(btn => {
+      const href = btn.getAttribute('href');
+      return !href || href === '#';
+    });
+    if (allPlaceholder) {
+      block.style.display = 'none';
+    }
   });
 }
