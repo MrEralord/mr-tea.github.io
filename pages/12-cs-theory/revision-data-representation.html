@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Representation (Revision) — mr. TEA</title>
+    <meta name="description"
+        content="Cambridge AS & A Level 9618 Data Representation: Number systems, two's complement, fixed and floating-point representation, normalization. NIS Grade 12 CS Term 4 Revision.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P4C0Y8SW2K');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.4A — Data Representation (Revision)</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-server"></i> Unit 12.4A · Term 4</div>
+                <h1 class="lesson-title">Data Representation: Number Systems & Floating Point</h1>
+                <p class="lesson-intro"><strong>Data Representation</strong> is fundamental to computer science. All data is stored in binary. This revision covers conversions across bases, negative number representation using Two's Complement, and handling fractional data using Fixed and Floating Point structures aligned with Cambridge AS/A Level 9618 standards.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.1.1.1</span> Convert a number from one number system to another</li>
+                    <li><span class="lo-code">12.1.1.2</span> Explain the advantages of using hexadecimal numbers</li>
+                    <li><span class="lo-code">12.1.1.3</span> Perform arithmetic operations: addition and multiplication of binary numbers</li>
+                    <li><span class="lo-code">12.1.1.4</span> Represent positive/negative numbers in two's complement</li>
+                    <li><span class="lo-code">12.1.1.5</span> Perform subtraction using two's complement</li>
+                    <li><span class="lo-code">12.1.1.6</span> Use binary numbers with a fixed point</li>
+                    <li><span class="lo-code">12.1.1.7</span> Represent positive and negative floating-point decimal numbers in binary</li>
+                </ul>
+            </div>
+
+            <div class="lesson-section" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <div class="lesson-pdf-block" style="flex: 1; padding: 15px; min-width: 250px;">
+                    <div class="lesson-pdf-icon" style="font-size: 1.5rem;"><i class="fas fa-file-pdf"></i></div>
+                    <div class="lesson-pdf-info" style="margin-bottom: 10px;">
+                        <h4 style="font-size: 0.95rem;">Worksheet 1: Number Sys</h4>
+                    </div>
+                    <div class="lesson-pdf-actions" style="justify-content: flex-start;">
+                        <a href="/assets/pdf/Worksheet1 Number Sys conv_Subt_Add.pdf" class="lesson-pdf-btn download-btn" download><i class="fas fa-download"></i> Download</a>
+                    </div>
+                </div>
+                <div class="lesson-pdf-block" style="flex: 1; padding: 15px; min-width: 250px;">
+                    <div class="lesson-pdf-icon" style="font-size: 1.5rem;"><i class="fas fa-file-pdf"></i></div>
+                    <div class="lesson-pdf-info" style="margin-bottom: 10px;">
+                        <h4 style="font-size: 0.95rem;">Worksheet 2: Fixed/Floating</h4>
+                    </div>
+                    <div class="lesson-pdf-actions" style="justify-content: flex-start;">
+                        <a href="/assets/pdf/Worksheet2 Data_Rep Fixed_Floating.pdf" class="lesson-pdf-btn download-btn" download><i class="fas fa-download"></i> Download</a>
+                    </div>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+    <h2 class="lesson-section-title"><i class="fas fa-book"></i> Core Theory: Data Representation</h2>
+
+    <h3 style="color:var(--text-primary); margin-bottom: var(--space-sm);">1. The Four Number Systems & Conversions</h3>
+    
+    <p><strong>Definition:</strong> At the hardware level, data is represented in base-2 (Binary). To make this manageable, computer scientists group bits into base-16 (Hexadecimal) and base-8 (Octal) or use our standard base-10 (Denary).</p>
+    
+    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background: var(--bg-surface); text-align: left;">
+            <th style="padding: 10px; border: 1px solid #ccc;">System</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Base</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Digits</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Use Case</th>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ccc;"><strong>Denary</strong></td>
+            <td style="padding: 10px; border: 1px solid #ccc;">10</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">0–9</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">Human counting and basic mathematics.</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ccc;"><strong>Binary</strong></td>
+            <td style="padding: 10px; border: 1px solid #ccc;">2</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">0, 1</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">Computer storage, logic gates, and processing.</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ccc;"><strong>Hexadecimal</strong></td>
+            <td style="padding: 10px; border: 1px solid #ccc;">16</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">0–9, A–F</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">Compact notation (memory dumps, MAC addresses, RGB colors).</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ccc;"><strong>Octal</strong></td>
+            <td style="padding: 10px; border: 1px solid #ccc;">8</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">0–7</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">Octal is mainly used for Unix file permissions (like chmod 755) and aviation transponder codes.</td>
+        </tr>
+    </table>
+                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                    <img src="/assets/images/lessons/Conversion Table.jpg" width="600" style="height: auto;" alt="Comparison table of octal, binary, and hexadecimal values for number conversion.">
+                    <figcaption>Conversion mapping between octal, binary, and hexadecimal bases.</figcaption>
+                </figure>
+
+    <div class="worked-example" style="margin-top: 15px;">
+        <h4><i class="fas fa-exchange-alt"></i> Example: Denary to Binary & Hex</h4>
+        <div class="math-step" style="white-space: pre-wrap; font-family: monospace;">
+<strong>Denary to Binary (Repeated Division):</strong> Convert 156
+156 &divide; 2 = 78 remainder 0  &uarr;
+ 78 &divide; 2 = 39 remainder 0  &boxv; Read remainders
+ 39 &divide; 2 = 19 remainder 1  &boxv; from BOTTOM
+ 19 &divide; 2 =  9 remainder 1  &boxv; to TOP
+  9 &divide; 2 =  4 remainder 1  &boxv;
+  4 &divide; 2 =  2 remainder 0  &boxv;
+  2 &divide; 2 =  1 remainder 0  &boxv;
+  1 &divide; 2 =  0 remainder 1  &boxur;
+Result: (10011100)<sub>2</sub>
+
+<strong>Binary to Hex (4-bit Grouping Shortcut):</strong>
+Group 10011100 into nibbles (4 bits):
+1001  1100
+ 9     C
+Result: (9C)<sub>16</sub>
+        </div>
+    </div>
+
+    <p><br>
+
+        <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                    <img src="/assets/images/lessons/places-byte.jpg" width="600" style="height: auto;" alt="Diagram mapping binary bits to their denary place values from 2 to the power of 0 up to 7.">
+                    <figcaption>Visual breakdown of binary-to-denary conversion using powers of 2.</figcaption>
+                </figure>
+        
+    <h3 style="color:var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">2. Binary Arithmetic & Shifts</h3>
+
+    <p><strong>Addition:</strong> Binary addition works just like decimal addition, but it carries over when the sum exceeds 1. If a calculation requires more bits than the system has allocated (e.g., a 9th bit in an 8-bit system), this is called <strong>Overflow</strong>, and the extra bit is lost.</p>
+
+    <div class="worked-example" style="margin-top: 15px;">
+        <h4><i class="fas fa-calculator"></i> Example: Binary Addition</h4>
+        <div class="math-step" style="white-space: pre-wrap; font-family: monospace;">
+<strong>Calculate: 10110011 + 01001110</strong>
+ Carry:  1 1 1 1 0 0 1 0
+       1 0 1 1 0 0 1 1   (= 179)
+     + 0 1 0 0 1 1 1 0   (=  78)
+     -----------------
+       1 0 0 0 0 0 0 0 1   (= 257)
+
+<strong>Warning:</strong> The result is 9 bits. If stored in an 8-bit register, the leading '1' is lost due to overflow!
+        </div>
+    </div>
+
+    <p><strong>Logical Shifts:</strong> Shifting bits is a fast way for processors to perform basic multiplication and division.</p>
+    <ul class="lesson-lo-list">
+        <li><strong>Logical Left Shift:</strong> Shifts all bits left, filling the right with 0. <strong>Effect:</strong> Multiplies the number by 2 per shift.</li>
+        <li><strong>Logical Right Shift:</strong> Shifts all bits right, filling the left with 0. <strong>Effect:</strong> Divides the number by 2 (integer division).</li>
+    </ul>
+
+    <p><br>
+    <small style="color: var(--text-muted);"><strong>Image Description:</strong> A diagram showing an 8-bit register. Arrows indicate all bits moving one position to the left (with a 0 entering the empty space on the right) and the reverse process for a right shift, clearly labeling them as "Multiply by 2" and "Divide by 2".</small></p>
+
+
+    <h3 style="color:var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">3. Two's Complement & Subtraction</h3>
+    
+    <p><strong>Definition:</strong> Two's complement is the standard method for representing negative binary integers. To find it: form the one's complement (flip all 0s to 1s and 1s to 0s) and add 1[cite: 241]. Alternatively, leave the least significant 0s unchanged up to and including the first least significant 1, then complement all remaining bits[cite: 246, 247].</p>
+
+    <p><strong>Why:</strong> ALUs (Arithmetic Logic Units) in CPUs use adder circuits. By using two's complement, the CPU simply adds a negative number instead of needing a separate subtractor circuit.</p>
+    
+    <p><strong>Application:</strong> To perform A - B, the computer calculates A + (-B). Any carry out of the Most Significant Bit (MSB) during this addition is ignored[cite: 263, 269].</p>
+
+    <div class="worked-example" style="margin-top: 15px;">
+        <h4><i class="fas fa-minus-circle"></i> Example: Binary Subtraction</h4>
+        <p>Calculate (1101011)<sub>2</sub> - (111010)<sub>2</sub>[cite: 264].</p>
+        <div class="math-step" style="white-space: pre-wrap; font-family: monospace;">
+<strong>Step 1: Pad to equal length</strong>
+Minuend:    1101011
+Subtrahend: 0111010
+
+<strong>Step 2: Find Two's Complement of Subtrahend</strong>
+Flip bits:  1000101
+Add 1:      1000110 [cite: 268]
+
+<strong>Step 3: Add them together</strong>
+  1101011
++ 1000110
+---------
+ 10110001 [cite: 269]
+
+<strong>Result:</strong> The carry out of the MSB is ignored. Result is (110001)<sub>2</sub> = (49)<sub>10</sub>[cite: 269].
+        </div>
+    </div>
+
+    <h3 style="color:var(--text-primary); margin-top: var(--space-lg); margin-bottom: var(--space-sm);">4. Fixed Point vs. Floating Point</h3>
+
+    <p><strong>Definition:</strong> Fractional numbers can be stored in two ways. <strong>Fixed point</strong> allocates a static, unchanging number of bits for the integer part and the fractional part. <strong>Floating point</strong> splits the available bits into a <strong>Mantissa</strong> and an <strong>Exponent</strong>[cite: 282, 329, 330], similar to scientific notation.</p>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background: var(--bg-surface); text-align: left;">
+            <th style="padding: 10px; border: 1px solid #ccc;">Feature</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Fixed Point</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Floating Point</th>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ccc;"><strong>Speed</strong></td>
+            <td style="padding: 10px; border: 1px solid #ccc;">A processor can usually carry out calculations more quickly.</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">Requires more complex ALU processing.</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ccc;"><strong>Precision vs Range</strong></td>
+            <td style="padding: 10px; border: 1px solid #ccc;">Can represent some numbers more precisely. Can represent positive numbers closer to zero.</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">Can represent a vastly bigger range of numbers within the same number of bits.</td>
+        </tr>
+    </table>
+
+    <p><strong>Normalization:</strong> To maximize precision and avoid multiple representations of the same number, floating-point numbers are normalized. A positive normalized value always starts with 0.1. A negative normalized value always starts with 1.0. A value is not valid if it is not normalized (e.g., starting with 0.0 or 1.1)[cite: 283, 316, 422].</p>
+
+    <p><strong>Representation Errors:</strong></p>
+    <ul class="lesson-lo-list">
+        <li><strong>Underflow:</strong> Result is so close to zero that the number stored is zero.</li>
+        <li><strong>Rounding (Truncation):</strong> A decimal value cannot be represented exactly in the available number of bits.</li>
+    </ul>
+
+    <div class="worked-example" style="margin-top: 15px;">
+        <h4><i class="fas fa-calculator"></i> Example: Evaluating Floating Point</h4>
+        <p>Calculate the decimal equivalent of a normalized floating point number with an 8-bit Mantissa: 01011100 and a 4-bit Exponent: 0101.</p>
+        <div class="math-step" style="white-space: pre-wrap; font-family: monospace;">
+<strong>Step 1: Evaluate Exponent</strong>
+Exponent is (0101)<sub>2</sub> = (+5)<sub>10</sub> 
+
+<strong>Step 2: Shift the Mantissa Point</strong>
+Original Mantissa: 0.1011100
+Shift point 5 places to the right: 010111.00
+
+<strong>Step 3: Convert to Decimal</strong>
+(010111)<sub>2</sub> = 16 + 4 + 2 = 22
+<strong>Result:</strong> 22 
+        </div>
+    </div>
+
+    <p><br>
+    <small style="color: var(--text-muted);"><strong>Image Description:</strong> A block diagram of a 12-bit register split into two sections: an 8-bit Mantissa block (with an implied binary point after the first bit) and a 4-bit Exponent block, clearly showing how bits are partitioned in memory.</small></p>
+
+</section>
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-play-circle"></i> Modeling: Floating Point Representation</h2>
+                <p>Demonstration of converting decimal values into normalized floating-point binary (Mantissa and Exponent format).</p>
+                <div class="video-responsive" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                            src="https://www.youtube.com/embed/PKwoRCpmKhA" 
+                            title="A Level Computer Science Floating Point Representation" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Hexadecimal to Decimal Conversion</h4>
+                    <p>Convert $(88BAE)_{16}$ to decimal format.</p>
+                    <div class="code-block"><code>= (8 × 16^4) + (8 × 16^3) + (11 × 16^2) + (10 × 16^1) + (14 × 16^0)
+= (8 × 65536) + (8 × 4096) + (11 × 256) + (10 × 16) + (14 × 1)
+= 524288 + 32768 + 2816 + 160 + 14
+= 560046</code></div>
+                    <p>Result: $(560046)_{10}$.</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Two's Complement Subtraction</h4>
+                    <p>Perform $(1101011)_2 - (111010)_2$ using addition and two's complement.</p>
+                    <div class="code-block"><code>1. Find 2's complement of subtrahend (0111010 -> 1000110)
+2. Add to minuend:
+  111       (carry)
+  1101011
++ 1000110
+---------
+ 10110001</code></div>
+                    <p>The carry out of the MSB is ignored. Result is $(110001)_2 = (49)_{10}$.</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Decimal to Normalized Floating Point</h4>
+                    <p>Write the normalized floating point representation of $-6.75$ using an 8-bit mantissa and 4-bit exponent.</p>
+                    <div class="code-block"><code>1. Fixed point binary for 6.75: 0110.11
+2. Two's complement for -6.75: 1001.01
+3. Normalize (shift point 3 places left): 1.00101
+4. Mantissa (8-bit): 10010100
+5. Exponent = 3 (shifted left 3 times) -> Binary: 0011</code></div>
+                    <p>Mantissa: <strong>10010100</strong>, Exponent: <strong>0011</strong></p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-laptop-code"></i> Independent Practice</h2>
+                <div class="formative-box" style="background: var(--bg-surface); border-left: 4px solid #00a65a; padding: var(--space-md); border-radius: 0 8px 8px 0;">
+                    <h3><i class="fas fa-external-link-alt"></i> Formative Assessment</h3>
+                    <p>Complete the SAU/SAT revision paper tasks on Data Representation.</p>
+                    <ol class="lesson-lo-list" style="margin: var(--space-sm) 0;">
+                        <li>Go to <a href="https://app.formative.com/join" target="_blank" style="color: var(--text-primary); font-weight: bold;">app.formative.com/join</a></li>
+                        <li>Enter the Revision Join Code: <strong><code style="font-size: 1.2rem; color: #d9534f;">892DATA</code></strong></li>
+                    </ol>
+                    <a href="https://app.formative.com/join" target="_blank" class="lesson-pdf-btn view-btn" style="display: inline-block; margin-top: var(--space-sm);"><i class="fas fa-play"></i> Start Practice</a>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls & Common Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Subtraction MSB Carry</h4>
+                    <p>When performing binary subtraction using two's complement addition, remember to strictly <strong>ignore the final carry bit</strong> that exceeds your bit depth.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Unnormalized Floating Point</h4>
+                    <p>A floating point number is invalid (unnormalized) if the first two bits of the mantissa are identical (e.g., $00$ or $11$). It must start with $01$ for positive numbers or $10$ for negative numbers.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Identify and state the three main types of errors that occur in floating-point calculations (Underflow, Overflow, Rounding).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain the effects on a floating-point system if the number of mantissa bits is decreased (e.g., from 8 to 6) and the exponent bits are increased (from 4 to 6). How does this affect range and precision? </p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Calculate the smallest number of bits that would need to be added to an 8-bit mantissa so that the decimal number $12.765625$ ($1100.110001_2$) can be represented exactly.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Develop the normalized floating-point representation for $-23.25$ using an 8-bit mantissa and 4-bit two's complement exponent.</p>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="/index.html#syllabus"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Return to Syllabus</span></div>
+                </a>
+                <a href="../term4/revision-sql.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Revision: SQL Query Language</span></div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS & A Level 9618</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+</body>
+
+</html>

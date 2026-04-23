@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Hardware — mr. TEA</title>
+    <meta name="description"
+        content="Network equipment: routers, switches, hubs, NICs, access points, repeaters, modems, bridges, gateways. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4C — Network Hardware</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-network-wired"></i> Unit 11.4C · Term 4</div>
+                <h1 class="lesson-title">Network Hardware</h1>
+                <p class="lesson-intro">Networks require specialized hardware to transmit, receive, and route data.
+                    Understanding the <strong>purpose, function, and OSI layer</strong> of each device is essential for designing
+                    and troubleshooting complex networks.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.6.1.3</span> Explain the purpose of network equipment (Router, switch, hub, repeater, bridge, network adapter, modem, Gateway).</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4C-network-hardware.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-mail-bulk"></i> The Postal System Analogy</h4>
+                    <p>A <strong>NIC</strong> is your physical mailbox. A <strong>hub</strong> is a town crier shouting the
+                        message to everyone on the street. A <strong>switch</strong> is a local post office that reads the exact street address and
+                        delivers only to the right person. A <strong>router</strong> is an international mail sorting
+                        center that sends packages between entirely different postal systems (networks).</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-video"></i> Visualizing Network Devices</h2>
+                <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; margin: var(--space-md) 0;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/MXr_cyY0BVc" title="Hub, Switch, & Router Explained" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <p style="text-align: center; font-size: 0.9rem; color: var(--text-secondary);">Animated breakdown of how data moves through Hubs, Switches, and Routers.</p>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1.2rem;margin-bottom:var(--space-sm);color:var(--text-primary); border-bottom: 2px solid var(--border-color); padding-bottom: 5px;">1. Core Network Devices</h3>
+
+                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                    <img src="/assets/images/lessons/standard-network.png" width="600" style="height: auto;" alt="Standard Network Topology Icons">
+                    <figcaption>Standard logical diagram icons: Router (circle with arrows), Switch (box with parallel arrows), Hub (box with single arrow).</figcaption>
+                </figure>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>Purpose & Definition</th>
+                            <th>Intelligence / Layer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>NIC</strong> (Network Interface Card)</td>
+                            <td>Connects a device to the network. Every NIC has a permanent, unique hardware identifier called a MAC address.</td>
+                            <td>Layer 1 & 2</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hub</strong></td>
+                            <td>Connects multiple devices in a LAN. It receives data on one port and blindly broadcasts it to ALL other ports.</td>
+                            <td>Dumb (Layer 1) — creates high network traffic and data collisions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Switch</strong></td>
+                            <td>Connects multiple devices in a LAN. It stores MAC addresses in a routing table and sends data ONLY to the specific intended recipient.</td>
+                            <td>Smart (Layer 2) — eliminates collisions, highly efficient.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Router</strong></td>
+                            <td>Connects DIFFERENT networks together (e.g., your LAN to the WAN/Internet). Routes packets based on IP addresses.</td>
+                            <td>Smartest (Layer 3) — determines the most efficient path for data.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bridge</strong></td>
+                            <td>Connects two similar LAN segments to act as a single network. Filters traffic based on MAC addresses to reduce congestion.</td>
+                            <td>Layer 2 — often replaced by switches today.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gateway</strong></td>
+                            <td>A node that connects two networks with different protocols (e.g., connecting a local LAN to the internet). Routers typically act as gateways.</td>
+                            <td>Can operate at any OSI layer.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modem</strong></td>
+                            <td>Modulator-Demodulator. Converts digital signals from a computer into analog signals for transmission over telephone/cable lines, and vice versa.</td>
+                            <td>Essential for establishing an ISP connection.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Repeater</strong></td>
+                            <td>Boosts (regenerates) a degraded signal to extend the maximum physical range of a network cable.</td>
+                            <td>Simple (Layer 1) — amplifies everything, including noise.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1.2rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary); border-bottom: 2px solid var(--border-color); padding-bottom: 5px;">2. Hub vs Switch vs Router (Advanced Comparison)</h3>
+
+                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                    <img src="/assets/images/lessons/collision_domains.jpg" width="600" style="height: auto;" alt="Collision Domains: Hub vs Switch vs Router">
+                    <figcaption>A Hub shares one single collision domain. A Switch creates a separate collision domain for every connected port.</figcaption>
+                </figure>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Hub</th>
+                            <th>Switch</th>
+                            <th>Router</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>OSI Layer</strong></td>
+                            <td>Layer 1 (Physical)</td>
+                            <td>Layer 2 (Data Link)</td>
+                            <td>Layer 3 (Network)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Addressing Used</strong></td>
+                            <td>None (Broadcasts blindly)</td>
+                            <td>MAC address (Hardware)</td>
+                            <td>IP address (Logical)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Delivery</strong></td>
+                            <td>Broadcast (sent to all ports)</td>
+                            <td>Unicast (sent to target only)</td>
+                            <td>Routing between networks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Collision Domain</strong></td>
+                            <td>Single (all ports share the risk of data crashing)</td>
+                            <td>Separate per port (collisions eliminated)</td>
+                            <td>Separate per interface</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Broadcast Domain</strong></td>
+                            <td>Single</td>
+                            <td>Single</td>
+                            <td>Separate (Routers block broadcasts)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> SOHO Routers (Home Routers) = Combo Devices</h4>
+                    <p>Your home Wi-Fi "router" is actually an all-in-one appliance combining: a <strong>Modem</strong> (connects to ISP via cable/fiber) +
+                        a <strong>Router</strong> (routes traffic between your home LAN and the Internet) + a <strong>Switch</strong>
+                        (the 4 Ethernet ports on the back) + a <strong>WAP</strong> (Wireless Access Point for Wi-Fi). In enterprise networks (like school campuses), these are strictly separate, dedicated devices.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing MAC and IP Addresses</h4>
+                    <p>Switches use <strong>MAC addresses</strong> (physical, permanent, burned into the NIC) to forward frames within the SAME network. Routers use <strong>IP addresses</strong> (logical, dynamic, assigned by software) to route packets between DIFFERENT networks.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Hubs vs Switches in Exams</h4>
+                    <p>Never recommend a Hub for a modern network design in an exam. Hubs waste bandwidth by broadcasting and pose a severe security risk (packet sniffing). Always specify a Switch.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Define the specific functions of a Bridge, Gateway, and Repeater.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level create">Create / Model</span>
+                        <p><strong>Cisco Packet Tracer Activity:</strong> Create two separate LANs (Network A: 192.168.1.0 and Network B: 192.168.2.0). Use a Switch for each LAN. Then, deploy a Router (e.g., 1841) to act as the Gateway connecting both LANs. Configure the router interfaces and test ping connectivity between a PC in Network A and a PC in Network B.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>A new computer lab is being built on an island off the main school campus. Describe the hardware required to connect the PCs in the new lab to each other, and the hardware required to link this new lab back to the main campus network over a long distance.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Explain why replacing a Hub with a Switch immediately improves both the speed (bandwidth utilization) and the security of a Local Area Network.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: Which device operates at Layer 3 of the OSI model and connects different networks?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Router.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Why is a switch considered "smarter" than a hub?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A switch learns and stores MAC addresses, sending data directly to the intended device, whereas a hub blindly broadcasts data to all ports.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What device is necessary to convert digital computer signals to analog signals for transmission over external ISP lines?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Modem (Modulator-Demodulator).</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="network-topology.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Network Topology</span>
+                </a>
+                <a href="client-server.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Client-Server Model</span>
+                </a>
+            </nav>
+
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Events & Advanced Capabilities — mr. TEA</title>
+    <meta name="description"
+        content="API configuration, stages of chatbot development, keyword databases, processing chat events, sending media, and complex UI keyboards using Python. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P4C0Y8SW2K');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.4 — Chatbot Development</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-code-branch"></i> Unit 12.4 · Term 4</div>
+                <h1 class="lesson-title">Chatbot Development: API, Events &amp; Advanced Logic</h1>
+                <p class="lesson-intro">Developing a functional chatbot requires strategic planning, API integration, and event-driven logic. In this comprehensive lesson, we cover everything from basic keyword matching to advanced UI elements like interactive calendars, time selectors, and media processing using Python.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.4.4</span> Get API configuration for a chatbot</li>
+                    <li><span class="lo-code">12.6.4.5</span> Create a database of answers by keywords</li>
+                    <li><span class="lo-code">12.6.4.6</span> Process chat events and implement complex decision trees</li>
+                </ul>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-water"></i> 1. The Chatbot Iceberg & Development Stages</h2>
+                <p class="concept-text">What the user sees is only the tip of the iceberg. A basic bot replies to text, but a <strong>Great Chatbot</strong> handles complex backend systems.</p>
+                
+                
+                
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Key Actions & Focus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Analytical</strong></td>
+                            <td>Familiarization with messengers (Telegram, VK). Evaluation of capabilities. Choosing the platform.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Planning</strong></td>
+                            <td>Searching for the main idea. Mapping the user journey (Decision Trees). Reviewing competitor bots.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Practical</strong></td>
+                            <td>Bot development (Python code), API configuration, UI/UX implementation, and testing.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-database"></i> 2. Basic Logic: Processing Events & Keywords</h2>
+                
+                <p class="concept-text">Chatbots rely on <strong>event-driven programming</strong>. The bot "listens" for user actions using decorators (<code>@bot.message_handler</code>). We use a <strong>Keyword-based</strong> approach to analyze user input.</p>
+
+                <div class="code-block"><code>import telebot
+
+# 1. API Configuration
+bot = telebot.TeleBot("PUT_YOUR_API_TOKEN_HERE")
+
+# 2. Event Handler (Listens for text messages)
+@bot.message_handler(content_types=['text'])
+def keyword_responses(message):
+    
+    # 3. Standardize input to lowercase for accurate keyword matching
+    user_text = message.text.lower()
+    
+    # 4. Database of answers based on keywords
+    if "hello" in user_text or "hi" in user_text:
+        bot.send_message(message.chat.id, "Hello! How can I assist you today?")
+    elif "price" in user_text:
+        bot.send_message(message.chat.id, "Our courses start at 5000 KZT.")
+    else:
+        bot.send_message(message.chat.id, "I don't understand you.")
+
+# 5. Polling (Keeps the bot running continuously)
+bot.polling(none_stop=True)</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-image"></i> 3. Rich Media: Sending Images and Files</h2>
+                <p class="concept-text">A modern chatbot must be visual. You can send photos, documents, and audio using native API methods. This is highly useful for sending event posters (like Hack.OS schedules), product menus, or digital receipts.</p>
+
+                <div class="code-block"><code>@bot.message_handler(commands=['poster'])
+def send_event_poster(message):
+    # rb means 'read binary'. Ensure the image is in the same folder as your Python script.
+    photo = open('hack_os_poster.jpg', 'rb')
+    bot.send_photo(message.chat.id, photo, caption="Welcome to Hack.OS 2026! 🚀")
+    
+    # You can also send documents (PDFs, DOCX)
+    # doc = open('schedule.pdf', 'rb')
+    # bot.send_document(message.chat.id, doc)</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-th"></i> 4. Interactive UI: Keyboards & Menus</h2>
+                <p class="concept-text">There are two primary types of keyboards in Telegram. They eliminate the need for users to type exactly matching keywords, drastically reducing errors.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Code Snippet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Reply Keyboard</strong></td>
+                            <td>Replaces the system keyboard at the bottom. Sends a standard text message when pressed. Best for <em>Main Menus</em>.</td>
+                            <td><code>markup = types.ReplyKeyboardMarkup(resize_keyboard=True)<br>markup.add(types.KeyboardButton("Main Menu"))</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inline Keyboard</strong></td>
+                            <td>Attached directly below a message. Triggers a hidden <code>callback_data</code> signal instead of text. Best for <em>Dynamic Choices</em>.</td>
+                            <td><code>markup = types.InlineKeyboardMarkup()<br>markup.add(types.InlineKeyboardButton("Buy", callback_data="buy_item"))</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-calendar-alt"></i> 5. Advanced Layouts: Calendars & Time Selectors</h2>
+                <p class="concept-text">To build a booking system, you need structured grids for dates or times. We can manipulate the <code>row_width</code> property of an Inline Keyboard, or use the <code>.row()</code> method to force specific buttons onto specific lines.</p>
+
+                
+
+                <div class="worked-example">
+                    <h4><i class="fas fa-clock"></i> Live Code: Time Selector Grid</h4>
+                    <div class="code-block"><code>@bot.message_handler(commands=['book'])
+def select_time(message):
+    markup = types.InlineKeyboardMarkup()
+    
+    # Creating a 3x2 grid for time slots
+    btn1 = types.InlineKeyboardButton("10:00", callback_data="t_10")
+    btn2 = types.InlineKeyboardButton("11:00", callback_data="t_11")
+    btn3 = types.InlineKeyboardButton("12:00", callback_data="t_12")
+    btn4 = types.InlineKeyboardButton("14:00", callback_data="t_14")
+    btn5 = types.InlineKeyboardButton("15:00", callback_data="t_15")
+    btn6 = types.InlineKeyboardButton("16:00", callback_data="t_16")
+    
+    # .row() forces these specific buttons into a single horizontal line
+    markup.row(btn1, btn2, btn3)
+    markup.row(btn4, btn5, btn6)
+    
+    bot.send_message(message.chat.id, "Select your presentation time:", reply_markup=markup)
+
+# Handling the button press
+@bot.callback_query_handler(func=lambda call: call.data.startswith('t_'))
+def handle_time(call):
+    selected = call.data.split('_')[1]
+    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, 
+                          text=f"✅ Time {selected}:00 is confirmed!")
+    bot.answer_callback_query(call.id)</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-project-diagram"></i> 6. State Management: Multi-step Forms</h2>
+                <p class="concept-text">To collect multiple pieces of data (e.g., Name -> Grade -> Track), the bot must "remember" what it just asked. We use <code>register_next_step_handler</code> to force the bot to wait for the user's next message and route it to a specific function.</p>
+
+                <div class="code-block"><code>user_data = {} # Temporary database
+
+@bot.message_handler(commands=['register'])
+def start_registration(message):
+    chat_id = message.chat.id
+    user_data[chat_id] = {} # Initialize empty storage
+    
+    msg = bot.send_message(chat_id, "Step 1: Please type your Full Name:")
+    bot.register_next_step_handler(msg, process_name)
+
+def process_name(message):
+    chat_id = message.chat.id
+    user_data[chat_id]['name'] = message.text 
+    
+    msg = bot.send_message(chat_id, "Step 2: Enter your Grade (e.g., 10A):")
+    bot.register_next_step_handler(msg, process_grade)
+
+def process_grade(message):
+    chat_id = message.chat.id
+    name = user_data[chat_id]['name']
+    grade = message.text
+    
+    bot.send_message(chat_id, f"📝 Registration Complete!\nName: {name}\nGrade: {grade}")</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Callback Data Size Limits</h4>
+                    <p>Telegram limits <code>callback_data</code> to <strong>64 bytes</strong>. Never put full sentences in the callback data. Use short codes like <code>"dt_24_02"</code> for dates, and parse them in your logic.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Infinite Polling Blocks</h4>
+                    <p>Code written below <code>bot.polling(none_stop=True)</code> will never execute. This command must be the absolute last line of your Python script.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-laptop-code"></i> Practical Projects</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level apply">Task 1: Echo & Foreigner Bot</span>
+                        <p>Create a bot that replies to "Hello" (in any case) with "Hello!". For any other text, it should reply "I received your message: [text]".</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Task 2: Weather API Integration</span>
+                        <p>Using <code>api.openweathermap.org</code>, create a chatbot that asks the user for a city name and replies with the real-time temperature.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level create">Task 3: Hack.OS Complex Registration Bot</span>
+                        <p>Build a bot for the upcoming hackathon. 
+                        <br>1. Show a <strong>Reply Menu</strong>: "Register", "View Poster".
+                        <br>2. "View Poster" sends an image using <code>bot.send_photo()</code>.
+                        <br>3. "Register" starts a multi-step form (Name, Age).
+                        <br>4. After Name and Age, show an <strong>Inline Calendar/Grid</strong> to select the presentation day (Feb 13 or Feb 14). Output a final confirmation ticket.</p>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="intro-chatbots.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Unit 12.4: Intro to Chatbots</span>
+                </a>
+                <a href="project-review.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Final Project Review</span>
+                </a>
+            </nav>
+
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

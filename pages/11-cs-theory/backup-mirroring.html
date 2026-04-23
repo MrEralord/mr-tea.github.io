@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backup &amp; Disk Mirroring — mr. TEA</title>
+    <meta name="description"
+        content="Data backup strategies and disk mirroring. Full, incremental, differential backups. RAID levels. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P4C0Y8SW2K');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4B — Backup & Mirroring</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-shield-alt"></i> Unit 11.4B · Term 4</div>
+                <h1 class="lesson-title">Backup & Mirroring</h1>
+                <p class="lesson-intro">Data loss can happen due to hardware failure, malware, or human error.
+                    Implementing robust <strong>backup strategies</strong> and <strong>disk mirroring</strong> ensures
+                    data availability and continuous system operation.
+                </p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.1.2.2</span> Evaluate different backup strategies and storage mediums
+                    </li>
+                    <li><span class="lo-code">11.1.2.3</span> Explain the purpose and operation of disk mirroring (RAID 1)
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4B-backup-mirroring.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-video"></i> Expert Explanation: Backup Strategies</h2>
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: var(--space-md);">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/VmgE3vQG3lc" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+
+                <div class="analogy-box">
+                    <h4><i class="fas fa-key"></i> The Spare Key Analogy</h4>
+                    <p>A <strong>backup</strong> is like making a spare key for your house. If you lose the original,
+                        you can still get in. <br>
+                        <strong>Disk mirroring</strong> is like having two identical locks on the door that turn
+                        simultaneously with one key. If one lock jams, the door still opens instantly.
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">What is a Backup?
+                </h3>
+                <p class="concept-text">A backup is a copy of data stored in a separate location, used to restore the
+                    original data if it is lost, corrupted, or destroyed.</p>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Backup Strategies (Types of Backups)</h3>
+                
+                <p class="concept-text">Organizations use different strategies to balance storage space, backup time, and restoration speed.</p>
+                
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Pros & Cons</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Full Backup</strong></td>
+                            <td>Copies <em>all</em> selected files and folders every time.</td>
+                            <td><strong>Pro:</strong> Fastest to restore.<br><strong>Con:</strong> Slowest to backup, takes most storage space.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Incremental Backup</strong></td>
+                            <td>Copies only the data that has changed since the <em>last backup</em> (of any type).</td>
+                            <td><strong>Pro:</strong> Fastest to backup, least storage space.<br><strong>Con:</strong> Slowest to restore (requires full + all subsequent incrementals).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Differential Backup</strong></td>
+                            <td>Copies all data that has changed since the <em>last Full backup</em>.</td>
+                            <td><strong>Pro:</strong> Faster restore than incremental.<br><strong>Con:</strong> Backups grow larger each day until the next Full backup.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="image-placeholder" style="text-align: center; margin: 20px 0; padding: 10px; background: var(--bg-secondary); border-radius: 8px;">
+                    <img src="/assets/images/lessons/different_backup.jpg" alt="Full vs Incremental vs Differential Backup Schedule" style="max-width: 100%; height: auto; border-radius: 4px;">
+                    <p class="image-caption">Visualizing data accumulation in different backup strategies over a week.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Storage Mediums</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Medium</th>
+                            <th>Best For</th>
+                            <th>Characteristics</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>External HDD / SSD</strong></td>
+                            <td>Personal users, small businesses</td>
+                            <td>Fast, portable, relatively cheap, but can be physically damaged or lost.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Magnetic Tape</strong></td>
+                            <td>Large corporations, long-term archives</td>
+                            <td>Huge capacity, very cheap per GB, highly durable. Slow serial access (sequential reading).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cloud Storage</strong></td>
+                            <td>Everyone (off-site backup)</td>
+                            <td>Protects against local disasters (fire, flood). Requires internet. Ongoing subscription cost.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Backup vs Archiving</h3>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+                    <div class="note-box" style="flex: 1; min-width: 250px; margin: 0; border-left-color: #3498db;">
+                        <h4><i class="fas fa-copy"></i> Backup</h4>
+                        <p>A copy of <strong>active</strong>, working data.</p>
+                        <p><strong>Purpose:</strong> Quick restoration in case of accidental deletion, hardware failure, or corruption.</p>
+                        <p><strong>Analogy:</strong> A spare tire in your car.</p>
+                    </div>
+                    <div class="note-box" style="flex: 1; min-width: 250px; margin: 0; border-left-color: #9b59b6;">
+                        <h4><i class="fas fa-archive"></i> Archiving</h4>
+                        <p>Moving <strong>inactive</strong> (historical) data to long-term storage.</p>
+                        <p><strong>Purpose:</strong> Free up space on primary drives and retain data for legal/compliance reasons.</p>
+                        <p><strong>Analogy:</strong> Moving old documents to a filing cabinet in the basement.</p>
+                    </div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">What is Disk Mirroring (RAID 1)?</h3>
+                <p class="concept-text"><strong>Disk mirroring</strong> (commonly implemented as <strong>RAID 1</strong> - Redundant Array of Independent Disks) is a technique where data is written to two or more identical hard drives simultaneously.</p>
+
+                <div class="image-placeholder" style="text-align: center; margin: 20px 0; padding: 10px; background: var(--bg-secondary); border-radius: 8px;">
+                    <img src="/assets/images/lessons/RAID-1-Diagram.jpg" alt="RAID 1 Architecture Diagram" style="max-width: 100%; height: auto; border-radius: 4px;">
+                    <p class="image-caption">RAID 1 Architecture: Data stream splits and writes identically to Disk 0 and Disk 1.</p>
+                </div>
+
+                <ul>
+                    <li><strong>High Availability:</strong> If one drive fails, the system continues to operate from the second drive without any downtime.</li>
+                    <li><strong>Read Speed:</strong> Read operations can be faster (data can be read from both disks simultaneously).</li>
+                    <li><strong>Write Speed:</strong> Slightly slower or equal, as data must be written twice.</li>
+                    <li><strong>Cost:</strong> High storage cost (you buy 2TB of drives but only get 1TB of usable space).</li>
+                </ul>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> The 3-2-1 Backup Rule</h4>
+                    <p>An industry-standard strategy for data protection:</p>
+                    <ul>
+                        <li>Keep <strong>3</strong> copies of your data (1 original + 2 backups).</li>
+                        <li>Store them on <strong>2</strong> different types of media (e.g., local NAS and Cloud).</li>
+                        <li>Keep <strong>1</strong> copy off-site (protects against physical disasters like fire or theft).</li>
+                    </ul>
+                </div>
+            </section>
+
+              <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-video"></i> Expert Explanation: Mirroring</h2>
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin-bottom: var(--space-md);">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/U-OCdTeZLac" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples & Scenarios</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Scenario: The Ransomware Attack</h4>
+                    <p><strong>Scenario:</strong> A school's main server is infected with ransomware on a Wednesday afternoon, encrypting all files. They have a NAS (Network Attached Storage) on the same network doing daily backups.</p>
+                    <p><strong>Analysis:</strong> If the NAS is accessible from the main network, the ransomware likely encrypted the backups too. This highlights the need for <strong>off-site</strong> or <strong>air-gapped</strong> backups (like disconnected external drives or cloud storage with versioning).</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Scenario: Bank Database Strategy</h4>
+                    <p><strong>Scenario:</strong> A bank processes millions of transactions daily. They need a backup strategy that ensures minimal data loss and relatively fast recovery.</p>
+                    <p><strong>Solution:</strong> 
+                        <ul>
+                            <li><strong>Full Backup:</strong> Once a week (e.g., Sunday at 2 AM) to magnetic tape for off-site storage.</li>
+                            <li><strong>Differential Backup:</strong> Every night at 1 AM. This allows faster restoration than incremental (only need Sunday's Full + the latest Differential) while saving time compared to daily Full backups.</li>
+                            <li><strong>Disk Mirroring (RAID 1 or higher):</strong> On live database servers to ensure zero downtime if a physical hard drive crashes during business hours.</li>
+                        </ul>
+                    </p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Identifying the Difference: RAID vs Backup</h4>
+                    <p><strong>Scenario:</strong> A student deletes their coursework project by mistake. The school server uses RAID 1 (Disk Mirroring).</p>
+                    <p><strong>Analysis:</strong> RAID 1 will <strong>not</strong> save the student. The deletion command is instantly mirrored to both drives. A <strong>Backup</strong> is required to restore an accidentally deleted file.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Thinking Mirroring is a Backup</h4>
+                    <p>Mirroring (RAID 1) protects against <strong>hardware failure</strong> (a broken hard drive). It does NOT protect against malware, accidental deletion, or file corruption, because the mistake is instantly copied to the second drive.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>State the 3-2-1 backup rule.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>Explain the difference between an Incremental backup and a Differential backup. Which one is faster to restore?</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>A video production company generates 500GB of new footage daily. Recommend a suitable backup storage medium and justify your choice.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>A company decides to stop taking backups because they have implemented RAID 1 disk mirroring. Explain why this is a dangerous decision.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the main advantage of an Incremental backup?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It is the fastest to perform and takes the least storage space, as it only copies data changed since the very last backup.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Does RAID 1 protect against accidental file deletion?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">No. The deletion is instantly mirrored to the second drive. Backups are needed for accidental deletions.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What type of storage medium is best for long-term, off-site archiving of massive amounts of data?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Magnetic Tape, due to its low cost per gigabyte and high durability over decades.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="data-protection.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Data Protection</span>
+                </a>
+                <a href="encryption-auth.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Encryption & Auth</span>
+                </a>
+            </nav>
+
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering &amp; SDLC Revision — mr. TEA</title>
+    <meta name="description"
+        content="Advanced Grade 12 revision: SDLC models, TELOS feasibility, Prototyping, and System Implementation. NIS/Cambridge CS 9618.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P4C0Y8SW2K');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.4A — Engineering &amp; SDLC</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-sync-alt"></i> Unit 12.4A · Term 4 (Advanced Revision)</div>
+                <h1 class="lesson-title">Software Engineering & SDLC</h1>
+                <p class="lesson-intro">
+                    Deep dive into the <strong>System Development Life Cycle (SDLC)</strong>. This revision covers everything from initial feasibility studies to final system maintenance, aligned with Cambridge 9618 standards.
+                </p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives (9618 Syllabus)</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.1</span> Show understanding of the stages of the SDLC</li>
+                    <li><span class="lo-code">11.2.2</span> Discuss feasibility study (TELOS)</li>
+                    <li><span class="lo-code">11.2.5</span> Compare Prototyping types (Evolutionary vs Throwaway)</li>
+                    <li><span class="lo-code">11.2.8</span> Analyze Software Implementation methods</li>
+                </ul>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-play-circle"></i> 1. The SDLC Workflow</h2>
+                <p>The SDLC is a formal stages-based approach to building a system. Each stage must produce specific documentation (deliverables).</p>
+                
+                <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin: 20px 0; border-radius: 8px; border: 2px solid var(--border-color);">
+                    <iframe src="https://www.youtube.com/embed/Fi3_BjVzpqk" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen title="SDLC Overview"></iframe>
+                </div>
+
+                <div class="media-placeholder">
+                    <p style="text-align:center; font-style:italic; color:var(--text-secondary);">
+                        
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-microscope"></i> 2. Feasibility Study (TELOS)</h2>
+                <p>Before committing resources, we use <strong>TELOS</strong> to evaluate if the project should proceed.</p>
+                
+                <div class="theory-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin: 20px 0;">
+                    <div class="note-box" style="margin:0; border-top: 4px solid #3498db;">
+                        <strong>Technical</strong><br><small>Is the hardware/software available or buildable?</small>
+                    </div>
+                    <div class="note-box" style="margin:0; border-top: 4px solid #e74c3c;">
+                        <strong>Economic</strong><br><small>Cost-benefit analysis. Is it within budget?</small>
+                    </div>
+                    <div class="note-box" style="margin:0; border-top: 4px solid #f1c40f;">
+                        <strong>Legal</strong><br><small>Does it violate Copyright or Data Protection laws?</small>
+                    </div>
+                    <div class="note-box" style="margin:0; border-top: 4px solid #2ecc71;">
+                        <strong>Operational</strong><br><small>Will the end-users actually be able to use it?</small>
+                    </div>
+                    <div class="note-box" style="margin:0; border-top: 4px solid #9b59b6;">
+                        <strong>Scheduling</strong><br><small>Can it be completed within the required timeframe?</small>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-layer-group"></i> 3. SDLC Models Comparison</h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Workflow</th>
+                            <th>Best For</th>
+                            <th>Risk Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Waterfall</strong></td>
+                            <td>Linear phases. No going back easily.</td>
+                            <td>Simple, rigid projects.</td>
+                            <td>High (late testing)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Iterative</strong></td>
+                            <td>Developing in small chunks/versions.</td>
+                            <td>Large systems with evolving specs.</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Spiral</strong></td>
+                            <td>Risk-driven cycles with analysis.</td>
+                            <td>High-budget, high-risk projects.</td>
+                            <td>Low (due to analysis)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Agile</strong></td>
+                            <td>Customer focus, sprints, rapid updates.</td>
+                            <td>Startups, web apps.</td>
+                            <td>Variable</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-vial"></i> 4. Prototyping Strategy</h2>
+                <div class="note-box">
+                    <p><strong>Throwaway Prototyping:</strong> Built only to demonstrate a concept, then discarded. Fast and cheap.</p>
+                    <hr style="border:0; border-top: 1px solid var(--border-color); margin: 10px 0;">
+                    <p><strong>Evolutionary Prototyping:</strong> The prototype is refined and eventually becomes the final product. High quality but takes longer.</p>
+                </div>
+                <div class="media-placeholder">
+                    <p style="text-align:center; font-style:italic; color:var(--text-secondary);">
+                        
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-shuttle-space"></i> 5. Implementation (Cut-over)</h2>
+                <p>Choosing how to switch from the old system to the new one is a strategic decision.</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Strategy</th>
+                            <th>Pros</th>
+                            <th>Cons</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Direct</strong></td>
+                            <td>Instant switch.</td>
+                            <td>Fast, least expensive.</td>
+                            <td>High risk of data loss.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parallel</strong></td>
+                            <td>Both run together.</td>
+                            <td>Safest; backup exists.</td>
+                            <td>High cost; double work.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pilot</strong></td>
+                            <td>One branch/office first.</td>
+                            <td>Errors isolated to one site.</td>
+                            <td>Slow full roll-out.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phased</strong></td>
+                            <td>Module by module.</td>
+                            <td>Easier training.</td>
+                            <td>System inconsistency.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="media-placeholder">
+                    <p style="text-align:center; font-style:italic; color:var(--text-secondary);">
+                        [Image comparing Direct, Parallel, Pilot, and Phased implementation timelines]
+                    </p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tools"></i> 6. Types of Maintenance</h2>
+                <ul>
+                    <li><strong>Perfective:</strong> Improving performance or adding new features (making it better).</li>
+                    <li><strong>Adaptive:</strong> Modifying the system to work in a new environment (e.g., new OS).</li>
+                    <li><strong>Corrective:</strong> Fixing bugs and errors discovered after release.</li>
+                </ul>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Exam-Style Revision Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p><strong>Q1:</strong> A nuclear power plant is updating its safety control software. Justify why the <strong>Spiral Model</strong> is more appropriate than the <strong>Waterfall Model</strong>. [4 marks]</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p><strong>Q2:</strong> Explain two reasons why <strong>Parallel Running</strong> is often used by banks despite the high cost. [4 marks]</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p><strong>Q3:</strong> Describe the difference between <strong>Corrective</strong> and <strong>Adaptive</strong> maintenance. [4 marks]</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Quick Self-Check</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: Which TELOS component checks if the system complies with Data Protection laws?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Legal Feasibility.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Which implementation method is the riskiest?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Direct Changeover.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="/index.html#syllabus"><span class="nav-label">← Back to</span><span class="nav-title">Syllabus</span></a>
+                <a href="revision-databases.html"><span class="nav-label">Next →</span><span class="nav-title">Databases Revision</span></a>
+            </nav>
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

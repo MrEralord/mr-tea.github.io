@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Chatbots & API — mr. TEA</title>
+    <meta name="description"
+        content="Definition of chatbots, interaction methods, API meaning, and arguments for use. NIS Grade 12 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P4C0Y8SW2K');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.4 — Introduction to Chatbots</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-robot"></i> Unit 12.4 · Term 4</div>
+                <h1 class="lesson-title">Introduction to Chatbots &amp; API Configuration</h1>
+                <p class="lesson-intro">A chatbot (from "chat" + "robot") is a computer program that imitates human conversation using artificial intelligence (AI) and natural language processing (NLP) to understand user queries and respond automatically[cite: 7]. This lesson covers chatbot classifications, their business value, and the foundational role of APIs in connecting software.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.4.1</span> Define the types of chatbots</li>
+                    <li><span class="lo-code">12.6.4.2</span> Argue for the use of chatbots</li>
+                    <li><span class="lo-code">12.6.4.3</span> Explain the meaning of the API</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>12.4-intro-chatbots.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-history"></i> 1. The Evolution of Chatbots</h2>
+                <p class="concept-text">Chatbots have evolved significantly from simple rule-based scripts to advanced conversational AI.</p>
+                
+                <ul class="concept-list">
+                    <li><strong>1965:</strong> Eliza[cite: 203, 210].</li>
+                    <li><strong>1972:</strong> Parry[cite: 204, 211].</li>
+                    <li><strong>1988:</strong> Jabberwacky[cite: 205, 212].</li>
+                    <li><strong>1992:</strong> Dr. Sbaitso[cite: 206, 213].</li>
+                    <li><strong>1995:</strong> A.L.I.C.E[cite: 207, 214].</li>
+                    <li><strong>2001:</strong> SmarterChild[cite: 208, 216].</li>
+                    <li><strong>2010+:</strong> The Smartphone Age introduces Siri, Google Assistant, Alexa, and Cortana[cite: 209, 217, 218, 219, 220].</li>
+                </ul>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-project-diagram"></i> 2. Classification of Chatbots</h2>
+                <p class="concept-text">Chatbots are classified by their logic, interaction methods, and application areas.</p>
+
+                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+    <img src="/assets/images/lessons/rule-vs-ai-bot.jpg" width="600" style="height: auto;" alt="Flowchart comparing rule-based decision trees with AI-based NLP processing.">
+    <figcaption>Difference in logic between Rule-based (Decision Tree) and AI-based (NLP) chatbots.</figcaption>
+</figure>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">By Logic and Architecture</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Characteristics & Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Menu-based</strong></td>
+                            <td>Based on structured, clickable menu navigation[cite: 34].</td>
+                            <td>Operate on fixed decision trees. Suitable for simple, predictable tasks like pizza ordering[cite: 35, 36, 37].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Keyword-based</strong></td>
+                            <td>Respond based on user-entered keywords and natural language processing[cite: 44].</td>
+                            <td>More flexible than menus, enabling free-form user input and recognizing triggers[cite: 45, 46].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Skills Chatbots</strong></td>
+                            <td>Built around predefined software "skills"[cite: 39].</td>
+                            <td>Easily integrated with various platforms, like payment systems or booking services[cite: 41, 42].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hybrid Chatbots</strong></td>
+                            <td>Combines rule-based logic with AI elements[cite: 31].</td>
+                            <td>Handles standard queries via menus/rules, but can process complex text using AI.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">By Application Area</h3>
+                <ul class="concept-list">
+                    <li><strong>Messaging apps:</strong> Telegram, Viber, WhatsApp[cite: 26].</li>
+                    <li><strong>Websites:</strong> Embedded chat windows[cite: 27].</li>
+                    <li><strong>Telephone:</strong> Call centers, especially banks[cite: 28].</li>
+                    <li><strong>Devices:</strong> Smart speakers like Amazon Echo[cite: 30].</li>
+                </ul>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-comments-dollar"></i> 3. Arguing for the Use of Chatbots</h2>
+                
+                <div class="analogy-box">
+                    <h4><i class="fas fa-balance-scale"></i> Human vs. Bot Efficiency</h4>
+                    <p>A customer service employee needs to focus on one customer at a time to work well and meet the needs of their customers[cite: 233]. This does not apply to a chatbot that can answer hundreds of questions from different clients at the same time[cite: 234].</p>
+                </div>
+
+                <ul class="concept-list">
+                    <li><strong>24/7 Availability:</strong> Ensures constant communication between business and customers throughout the day[cite: 238, 239].</li>
+                    <li><strong>Budget Savings:</strong> The cost is much lower than the amount needed to pay, train, and maintain infrastructure for customer support staff[cite: 241, 242].</li>
+                    <li><strong>Consistency in Communication:</strong> Customers can expect to receive the same services from the chatbot every time they contact[cite: 236, 237].</li>
+                    <li><strong>Programmability:</strong> Chatbots can be programmed to automate common tasks (scheduling meetings, sending emails), allowing employees to focus on more important tasks[cite: 247, 248].</li>
+                    <li><strong>Ease of Deployment:</strong> Bots are a lot easier to install and distribute than mobile apps. Quality mobile apps are expensive to build, maintain, and deploy[cite: 222].</li>
+                </ul>
+            </section>
+
+            <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+    <img src="/assets/images/lessons/bot-concurrency.jpg" width="600" style="height: auto;" alt="Diagram showing a chatbot handling multiple user requests simultaneously compared to a human agent.">
+    <figcaption>Scalability: Chatbots can process hundreds of concurrent requests.</figcaption>
+</figure>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-plug"></i> 4. Understanding the API</h2>
+                
+                <p class="concept-text">API (Application Programming Interface) is a set of predefined tools and protocols used for software interaction between different programs and applications[cite: 48].</p>
+                
+                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800" width="600" style="height: auto; border-radius: 8px;" alt="API Code Concept">
+                    <figcaption>API acts as a language translator that helps different software tools understand each other[cite: 177].</figcaption>
+                </figure>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Key Features of an API</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ready-made tools</strong></td>
+                            <td>Allows quick creation of complex logic, e.g., using TensorFlow for neural networks[cite: 50]. Using API is like borrowing tools instead of buying them[cite: 180].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Enhanced security</strong></td>
+                            <td>Isolates sensitive functionality from misuse[cite: 51]. API acts as a guard, allowing only authorized programs to access sensitive information[cite: 178].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>System integration</strong></td>
+                            <td>Connects various systems (payments, logins)[cite: 52]. Works like a remote control, allowing different systems to work together smoothly[cite: 179].</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost reduction</strong></td>
+                            <td>Cheaper than developing functionality from scratch[cite: 53].</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-laptop-code"></i> 5. Technical Setup: PyCharm & Telegram API</h2>
+
+                <p class="concept-text">To create chatbots, we use Python and API[cite: 174]. Follow these steps to configure your environment.</p>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Step I: Obtain the API Token</h3>
+                <ul class="concept-list">
+                    <li>Open Telegram and find <strong>@BotFather</strong>[cite: 56].</li>
+                    <li>Enter command: <code>/newbot</code>[cite: 57].</li>
+                    <li>Create bot name and copy API token[cite: 58].</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Step II: Configure PyCharm</h3>
+                <ul class="concept-list">
+                    <li>Open PyCharm and create a new Python project.</li>
+                    <li>Open the command prompt and install the library: <code>pip install pyTelegramBotAPI</code>[cite: 59, 60, 61].</li>
+                </ul>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Step III: Write the Echo Bot Script</h3>
+                <div class="code-block"><code>import telebot
+
+# Replace with your actual token
+API_TOKEN = "your_API_token" 
+
+bot = telebot.TeleBot(API_TOKEN)
+
+# Decorator to handle incoming text messages
+@bot.message_handler(content_types=['text'])
+def echo(message):
+    bot.send_message(message.chat.id, text=f"{message.text}")
+
+# Starts the chatbot
+bot.polling(none_stop=True)</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Hardcoding API Tokens</h4>
+                    <p>Never share your API Token publicly. The API acts as a security guard; if someone copies your token, they gain full control over your bot.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Non-Standard Wording in Rule-Based Bots</h4>
+                    <p>If you use a non-standard wording, a rule-based chatbot will most likely "get confused" and will not respond[cite: 226]. Always design fallback messages for unexpected inputs.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Independent Practice</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p><strong>Polite echo bot:</strong> Modify the basic echo bot so that it responds with the message: "I received the message &lt;original message&gt;.".</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Compare menu-based chatbots with keyword-based chatbots. In what specific business scenario would a fixed decision tree be more effective than NLP?</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level evaluate">Evaluate</span>
+                        <p>Discuss the ethical implications of using Voice Bots that perfectly imitate human speech. Should systems be required to announce they are AI before interaction?</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level create">Create</span>
+                        <p><strong>Bot is a foreigner:</strong> Modify the bot so that it responds with "Hello!" if the user enters "Hello" in any case, otherwise print "I don't understand you".</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Plenary / Self-Check</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the primary difference between a menu-based bot and an AI-based bot?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Menu-based operates on fixed decision trees and clicks [cite: 34, 35], while AI-based uses natural language processing to understand complex language constructions[cite: 227].</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Name three arguments for implementing a chatbot in a business.</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">24/7 availability [cite: 238], budget savings [cite: 241], and consistency in communication[cite: 236].</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How do you obtain an API token for a Telegram bot?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">By finding @BotFather in Telegram and sending the /newbot command[cite: 56, 57].</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="#">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Unit 12.3: App Development</span>
+                </a>
+                <a href="#">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Handling Chat Events</span>
+                </a>
+            </nav>
+
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Chatbots: Keyboards & Booking Logic — mr. TEA</title>
+    <meta name="description"
+        content="Creating interactive menus with Reply and Inline keyboards, handling callback queries, state management, and building booking logic in Python.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P4C0Y8SW2K');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
+                <span>12.4 — Advanced Chatbots</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-calendar-check"></i> Unit 12.4 · Term 4</div>
+                <h1 class="lesson-title">Interactive Interfaces & Booking Systems</h1>
+                <p class="lesson-intro">Simple text responses are often insufficient for professional services. To create a bot for ordering or booking, we must master custom keyboards, callback queries, and state-based logic, allowing users to navigate through menus and submit data step-by-step.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">12.6.4.5</span> Implement complex decision trees using custom keyboards</li>
+                    <li><span class="lo-code">12.6.4.6</span> Process callback events and manage interaction states</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>chatbot_lesson_3.pptx · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-th"></i> 1. Telegram Keyboards: UI/UX Components</h2>
+                <p class="concept-text">There are two primary ways to provide users with options in Telegram. Choosing the right one is critical for the "User Experience" (UX).</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Reply Keyboard (Menu)</th>
+                            <th>Inline Keyboard (Buttons)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Location</strong></td>
+                            <td>Replaces the standard system keyboard at the bottom.</td>
+                            <td>Attached directly to a specific message.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Function</strong></td>
+                            <td>Sends a predefined text message to the chat when pressed.</td>
+                            <td>Triggers a "Callback Query" (hidden data sent to the server).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best use case</strong></td>
+                            <td>Main persistent menus (e.g., "Main Menu", "Settings", "Help").</td>
+                            <td>Dynamic choices (e.g., "Select Size: S/M/L", "Confirm Order", "Select Date").</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code"></i> 2. Modeling: Building a Booking Logic (Inline)</h2>
+                <p class="concept-text">A booking bot follows a <strong>Decision Tree</strong>. We use <code>types.InlineKeyboardMarkup</code> to let users select options and <code>callback_data</code> to process their choice without cluttering the chat with text messages.</p>
+
+                <div class="worked-example">
+                    <h4><i class="fas fa-terminal"></i> Live Code: Table Booking System</h4>
+                    <div class="code-block"><code>import telebot
+from telebot import types
+
+bot = telebot.TeleBot("YOUR_TOKEN")
+
+# 1. Main Menu with Reply Keyboard
+@bot.message_handler(commands=['start'])
+def main_menu(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("Order Coffee ☕")
+    btn2 = types.KeyboardButton("Book a Table 📅")
+    markup.add(btn1, btn2)
+    bot.send_message(message.chat.id, "Welcome to mr. TEA Cafe! How can I help you?", reply_markup=markup)
+
+# 2. Interactive Selection with Inline Buttons
+@bot.message_handler(func=lambda message: message.text == "Book a Table 📅")
+def choose_time(message):
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    # callback_data is what the bot "sees" behind the scenes (must be string < 64 bytes)
+    time1 = types.InlineKeyboardButton("18:00", callback_data="time_18")
+    time2 = types.InlineKeyboardButton("19:00", callback_data="time_19")
+    time3 = types.InlineKeyboardButton("20:00", callback_data="time_20")
+    markup.add(time1, time2, time3)
+    bot.send_message(message.chat.id, "Select your preferred time:", reply_markup=markup)
+
+# 3. Processing the Choice (Callback Query)
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    if call.data.startswith("time_"):
+        selected_time = call.data.split("_")[1]
+        
+        # Edit the original message to show confirmation
+        bot.edit_message_text(chat_id=call.message.chat.id, 
+                              message_id=call.message.message_id, 
+                              text=f"✅ Done! Table booked for {selected_time}:00. See you soon!")
+        
+        # Answer the callback to remove the "loading" icon on the button
+        bot.answer_callback_query(call.id, "Booking Confirmed!")
+
+bot.polling(none_stop=True)</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-sitemap"></i> 3. Structural Complexity: State Management</h2>
+                <p class="concept-text">In a real ordering system (like a pizza delivery or event registration), clicking a button isn't enough. You need the user's typed input, such as their name, phone number, or address. We achieve this using <strong>State Management</strong> and the <code>register_next_step_handler</code> function.</p>
+                
+                <div class="analogy-box">
+                    <h4><i class="fas fa-brain"></i> Context Awareness</h4>
+                    <p>If a user sends the text "Alex", the bot needs to know if that is a name for a booking, an answer to a security question, or just random text. Without "States", the bot has no memory of the conversation history.</p>
+                </div>
+
+                <div class="worked-example">
+                    <h4><i class="fas fa-keyboard"></i> Live Code: Multi-step Data Collection</h4>
+                    <p>This method forces the bot to "wait" and direct the user's next message to a specific function.</p>
+                    <div class="code-block"><code># Global dictionary to act as a temporary database for user states
+user_data = {}
+
+@bot.message_handler(func=lambda message: message.text == "Order Coffee ☕")
+def start_order(message):
+    chat_id = message.chat.id
+    user_data[chat_id] = {} # Initialize empty dict for this user
+    
+    msg = bot.send_message(chat_id, "Great! Please type your Name:")
+    # Directs the next message from this user to the 'process_name' function
+    bot.register_next_step_handler(msg, process_name)
+
+def process_name(message):
+    chat_id = message.chat.id
+    user_data[chat_id]['name'] = message.text # Save name
+    
+    msg = bot.send_message(chat_id, "Nice to meet you! What is your phone number?")
+    bot.register_next_step_handler(msg, process_phone)
+
+def process_phone(message):
+    chat_id = message.chat.id
+    user_data[chat_id]['phone'] = message.text # Save phone
+    
+    # Final confirmation using the collected data
+    name = user_data[chat_id]['name']
+    phone = user_data[chat_id]['phone']
+    bot.send_message(chat_id, f"🧾 Order Profile Complete!\nName: {name}\nPhone: {phone}")
+</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-circle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Callback Data Size Limits</h4>
+                    <p>Telegram limits <code>callback_data</code> to <strong>64 bytes</strong>. Avoid sending long sentences inside buttons; use short codes like <code>"id_102"</code> or <code>"chk_val"</code> and expand them in your Python code logic.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Blocking Operations</h4>
+                    <p>If your bot needs to check a slow external database, use <code>bot.answer_callback_query(call.id, "Processing...")</code> immediately. Otherwise, the button will stay in a "spinning" state and the user might press it multiple times causing duplicate bookings.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-laptop-code"></i> Practical Lab: Independent Projects</h2>
+                <p class="concept-text">Choose one of the advanced projects below to build and demonstrate in PyCharm.</p>
+
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level create">Project 1: "Startup NIS" Registration Bot</span>
+                        <p><strong>Goal:</strong> Build a multi-step registration bot for a school event.
+                        <br>1. Create a <strong>Main Menu</strong> (Reply Keyboard) with: "Registration" and "Schedule".
+                        <br>2. When "Schedule" is clicked, use <strong>Inline Buttons</strong> for "Day 1" and "Day 2".
+                        <br>3. When "Registration" is clicked, use <code>register_next_step_handler</code> to collect: <em>Full Name</em>, <em>Grade</em>, and <em>Track (Robotics/Web/AI)</em>. Print a final confirmation ticket.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Project 2: Multilingual Bot</span>
+                        <p><strong>Goal:</strong> Write code where the bot, upon receiving a "Thank you" message, can respond in the user's selected language. Use a Reply Menu at the start of the chat to allow the user to select their preferred language (Russian, Kazakh, or English).</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Project 3: External API Weather Bot</span>
+                        <p><strong>Goal:</strong> Create a chatbot that asks the user for a city name (using <code>register_next_step_handler</code>). Then, connect to <code>api.openweathermap.org</code> using the <code>requests</code> library to fetch and reply with the real-time temperature.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Self-Check</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: Which method should you use to update an existing message with buttons instead of sending a new one?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>bot.edit_message_text()</code></div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Why must we use bot.register_next_step_handler when asking a user for their name?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Chatbots are asynchronous. Without it, the bot will treat the user's next message as a standard command rather than the specific answer to the name question.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: What is the purpose of bot.answer_callback_query()?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To signal Telegram that the inline button press was successfully handled by the server and stop the "loading" animation on the user's screen.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="chatbot-events.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Events & Keywords</span>
+                </a>
+                <a href="#">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Unit 12.4 Assessment</span>
+                </a>
+            </nav>
+
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

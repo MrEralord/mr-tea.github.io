@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inheritance & Polymorphism — mr. TEA</title>
+    <meta name="description"
+        content="Python OOP: Inheritance and Polymorphism. Creating subclasses, overriding methods. NIS Grade 11 Programming 11.4.2.1, 11.4.2.2.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.4A — Inheritance & Polymorphism</span>
+            </nav>
+
+           <div class="lesson-header">
+    <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+    <h1 class="lesson-title">OOP Pillars: Inheritance, Polymorphism & Encapsulation</h1>
+    <p class="lesson-intro"><strong>Inheritance</strong> lets a class reuse and extend another class. <strong>Polymorphism</strong> lets the same method name behave differently across objects. <strong>Encapsulation</strong> groups data with the methods that protect and control it, improving reliability and reducing accidental misuse.</p>
+</div>
+
+<div class="lesson-lo-card">
+    <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+    <ul class="lesson-lo-list">
+        <li><span class="lo-code">11.4.2.2</span> Explain the concept of inheritance with examples</li>
+        <li><span class="lo-code">11.4.2.1</span> Explain the concept of polymorphism with examples</li>
+        <li><span class="lo-code">11.4.2.x</span> Explain the concept of encapsulation with examples</li>
+    </ul>
+</div>
+
+<section class="lesson-section">
+    <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+    <div class="analogy-box">
+        <h4><i class="fas fa-sitemap"></i> The Family Tree Analogy</h4>
+        <p><strong>Inheritance:</strong> A child inherits traits from a parent, but can also add new traits or change inherited ones. <strong>Polymorphism:</strong> Different family members may respond to the same request in different ways, even though the request is the same. <strong>Encapsulation:</strong> A family may share an address and surname, but private details are kept within the household and accessed through trusted rules.</p>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+    <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Inheritance</h3>
+    <p>In Cambridge terminology, the <strong>base class</strong>, <strong>parent class</strong>, or <strong>superclass</strong> is the existing class being extended. The <strong>derived class</strong>, <strong>child class</strong>, or <strong>subclass</strong> is the new class that inherits features from it.</p>
+    <p>Inheritance is used when the relationship is <em>is-a</em>, for example a <code>Car</code> is a <code>Vehicle</code>. The subclass automatically receives accessible attributes and methods from the superclass, and it can add extra features or override inherited methods.</p>
+    <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+        <img src="/assets/images/lessons/inheritance_hierarchy.jpg" width="600" style="height: auto;" alt="Transport Class Hierarchy Diagram showing 'is-a' relationship">
+        <figcaption>Figure 1: Class hierarchy demonstrating the "is-a" relationship</figcaption>
+    </figure>
+    <div class="code-block"><code>class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def eat(self):
+        print(f"{self.name} is eating.")
+
+class Dog(Animal):
+    def bark(self):
+        print("Woof!")
+
+d = Dog("Buddy")
+d.eat()
+d.bark()</code></div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-info-circle"></i> <code>super()</code></h4>
+        <p>Use <code>super().__init__()</code> inside a child class to call the parent constructor. This is important when the parent class sets up shared state that all subclasses need.</p>
+    </div>
+
+    <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Polymorphism</h3>
+    <p>Polymorphism means one interface can be used with many object types. In Python, the most common form in AS/A Level code is <strong>run-time polymorphism</strong> through method overriding and duck typing: if an object has the required method, it can be used.</p>
+    <p><strong>Compile-time polymorphism</strong> refers to method overloading in some languages, where multiple methods have the same name but different parameter lists. Python does not support traditional compile-time overloading in the same way; instead, it usually uses default parameters, variable-length arguments, or different method names.</p>
+    <p><strong>Run-time polymorphism</strong> occurs when a subclass provides its own version of a method from the parent class. Python decides which version to run at execution time, based on the actual object.</p>
+    <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+        <img src="/assets/images/lessons/polymorphism_shapes.jpg" width="500" style="height: auto;" alt="Polymorphism with geometric shapes">
+        <figcaption>Figure 2: Different objects can share one interface and respond differently</figcaption>
+    </figure>
+    <div class="code-block"><code>class Cat(Animal):
+    def speak(self):
+        return "Meow"
+
+class Dog(Animal):
+    def speak(self):
+        return "Woof"
+
+animals = [Cat("Kitty"), Dog("Buddy"), Cat("Luna")]
+for animal in animals:
+    print(f"{animal.name} says {animal.speak()}")</code></div>
+
+    <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Encapsulation</h3>
+    <p>Encapsulation means hiding an object's internal data and forcing access through methods. In Python, attributes with no underscore are public, a single underscore such as <code>_balance</code> is a protected convention meaning "internal use", and a double underscore such as <code>__balance</code> triggers name mangling to make direct access less likely.</p>
+    <p>Name mangling changes <code>__balance</code> inside the class to a form like <code>_BankAccount__balance</code>. This is not true security, but it reduces accidental access and helps enforce a class interface. Good design uses getters and setters, or the <code>@property</code> decorator, to control reading and updating values safely.</p>
+    <div class="code-block"><code>class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.__balance = balance
+
+    @property
+    def balance(self):
+        return self.__balance
+
+    def deposit(self, amount):
+        if amount &gt; 0:
+            self.__balance += amount
+
+    def withdraw(self, amount):
+        if 0 &lt; amount &lt;= self.__balance:
+            self.__balance -= amount
+
+acc = BankAccount("Amina", 100)
+acc.deposit(50)
+acc.withdraw(30)
+print(acc.balance)</code></div>
+</section>
+
+<section class="lesson-section">
+    <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+    <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+        <iframe width="700" height="394" src="https://www.youtube.com/embed/zw9i6q_GzN0" title="Python OOP Tutorial: Classes and Objects Explained for Beginners" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border: 1px solid var(--border-color); border-radius: 8px;"></iframe>
+        <figcaption>Video 1: Python OOP – Classes and Objects Explained for Beginners</figcaption>
+    </figure>
+    <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+        <iframe width="700" height="394" src="https://www.youtube.com/embed/RMIoC_XJs_I" title="Python Inheritance and Polymorphism Explained" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border: 1px solid var(--border-color); border-radius: 8px;"></iframe>
+        <figcaption>Video 2: Python Inheritance and Polymorphism Explained</figcaption>
+    </figure>
+
+    <div class="worked-example">
+        <h4><span class="step-num">1</span> Shapes Hierarchy</h4>
+        <div class="code-block"><code>import math
+
+class Shape:
+    def area(self):
+        pass
+
+class Rectangle(Shape):
+    def __init__(self, w, h):
+        self.w = w
+        self.h = h
+
+    def area(self):
+        return self.w * self.h
+
+class Circle(Shape):
+    def __init__(self, r):
+        self.r = r
+
+    def area(self):
+        return math.pi * self.r ** 2
+
+shapes = [Rectangle(10, 5), Circle(7)]
+for s in shapes:
+    print(f"Area: {s.area():.2f}")</code></div>
+    </div>
+
+    <div class="worked-example">
+        <h4><span class="step-num">2</span> Game Characters</h4>
+        <div class="code-block"><code>class Character:
+    def __init__(self, name):
+        self.name = name
+        self.health = 100
+
+    def attack(self):
+        print("Basic attack!")
+
+class Warrior(Character):
+    def attack(self):
+        print(f"{self.name} swings a sword!")
+
+class Mage(Character):
+    def attack(self):
+        print(f"{self.name} casts a fireball!")
+
+hero = Warrior("Arthur")
+wizard = Mage("Merlin")
+hero.attack()
+wizard.attack()</code></div>
+    </div>
+
+    <div class="worked-example">
+        <h4><span class="step-num">3</span> Bank Account Encapsulation</h4>
+        <div class="code-block"><code>class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.__balance = balance
+
+    def get_balance(self):
+        return self.__balance
+
+    def deposit(self, amount):
+        if amount &gt; 0:
+            self.__balance += amount
+
+    def withdraw(self, amount):
+        if 0 &lt;= amount &lt;= self.__balance:
+            self.__balance -= amount
+
+acct = BankAccount("Noah", 200)
+acct.withdraw(50)
+print(acct.get_balance())</code></div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common Errors</h2>
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Overriding Mistakes</h4>
+        <p>If you misspell an overridden method name, Python treats it as a new method. The parent method will still run when the object is used polymorphically.</p>
+    </div>
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Forgetting <code>super().__init__</code></h4>
+        <p>If a child class defines its own <code>__init__</code>, it does not automatically call the parent constructor. You must call it manually or inherited attributes may not exist.</p>
+    </div>
+    <div class="pitfall-box">
+        <h4><i class="fas fa-times-circle"></i> Type Checking vs Polymorphism</h4>
+        <p>Using <code>isinstance()</code> or long <code>if/elif</code> chains before calling methods weakens polymorphism. Prefer a shared interface and let each object decide its own behaviour.</p>
+    </div>
+    <div class="pitfall-box">
+        <h4><i class="fas fa-lock"></i> Encapsulation Misconceptions</h4>
+        <p>Do not assume <code>__</code> makes data truly secure. Name mangling only discourages direct access; it does not encrypt the value. Also avoid reading or changing attributes directly when getter and setter methods are provided, because that bypasses validation and can break class rules.</p>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+    <div class="assessment-tasks">
+        <div class="task-item"><span class="task-level remember">Remember</span>
+            <p>Describe the purpose of encapsulation. [2 marks]</p>
+        </div>
+        <div class="task-item"><span class="task-level understand">Understand</span>
+            <p>State the difference between a superclass and a subclass, using Cambridge terminology. [2 marks]</p>
+        </div>
+        <div class="task-item"><span class="task-level apply">Apply</span>
+            <p>Trace the output of a program that creates a parent class and two subclasses that override the same method. Explain why each output line is different. [4 marks]</p>
+        </div>
+        <div class="task-item"><span class="task-level create">Create</span>
+            <p>Design a <code>BankAccount</code> class for a school savings system. Include an encapsulated balance, deposit and withdraw methods, and explain why direct access to the balance should be avoided. [6 marks]</p>
+        </div>
+    </div>
+</section>
+
+            <nav class="lesson-nav">
+                <a href="classes-objects.html"><i class="fas fa-arrow-left"></i>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Classes & Objects</span></div>
+                </a>
+                <a href="oop-problems.html">
+                    <div><span class="nav-label">Next Lesson</span><span class="nav-title">Applied OOP Problems</span>
+                    </div><i class="fas fa-arrow-right"></i>
+                </a>
+            </nav>
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+</body>
+
+</html>

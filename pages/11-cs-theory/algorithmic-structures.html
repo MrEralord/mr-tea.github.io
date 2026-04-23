@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithmic Structures & PHP — mr. TEA</title>
+    <meta name="description"
+        content="Sequential, branching, and loop structures in pseudocode and C++. PHP project development and database connection. NIS Grade 11 CS.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P4C0Y8SW2K');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.4A — Algorithmic Structures & PHP</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Basic Algorithmic Structures & System Programming (PHP)</h1>
+                <p class="lesson-intro">Every algorithm is built from three fundamental structures: sequence, selection, and iteration. We will first review these in Pseudocode and C++, and then apply them in PHP to build a database-connected project.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.3.9</span> Describe and apply the sequential structure</li>
+                    <li><span class="lo-code">11.5.3.10</span> Describe and apply the branching structure</li>
+                    <li><span class="lo-code">11.5.3.11</span> Describe and apply the loop structure</li>
+                    <li><span class="lo-code">PHP.1</span> Write a program code using algorithmic structures in PHP</li>
+                    <li><span class="lo-code">PHP.2</span> Connect a PHP application to a database for data storage</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentations</h4>
+                    <p>11.4A-algorithmic-structures.pdf & php (1).pptx · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="/assets/pdf/algorithmic-structures.pdf" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="/assets/pdf/algorithmic-structures.pdf" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-route"></i> The Recipe Analogy</h4>
+                    <p>Think of an algorithm as a cooking recipe. A <strong>sequence</strong> is doing steps in order (chop, mix, cook). A <strong>branch</strong> is a decision: "If the sauce is too thick, add water." A <strong>loop</strong> is repetition: "Stir every 2 minutes until golden." Every recipe — and every algorithm — uses combinations of these three structures.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="video-container" style="margin-bottom: var(--space-xl);">
+                    <h2 class="lesson-section-title"><i class="fab fa-youtube" style="color: #FF0000;"></i> Programming Constructs (Craig'n'Dave)</h2>
+                    <p class="concept-text">A clear, A-Level standard explanation of Sequence, Selection, Iteration, and Nested Structures from Craig'n'Dave.</p>
+                    <div class="iframe-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+                                src="https://www.youtube.com/embed/9hxCspfuviE" 
+                                title="YouTube video player" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory: Pseudocode & C++</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Sequential Structure</h3>
+                <p class="concept-text">Statements are executed <strong>one after another</strong>, in the order they appear. There are no decisions or repetitions — just straight-line execution.</p>
+
+                <div class="lesson-media-placeholder" style="border: none; background: transparent; padding: 0;">
+                    <img src="/assets/images/lessons/sequence.jpg" alt="Sequence Flowchart" style="max-width: 100%; height: auto; max-height: 400px; border-radius: 8px; display: block; margin: 0 auto;">
+                    <div class="img-caption" style="text-align: center; margin-top: 10px;">Fig 1. Flowchart representation of a Sequence</div>
+                </div>
+
+                <p class="concept-text"><strong>Pseudocode:</strong></p>
+                <div class="code-block"><code>INPUT radius
+area ← 3.14159 * radius * radius
+OUTPUT "Area = ", area</code></div>
+
+                <p class="concept-text"><strong>C++:</strong></p>
+                <div class="code-block"><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double radius;
+    cout &lt;&lt; "Enter radius: ";
+    cin &gt;&gt; radius;
+    double area = 3.14159 * radius * radius;
+    cout &lt;&lt; "Area = " &lt;&lt; area &lt;&lt; endl;
+    return 0;
+}</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2. Branching Structure (Selection)</h3>
+                <p class="concept-text">The program makes a <strong>decision</strong> based on a condition. If the condition is TRUE, one path is taken; otherwise, an alternative path is followed.</p>
+
+                <div class="lesson-media-placeholder" style="border: none; background: transparent; padding: 0;">
+                    <img src="/assets/images/lessons/condition.jpg" alt="Branching Flowchart" style="max-width: 100%; height: auto; max-height: 400px; border-radius: 8px; display: block; margin: 0 auto;">
+                    <div class="img-caption" style="text-align: center; margin-top: 10px;">Fig 2. Flowchart representation of Branching (Selection)</div>
+                </div>
+
+                <p class="concept-text"><strong>Pseudocode (IF/ELSE):</strong></p>
+                <div class="code-block"><code>INPUT mark
+IF mark &gt;= 50 THEN
+    OUTPUT "Pass"
+ELSE
+    OUTPUT "Fail"
+ENDIF</code></div>
+
+                <p class="concept-text"><strong>C++ (switch):</strong></p>
+                <div class="code-block"><code>char grade;
+cin &gt;&gt; grade;
+switch (grade) {
+    case 'A': cout &lt;&lt; "Excellent"; break;
+    case 'B': cout &lt;&lt; "Good";      break;
+    case 'C': cout &lt;&lt; "Satisfactory"; break;
+    default:  cout &lt;&lt; "Below standard";
+}</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">3. Loop Structure (Iteration)</h3>
+                <p class="concept-text">A group of statements is <strong>repeated</strong> while a condition is met (or a fixed number of times).</p>
+
+                <div class="lesson-media-placeholder" style="border: none; background: transparent; padding: 0;">
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <img src="/assets/images/lessons/while.jpg" alt="Pre-condition Loop Flowchart" style="max-width: 100%; height: auto; max-height: 350px; border-radius: 8px;">
+                            <div class="img-caption" style="margin-top: 5px; font-weight: bold;">Pre-condition (WHILE)</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="/assets/images/lessons/do_while.jpg" alt="Post-condition Loop Flowchart" style="max-width: 100%; height: auto; max-height: 350px; border-radius: 8px;">
+                            <div class="img-caption" style="margin-top: 5px; font-weight: bold;">Post-condition (REPEAT/UNTIL)</div>
+                        </div>
+                    </div>
+                    <div class="img-caption" style="text-align: center; margin-top: 15px;">Fig 3. Control flow in Pre-condition vs Post-condition loops</div>
+                </div>
+
+                <p class="concept-text"><strong>FOR loop — Pseudocode:</strong></p>
+                <div class="code-block"><code>FOR i ← 1 TO 5
+    OUTPUT i
+NEXT i</code></div>
+
+                <p class="concept-text"><strong>WHILE loop — Pseudocode:</strong></p>
+                <div class="code-block"><code>total ← 0
+INPUT num
+WHILE num &lt;&gt; -1
+    total ← total + num
+    INPUT num
+ENDWHILE
+OUTPUT "Total = ", total</code></div>
+            </section>
+
+            <section class="lesson-section" style="text-align: center; margin-bottom: var(--space-xl);">
+                <div class="lesson-media-placeholder" style="border: none; background: transparent; padding: 0;">
+                    <img src="/assets/images/lessons/algorithmic-structures.jpg" alt="Algorithmic Structures Overview: Sequence, Selection, Iteration" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: block; margin: 0 auto;">
+                </div>
+            </section>           
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples (Trace Tables)</h2>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Tracing a Loop</h4>
+                    <div class="code-block"><code>a ← 10
+b ← 3
+WHILE a > 0
+    a ← a - b
+    OUTPUT a
+ENDWHILE</code></div>
+                    <div style="overflow-x: auto; margin: var(--space-md) 0;">
+                        <table class="theory-table" style="width: 100%; text-align: center;">
+                            <thead>
+                                <tr><th>a</th><th>b</th><th>a > 0</th><th>OUTPUT</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>10</td><td>3</td><td>TRUE</td><td></td></tr>
+                                <tr><td>7</td><td></td><td>TRUE</td><td>7</td></tr>
+                                <tr><td>4</td><td></td><td>TRUE</td><td>4</td></tr>
+                                <tr><td>1</td><td></td><td>TRUE</td><td>1</td></tr>
+                                <tr><td>-2</td><td></td><td>FALSE</td><td>-2</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="video-container" style="margin-top: var(--space-lg);">
+                    <h4><i class="fab fa-youtube" style="color: red;"></i> Code Execution & Trace Tables Visualization</h4>
+                    <div class="iframe-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+                                src="https://www.youtube.com/embed/-7_kyY88Y9Y" 
+                                title="YouTube video player" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-project-diagram"></i> Term Project: School Student Registration System</h2>
+                
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Criteria</th>
+                            <th>Detailed Description</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Core Functionality (PHP-Based)</td>
+                            <td>Fully working PHP system: form handling, data storage (file/MySQL), navigation, and validation.</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Sequential Structure (PHP Logic)</td>
+                            <td>Clear multi-step processing in PHP (input &rarr; sanitization &rarr; validation &rarr; storage &rarr; output). Well-commented.</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Conditional Statements</td>
+                            <td>Effective use of if/else, elseif, or switch. Includes input validation, error handling, and branching logic.</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>Nested Conditional Statements</td>
+                            <td>Use of nested if/else for complex validation (e.g., checking multiple conditions, duplicate IDs, etc.).</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Loops (Iteration)</td>
+                            <td>Use of loops (while, for, foreach) to process or display multiple records dynamically.</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Nested Loops</td>
+                            <td>Advanced use of nested loops (e.g., table generation, multi-dimensional data handling).</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>Code Quality & PHP Practices</td>
+                            <td>Readable PHP code, proper structure, meaningful variables, comments explaining algorithmic logic.</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>User Interface & Experience</td>
+                            <td>Clean layout, easy navigation, clear feedback messages.</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Documentation (Algorithm Focused)</td>
+                            <td>Clear explanation of where each structure is used (sequential, loops, conditionals, nested). Screenshots included.</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>Creativity & Advanced Features (Bonus)</td>
+                            <td>Search/filter, edit/delete, login system, or database integration.</td>
+                            <td>1</td>
+                        </tr>
+                        <tr style="font-weight:bold; background-color:var(--surface-2);">
+                            <td colspan="2" style="text-align:right;">Total Marks:</td>
+                            <td>12</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fab fa-php"></i> Project Prep: Algorithmic Structures in PHP & Database</h2>
+                
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. PHP Variables & Syntax</h3>
+                <div class="code-block"><code>&lt;?php
+$name = "John"; // String
+$age = 20;      // Integer
+echo "Student: " . $name;
+?&gt;</code></div>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">2. Branching & Nested Conditionals (For Validation)</h3>
+                <p class="concept-text">This helps you score marks in <em>Conditional Statements</em> and <em>Nested Conditional Statements</em>.</p>
+                <div class="code-block"><code>&lt;?php
+$score = 85;
+$hasID = true;
+
+// Nested Conditional Statement
+if ($hasID == true) {
+    if ($score &gt;= 90) {
+        echo "A";
+    } elseif ($score &gt;= 70) {
+        echo "B";
+    } else {
+        echo "C";
+    }
+} else {
+    echo "Error: No ID found.";
+}
+?&gt;</code></div>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">3. Loops & Nested Loops (For HTML Tables)</h3>
+                <p class="concept-text">This helps you score marks in <em>Loops</em> and <em>Nested Loops</em>.</p>
+                <div class="code-block"><code>&lt;?php
+// Nested loops to generate a grid/table
+echo "&lt;table border='1'&gt;";
+for ($row = 1; $row &lt;= 3; $row++) {
+    echo "&lt;tr&gt;";
+    for ($col = 1; $col &lt;= 2; $col++) {
+        echo "&lt;td&gt;Row $row, Col $col&lt;/td&gt;";
+    }
+    echo "&lt;/tr&gt;";
+}
+echo "&lt;/table&gt;";
+?&gt;</code></div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">4. Core Functionality: HTML Forms & Database Connection (MySQL)</h3>
+                <p class="concept-text"><strong>Form Handling:</strong> Data sent from an HTML form using <code>method="POST"</code> is retrieved using the <code>$_POST</code> array.</p>
+                <p class="concept-text"><strong>Database Connection:</strong> Use <code>mysqli_connect()</code> to store your form data permanently into a MySQL database.</p>
+                
+                <div class="code-block"><code>&lt;!-- 1. HTML Form --&gt;
+&lt;form method="POST" action=""&gt;
+    Name: &lt;input type="text" name="studentName" required&gt;
+    &lt;input type="submit" value="Register"&gt;
+&lt;/form&gt;
+
+&lt;?php
+// 2. PHP Sequential Processing & Database Connection
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // Step A: Sanitization
+    $name = $_POST['studentName'];
+    
+    // Step B: Database Connection Details
+    $host = "localhost";
+    $user = "root";
+    $pass = "";
+    $dbname = "school_db";
+    
+    // Step C: Connect
+    $conn = mysqli_connect($host, $user, $pass, $dbname);
+    
+    // Step D: Nested Conditional Validation
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    } else {
+        if (!empty($name)) {
+            // Step E: Insert Query
+            $sql = "INSERT INTO students (name) VALUES ('$name')";
+            if (mysqli_query($conn, $sql)) {
+                echo "New record created successfully";
+            }
+        } else {
+            echo "Name cannot be empty";
+        }
+    }
+    // Step F: Close Connection
+    mysqli_close($conn);
+}
+?&gt;</code></div>
+                <div class="note-box">
+                    <h4><i class="fas fa-info-circle"></i> Project Tip</h4>
+                    <p>To get maximum marks, ensure you clearly comment your code. Label where you are using <strong>Sequential</strong>, <strong>Selection</strong>, and <strong>Iteration</strong> so the examiner can see you hit the rubric criteria.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>Name the three basic algorithmic structures and describe how the <code>$_POST</code> method retrieves data.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Write a PHP script to connect to a database named "library_db" and display an error message if the connection fails using an IF statement.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>A student wrote: <code>FOR i ← 1 TO 10 ... NEXT i</code> but inside the loop also has <code>i ← i + 1</code>. Trace the execution and explain what goes wrong.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level create">Create (Project Start)</span>
+                        <p>Set up your local server (XAMPP/MAMP). Create your HTML Registration Form and establish a blank PHP file that successfully connects to your local database.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: Which flowchart shape represents a decision?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Diamond (rhombus)</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: Which PHP function is used to establish a connection to a MySQL database?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>mysqli_connect()</code></div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: Fix the error in the following PHP code: <code>echo "Hello"</code></p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Missing semicolon at the end: <code>echo "Hello";</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section" style="background: var(--surface-2); padding: var(--space-md); border-radius: 8px;">
+                <h2 class="lesson-section-title" style="margin-bottom: var(--space-sm);"><i class="fas fa-comment-dots"></i> Reflection & Homework</h2>
+                <p><strong>Reflection:</strong> What did you learn today? What aspect of the project rubric seems the most challenging?</p>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="sorting-algorithms.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Sorting Algorithms</span>
+                </a>
+                <a href="validation-verification.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Validation & Verification</span>
+                </a>
+            </nav>
+
+        </div>
+        </div>
+    </main>
+  </div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
