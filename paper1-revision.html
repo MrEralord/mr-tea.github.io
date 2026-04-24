@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component 1: Theory Fundamentals — Revision Guide by Mr. Tleudin</title>
+    <meta name="description" content="Ultimate Revision Guide for NIS Grade 12 Computer Science Component 1. Prepared by Yerassyl Tleudin.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <style>
+        /* Custom styles for the Mega-Page TOC */
+        .mega-toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .mega-toc h3 { margin-bottom: var(--space-md); color: var(--clr-tea); }
+        .mega-toc ul { list-style: none; padding: 0; }
+        .mega-toc li { margin-bottom: var(--space-sm); }
+        .mega-toc a { font-weight: 600; color: var(--text-secondary); display: block; padding: 4px 8px; border-radius: 4px; transition: all 0.2s; }
+        .mega-toc a:hover { background: rgba(13, 148, 136, 0.1); color: var(--clr-tea); }
+        .math-block { font-family: var(--font-code); background: var(--bg-code); padding: 10px; border-radius: 6px; display: inline-block; letter-spacing: 1px;}
+    </style>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+        <div class="mobile-header">
+            <div class="header-left">
+                <a href="/" class="logo" style="margin-left: 15px;">
+                    <i class="fas fa-graduation-cap logo-icon"></i>
+                    <span class="logo-text">mr. TEA | Revision</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="lesson-page">
+            <div class="lesson-container" style="max-width: 1000px;">
+
+                <div class="hero" style="padding: var(--space-xl) 0; text-align: left;">
+                    <div class="hero-badge"><i class="fas fa-star"></i> Grade 12 · AS/A Level Standard</div>
+                    <h1 style="font-size: 2.8rem; margin-bottom: 10px;">Component 1: Theory Fundamentals</h1>
+                    <p class="hero-subtitle" style="margin: 0; text-align: left;">Comprehensive Revision Guide covering Data Representation, Information Security, Networks, and Internet Protocols. Prepared by <strong>Yerassyl Tleudin</strong>.</p>
+                </div>
+
+                <nav class="mega-toc">
+                    <h3><i class="fas fa-list-ul"></i> Quick Navigation</h3>
+                    <ul>
+                        <li><a href="#data-rep"><i class="fas fa-microchip"></i> Module 1: Data Representation</a></li>
+                        <li><a href="#info-sec" style="color: var(--text-muted);"><i class="fas fa-shield-alt"></i> Module 2: Information Security (Coming in Part 2)</a></li>
+                        <li><a href="#networks" style="color: var(--text-muted);"><i class="fas fa-network-wired"></i> Module 3: Computer Networks (Coming in Part 3)</a></li>
+                        <li><a href="#internet" style="color: var(--text-muted);"><i class="fas fa-globe"></i> Module 4: Internet & Protocols (Coming in Part 4)</a></li>
+                    </ul>
+                </nav>
+
+                <section id="data-rep" class="lesson-section" style="border-top: 3px solid var(--clr-tea); padding-top: var(--space-xl);">
+                    <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Section 1.1</div>
+                    <h2 class="lesson-title" style="font-size: 2.2rem;">Data Representation</h2>
+                    <p class="lesson-intro">At the lowest level, all computer data is represented as binary (1s and 0s). Understanding how to convert, manipulate, and structure these bits is fundamental to computer science.</p>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-calculator"></i> 1. Number Systems & Conversion</h2>
+                    
+                    <div class="theory-table-wrapper">
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>System</th>
+                                    <th>Base</th>
+                                    <th>Symbols</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Denary (Decimal)</strong></td>
+                                    <td>Base-10</td>
+                                    <td>0-9</td>
+                                    <td><span class="math-block">183</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Binary</strong></td>
+                                    <td>Base-2</td>
+                                    <td>0, 1</td>
+                                    <td><span class="math-block">10110111</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hexadecimal</strong></td>
+                                    <td>Base-16</td>
+                                    <td>0-9, A-F</td>
+                                    <td><span class="math-block">B7</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Octal</strong></td>
+                                    <td>Base-8</td>
+                                    <td>0-7</td>
+                                    <td><span class="math-block">267</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="note-box">
+                        <h4><i class="fas fa-check-circle"></i> Advantages of Hexadecimal</h4>
+                        <ul>
+                            <li><strong>Shorter representation:</strong> One hex digit represents exactly 4 binary bits (a nibble).</li>
+                            <li><strong>Human readability:</strong> Simpler and faster for programmers to read, write, and debug compared to long binary strings.</li>
+                            <li><strong>Less error-prone:</strong> Fewer characters mean fewer chances of making a transcription error.</li>
+                            <li><em>Note: Hexadecimal does NOT take up less memory or execute faster than binary. The CPU still processes everything in binary.</em></li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="lesson-video-info">
+                                <h4>Number System Conversions</h4>
+                                <p>Insert YouTube Video Here (Binary, Hex, Octal)</p>
+                            </div>
+                        </div>
+                        <div class="lesson-video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/PLACEHOLDER" title="Number Conversions" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-plus"></i> 2. Binary Arithmetic</h2>
+                    <p class="concept-text">You must be able to perform addition and multiplication on 8-bit binary numbers. Always watch out for an <strong>overflow error</strong> (when the result exceeds 8 bits).</p>
+
+                    <div class="worked-example">
+                        <h4><span class="step-num">!</span> Worked Example: Binary Addition (from 2025 NIS Past Paper)</h4>
+                        <p><strong>Add:</strong> 10101010 + 10111001</p>
+                        <div class="code-block"><code>  10101010
++ 10111001
+----------
+(1)01100011  <-- The 9th bit (1) is the overflow bit.</code></div>
+                        <p><em>Exam Tip:</em> If asked for an 8-bit format answer, state the 8 bits (01100011) and explicitly mention that an overflow error occurred.</p>
+                    </div>
+
+                    <div class="worked-example">
+                        <h4><span class="step-num">!</span> Worked Example: Binary Multiplication</h4>
+                        <p><strong>Multiply:</strong> 1111 * 111</p>
+                        <div class="code-block"><code>       1111
+     x  111
+     ------
+       1111   (1111 * 1)
+      11110   (1111 * 10)
++    111100   (1111 * 100)
+-----------
+    1101001</code></div>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-exchange-alt"></i> 3. Two's Complement & Subtraction</h2>
+                    <p class="concept-text">Computers use Two's Complement to represent negative integers. The Most Significant Bit (MSB) becomes a negative value (e.g., in 8-bit, the MSB is -128 instead of +128).</p>
+
+                    <div class="analogy-box">
+                        <h4><i class="fas fa-wrench"></i> The 3-Step Rule for Negative Numbers</h4>
+                        <p>To find the Two's Complement of a negative decimal (e.g., -14):</p>
+                        <ol style="margin-left: 20px; margin-top: 10px; color: var(--text-secondary);">
+                            <li><strong>Write the positive binary:</strong> 14 = <span class="math-block">0000 1110</span></li>
+                            <li><strong>Flip all bits (1's Complement):</strong> <span class="math-block">1111 0001</span></li>
+                            <li><strong>Add 1:</strong> <span class="math-block">1111 0001 + 1 = 1111 0010</span></li>
+                        </ol>
+                    </div>
+
+                    <div class="worked-example">
+                        <h4><span class="step-num">!</span> Worked Example: Binary Subtraction (2024 NIS Past Paper)</h4>
+                        <p><strong>Calculate:</strong> 23 - 14 using 8-bit Two's Complement.</p>
+                        <p><strong>Step 1:</strong> Convert both to binary.<br>
+                        +23 = <span class="math-block">0001 0111</span><br>
+                        -14 = <span class="math-block">1111 0010</span> (Calculated using the rule above)</p>
+                        <p><strong>Step 2:</strong> Add them together (Subtraction is just adding a negative number).</p>
+                        <div class="code-block"><code>   0001 0111  (+23)
++  1111 0010  (-14)
+------------
+ 1 0000 1001  (Result is +9. Discard the 9th overflow bit).</code></div>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-water"></i> 4. Fractions: Fixed-Point & Floating-Point</h2>
+                    
+                    <h3 style="font-size:1.1rem; color:var(--text-primary);">Fixed-Point Representation</h3>
+                    <p class="concept-text">The decimal point is placed at a specific, fixed position. E.g., 4 bits for integer, 4 bits for fraction.<br>
+                    <strong>Pros:</strong> Simple processing.<br>
+                    <strong>Cons:</strong> Lacks range and precision. Cannot represent very large or very small numbers efficiently.</p>
+
+                    <h3 style="font-size:1.1rem; color:var(--text-primary); margin-top: var(--space-lg);">Floating-Point Representation</h3>
+                    <p class="concept-text">Numbers are stored in scientific notation format: <strong>Mantissa × Base<sup>Exponent</sup></strong>. In binary, the base is always 2. A typical exam format uses an 8-bit or 10-bit Mantissa and a 4-bit Exponent, both using Two's Complement.</p>
+
+                    <div class="lesson-image-block">
+                        <img src="/assets/images/placeholder-floating-point.png" alt="Floating Point Mantissa and Exponent Diagram">
+                        <figcaption>Fig 1. Structure of a Floating-Point Binary Number.</figcaption>
+                    </div>
+
+                    <div class="worked-example">
+                        <h4><span class="step-num">!</span> Worked Example: Decimal to Floating-Point (2025 NIS Past Paper)</h4>
+                        <p><strong>Convert 23.75 into a 12-bit mantissa and 4-bit exponent.</strong></p>
+                        <ul style="margin-left: 20px; color: var(--text-secondary);">
+                            <li><strong>Step 1: Fixed point binary.</strong> 23 = <span class="math-block">10111</span>. 0.75 = <span class="math-block">.11</span>. Combined = <span class="math-block">010111.11</span></li>
+                            <li><strong>Step 2: Normalize.</strong> Move the point to get <span class="math-block">0.1</span> (since it's a positive number).<br>
+                            Move point 5 places to the left: <span class="math-block">0.1011111</span></li>
+                            <li><strong>Step 3: Exponent.</strong> We moved it 5 places left, so Exponent = +5 = <span class="math-block">0101</span></li>
+                            <li><strong>Step 4: Pad Mantissa to 12 bits.</strong> <span class="math-block">010111110000</span></li>
+                        </ul>
+                        <p><strong>Final Answer:</strong> Mantissa: <code>010111110000</code> | Exponent: <code>0101</code></p>
+                    </div>
+
+                    <div class="pitfall-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> The Normalization Rule</h4>
+                        <p>A floating-point number is <strong>normalized</strong> to maximize precision (preventing leading zeros). You must look at the first two bits of the Mantissa:</p>
+                        <ul>
+                            <li>Positive normalized numbers MUST start with: <strong>01...</strong></li>
+                            <li>Negative normalized numbers MUST start with: <strong>10...</strong></li>
+                        </ul>
+                    </div>
+
+                </section>
+
+
+              <section id="info-sec" class="lesson-section" style="border-top: 3px solid var(--clr-tea); padding-top: var(--space-xl); margin-top: var(--space-2xl);">
+                    <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Section 1.2</div>
+                    <h2 class="lesson-title" style="font-size: 2.2rem;">Information Security</h2>
+                    <p class="lesson-intro">In the modern digital world, protecting data from unauthorized access, ensuring its accuracy, and maintaining user privacy are critical. This module covers the core principles and technologies of data security.</p>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-lock"></i> 1. Security, Privacy, and Data Integrity</h2>
+                    
+                    <div class="theory-table-wrapper">
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Term</th>
+                                    <th>Definition (Cambridge AS/A Level Standard)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Data Security</strong></td>
+                                    <td>Protecting data and systems from unauthorized access, accidental loss, damage, or malicious alteration (e.g., using firewalls, passwords).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Data Privacy</strong></td>
+                                    <td>The right of individuals to control their personal data, deciding who can access it and how it is used (e.g., GDPR compliance, consent forms).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Data Integrity</strong></td>
+                                    <td>Maintaining the accuracy, consistency, and reliability of data over its entire life cycle. Ensuring data is not altered or corrupted during transmission or storage.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pitfall-box">
+                        <h4><i class="fas fa-bug"></i> Mixing up Security and Integrity</h4>
+                        <p>A system can be highly secure (no hackers can get in) but have poor data integrity (the system crashes and corrupts the files itself). <strong>Security is about protection from access; Integrity is about accuracy and correctness.</strong></p>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-server"></i> 2. Data Protection Measures</h2>
+                    
+                    <p class="concept-text">Organizations use multiple layers of protection to ensure data is not lost or stolen. Two critical concepts often compared in exams are Data Backup and Disk Mirroring.</p>
+
+                    <table class="theory-table" style="margin-top: var(--space-md);">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Data Backup</th>
+                                <th>Disk Mirroring (RAID 1)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Definition</strong></td>
+                                <td>A copy of data made at a specific point in time, stored on a separate medium or location.</td>
+                                <td>Data is simultaneously written to two separate hard drives in real-time.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Primary Purpose</strong></td>
+                                <td>To recover data if it is accidentally deleted, corrupted, or destroyed by ransomware.</td>
+                                <td>To ensure continuous system operation (high availability) if one hard drive physically fails.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Disadvantage</strong></td>
+                                <td>Data created between the last backup and the crash will be lost. Restoring takes time.</td>
+                                <td>If a user accidentally deletes a file, it is instantly deleted from the mirrored drive too.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="note-box">
+                        <h4><i class="fas fa-user-shield"></i> Access Rights (Authorization)</h4>
+                        <p>Providing users with different levels of access based on their role. For example, a student (Read-Only access to grades) vs. a teacher (Read/Write access to grades). This minimizes accidental data corruption and insider threats.</p>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-check-double"></i> 3. Validation &amp; Verification</h2>
+                    
+                    <div class="analogy-box">
+                        <h4><i class="fas fa-passport"></i> The Airport Security Analogy</h4>
+                        <p><strong>Validation</strong> is like the X-ray scanner — it checks whether your bag contains <em>allowed</em> items (reasonable data), but it can't tell if it's <em>your</em> bag. <strong>Verification</strong> is like checking your passport photo against your face — it confirms the data is <em>correct</em> and belongs to you.</p>
+                    </div>
+
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Meaning</th>
+                                <th>Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Validation</strong></td>
+                                <td>Automated computer check to ensure data is <strong>reasonable</strong>, sensible, and within acceptable boundaries before processing.</td>
+                                <td>
+                                    <ul style="margin: 0; padding-left: 15px;">
+                                        <li><strong>Range check:</strong> Mark must be 0-100.</li>
+                                        <li><strong>Type check:</strong> Age must be integer.</li>
+                                        <li><strong>Length check:</strong> Password > 8 chars.</li>
+                                        <li><strong>Presence check:</strong> Field cannot be empty.</li>
+                                        <li><strong>Format check:</strong> Email must contain '@'.</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verification</strong></td>
+                                <td>Check to ensure data is <strong>correct</strong> and matches the original source.</td>
+                                <td>
+                                    <ul style="margin: 0; padding-left: 15px;">
+                                        <li><strong>Double Entry:</strong> Typing a password twice during registration.</li>
+                                        <li><strong>Visual Check:</strong> Proofreading data on the screen against a paper document.</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-key"></i> 4. Encryption</h2>
+                    <p class="concept-text">Encryption scrambles plain text into cipher text using a mathematical algorithm and a key. It does NOT prevent data interception; it prevents the intercepted data from being understood.</p>
+
+                    <div class="worked-example">
+                        <h4><span class="step-num">!</span> Symmetric vs. Asymmetric Encryption</h4>
+                        <p><strong>Symmetric Encryption:</strong> Uses the <em>same single key</em> to encrypt and decrypt. It is fast, but transferring the key securely to the recipient is a major risk (Key Distribution Problem).</p>
+                        <p><strong>Asymmetric Encryption:</strong> Uses a mathematically linked pair of keys (Public and Private). 
+                        <br>1. The sender encrypts the message using the recipient's <strong>Public Key</strong> (which is shared with everyone).
+                        <br>2. The recipient decrypts it using their <strong>Private Key</strong> (which is kept strictly secret).</p>
+                    </div>
+
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="lesson-video-info">
+                                <h4>How Asymmetric Encryption Works</h4>
+                                <p>Insert YouTube Video Here</p>
+                            </div>
+                        </div>
+                        <div class="lesson-video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/PLACEHOLDER" title="Asymmetric Encryption" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-fingerprint"></i> 5. Biometrics &amp; Ethical Issues</h2>
+                    <p class="concept-text">Biometrics uses unique physical or behavioral characteristics (fingerprint, retina scan, facial recognition) to authenticate a user.</p>
+
+                    <div class="pro-tip-box">
+                        <h4><i class="fas fa-star"></i> Exam Focus: Biometrics Evaluation (from Past Papers)</h4>
+                        <p><strong>Benefits:</strong> Extremely difficult to forge or steal compared to passwords. Users cannot forget them or leave them at home (like ID cards).</p>
+                        <p><strong>Security Vulnerabilities:</strong> If a biometric database is hacked, you cannot "reset" your fingerprint like you can reset a password. False positives/negatives can lock out legitimate users.</p>
+                        <p><strong>Ethical & Privacy Issues:</strong> Governments or corporations collecting biometric data raises concerns about mass surveillance, tracking without consent, and violations of personal freedom and democratic rights.</p>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-link"></i> 6. Blockchain Technologies</h2>
+                    <p class="concept-text">A blockchain is a decentralized, distributed, and public digital ledger. It is used to record transactions across many computers so that the record cannot be altered retroactively.</p>
+
+                    <div class="lesson-image-block">
+                        <img src="/assets/images/placeholder-blockchain.png" alt="Blockchain Structure Diagram">
+                        <figcaption>Fig 2. Each block contains data, its own Hash, and the Hash of the previous block.</figcaption>
+                    </div>
+
+                    <ul class="concept-list" style="margin-top: var(--space-md);">
+                        <li><strong>Blocks:</strong> Data is stored in blocks. When a block is full, it is chained to the previous block.</li>
+                        <li><strong>Hashes:</strong> Each block has a unique cryptographic hash (like a digital fingerprint). It also stores the hash of the <em>previous</em> block.</li>
+                        <li><strong>Immutability:</strong> If a hacker tries to alter data in one block, its hash changes immediately. This breaks the link to the next block, invalidating the entire chain.</li>
+                        <li><strong>Decentralization (P2P Network):</strong> There is no central server. Every participant (node) has a full copy of the blockchain. A change must reach a consensus (e.g., Proof of Work) across the network to be accepted.</li>
+                    </ul>
+
+                </section>
+
+
+
+              <section id="networks" class="lesson-section" style="border-top: 3px solid var(--clr-tea); padding-top: var(--space-xl); margin-top: var(--space-2xl);">
+                    <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Section 1.3</div>
+                    <h2 class="lesson-title" style="font-size: 2.2rem;">Computer Networks</h2>
+                    <p class="lesson-intro">A computer network is a group of interconnected devices that can communicate and share resources. Understanding how these networks are structured, how data is routed, and the theoretical models behind them is essential for network engineering.</p>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-network-wired"></i> 1. Network Types: LAN vs. WAN</h2>
+                    
+                    <div class="theory-table-wrapper">
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Local Area Network (LAN)</th>
+                                    <th>Wide Area Network (WAN)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Geographical Area</strong></td>
+                                    <td>Small area (e.g., a single building, school, or home).</td>
+                                    <td>Large area (e.g., cities, countries, or global like the Internet).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Infrastructure Ownership</strong></td>
+                                    <td><strong>Owned and managed by the organization</strong> using it (e.g., school owns its routers and cables).</td>
+                                    <td><strong>Leased from third-party</strong> telecommunication companies (ISPs).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Transmission Medium</strong></td>
+                                    <td>Twisted pair copper cables (Ethernet), Wi-Fi.</td>
+                                    <td>Fiber-optic cables, satellite links, microwave transmission.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Speed & Errors</strong></td>
+                                    <td>High transmission speed, low latency, fewer data errors.</td>
+                                    <td>Slower speeds, higher latency, higher chance of data corruption.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pro-tip-box">
+                        <h4><i class="fas fa-star"></i> Exam Tip: The "Ownership" Rule</h4>
+                        <p>In exams, geography alone isn't enough to define a LAN or WAN. A network covering a large university campus is still a LAN if the university <strong>owns all the cables</strong>. It only becomes a WAN if they have to pay a telecom company to cross public land.</p>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-project-diagram"></i> 2. Network Topologies</h2>
+                    <p class="concept-text">Topology refers to the physical or logical layout of a network. The syllabus requires knowledge of Bus, Ring, Star, and Mixed (Mesh) topologies.</p>
+
+                    <div class="lesson-image-block">
+                        <img src="/assets/images/placeholder-topologies.png" alt="Bus, Ring, Star, and Mesh Topologies">
+                        <figcaption>Fig 3. Common Physical Network Topologies.</figcaption>
+                    </div>
+
+                    <table class="theory-table" style="margin-top: var(--space-md);">
+                        <thead>
+                            <tr>
+                                <th>Topology</th>
+                                <th>Advantages</th>
+                                <th>Disadvantages</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Bus</strong><br>(Single backbone cable)</td>
+                                <td>Cheap and easy to install. Requires the least amount of cable.</td>
+                                <td>If the main cable breaks, the whole network fails. High risk of <strong>data collisions</strong>.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ring</strong><br>(Closed loop)</td>
+                                <td>No data collisions (data travels in one direction). Performs well under heavy load.</td>
+                                <td>If one cable or node breaks, the whole network fails. Hard to add new devices.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Star</strong><br>(Central switch)</td>
+                                <td>If one cable breaks, only that node fails. Highly secure and easy to expand.</td>
+                                <td>Expensive (needs a lot of cable). If the central switch fails, the whole network goes down.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mixed / Mesh</strong><br>(Interconnected)</td>
+                                <td>Extremely robust/reliable (self-healing routing). Multiple paths to destination.</td>
+                                <td>Very expensive and complex to install and maintain physically.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-server"></i> 3. Network Equipment</h2>
+                    
+                    <ul class="concept-list">
+                        <li><strong>Switch:</strong> Connects devices in a LAN. It reads the MAC address of incoming data frames and forwards them <em>only</em> to the specific destination port (unlike a Hub, which broadcasts to everyone).</li>
+                        <li><strong>Router:</strong> Connects two or more different networks (e.g., a LAN to a WAN/Internet). It reads IP addresses and determines the most efficient path for data packets.</li>
+                        <li><strong>WAP (Wireless Access Point):</strong> Allows wireless devices to connect to a wired network using Wi-Fi (radio waves).</li>
+                        <li><strong>Gateway:</strong> A node that connects two networks operating with <strong>different protocols</strong> (translates data formats).</li>
+                        <li><strong>Bridge:</strong> Connects two LANs that use the <strong>same protocol</strong>, effectively combining them into a single larger LAN.</li>
+                        <li><strong>NIC (Network Interface Card):</strong> Hardware component built into a device allowing it to connect to a network. Contains the hardcoded MAC address.</li>
+                    </ul>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-random"></i> 4. Packet Switching vs. Circuit Switching</h2>
+
+                    <div class="worked-example">
+                        <h4><span class="step-num">!</span> What is a Data Packet?</h4>
+                        <p>Before transmission, large files are broken down into small chunks called packets. A standard packet contains:</p>
+                        <ul>
+                            <li><strong>Header:</strong> Sender's IP, Receiver's IP, Packet Sequence Number (e.g., Packet 3 of 500), and Packet Size.</li>
+                            <li><strong>Payload:</strong> The actual raw data being sent.</li>
+                            <li><strong>Trailer:</strong> Error checking data (Checksum) and end-of-packet marker.</li>
+                        </ul>
+                    </div>
+
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Circuit Switching</th>
+                                <th>Packet Switching</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Path Setup</strong></td>
+                                <td>A dedicated physical path is established <em>before</em> data is sent.</td>
+                                <td>No dedicated path. Packets take the best available route independently.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bandwidth</strong></td>
+                                <td>Bandwidth is reserved and wasted if no data is being sent.</td>
+                                <td>Shared bandwidth. Highly efficient use of network resources.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Data Arrival</strong></td>
+                                <td>Data arrives strictly <strong>in order</strong>.</td>
+                                <td>Packets can arrive <strong>out of order</strong> and must be reassembled at the destination.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Best used for...</strong></td>
+                                <td>Real-time live video, voice calls (no lag or jitter).</td>
+                                <td>Emails, downloading files, browsing the web.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resilience</strong></td>
+                                <td>If the dedicated line is cut, the connection drops immediately.</td>
+                                <td>Highly resilient. If a router fails, packets simply reroute around the problem.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-layer-group"></i> 5. The OSI Network Model</h2>
+                    <p class="concept-text">The Open Systems Interconnection (OSI) model is a conceptual 7-layer framework that standardizes the functions of a telecommunication system. It helps manufacturers ensure their hardware and software can communicate.</p>
+
+                    <div class="note-box">
+                        <h4><i class="fas fa-lightbulb"></i> Mnemonic to remember the layers:</h4>
+                        <p><strong>P</strong>lease <strong>D</strong>o <strong>N</strong>ot <strong>T</strong>hrow <strong>S</strong>ausage <strong>P</strong>izza <strong>A</strong>way.<br>
+                        (Physical, Data Link, Network, Transport, Session, Presentation, Application)</p>
+                    </div>
+
+                    <div class="theory-table-wrapper">
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Layer (Top to Bottom)</th>
+                                    <th>Core Functions & Responsibilities</th>
+                                    <th>Data Unit & Protocols</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>7. Application</strong></td>
+                                    <td>Provides network services directly to user applications (web browsers, email clients).</td>
+                                    <td>Data (HTTP, FTP, SMTP, POP3)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>6. Presentation</strong></td>
+                                    <td>Formats, translates, encrypts, and compresses data so it is readable by the Application layer.</td>
+                                    <td>Data (SSL/TLS, JPEG, ASCII)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>5. Session</strong></td>
+                                    <td>Establishes, maintains, and terminates connections (sessions) between two communicating devices.</td>
+                                    <td>Data (APIs, NetBIOS)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. Transport</strong></td>
+                                    <td>Breaks data into segments. Ensures reliable end-to-end message delivery, error recovery, and flow control.</td>
+                                    <td><strong>Segments</strong> (TCP, UDP)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. Network</strong></td>
+                                    <td>Handles logical addressing (IP addresses) and <strong>routing</strong> packets across multiple different networks.</td>
+                                    <td><strong>Packets</strong> (IP, ICMP, Routers operate here)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. Data Link</strong></td>
+                                    <td>Handles physical addressing (MAC addresses) and node-to-node data transfer within the <em>same</em> local network.</td>
+                                    <td><strong>Frames</strong> (Ethernet, MAC, Switches operate here)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>1. Physical</strong></td>
+                                    <td>Transmits raw bit streams (1s and 0s) over physical mediums (cables, radio waves, light pulses).</td>
+                                    <td><strong>Bits</strong> (Cables, Hubs, Wi-Fi waves)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="lesson-video-block" style="margin-top: var(--space-xl);">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="lesson-video-info">
+                                <h4>The OSI Model Explained</h4>
+                                <p>Insert YouTube Video Here (Visualizing data flow from Layer 7 down to Layer 1)</p>
+                            </div>
+                        </div>
+                        <div class="lesson-video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/PLACEHOLDER" title="OSI Model" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                </section>
+
+
+              <section id="internet" class="lesson-section" style="border-top: 3px solid var(--clr-tea); padding-top: var(--space-xl); margin-top: var(--space-2xl);">
+                    <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Section 1.4</div>
+                    <h2 class="lesson-title" style="font-size: 2.2rem;">Internet & Protocols</h2>
+                    <p class="lesson-intro">The Internet is the global system of interconnected computer networks. To make this massive system work reliably, strict rules (protocols) and addressing systems (IP, MAC, DNS) must be followed.</p>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-globe-americas"></i> 1. Internet, Intranet, and the WWW</h2>
+                    
+                    <ul class="concept-list">
+                        <li><strong>The Internet:</strong> The physical global network of interconnected networks (the hardware, cables, and routers).</li>
+                        <li><strong>World Wide Web (WWW):</strong> An information system running <em>on top of</em> the Internet, where documents and web resources are identified by URLs and accessible via web browsers.</li>
+                        <li><strong>Intranet:</strong> A private network accessible only to an organization's staff (e.g., NIS internal portal). It uses the same protocols as the Internet but is blocked from public access by a firewall.</li>
+                    </ul>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-address-card"></i> 2. Addressing: MAC vs. IP Addresses</h2>
+                    
+                    <div class="theory-table-wrapper">
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>MAC Address (Media Access Control)</th>
+                                    <th>IP Address (Internet Protocol)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Purpose</strong></td>
+                                    <td>Identifies the physical device (hardware) on a Local Area Network (LAN).</td>
+                                    <td>Identifies the location of a device on a global network (Internet).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Permanence</strong></td>
+                                    <td>Permanent. Hardcoded into the Network Interface Card (NIC) by the manufacturer.</td>
+                                    <td>Changeable (Dynamic). Assigned by the network router or ISP when you connect.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Format</strong></td>
+                                    <td>48 bits, written as 6 pairs of Hexadecimal digits.<br><em>Example: 00-1A-2B-3C-4D-5E</em></td>
+                                    <td>See IPv4 vs IPv6 below.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="note-box">
+                        <h4><i class="fas fa-search"></i> How to find your MAC address</h4>
+                        <p>Open the Command Prompt (Windows) and type <code>ipconfig /all</code>. Look for the "Physical Address" under your active network adapter.</p>
+                    </div>
+
+                    <h3 style="font-size:1.1rem; color:var(--text-primary); margin-top: var(--space-lg);">IPv4 vs IPv6 Formats</h3>
+                    <p class="concept-text">Because the world ran out of IPv4 addresses due to the explosion of mobile devices, IPv6 was introduced.</p>
+                    <ul class="concept-list">
+                        <li><strong>IPv4:</strong> 32 bits long. Written as 4 decimal octets separated by dots. (e.g., <code>192.168.1.50</code>). Provides ~4.3 billion addresses.</li>
+                        <li><strong>IPv6:</strong> 128 bits long. Written as 8 quartets of Hexadecimal digits separated by colons. (e.g., <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code>). Provides virtually infinite addresses.</li>
+                    </ul>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-link"></i> 3. URLs and the Domain Name System (DNS)</h2>
+                    
+                    <p class="concept-text">A <strong>URL (Uniform Resource Locator)</strong> is an easy-to-remember representation of an IP address. Example structure: <code>https:// (Protocol) + www.mr-tea.net (Hostname/Domain) + /assets/image.jpg (File Location/Path)</code>.</p>
+
+                    <div class="worked-example">
+                        <h4><span class="step-num">!</span> Exam Focus: How DNS Resolves a URL (5 Marks)</h4>
+                        <p>Memorize this exact sequence from the Cambridge/NIS Mark Schemes:</p>
+                        <ol style="margin-left: 20px; color: var(--text-secondary);">
+                            <li>The user types a URL into the browser.</li>
+                            <li>The browser checks its local cache to see if it already holds the matching IP address.</li>
+                            <li>If not, the query is sent to the local <strong>DNS Server</strong>, which contains a database of domain names and their corresponding IP addresses.</li>
+                            <li>If the local DNS does not know the IP, it passes the query to a higher-level root DNS server until it is resolved.</li>
+                            <li>The resolved IP address is sent back to the user's browser.</li>
+                            <li>The browser connects to the Web Server using that IP address and downloads the website.</li>
+                        </ol>
+                    </div>
+
+                    <div class="lesson-image-block">
+                        <img src="/assets/images/placeholder-dns.png" alt="DNS Resolution Process Diagram">
+                        <figcaption>Fig 4. The step-by-step process of Domain Name Resolution.</figcaption>
+                    </div>
+
+                    <h2 class="lesson-section-title" style="margin-top: var(--space-xl);"><i class="fas fa-exchange-alt"></i> 4. Standard Network Protocols</h2>
+                    <p class="concept-text">A protocol is a strict set of rules governing how data is formatted, transmitted, and received across a network.</p>
+
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Protocol</th>
+                                <th>What it stands for</th>
+                                <th>Role / Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>TCP/IP</strong></td>
+                                <td>Transmission Control Protocol / Internet Protocol</td>
+                                <td>The foundational suite of protocols used to establish a connection and route data packets across the Internet.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HTTP / HTTPS</strong></td>
+                                <td>Hypertext Transfer Protocol (Secure)</td>
+                                <td>Used for transferring multimedia web pages over the Internet between a client browser and a web server.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FTP</strong></td>
+                                <td>File Transfer Protocol</td>
+                                <td>Used for uploading or downloading files between a client and a server on a network.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SMTP</strong></td>
+                                <td>Simple Mail Transfer Protocol</td>
+                                <td>Used for <strong>sending</strong> email messages from a client to a mail server.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>POP3 / IMAP</strong></td>
+                                <td>Post Office Protocol v3</td>
+                                <td>Used for <strong>retrieving/downloading</strong> email messages from a mail server.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pitfall-box">
+                        <h4><i class="fas fa-video"></i> Why is FTP NOT suitable for live video streaming?</h4>
+                        <p>A classic exam question (2024 Past Paper). <strong>Answer:</strong> FTP is designed to break data into packets and re-send any lost or damaged packets to ensure perfect file integrity. Packets can arrive in a random order and must be fully reassembled before use. This causes extreme lagging and buffering, making it useless for continuous, real-time data streaming (where a dropped frame is better than a pause).</p>
+                    </div>
+
+                </section>
+
+                <section class="lesson-section" style="border-top: 3px solid var(--border); padding-top: var(--space-xl); margin-top: var(--space-2xl);">
+                    <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Revision Tasks</h2>
+                    <div class="assessment-tasks">
+                        <div class="task-item">
+                            <span class="task-level remember">Remember</span>
+                            <p>State two differences between a MAC address and an IP address.</p>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-level understand">Understand</span>
+                            <p>Explain why a network operating system is appropriate for managing a centralized school database accessed by multiple teachers.</p>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-level apply">Apply</span>
+                            <p>A user tries to access `www.google.com` but receives a "Server Not Found" error. However, if they type the IP address `142.250.190.46` directly, the site loads. Which network component has likely failed?</p>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-level analyze">Analyze</span>
+                            <p>Discuss the potential ethical issues and security risks of a government collecting mandatory biometric data (fingerprints and facial scans) for all citizens. Provide at least three distinct arguments.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Exam Self-Check Quiz</h2>
+                    
+                    <div class="quiz-item">
+                        <p class="quiz-question">Q1: Which OSI Layer is responsible for logical IP routing?</p>
+                        <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Layer 3: The Network Layer.</div>
+                    </div>
+                    
+                    <div class="quiz-item">
+                        <p class="quiz-question">Q2: What is the primary difference between Data Security and Data Integrity?</p>
+                        <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Security prevents unauthorized access/theft. Integrity ensures the data remains accurate and uncorrupted.</div>
+                    </div>
+                    
+                    <div class="quiz-item">
+                        <p class="quiz-question">Q3: Convert the Hexadecimal number 5C to Denary.</p>
+                        <div class="quiz-answer" onclick="this.classList.toggle('revealed')">5 × 16 = 80. C = 12. 80 + 12 = 92.</div>
+                    </div>
+                    
+                    <div class="quiz-item">
+                        <p class="quiz-question">Q4: Name the protocol used strictly to SEND emails to a server.</p>
+                        <div class="quiz-answer" onclick="this.classList.toggle('revealed')">SMTP (Simple Mail Transfer Protocol).</div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <i class="fas fa-graduation-cap"></i> mr. TEA
+        </div>
+        <p>Comprehensive Revision Guide for Component 1</p>
+        <div class="footer-copy">Developed by <strong>Yerassyl Tleudin</strong> © 2026 — NIS Grade 12 Computer Science</div>
+    </div>
+</footer>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+
+<script>
+    document.querySelectorAll('.mega-toc a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+                
+
