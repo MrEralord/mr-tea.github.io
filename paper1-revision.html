@@ -10,23 +10,56 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
     <style>
-        /* Custom styles for the Mega-Page TOC */
+        /* Layout for Mega-Page: Sidebar + Content */
+        .mega-page-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: var(--space-2xl);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+            align-items: start;
+        }
+
+        /* Mobile fallback: stack TOC on top */
+        @media (max-width: 992px) {
+            .mega-page-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .mega-toc {
+                position: relative;
+                top: 0;
+                margin-bottom: var(--space-xl);
+            }
+        }
+
+        /* Custom styles for the Left Sidebar TOC */
         .mega-toc {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             padding: var(--space-lg);
-            margin-bottom: var(--space-2xl);
             position: sticky;
-            top: 80px;
+            top: 80px; /* Учитывает высоту мобильной шапки */
             z-index: 100;
             box-shadow: var(--shadow-sm);
+            height: fit-content;
         }
-        .mega-toc h3 { margin-bottom: var(--space-md); color: var(--clr-tea); }
-        .mega-toc ul { list-style: none; padding: 0; }
-        .mega-toc li { margin-bottom: var(--space-sm); }
-        .mega-toc a { font-weight: 600; color: var(--text-secondary); display: block; padding: 4px 8px; border-radius: 4px; transition: all 0.2s; }
+        .mega-toc h3 { margin-bottom: var(--space-md); color: var(--clr-tea); font-size: 1.1rem; }
+        .mega-toc ul { list-style: none; padding: 0; margin: 0; }
+        .mega-toc li { margin-bottom: var(--space-xs); }
+        .mega-toc a { 
+            font-weight: 600; 
+            font-size: 0.9rem; 
+            color: var(--text-secondary); 
+            display: block; 
+            padding: 8px 12px; 
+            border-radius: 6px; 
+            transition: all 0.2s; 
+            line-height: 1.4; 
+        }
         .mega-toc a:hover { background: rgba(13, 148, 136, 0.1); color: var(--clr-tea); }
+        
         .math-block { font-family: var(--font-code); background: var(--bg-code); padding: 10px; border-radius: 6px; display: inline-block; letter-spacing: 1px;}
     </style>
 </head>
@@ -46,23 +79,34 @@
         </div>
 
         <div class="lesson-page">
-            <div class="lesson-container" style="max-width: 1000px;">
-
-                <div class="hero" style="padding: var(--space-xl) 0; text-align: left;">
+            <div class="lesson-container" style="max-width: 1200px; padding-bottom: 0;">
+                <div class="hero" style="padding: var(--space-lg) 0 var(--space-xl); text-align: left;">
                     <div class="hero-badge"><i class="fas fa-star"></i> Grade 12 · AS/A Level Standard</div>
                     <h1 style="font-size: 2.8rem; margin-bottom: 10px;">Component 1: Theory Fundamentals</h1>
                     <p class="hero-subtitle" style="margin: 0; text-align: left;">Comprehensive Revision Guide covering Data Representation, Information Security, Networks, and Internet Protocols. Prepared by <strong>Yerassyl Tleudin</strong>.</p>
                 </div>
+            </div>
 
-                <nav class="mega-toc">
-                    <h3><i class="fas fa-list-ul"></i> Quick Navigation</h3>
-                    <ul>
-                        <li><a href="#data-rep"><i class="fas fa-microchip"></i> Module 1: Data Representation</a></li>
-                        <li><a href="#info-sec" style="color: var(--text-muted);"><i class="fas fa-shield-alt"></i> Module 2: Information Security (Coming in Part 2)</a></li>
-                        <li><a href="#networks" style="color: var(--text-muted);"><i class="fas fa-network-wired"></i> Module 3: Computer Networks (Coming in Part 3)</a></li>
-                        <li><a href="#internet" style="color: var(--text-muted);"><i class="fas fa-globe"></i> Module 4: Internet & Protocols (Coming in Part 4)</a></li>
-                    </ul>
-                </nav>
+            <div class="mega-page-wrapper">
+                
+                <aside>
+                    <nav class="mega-toc">
+                        <h3><i class="fas fa-list-ul"></i> Quick Navigation</h3>
+                        <ul>
+                            <li><a href="#data-rep"><i class="fas fa-microchip"></i> Module 1: Data Representation</a></li>
+                            <li><a href="#info-sec"><i class="fas fa-shield-alt"></i> Module 2: Information Security</a></li>
+                            <li><a href="#networks"><i class="fas fa-network-wired"></i> Module 3: Computer Networks</a></li>
+                            <li><a href="#internet"><i class="fas fa-globe"></i> Module 4: Internet & Protocols</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <div class="mega-content">
+                    
+                    <section id="data-rep" class="lesson-section" style="border-top: 3px solid var(--clr-tea); padding-top: var(--space-xl);">
+                        <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Section 1.1</div>
+                        ```
+
 
                 <section id="data-rep" class="lesson-section" style="border-top: 3px solid var(--clr-tea); padding-top: var(--space-xl);">
                     <div class="lesson-unit-badge"><i class="fas fa-layer-group"></i> Section 1.1</div>
@@ -786,6 +830,8 @@
 
             </div>
         </div>
+        </div>
+            
     </main>
 </div>
 
