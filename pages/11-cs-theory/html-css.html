@@ -11,12 +11,75 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+    
+    <style>
+        .hybrid-demo {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .hybrid-demo-header {
+            background: #f8fafc;
+            padding: 10px 15px;
+            font-weight: 600;
+            color: #1e293b;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hybrid-demo .code-block {
+            margin: 0 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            border-bottom: 1px dashed #cbd5e1 !important;
+        }
+        .hybrid-demo-preview {
+            padding: 20px;
+            color: #334155;
+            background: #fdfdfd;
+        }
+        .hybrid-demo-preview input:not([type="radio"]):not([type="checkbox"]),
+        .hybrid-demo-preview select,
+        .hybrid-demo-preview textarea {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            margin-top: 5px;
+            display: block;
+            width: 100%;
+            max-width: 320px;
+            font-family: inherit;
+        }
+        .hybrid-demo-preview input[type="submit"], 
+        .hybrid-demo-preview button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .hybrid-demo-preview input[type="submit"]:hover, 
+        .hybrid-demo-preview button:hover {
+            background-color: #2980b9;
+        }
+        .hybrid-demo-preview label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+    </style>
 </head>
 
 <body>
@@ -75,7 +138,6 @@
                 </div>
             </div>
 
-            <!-- Conceptual Anchor -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
                 <div class="analogy-box">
@@ -87,12 +149,10 @@
                 </div>
             </section>
 
-            <!-- HTML Fundamentals -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-code"></i> HTML Fundamentals</h2>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">HTML Document
-                    Structure</h3>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">HTML Document Structure</h3>
                 <div class="code-block"><code>&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
@@ -148,15 +208,24 @@
                     </tbody>
                 </table>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Essential
-                    HTML Tags</h3>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Essential HTML Tags</h3>
+                
+                <div class="hybrid-demo">
+                    <div class="hybrid-demo-header"><i class="fas fa-bold"></i> Text & Formatting Preview</div>
+                    <div class="code-block"><code>&lt;h1&gt;Main Title&lt;/h1&gt;
+&lt;p&gt;This is a standard paragraph with &lt;strong&gt;important bold text&lt;/strong&gt; and &lt;em&gt;emphasized italic text&lt;/em&gt;.&lt;/p&gt;</code></div>
+                    <div class="hybrid-demo-preview">
+                        <h1 style="margin-top:0; font-size:2rem; border:none;">Main Title</h1>
+                        <p style="margin-bottom:0;">This is a standard paragraph with <strong>important bold text</strong> and <em>emphasized italic text</em>.</p>
+                    </div>
+                </div>
+
                 <table class="theory-table">
                     <thead>
                         <tr>
                             <th>Category</th>
                             <th>Tag</th>
                             <th>Purpose</th>
-                            <th>Example</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -164,83 +233,46 @@
                             <td rowspan="3">Text</td>
                             <td><code>&lt;h1&gt;...&lt;h6&gt;</code></td>
                             <td>Headings (h1 = largest)</td>
-                            <td><code>&lt;h1&gt;Main Title&lt;/h1&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>&lt;p&gt;</code></td>
                             <td>Paragraph</td>
-                            <td><code>&lt;p&gt;Some text.&lt;/p&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>&lt;br&gt;</code></td>
                             <td>Line break (self-closing)</td>
-                            <td><code>Line 1&lt;br&gt;Line 2</code></td>
                         </tr>
                         <tr>
                             <td rowspan="2">Formatting</td>
                             <td><code>&lt;strong&gt;</code></td>
                             <td>Bold (semantic: important)</td>
-                            <td><code>&lt;strong&gt;Warning&lt;/strong&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>&lt;em&gt;</code></td>
                             <td>Italic (semantic: emphasis)</td>
-                            <td><code>&lt;em&gt;Note&lt;/em&gt;</code></td>
                         </tr>
                         <tr>
                             <td rowspan="2">Links &amp; Images</td>
                             <td><code>&lt;a&gt;</code></td>
                             <td>Hyperlink</td>
-                            <td><code>&lt;a href="url"&gt;Click&lt;/a&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>&lt;img&gt;</code></td>
                             <td>Image (self-closing)</td>
-                            <td><code>&lt;img src="pic.jpg" alt="desc"&gt;</code></td>
                         </tr>
                         <tr>
                             <td rowspan="2">Lists</td>
                             <td><code>&lt;ul&gt; / &lt;li&gt;</code></td>
                             <td>Unordered (bullet) list</td>
-                            <td><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>&lt;ol&gt; / &lt;li&gt;</code></td>
                             <td>Ordered (numbered) list</td>
-                            <td><code>&lt;ol&gt;&lt;li&gt;Step 1&lt;/li&gt;&lt;/ol&gt;</code></td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3">Table</td>
-                            <td><code>&lt;table&gt;</code></td>
-                            <td>Table container</td>
-                            <td rowspan="3">
-                                <code>&lt;table&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Alice&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><code>&lt;tr&gt;</code></td>
-                            <td>Table row</td>
-                        </tr>
-                        <tr>
-                            <td><code>&lt;th&gt; / &lt;td&gt;</code></td>
-                            <td>Header cell / Data cell</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="2">Structure</td>
-                            <td><code>&lt;div&gt;</code></td>
-                            <td>Generic block container</td>
-                            <td><code>&lt;div class="box"&gt;...&lt;/div&gt;</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>&lt;span&gt;</code></td>
-                            <td>Generic inline container</td>
-                            <td><code>&lt;span style="color:red"&gt;text&lt;/span&gt;</code></td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Semantic
-                    HTML5 Elements</h3>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Semantic HTML5 Elements</h3>
                 <p class="concept-text">Semantic elements describe their <strong>meaning</strong> to browsers and screen
                     readers. Always prefer them over plain <code>&lt;div&gt;</code> elements.</p>
                 <table class="theory-table">
@@ -282,88 +314,72 @@
                     </tbody>
                 </table>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">HTML
-                    Forms</h3>
-                <div class="code-block"><code>&lt;form action="process.php" method="POST"&gt;
-    &lt;label for="name"&gt;Name:&lt;/label&gt;
-    &lt;input type="text" id="name" name="name" required&gt;
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">HTML Forms & Input Types</h3>
+                <p class="concept-text">A web form allows you to collect user data. Below are the most common input types isolated for visual clarity.</p>
 
-    &lt;label for="email"&gt;Email:&lt;/label&gt;
-    &lt;input type="email" id="email" name="email"&gt;
+                <div class="hybrid-demo">
+                    <div class="hybrid-demo-header"><i class="fas fa-keyboard"></i> Input Type: Text & Email</div>
+                    <div class="code-block"><code>&lt;label for="name"&gt;Full Name:&lt;/label&gt;
+&lt;input type="text" id="name" name="name" placeholder="Enter your name"&gt;
 
-    &lt;label for="age"&gt;Age:&lt;/label&gt;
-    &lt;input type="number" id="age" name="age" min="10" max="99"&gt;
+&lt;label for="email"&gt;Email Address:&lt;/label&gt;
+&lt;input type="email" id="email" name="email"&gt;</code></div>
+                    <div class="hybrid-demo-preview">
+                        <label for="demo-name">Full Name:</label>
+                        <input type="text" id="demo-name" name="name" placeholder="Enter your name" style="margin-bottom:15px;">
+                        
+                        <label for="demo-email">Email Address:</label>
+                        <input type="email" id="demo-email" name="email">
+                    </div>
+                </div>
 
-    &lt;label&gt;Gender:&lt;/label&gt;
-    &lt;input type="radio" name="gender" value="male"&gt; Male
-    &lt;input type="radio" name="gender" value="female"&gt; Female
+                <div class="hybrid-demo">
+                    <div class="hybrid-demo-header"><i class="far fa-check-circle"></i> Input Type: Radio & Checkbox</div>
+                    <div class="code-block"><code>&lt;label&gt;Gender (Select one):&lt;/label&gt;
+&lt;input type="radio" name="gender" value="male"&gt; Male
+&lt;input type="radio" name="gender" value="female"&gt; Female
 
-    &lt;label for="subject"&gt;Subject:&lt;/label&gt;
-    &lt;select id="subject" name="subject"&gt;
-        &lt;option value="cs"&gt;Computer Science&lt;/option&gt;
-        &lt;option value="math"&gt;Mathematics&lt;/option&gt;
-    &lt;/select&gt;
+&lt;label&gt;Skills (Select multiple):&lt;/label&gt;
+&lt;input type="checkbox" name="skill1" value="html"&gt; HTML
+&lt;input type="checkbox" name="skill2" value="css"&gt; CSS</code></div>
+                    <div class="hybrid-demo-preview">
+                        <label style="display:block; margin-bottom:5px;">Gender (Select one):</label>
+                        <label style="font-weight:normal; margin-right:15px;"><input type="radio" name="demo-gender" value="male"> Male</label>
+                        <label style="font-weight:normal;"><input type="radio" name="demo-gender" value="female"> Female</label>
+                        
+                        <div style="margin-top:20px;"></div>
+                        
+                        <label style="display:block; margin-bottom:5px;">Skills (Select multiple):</label>
+                        <label style="font-weight:normal; margin-right:15px;"><input type="checkbox" name="demo-skill" value="html"> HTML</label>
+                        <label style="font-weight:normal;"><input type="checkbox" name="demo-skill" value="css"> CSS</label>
+                    </div>
+                </div>
 
-    &lt;label for="message"&gt;Message:&lt;/label&gt;
-    &lt;textarea id="message" name="message" rows="4"&gt;&lt;/textarea&gt;
+                <div class="hybrid-demo">
+                    <div class="hybrid-demo-header"><i class="fas fa-mouse-pointer"></i> Input Type: Select & Submit</div>
+                    <div class="code-block"><code>&lt;label for="subject"&gt;Choose a subject:&lt;/label&gt;
+&lt;select id="subject" name="subject"&gt;
+    &lt;option value="cs"&gt;Computer Science&lt;/option&gt;
+    &lt;option value="math"&gt;Mathematics&lt;/option&gt;
+&lt;/select&gt;
 
-    &lt;button type="submit"&gt;Submit&lt;/button&gt;
-&lt;/form&gt;</code></div>
+&lt;button type="submit"&gt;Submit Form&lt;/button&gt;</code></div>
+                    <div class="hybrid-demo-preview">
+                        <label for="demo-subject">Choose a subject:</label>
+                        <select id="demo-subject" name="subject" style="margin-bottom:15px;">
+                            <option value="cs">Computer Science</option>
+                            <option value="math">Mathematics</option>
+                        </select>
+                        <button type="button">Submit Form</button>
+                    </div>
+                </div>
 
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Input Type</th>
-                            <th>Purpose</th>
-                            <th>Attributes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>text</code></td>
-                            <td>Single-line text</td>
-                            <td><code>maxlength</code>, <code>placeholder</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>password</code></td>
-                            <td>Masked text input</td>
-                            <td>Same as text</td>
-                        </tr>
-                        <tr>
-                            <td><code>email</code></td>
-                            <td>Email with validation</td>
-                            <td>Built-in format check</td>
-                        </tr>
-                        <tr>
-                            <td><code>number</code></td>
-                            <td>Numeric input</td>
-                            <td><code>min</code>, <code>max</code>, <code>step</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>radio</code></td>
-                            <td>One choice from group</td>
-                            <td>Same <code>name</code> = one group</td>
-                        </tr>
-                        <tr>
-                            <td><code>checkbox</code></td>
-                            <td>Multiple selections</td>
-                            <td><code>checked</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>submit</code></td>
-                            <td>Submit button</td>
-                            <td><code>value</code> = button text</td>
-                        </tr>
-                    </tbody>
-                </table>
             </section>
 
-            <!-- CSS Fundamentals -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-palette"></i> CSS Fundamentals</h2>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Three Ways to Add
-                    CSS</h3>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Three Ways to Add CSS</h3>
                 <table class="theory-table">
                     <thead>
                         <tr>
@@ -395,8 +411,7 @@
                     </tbody>
                 </table>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">CSS
-                    Selectors</h3>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">CSS Selectors</h3>
                 <div class="code-block"><code>/* Element selector — targets all &lt;p&gt; elements */
 p { color: blue; }
 
@@ -412,10 +427,8 @@ nav a { text-decoration: none; }
 /* Multiple selectors — same styles for h1, h2, h3 */
 h1, h2, h3 { font-family: Arial, sans-serif; }</code></div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The Box
-                    Model</h3>
-                <p class="concept-text">Every HTML element is a box with four layers (from inside out): <strong>Content
-                        → Padding → Border → Margin</strong>.</p>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The Box Model</h3>
+                <p class="concept-text">Every HTML element is a box with four layers (from inside out): <strong>Content → Padding → Border → Margin</strong>.</p>
                 <div class="code-block"><code>div {
     width: 300px;           /* Content width */
     padding: 20px;          /* Space between content and border */
@@ -429,8 +442,7 @@ h1, h2, h3 { font-family: Arial, sans-serif; }</code></div>
 div { box-sizing: border-box; }
 /* Now total width = 300px (padding and border are included) */</code></div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
-                    CSS Properties</h3>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common CSS Properties</h3>
                 <table class="theory-table">
                     <thead>
                         <tr>
@@ -479,10 +491,8 @@ div { box-sizing: border-box; }
                 </table>
             </section>
 
-            <!-- Worked Example -->
             <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Example — Complete Web Page
-                </h2>
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Example — Complete Web Page</h2>
                 <div class="worked-example">
                     <h4><span class="step-num">1</span> Build a Student Profile Page</h4>
                     <p><strong>HTML (index.html):</strong></p>
@@ -604,10 +614,8 @@ footer {
                 </div>
             </section>
 
-            <!-- Pitfalls -->
             <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common Errors</h2>
                 <div class="pitfall-box">
                     <h4><i class="fas fa-bug"></i> Forgetting to Close Tags</h4>
                     <p><code>&lt;p&gt;Hello</code> without <code>&lt;/p&gt;</code> causes layout issues. Always close
@@ -632,7 +640,6 @@ footer {
                 </div>
             </section>
 
-            <!-- Pro-Tips -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
                 <div class="pro-tip-box">
@@ -651,7 +658,6 @@ footer {
                 </div>
             </section>
 
-            <!-- Assessment -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
                 <div class="assessment-tasks">
@@ -683,7 +689,6 @@ footer {
                 </div>
             </section>
 
-            <!-- Quiz -->
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
                 <div class="quiz-item">
@@ -691,8 +696,7 @@ footer {
                     <div class="quiz-answer">Click to reveal: &lt;h1&gt;</div>
                 </div>
                 <div class="quiz-item">
-                    <div class="quiz-question">2. Which CSS selector has the highest specificity: element, class, or ID?
-                    </div>
+                    <div class="quiz-question">2. Which CSS selector has the highest specificity: element, class, or ID?</div>
                     <div class="quiz-answer">Click to reveal: ID (#) has the highest specificity, then class (.), then
                         element.</div>
                 </div>
@@ -707,16 +711,14 @@ footer {
                         shorthand).</div>
                 </div>
                 <div class="quiz-item">
-                    <div class="quiz-question">5. Name the four layers of the CSS Box Model from inside to outside.
-                    </div>
+                    <div class="quiz-question">5. Name the four layers of the CSS Box Model from inside to outside.</div>
                     <div class="quiz-answer">Click to reveal: Content → Padding → Border → Margin.</div>
                 </div>
             </section>
 
             <nav class="lesson-nav">
                 <a href="algorithm-efficiency.html"><i class="fas fa-arrow-left"></i>
-                    <div><span class="nav-label">Previous</span><span class="nav-title">Algorithm Efficiency</span>
-                    </div>
+                    <div><span class="nav-label">Previous</span><span class="nav-title">Algorithm Efficiency</span></div>
                 </a>
                 <a href="php.html">
                     <div><span class="nav-label">Next Lesson</span><span class="nav-title">PHP Scripting</span></div><i
@@ -724,9 +726,9 @@ footer {
                 </a>
             </nav>
         </div>
-        </div>
+    </div>
     </main>
-  </div>
+</div>
 
     <footer class="site-footer">
         <div class="container">
