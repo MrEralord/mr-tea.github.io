@@ -8,6 +8,9 @@
     <meta name="description"
         content="Complete workbook on HTML5 structure, semantic elements, CSS selectors, box model, responsive layout. NIS Grade 11 CS.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
@@ -78,6 +81,24 @@
             font-weight: 500;
             font-size: 0.9rem;
             color: #475569;
+        }
+
+        /* Prism.js Overrides: Яркий цвет комментариев и сброс конфликтов фона */
+        .token.comment {
+            color: #34d399 !important; /* Яркий изумрудный */
+            font-style: italic;
+        }
+        .code-block {
+            background: #272822; /* Фон темы Okaidia для контейнера */
+            padding: 1em;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        /* Убираем лишние отступы внутри вашего кастомного блока */
+        .code-block code {
+            background: none !important;
+            padding: 0 !important;
+            text-shadow: none !important;
         }
     </style>
 </head>
@@ -153,7 +174,7 @@
                 <h2 class="lesson-section-title"><i class="fas fa-code"></i> HTML Fundamentals</h2>
 
                 <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">HTML Document Structure</h3>
-                <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+                <div class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -212,7 +233,7 @@
                 
                 <div class="hybrid-demo">
                     <div class="hybrid-demo-header"><i class="fas fa-bold"></i> Text & Formatting Preview</div>
-                    <div class="code-block"><code>&lt;h1&gt;Main Title&lt;/h1&gt;
+                    <div class="code-block"><code class="language-html">&lt;h1&gt;Main Title&lt;/h1&gt;
 &lt;p&gt;This is a standard paragraph with &lt;strong&gt;important bold text&lt;/strong&gt; and &lt;em&gt;emphasized italic text&lt;/em&gt;.&lt;/p&gt;</code></div>
                     <div class="hybrid-demo-preview">
                         <h1 style="margin-top:0; font-size:2rem; border:none;">Main Title</h1>
@@ -319,7 +340,7 @@
 
                 <div class="hybrid-demo">
                     <div class="hybrid-demo-header"><i class="fas fa-keyboard"></i> Input Type: Text & Email</div>
-                    <div class="code-block"><code>&lt;label for="name"&gt;Full Name:&lt;/label&gt;
+                    <div class="code-block"><code class="language-html">&lt;label for="name"&gt;Full Name:&lt;/label&gt;
 &lt;input type="text" id="name" name="name" placeholder="Enter your name"&gt;
 
 &lt;label for="email"&gt;Email Address:&lt;/label&gt;
@@ -335,7 +356,7 @@
 
                 <div class="hybrid-demo">
                     <div class="hybrid-demo-header"><i class="far fa-check-circle"></i> Input Type: Radio & Checkbox</div>
-                    <div class="code-block"><code>&lt;label&gt;Gender (Select one):&lt;/label&gt;
+                    <div class="code-block"><code class="language-html">&lt;label&gt;Gender (Select one):&lt;/label&gt;
 &lt;input type="radio" name="gender" value="male"&gt; Male
 &lt;input type="radio" name="gender" value="female"&gt; Female
 
@@ -357,7 +378,7 @@
 
                 <div class="hybrid-demo">
                     <div class="hybrid-demo-header"><i class="fas fa-mouse-pointer"></i> Input Type: Select & Submit</div>
-                    <div class="code-block"><code>&lt;label for="subject"&gt;Choose a subject:&lt;/label&gt;
+                    <div class="code-block"><code class="language-html">&lt;label for="subject"&gt;Choose a subject:&lt;/label&gt;
 &lt;select id="subject" name="subject"&gt;
     &lt;option value="cs"&gt;Computer Science&lt;/option&gt;
     &lt;option value="math"&gt;Mathematics&lt;/option&gt;
@@ -412,7 +433,7 @@
                 </table>
 
                 <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">CSS Selectors</h3>
-                <div class="code-block"><code>/* Element selector — targets all &lt;p&gt; elements */
+                <div class="code-block"><code class="language-css">/* Element selector — targets all &lt;p&gt; elements */
 p { color: blue; }
 
 /* Class selector — targets elements with class="highlight" */
@@ -429,7 +450,7 @@ h1, h2, h3 { font-family: Arial, sans-serif; }</code></div>
 
                 <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The Box Model</h3>
                 <p class="concept-text">Every HTML element is a box with four layers (from inside out): <strong>Content → Padding → Border → Margin</strong>.</p>
-                <div class="code-block"><code>div {
+                <div class="code-block"><code class="language-css">div {
     width: 300px;           /* Content width */
     padding: 20px;          /* Space between content and border */
     border: 2px solid black;/* Visible border */
@@ -496,7 +517,7 @@ div { box-sizing: border-box; }
                 <div class="worked-example">
                     <h4><span class="step-num">1</span> Build a Student Profile Page</h4>
                     <p><strong>HTML (index.html):</strong></p>
-                    <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+                    <div class="code-block"><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
     &lt;meta charset="UTF-8"&gt;
@@ -547,7 +568,7 @@ div { box-sizing: border-box; }
 &lt;/html&gt;</code></div>
 
                     <p><strong>CSS (style.css):</strong></p>
-                    <div class="code-block"><code>* { margin: 0; padding: 0; box-sizing: border-box; }
+                    <div class="code-block"><code class="language-css">* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: Arial, sans-serif;
@@ -740,6 +761,8 @@ footer {
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/lesson.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 </body>
 
 </html>
