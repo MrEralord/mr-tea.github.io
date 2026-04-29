@@ -607,310 +607,289 @@ Step 5: Negative normalised mantissa starts 1.0...
 </div>
 
 <!-- ═══════════ 1.2 INFORMATION SECURITY ═══════════ -->
-<div id="s1-2" class="section">
-<h2><span class="section-num">1.2</span> Information Security</h2>
+<div id="s1-2">
+    <h2 class="lesson-section-title"><i class="fa-solid fa-shield-halved"></i> 1.2 Information Security</h2>
 
-<div id="sec-privacy">
-<h3>1.2.1 Security vs. Privacy vs. Data Integrity</h3>
+    <div id="sec-privacy">
+        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.1 Security vs. Privacy vs. Data Integrity</h3>
 
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Security</div>
-  <div class="callout-body">Technical measures used to protect data from unauthorised access, theft, loss, or damage. Security is about <em>HOW</em> data is protected using physical and software mechanisms.</div>
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Security</h4>
+            <p>Technical measures used to protect data from unauthorised access, theft, loss, or damage. Security is about <em>HOW</em> data is protected using physical and software mechanisms.</p>
+        </div>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Privacy</h4>
+            <p>The legal, ethical, and policy-based rights that govern <em>WHO</em> is allowed to view, access, share, or sell personal data. Governed by laws such as GDPR and national data protection legislation.</p>
+        </div>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Integrity</h4>
+            <p>The assurance that data is accurate, complete, consistent, and has not been improperly modified — either accidentally (human error) or maliciously. Integrity is about <em>WHETHER</em> data is correct and unchanged.</p>
+        </div>
+
+        <div class="pitfall-box">
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Three Completely Separate Concepts</h4>
+            <ul class="concept-list" style="margin-top: 8px;">
+                <li><span style="color:var(--warn-border)">✗</span> "Security means keeping data private" — <strong>WRONG</strong> — Security = technical protection</li>
+                <li><span style="color:var(--warn-border)">✗</span> "Integrity means protecting from hackers" — <strong>WRONG</strong> — Integrity = accuracy</li>
+                <li><span style="color:var(--warn-border)">✗</span> "Privacy means encryption" — <strong>WRONG</strong> — Privacy = legal rights over access</li>
+            </ul>
+            <p style="margin-top:8px">The examiner treats these as entirely distinct definitions and marks each separately. Conflation scores zero.</p>
+        </div>
+
+        <div class="pro-tip-box">
+            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "State two differences: data security vs data integrity" (2025 Paper Q2a)</h4>
+            <ol class="concept-list" style="margin-left: 1rem;">
+                <li>Data integrity deals with the <strong>validity/accuracy</strong> of data; data security deals with <strong>protection from unauthorised access</strong>.</li>
+                <li>Data security avoids <strong>unauthorised access</strong>; data integrity avoids <strong>human error or corruption</strong> during data entry and storage.</li>
+            </ol>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div id="backup-mirror">
+        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.2 Data Backup vs. Disk Mirroring</h3>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Backup</h4>
+            <p>A periodic copy of data made at a specific point in time and stored in a separate location (offline, off-site, or cloud). Backups allow recovery to any previous historical state.</p>
+        </div>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Disk Mirroring (RAID 1)</h4>
+            <p>A hardware redundancy technique in which all write operations are simultaneously duplicated to a second physical disk in real time. Provides continuous availability if one drive fails, but does <em>not</em> preserve historical copies.</p>
+        </div>
+
+        <table class="theory-table" style="margin-top: var(--space-md);">
+            <thead><tr><th>Feature</th><th>Data Backup</th><th>Disk Mirroring</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Timing</strong></td><td>Periodic (daily/weekly)</td><td>Instantaneous — real time</td></tr>
+                <tr><td><strong>Historical copies</strong></td><td>✓ Yes — multiple versions</td><td>✗ No — only current state</td></tr>
+                <tr><td><strong>Recovery: hardware failure</strong></td><td>✓ Yes</td><td>✓ Yes</td></tr>
+                <tr><td><strong>Recovery: accidental deletion</strong></td><td>✓ Yes</td><td>✗ No — deletion mirrored instantly</td></tr>
+                <tr><td><strong>Recovery: ransomware</strong></td><td>✓ Yes (clean backup)</td><td>✗ No — encrypted files mirrored</td></tr>
+                <tr><td><strong>Recovery: virus</strong></td><td>✓ Yes (pre-infection backup)</td><td>✗ No — virus spreads to mirror</td></tr>
+                <tr><td><strong>Storage location</strong></td><td>Off-site, offline, or cloud</td><td>On-site, second drive (always connected)</td></tr>
+                <tr><td><strong>Running replacement</strong></td><td>Not required</td><td>Cannot replace failed drive while running</td></tr>
+            </tbody>
+        </table>
+
+        <div class="pitfall-box">
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Disk Mirroring is NOT a Backup</h4>
+            <p>This is the single most penalised error in this topic. Any answer stating that "disk mirroring is a type of backup" scores <strong>zero</strong>. Because all changes are mirrored in real time, any corruption event — ransomware encryption, accidental deletion, virus infection — is <em>immediately</em> duplicated to the second drive. The data is lost on <strong>both disks simultaneously</strong>. Only an offline backup preserves a historical, clean copy of data.</p>
+        </div>
+
+        <figure class="lesson-image-block">
+            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=RAID+1+Disk+Mirroring+vs+Backup" alt="RAID 1 disk mirroring vs backup comparison">
+            <figcaption>Два сценария рядом: (1) Backup — сервер с периодической копией на offline диск/облако, стрелка "backup once a day"; (2) Disk Mirroring — два диска синхронизированы мгновенно. Красная стрелка "Ransomware encrypts files" попадает на ОБА диска при mirroring, но только на primary при backup (offline copy остаётся чистой).</figcaption>
+        </figure>
+
+        <div class="pro-tip-box">
+            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Consequence of absence of disk mirroring" (2025 Paper Q2b-ii — 1 mark, any one)</h4>
+            <ul class="concept-list">
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> A failed drive cannot be replaced while the computer is running.</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> A virus attacking one disk will also spread changes to the mirrored disk.</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Accidental deletion of a file on one disk causes deletion on the other.</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Storage capacity is reduced as two copies of all data must be maintained.</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div id="encryption">
+        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.3 Encryption</h3>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Encryption</h4>
+            <p>The process of converting plaintext data into unreadable <strong>ciphertext</strong> using a mathematical algorithm and a cryptographic key. Only an authorised party possessing the correct decryption key can reverse the process and read the original data.</p>
+        </div>
+
+        <figure class="lesson-image-block">
+            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Encryption+Decryption+Process" alt="Encryption decryption process key diagram">
+            <figcaption>Горизонтальная схема: "Plaintext" → коробка [Encryption Algorithm + Key] → "Ciphertext" →→ (сеть/интернет) →→ коробка [Decryption Algorithm + Key] → "Plaintext". Над стрелкой через сеть — значок хакера с подписью "sees only gibberish / нечитаемый текст".</figcaption>
+        </figure>
+
+        <div class="pro-tip-box">
+            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Describe how encryption keeps sensitive information secure" (2025 Paper Q2c — 2 marks)</h4>
+            <ol class="concept-list" style="margin-left: 1rem;">
+                <li>Data is converted using a chosen algorithm and key into a <strong>special code (ciphertext)</strong> that is unreadable without the correct decryption key.</li>
+                <li>This secures data while it is <strong>in transit</strong> (during online transactions, email communication, or file transfers) so that intercepted data cannot be read.</li>
+            </ol>
+        </div>
+
+        <p class="concept-text" style="margin-top: 12px;"><strong>Applications of encryption:</strong> HTTPS web browsing (TLS/SSL), email encryption (PGP), file encryption on lost devices, end-to-end messaging (WhatsApp), database encryption for stored customer data.</p>
+    </div>
+
+    <hr class="divider">
+
+    <div id="access-rights">
+        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.4 Access Rights and Authorisation</h3>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Access Rights</h4>
+            <p>Permissions assigned to specific users or processes that define exactly which resources (files, folders, databases, network shares) they are allowed to <strong>read</strong>, <strong>write</strong>, <strong>execute</strong>, or <strong>delete</strong>.</p>
+        </div>
+
+        <p class="concept-text"><strong>Why needed:</strong> The principle of least privilege — users should only access what they need for their role. This limits damage from both accidental misuse and deliberate attacks.</p>
+
+        <div class="pro-tip-box">
+            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Give two measures to protect confidential data from being stolen" (2024 Paper Q2a — 2 marks)</h4>
+            <ul class="concept-list">
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Encrypting data</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Granting limited access rights to authorised users only</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Blocking access from certain locations or IP ranges</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Keeping logs of all user entries to the system</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div id="verval">
+        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.5 Data Verification vs. Data Validation</h3>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Verification</h4>
+            <p>The process of checking that data entered into a computer system <strong>accurately matches the original source document</strong> from which it was taken. Verification checks whether data was <em>copied correctly</em>, not whether it is true.</p>
+        </div>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Validation</h4>
+            <p>An automatic computer check that ensures data is <strong>reasonable, sensible, and follows predefined rules</strong> (correct type, within an acceptable range, correct format, etc.). Validation cannot determine whether data is true or accurate.</p>
+        </div>
+
+        <table class="theory-table" style="margin-top: var(--space-md);">
+            <thead><tr><th>Feature</th><th>Verification</th><th>Validation</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Purpose</strong></td><td>Was this entered correctly from the source?</td><td>Does this follow the rules?</td></tr>
+                <tr><td><strong>Confirms data is TRUE?</strong></td><td>✗ No</td><td>✗ No</td></tr>
+                <tr><td><strong>Methods</strong></td><td>Double entry, visual proofreading, on-screen check</td><td>Range check, type check, presence check, format check, length check, check digit</td></tr>
+                <tr><td><strong>Example</strong></td><td>Enter password twice; compare both entries</td><td>Age must be a positive integer between 0 and 120</td></tr>
+            </tbody>
+        </table>
+
+        <div class="pitfall-box">
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Validation Does NOT Check if Data is True</h4>
+            <p>Validation can confirm that "Age: 25" is a positive integer within the allowed range. It <strong>cannot</strong> confirm this is the person's actual age. Any answer stating "validation checks if data is correct/true" scores zero on that mark point. The mark scheme rewards the words <em>"reasonable"</em> or <em>"follows the rules"</em>.</p>
+        </div>
+
+        <figure class="lesson-image-block">
+            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Data+Validation+vs+Verification" alt="Data validation vs verification computer science examples">
+            <figcaption>Таблица сравнения: левая половина "Verification" — скриншот двойного ввода пароля (Password / Confirm Password); правая половина "Validation" — форма с проверкой Range Check для поля Age (0–120), Type Check, Presence Check. Иллюстрация для каждого метода.</figcaption>
+        </figure>
+
+        <div class="pro-tip-box">
+            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Define data verification" (2024 Paper Q2b — 2 marks)</h4>
+            <ol class="concept-list" style="margin-left: 1rem;">
+                <li>The computer ensures that data input <strong>matches</strong> the data collected from the original source document.</li>
+                <li>Done by <strong>double entry</strong> or on-screen checking techniques — the two entries are compared and must match.</li>
+            </ol>
+        </div>
+
+        <h4 style="margin-top: var(--space-lg);">Validation Methods Reference</h4>
+        <table class="theory-table">
+            <thead><tr><th>Method</th><th>What it checks</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Range check</strong></td><td>Value falls within acceptable minimum–maximum</td><td>Age must be 0–120; month must be 1–12</td></tr>
+                <tr><td><strong>Type check</strong></td><td>Data is the correct data type</td><td>Age must be an integer, not "twenty"</td></tr>
+                <tr><td><strong>Presence check</strong></td><td>Required field is not left empty</td><td>Name field cannot be blank</td></tr>
+                <tr><td><strong>Format check</strong></td><td>Data matches a defined pattern</td><td>Date must be DD/MM/YYYY</td></tr>
+                <tr><td><strong>Length check</strong></td><td>String is within allowed character length</td><td>Password must be 8–20 characters</td></tr>
+                <tr><td><strong>Check digit</strong></td><td>Last digit verifies the rest (mathematical)</td><td>ISBN-13, barcode, credit card number</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="divider">
+
+    <div id="protection">
+        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.6 System Protection Measures</h3>
+
+        <figure class="lesson-image-block">
+            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Cybersecurity+Protection+Measures+Icons" alt="Cybersecurity protection measures icons infographic">
+            <figcaption>Инфографика с 7 иконками мер защиты в сетке: Firewall (стена огня), Biometrics (отпечаток пальца), Anti-virus (щит с галочкой), Encryption (замок), 2FA (телефон + замок), Physical Security (дверной замок), Strong Password (звёздочки). Каждая иконка с подписью и 1 строкой описания.</figcaption>
+        </figure>
+
+        <table class="theory-table" style="margin-top: var(--space-md);">
+            <thead><tr><th>Measure</th><th>Definition</th><th>Protects against</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Firewall</strong></td><td>Hardware or software that monitors and filters incoming/outgoing network traffic based on predefined security rules</td><td>Unauthorised network intrusion, malicious packets</td></tr>
+                <tr><td><strong>Biometrics</strong></td><td>Authentication using unique physical characteristics: fingerprint, retina scan, facial recognition, voice pattern</td><td>Unauthorised physical or logical access</td></tr>
+                <tr><td><strong>Anti-virus</strong></td><td>Detects, quarantines, and removes known malware by comparing files against a signature database</td><td>Viruses, trojans, worms, spyware</td></tr>
+                <tr><td><strong>Encryption</strong></td><td>Converts data to ciphertext readable only with the correct key</td><td>Data theft in transit or storage</td></tr>
+                <tr><td><strong>Access rights</strong></td><td>Per-user read/write/execute permissions on all resources</td><td>Privilege escalation, accidental modification</td></tr>
+                <tr><td><strong>Two-factor auth (2FA)</strong></td><td>Requires two forms of identity verification (password + OTP/biometric)</td><td>Account compromise from stolen passwords</td></tr>
+                <tr><td><strong>Physical security</strong></td><td>Locks, CCTV, secure server rooms, cable locks, security guards</td><td>Physical theft, hardware tampering</td></tr>
+                <tr><td><strong>Intrusion Detection (IDS)</strong></td><td>Monitors network for suspicious traffic patterns and alerts administrators</td><td>Active attacks, unusual usage patterns</td></tr>
+            </tbody>
+        </table>
+
+        <div class="pro-tip-box">
+            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Ways to protect against cracking" (2023 Paper Q5c)</h4>
+            <p>These <em>specific</em> answers are required. General security measures (backup, antivirus, firewall) are <strong>NOT accepted</strong> as anti-cracking answers:</p>
+            <ul class="concept-list">
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Enacting two-factor authentication</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Increasing password complexity / using strong passwords</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Using SSL/HTTPS protocol for all connections</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Encrypting sensitive data</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Hashing passwords stored in databases (not storing plaintext)</li>
+                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Monitoring and logging all login attempts</li>
+            </ul>
+        </div>
+
+        <h4 style="margin-top: var(--space-lg);">Malware Types</h4>
+        <table class="theory-table">
+            <thead><tr><th>Type</th><th>Definition</th><th>Key consequence</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Virus</strong></td><td>Self-replicating malicious code that attaches to legitimate programs and spreads when the host is executed</td><td>File corruption/deletion; spreads through network or removable media</td></tr>
+                <tr><td><strong>Worm</strong></td><td>Self-replicating program that spreads across networks independently without attaching to a host file</td><td>Network congestion; depletes bandwidth and system resources</td></tr>
+                <tr><td><strong>Trojan</strong></td><td>Malicious program disguised as legitimate software; does not self-replicate</td><td>Creates backdoor for remote access; enables data theft</td></tr>
+                <tr><td><strong>Ransomware</strong></td><td>Encrypts user's data and demands payment for the decryption key</td><td>All data inaccessible; financial loss; business disruption</td></tr>
+                <tr><td><strong>Spyware</strong></td><td>Silently monitors user activity and transmits collected data to a third party</td><td>Privacy violation; credential theft; identity fraud</td></tr>
+                <tr><td><strong>Adware</strong></td><td>Automatically displays or downloads unwanted advertisements</td><td>Performance degradation; privacy risk; gateway for other malware</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="divider">
+
+    <div id="blockchain">
+        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.7 Blockchain Technology</h3>
+
+        <div class="note-box">
+            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Blockchain</h4>
+            <p>A <strong>distributed database</strong> shared across and maintained by all nodes of a computer network. It is a continuously growing list of records called <strong>blocks</strong>, each cryptographically linked to the previous block, forming a chain. The data is tamper-evident, decentralised, and does not require a trusted central authority.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: var(--space-md);">
+            <div style="background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-md);">
+                <h4><i class="fa-solid fa-key"></i> Key Characteristics</h4>
+                <ul class="concept-list">
+                    <li><strong>Distributed:</strong> every node holds a copy</li>
+                    <li><strong>Immutable:</strong> past blocks cannot be altered</li>
+                    <li><strong>Transparent:</strong> all transactions visible to participants</li>
+                    <li><strong>Decentralised:</strong> no single point of control</li>
+                </ul>
+            </div>
+            <div style="background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-md);">
+                <h4><i class="fa-solid fa-rocket"></i> Applications</h4>
+                <ul class="concept-list">
+                    <li>Cryptocurrencies (Bitcoin, Ethereum)</li>
+                    <li>Smart contracts</li>
+                    <li>Supply chain tracking</li>
+                    <li>Financial services</li>
+                    <li>Domain name systems</li>
+                    <li>Medical record management</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 </div>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Privacy</div>
-  <div class="callout-body">The legal, ethical, and policy-based rights that govern <em>WHO</em> is allowed to view, access, share, or sell personal data. Governed by laws such as GDPR and national data protection legislation.</div>
-</div>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Integrity</div>
-  <div class="callout-body">The assurance that data is accurate, complete, consistent, and has not been improperly modified — either accidentally (human error) or maliciously. Integrity is about <em>WHETHER</em> data is correct and unchanged.</div>
-</div>
-
-<div class="callout warning">
-  <div class="callout-header"><span class="callout-icon">⚠️</span> Warning — Three Completely Separate Concepts</div>
-  <div class="callout-body">
-    <ul class="cross-list check-list">
-      <li>"Security means keeping data private" — <strong>WRONG</strong> — Security = technical protection</li>
-      <li>"Integrity means protecting from hackers" — <strong>WRONG</strong> — Integrity = accuracy</li>
-      <li>"Privacy means encryption" — <strong>WRONG</strong> — Privacy = legal rights over access</li>
-    </ul>
-    <p style="margin-top:8px">The examiner treats these as entirely distinct definitions and marks each separately. Conflation scores zero.</p>
-  </div>
-</div>
-
-<div class="callout tip">
-  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "State two differences: data security vs data integrity" (2025 Paper Q2a)</div>
-  <div class="callout-body">
-    <ol>
-      <li>Data integrity deals with the <strong>validity/accuracy</strong> of data; data security deals with <strong>protection from unauthorised access</strong>.</li>
-      <li>Data security avoids <strong>unauthorised access</strong>; data integrity avoids <strong>human error or corruption</strong> during data entry and storage.</li>
-    </ol>
-  </div>
-</div>
-</div>
-
-<!-- BACKUP vs MIRROR -->
-<div id="backup-mirror">
-<h3>1.2.2 Data Backup vs. Disk Mirroring</h3>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Backup</div>
-  <div class="callout-body">A periodic copy of data made at a specific point in time and stored in a separate location (offline, off-site, or cloud). Backups allow recovery to any previous historical state.</div>
-</div>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Disk Mirroring (RAID 1)</div>
-  <div class="callout-body">A hardware redundancy technique in which all write operations are simultaneously duplicated to a second physical disk in real time. Provides continuous availability if one drive fails, but does <em>not</em> preserve historical copies.</div>
-</div>
-
-<div class="table-wrapper">
-<table>
-  <thead><tr><th>Feature</th><th>Data Backup</th><th>Disk Mirroring</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Timing</strong></td><td>Periodic (daily/weekly)</td><td>Instantaneous — real time</td></tr>
-    <tr><td><strong>Historical copies</strong></td><td>✓ Yes — multiple versions</td><td>✗ No — only current state</td></tr>
-    <tr><td><strong>Recovery: hardware failure</strong></td><td>✓ Yes</td><td>✓ Yes</td></tr>
-    <tr><td><strong>Recovery: accidental deletion</strong></td><td>✓ Yes</td><td>✗ No — deletion mirrored instantly</td></tr>
-    <tr><td><strong>Recovery: ransomware</strong></td><td>✓ Yes (clean backup)</td><td>✗ No — encrypted files mirrored</td></tr>
-    <tr><td><strong>Recovery: virus</strong></td><td>✓ Yes (pre-infection backup)</td><td>✗ No — virus spreads to mirror</td></tr>
-    <tr><td><strong>Storage location</strong></td><td>Off-site, offline, or cloud</td><td>On-site, second drive (always connected)</td></tr>
-    <tr><td><strong>Running replacement</strong></td><td>Not required</td><td>Cannot replace failed drive while running</td></tr>
-  </tbody>
-</table>
-</div>
-
-<div class="callout warning">
-  <div class="callout-header"><span class="callout-icon">⚠️</span> Warning — Disk Mirroring is NOT a Backup</div>
-  <div class="callout-body">This is the single most penalised error in this topic. Any answer stating that "disk mirroring is a type of backup" scores <strong>zero</strong>. Because all changes are mirrored in real time, any corruption event — ransomware encryption, accidental deletion, virus infection — is <em>immediately</em> duplicated to the second drive. The data is lost on <strong>both disks simultaneously</strong>. Only an offline backup preserves a historical, clean copy of data.</div>
-</div>
-
-<div class="callout image-placeholder">
-  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
-  <p class="img-desc">Два сценария рядом: (1) Backup — сервер с периодической копией на offline диск/облако, стрелка "backup once a day"; (2) Disk Mirroring — два диска синхронизированы мгновенно. Красная стрелка "Ransomware encrypts files" попадает на ОБА диска при mirroring, но только на primary при backup (offline copy остаётся чистой).</p>
-  <span class="img-search">Поиск: "RAID 1 disk mirroring vs backup comparison ransomware attack diagram"</span>
-</div>
-
-<div class="callout tip">
-  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Consequence of absence of disk mirroring" (2025 Paper Q2b-ii — 1 mark, any one)</div>
-  <div class="callout-body">
-    <ul class="check-list">
-      <li>A failed drive cannot be replaced while the computer is running.</li>
-      <li>A virus attacking one disk will also spread changes to the mirrored disk.</li>
-      <li>Accidental deletion of a file on one disk causes deletion on the other.</li>
-      <li>Storage capacity is reduced as two copies of all data must be maintained.</li>
-    </ul>
-  </div>
-</div>
-</div>
-
-<!-- ENCRYPTION -->
-<div id="encryption">
-<h3>1.2.3 Encryption</h3>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Encryption</div>
-  <div class="callout-body">The process of converting plaintext data into unreadable <strong>ciphertext</strong> using a mathematical algorithm and a cryptographic key. Only an authorised party possessing the correct decryption key can reverse the process and read the original data.</div>
-</div>
-
-<div class="callout image-placeholder">
-  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
-  <p class="img-desc">Горизонтальная схема: "Plaintext" → коробка [Encryption Algorithm + Key] → "Ciphertext" →→ (сеть/интернет) →→ коробка [Decryption Algorithm + Key] → "Plaintext". Над стрелкой через сеть — значок хакера с подписью "sees only gibberish / нечитаемый текст".</p>
-  <span class="img-search">Поиск: "encryption decryption process key algorithm diagram simple"</span>
-</div>
-
-<div class="callout tip">
-  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Describe how encryption keeps sensitive information secure" (2025 Paper Q2c — 2 marks)</div>
-  <div class="callout-body">
-    <ol>
-      <li>Data is converted using a chosen algorithm and key into a <strong>special code (ciphertext)</strong> that is unreadable without the correct decryption key.</li>
-      <li>This secures data while it is <strong>in transit</strong> (during online transactions, email communication, or file transfers) so that intercepted data cannot be read.</li>
-    </ol>
-  </div>
-</div>
-
-<p><strong>Applications of encryption:</strong> HTTPS web browsing (TLS/SSL), email encryption (PGP), file encryption on lost devices, end-to-end messaging (WhatsApp), database encryption for stored customer data.</p>
-</div>
-
-<!-- ACCESS RIGHTS -->
-<div id="access-rights">
-<h3>1.2.4 Access Rights and Authorisation</h3>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Access Rights</div>
-  <div class="callout-body">Permissions assigned to specific users or processes that define exactly which resources (files, folders, databases, network shares) they are allowed to <strong>read</strong>, <strong>write</strong>, <strong>execute</strong>, or <strong>delete</strong>.</div>
-</div>
-
-<p><strong>Why needed:</strong> The principle of least privilege — users should only access what they need for their role. This limits damage from both accidental misuse and deliberate attacks.</p>
-
-<div class="callout tip">
-  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Give two measures to protect confidential data from being stolen" (2024 Paper Q2a — 2 marks)</div>
-  <div class="callout-body">
-    <ul class="check-list">
-      <li>Encrypting data</li>
-      <li>Granting limited access rights to authorised users only</li>
-      <li>Blocking access from certain locations or IP ranges</li>
-      <li>Keeping logs of all user entries to the system</li>
-    </ul>
-  </div>
-</div>
-</div>
-
-<!-- VERIFICATION vs VALIDATION -->
-<div id="verval">
-<h3>1.2.5 Data Verification vs. Data Validation</h3>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Verification</div>
-  <div class="callout-body">The process of checking that data entered into a computer system <strong>accurately matches the original source document</strong> from which it was taken. Verification checks whether data was <em>copied correctly</em>, not whether it is true.</div>
-</div>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Validation</div>
-  <div class="callout-body">An automatic computer check that ensures data is <strong>reasonable, sensible, and follows predefined rules</strong> (correct type, within an acceptable range, correct format, etc.). Validation cannot determine whether data is true or accurate.</div>
-</div>
-
-<div class="table-wrapper">
-<table>
-  <thead><tr><th>Feature</th><th>Verification</th><th>Validation</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Purpose</strong></td><td>Was this entered correctly from the source?</td><td>Does this follow the rules?</td></tr>
-    <tr><td><strong>Confirms data is TRUE?</strong></td><td>✗ No</td><td>✗ No</td></tr>
-    <tr><td><strong>Methods</strong></td><td>Double entry, visual proofreading, on-screen check</td><td>Range check, type check, presence check, format check, length check, check digit</td></tr>
-    <tr><td><strong>Example</strong></td><td>Enter password twice; compare both entries</td><td>Age must be a positive integer between 0 and 120</td></tr>
-  </tbody>
-</table>
-</div>
-
-<div class="callout warning">
-  <div class="callout-header"><span class="callout-icon">⚠️</span> Warning — Validation Does NOT Check if Data is True</div>
-  <div class="callout-body">Validation can confirm that "Age: 25" is a positive integer within the allowed range. It <strong>cannot</strong> confirm this is the person's actual age. Any answer stating "validation checks if data is correct/true" scores zero on that mark point. The mark scheme rewards the words <em>"reasonable"</em> or <em>"follows the rules"</em>.</div>
-</div>
-
-<div class="callout image-placeholder">
-  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
-  <p class="img-desc">Таблица сравнения: левая половина "Verification" — скриншот двойного ввода пароля (Password / Confirm Password); правая половина "Validation" — форма с проверкой Range Check для поля Age (0–120), Type Check, Presence Check. Иллюстрация для каждого метода.</p>
-  <span class="img-search">Поиск: "data validation vs verification computer science examples table"</span>
-</div>
-
-<div class="callout tip">
-  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Define data verification" (2024 Paper Q2b — 2 marks)</div>
-  <div class="callout-body">
-    <ol>
-      <li>The computer ensures that data input <strong>matches</strong> the data collected from the original source document.</li>
-      <li>Done by <strong>double entry</strong> or on-screen checking techniques — the two entries are compared and must match.</li>
-    </ol>
-  </div>
-</div>
-
-<h4>Validation Methods Reference</h4>
-<div class="table-wrapper">
-<table>
-  <thead><tr><th>Method</th><th>What it checks</th><th>Example</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Range check</strong></td><td>Value falls within acceptable minimum–maximum</td><td>Age must be 0–120; month must be 1–12</td></tr>
-    <tr><td><strong>Type check</strong></td><td>Data is the correct data type</td><td>Age must be an integer, not "twenty"</td></tr>
-    <tr><td><strong>Presence check</strong></td><td>Required field is not left empty</td><td>Name field cannot be blank</td></tr>
-    <tr><td><strong>Format check</strong></td><td>Data matches a defined pattern</td><td>Date must be DD/MM/YYYY</td></tr>
-    <tr><td><strong>Length check</strong></td><td>String is within allowed character length</td><td>Password must be 8–20 characters</td></tr>
-    <tr><td><strong>Check digit</strong></td><td>Last digit verifies the rest (mathematical)</td><td>ISBN-13, barcode, credit card number</td></tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-<!-- PROTECTION MEASURES -->
-<div id="protection">
-<h3>1.2.6 System Protection Measures</h3>
-
-<div class="callout image-placeholder">
-  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
-  <p class="img-desc">Инфографика с 7 иконками мер защиты в сетке: Firewall (стена огня), Biometrics (отпечаток пальца), Anti-virus (щит с галочкой), Encryption (замок), 2FA (телефон + замок), Physical Security (дверной замок), Strong Password (звёздочки). Каждая иконка с подписью и 1 строкой описания.</p>
-  <span class="img-search">Поиск: "cybersecurity protection measures icons infographic firewall encryption biometrics"</span>
-</div>
-
-<div class="table-wrapper">
-<table>
-  <thead><tr><th>Measure</th><th>Definition</th><th>Protects against</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Firewall</strong></td><td>Hardware or software that monitors and filters incoming/outgoing network traffic based on predefined security rules</td><td>Unauthorised network intrusion, malicious packets</td></tr>
-    <tr><td><strong>Biometrics</strong></td><td>Authentication using unique physical characteristics: fingerprint, retina scan, facial recognition, voice pattern</td><td>Unauthorised physical or logical access</td></tr>
-    <tr><td><strong>Anti-virus</strong></td><td>Detects, quarantines, and removes known malware by comparing files against a signature database</td><td>Viruses, trojans, worms, spyware</td></tr>
-    <tr><td><strong>Encryption</strong></td><td>Converts data to ciphertext readable only with the correct key</td><td>Data theft in transit or storage</td></tr>
-    <tr><td><strong>Access rights</strong></td><td>Per-user read/write/execute permissions on all resources</td><td>Privilege escalation, accidental modification</td></tr>
-    <tr><td><strong>Two-factor auth (2FA)</strong></td><td>Requires two forms of identity verification (password + OTP/biometric)</td><td>Account compromise from stolen passwords</td></tr>
-    <tr><td><strong>Physical security</strong></td><td>Locks, CCTV, secure server rooms, cable locks, security guards</td><td>Physical theft, hardware tampering</td></tr>
-    <tr><td><strong>Intrusion Detection (IDS)</strong></td><td>Monitors network for suspicious traffic patterns and alerts administrators</td><td>Active attacks, unusual usage patterns</td></tr>
-  </tbody>
-</table>
-</div>
-
-<div class="callout tip">
-  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Ways to protect against cracking" (2023 Paper Q5c)</div>
-  <div class="callout-body">
-    <p>These <em>specific</em> answers are required. General security measures (backup, antivirus, firewall) are <strong>NOT accepted</strong> as anti-cracking answers:</p>
-    <ul class="check-list">
-      <li>Enacting two-factor authentication</li>
-      <li>Increasing password complexity / using strong passwords</li>
-      <li>Using SSL/HTTPS protocol for all connections</li>
-      <li>Encrypting sensitive data</li>
-      <li>Hashing passwords stored in databases (not storing plaintext)</li>
-      <li>Monitoring and logging all login attempts</li>
-    </ul>
-  </div>
-</div>
-
-<h4>Malware Types</h4>
-<div class="table-wrapper">
-<table>
-  <thead><tr><th>Type</th><th>Definition</th><th>Key consequence</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Virus</strong></td><td>Self-replicating malicious code that attaches to legitimate programs and spreads when the host is executed</td><td>File corruption/deletion; spreads through network or removable media</td></tr>
-    <tr><td><strong>Worm</strong></td><td>Self-replicating program that spreads across networks independently without attaching to a host file</td><td>Network congestion; depletes bandwidth and system resources</td></tr>
-    <tr><td><strong>Trojan</strong></td><td>Malicious program disguised as legitimate software; does not self-replicate</td><td>Creates backdoor for remote access; enables data theft</td></tr>
-    <tr><td><strong>Ransomware</strong></td><td>Encrypts user's data and demands payment for the decryption key</td><td>All data inaccessible; financial loss; business disruption</td></tr>
-    <tr><td><strong>Spyware</strong></td><td>Silently monitors user activity and transmits collected data to a third party</td><td>Privacy violation; credential theft; identity fraud</td></tr>
-    <tr><td><strong>Adware</strong></td><td>Automatically displays or downloads unwanted advertisements</td><td>Performance degradation; privacy risk; gateway for other malware</td></tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-<!-- BLOCKCHAIN -->
-<div id="blockchain">
-<h3>1.2.7 Blockchain Technology</h3>
-
-<div class="callout definition">
-  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Blockchain</div>
-  <div class="callout-body">A <strong>distributed database</strong> shared across and maintained by all nodes of a computer network. It is a continuously growing list of records called <strong>blocks</strong>, each cryptographically linked to the previous block, forming a chain. The data is tamper-evident, decentralised, and does not require a trusted central authority.</div>
-</div>
-
-<div class="two-col">
-  <div class="info-card">
-    <h4>Key Characteristics</h4>
-    <ul>
-      <li><strong>Distributed:</strong> every node holds a copy</li>
-      <li><strong>Immutable:</strong> past blocks cannot be altered</li>
-      <li><strong>Transparent:</strong> all transactions visible to participants</li>
-      <li><strong>Decentralised:</strong> no single point of control</li>
-    </ul>
-  </div>
-  <div class="info-card">
-    <h4>Applications</h4>
-    <ul>
-      <li>Cryptocurrencies (Bitcoin, Ethereum)</li>
-      <li>Smart contracts</li>
-      <li>Supply chain tracking</li>
-      <li>Financial services</li>
-      <li>Domain name systems</li>
-      <li>Medical record management</li>
-    </ul>
-  </div>
-</div>
-</div>
-
-</div><!-- end s1-2 -->
+  <!-- end s1-2 -->
 
 <!-- ═══════════ 1.3 ETHICS ═══════════ -->
 <div id="s1-3" class="section">
