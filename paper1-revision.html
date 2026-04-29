@@ -6,189 +6,976 @@
 <title>NIS Grade 12 Computer Science — Theory Textbook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NIS Grade 12 CS — Theory Textbook</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/lesson.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+<style>
+:root {
+  --bg: #F9F7F2;
+  --bg-alt: #FFFFFF;
+  --text: #1C1B18;
+  --text-muted: #6B6860;
+  --navy: #0F1F3D;
+  --navy-light: #1E3A6E;
+  --gold: #B8860B;
+  --gold-light: #D4A017;
+  --gold-bg: #FFF9E6;
+  --def-bg: #EEF2FF;
+  --def-border: #3B4FC8;
+  --warn-bg: #FEF2F2;
+  --warn-border: #DC2626;
+  --rule-bg: #F0FDF4;
+  --rule-border: #15803D;
+  --tip-bg: #FFFBEB;
+  --tip-border: #D97706;
+  --img-bg: #F1F5F9;
+  --img-border: #94A3B8;
+  --table-head: #0F1F3D;
+  --table-stripe: #F5F3EE;
+  --border: #E2DDD6;
+  --shadow: 0 2px 12px rgba(15,31,61,0.08);
+  --radius: 8px;
+  --chapter-colors: #B8860B, #1E3A6E, #15803D, #9B1C1C, #0E7490;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Pro', 'Georgia', serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ═══════ LAYOUT ═══════ */
+.page-wrapper {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* ═══════ SIDEBAR ═══════ */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--navy);
+  color: #C8D3E8;
+  font-family: 'DM Sans', sans-serif;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #3B4FC8; border-radius: 2px; }
+
+.sidebar-header {
+  background: linear-gradient(135deg, #0F1F3D, #1E3A6E);
+  padding: 28px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-logo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 6px;
+}
+
+.sidebar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.3;
+}
+
+.sidebar-subtitle {
+  font-size: 11px;
+  color: #8899BB;
+  margin-top: 4px;
+}
+
+.toc-section {
+  padding: 8px 0;
+}
+
+.toc-chapter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 10px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  border-left: 3px solid var(--gold-light);
+  background: rgba(212,160,23,0.06);
+  margin-top: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.toc-chapter:hover { background: rgba(212,160,23,0.12); }
+
+.toc-chapter .ch-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--gold-light);
+  color: var(--navy);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.toc-item {
+  display: block;
+  padding: 5px 20px 5px 36px;
+  font-size: 12px;
+  color: #99AABF;
+  text-decoration: none;
+  transition: color 0.2s, background 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.toc-item:hover {
+  color: #FFFFFF;
+  background: rgba(255,255,255,0.04);
+  border-left-color: #3B4FC8;
+}
+
+.toc-sub {
+  display: block;
+  padding: 3px 20px 3px 48px;
+  font-size: 11px;
+  color: #667788;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.toc-sub:hover { color: #AABBCC; }
+
+/* ═══════ MAIN CONTENT ═══════ */
+.main-content {
+  max-width: 900px;
+  padding: 0 48px 80px;
+}
+
+/* ═══════ COVER ═══════ */
+.book-cover {
+  background: linear-gradient(145deg, var(--navy) 0%, #1E3A6E 60%, #2D4E8A 100%);
+  color: white;
+  padding: 80px 48px 60px;
+  margin: 0 -48px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.book-cover::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(212,160,23,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.book-cover::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+
+.cover-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212,160,23,0.15);
+  border: 1px solid rgba(212,160,23,0.3);
+  color: var(--gold-light);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 30px;
+  margin-bottom: 24px;
+}
+
+.cover-title {
+  font-family: 'Crimson Pro', serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.cover-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.cover-subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: #8899BB;
+  margin-bottom: 36px;
+  font-weight: 400;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.cover-meta-item {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+}
+
+.cover-meta-label {
+  color: #667788;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: 10px;
+  display: block;
+}
+
+.cover-meta-value {
+  color: #C8D3E8;
+  font-weight: 500;
+  margin-top: 2px;
+  font-size: 13px;
+}
+
+/* ═══════ LEGEND BOX ═══════ */
+.legend-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 48px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ═══════ CHAPTERS ═══════ */
+.chapter {
+  margin-bottom: 72px;
+}
+
+.chapter-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 40px;
+  padding: 28px 32px;
+  background: var(--bg-alt);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.chapter-header::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+}
+
+.ch1 .chapter-header::before { background: #B8860B; }
+.ch2 .chapter-header::before { background: #1E3A6E; }
+.ch3 .chapter-header::before { background: #15803D; }
+.ch4 .chapter-header::before { background: #9B1C1C; }
+.ch5 .chapter-header::before { background: #0E7490; }
+
+.chapter-number {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.12;
+  color: var(--navy);
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.chapter-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.ch1 .chapter-label { color: #B8860B; }
+.ch2 .chapter-label { color: #1E3A6E; }
+.ch3 .chapter-label { color: #15803D; }
+.ch4 .chapter-label { color: #9B1C1C; }
+.ch5 .chapter-label { color: #0E7490; }
+
+.chapter-title {
+  font-family: 'Crimson Pro', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.2;
+}
+
+.chapter-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.chapter-los {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.lo-badge {
+  display: inline-block;
+  background: var(--def-bg);
+  color: var(--def-border);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+
+/* ═══════ SECTIONS ═══════ */
+.section {
+  margin-bottom: 48px;
+}
+
+h2 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+h2 .section-num {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--navy);
+  color: var(--gold-light);
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+}
+
+h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 28px 0 12px;
+  padding-left: 14px;
+  border-left: 3px solid var(--gold);
+}
+
+h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy-light);
+  margin: 20px 0 8px;
+}
+
+p {
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+/* ═══════ CALLOUT BOXES ═══════ */
+.callout {
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin: 16px 0;
+  border-left: 4px solid;
+  position: relative;
+}
+
+.callout-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.callout-icon {
+  font-size: 14px;
+}
+
+.callout-body {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.callout.definition {
+  background: var(--def-bg);
+  border-left-color: var(--def-border);
+}
+
+.callout.definition .callout-header { color: var(--def-border); }
+
+.callout.warning {
+  background: var(--warn-bg);
+  border-left-color: var(--warn-border);
+}
+
+.callout.warning .callout-header { color: var(--warn-border); }
+
+.callout.rule {
+  background: var(--rule-bg);
+  border-left-color: var(--rule-border);
+}
+
+.callout.rule .callout-header { color: var(--rule-border); }
+
+.callout.tip {
+  background: var(--tip-bg);
+  border-left-color: var(--tip-border);
+}
+
+.callout.tip .callout-header { color: var(--tip-border); }
+
+.callout.image-placeholder {
+  background: var(--img-bg);
+  border-left-color: var(--img-border);
+  border-style: dashed;
+  border-left-style: solid;
+}
+
+.callout.image-placeholder .callout-header { color: var(--img-border); }
+
+.img-desc {
+  font-size: 14px;
+  color: #64748B;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.5;
+}
+
+.img-search {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: #E2E8F0;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* ═══════ TABLES ═══════ */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  border-radius: var(--radius);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+}
+
+thead {
+  background: var(--table-head);
+  color: white;
+}
+
+thead th {
+  padding: 12px 16px;
+  font-weight: 600;
+  text-align: left;
+  letter-spacing: 0.04em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) { background: var(--table-stripe); }
+tbody tr:nth-child(odd) { background: var(--bg-alt); }
+
+tbody td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+  vertical-align: top;
+}
+
+tbody tr:hover { background: #EEF2FF; }
+
+/* ═══════ CODE ═══════ */
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  background: #F1F5F9;
+  color: #1E3A6E;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #CBD5E1;
+}
+
+pre {
+  background: #0F1F3D;
+  color: #C8D3E8;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+.hl { color: #D4A017; font-weight: 600; }
+.hl-green { color: #4ADE80; }
+.hl-red { color: #F87171; }
+
+/* ═══════ EXAMPLE BLOCK ═══════ */
+.example-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 16px 0;
+}
+
+.example-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.example-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ═══════ COMPARISON BADGE ═══════ */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.compare-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+}
+
+.compare-card-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid;
+}
+
+.compare-card.blue .compare-card-title { color: #1E3A6E; border-color: #1E3A6E; }
+.compare-card.gold .compare-card-title { color: #B8860B; border-color: #B8860B; }
+.compare-card.green .compare-card-title { color: #15803D; border-color: #15803D; }
+.compare-card.red .compare-card-title { color: #9B1C1C; border-color: #9B1C1C; }
+
+.compare-card ul {
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.compare-card ul li {
+  padding: 2px 0 2px 18px;
+  position: relative;
+}
+
+.compare-card ul li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  font-size: 10px;
+  top: 5px;
+}
+
+.compare-card.blue ul li::before { color: #1E3A6E; }
+.compare-card.gold ul li::before { color: #B8860B; }
+.compare-card.green ul li::before { color: #15803D; }
+.compare-card.red ul li::before { color: #9B1C1C; }
+
+/* ═══════ KEY TERM ═══════ */
+.key-term {
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 3px;
+}
+
+/* ═══════ PRIORITY BADGE ═══════ */
+.priority {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+}
+
+.priority.critical { background: #FEE2E2; color: #991B1B; }
+.priority.high { background: #FEF3C7; color: #92400E; }
+.priority.medium { background: #D1FAE5; color: #065F46; }
+
+/* ═══════ MARKS BOX ═══════ */
+.marks-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--navy);
+  color: var(--gold-light);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-left: 8px;
+}
+
+/* ═══════ DIVIDER ═══════ */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 40px 0;
+}
+
+/* ═══════ STEP LIST ═══════ */
+.step-list {
+  list-style: none;
+  counter-reset: steps;
+  margin: 12px 0;
+}
+
+.step-list li {
+  counter-increment: steps;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.step-list li::before {
+  content: counter(steps);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  background: var(--navy);
+  color: var(--gold-light);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ═══════ CHECK LIST ═══════ */
+.check-list {
+  list-style: none;
+  margin: 12px 0;
+}
+
+.check-list li {
+  padding: 4px 0 4px 26px;
+  position: relative;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--rule-border);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.cross-list li::before {
+  content: '✗';
+  color: var(--warn-border);
+}
+
+/* ═══════ APPENDIX ═══════ */
+.appendix-header {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: white;
+  padding: 24px 28px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.appendix-header h2 {
+  color: var(--gold-light);
+  border: none;
+  margin-bottom: 4px;
+}
+
+.appendix-header p { color: #8899BB; font-size: 14px; }
+
+/* ═══════ PRINT ═══════ */
+@media print {
+  .sidebar { display: none; }
+  .page-wrapper { display: block; }
+  .main-content { max-width: 100%; padding: 20px; }
+  .book-cover { margin: 0 0 40px; padding: 40px; }
+}
+
+@media (max-width: 900px) {
+  .page-wrapper { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .main-content { padding: 20px; }
+  .compare-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════ UTIL ═══════ */
+ul { padding-left: 22px; }
+ul li { margin-bottom: 4px; line-height: 1.6; }
+strong { color: var(--navy); }
+em { color: var(--gold); font-style: normal; font-weight: 600; }
+
+.tag-line {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tag-line::before, .tag-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 12px 0;
+}
+
+@media (max-width: 650px) { .two-col { grid-template-columns: 1fr; } }
+
+.info-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.info-card h4 { margin-top: 0; margin-bottom: 8px; }
+</style>
 </head>
 <body>
 <div class="page-wrapper">
 
 <!-- ═══════ SIDEBAR ═══════ -->
 <aside class="sidebar">
-    <div class="sidebar-header">
-        <div>
-            <div style="font-weight: 800; color: var(--clr-tea); font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase;">mr. TEA ✦ NIS 2025</div>
-            <div style="font-size: 0.85rem; color: var(--text-primary); font-weight: 600; margin-top: 4px;">CS Grade 12 Paper 1</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Cambridge AS/A Level</div>
-        </div>
-        <button class="close-sidebar"><i class="fa-solid fa-xmark"></i></button>
-    </div>
+  <div class="sidebar-header">
+    <div class="sidebar-logo">mr. TEA ✦ NIS 2025</div>
+    <div class="sidebar-title">CS Grade 12<br>Paper 1 Theory Guide</div>
+    <div class="sidebar-subtitle">Cambridge AS/A Level aligned</div>
+  </div>
+  <nav class="toc-section">
 
-    <nav class="sidebar-nav">
-        <div class="nav-title">Table of Contents</div>
+    <a href="#chapter1" class="toc-chapter"><span class="ch-num">1</span>Data &amp; Information</a>
+    <a href="#s1-1" class="toc-item">1.1 Data Representation</a>
+    <a href="#number-systems" class="toc-sub">Number Systems</a>
+    <a href="#binary-arithmetic" class="toc-sub">Binary Arithmetic</a>
+    <a href="#twos-complement" class="toc-sub">Two's Complement</a>
+    <a href="#fixed-point" class="toc-sub">Fixed-Point Fractions</a>
+    <a href="#floating-point" class="toc-sub">Floating-Point</a>
+    <a href="#s1-2" class="toc-item">1.2 Information Security</a>
+    <a href="#sec-privacy" class="toc-sub">Security / Privacy / Integrity</a>
+    <a href="#backup-mirror" class="toc-sub">Backup &amp; Mirroring</a>
+    <a href="#encryption" class="toc-sub">Encryption</a>
+    <a href="#access-rights" class="toc-sub">Access Rights</a>
+    <a href="#verval" class="toc-sub">Verification vs Validation</a>
+    <a href="#protection" class="toc-sub">Protection Measures</a>
+    <a href="#blockchain" class="toc-sub">Blockchain</a>
+    <a href="#s1-3" class="toc-item">1.3 Ethics &amp; Ownership</a>
+    <a href="#opensource" class="toc-sub">Open / Closed Source</a>
+    <a href="#bespoke" class="toc-sub">Software Types</a>
+    <a href="#cloud-risks" class="toc-sub">Cloud &amp; Ethics</a>
 
-        <details class="syllabus-group" open>
-            <summary>1. Data & Information</summary>
-            <div class="syllabus-terms">
-                <details class="term-group" open>
-                    <summary>1.1 Data Representation</summary>
-                    <ul>
-                        <li><a href="#number-systems">Number Systems</a></li>
-                        <li><a href="#binary-arithmetic">Binary Arithmetic</a></li>
-                        <li><a href="#twos-complement">Two's Complement</a></li>
-                        <li><a href="#fixed-point">Fixed-Point Fractions</a></li>
-                        <li><a href="#floating-point">Floating-Point</a></li>
-                    </ul>
-                </details>
-                <details class="term-group">
-                    <summary>1.2 Information Security</summary>
-                    <ul>
-                        <li><a href="#sec-privacy">Security / Privacy / Integrity</a></li>
-                        <li><a href="#backup-mirror">Backup & Mirroring</a></li>
-                        <li><a href="#encryption">Encryption</a></li>
-                        <li><a href="#access-rights">Access Rights</a></li>
-                        <li><a href="#verval">Verification vs Validation</a></li>
-                        <li><a href="#protection">Protection Measures</a></li>
-                        <li><a href="#blockchain">Blockchain</a></li>
-                    </ul>
-                </details>
-                <details class="term-group">
-                    <summary>1.3 Ethics & Ownership</summary>
-                    <ul>
-                        <li><a href="#opensource">Open / Closed Source</a></li>
-                        <li><a href="#bespoke">Software Types</a></li>
-                        <li><a href="#cloud-risks">Cloud & Ethics</a></li>
-                    </ul>
-                </details>
-            </div>
-        </details>
+    <a href="#chapter2" class="toc-chapter"><span class="ch-num">2</span>Computer Systems</a>
+    <a href="#s2-1" class="toc-item">2.1 Software &amp; OS</a>
+    <a href="#os-functions" class="toc-sub">OS Functions</a>
+    <a href="#os-types" class="toc-sub">OS Types</a>
+    <a href="#user-interfaces" class="toc-sub">User Interfaces</a>
+    <a href="#s2-2" class="toc-item">2.2 CPU Architecture</a>
+    <a href="#system-bus" class="toc-sub">Registers &amp; System Bus</a>
+    <a href="#risc-cisc" class="toc-sub">RISC vs CISC</a>
+    <a href="#fde-cycle" class="toc-sub">FDE Cycle</a>
+    <a href="#cpu-performance" class="toc-sub">CPU Performance</a>
+    <a href="#s2-3" class="toc-item">2.3 Memory</a>
+    <a href="#ram-rom" class="toc-sub">RAM vs ROM</a>
+    <a href="#virtual-cache" class="toc-sub">Virtual &amp; Cache Memory</a>
+    <a href="#addressing" class="toc-sub">Memory Addressing</a>
+    <a href="#paging-seg" class="toc-sub">Paging &amp; Segmentation</a>
+    <a href="#vms" class="toc-sub">Virtual Machines</a>
 
-        <details class="syllabus-group">
-            <summary>2. Computer Systems</summary>
-            <div class="syllabus-terms">
-                <details class="term-group">
-                    <summary>2.1 Software & OS</summary>
-                    <ul>
-                        <li><a href="#os-functions">OS Functions</a></li>
-                        <li><a href="#os-types">OS Types</a></li>
-                        <li><a href="#user-interfaces">User Interfaces</a></li>
-                    </ul>
-                </details>
-                <details class="term-group">
-                    <summary>2.2 CPU Architecture</summary>
-                    <ul>
-                        <li><a href="#system-bus">Registers & System Bus</a></li>
-                        <li><a href="#risc-cisc">RISC vs CISC</a></li>
-                        <li><a href="#fde-cycle">FDE Cycle</a></li>
-                        <li><a href="#cpu-performance">CPU Performance</a></li>
-                    </ul>
-                </details>
-                <details class="term-group">
-                    <summary>2.3 Memory</summary>
-                    <ul>
-                        <li><a href="#ram-rom">RAM vs ROM</a></li>
-                        <li><a href="#virtual-cache">Virtual & Cache Memory</a></li>
-                        <li><a href="#addressing">Memory Addressing</a></li>
-                        <li><a href="#paging-seg">Paging & Segmentation</a></li>
-                        <li><a href="#vms">Virtual Machines</a></li>
-                    </ul>
-                </details>
-            </div>
-        </details>
+    <a href="#chapter3" class="toc-chapter"><span class="ch-num">3</span>Information Systems</a>
+    <a href="#ai-apps" class="toc-item">3.1 AI Applications</a>
+    <a href="#vr-ar" class="toc-item">3.2 VR &amp; AR</a>
 
-        <details class="syllabus-group">
-            <summary>3. Information Systems</summary>
-            <div class="syllabus-terms">
-                <ul style="border-left: none; margin-left: 0; padding-left: 0;">
-                    <li><a href="#ai-apps">3.1 AI Applications</a></li>
-                    <li><a href="#vr-ar">3.2 VR & AR</a></li>
-                </ul>
-            </div>
-        </details>
+    <a href="#chapter4" class="toc-chapter"><span class="ch-num">4</span>Programming</a>
+    <a href="#pl-generations" class="toc-item">4.1 Language Generations</a>
+    <a href="#low-high" class="toc-item">4.2 Low vs High Level</a>
+    <a href="#compilers" class="toc-item">4.3 Compilers vs Interpreters</a>
+    <a href="#dec-imp" class="toc-item">4.4 Declarative vs Imperative</a>
+    <a href="#compilation" class="toc-item">4.5 Compilation Stages</a>
 
-        <details class="syllabus-group">
-            <summary>4. Programming</summary>
-            <div class="syllabus-terms">
-                <ul style="border-left: none; margin-left: 0; padding-left: 0;">
-                    <li><a href="#pl-generations">4.1 Language Generations</a></li>
-                    <li><a href="#low-high">4.2 Low vs High Level</a></li>
-                    <li><a href="#compilers">4.3 Compilers vs Interpreters</a></li>
-                    <li><a href="#dec-imp">4.4 Declarative vs Imperative</a></li>
-                    <li><a href="#compilation">4.5 Compilation Stages</a></li>
-                </ul>
-            </div>
-        </details>
+    <a href="#chapter5" class="toc-chapter"><span class="ch-num">5</span>Networks</a>
+    <a href="#lan-wan" class="toc-item">5.1 LAN vs WAN</a>
+    <a href="#topologies" class="toc-item">5.2 Topologies</a>
+    <a href="#net-hardware" class="toc-item">5.3 Network Hardware</a>
+    <a href="#switching" class="toc-item">5.4 Packet vs Circuit Switching</a>
+    <a href="#osi" class="toc-item">5.5 OSI Model</a>
+    <a href="#www-internet" class="toc-item">5.6 WWW / Internet / Intranet</a>
+    <a href="#dns-url" class="toc-item">5.7 URL &amp; DNS</a>
+    <a href="#client-server" class="toc-item">5.8 Client-Server</a>
+    <a href="#mac" class="toc-item">5.9 MAC Addresses</a>
+    <a href="#protocols" class="toc-item">5.10 Protocols</a>
+    <a href="#ip-address" class="toc-item">5.11 IP Addresses</a>
 
-        <details class="syllabus-group">
-            <summary>5. Networks</summary>
-            <div class="syllabus-terms">
-                <ul style="border-left: none; margin-left: 0; padding-left: 0;">
-                    <li><a href="#lan-wan">5.1 LAN vs WAN</a></li>
-                    <li><a href="#topologies">5.2 Topologies</a></li>
-                    <li><a href="#net-hardware">5.3 Network Hardware</a></li>
-                    <li><a href="#switching">5.4 Packet vs Circuit Switching</a></li>
-                    <li><a href="#osi">5.5 OSI Model</a></li>
-                    <li><a href="#www-internet">5.6 WWW / Internet / Intranet</a></li>
-                    <li><a href="#dns-url">5.7 URL & DNS</a></li>
-                    <li><a href="#client-server">5.8 Client-Server</a></li>
-                    <li><a href="#mac">5.9 MAC Addresses</a></li>
-                    <li><a href="#protocols">5.10 Protocols</a></li>
-                    <li><a href="#ip-address">5.11 IP Addresses</a></li>
-                </ul>
-            </div>
-        </details>
+    <a href="#appendixA" class="toc-chapter"><span class="ch-num">A</span>Appendices</a>
+    <a href="#cmd-words" class="toc-item">Command Words</a>
+    <a href="#frequency" class="toc-item">Topic Frequency</a>
+    <a href="#misconceptions" class="toc-item">All Warnings</a>
 
-        <details class="syllabus-group">
-            <summary>A. Appendices</summary>
-            <div class="syllabus-terms">
-                <ul style="border-left: none; margin-left: 0; padding-left: 0;">
-                    <li><a href="#cmd-words">Command Words</a></li>
-                    <li><a href="#frequency">Topic Frequency</a></li>
-                    <li><a href="#misconceptions">All Warnings</a></li>
-                </ul>
-            </div>
-        </details>
-
-    </nav>
+  </nav>
 </aside>
+
 <!-- ═══════ MAIN ═══════ -->
 <main class="main-content">
-    <header class="mobile-header">
-        <div class="header-left">
-            <button class="mobile-toggle"><i class="fa-solid fa-bars"></i></button>
-        </div>
-    </header>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            
-            <header class="lesson-header">
-                <div class="lesson-unit-badge">
-                    <i class="fa-solid fa-book"></i> Grade 12 · Paper 1
-                </div>
-                <h1 class="lesson-title">Computer Science Theory</h1>
-                <p class="lesson-intro">Comprehensive study guide aligned with NIS 2025 learning objectives & past paper analysis 2023–2025.</p>
-                
-                <div class="lesson-lo-card">
-                    <h3><i class="fa-solid fa-bullseye"></i> Metadata</h3>
-                    <ul class="lesson-lo-list">
-                        <li><span class="lo-code">Author</span> mr. TEA · mr-tea.net</li>
-                        <li><span class="lo-code">Edition</span> 2025–2026</li>
-                        <li><span class="lo-code">Coverage</span> All G12 CS LOs + Past Papers</li>
-                    </ul>
-                </div>
-            </header>
-
-            <hr class="divider">
-        </div>
+<!-- COVER -->
+<div class="book-cover">
+  <div class="cover-badge">📚 NIS 2025 · Cambridge AS &amp; A Level 9618</div>
+  <div class="cover-title">Computer Science<br><em>Grade 12 — Paper 1</em><br>Theory Textbook</div>
+  <div class="cover-subtitle">Comprehensive study guide aligned with NIS learning objectives &amp; past paper analysis 2023–2025</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Author</span>
+      <span class="cover-meta-value">mr. TEA · mr-tea.net</span>
     </div>
-
-
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Edition</span>
+      <span class="cover-meta-value">2025–2026</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Coverage</span>
+      <span class="cover-meta-value">All G12 CS LOs + Past Papers</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Max Marks</span>
+      <span class="cover-meta-value">70 marks · 90 minutes</span>
+    </div>
+  </div>
+</div>
 
 <!-- LEGEND -->
 <div class="legend-box">
@@ -217,241 +1004,251 @@
 </div>
 
 <!-- ──────────────────────────── -->
-<div id="s1-1">
-    <h2 class="lesson-section-title"><i class="fa-solid fa-folder-tree"></i> 1.1 Data Representation</h2>
+<div id="s1-1" class="section">
+<h2><span class="section-num">1.1</span> Data Representation</h2>
 
-    <div id="number-systems">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.1.1 Number Systems</h3>
-        <p class="concept-text">Computers store and process all data as binary — the simplest electrical signal. However, programmers interact with data using more readable number systems. Understanding conversions between bases is essential and appears in every Paper 1.</p>
+<div id="number-systems">
+<h3>1.1.1 Number Systems</h3>
+<p>Computers store and process all data as binary — the simplest electrical signal. However, programmers interact with data using more readable number systems. Understanding conversions between bases is essential and appears in every Paper 1.</p>
 
-        <h4 style="margin-top: var(--space-lg);">Binary (Base-2)</h4>
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Binary</h4>
-            <p>A positional number system using only two digits (0 and 1), where each position represents a successive power of 2. Computers use binary because electronic transistors represent exactly two physical states: high voltage (1) and low voltage (0).</p>
-        </div>
+<!-- BINARY -->
+<h4>Binary (Base-2)</h4>
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Binary</div>
+  <div class="callout-body">A positional number system using only two digits (0 and 1), where each position represents a successive power of 2. Computers use binary because electronic transistors represent exactly two physical states: high voltage (1) and low voltage (0).</div>
+</div>
 
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=8-bit+Binary+Place+Values+Table" alt="8-bit binary place values table">
-            <figcaption>Таблица позиционных значений 8-битного числа: заголовок "2⁷ | 2⁶ | 2⁵ | 2⁴ | 2³ | 2² | 2¹ | 2⁰" = "128 | 64 | 32 | 16 | 8 | 4 | 2 | 1". Под каждым — бит числа 01011011, и итог 91₁₀. Ячейки с битом=1 выделены цветом.</figcaption>
-        </figure>
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Таблица позиционных значений 8-битного числа: заголовок "2⁷ | 2⁶ | 2⁵ | 2⁴ | 2³ | 2² | 2¹ | 2⁰" = "128 | 64 | 32 | 16 | 8 | 4 | 2 | 1". Под каждым — бит числа 01011011, и итог 91₁₀. Ячейки с битом=1 выделены цветом.</p>
+  <span class="img-search">Поиск: "8-bit binary place values table positional"</span>
+</div>
 
-        <h4 style="margin-top: var(--space-lg);">Hexadecimal (Base-16)</h4>
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Hexadecimal</h4>
-            <p>A positional number system using 16 symbols (0–9 and A–F), where each single digit represents exactly four binary bits (one nibble). A is 10, B is 11, C is 12, D is 13, E is 14, F is 15.</p>
-        </div>
+<!-- HEXADECIMAL -->
+<h4>Hexadecimal (Base-16)</h4>
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Hexadecimal</div>
+  <div class="callout-body">A positional number system using 16 symbols (0–9 and A–F), where each single digit represents exactly four binary bits (one nibble). A is 10, B is 11, C is 12, D is 13, E is 14, F is 15.</div>
+</div>
 
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Hexadecimal+Conversion+Table" alt="Hexadecimal conversion table">
-            <figcaption>Таблица трёх систем: три колонки — Denary (0–15) | Binary (4-bit) | Hexadecimal (0–F). Каждая строка одного числа. Highlighted строки: 10=A, 11=B, 12=C, 13=D, 14=E, 15=F.</figcaption>
-        </figure>
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Таблица трёх систем: три колонки — Denary (0–15) | Binary (4-bit) | Hexadecimal (0–F). Каждая строка одного числа. Highlighted строки: 10=A, 11=B, 12=C, 13=D, 14=E, 15=F.</p>
+  <span class="img-search">Поиск: "hexadecimal binary decimal conversion table 0-15"</span>
+</div>
 
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Explain advantages of hexadecimal" (LO 12.1.1.2)</h4>
-            <ul class="concept-list">
-                <li>Shorter and easier to read than binary — fewer characters to write and transcribe</li>
-                <li>Easy to convert: group exactly 4 binary bits → 1 hex digit; no arithmetic needed</li>
-                <li>Less prone to human error when recording memory addresses or machine code</li>
-                <li>Widely used by programmers to represent binary values in compact, readable form</li>
-            </ul>
-        </div>
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Explain advantages of hexadecimal" (LO 12.1.1.2)</div>
+  <div class="callout-body">
+    <ul class="check-list">
+      <li>Shorter and easier to read than binary — fewer characters to write and transcribe</li>
+      <li>Easy to convert: group exactly 4 binary bits → 1 hex digit; no arithmetic needed</li>
+      <li>Less prone to human error when recording memory addresses or machine code</li>
+      <li>Widely used by programmers to represent binary values in compact, readable form</li>
+    </ul>
+  </div>
+</div>
 
-        <div class="analogy-box">
-            <h4><i class="fa-solid fa-clipboard-list"></i> Rule — Denary → Hexadecimal</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Divide the denary number by 16. Record the remainder (if ≥ 10, convert: 10=A … 15=F).</li>
-                <li>Divide the quotient by 16. Record the remainder.</li>
-                <li>Repeat until the quotient is 0.</li>
-                <li>Read remainders from <strong>BOTTOM to TOP</strong>.</li>
-            </ol>
-        </div>
+<div class="callout rule">
+  <div class="callout-header"><span class="callout-icon">📋</span> Rule — Denary → Hexadecimal</div>
+  <div class="callout-body">
+    <ol class="step-list">
+      <li>Divide the denary number by 16. Record the remainder (if ≥ 10, convert: 10=A … 15=F).</li>
+      <li>Divide the quotient by 16. Record the remainder.</li>
+      <li>Repeat until the quotient is 0.</li>
+      <li>Read remainders from <strong>BOTTOM to TOP</strong>.</li>
+    </ol>
+  </div>
+</div>
 
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — 2025 Paper Q1a & 2024 Paper Q1a</h4>
-            <p><strong>92₁₀ → Hexadecimal</strong></p>
-            <div class="code-block">
-<code>92 ÷ 16 = 5 remainder <span class="hl">12 (C)</span>
+<div class="example-block">
+  <div class="example-label">Worked Example — 2025 Paper Q1a &amp; 2024 Paper Q1a</div>
+  <p><strong>92₁₀ → Hexadecimal</strong></p>
+  <pre><code>92 ÷ 16 = 5 remainder <span class="hl">12 (C)</span>
  5 ÷ 16 = 0 remainder <span class="hl">5</span>
-Read bottom to top → <span class="hl">5C₁₆</span></code>
-            </div>
-            <p style="margin-top:12px"><strong>183₁₀ → Hexadecimal</strong> (2025 Paper Q1a answer: B7)</p>
-            <div class="code-block">
-<code>183 ÷ 16 = 11 remainder <span class="hl">7</span>
+Read bottom to top → <span class="hl">5C₁₆</span></code></pre>
+  <p style="margin-top:12px"><strong>183₁₀ → Hexadecimal</strong> (2025 Paper Q1a answer: B7)</p>
+  <pre><code>183 ÷ 16 = 11 remainder <span class="hl">7</span>
  11 ÷ 16 =  0 remainder <span class="hl">11 (B)</span>
-Read bottom to top → <span class="hl">B7₁₆</span></code>
-            </div>
-        </div>
+Read bottom to top → <span class="hl">B7₁₆</span></code></pre>
+</div>
 
-        <h4 style="margin-top: var(--space-lg);">Octal (Base-8)</h4>
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Octal</h4>
-            <p>A positional number system using digits 0–7, where each digit represents exactly three binary bits. Convert binary→octal by grouping bits in threes from the right.</p>
-        </div>
+<!-- OCTAL -->
+<h4>Octal (Base-8)</h4>
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Octal</div>
+  <div class="callout-body">A positional number system using digits 0–7, where each digit represents exactly three binary bits. Convert binary→octal by grouping bits in threes from the right.</div>
+</div>
 
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — 92₁₀ → Octal</h4>
-            <div class="code-block">
-<code>92 ÷ 8 = 11 remainder <span class="hl">4</span>
+<div class="example-block">
+  <div class="example-label">Worked Example — 92₁₀ → Octal</div>
+  <pre><code>92 ÷ 8 = 11 remainder <span class="hl">4</span>
 11 ÷ 8 =  1 remainder <span class="hl">3</span>
  1 ÷ 8 =  0 remainder <span class="hl">1</span>
-Read bottom to top → <span class="hl">134₈</span></code>
-            </div>
-        </div>
+Read bottom to top → <span class="hl">134₈</span></code></pre>
+</div>
 
-        <h4 style="margin-top: var(--space-lg);">Complete Conversion Reference Table</h4>
-        <table class="theory-table">
-            <thead>
-                <tr><th>Conversion</th><th>Method</th><th>Key Rule</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><strong>Denary → Binary</strong></td><td>Divide by 2 repeatedly</td><td>Record remainders <strong>bottom to top</strong></td></tr>
-                <tr><td><strong>Binary → Denary</strong></td><td>Multiply bit × positional power of 2</td><td>Sum all products</td></tr>
-                <tr><td><strong>Binary → Hex</strong></td><td>Group <strong>4 bits</strong> from right</td><td>Convert each group to hex digit</td></tr>
-                <tr><td><strong>Hex → Binary</strong></td><td>Expand each hex digit</td><td>Every digit becomes <strong>exactly 4 bits</strong></td></tr>
-                <tr><td><strong>Denary → Octal</strong></td><td>Divide by 8 repeatedly</td><td>Record remainders <strong>bottom to top</strong></td></tr>
-                <tr><td><strong>Binary → Octal</strong></td><td>Group <strong>3 bits</strong> from right</td><td>Convert each group to octal digit</td></tr>
-            </tbody>
-        </table>
+<!-- CONVERSION TABLE -->
+<h4>Complete Conversion Reference Table</h4>
+<div class="table-wrapper">
+<table>
+  <thead><tr><th>Conversion</th><th>Method</th><th>Key Rule</th></tr></thead>
+  <tbody>
+    <tr><td>Denary → Binary</td><td>Divide by 2 repeatedly</td><td>Record remainders <strong>bottom to top</strong></td></tr>
+    <tr><td>Binary → Denary</td><td>Multiply bit × positional power of 2</td><td>Sum all products</td></tr>
+    <tr><td>Binary → Hex</td><td>Group <strong>4 bits</strong> from right</td><td>Convert each group to hex digit</td></tr>
+    <tr><td>Hex → Binary</td><td>Expand each hex digit</td><td>Every digit becomes <strong>exactly 4 bits</strong></td></tr>
+    <tr><td>Denary → Octal</td><td>Divide by 8 repeatedly</td><td>Record remainders <strong>bottom to top</strong></td></tr>
+    <tr><td>Binary → Octal</td><td>Group <strong>3 bits</strong> from right</td><td>Convert each group to octal digit</td></tr>
+  </tbody>
+</table>
+</div>
 
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Number+Systems+Hub+Diagram" alt="Number Systems Hub Diagram">
-            <figcaption>Диаграмма "Number Systems Hub": четыре узла (Binary, Denary, Hex, Octal) соединены стрелками. Каждая стрелка подписана методом. Например, Binary→Hex = "group 4 bits"; Denary→Binary = "divide by 2".</figcaption>
-        </figure>
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Диаграмма "Number Systems Hub": четыре узла (Binary, Denary, Hex, Octal) соединены стрелками. Каждая стрелка подписана методом. Например, Binary→Hex = "group 4 bits"; Denary→Binary = "divide by 2".</p>
+  <span class="img-search">Поиск: "number base conversion flowchart diagram all bases"</span>
+</div>
+</div>
+
+<!-- ─────────────── BINARY ARITHMETIC ─────────────── -->
+<div id="binary-arithmetic">
+<h3>1.1.2 Binary Arithmetic</h3>
+
+<h4>Binary Addition</h4>
+<div class="callout rule">
+  <div class="callout-header"><span class="callout-icon">📋</span> Rule — Binary Addition Laws</div>
+  <div class="callout-body">
+    <div class="two-col">
+      <div>
+        <code>0 + 0 = 0</code><br>
+        <code>0 + 1 = 1</code><br>
+        <code>1 + 0 = 1</code>
+      </div>
+      <div>
+        <code>1 + 1 = 0, carry 1</code><br>
+        <code>1 + 1 + 1 = 1, carry 1</code>
+      </div>
     </div>
+  </div>
+</div>
 
-    <hr class="divider">
+<div class="callout warning">
+  <div class="callout-header"><span class="callout-icon">⚠️</span> Warning — 8-bit Overflow</div>
+  <div class="callout-body">If the result produces a 9th bit (carry-out beyond bit 7), that overflow bit is <strong>discarded</strong> in 8-bit arithmetic. The mark scheme awards separate marks for: (1) showing the overflow carry, and (2) the correct 8-bit result without it. Never silently drop the carry — show it explicitly.</div>
+</div>
 
-    <div id="binary-arithmetic">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.1.2 Binary Arithmetic</h3>
-
-        <h4 style="margin-top: var(--space-lg);">Binary Addition</h4>
-        <div class="analogy-box">
-            <h4><i class="fa-solid fa-clipboard-list"></i> Rule — Binary Addition Laws</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div>
-                    <code>0 + 0 = 0</code><br>
-                    <code>0 + 1 = 1</code><br>
-                    <code>1 + 0 = 1</code>
-                </div>
-                <div>
-                    <code>1 + 1 = 0, carry 1</code><br>
-                    <code>1 + 1 + 1 = 1, carry 1</code>
-                </div>
-            </div>
-        </div>
-
-        <div class="pitfall-box">
-            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — 8-bit Overflow</h4>
-            <p>If the result produces a 9th bit (carry-out beyond bit 7), that overflow bit is <strong>discarded</strong> in 8-bit arithmetic. The mark scheme awards separate marks for: (1) showing the overflow carry, and (2) the correct 8-bit result without it. Never silently drop the carry — show it explicitly.</p>
-        </div>
-
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — 2025 Paper Q1b: 10101010 + 10111001</h4>
-            <div class="code-block">
-<code>  10101010  (170₁₀)
+<div class="example-block">
+  <div class="example-label">Worked Example — 2025 Paper Q1b: 10101010 + 10111001</div>
+  <pre><code>  10101010  (170₁₀)
 + 10111001  (185₁₀)
 ----------
 <span class="hl-red">1</span> 01100011  ← overflow bit discarded
 
-8-bit result: <span class="hl">01100011</span> (99₁₀)</code>
-            </div>
-        </div>
+8-bit result: <span class="hl">01100011</span> (99₁₀)</code></pre>
+</div>
 
-        <h4 style="margin-top: var(--space-lg);">Binary Multiplication</h4>
-        <div class="analogy-box">
-            <h4><i class="fa-solid fa-clipboard-list"></i> Rule — Binary Multiplication (Shift-and-Add)</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>For each bit of the multiplier (right to left): if bit = <strong>1</strong>, write the multiplicand shifted left by that bit's position number. If bit = <strong>0</strong>, write zeros.</li>
-                <li>Align all partial products and add them using binary addition rules.</li>
-            </ol>
-        </div>
+<h4>Binary Multiplication</h4>
+<div class="callout rule">
+  <div class="callout-header"><span class="callout-icon">📋</span> Rule — Binary Multiplication (Shift-and-Add)</div>
+  <div class="callout-body">
+    <ol class="step-list">
+      <li>For each bit of the multiplier (right to left): if bit = <strong>1</strong>, write the multiplicand shifted left by that bit's position number. If bit = <strong>0</strong>, write zeros.</li>
+      <li>Align all partial products and add them using binary addition rules.</li>
+    </ol>
+  </div>
+</div>
 
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — 2025 Paper Q1c: 1111 × 111</h4>
-            <div class="code-block">
-<code>         1111   (× 1, shift 0)
+<div class="example-block">
+  <div class="example-label">Worked Example — 2025 Paper Q1c: 1111 × 111</div>
+  <pre><code>         1111   (× 1, shift 0)
         11110   (× 1, shift 1)
        111100   (× 1, shift 2)
      ---------
-<span class="hl">      1101001</span>   = 105₁₀  ✓</code>
-            </div>
-        </div>
+<span class="hl">      1101001</span>   = 105₁₀  ✓</code></pre>
+</div>
 
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Binary+Multiplication+Shift+and+Add" alt="Binary multiplication shift and add example">
-            <figcaption>Пошаговый пример 1111 × 111 с выровненными частичными произведениями и итоговым сложением. Аналогично умножению в столбик, но двоичным. Каждая строка помечена "× 1, shift N".</figcaption>
-        </figure>
-    </div>
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Пошаговый пример 1111 × 111 с выровненными частичными произведениями и итоговым сложением. Аналогично умножению в столбик, но двоичным. Каждая строка помечена "× 1, shift N".</p>
+  <span class="img-search">Поиск: "binary multiplication shift and add example diagram 1111 x 111"</span>
+</div>
+</div>
 
-    <hr class="divider">
+<!-- ─────────────── TWO'S COMPLEMENT ─────────────── -->
+<div id="twos-complement">
+<h3>1.1.3 Two's Complement</h3>
 
-    <div id="twos-complement">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.1.3 Two's Complement</h3>
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Two's Complement</div>
+  <div class="callout-body">A method of representing <strong>signed binary integers</strong> where the most significant bit (MSB) carries a <em>negative</em> place value of −2^(n−1), while all other bits carry their normal positive place values. To negate any number: <strong>invert all bits</strong> (one's complement), then <strong>add 1</strong>.</div>
+</div>
 
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Two's Complement</h4>
-            <p>A method of representing <strong>signed binary integers</strong> where the most significant bit (MSB) carries a <em>negative</em> place value of −2^(n−1), while all other bits carry their normal positive place values. To negate any number: <strong>invert all bits</strong> (one's complement), then <strong>add 1</strong>.</p>
-        </div>
+<p><strong>Why two's complement?</strong> It allows the same adder circuit to perform both addition and subtraction. No special hardware is needed for negative numbers. Additionally, there is only one representation of zero (unlike sign-and-magnitude).</p>
 
-        <p class="concept-text"><strong>Why two's complement?</strong> It allows the same adder circuit to perform both addition and subtraction. No special hardware is needed for negative numbers. Additionally, there is only one representation of zero (unlike sign-and-magnitude).</p>
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Таблица позиционных значений 8-битного two's complement: −128 | 64 | 32 | 16 | 8 | 4 | 2 | 1. MSB имеет знак минус и выделен красным. Пример: 1111 0001 = −128+64+32+16+0+0+0+1 = −15.</p>
+  <span class="img-search">Поиск: "two's complement 8-bit signed place values MSB negative"</span>
+</div>
 
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Two's+Complement+Place+Values" alt="Two's complement place values">
-            <figcaption>Таблица позиционных значений 8-битного two's complement: −128 | 64 | 32 | 16 | 8 | 4 | 2 | 1. MSB имеет знак минус и выделен красным. Пример: 1111 0001 = −128+64+32+16+0+0+0+1 = −15.</figcaption>
-        </figure>
+<div class="callout rule">
+  <div class="callout-header"><span class="callout-icon">📋</span> Rule — Converting –n to 8-bit Two's Complement</div>
+  <div class="callout-body">
+    <ol class="step-list">
+      <li>Write <strong>+n</strong> as an 8-bit binary number (pad with leading zeros to reach 8 bits).</li>
+      <li>Invert <strong>ALL</strong> bits: 0→1 and 1→0. This is the one's complement.</li>
+      <li>Add <strong>1</strong> to the one's complement result.</li>
+    </ol>
+  </div>
+</div>
 
-        <div class="analogy-box">
-            <h4><i class="fa-solid fa-clipboard-list"></i> Rule — Converting –n to 8-bit Two's Complement</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Write <strong>+n</strong> as an 8-bit binary number (pad with leading zeros to reach 8 bits).</li>
-                <li>Invert <strong>ALL</strong> bits: 0→1 and 1→0. This is the one's complement.</li>
-                <li>Add <strong>1</strong> to the one's complement result.</li>
-            </ol>
-        </div>
-
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — 2024 Paper Q1b: –15₁₀ as 8-bit two's complement</h4>
-            <div class="code-block">
-<code>Step 1: +15 =  <span class="hl">0000 1111</span>
+<div class="example-block">
+  <div class="example-label">Worked Example — 2024 Paper Q1b: –15₁₀ as 8-bit two's complement</div>
+  <pre><code>Step 1: +15 =  <span class="hl">0000 1111</span>
 Step 2: Invert → <span class="hl">1111 0000</span>
-Step 3: Add 1 → <span class="hl">1111 0001</span>  ✓</code>
-            </div>
-        </div>
+Step 3: Add 1 → <span class="hl">1111 0001</span>  ✓</code></pre>
+</div>
 
-        <div class="analogy-box">
-            <h4><i class="fa-solid fa-clipboard-list"></i> Rule — Reading a Negative Two's Complement Number (MSB = 1)</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Invert all bits.</li>
-                <li>Add 1.</li>
-                <li>Convert the result to denary.</li>
-                <li>Apply a minus sign.</li>
-            </ol>
-        </div>
+<div class="callout rule">
+  <div class="callout-header"><span class="callout-icon">📋</span> Rule — Reading a Negative Two's Complement Number (MSB = 1)</div>
+  <div class="callout-body">
+    <ol class="step-list">
+      <li>Invert all bits.</li>
+      <li>Add 1.</li>
+      <li>Convert the result to denary.</li>
+      <li>Apply a minus sign.</li>
+    </ol>
+  </div>
+</div>
 
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — Range of n-bit Two's Complement</h4>
-            <ul class="concept-list">
-                <li>Minimum value = <strong>−2^(n−1)</strong> &nbsp; Maximum value = <strong>+2^(n−1) − 1</strong></li>
-                <li>For 8-bit: range = <strong>−128 to +127</strong></li>
-                <li>For 16-bit: range = <strong>−32768 to +32767</strong></li>
-            </ul>
-        </div>
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — Range of n-bit Two's Complement</div>
+  <div class="callout-body">
+    <ul>
+      <li>Minimum value = <strong>−2^(n−1)</strong> &nbsp; Maximum value = <strong>+2^(n−1) − 1</strong></li>
+      <li>For 8-bit: range = <strong>−128 to +127</strong></li>
+      <li>For 16-bit: range = <strong>−32768 to +32767</strong></li>
+    </ul>
+  </div>
+</div>
 
-        <h4 style="margin-top: var(--space-lg);">Binary Subtraction Using Two's Complement</h4>
-        <div class="analogy-box">
-            <h4><i class="fa-solid fa-clipboard-list"></i> Rule — A − B using Two's Complement</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Convert B to its two's complement form (representing −B).</li>
-                <li>Compute A + (−B) using standard binary addition.</li>
-                <li>Discard any carry bit beyond the 8-bit result.</li>
-                <li>The remaining 8 bits = A − B.</li>
-            </ol>
-        </div>
+<h4>Binary Subtraction Using Two's Complement</h4>
+<div class="callout rule">
+  <div class="callout-header"><span class="callout-icon">📋</span> Rule — A − B using Two's Complement</div>
+  <div class="callout-body">
+    <ol class="step-list">
+      <li>Convert B to its two's complement form (representing −B).</li>
+      <li>Compute A + (−B) using standard binary addition.</li>
+      <li>Discard any carry bit beyond the 8-bit result.</li>
+      <li>The remaining 8 bits = A − B.</li>
+    </ol>
+  </div>
+</div>
 
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — 2024 Paper Q1c: 23₁₀ − 14₁₀ in Binary</h4>
-            <div class="code-block">
-<code>Step 1: −14 → 0000 1110 → invert → 1111 0001 → +1 → <span class="hl">1111 0010</span>
+<div class="example-block">
+  <div class="example-label">Worked Example — 2024 Paper Q1c: 23₁₀ − 14₁₀ in Binary</div>
+  <pre><code>Step 1: −14 → 0000 1110 → invert → 1111 0001 → +1 → <span class="hl">1111 0010</span>
 
 Step 2: Add
   0001 0111  (23₁₀)
@@ -459,51 +1256,53 @@ Step 2: Add
 -----------
 <span class="hl-red">1</span> 0000 1001
 
-Step 3: Discard overflow → <span class="hl">0000 1001</span> = <span class="hl">9₁₀</span>  ✓</code>
-            </div>
-        </div>
+Step 3: Discard overflow → <span class="hl">0000 1001</span> = <span class="hl">9₁₀</span>  ✓</code></pre>
+</div>
 
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — Unsigned vs Two's Complement Interpretation</h4>
-            <p>The byte <code>1011 1000</code> has different values depending on interpretation:</p>
-            <ul class="concept-list">
-                <li><strong>Unsigned integer:</strong> 128+32+16+8 = <strong>184</strong></li>
-                <li><strong>Two's complement:</strong> MSB=1 → negative. Invert: 0100 0111, add 1: 0100 1000 = 72 → value = <strong>−72</strong></li>
-                <li><strong>Fixed-point (3 fractional bits):</strong> Integer part from remaining 5 bits, fractional from last 3 → context-dependent</li>
-            </ul>
-            <p style="margin-top:8px">Always check which interpretation the question specifies.</p>
-        </div>
-    </div>
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — Unsigned vs Two's Complement Interpretation</div>
+  <div class="callout-body">
+    <p>The byte <code>1011 1000</code> has different values depending on interpretation:</p>
+    <ul>
+      <li><strong>Unsigned integer:</strong> 128+32+16+8 = <strong>184</strong></li>
+      <li><strong>Two's complement:</strong> MSB=1 → negative. Invert: 0100 0111, add 1: 0100 1000 = 72 → value = <strong>−72</strong></li>
+      <li><strong>Fixed-point (3 fractional bits):</strong> Integer part from remaining 5 bits, fractional from last 3 → context-dependent</li>
+    </ul>
+    <p>Always check which interpretation the question specifies.</p>
+  </div>
+</div>
+</div>
 
-    <hr class="divider">
+<!-- ─────────────── FIXED POINT ─────────────── -->
+<div id="fixed-point">
+<h3>1.1.4 Fixed-Point Binary Fractions</h3>
 
-    <div id="fixed-point">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.1.4 Fixed-Point Binary Fractions</h3>
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Fixed-Point Representation</div>
+  <div class="callout-body">A method of representing real (non-integer) numbers in binary where the binary point is fixed at a predetermined position. Bits to the left of the point represent positive powers of 2; bits to the right represent negative powers of 2: 2⁻¹ = 0.5, 2⁻² = 0.25, 2⁻³ = 0.125, and so on.</div>
+</div>
 
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Fixed-Point Representation</h4>
-            <p>A method of representing real (non-integer) numbers in binary where the binary point is fixed at a predetermined position. Bits to the left of the point represent positive powers of 2; bits to the right represent negative powers of 2: 2⁻¹ = 0.5, 2⁻² = 0.25, 2⁻³ = 0.125, and so on.</p>
-        </div>
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Таблица 8 позиций (5 целых + 3 дробных): заголовок "16 | 8 | 4 | 2 | 1 | . | 0.5 | 0.25 | 0.125". Бинарная точка "." выделена вертикальной линией. Пример: 10110.001 = 16+4+2+0.125 = 22.125.</p>
+  <span class="img-search">Поиск: "fixed point binary representation 5 integer 3 fractional bits table"</span>
+</div>
 
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Fixed-Point+Binary+Representation" alt="Fixed-point binary representation table">
-            <figcaption>Таблица 8 позиций (5 целых + 3 дробных): заголовок "16 | 8 | 4 | 2 | 1 | . | 0.5 | 0.25 | 0.125". Бинарная точка "." выделена вертикальной линией. Пример: 10110.001 = 16+4+2+0.125 = 22.125.</figcaption>
-        </figure>
+<div class="callout rule">
+  <div class="callout-header"><span class="callout-icon">📋</span> Rule — Converting Denary Fraction → Binary</div>
+  <div class="callout-body">
+    <ol class="step-list">
+      <li>Multiply the fractional part by 2.</li>
+      <li>Record the integer part of the result (0 or 1) — this is the next binary bit after the point.</li>
+      <li>Use only the remaining fractional part and repeat.</li>
+      <li>Read bits from <strong>TOP to BOTTOM</strong>.</li>
+    </ol>
+  </div>
+</div>
 
-        <div class="analogy-box">
-            <h4><i class="fa-solid fa-clipboard-list"></i> Rule — Converting Denary Fraction → Binary</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Multiply the fractional part by 2.</li>
-                <li>Record the integer part of the result (0 or 1) — this is the next binary bit after the point.</li>
-                <li>Use only the remaining fractional part and repeat.</li>
-                <li>Read bits from <strong>TOP to BOTTOM</strong>.</li>
-            </ol>
-        </div>
-
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — Converting 0.75₁₀ and 0.625₁₀ to Binary</h4>
-            <div class="code-block">
-<code><span class="hl">0.75₁₀:</span>
+<div class="example-block">
+  <div class="example-label">Worked Example — Converting 0.75₁₀ and 0.625₁₀ to Binary</div>
+  <pre><code><span class="hl">0.75₁₀:</span>
 0.75 × 2 = <span class="hl">1</span>.50  → bit = 1
 0.50 × 2 = <span class="hl">1</span>.00  → bit = 1
 Answer: .11₂  ✓
@@ -512,57 +1311,57 @@ Answer: .11₂  ✓
 0.625 × 2 = <span class="hl">1</span>.25  → bit = 1
 0.25  × 2 = <span class="hl">0</span>.50  → bit = 0
 0.50  × 2 = <span class="hl">1</span>.00  → bit = 1
-Answer: .101₂  ✓</code>
-            </div>
-        </div>
+Answer: .101₂  ✓</code></pre>
+</div>
 
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — 2025 Paper Q1d-iii: Byte as unsigned fixed-point (3 fractional bits)</h4>
-            <p>Byte = <code>1 0 1 1 1 0 0 0</code>, with right 3 bits as fractional:<br>
-            Integer (5 left bits): <code>10110</code> = 16+4+2 = 22 &nbsp;|&nbsp; Fractional (3 right bits): <code>001</code> = 0.125<br>
-            Answer = <strong>22.125</strong> (1 mark integer part, 1 mark fractional part)</p>
-        </div>
-    </div>
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — 2025 Paper Q1d-iii: Byte as unsigned fixed-point (3 fractional bits)</div>
+  <div class="callout-body">Byte = <code>1 0 1 1 1 0 0 0</code>, with right 3 bits as fractional:<br>
+  Integer (5 left bits): <code>10110</code> = 16+4+2 = 22 &nbsp;|&nbsp; Fractional (3 right bits): <code>001</code> = 0.125<br>
+  Answer = <strong>22.125</strong> (1 mark integer part, 1 mark fractional part)</div>
+</div>
+</div>
 
-    <hr class="divider">
+<!-- ─────────────── FLOATING POINT ─────────────── -->
+<div id="floating-point">
+<h3>1.1.5 Floating-Point Binary &amp; Normalisation</h3>
 
-    <div id="floating-point">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.1.5 Floating-Point Binary & Normalisation</h3>
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Floating-Point Representation</div>
+  <div class="callout-body">A method of storing real numbers in binary as two components: a <strong>mantissa</strong> (the significant digits representing the fractional value) and an <strong>exponent</strong> (a power of 2 that scales the mantissa, effectively positioning the binary point). This allows a far wider range of values than fixed-point at the cost of variable precision.</div>
+</div>
 
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Floating-Point Representation</h4>
-            <p>A method of storing real numbers in binary as two components: a <strong>mantissa</strong> (the significant digits representing the fractional value) and an <strong>exponent</strong> (a power of 2 that scales the mantissa, effectively positioning the binary point). This allows a far wider range of values than fixed-point at the cost of variable precision.</p>
-        </div>
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Normalisation</div>
+  <div class="callout-body">A normalised floating-point number is one where the mantissa uses the maximum available bits for precision, with no redundant leading zeros or ones. The rule:<br>
+  • <strong>Positive normalised:</strong> mantissa must start <code>0.1...</code> (first bit after sign = 1)<br>
+  • <strong>Negative normalised:</strong> mantissa must start <code>1.0...</code> (first bit after sign = 0)</div>
+</div>
 
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Normalisation</h4>
-            <p>A normalised floating-point number is one where the mantissa uses the maximum available bits for precision, with no redundant leading zeros or ones. The rule:<br>
-            • <strong>Positive normalised:</strong> mantissa must start <code>0.1...</code> (first bit after sign = 1)<br>
-            • <strong>Negative normalised:</strong> mantissa must start <code>1.0...</code> (first bit after sign = 0)</p>
-        </div>
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Диаграмма нормализации: число 10001.11₂ → стрелка сдвига двоичной точки на 5 позиций влево → нормализованная форма 0.100011100 × 2^5. Показать: (1) исходное число, (2) количество сдвигов = экспонента = +5. Рядом — таблица mantissa | exponent.</p>
+  <span class="img-search">Поиск: "floating point binary normalisation shift diagram mantissa exponent" / mr-tea.net → pages/12-cs-theory/twos-complement-floats.html</span>
+</div>
 
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Floating-Point+Normalisation+Shift+Diagram" alt="Floating point normalisation diagram">
-            <figcaption>Диаграмма нормализации: число 10001.11₂ → стрелка сдвига двоичной точки на 5 позиций влево → нормализованная форма 0.100011100 × 2^5. Показать: (1) исходное число, (2) количество сдвигов = экспонента = +5. Рядом — таблица mantissa | exponent.</figcaption>
-        </figure>
+<div class="callout rule">
+  <div class="callout-header"><span class="callout-icon">📋</span> Rule — Converting Positive Denary to Normalised Floating-Point</div>
+  <div class="callout-body">
+    <ol class="step-list">
+      <li>Convert the integer part to binary.</li>
+      <li>Convert the fractional part to binary (multiply-by-2 method).</li>
+      <li>Write the full binary number: integer.fraction₂</li>
+      <li><strong>Normalise:</strong> shift the binary point left until mantissa = <code>0.1xxxxxx</code>.</li>
+      <li>Count positions shifted left = <strong>positive exponent</strong>.</li>
+      <li>Represent the exponent in two's complement with the required number of bits.</li>
+      <li>Write the mantissa bits padded to the required length (the leading <code>0.</code> is implicit in the sign bit).</li>
+    </ol>
+  </div>
+</div>
 
-        <div class="analogy-box">
-            <h4><i class="fa-solid fa-clipboard-list"></i> Rule — Converting Positive Denary to Normalised Floating-Point</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Convert the integer part to binary.</li>
-                <li>Convert the fractional part to binary (multiply-by-2 method).</li>
-                <li>Write the full binary number: integer.fraction₂</li>
-                <li><strong>Normalise:</strong> shift the binary point left until mantissa = <code>0.1xxxxxx</code>.</li>
-                <li>Count positions shifted left = <strong>positive exponent</strong>.</li>
-                <li>Represent the exponent in two's complement with the required number of bits.</li>
-                <li>Write the mantissa bits padded to the required length (the leading <code>0.</code> is implicit in the sign bit).</li>
-            </ol>
-        </div>
-
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — 2023 Paper Q1d: 17.75₁₀ → 10-bit mantissa, 6-bit exponent (two's complement)</h4>
-            <div class="code-block">
-<code>Step 1: 17₁₀  = 10001₂
+<div class="example-block">
+  <div class="example-label">Worked Example — 2023 Paper Q1d: 17.75₁₀ → 10-bit mantissa, 6-bit exponent (two's complement)</div>
+  <pre><code>Step 1: 17₁₀  = 10001₂
 Step 2: 0.75₁₀ = .11₂
 Step 3: Combined = <span class="hl">10001.11₂</span>
 Step 4: Normalise → shift 5 left → <span class="hl">0.1000111₂ × 2⁵</span>
@@ -570,18 +1369,16 @@ Step 5: Exponent = +5
 Step 6: +5 in 6-bit two's complement = <span class="hl">000101</span>
 Step 7: Mantissa (10 bits) = <span class="hl">0100011100</span>
 
-
+Final answer:
 ┌─────────────────────────┬──────────────┐
 │   Mantissa (10 bits)    │ Exponent (6) │
 │  0  1  0  0  0  1  1  1 0  0  │  0  0  0  1  0  1 │
-└─────────────────────────┴──────────────┘</code>
-            </div>
-        </div>
+└─────────────────────────┴──────────────┘</code></pre>
+</div>
 
-        <div class="worked-example">
-            <h4><span class="step-num">!</span> Worked Example — 2025 Paper Q1e: –23.75₁₀ (mark scheme answer)</h4>
-            <div class="code-block">
-<code>Step 1: 23₁₀  = 10111₂
+<div class="example-block">
+  <div class="example-label">Worked Example — 2025 Paper Q1e: –23.75₁₀ (mark scheme answer)</div>
+  <pre><code>Step 1: 23₁₀  = 10111₂
 Step 2: 0.75₁₀ = .11₂
 Step 3: Combined = 10111.11₂
 Step 4: Exponent = +5 → <span class="hl">0101</span> (4-bit two's complement)
@@ -592,310 +1389,332 @@ Step 5: Negative normalised mantissa starts 1.0...
 ┌─────────────────────────────┬──────────────┐
 │      Mantissa (12 bits)     │ Exponent (4) │
 │  1  0  1  0  0  0  0  1  0  0  0  0  │  0  1  0  1 │
-└─────────────────────────────┴──────────────┘</code>
-            </div>
-        </div>
+└─────────────────────────────┴──────────────┘</code></pre>
+</div>
 
-        <div class="pitfall-box">
-            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Non-Normalised Mantissa</h4>
-            <p>A mantissa starting <code>0.01...</code> is <strong>NOT normalised</strong> — it wastes one bit of precision. The first bit AFTER the binary point must be 1 (positive) or 0 (negative). This is the most frequently penalised error in floating-point questions. The examiner checks the leading bits explicitly and will not award the mantissa mark for a non-normalised answer.</p>
-        </div>
+<div class="callout warning">
+  <div class="callout-header"><span class="callout-icon">⚠️</span> Warning — Non-Normalised Mantissa</div>
+  <div class="callout-body">A mantissa starting <code>0.01...</code> is <strong>NOT normalised</strong> — it wastes one bit of precision. The first bit AFTER the binary point must be 1 (positive) or 0 (negative). This is the most frequently penalised error in floating-point questions. The examiner checks the leading bits explicitly and will not award the mantissa mark for a non-normalised answer.</div>
+</div>
 
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — Shifting Direction and Exponent Sign</h4>
-            <ul class="concept-list">
-                <li>Shift binary point <strong>LEFT</strong> → <strong>positive</strong> exponent (number is large)</li>
-                <li>Shift binary point <strong>RIGHT</strong> → <strong>negative</strong> exponent (number is small, e.g., 0.0011₂)</li>
-                <li>Count shifts = magnitude of exponent; represent in two's complement</li>
-            </ul>
-        </div>
-    </div>
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — Shifting Direction and Exponent Sign</div>
+  <div class="callout-body">
+    <ul>
+      <li>Shift binary point <strong>LEFT</strong> → <strong>positive</strong> exponent (number is large)</li>
+      <li>Shift binary point <strong>RIGHT</strong> → <strong>negative</strong> exponent (number is small, e.g., 0.0011₂)</li>
+      <li>Count shifts = magnitude of exponent; represent in two's complement</li>
+    </ul>
+  </div>
+</div>
+</div>
 </div>
 
 <!-- ═══════════ 1.2 INFORMATION SECURITY ═══════════ -->
-<div id="s1-2">
-    <h2 class="lesson-section-title"><i class="fa-solid fa-shield-halved"></i> 1.2 Information Security</h2>
+<div id="s1-2" class="section">
+<h2><span class="section-num">1.2</span> Information Security</h2>
 
-    <div id="sec-privacy">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.1 Security vs. Privacy vs. Data Integrity</h3>
+<div id="sec-privacy">
+<h3>1.2.1 Security vs. Privacy vs. Data Integrity</h3>
 
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Security</h4>
-            <p>Technical measures used to protect data from unauthorised access, theft, loss, or damage. Security is about <em>HOW</em> data is protected using physical and software mechanisms.</p>
-        </div>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Privacy</h4>
-            <p>The legal, ethical, and policy-based rights that govern <em>WHO</em> is allowed to view, access, share, or sell personal data. Governed by laws such as GDPR and national data protection legislation.</p>
-        </div>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Integrity</h4>
-            <p>The assurance that data is accurate, complete, consistent, and has not been improperly modified — either accidentally (human error) or maliciously. Integrity is about <em>WHETHER</em> data is correct and unchanged.</p>
-        </div>
-
-        <div class="pitfall-box">
-            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Three Completely Separate Concepts</h4>
-            <ul class="concept-list" style="margin-top: 8px;">
-                <li><span style="color:var(--warn-border)">✗</span> "Security means keeping data private" — <strong>WRONG</strong> — Security = technical protection</li>
-                <li><span style="color:var(--warn-border)">✗</span> "Integrity means protecting from hackers" — <strong>WRONG</strong> — Integrity = accuracy</li>
-                <li><span style="color:var(--warn-border)">✗</span> "Privacy means encryption" — <strong>WRONG</strong> — Privacy = legal rights over access</li>
-            </ul>
-            <p style="margin-top:8px">The examiner treats these as entirely distinct definitions and marks each separately. Conflation scores zero.</p>
-        </div>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "State two differences: data security vs data integrity" (2025 Paper Q2a)</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Data integrity deals with the <strong>validity/accuracy</strong> of data; data security deals with <strong>protection from unauthorised access</strong>.</li>
-                <li>Data security avoids <strong>unauthorised access</strong>; data integrity avoids <strong>human error or corruption</strong> during data entry and storage.</li>
-            </ol>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div id="backup-mirror">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.2 Data Backup vs. Disk Mirroring</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Backup</h4>
-            <p>A periodic copy of data made at a specific point in time and stored in a separate location (offline, off-site, or cloud). Backups allow recovery to any previous historical state.</p>
-        </div>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Disk Mirroring (RAID 1)</h4>
-            <p>A hardware redundancy technique in which all write operations are simultaneously duplicated to a second physical disk in real time. Provides continuous availability if one drive fails, but does <em>not</em> preserve historical copies.</p>
-        </div>
-
-        <table class="theory-table" style="margin-top: var(--space-md);">
-            <thead><tr><th>Feature</th><th>Data Backup</th><th>Disk Mirroring</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Timing</strong></td><td>Periodic (daily/weekly)</td><td>Instantaneous — real time</td></tr>
-                <tr><td><strong>Historical copies</strong></td><td>✓ Yes — multiple versions</td><td>✗ No — only current state</td></tr>
-                <tr><td><strong>Recovery: hardware failure</strong></td><td>✓ Yes</td><td>✓ Yes</td></tr>
-                <tr><td><strong>Recovery: accidental deletion</strong></td><td>✓ Yes</td><td>✗ No — deletion mirrored instantly</td></tr>
-                <tr><td><strong>Recovery: ransomware</strong></td><td>✓ Yes (clean backup)</td><td>✗ No — encrypted files mirrored</td></tr>
-                <tr><td><strong>Recovery: virus</strong></td><td>✓ Yes (pre-infection backup)</td><td>✗ No — virus spreads to mirror</td></tr>
-                <tr><td><strong>Storage location</strong></td><td>Off-site, offline, or cloud</td><td>On-site, second drive (always connected)</td></tr>
-                <tr><td><strong>Running replacement</strong></td><td>Not required</td><td>Cannot replace failed drive while running</td></tr>
-            </tbody>
-        </table>
-
-        <div class="pitfall-box">
-            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Disk Mirroring is NOT a Backup</h4>
-            <p>This is the single most penalised error in this topic. Any answer stating that "disk mirroring is a type of backup" scores <strong>zero</strong>. Because all changes are mirrored in real time, any corruption event — ransomware encryption, accidental deletion, virus infection — is <em>immediately</em> duplicated to the second drive. The data is lost on <strong>both disks simultaneously</strong>. Only an offline backup preserves a historical, clean copy of data.</p>
-        </div>
-
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=RAID+1+Disk+Mirroring+vs+Backup" alt="RAID 1 disk mirroring vs backup comparison">
-            <figcaption>Два сценария рядом: (1) Backup — сервер с периодической копией на offline диск/облако, стрелка "backup once a day"; (2) Disk Mirroring — два диска синхронизированы мгновенно. Красная стрелка "Ransomware encrypts files" попадает на ОБА диска при mirroring, но только на primary при backup (offline copy остаётся чистой).</figcaption>
-        </figure>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Consequence of absence of disk mirroring" (2025 Paper Q2b-ii — 1 mark, any one)</h4>
-            <ul class="concept-list">
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> A failed drive cannot be replaced while the computer is running.</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> A virus attacking one disk will also spread changes to the mirrored disk.</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Accidental deletion of a file on one disk causes deletion on the other.</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Storage capacity is reduced as two copies of all data must be maintained.</li>
-            </ul>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div id="encryption">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.3 Encryption</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Encryption</h4>
-            <p>The process of converting plaintext data into unreadable <strong>ciphertext</strong> using a mathematical algorithm and a cryptographic key. Only an authorised party possessing the correct decryption key can reverse the process and read the original data.</p>
-        </div>
-
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Encryption+Decryption+Process" alt="Encryption decryption process key diagram">
-            <figcaption>Горизонтальная схема: "Plaintext" → коробка [Encryption Algorithm + Key] → "Ciphertext" →→ (сеть/интернет) →→ коробка [Decryption Algorithm + Key] → "Plaintext". Над стрелкой через сеть — значок хакера с подписью "sees only gibberish / нечитаемый текст".</figcaption>
-        </figure>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Describe how encryption keeps sensitive information secure" (2025 Paper Q2c — 2 marks)</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Data is converted using a chosen algorithm and key into a <strong>special code (ciphertext)</strong> that is unreadable without the correct decryption key.</li>
-                <li>This secures data while it is <strong>in transit</strong> (during online transactions, email communication, or file transfers) so that intercepted data cannot be read.</li>
-            </ol>
-        </div>
-
-        <p class="concept-text" style="margin-top: 12px;"><strong>Applications of encryption:</strong> HTTPS web browsing (TLS/SSL), email encryption (PGP), file encryption on lost devices, end-to-end messaging (WhatsApp), database encryption for stored customer data.</p>
-    </div>
-
-    <hr class="divider">
-
-    <div id="access-rights">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.4 Access Rights and Authorisation</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Access Rights</h4>
-            <p>Permissions assigned to specific users or processes that define exactly which resources (files, folders, databases, network shares) they are allowed to <strong>read</strong>, <strong>write</strong>, <strong>execute</strong>, or <strong>delete</strong>.</p>
-        </div>
-
-        <p class="concept-text"><strong>Why needed:</strong> The principle of least privilege — users should only access what they need for their role. This limits damage from both accidental misuse and deliberate attacks.</p>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Give two measures to protect confidential data from being stolen" (2024 Paper Q2a — 2 marks)</h4>
-            <ul class="concept-list">
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Encrypting data</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Granting limited access rights to authorised users only</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Blocking access from certain locations or IP ranges</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Keeping logs of all user entries to the system</li>
-            </ul>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div id="verval">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.5 Data Verification vs. Data Validation</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Verification</h4>
-            <p>The process of checking that data entered into a computer system <strong>accurately matches the original source document</strong> from which it was taken. Verification checks whether data was <em>copied correctly</em>, not whether it is true.</p>
-        </div>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Validation</h4>
-            <p>An automatic computer check that ensures data is <strong>reasonable, sensible, and follows predefined rules</strong> (correct type, within an acceptable range, correct format, etc.). Validation cannot determine whether data is true or accurate.</p>
-        </div>
-
-        <table class="theory-table" style="margin-top: var(--space-md);">
-            <thead><tr><th>Feature</th><th>Verification</th><th>Validation</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Purpose</strong></td><td>Was this entered correctly from the source?</td><td>Does this follow the rules?</td></tr>
-                <tr><td><strong>Confirms data is TRUE?</strong></td><td>✗ No</td><td>✗ No</td></tr>
-                <tr><td><strong>Methods</strong></td><td>Double entry, visual proofreading, on-screen check</td><td>Range check, type check, presence check, format check, length check, check digit</td></tr>
-                <tr><td><strong>Example</strong></td><td>Enter password twice; compare both entries</td><td>Age must be a positive integer between 0 and 120</td></tr>
-            </tbody>
-        </table>
-
-        <div class="pitfall-box">
-            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Validation Does NOT Check if Data is True</h4>
-            <p>Validation can confirm that "Age: 25" is a positive integer within the allowed range. It <strong>cannot</strong> confirm this is the person's actual age. Any answer stating "validation checks if data is correct/true" scores zero on that mark point. The mark scheme rewards the words <em>"reasonable"</em> or <em>"follows the rules"</em>.</p>
-        </div>
-
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Data+Validation+vs+Verification" alt="Data validation vs verification computer science examples">
-            <figcaption>Таблица сравнения: левая половина "Verification" — скриншот двойного ввода пароля (Password / Confirm Password); правая половина "Validation" — форма с проверкой Range Check для поля Age (0–120), Type Check, Presence Check. Иллюстрация для каждого метода.</figcaption>
-        </figure>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Define data verification" (2024 Paper Q2b — 2 marks)</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>The computer ensures that data input <strong>matches</strong> the data collected from the original source document.</li>
-                <li>Done by <strong>double entry</strong> or on-screen checking techniques — the two entries are compared and must match.</li>
-            </ol>
-        </div>
-
-        <h4 style="margin-top: var(--space-lg);">Validation Methods Reference</h4>
-        <table class="theory-table">
-            <thead><tr><th>Method</th><th>What it checks</th><th>Example</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Range check</strong></td><td>Value falls within acceptable minimum–maximum</td><td>Age must be 0–120; month must be 1–12</td></tr>
-                <tr><td><strong>Type check</strong></td><td>Data is the correct data type</td><td>Age must be an integer, not "twenty"</td></tr>
-                <tr><td><strong>Presence check</strong></td><td>Required field is not left empty</td><td>Name field cannot be blank</td></tr>
-                <tr><td><strong>Format check</strong></td><td>Data matches a defined pattern</td><td>Date must be DD/MM/YYYY</td></tr>
-                <tr><td><strong>Length check</strong></td><td>String is within allowed character length</td><td>Password must be 8–20 characters</td></tr>
-                <tr><td><strong>Check digit</strong></td><td>Last digit verifies the rest (mathematical)</td><td>ISBN-13, barcode, credit card number</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <hr class="divider">
-
-    <div id="protection">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.6 System Protection Measures</h3>
-
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Cybersecurity+Protection+Measures+Icons" alt="Cybersecurity protection measures icons infographic">
-            <figcaption>Инфографика с 7 иконками мер защиты в сетке: Firewall (стена огня), Biometrics (отпечаток пальца), Anti-virus (щит с галочкой), Encryption (замок), 2FA (телефон + замок), Physical Security (дверной замок), Strong Password (звёздочки). Каждая иконка с подписью и 1 строкой описания.</figcaption>
-        </figure>
-
-        <table class="theory-table" style="margin-top: var(--space-md);">
-            <thead><tr><th>Measure</th><th>Definition</th><th>Protects against</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Firewall</strong></td><td>Hardware or software that monitors and filters incoming/outgoing network traffic based on predefined security rules</td><td>Unauthorised network intrusion, malicious packets</td></tr>
-                <tr><td><strong>Biometrics</strong></td><td>Authentication using unique physical characteristics: fingerprint, retina scan, facial recognition, voice pattern</td><td>Unauthorised physical or logical access</td></tr>
-                <tr><td><strong>Anti-virus</strong></td><td>Detects, quarantines, and removes known malware by comparing files against a signature database</td><td>Viruses, trojans, worms, spyware</td></tr>
-                <tr><td><strong>Encryption</strong></td><td>Converts data to ciphertext readable only with the correct key</td><td>Data theft in transit or storage</td></tr>
-                <tr><td><strong>Access rights</strong></td><td>Per-user read/write/execute permissions on all resources</td><td>Privilege escalation, accidental modification</td></tr>
-                <tr><td><strong>Two-factor auth (2FA)</strong></td><td>Requires two forms of identity verification (password + OTP/biometric)</td><td>Account compromise from stolen passwords</td></tr>
-                <tr><td><strong>Physical security</strong></td><td>Locks, CCTV, secure server rooms, cable locks, security guards</td><td>Physical theft, hardware tampering</td></tr>
-                <tr><td><strong>Intrusion Detection (IDS)</strong></td><td>Monitors network for suspicious traffic patterns and alerts administrators</td><td>Active attacks, unusual usage patterns</td></tr>
-            </tbody>
-        </table>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Ways to protect against cracking" (2023 Paper Q5c)</h4>
-            <p>These <em>specific</em> answers are required. General security measures (backup, antivirus, firewall) are <strong>NOT accepted</strong> as anti-cracking answers:</p>
-            <ul class="concept-list">
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Enacting two-factor authentication</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Increasing password complexity / using strong passwords</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Using SSL/HTTPS protocol for all connections</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Encrypting sensitive data</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Hashing passwords stored in databases (not storing plaintext)</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Monitoring and logging all login attempts</li>
-            </ul>
-        </div>
-
-        <h4 style="margin-top: var(--space-lg);">Malware Types</h4>
-        <table class="theory-table">
-            <thead><tr><th>Type</th><th>Definition</th><th>Key consequence</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Virus</strong></td><td>Self-replicating malicious code that attaches to legitimate programs and spreads when the host is executed</td><td>File corruption/deletion; spreads through network or removable media</td></tr>
-                <tr><td><strong>Worm</strong></td><td>Self-replicating program that spreads across networks independently without attaching to a host file</td><td>Network congestion; depletes bandwidth and system resources</td></tr>
-                <tr><td><strong>Trojan</strong></td><td>Malicious program disguised as legitimate software; does not self-replicate</td><td>Creates backdoor for remote access; enables data theft</td></tr>
-                <tr><td><strong>Ransomware</strong></td><td>Encrypts user's data and demands payment for the decryption key</td><td>All data inaccessible; financial loss; business disruption</td></tr>
-                <tr><td><strong>Spyware</strong></td><td>Silently monitors user activity and transmits collected data to a third party</td><td>Privacy violation; credential theft; identity fraud</td></tr>
-                <tr><td><strong>Adware</strong></td><td>Automatically displays or downloads unwanted advertisements</td><td>Performance degradation; privacy risk; gateway for other malware</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <hr class="divider">
-
-    <div id="blockchain">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.7 Blockchain Technology</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Blockchain</h4>
-            <p>A <strong>distributed database</strong> shared across and maintained by all nodes of a computer network. It is a continuously growing list of records called <strong>blocks</strong>, each cryptographically linked to the previous block, forming a chain. The data is tamper-evident, decentralised, and does not require a trusted central authority.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: var(--space-md);">
-            <div style="background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-md);">
-                <h4><i class="fa-solid fa-key"></i> Key Characteristics</h4>
-                <ul class="concept-list">
-                    <li><strong>Distributed:</strong> every node holds a copy</li>
-                    <li><strong>Immutable:</strong> past blocks cannot be altered</li>
-                    <li><strong>Transparent:</strong> all transactions visible to participants</li>
-                    <li><strong>Decentralised:</strong> no single point of control</li>
-                </ul>
-            </div>
-            <div style="background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-md);">
-                <h4><i class="fa-solid fa-rocket"></i> Applications</h4>
-                <ul class="concept-list">
-                    <li>Cryptocurrencies (Bitcoin, Ethereum)</li>
-                    <li>Smart contracts</li>
-                    <li>Supply chain tracking</li>
-                    <li>Financial services</li>
-                    <li>Domain name systems</li>
-                    <li>Medical record management</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Security</div>
+  <div class="callout-body">Technical measures used to protect data from unauthorised access, theft, loss, or damage. Security is about <em>HOW</em> data is protected using physical and software mechanisms.</div>
 </div>
-  <!-- end s1-2 -->
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Privacy</div>
+  <div class="callout-body">The legal, ethical, and policy-based rights that govern <em>WHO</em> is allowed to view, access, share, or sell personal data. Governed by laws such as GDPR and national data protection legislation.</div>
+</div>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Integrity</div>
+  <div class="callout-body">The assurance that data is accurate, complete, consistent, and has not been improperly modified — either accidentally (human error) or maliciously. Integrity is about <em>WHETHER</em> data is correct and unchanged.</div>
+</div>
+
+<div class="callout warning">
+  <div class="callout-header"><span class="callout-icon">⚠️</span> Warning — Three Completely Separate Concepts</div>
+  <div class="callout-body">
+    <ul class="cross-list check-list">
+      <li>"Security means keeping data private" — <strong>WRONG</strong> — Security = technical protection</li>
+      <li>"Integrity means protecting from hackers" — <strong>WRONG</strong> — Integrity = accuracy</li>
+      <li>"Privacy means encryption" — <strong>WRONG</strong> — Privacy = legal rights over access</li>
+    </ul>
+    <p style="margin-top:8px">The examiner treats these as entirely distinct definitions and marks each separately. Conflation scores zero.</p>
+  </div>
+</div>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "State two differences: data security vs data integrity" (2025 Paper Q2a)</div>
+  <div class="callout-body">
+    <ol>
+      <li>Data integrity deals with the <strong>validity/accuracy</strong> of data; data security deals with <strong>protection from unauthorised access</strong>.</li>
+      <li>Data security avoids <strong>unauthorised access</strong>; data integrity avoids <strong>human error or corruption</strong> during data entry and storage.</li>
+    </ol>
+  </div>
+</div>
+</div>
+
+<!-- BACKUP vs MIRROR -->
+<div id="backup-mirror">
+<h3>1.2.2 Data Backup vs. Disk Mirroring</h3>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Backup</div>
+  <div class="callout-body">A periodic copy of data made at a specific point in time and stored in a separate location (offline, off-site, or cloud). Backups allow recovery to any previous historical state.</div>
+</div>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Disk Mirroring (RAID 1)</div>
+  <div class="callout-body">A hardware redundancy technique in which all write operations are simultaneously duplicated to a second physical disk in real time. Provides continuous availability if one drive fails, but does <em>not</em> preserve historical copies.</div>
+</div>
+
+<div class="table-wrapper">
+<table>
+  <thead><tr><th>Feature</th><th>Data Backup</th><th>Disk Mirroring</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Timing</strong></td><td>Periodic (daily/weekly)</td><td>Instantaneous — real time</td></tr>
+    <tr><td><strong>Historical copies</strong></td><td>✓ Yes — multiple versions</td><td>✗ No — only current state</td></tr>
+    <tr><td><strong>Recovery: hardware failure</strong></td><td>✓ Yes</td><td>✓ Yes</td></tr>
+    <tr><td><strong>Recovery: accidental deletion</strong></td><td>✓ Yes</td><td>✗ No — deletion mirrored instantly</td></tr>
+    <tr><td><strong>Recovery: ransomware</strong></td><td>✓ Yes (clean backup)</td><td>✗ No — encrypted files mirrored</td></tr>
+    <tr><td><strong>Recovery: virus</strong></td><td>✓ Yes (pre-infection backup)</td><td>✗ No — virus spreads to mirror</td></tr>
+    <tr><td><strong>Storage location</strong></td><td>Off-site, offline, or cloud</td><td>On-site, second drive (always connected)</td></tr>
+    <tr><td><strong>Running replacement</strong></td><td>Not required</td><td>Cannot replace failed drive while running</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout warning">
+  <div class="callout-header"><span class="callout-icon">⚠️</span> Warning — Disk Mirroring is NOT a Backup</div>
+  <div class="callout-body">This is the single most penalised error in this topic. Any answer stating that "disk mirroring is a type of backup" scores <strong>zero</strong>. Because all changes are mirrored in real time, any corruption event — ransomware encryption, accidental deletion, virus infection — is <em>immediately</em> duplicated to the second drive. The data is lost on <strong>both disks simultaneously</strong>. Only an offline backup preserves a historical, clean copy of data.</div>
+</div>
+
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Два сценария рядом: (1) Backup — сервер с периодической копией на offline диск/облако, стрелка "backup once a day"; (2) Disk Mirroring — два диска синхронизированы мгновенно. Красная стрелка "Ransomware encrypts files" попадает на ОБА диска при mirroring, но только на primary при backup (offline copy остаётся чистой).</p>
+  <span class="img-search">Поиск: "RAID 1 disk mirroring vs backup comparison ransomware attack diagram"</span>
+</div>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Consequence of absence of disk mirroring" (2025 Paper Q2b-ii — 1 mark, any one)</div>
+  <div class="callout-body">
+    <ul class="check-list">
+      <li>A failed drive cannot be replaced while the computer is running.</li>
+      <li>A virus attacking one disk will also spread changes to the mirrored disk.</li>
+      <li>Accidental deletion of a file on one disk causes deletion on the other.</li>
+      <li>Storage capacity is reduced as two copies of all data must be maintained.</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ENCRYPTION -->
+<div id="encryption">
+<h3>1.2.3 Encryption</h3>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Encryption</div>
+  <div class="callout-body">The process of converting plaintext data into unreadable <strong>ciphertext</strong> using a mathematical algorithm and a cryptographic key. Only an authorised party possessing the correct decryption key can reverse the process and read the original data.</div>
+</div>
+
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Горизонтальная схема: "Plaintext" → коробка [Encryption Algorithm + Key] → "Ciphertext" →→ (сеть/интернет) →→ коробка [Decryption Algorithm + Key] → "Plaintext". Над стрелкой через сеть — значок хакера с подписью "sees only gibberish / нечитаемый текст".</p>
+  <span class="img-search">Поиск: "encryption decryption process key algorithm diagram simple"</span>
+</div>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Describe how encryption keeps sensitive information secure" (2025 Paper Q2c — 2 marks)</div>
+  <div class="callout-body">
+    <ol>
+      <li>Data is converted using a chosen algorithm and key into a <strong>special code (ciphertext)</strong> that is unreadable without the correct decryption key.</li>
+      <li>This secures data while it is <strong>in transit</strong> (during online transactions, email communication, or file transfers) so that intercepted data cannot be read.</li>
+    </ol>
+  </div>
+</div>
+
+<p><strong>Applications of encryption:</strong> HTTPS web browsing (TLS/SSL), email encryption (PGP), file encryption on lost devices, end-to-end messaging (WhatsApp), database encryption for stored customer data.</p>
+</div>
+
+<!-- ACCESS RIGHTS -->
+<div id="access-rights">
+<h3>1.2.4 Access Rights and Authorisation</h3>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Access Rights</div>
+  <div class="callout-body">Permissions assigned to specific users or processes that define exactly which resources (files, folders, databases, network shares) they are allowed to <strong>read</strong>, <strong>write</strong>, <strong>execute</strong>, or <strong>delete</strong>.</div>
+</div>
+
+<p><strong>Why needed:</strong> The principle of least privilege — users should only access what they need for their role. This limits damage from both accidental misuse and deliberate attacks.</p>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Give two measures to protect confidential data from being stolen" (2024 Paper Q2a — 2 marks)</div>
+  <div class="callout-body">
+    <ul class="check-list">
+      <li>Encrypting data</li>
+      <li>Granting limited access rights to authorised users only</li>
+      <li>Blocking access from certain locations or IP ranges</li>
+      <li>Keeping logs of all user entries to the system</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- VERIFICATION vs VALIDATION -->
+<div id="verval">
+<h3>1.2.5 Data Verification vs. Data Validation</h3>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Verification</div>
+  <div class="callout-body">The process of checking that data entered into a computer system <strong>accurately matches the original source document</strong> from which it was taken. Verification checks whether data was <em>copied correctly</em>, not whether it is true.</div>
+</div>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Data Validation</div>
+  <div class="callout-body">An automatic computer check that ensures data is <strong>reasonable, sensible, and follows predefined rules</strong> (correct type, within an acceptable range, correct format, etc.). Validation cannot determine whether data is true or accurate.</div>
+</div>
+
+<div class="table-wrapper">
+<table>
+  <thead><tr><th>Feature</th><th>Verification</th><th>Validation</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Purpose</strong></td><td>Was this entered correctly from the source?</td><td>Does this follow the rules?</td></tr>
+    <tr><td><strong>Confirms data is TRUE?</strong></td><td>✗ No</td><td>✗ No</td></tr>
+    <tr><td><strong>Methods</strong></td><td>Double entry, visual proofreading, on-screen check</td><td>Range check, type check, presence check, format check, length check, check digit</td></tr>
+    <tr><td><strong>Example</strong></td><td>Enter password twice; compare both entries</td><td>Age must be a positive integer between 0 and 120</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout warning">
+  <div class="callout-header"><span class="callout-icon">⚠️</span> Warning — Validation Does NOT Check if Data is True</div>
+  <div class="callout-body">Validation can confirm that "Age: 25" is a positive integer within the allowed range. It <strong>cannot</strong> confirm this is the person's actual age. Any answer stating "validation checks if data is correct/true" scores zero on that mark point. The mark scheme rewards the words <em>"reasonable"</em> or <em>"follows the rules"</em>.</div>
+</div>
+
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Таблица сравнения: левая половина "Verification" — скриншот двойного ввода пароля (Password / Confirm Password); правая половина "Validation" — форма с проверкой Range Check для поля Age (0–120), Type Check, Presence Check. Иллюстрация для каждого метода.</p>
+  <span class="img-search">Поиск: "data validation vs verification computer science examples table"</span>
+</div>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Define data verification" (2024 Paper Q2b — 2 marks)</div>
+  <div class="callout-body">
+    <ol>
+      <li>The computer ensures that data input <strong>matches</strong> the data collected from the original source document.</li>
+      <li>Done by <strong>double entry</strong> or on-screen checking techniques — the two entries are compared and must match.</li>
+    </ol>
+  </div>
+</div>
+
+<h4>Validation Methods Reference</h4>
+<div class="table-wrapper">
+<table>
+  <thead><tr><th>Method</th><th>What it checks</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Range check</strong></td><td>Value falls within acceptable minimum–maximum</td><td>Age must be 0–120; month must be 1–12</td></tr>
+    <tr><td><strong>Type check</strong></td><td>Data is the correct data type</td><td>Age must be an integer, not "twenty"</td></tr>
+    <tr><td><strong>Presence check</strong></td><td>Required field is not left empty</td><td>Name field cannot be blank</td></tr>
+    <tr><td><strong>Format check</strong></td><td>Data matches a defined pattern</td><td>Date must be DD/MM/YYYY</td></tr>
+    <tr><td><strong>Length check</strong></td><td>String is within allowed character length</td><td>Password must be 8–20 characters</td></tr>
+    <tr><td><strong>Check digit</strong></td><td>Last digit verifies the rest (mathematical)</td><td>ISBN-13, barcode, credit card number</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+<!-- PROTECTION MEASURES -->
+<div id="protection">
+<h3>1.2.6 System Protection Measures</h3>
+
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Инфографика с 7 иконками мер защиты в сетке: Firewall (стена огня), Biometrics (отпечаток пальца), Anti-virus (щит с галочкой), Encryption (замок), 2FA (телефон + замок), Physical Security (дверной замок), Strong Password (звёздочки). Каждая иконка с подписью и 1 строкой описания.</p>
+  <span class="img-search">Поиск: "cybersecurity protection measures icons infographic firewall encryption biometrics"</span>
+</div>
+
+<div class="table-wrapper">
+<table>
+  <thead><tr><th>Measure</th><th>Definition</th><th>Protects against</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Firewall</strong></td><td>Hardware or software that monitors and filters incoming/outgoing network traffic based on predefined security rules</td><td>Unauthorised network intrusion, malicious packets</td></tr>
+    <tr><td><strong>Biometrics</strong></td><td>Authentication using unique physical characteristics: fingerprint, retina scan, facial recognition, voice pattern</td><td>Unauthorised physical or logical access</td></tr>
+    <tr><td><strong>Anti-virus</strong></td><td>Detects, quarantines, and removes known malware by comparing files against a signature database</td><td>Viruses, trojans, worms, spyware</td></tr>
+    <tr><td><strong>Encryption</strong></td><td>Converts data to ciphertext readable only with the correct key</td><td>Data theft in transit or storage</td></tr>
+    <tr><td><strong>Access rights</strong></td><td>Per-user read/write/execute permissions on all resources</td><td>Privilege escalation, accidental modification</td></tr>
+    <tr><td><strong>Two-factor auth (2FA)</strong></td><td>Requires two forms of identity verification (password + OTP/biometric)</td><td>Account compromise from stolen passwords</td></tr>
+    <tr><td><strong>Physical security</strong></td><td>Locks, CCTV, secure server rooms, cable locks, security guards</td><td>Physical theft, hardware tampering</td></tr>
+    <tr><td><strong>Intrusion Detection (IDS)</strong></td><td>Monitors network for suspicious traffic patterns and alerts administrators</td><td>Active attacks, unusual usage patterns</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Ways to protect against cracking" (2023 Paper Q5c)</div>
+  <div class="callout-body">
+    <p>These <em>specific</em> answers are required. General security measures (backup, antivirus, firewall) are <strong>NOT accepted</strong> as anti-cracking answers:</p>
+    <ul class="check-list">
+      <li>Enacting two-factor authentication</li>
+      <li>Increasing password complexity / using strong passwords</li>
+      <li>Using SSL/HTTPS protocol for all connections</li>
+      <li>Encrypting sensitive data</li>
+      <li>Hashing passwords stored in databases (not storing plaintext)</li>
+      <li>Monitoring and logging all login attempts</li>
+    </ul>
+  </div>
+</div>
+
+<h4>Malware Types</h4>
+<div class="table-wrapper">
+<table>
+  <thead><tr><th>Type</th><th>Definition</th><th>Key consequence</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Virus</strong></td><td>Self-replicating malicious code that attaches to legitimate programs and spreads when the host is executed</td><td>File corruption/deletion; spreads through network or removable media</td></tr>
+    <tr><td><strong>Worm</strong></td><td>Self-replicating program that spreads across networks independently without attaching to a host file</td><td>Network congestion; depletes bandwidth and system resources</td></tr>
+    <tr><td><strong>Trojan</strong></td><td>Malicious program disguised as legitimate software; does not self-replicate</td><td>Creates backdoor for remote access; enables data theft</td></tr>
+    <tr><td><strong>Ransomware</strong></td><td>Encrypts user's data and demands payment for the decryption key</td><td>All data inaccessible; financial loss; business disruption</td></tr>
+    <tr><td><strong>Spyware</strong></td><td>Silently monitors user activity and transmits collected data to a third party</td><td>Privacy violation; credential theft; identity fraud</td></tr>
+    <tr><td><strong>Adware</strong></td><td>Automatically displays or downloads unwanted advertisements</td><td>Performance degradation; privacy risk; gateway for other malware</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+<!-- BLOCKCHAIN -->
+<div id="blockchain">
+<h3>1.2.7 Blockchain Technology</h3>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Blockchain</div>
+  <div class="callout-body">A <strong>distributed database</strong> shared across and maintained by all nodes of a computer network. It is a continuously growing list of records called <strong>blocks</strong>, each cryptographically linked to the previous block, forming a chain. The data is tamper-evident, decentralised, and does not require a trusted central authority.</div>
+</div>
+
+<div class="two-col">
+  <div class="info-card">
+    <h4>Key Characteristics</h4>
+    <ul>
+      <li><strong>Distributed:</strong> every node holds a copy</li>
+      <li><strong>Immutable:</strong> past blocks cannot be altered</li>
+      <li><strong>Transparent:</strong> all transactions visible to participants</li>
+      <li><strong>Decentralised:</strong> no single point of control</li>
+    </ul>
+  </div>
+  <div class="info-card">
+    <h4>Applications</h4>
+    <ul>
+      <li>Cryptocurrencies (Bitcoin, Ethereum)</li>
+      <li>Smart contracts</li>
+      <li>Supply chain tracking</li>
+      <li>Financial services</li>
+      <li>Domain name systems</li>
+      <li>Medical record management</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+</div><!-- end s1-2 -->
 
 <!-- ═══════════ 1.3 ETHICS ═══════════ -->
 <div id="s1-3" class="section">
@@ -1026,292 +1845,159 @@ Step 5: Negative normalised mantissa starts 1.0...
 <!-- ═══════════════════════════════════════════════════ -->
 <!--                  CHAPTER 2                         -->
 <!-- ═══════════════════════════════════════════════════ -->
-
-  <div id="s1-2">
-    <h2 class="lesson-section-title"><i class="fa-solid fa-shield-halved"></i> 1.2 Information Security</h2>
-
-    <div id="sec-privacy">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.1 Security vs. Privacy vs. Data Integrity</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Security</h4>
-            <p>Technical measures used to protect data from unauthorised access, theft, loss, or damage. Security is about <em>HOW</em> data is protected using physical and software mechanisms.</p>
-        </div>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Privacy</h4>
-            <p>The legal, ethical, and policy-based rights that govern <em>WHO</em> is allowed to view, access, share, or sell personal data. Governed by laws such as GDPR and national data protection legislation.</p>
-        </div>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Integrity</h4>
-            <p>The assurance that data is accurate, complete, consistent, and has not been improperly modified — either accidentally (human error) or maliciously. Integrity is about <em>WHETHER</em> data is correct and unchanged.</p>
-        </div>
-
-        <div class="pitfall-box">
-            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Three Completely Separate Concepts</h4>
-            <ul class="concept-list" style="margin-top: 8px;">
-                <li><span style="color:var(--warn-border)">✗</span> "Security means keeping data private" — <strong>WRONG</strong> — Security = technical protection</li>
-                <li><span style="color:var(--warn-border)">✗</span> "Integrity means protecting from hackers" — <strong>WRONG</strong> — Integrity = accuracy</li>
-                <li><span style="color:var(--warn-border)">✗</span> "Privacy means encryption" — <strong>WRONG</strong> — Privacy = legal rights over access</li>
-            </ul>
-            <p style="margin-top:8px">The examiner treats these as entirely distinct definitions and marks each separately. Conflation scores zero.</p>
-        </div>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "State two differences: data security vs data integrity" (2025 Paper Q2a)</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Data integrity deals with the <strong>validity/accuracy</strong> of data; data security deals with <strong>protection from unauthorised access</strong>.</li>
-                <li>Data security avoids <strong>unauthorised access</strong>; data integrity avoids <strong>human error or corruption</strong> during data entry and storage.</li>
-            </ol>
-        </div>
+<div id="chapter2" class="chapter ch2">
+<div class="chapter-header">
+  <div>
+    <div class="chapter-label">Chapter Two</div>
+    <div class="chapter-title">Computer Systems</div>
+    <div class="chapter-desc">Operating systems and interfaces, CPU architecture, RISC vs CISC, the Fetch-Decode-Execute cycle, memory hierarchy, addressing modes, paging and virtual machines.</div>
+    <div class="chapter-los">
+      <span class="lo-badge">12.3.1.1–6</span><span class="lo-badge">12.3.2.1–6</span><span class="lo-badge">12.3.4.1–3</span><span class="lo-badge">11.3.1.1–5</span><span class="lo-badge">11.3.2.1–2</span><span class="lo-badge">11.3.4.1–3</span>
     </div>
-
-    <hr class="divider">
-
-    <div id="backup-mirror">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.2 Data Backup vs. Disk Mirroring</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Backup</h4>
-            <p>A periodic copy of data made at a specific point in time and stored in a separate location (offline, off-site, or cloud). Backups allow recovery to any previous historical state.</p>
-        </div>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Disk Mirroring (RAID 1)</h4>
-            <p>A hardware redundancy technique in which all write operations are simultaneously duplicated to a second physical disk in real time. Provides continuous availability if one drive fails, but does <em>not</em> preserve historical copies.</p>
-        </div>
-
-        <table class="theory-table" style="margin-top: var(--space-md);">
-            <thead><tr><th>Feature</th><th>Data Backup</th><th>Disk Mirroring</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Timing</strong></td><td>Periodic (daily/weekly)</td><td>Instantaneous — real time</td></tr>
-                <tr><td><strong>Historical copies</strong></td><td>✓ Yes — multiple versions</td><td>✗ No — only current state</td></tr>
-                <tr><td><strong>Recovery: hardware failure</strong></td><td>✓ Yes</td><td>✓ Yes</td></tr>
-                <tr><td><strong>Recovery: accidental deletion</strong></td><td>✓ Yes</td><td>✗ No — deletion mirrored instantly</td></tr>
-                <tr><td><strong>Recovery: ransomware</strong></td><td>✓ Yes (clean backup)</td><td>✗ No — encrypted files mirrored</td></tr>
-                <tr><td><strong>Recovery: virus</strong></td><td>✓ Yes (pre-infection backup)</td><td>✗ No — virus spreads to mirror</td></tr>
-                <tr><td><strong>Storage location</strong></td><td>Off-site, offline, or cloud</td><td>On-site, second drive (always connected)</td></tr>
-                <tr><td><strong>Running replacement</strong></td><td>Not required</td><td>Cannot replace failed drive while running</td></tr>
-            </tbody>
-        </table>
-
-        <div class="pitfall-box">
-            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Disk Mirroring is NOT a Backup</h4>
-            <p>This is the single most penalised error in this topic. Any answer stating that "disk mirroring is a type of backup" scores <strong>zero</strong>. Because all changes are mirrored in real time, any corruption event — ransomware encryption, accidental deletion, virus infection — is <em>immediately</em> duplicated to the second drive. The data is lost on <strong>both disks simultaneously</strong>. Only an offline backup preserves a historical, clean copy of data.</p>
-        </div>
-
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=RAID+1+Disk+Mirroring+vs+Backup" alt="RAID 1 disk mirroring vs backup comparison">
-            <figcaption>Два сценария рядом: (1) Backup — сервер с периодической копией на offline диск/облако, стрелка "backup once a day"; (2) Disk Mirroring — два диска синхронизированы мгновенно. Красная стрелка "Ransomware encrypts files" попадает на ОБА диска при mirroring, но только на primary при backup (offline copy остаётся чистой).</figcaption>
-        </figure>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Consequence of absence of disk mirroring" (2025 Paper Q2b-ii — 1 mark, any one)</h4>
-            <ul class="concept-list">
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> A failed drive cannot be replaced while the computer is running.</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> A virus attacking one disk will also spread changes to the mirrored disk.</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Accidental deletion of a file on one disk causes deletion on the other.</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Storage capacity is reduced as two copies of all data must be maintained.</li>
-            </ul>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div id="encryption">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.3 Encryption</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Encryption</h4>
-            <p>The process of converting plaintext data into unreadable <strong>ciphertext</strong> using a mathematical algorithm and a cryptographic key. Only an authorised party possessing the correct decryption key can reverse the process and read the original data.</p>
-        </div>
-
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Encryption+Decryption+Process" alt="Encryption decryption process key diagram">
-            <figcaption>Горизонтальная схема: "Plaintext" → коробка [Encryption Algorithm + Key] → "Ciphertext" →→ (сеть/интернет) →→ коробка [Decryption Algorithm + Key] → "Plaintext". Над стрелкой через сеть — значок хакера с подписью "sees only gibberish / нечитаемый текст".</figcaption>
-        </figure>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Describe how encryption keeps sensitive information secure" (2025 Paper Q2c — 2 marks)</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>Data is converted using a chosen algorithm and key into a <strong>special code (ciphertext)</strong> that is unreadable without the correct decryption key.</li>
-                <li>This secures data while it is <strong>in transit</strong> (during online transactions, email communication, or file transfers) so that intercepted data cannot be read.</li>
-            </ol>
-        </div>
-
-        <p class="concept-text" style="margin-top: 12px;"><strong>Applications of encryption:</strong> HTTPS web browsing (TLS/SSL), email encryption (PGP), file encryption on lost devices, end-to-end messaging (WhatsApp), database encryption for stored customer data.</p>
-    </div>
-
-    <hr class="divider">
-
-    <div id="access-rights">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.4 Access Rights and Authorisation</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Access Rights</h4>
-            <p>Permissions assigned to specific users or processes that define exactly which resources (files, folders, databases, network shares) they are allowed to <strong>read</strong>, <strong>write</strong>, <strong>execute</strong>, or <strong>delete</strong>.</p>
-        </div>
-
-        <p class="concept-text"><strong>Why needed:</strong> The principle of least privilege — users should only access what they need for their role. This limits damage from both accidental misuse and deliberate attacks.</p>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Give two measures to protect confidential data from being stolen" (2024 Paper Q2a — 2 marks)</h4>
-            <ul class="concept-list">
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Encrypting data</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Granting limited access rights to authorised users only</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Blocking access from certain locations or IP ranges</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Keeping logs of all user entries to the system</li>
-            </ul>
-        </div>
-    </div>
-
-    <hr class="divider">
-
-    <div id="verval">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.5 Data Verification vs. Data Validation</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Verification</h4>
-            <p>The process of checking that data entered into a computer system <strong>accurately matches the original source document</strong> from which it was taken. Verification checks whether data was <em>copied correctly</em>, not whether it is true.</p>
-        </div>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Data Validation</h4>
-            <p>An automatic computer check that ensures data is <strong>reasonable, sensible, and follows predefined rules</strong> (correct type, within an acceptable range, correct format, etc.). Validation cannot determine whether data is true or accurate.</p>
-        </div>
-
-        <table class="theory-table" style="margin-top: var(--space-md);">
-            <thead><tr><th>Feature</th><th>Verification</th><th>Validation</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Purpose</strong></td><td>Was this entered correctly from the source?</td><td>Does this follow the rules?</td></tr>
-                <tr><td><strong>Confirms data is TRUE?</strong></td><td>✗ No</td><td>✗ No</td></tr>
-                <tr><td><strong>Methods</strong></td><td>Double entry, visual proofreading, on-screen check</td><td>Range check, type check, presence check, format check, length check, check digit</td></tr>
-                <tr><td><strong>Example</strong></td><td>Enter password twice; compare both entries</td><td>Age must be a positive integer between 0 and 120</td></tr>
-            </tbody>
-        </table>
-
-        <div class="pitfall-box">
-            <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning — Validation Does NOT Check if Data is True</h4>
-            <p>Validation can confirm that "Age: 25" is a positive integer within the allowed range. It <strong>cannot</strong> confirm this is the person's actual age. Any answer stating "validation checks if data is correct/true" scores zero on that mark point. The mark scheme rewards the words <em>"reasonable"</em> or <em>"follows the rules"</em>.</p>
-        </div>
-
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Data+Validation+vs+Verification" alt="Data validation vs verification computer science examples">
-            <figcaption>Таблица сравнения: левая половина "Verification" — скриншот двойного ввода пароля (Password / Confirm Password); правая половина "Validation" — форма с проверкой Range Check для поля Age (0–120), Type Check, Presence Check. Иллюстрация для каждого метода.</figcaption>
-        </figure>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Define data verification" (2024 Paper Q2b — 2 marks)</h4>
-            <ol class="concept-list" style="margin-left: 1rem;">
-                <li>The computer ensures that data input <strong>matches</strong> the data collected from the original source document.</li>
-                <li>Done by <strong>double entry</strong> or on-screen checking techniques — the two entries are compared and must match.</li>
-            </ol>
-        </div>
-
-        <h4 style="margin-top: var(--space-lg);">Validation Methods Reference</h4>
-        <table class="theory-table">
-            <thead><tr><th>Method</th><th>What it checks</th><th>Example</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Range check</strong></td><td>Value falls within acceptable minimum–maximum</td><td>Age must be 0–120; month must be 1–12</td></tr>
-                <tr><td><strong>Type check</strong></td><td>Data is the correct data type</td><td>Age must be an integer, not "twenty"</td></tr>
-                <tr><td><strong>Presence check</strong></td><td>Required field is not left empty</td><td>Name field cannot be blank</td></tr>
-                <tr><td><strong>Format check</strong></td><td>Data matches a defined pattern</td><td>Date must be DD/MM/YYYY</td></tr>
-                <tr><td><strong>Length check</strong></td><td>String is within allowed character length</td><td>Password must be 8–20 characters</td></tr>
-                <tr><td><strong>Check digit</strong></td><td>Last digit verifies the rest (mathematical)</td><td>ISBN-13, barcode, credit card number</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <hr class="divider">
-
-    <div id="protection">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.6 System Protection Measures</h3>
-
-        <figure class="lesson-image-block">
-            <img src="https://placehold.co/800x250/f1f5f9/1e3a8a?text=Cybersecurity+Protection+Measures+Icons" alt="Cybersecurity protection measures icons infographic">
-            <figcaption>Инфографика с 7 иконками мер защиты в сетке: Firewall (стена огня), Biometrics (отпечаток пальца), Anti-virus (щит с галочкой), Encryption (замок), 2FA (телефон + замок), Physical Security (дверной замок), Strong Password (звёздочки). Каждая иконка с подписью и 1 строкой описания.</figcaption>
-        </figure>
-
-        <table class="theory-table" style="margin-top: var(--space-md);">
-            <thead><tr><th>Measure</th><th>Definition</th><th>Protects against</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Firewall</strong></td><td>Hardware or software that monitors and filters incoming/outgoing network traffic based on predefined security rules</td><td>Unauthorised network intrusion, malicious packets</td></tr>
-                <tr><td><strong>Biometrics</strong></td><td>Authentication using unique physical characteristics: fingerprint, retina scan, facial recognition, voice pattern</td><td>Unauthorised physical or logical access</td></tr>
-                <tr><td><strong>Anti-virus</strong></td><td>Detects, quarantines, and removes known malware by comparing files against a signature database</td><td>Viruses, trojans, worms, spyware</td></tr>
-                <tr><td><strong>Encryption</strong></td><td>Converts data to ciphertext readable only with the correct key</td><td>Data theft in transit or storage</td></tr>
-                <tr><td><strong>Access rights</strong></td><td>Per-user read/write/execute permissions on all resources</td><td>Privilege escalation, accidental modification</td></tr>
-                <tr><td><strong>Two-factor auth (2FA)</strong></td><td>Requires two forms of identity verification (password + OTP/biometric)</td><td>Account compromise from stolen passwords</td></tr>
-                <tr><td><strong>Physical security</strong></td><td>Locks, CCTV, secure server rooms, cable locks, security guards</td><td>Physical theft, hardware tampering</td></tr>
-                <tr><td><strong>Intrusion Detection (IDS)</strong></td><td>Monitors network for suspicious traffic patterns and alerts administrators</td><td>Active attacks, unusual usage patterns</td></tr>
-            </tbody>
-        </table>
-
-        <div class="pro-tip-box">
-            <h4><i class="fa-solid fa-lightbulb"></i> Exam Tip — "Ways to protect against cracking" (2023 Paper Q5c)</h4>
-            <p>These <em>specific</em> answers are required. General security measures (backup, antivirus, firewall) are <strong>NOT accepted</strong> as anti-cracking answers:</p>
-            <ul class="concept-list">
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Enacting two-factor authentication</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Increasing password complexity / using strong passwords</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Using SSL/HTTPS protocol for all connections</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Encrypting sensitive data</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Hashing passwords stored in databases (not storing plaintext)</li>
-                <li><i class="fa-solid fa-check" style="color:var(--rule-border); margin-right: 6px;"></i> Monitoring and logging all login attempts</li>
-            </ul>
-        </div>
-
-        <h4 style="margin-top: var(--space-lg);">Malware Types</h4>
-        <table class="theory-table">
-            <thead><tr><th>Type</th><th>Definition</th><th>Key consequence</th></tr></thead>
-            <tbody>
-                <tr><td><strong>Virus</strong></td><td>Self-replicating malicious code that attaches to legitimate programs and spreads when the host is executed</td><td>File corruption/deletion; spreads through network or removable media</td></tr>
-                <tr><td><strong>Worm</strong></td><td>Self-replicating program that spreads across networks independently without attaching to a host file</td><td>Network congestion; depletes bandwidth and system resources</td></tr>
-                <tr><td><strong>Trojan</strong></td><td>Malicious program disguised as legitimate software; does not self-replicate</td><td>Creates backdoor for remote access; enables data theft</td></tr>
-                <tr><td><strong>Ransomware</strong></td><td>Encrypts user's data and demands payment for the decryption key</td><td>All data inaccessible; financial loss; business disruption</td></tr>
-                <tr><td><strong>Spyware</strong></td><td>Silently monitors user activity and transmits collected data to a third party</td><td>Privacy violation; credential theft; identity fraud</td></tr>
-                <tr><td><strong>Adware</strong></td><td>Automatically displays or downloads unwanted advertisements</td><td>Performance degradation; privacy risk; gateway for other malware</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <hr class="divider">
-
-    <div id="blockchain">
-        <h3 style="margin: var(--space-xl) 0 var(--space-md);">1.2.7 Blockchain Technology</h3>
-
-        <div class="note-box">
-            <h4><i class="fa-solid fa-book-bookmark"></i> Definition — Blockchain</h4>
-            <p>A <strong>distributed database</strong> shared across and maintained by all nodes of a computer network. It is a continuously growing list of records called <strong>blocks</strong>, each cryptographically linked to the previous block, forming a chain. The data is tamper-evident, decentralised, and does not require a trusted central authority.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: var(--space-md);">
-            <div style="background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-md);">
-                <h4><i class="fa-solid fa-key"></i> Key Characteristics</h4>
-                <ul class="concept-list">
-                    <li><strong>Distributed:</strong> every node holds a copy</li>
-                    <li><strong>Immutable:</strong> past blocks cannot be altered</li>
-                    <li><strong>Transparent:</strong> all transactions visible to participants</li>
-                    <li><strong>Decentralised:</strong> no single point of control</li>
-                </ul>
-            </div>
-            <div style="background: var(--bg-glass); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-md);">
-                <h4><i class="fa-solid fa-rocket"></i> Applications</h4>
-                <ul class="concept-list">
-                    <li>Cryptocurrencies (Bitcoin, Ethereum)</li>
-                    <li>Smart contracts</li>
-                    <li>Supply chain tracking</li>
-                    <li>Financial services</li>
-                    <li>Domain name systems</li>
-                    <li>Medical record management</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
+  </div>
+  <div class="chapter-number">2</div>
 </div>
-  
-  
-  <!-- end s2-1 -->
+
+<!-- ═══════ 2.1 SOFTWARE ═══════ -->
+<div id="s2-1" class="section">
+<h2><span class="section-num">2.1</span> Software and Operating Systems</h2>
+
+<div id="os-functions">
+<h3>2.1.1 Operating System — Definition and Functions</h3>
+
+<div class="callout definition">
+  <div class="callout-header"><span class="callout-icon">📌</span> Definition — Operating System</div>
+  <div class="callout-body">System software that manages the computer's hardware resources, provides a stable platform for application programs to run, and acts as an intermediary layer between the user and the physical hardware.</div>
+</div>
+
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Пирамидальная диаграмма слоёв: Hardware (bottom, тёмный) → Operating System (middle, синий) → Application Software (светлый) → User (top). Двусторонние стрелки между каждым слоем. Подпись: "OS = intermediary between hardware and applications".</p>
+  <span class="img-search">Поиск: "operating system layer diagram hardware OS application user pyramid"</span>
+</div>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Explain two functions of an OS" (1 mark each — any two from the list)</div>
+  <div class="callout-body">
+    <ul class="check-list">
+      <li><strong>Memory management:</strong> allocates RAM to processes; manages virtual memory; handles paging and segmentation</li>
+      <li><strong>Processor management:</strong> schedules processes for CPU; enables multitasking via time-slicing</li>
+      <li><strong>Device management:</strong> controls input/output devices via device drivers</li>
+      <li><strong>User account management:</strong> manages user profiles, access rights, and authentication</li>
+      <li><strong>Interrupt handling:</strong> responds to hardware and software interrupts in priority order</li>
+      <li><strong>Error handling:</strong> detects, reports, and manages hardware/software errors</li>
+      <li><strong>Security:</strong> enforces access controls and protects system resources</li>
+    </ul>
+  </div>
+</div>
+
+<p>When describing OS memory management tasks specifically (2024 Paper Q4a — 3 marks):</p>
+<ul>
+  <li>Reads/writes data to/from RAM — stores current data and instructions from running apps so the CPU can access them</li>
+  <li>Allocates virtual memory when there is insufficient RAM to run a program</li>
+  <li>Allocates RAM to optimise performance; handles paging and segmentation</li>
+</ul>
+</div>
+
+<!-- OS TYPES -->
+<div id="os-types">
+<h3>2.1.2 Types of Operating Systems</h3>
+
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Три карточки рядом: (1) RTOS — иконка кардиомонитора/самолёта с часами и надписью "deadline = guaranteed"; (2) Network OS — иконка сервера с несколькими клиентами, стрелки запросов; (3) Batch OS — стопка одинаковых документов с надписью "no user interaction". Каждая карточка: название + ключевая характеристика + пример.</p>
+  <span class="img-search">Поиск: "real-time network batch processing operating system types comparison diagram"</span>
+</div>
+
+<div class="table-wrapper">
+<table>
+  <thead><tr><th>OS Type</th><th>Definition</th><th>Key Feature</th><th>Real-World Applications</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Real-Time OS (RTOS)</strong></td>
+      <td>Guarantees that every input will be processed and a response produced within a strict, predefined time deadline</td>
+      <td>Hard deadlines — missing a deadline is a system failure, not a performance issue</td>
+      <td>Aircraft autopilot, pacemakers, ABS braking, industrial robots, missile guidance, nuclear reactor control</td>
+    </tr>
+    <tr>
+      <td><strong>Network OS (NOS)</strong></td>
+      <td>Manages network resources and provides centralised services (file sharing, printing, authentication) to multiple client computers</td>
+      <td>Centralised user authentication, access rights management, and resource sharing across a network</td>
+      <td>Windows Server, Linux server distributions (Ubuntu Server), Novell NetWare</td>
+    </tr>
+    <tr>
+      <td><strong>Batch Processing OS</strong></td>
+      <td>Groups similar jobs into batches and processes them sequentially without any user interaction during execution</td>
+      <td>No real-time interaction; jobs are sorted and queued before processing; maximises throughput for repetitive tasks</td>
+      <td>Monthly payroll processing, bank statement generation, overnight scientific simulations, utility billing</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "Describe how a NOS implements user account management" (2025 Paper Q3b — 2 marks)</div>
+  <div class="callout-body">
+    <ol>
+      <li>NOS provides user <strong>authentication and authorisation</strong> mechanisms, ensuring only authorised users can access network resources.</li>
+      <li>NOS <strong>verifies user identities</strong> and assigns appropriate access rights based on their account role.</li>
+    </ol>
+  </div>
+</div>
+</div>
+
+<!-- USER INTERFACES -->
+<div id="user-interfaces">
+<h3>2.1.3 User Interfaces</h3>
+
+<div class="callout image-placeholder">
+  <div class="callout-header"><span class="callout-icon">🖼️</span> Image to insert</div>
+  <p class="img-desc">Четыре скриншота/иллюстрации в сетке 2×2: (1) GUI — рабочий стол с окнами, иконками, панелью задач; (2) CLI — чёрный терминал с командами типа "ls -la /home"; (3) Natural Language — иконка голосового ассистента с волнами звука; (4) Gesture — рука с жестом на сенсорном экране или VR контроллер.</p>
+  <span class="img-search">Поиск: "types of user interfaces GUI CLI command line natural language gesture recognition comparison"</span>
+</div>
+
+<div class="table-wrapper">
+<table>
+  <thead><tr><th>Interface</th><th>Definition</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>GUI</strong><br><small>(Graphical User Interface)</small></td>
+      <td>Uses visual elements — windows, icons, menus, and pointers — that the user interacts with using a mouse or touch</td>
+      <td>Intuitive; no commands to memorise; easy for beginners; supports multitasking with windows; WYSIWYG editing</td>
+      <td>Requires more RAM and CPU power; slower for experienced users performing repetitive tasks; not suitable for complex server management without GUI overhead</td>
+    </tr>
+    <tr>
+      <td><strong>CLI</strong><br><small>(Command Line Interface)</small></td>
+      <td>User types text commands; the system executes them and returns text output</td>
+      <td>Fast and efficient for experienced users; uses minimal system resources; ideal for server management; precise and scriptable control</td>
+      <td>Steep learning curve; must memorise exact command syntax; typing errors can cause serious damage; not intuitive for casual users</td>
+    </tr>
+    <tr>
+      <td><strong>Natural Language Interface</strong></td>
+      <td>System interprets spoken or typed natural human language to determine and execute the user's intent</td>
+      <td>No technical knowledge required; accessible to all users; speaks naturally as in conversation</td>
+      <td>Ambiguous language leads to misinterpretation; struggles with colloquialisms, homophones, and context; limited technical vocabulary; accuracy not guaranteed</td>
+    </tr>
+    <tr>
+      <td><strong>Gesture Recognition</strong></td>
+      <td>System interprets physical gestures (hand movements, body position) captured by sensors or cameras as commands</td>
+      <td>Intuitive physical interaction; useful for VR/AR and touchscreens; hands-free in some contexts</td>
+      <td>Gestures can be misinterpreted; limited command vocabulary; physically tiring for extended use; requires specialist hardware</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout tip">
+  <div class="callout-header"><span class="callout-icon">✅</span> Exam Tip — "One advantage and one disadvantage of CLI for server management" (2024 Paper Q4b — 2 marks)</div>
+  <div class="callout-body">
+    <p><strong>Advantage:</strong> The server does not need to run a graphical user interface, saving computing resources / can run complex commands quickly and precisely.</p>
+    <p><strong>Disadvantage:</strong> Difficult for novices to control / user must know exact commands in advance / easy to make damaging typing errors.</p>
+  </div>
+</div>
+</div>
+
+</div><!-- end s2-1 -->
 
 <!-- ═══════ 2.2 CPU ═══════ -->
 <div id="s2-2" class="section">
