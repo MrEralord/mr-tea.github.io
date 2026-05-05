@@ -1,1 +1,977 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper 2 Crash Course — G12 CS | mr. TEA</title>
+  <link rel="icon" type="image/png" href="assets/images/mr-tea.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/lesson.css">
+  <style>
+    .def-box{background:rgba(13,148,136,.07);border:1px solid rgba(13,148,136,.25);border-left:4px solid var(--clr-tea);border-radius:var(--radius-md);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-md);font-size:.9rem;line-height:1.65}
+    .def-box h4{color:var(--clr-tea);font-size:.85rem;font-weight:700;margin-bottom:var(--space-sm);display:flex;align-items:center;gap:var(--space-xs)}
+    .def-box p,.def-box ul{color:var(--text-secondary);margin:0}
+    .img-placeholder{background:var(--bg-glass);border:2px dashed var(--border-hover);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-md);font-size:.88rem}
+    .img-placeholder h4{font-size:.82rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:var(--space-sm);display:flex;gap:var(--space-xs);align-items:center}
+    .img-placeholder p{color:var(--text-secondary);margin:0 0 var(--space-xs)}
+    .img-search{display:inline-block;font-family:var(--font-code);font-size:.78rem;background:var(--bg-code);color:var(--text-muted);padding:.2em .6em;border-radius:var(--radius-sm);border:1px solid var(--border)}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);margin-bottom:var(--space-md)}
+    .compare-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md)}
+    .compare-card h5{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding-bottom:var(--space-xs);border-bottom:2px solid;margin-bottom:var(--space-sm)}
+    .compare-card.tea h5{color:var(--clr-tea);border-color:var(--clr-tea)}
+    .compare-card.blue h5{color:var(--clr-blue);border-color:var(--clr-blue)}
+    .compare-card.cs h5{color:var(--clr-cs);border-color:var(--clr-cs)}
+    .compare-card.orange h5{color:var(--clr-orange);border-color:var(--clr-orange)}
+    .compare-card ul{padding-left:var(--space-lg);margin:0}
+    .compare-card li{font-size:.88rem;color:var(--text-secondary);line-height:1.6;margin-bottom:2px}
+    .badge{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.15em .55em;border-radius:var(--radius-sm);margin-right:4px}
+    .badge-critical{background:rgba(239,68,68,.12);color:#ef4444}
+    .badge-high{background:rgba(245,158,11,.12);color:#f59e0b}
+    .badge-medium{background:rgba(16,185,129,.12);color:#10b981}
+    .chapter-break{display:flex;align-items:center;gap:var(--space-md);margin:var(--space-2xl) 0 var(--space-xl)}
+    .chapter-break h2{margin:0;font-size:1.5rem;font-weight:800;color:var(--text-primary)}
+    .chapter-break::before{content:'';flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--border))}
+    .chapter-break::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--border),transparent)}
+    .chapter-icon{width:40px;height:40px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;flex-shrink:0}
+    .page-toc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-xl)}
+    .page-toc h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-tea);margin-bottom:var(--space-sm)}
+    .page-toc ul{list-style:none;padding:0;margin:0;columns:2;column-gap:var(--space-xl)}
+    .page-toc li{break-inside:avoid;margin-bottom:2px}
+    .page-toc a{font-size:.85rem;color:var(--text-secondary);text-decoration:none;transition:color var(--transition)}
+    .page-toc a:hover{color:var(--clr-tea)}
+    .page-toc .toc-ch{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-top:var(--space-sm);margin-bottom:2px;display:block}
+    .data-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-bottom:var(--space-md)}
+    .data-table thead tr{background:var(--bg-code)}
+    .data-table thead th{padding:var(--space-sm) var(--space-md);text-align:left;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-primary);border-bottom:2px solid var(--border)}
+    .data-table tbody td{padding:var(--space-sm) var(--space-md);border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top;line-height:1.5}
+    .data-table tbody tr:hover{background:var(--bg-glass)}
+    .step-list{list-style:none;padding:0;counter-reset:steps}
+    .step-list li{counter-increment:steps;display:flex;gap:var(--space-sm);margin-bottom:var(--space-sm);font-size:.9rem;color:var(--text-secondary);line-height:1.6}
+    .step-list li::before{content:counter(steps);display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;background:var(--accent-tea);color:#fff;font-size:.72rem;font-weight:700;border-radius:50%;flex-shrink:0;margin-top:1px;font-family:var(--font-code)}
+    .check-list{list-style:none;padding:0}
+    .check-list li{padding:3px 0 3px 22px;position:relative;font-size:.9rem;color:var(--text-secondary);line-height:1.6}
+    .check-list li::before{content:'✓';position:absolute;left:0;color:var(--clr-tea);font-weight:700;font-size:.82rem}
+    /* Truth table styling */
+    .truth-table{font-family:var(--font-code);font-size:.85rem;border-collapse:collapse;margin-bottom:var(--space-md)}
+    .truth-table th,.truth-table td{padding:.35rem .7rem;border:1px solid var(--border);text-align:center}
+    .truth-table thead{background:var(--bg-code);font-weight:700}
+    .tt-1{color:var(--clr-tea);font-weight:700}
+    .tt-0{color:var(--text-muted)}
+    /* DFD / Flowchart symbol boxes */
+    .symbol-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--space-md);margin-bottom:var(--space-md)}
+    .symbol-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md);text-align:center}
+    .symbol-shape{font-size:2rem;margin-bottom:.5rem}
+    .symbol-card h5{font-size:.8rem;font-weight:700;color:var(--text-primary);margin-bottom:.25rem}
+    .symbol-card p{font-size:.78rem;color:var(--text-muted);margin:0}
+    /* SQL highlight */
+    .sql-kw{color:var(--clr-blue);font-weight:700}
+    .sql-str{color:var(--clr-tea)}
+    .sql-cmt{color:var(--text-muted);font-style:italic}
+    @media(max-width:640px){.compare-grid{grid-template-columns:1fr}.page-toc ul{columns:1}}
+  </style>
+</head>
+<body>
+<div class="layout-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></div>
+      <button id="close-sidebar-btn" class="close-sidebar"><i class="fas fa-times"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="paper1-revision.html"><i class="fas fa-file-alt"></i> Paper 1 Guide</a>
+      <a href="index.html#assessment-hub"><i class="fas fa-clipboard-check"></i> Assessment Hub</a>
+      <hr class="divider">
+      <h3 class="nav-title">Paper 2 Topics</h3>
+      <details class="syllabus-group" open>
+        <summary>Problem Solving</summary>
+        <div class="syllabus-terms"><ul>
+          <li><a href="#sdlc">SDLC Models</a></li>
+          <li><a href="#dfd">Data Flow Diagrams</a></li>
+          <li><a href="#flowcharts">Flowcharts</a></li>
+          <li><a href="#prototypes">Prototypes</a></li>
+          <li><a href="#implementation">Implementation Methods</a></li>
+        </ul></div>
+      </details>
+      <details class="syllabus-group" open>
+        <summary>Boolean Logic</summary>
+        <div class="syllabus-terms"><ul>
+          <li><a href="#truth-tables">Truth Tables</a></li>
+          <li><a href="#logic-laws">Boolean Laws</a></li>
+          <li><a href="#simplification">Simplification</a></li>
+          <li><a href="#logic-gates">Logic Gates / Circuits</a></li>
+        </ul></div>
+      </details>
+      <details class="syllabus-group" open>
+        <summary>Databases &amp; SQL</summary>
+        <div class="syllabus-terms"><ul>
+          <li><a href="#db-concepts">DB Concepts</a></li>
+          <li><a href="#keys">Keys &amp; Relationships</a></li>
+          <li><a href="#normalisation">Normalisation</a></li>
+          <li><a href="#er-diagrams">ER Diagrams</a></li>
+          <li><a href="#sql-ddl">SQL — DDL</a></li>
+          <li><a href="#sql-dml">SQL — DML</a></li>
+          <li><a href="#sql-select">SQL — SELECT &amp; JOIN</a></li>
+        </ul></div>
+      </details>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="lang-switcher">
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="kz">KZ</button>
+      </div>
+      <button id="theme-toggle" class="theme-toggle"><i class="fas fa-sun"></i></button>
+    </div>
+  </aside>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <main class="main-content">
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle"><i class="fas fa-bars"></i></button>
+        <a href="index.html" class="logo" style="margin-left:15px"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a>
+      </div>
+    </div>
+    <div class="lesson-page">
+    <div class="lesson-container">
+      <div class="lesson-breadcrumb">
+        <a href="index.html">Home</a><span class="sep">/</span>
+        <a href="index.html#assessment-hub">Assessment Hub</a><span class="sep">/</span>
+        <span>Paper 2 Crash Course</span>
+      </div>
+      <div class="lesson-header">
+        <div class="lesson-unit-badge"><i class="fas fa-graduation-cap"></i> NIS 2025 · Grade 11–12 · Paper 2 · Problem Solving + Logic + Databases</div>
+        <h1 class="lesson-title">Paper 2 — Theory Crash Course</h1>
+        <p class="lesson-intro">Complete study guide for Paper 2: System Life Cycle &amp; SDLC models, Data Flow Diagrams, Flowcharts, Prototyping, Implementation methods, Boolean Logic &amp; Gates, Relational Databases, Normalisation, ER Diagrams, and SQL (DDL + DML).</p>
+        <div class="lesson-lo-card">
+          <h3><i class="fas fa-map-signs"></i> How to use this guide</h3>
+          <ul class="lesson-lo-list">
+            <li><span class="lo-code" style="background:rgba(239,68,68,.12);color:#ef4444">⚠️ WARNING</span> Common mistake — marks lost here</li>
+            <li><span class="lo-code" style="background:rgba(13,148,136,.12);color:var(--clr-tea)">📌 DEFINITION</span> Technical term — learn exactly as written</li>
+            <li><span class="lo-code" style="background:rgba(59,130,246,.12);color:#3b82f6">📋 RULE</span> Step-by-step procedure</li>
+            <li><span class="lo-code" style="background:rgba(245,158,11,.12);color:#f59e0b">✅ EXAM TIP</span> Ready-made examiner answer</li>
+            <li><span class="lo-code">🖼️ IMAGE</span> Placeholder — insert this diagram</li>
+          </ul>
+        </div>
+      </div>
+
+```
+  <!-- TOC -->
+  <div class="page-toc">
+    <h3><i class="fas fa-list"></i> &nbsp;Contents</h3>
+    <ul>
+      <li><span class="toc-ch">Ch.1 — Problem Solving &amp; SDLC</span></li>
+      <li><a href="#sdlc">1.1 SDLC Models</a></li>
+      <li><a href="#data-collection">1.2 Data Collection Methods</a></li>
+      <li><a href="#dfd">1.3 Data Flow Diagrams (DFD)</a></li>
+      <li><a href="#flowcharts">1.4 Flowcharts</a></li>
+      <li><a href="#prototypes">1.5 Prototypes</a></li>
+      <li><a href="#implementation">1.6 Implementation Methods</a></li>
+      <li><a href="#documentation">1.7 Project Documentation</a></li>
+      <li><span class="toc-ch">Ch.2 — Boolean Logic</span></li>
+      <li><a href="#truth-tables">2.1 Truth Tables (AND/OR/NOT/NAND/NOR/XOR)</a></li>
+      <li><a href="#logic-laws">2.2 Boolean Laws</a></li>
+      <li><a href="#simplification">2.3 Simplifying Expressions</a></li>
+      <li><a href="#logic-gates">2.4 Logic Gates &amp; Circuits</a></li>
+      <li><span class="toc-ch">Ch.3 — Databases &amp; SQL</span></li>
+      <li><a href="#db-concepts">3.1 Relational DB Concepts</a></li>
+      <li><a href="#keys">3.2 Keys &amp; Relationships</a></li>
+      <li><a href="#normalisation">3.3 Normalisation (1NF–3NF)</a></li>
+      <li><a href="#er-diagrams">3.4 ER Diagrams</a></li>
+      <li><a href="#data-dictionary">3.5 Data Dictionary &amp; DDL vs DML</a></li>
+      <li><a href="#sql-ddl">3.6 SQL — DDL (CREATE/ALTER/DROP)</a></li>
+      <li><a href="#sql-dml">3.7 SQL — DML (SELECT/INSERT/UPDATE/DELETE)</a></li>
+      <li><a href="#sql-select">3.8 SQL — SELECT with JOIN</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== CHAPTER 1 ===== -->
+  <div class="chapter-break">
+    <div class="chapter-icon" style="background:var(--accent-warm)"><i class="fas fa-diagram-project"></i></div>
+    <h2>Chapter 1 — Problem Solving &amp; SDLC</h2>
+  </div>
+
+  <!-- 1.1 SDLC -->
+  <div id="sdlc" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-arrows-spin"></i> 1.1 SDLC Models</h3>
+    <div class="def-box"><h4>📌 SDLC (System Development Life Cycle)</h4><p>A structured process for planning, creating, testing, and delivering software systems. Defines the stages a development team follows from initial idea to finished product and beyond.</p></div>
+    <div class="def-box"><h4>📌 SDLC Stages</h4><p>Analysis → Design → Implementation → Testing → Evaluation → Maintenance. Each stage has defined inputs, activities, and outputs.</p></div>
+
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Три диаграммы рядом: (1) Waterfall — линейные стрелки вниз; (2) Spiral — спираль с 4 квадрантами; (3) Agile — короткие итерации/спринты. Для каждой: название + ключевое слово.</p><span class="img-search">Поиск: "waterfall spiral agile SDLC models comparison diagram"</span></div>
+
+    <table class="data-table"><thead><tr><th>Model</th><th>Structure</th><th>Advantages</th><th>Disadvantages</th></tr></thead><tbody>
+      <tr>
+        <td><strong>Waterfall</strong></td>
+        <td>Linear sequential stages — each stage completed before the next begins; no going back</td>
+        <td>Simple to manage; clear milestones; good documentation; easy to understand for client</td>
+        <td>Inflexible — changes mid-project are expensive; client only sees product at the end; errors discovered late are costly</td>
+      </tr>
+      <tr>
+        <td><strong>Spiral</strong></td>
+        <td>Iterative — risk analysis at each loop; prototype built and evaluated before next cycle</td>
+        <td>Risk is identified early at each phase; good for large/complex systems; flexible to changes</td>
+        <td>Expensive; requires experienced risk analysts; can spiral out of control without strict management</td>
+      </tr>
+      <tr>
+        <td><strong>Agile</strong></td>
+        <td>Iterative short sprints (1–4 weeks); working software delivered frequently; continuous client feedback</td>
+        <td>Highly flexible — changes welcome at any point; client involved throughout; early delivery of working software</td>
+        <td>Difficult to predict final cost/time; requires constant client involvement; documentation often neglected</td>
+      </tr>
+    </tbody></table>
+
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Warning — Compare, Don't Just Describe</h4><p>Questions asking to "compare" models require both advantages AND disadvantages addressed for EACH model in the same answer. Don't just list features of one — link them: <em>"Unlike Waterfall which requires all requirements upfront, Agile allows requirements to change between sprints."</em></p></div>
+  </div>
+
+  <!-- 1.2 Data Collection -->
+  <div id="data-collection" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-clipboard-list"></i> 1.2 Data Collection Methods</h3>
+    <table class="data-table"><thead><tr><th>Method</th><th>Definition</th><th>Advantages</th><th>Disadvantages</th></tr></thead><tbody>
+      <tr><td><strong>Interview</strong></td><td>Direct questioning of stakeholders face-to-face or remotely</td><td>In-depth information; clarify answers immediately; flexible follow-up</td><td>Time-consuming; interviewer bias; limited number of people</td></tr>
+      <tr><td><strong>Questionnaire</strong></td><td>Written list of questions distributed to many respondents</td><td>Reaches many people quickly; cheap; anonymous responses possible</td><td>Low response rate; cannot clarify ambiguous answers; leading questions possible</td></tr>
+      <tr><td><strong>Observation</strong></td><td>Watching how users actually interact with current system</td><td>Shows real behaviour; uncovers undocumented processes; no reliance on memory</td><td>Hawthorne effect (people behave differently when watched); time-consuming</td></tr>
+      <tr><td><strong>Document analysis</strong></td><td>Examining existing forms, reports, manuals, and records</td><td>Reveals current data flows and formats; no disruption to users</td><td>Documents may be outdated; may not reflect actual practice</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 1.3 DFD -->
+  <div id="dfd" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-diagram-next"></i> 1.3 Data Flow Diagrams (DFD)</h3>
+    <div class="def-box"><h4>📌 Data Flow Diagram (DFD)</h4><p>A graphical representation showing how data flows through a system — what data enters, how it is processed, where it is stored, and what data leaves. DFDs show the FLOW of data, not the sequence of events.</p></div>
+
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Таблица символов DFD с примерами: (1) Прямоугольник = External Entity; (2) Стрелка = Data Flow; (3) Прямоугольник с открытой стороной = Data Store; (4) Овал/прямоугольник со скруглёнными углами = Process. Для каждого: символ + название + что представляет.</p><span class="img-search">Поиск: "DFD symbols data flow diagram external entity process data store"</span></div>
+
+    <div class="symbol-grid">
+      <div class="symbol-card"><div class="symbol-shape">▭</div><h5>External Entity</h5><p>Source or destination of data outside the system (person, org, other system)</p></div>
+      <div class="symbol-card"><div class="symbol-shape">→</div><h5>Data Flow</h5><p>Movement of data between elements; labelled with the data name</p></div>
+      <div class="symbol-card"><div class="symbol-shape">⊏ ⊐</div><h5>Data Store</h5><p>Repository where data is held (file, database, table)</p></div>
+      <div class="symbol-card"><div class="symbol-shape">◯</div><h5>Process</h5><p>Transformation or manipulation of data; numbered and named (verb + noun)</p></div>
+    </div>
+
+    <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Rules for Drawing a DFD</h4><ol class="step-list">
+      <li>Every data flow must connect two elements (entity→process, process→store, etc.).</li>
+      <li>Data flows CANNOT go directly between two external entities or two data stores — must pass through a process.</li>
+      <li>Each process must have at least one input AND one output data flow.</li>
+      <li>Label every arrow with the name of the data flowing (not "data" — be specific).</li>
+      <li>Number each process (1.0, 2.0, etc.) for reference.</li>
+    </ol></div>
+
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Common DFD Mistakes</h4><ul><li>Data flowing directly from one external entity to another (no process in between) — invalid.</li><li>Data flowing directly between two data stores — invalid.</li><li>Unlabelled arrows — always label with the data name.</li><li>Confusing DFD with flowchart — DFD shows data movement, not procedure steps.</li></ul></div>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> Example — Library Book Borrowing System (Level 0 / Context Diagram)</h4><div class="code-block"><code>Member ──[Borrow request]──► [1.0 Process Loan] ──[Loan record]──► D1 Loans
+                                  │
+                      [Available?]│[Book details]
+                                  ▼
+                           D2 Book Catalogue
+                                  │
+                     [Unavailable notice]
+                                  ▼
+                               Member</code></div></div>
+  </div>
+
+  <!-- 1.4 Flowcharts -->
+  <div id="flowcharts" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-code-branch"></i> 1.4 Flowcharts</h3>
+    <div class="def-box"><h4>📌 Flowchart</h4><p>A diagram representing the sequence of steps and decisions in an algorithm or process. Flowcharts show HOW a process works step by step — unlike DFDs which show WHERE data flows.</p></div>
+
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Таблица символов: Овал (Start/End), Прямоугольник (Process/Action), Ромб (Decision — Yes/No), Параллелограмм (Input/Output), Стрелка (Flow). Каждый символ с рисунком и названием.</p><span class="img-search">Поиск: "flowchart symbols shapes meaning oval rectangle diamond parallelogram"</span></div>
+
+    <div class="symbol-grid">
+      <div class="symbol-card"><div class="symbol-shape">⬭</div><h5>Terminal (Oval)</h5><p>Start or End of the algorithm</p></div>
+      <div class="symbol-card"><div class="symbol-shape">▬</div><h5>Process (Rectangle)</h5><p>A computation or action (e.g., total = total + price)</p></div>
+      <div class="symbol-card"><div class="symbol-shape">⬧</div><h5>Decision (Diamond)</h5><p>A Yes/No question — two exits: YES and NO</p></div>
+      <div class="symbol-card"><div class="symbol-shape">▱</div><h5>Input/Output (Parallelogram)</h5><p>Data entered by user or displayed to user</p></div>
+    </div>
+
+    <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Rules for Drawing Flowcharts</h4><ol class="step-list">
+      <li>Always start and end with a Terminal (oval).</li>
+      <li>Decision diamonds always have exactly TWO exits labelled YES and NO (or True/False).</li>
+      <li>Use arrows to show direction of flow — never leave flow ambiguous.</li>
+      <li>Loops must have a clear entry and exit point controlled by a decision.</li>
+      <li>Use parallelograms for all user input (READ/INPUT) and output (PRINT/DISPLAY).</li>
+    </ol></div>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> Worked Example — Count even numbers from 1 to 10</h4><div class="code-block"><code>START
+```
+
+count = 0, n = 1
+WHILE n ≤ 10:
+[Decision] n MOD 2 = 0?
+YES → count = count + 1
+NO  → (continue)
+n = n + 1
+OUTPUT count
+END</code></div></div>
+
+```
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ DFD vs Flowchart — Know the Difference</h4><p><strong>DFD</strong> = shows WHAT data moves and WHERE (system perspective). <strong>Flowchart</strong> = shows HOW steps happen in sequence (algorithm perspective). Never use flowchart symbols in a DFD or vice versa.</p></div>
+  </div>
+
+  <!-- 1.5 Prototypes -->
+  <div id="prototypes" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-drafting-compass"></i> 1.5 Prototypes</h3>
+    <div class="def-box"><h4>📌 Prototype</h4><p>An early working model of a system or software that demonstrates key features and allows users to interact with and evaluate the system before full development begins.</p></div>
+
+    <div class="compare-grid">
+      <div class="compare-card tea"><h5>Advantages of Prototyping</h5><ul>
+        <li>Client can see and interact with the system early — feedback gathered before full build</li>
+        <li>Misunderstandings identified early — cheaper to fix at prototype stage</li>
+        <li>Reduces risk of final product not meeting requirements</li>
+        <li>Users can clarify requirements by reacting to what they see</li>
+        <li>Can be used as part of the final system (evolutionary prototyping)</li>
+      </ul></div>
+      <div class="compare-card cs"><h5>Disadvantages of Prototyping</h5><ul>
+        <li>Client may think prototype IS the final product — unrealistic expectations</li>
+        <li>Prototype code may be poor quality and used in final product inadvertently</li>
+        <li>Scope creep — clients keep requesting changes ("just one more thing")</li>
+        <li>Additional time and cost to build prototypes before real development</li>
+        <li>May lead to incomplete documentation if focus shifts to prototyping</li>
+      </ul></div>
+    </div>
+
+    <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ Exam Tip — "Advantages/disadvantages of using prototypes"</h4><p>Always link to a specific context. "The client can interact with the prototype and provide feedback, reducing the risk that the final system does not meet their requirements." Generic answers without context score fewer marks.</p></div>
+  </div>
+
+  <!-- 1.6 Implementation Methods -->
+  <div id="implementation" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-server"></i> 1.6 System Implementation Methods</h3>
+    <div class="def-box"><h4>📌 System Implementation</h4><p>The process of transitioning from an old system to a new system. The method chosen affects risk, cost, continuity, and the impact on users.</p></div>
+
+    <table class="data-table"><thead><tr><th>Method</th><th>Definition</th><th>Advantages</th><th>Disadvantages</th></tr></thead><tbody>
+      <tr>
+        <td><strong>Direct (Big Bang) Changeover</strong></td>
+        <td>Old system switched off; new system switched on immediately on a set date</td>
+        <td>Cheap — no parallel running costs; simple; immediate benefits</td>
+        <td>Very high risk — if new system fails, no fallback; staff need training beforehand</td>
+      </tr>
+      <tr>
+        <td><strong>Parallel Running</strong></td>
+        <td>Old and new systems run simultaneously until new system is trusted</td>
+        <td>Very safe — old system available as fallback; results compared to verify new system</td>
+        <td>Expensive — twice the workload for staff; duplication of effort; confusion over which system to use</td>
+      </tr>
+      <tr>
+        <td><strong>Phased Implementation</strong></td>
+        <td>New system introduced in stages — one module or department at a time</td>
+        <td>Lower risk — problems in one phase don't affect others; feedback informs next phase</td>
+        <td>Slow process; two systems must interface during transition; staff in different phases use different systems</td>
+      </tr>
+      <tr>
+        <td><strong>Pilot Implementation</strong></td>
+        <td>New system introduced in one location or department first; rolled out if successful</td>
+        <td>Real-world testing with limited risk; issues resolved before full rollout</td>
+        <td>Pilot site may not be representative; delays full implementation; staff in non-pilot areas wait</td>
+      </tr>
+    </tbody></table>
+
+    <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ Exam Tip — "Compare advantages and disadvantages of implementation methods"</h4><p>Always justify based on the scenario. A hospital patient record system should use Parallel Running (safety critical — can't risk failure). A small shop update can use Direct Changeover (cheap, simple, low stakes).</p></div>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> System Implementation Plan — Key Elements</h4><div class="code-block"><code>1. Pre-implementation tasks (hardware/software installation, data migration, staff training)
+```
+
+1. Changeover method (which of the four above, and why)
+1. Timeline / Gantt chart with milestones
+1. Contingency plan (what happens if the new system fails)
+1. Testing plan (who tests, what is tested, acceptance criteria)
+1. Post-implementation review (evaluation date, KPIs to measure success)</code></div></div>
+   
+      </div>
+   
+      <!-- 1.7 Documentation -->
+   
+      <div id="documentation" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-file-lines"></i> 1.7 Project Documentation</h3>
+        <div class="def-box"><h4>📌 Technical Documentation</h4><p>Documentation created during the SDLC for developers: system design, data structures, algorithms, API references, installation guides.</p></div>
+        <div class="def-box"><h4>📌 User Documentation</h4><p>Documentation created for end-users: user manuals, quick-start guides, FAQs, training materials.</p></div>
+   
+   ```
+    <table class="data-table"><thead><tr><th>Formatting Element (LO 12.2.1.x)</th><th>Purpose</th></tr></thead><tbody>
+      <tr><td><strong>Table of contents (12.2.1.1)</strong></td><td>Allows reader to navigate to specific sections; generated automatically from headings in MS Word</td></tr>
+      <tr><td><strong>Headers and footers (12.2.1.2)</strong></td><td>Repeating information on every page: document title, author, date, page number, logo</td></tr>
+      <tr><td><strong>Tables (12.2.1.3)</strong></td><td>Organise structured data into rows and columns for comparison or reference</td></tr>
+      <tr><td><strong>Page parameters (12.2.1.4)</strong></td><td>Margins, paper size, orientation (portrait/landscape) — set in Page Setup</td></tr>
+      <tr><td><strong>Page numbers (12.2.1.5)</strong></td><td>Inserted via Insert → Page Number; can start from any number; placed in header/footer</td></tr>
+      <tr><td><strong>Indents and line spacing (12.2.1.6)</strong></td><td>Indents set paragraph distance from margin; line spacing (single/1.5/double) improves readability</td></tr>
+    </tbody></table>
+   ```
+   
+      </div>
+   
+      <!-- ===== CHAPTER 2 ===== -->
+   
+      <div class="chapter-break">
+        <div class="chapter-icon" style="background:var(--accent-blue)"><i class="fas fa-microchip"></i></div>
+        <h2>Chapter 2 — Boolean Logic</h2>
+      </div>
+   
+      <!-- 2.1 Truth Tables -->
+   
+      <div id="truth-tables" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-table"></i> 2.1 Truth Tables</h3>
+        <div class="def-box"><h4>📌 Truth Table</h4><p>A table showing all possible input combinations and their corresponding output for a Boolean expression or logic gate. For n inputs: 2ⁿ rows required.</p></div>
+   
+   ```
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Шесть символов логических вентилей с их стандартными обозначениями: AND, OR, NOT, NAND, NOR, XOR. Каждый: символ + название + краткое описание.</p><span class="img-search">Поиск: "logic gates symbols AND OR NOT NAND NOR XOR standard"</span></div>
+   
+    <h4 style="margin:var(--space-md) 0 var(--space-sm);color:var(--text-primary)">All Six Basic Gates — Truth Tables</h4>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-md);margin-bottom:var(--space-md)">
+   
+      <div class="info-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md)">
+        <h5 style="font-size:.85rem;font-weight:700;margin-bottom:var(--space-sm);color:var(--clr-blue)">AND — Output 1 only if ALL inputs are 1</h5>
+        <table class="truth-table"><thead><tr><th>A</th><th>B</th><th>A AND B</th></tr></thead><tbody>
+          <tr><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td></tr>
+          <tr><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-0">0</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-0">0</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+        </tbody></table>
+      </div>
+   
+      <div class="info-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md)">
+        <h5 style="font-size:.85rem;font-weight:700;margin-bottom:var(--space-sm);color:var(--clr-tea)">OR — Output 1 if ANY input is 1</h5>
+        <table class="truth-table"><thead><tr><th>A</th><th>B</th><th>A OR B</th></tr></thead><tbody>
+          <tr><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td></tr>
+          <tr><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+        </tbody></table>
+      </div>
+   
+      <div class="info-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md)">
+        <h5 style="font-size:.85rem;font-weight:700;margin-bottom:var(--space-sm);color:var(--clr-cs)">NOT — Inverts the input</h5>
+        <table class="truth-table"><thead><tr><th>A</th><th>NOT A</th></tr></thead><tbody>
+          <tr><td class="tt-0">0</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-0">0</td></tr>
+        </tbody></table>
+      </div>
+   
+      <div class="info-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md)">
+        <h5 style="font-size:.85rem;font-weight:700;margin-bottom:var(--space-sm);color:var(--clr-orange)">NAND — NOT AND (inverted AND)</h5>
+        <table class="truth-table"><thead><tr><th>A</th><th>B</th><th>A NAND B</th></tr></thead><tbody>
+          <tr><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-0">0</td></tr>
+        </tbody></table>
+      </div>
+   
+      <div class="info-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md)">
+        <h5 style="font-size:.85rem;font-weight:700;margin-bottom:var(--space-sm);color:var(--clr-blue)">NOR — NOT OR (inverted OR)</h5>
+        <table class="truth-table"><thead><tr><th>A</th><th>B</th><th>A NOR B</th></tr></thead><tbody>
+          <tr><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-0">0</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-0">0</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-0">0</td></tr>
+        </tbody></table>
+      </div>
+   
+      <div class="info-card" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md)">
+        <h5 style="font-size:.85rem;font-weight:700;margin-bottom:var(--space-sm);color:var(--clr-tea)">XOR — Output 1 if inputs are DIFFERENT</h5>
+        <table class="truth-table"><thead><tr><th>A</th><th>B</th><th>A XOR B</th></tr></thead><tbody>
+          <tr><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td></tr>
+          <tr><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-1">1</td></tr>
+          <tr><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-0">0</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+   
+    <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 How to Build a Truth Table for any Expression</h4><ol class="step-list">
+      <li>Count inputs (n) → table needs 2ⁿ rows.</li>
+      <li>Create columns: one per input variable, then one per sub-expression, then the final output.</li>
+      <li>Fill input columns with systematic 0/1 patterns (rightmost column alternates 0,1; next alternates 0,0,1,1; etc.).</li>
+      <li>Evaluate each sub-expression left to right using the gate rules above.</li>
+      <li>Complete the final output column.</li>
+    </ol></div>
+   
+    <div class="worked-example"><h4><span class="step-num">★</span> Worked Example — Truth table for: Q = (A AND B) OR (NOT C)</h4>
+    <table class="truth-table" style="font-size:.82rem"><thead><tr><th>A</th><th>B</th><th>C</th><th>A AND B</th><th>NOT C</th><th>Q = (A AND B) OR (NOT C)</th></tr></thead><tbody>
+      <tr><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+      <tr><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td></tr>
+      <tr><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+      <tr><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td></tr>
+      <tr><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+      <tr><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-0">0</td><td class="tt-0">0</td></tr>
+      <tr><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-1">1</td></tr>
+      <tr><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-1">1</td><td class="tt-0">0</td><td class="tt-1">1</td></tr>
+    </tbody></table></div>
+   ```
+   
+      </div>
+   
+      <!-- 2.2 Logic Laws -->
+   
+      <div id="logic-laws" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-scale-balanced"></i> 2.2 Boolean Laws</h3>
+        <div class="def-box"><h4>📌 Boolean Laws</h4><p>Mathematical rules governing the behaviour of Boolean (True/False, 1/0) expressions. Used to simplify logic circuits and reduce the number of gates required.</p></div>
+   
+   ```
+    <table class="data-table"><thead><tr><th>Law</th><th>AND form</th><th>OR form</th></tr></thead><tbody>
+      <tr><td><strong>Identity</strong></td><td>A AND 1 = A</td><td>A OR 0 = A</td></tr>
+      <tr><td><strong>Null / Annihilation</strong></td><td>A AND 0 = 0</td><td>A OR 1 = 1</td></tr>
+      <tr><td><strong>Idempotent</strong></td><td>A AND A = A</td><td>A OR A = A</td></tr>
+      <tr><td><strong>Complement</strong></td><td>A AND NOT A = 0</td><td>A OR NOT A = 1</td></tr>
+      <tr><td><strong>Double Negation</strong></td><td colspan="2">NOT(NOT A) = A</td></tr>
+      <tr><td><strong>Commutative</strong></td><td>A AND B = B AND A</td><td>A OR B = B OR A</td></tr>
+      <tr><td><strong>Associative</strong></td><td>(A AND B) AND C = A AND (B AND C)</td><td>(A OR B) OR C = A OR (B OR C)</td></tr>
+      <tr><td><strong>Distributive</strong></td><td>A AND (B OR C) = (A AND B) OR (A AND C)</td><td>A OR (B AND C) = (A OR B) AND (A OR C)</td></tr>
+      <tr><td><strong>Absorption</strong></td><td>A AND (A OR B) = A</td><td>A OR (A AND B) = A</td></tr>
+      <tr><td><strong>De Morgan's</strong></td><td>NOT(A AND B) = NOT A OR NOT B</td><td>NOT(A OR B) = NOT A AND NOT B</td></tr>
+    </tbody></table>
+   
+    <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ De Morgan's Laws — Most Examined</h4><p>To apply De Morgan's: <strong>flip</strong> the operator (AND↔OR) and <strong>negate</strong> each term individually.</p><ul class="check-list"><li>NOT(A AND B) = NOT A OR NOT B</li><li>NOT(A OR B) = NOT A AND NOT B</li></ul></div>
+   
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ De Morgan's Common Mistake</h4><p>Students write NOT(A AND B) = NOT A AND NOT B — this is WRONG. The AND must flip to OR. Memory aid: <em>"Break the line, change the sign."</em></p></div>
+   ```
+   
+      </div>
+   
+      <!-- 2.3 Simplification -->
+   
+      <div id="simplification" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-wand-magic-sparkles"></i> 2.3 Simplifying Boolean Expressions</h3>
+   
+   ```
+    <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Simplification Strategy</h4><ol class="step-list">
+      <li>Look for complement pairs: A AND NOT A = 0 (eliminates term), A OR NOT A = 1 (whole expression = 1).</li>
+      <li>Apply Absorption: A OR (A AND B) = A — removes the inner term.</li>
+      <li>Apply Distributive law to factor out common variables.</li>
+      <li>Apply De Morgan's to remove double negations or distribute NOT.</li>
+      <li>Use Idempotent: A AND A = A, A OR A = A — eliminate duplicates.</li>
+      <li>Check if the result can be further reduced.</li>
+    </ol></div>
+   
+    <div class="worked-example"><h4><span class="step-num">★</span> Example 1 — Simplify: (A AND B) OR (A AND NOT B)</h4><div class="code-block"><code>= A AND (B OR NOT B)    [Distributive law: factor out A]
+   ```
+
+= A AND 1               [Complement law: B OR NOT B = 1]
+= A                     [Identity: A AND 1 = A]
+Result: A</code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> Example 2 — Simplify: A OR (A AND B)</h4><div class="code-block"><code>= A                     [Absorption law: A OR (A AND B) = A]
+```
+
+Result: A</code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> Example 3 — Apply De Morgan's: NOT(A AND B)</h4><div class="code-block"><code>= NOT A OR NOT B        [De Morgan's: flip AND→OR, negate each]
+```
+
+Result: NOT A OR NOT B</code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> Example 4 — Reduce to normal form: (A OR B) AND (A OR NOT B)</h4><div class="code-block"><code>= A OR (B AND NOT B)    [Distributive: A OR (B AND NOT B)]
+```
+
+= A OR 0                [Complement: B AND NOT B = 0]
+= A                     [Identity: A OR 0 = A]
+Result: A</code></div></div>
+</div>
+
+```
+  <!-- 2.4 Logic Gates -->
+  <div id="logic-gates" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-microchip"></i> 2.4 Logic Gates &amp; Circuits</h3>
+    <div class="def-box"><h4>📌 Logic Gate</h4><p>A physical electronic component implementing a Boolean function. Gates are combined to build logic circuits that perform computations in hardware.</p></div>
+
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Примеры логических схем: (1) Half adder (XOR + AND); (2) Сложная схема с несколькими вентилями, входами A, B, C и выходом Q. Для каждой — схема + соответствующее булево выражение.</p><span class="img-search">Поиск: "logic gate circuit diagram AND OR NOT combined example" / mr-tea.net → pages/12-cs-theory/boolean-logic.html</span></div>
+
+    <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Reading a Logic Circuit → Boolean Expression</h4><ol class="step-list">
+      <li>Start from the inputs (left side).</li>
+      <li>For each gate, write the expression for its output based on its inputs.</li>
+      <li>Feed those outputs as inputs to the next gates.</li>
+      <li>The final gate's output expression = the Boolean expression for Q.</li>
+    </ol></div>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> Circuit → Expression Example</h4><div class="code-block"><code>Inputs: A, B, C
+```
+
+Gate 1: G1 = A AND B          (AND gate with A, B)
+Gate 2: G2 = NOT C            (NOT gate with C)
+Gate 3: Q  = G1 OR G2         (OR gate with G1, G2)
+
+Final expression: Q = (A AND B) OR (NOT C)</code></div></div>
+
+```
+    <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Expression → Circuit</h4><ol class="step-list">
+      <li>Identify all distinct variables — these are your inputs.</li>
+      <li>Find the innermost sub-expressions first (most brackets).</li>
+      <li>Draw a gate for each operation, connecting outputs as inputs to the next gate.</li>
+      <li>The final gate produces output Q.</li>
+    </ol></div>
+
+    <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ Exam Tip — Verify your circuit with truth table</h4><p>After drawing the circuit, pick one row of the truth table (e.g., A=1, B=0, C=1) and trace the signal through each gate. Confirm the output matches the expected value from the truth table. This catches wiring errors.</p></div>
+  </div>
+
+  <!-- ===== CHAPTER 3 ===== -->
+  <div class="chapter-break">
+    <div class="chapter-icon" style="background:var(--accent-cs)"><i class="fas fa-database"></i></div>
+    <h2>Chapter 3 — Databases &amp; SQL</h2>
+  </div>
+
+  <!-- 3.1 DB Concepts -->
+  <div id="db-concepts" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-table-columns"></i> 3.1 Relational Database Concepts</h3>
+    <div class="def-box"><h4>📌 Relational Database</h4><p>A database that organises data into one or more <strong>tables</strong> (relations), where each table consists of rows and columns. Tables are linked by relationships using keys, eliminating redundancy.</p></div>
+
+    <table class="data-table"><thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead><tbody>
+      <tr><td><strong>Table (Relation)</strong></td><td>A collection of related data organised in rows and columns</td><td>Students table, Courses table</td></tr>
+      <tr><td><strong>Attribute (Field/Column)</strong></td><td>A named characteristic of an entity — a single piece of information</td><td>StudentID, FirstName, DateOfBirth</td></tr>
+      <tr><td><strong>Record (Row / Tuple)</strong></td><td>A single complete entry in a table — one instance of the entity</td><td>One student's complete data row</td></tr>
+      <tr><td><strong>Entity</strong></td><td>A real-world object or concept about which data is stored</td><td>Student, Course, Teacher, Book</td></tr>
+      <tr><td><strong>Index</strong></td><td>A database structure that speeds up data retrieval on specified columns</td><td>Index on StudentID for fast lookups</td></tr>
+      <tr><td><strong>Data type</strong></td><td>The classification of values an attribute can hold</td><td>INTEGER, VARCHAR(50), DATE, BOOLEAN</td></tr>
+    </tbody></table>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> Example Table Structure — Students</h4>
+    <table class="truth-table" style="font-family:var(--font-base);font-size:.85rem"><thead><tr><th>StudentID</th><th>FirstName</th><th>LastName</th><th>DateOfBirth</th><th>ClassID</th></tr></thead><tbody>
+      <tr><td>1001</td><td>Asel</td><td>Nurova</td><td>2008-05-12</td><td>12A</td></tr>
+      <tr><td>1002</td><td>Daniil</td><td>Petrov</td><td>2008-09-03</td><td>12B</td></tr>
+      <tr><td>1003</td><td>Zarina</td><td>Bekova</td><td>2007-11-21</td><td>12A</td></tr>
+    </tbody></table>
+    <p style="font-size:.85rem;color:var(--text-muted);margin-top:.5rem">Each row = 1 record (tuple) | Each column = 1 attribute | StudentID = Primary Key | ClassID = Foreign Key</p></div>
+  </div>
+
+  <!-- 3.2 Keys -->
+  <div id="keys" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-key"></i> 3.2 Keys &amp; Relationships</h3>
+    <div class="def-box"><h4>📌 Primary Key</h4><p>An attribute (or combination of attributes) that <strong>uniquely identifies</strong> every record in a table. Must be unique, cannot be NULL, and must not change over time.</p></div>
+    <div class="def-box"><h4>📌 Composite Key</h4><p>A primary key consisting of <strong>two or more attributes</strong> combined. Used when no single attribute is sufficient to uniquely identify a record.</p></div>
+    <div class="def-box"><h4>📌 Foreign Key</h4><p>An attribute in one table that <strong>references the primary key</strong> of another table, creating a link (relationship) between the two tables. Enforces referential integrity.</p></div>
+
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Две таблицы с линиями связи: Students (StudentID PK, Name, ClassID FK) ↔ Classes (ClassID PK, ClassName, TeacherID FK) ↔ Teachers (TeacherID PK, Name). Подчёркнуты PK, подчёркнуты пунктиром FK.</p><span class="img-search">Поиск: "relational database primary key foreign key relationship diagram tables"</span></div>
+
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Primary vs Foreign Key Confusion</h4><p>A <strong>Primary Key</strong> uniquely identifies a record in its OWN table. A <strong>Foreign Key</strong> appears in another table to create a LINK — it refers to the primary key of a different table. The same attribute can be a primary key in one table and a foreign key in another.</p></div>
+
+    <h4 style="margin:var(--space-md) 0 var(--space-sm);color:var(--text-primary)">Relationship Types</h4>
+    <table class="data-table"><thead><tr><th>Type</th><th>Description</th><th>Example</th></tr></thead><tbody>
+      <tr><td><strong>One-to-One (1:1)</strong></td><td>One record in Table A relates to exactly one record in Table B</td><td>One student → one passport record</td></tr>
+      <tr><td><strong>One-to-Many (1:M)</strong></td><td>One record in Table A relates to many records in Table B; each B record relates to only one A</td><td>One class → many students</td></tr>
+      <tr><td><strong>Many-to-Many (M:M)</strong></td><td>Many records in A relate to many in B; requires a junction/link table</td><td>Students ↔ Courses (one student takes many courses; one course has many students)</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 3.3 Normalisation -->
+  <div id="normalisation" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-filter"></i> 3.3 Normalisation (1NF → 2NF → 3NF)</h3>
+    <div class="def-box"><h4>📌 Normalisation</h4><p>The process of organising a database to reduce <strong>data redundancy</strong> (repetition) and improve <strong>data integrity</strong> by structuring tables according to normal forms.</p></div>
+
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Три этапа нормализации с примером таблицы: Unnormalised → 1NF (убрать повторяющиеся группы) → 2NF (убрать частичные зависимости) → 3NF (убрать транзитивные зависимости). Стрелки между этапами.</p><span class="img-search">Поиск: "database normalisation 1NF 2NF 3NF stages example diagram"</span></div>
+
+    <table class="data-table"><thead><tr><th>Normal Form</th><th>Requirement</th><th>What problem it fixes</th></tr></thead><tbody>
+      <tr>
+        <td><strong>1NF</strong><br><small>First Normal Form</small></td>
+        <td>All attributes contain only <strong>atomic (single) values</strong>; no repeating groups; each row uniquely identifiable by a primary key</td>
+        <td>Repeating groups — e.g., storing multiple phone numbers in one cell</td>
+      </tr>
+      <tr>
+        <td><strong>2NF</strong><br><small>Second Normal Form</small></td>
+        <td>Already in 1NF AND every non-key attribute is <strong>fully functionally dependent</strong> on the ENTIRE primary key (no partial dependencies)</td>
+        <td>Partial dependencies — only applies when primary key is composite; non-key attribute depends on only PART of the key</td>
+      </tr>
+      <tr>
+        <td><strong>3NF</strong><br><small>Third Normal Form</small></td>
+        <td>Already in 2NF AND no non-key attribute is <strong>transitively dependent</strong> on the primary key via another non-key attribute</td>
+        <td>Transitive dependencies — e.g., StudentID → ClassID → ClassName (ClassName depends on ClassID, not directly on StudentID)</td>
+      </tr>
+    </tbody></table>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> Normalisation Walkthrough</h4><div class="code-block"><code>UNNORMALISED — one table with everything:
+```
+
+OrderID | CustomerName | CustomerCity | ProductName | Quantity | Price
+
+1NF — ensure atomic values and identify PK:
+Orders(OrderID, CustomerID, CustomerName, CustomerCity, ProductID, ProductName, Quantity, Price)
+→ Problem: CustomerName depends on CustomerID (not full key if composite)
+
+2NF — remove partial dependencies (split into separate tables):
+Orders(OrderID, CustomerID, ProductID, Quantity)
+Customers(CustomerID, CustomerName, CustomerCity)
+Products(ProductID, ProductName, Price)
+
+3NF — check for transitive dependencies:
+If CustomerCity → PostalCode then PostalCode depends on City, not CustomerID
+→ Further split: Cities(CustomerCity, PostalCode)
+Final: Customers(CustomerID, CustomerName, CustomerCity)</code></div></div>
+
+```
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ 2NF only applies when PK is composite</h4><p>If the primary key is a single attribute, partial dependency cannot exist — so 1NF → 3NF is checked directly. 2NF is only relevant when you have a composite primary key (two or more attributes forming the PK).</p></div>
+  </div>
+
+  <!-- 3.4 ER Diagrams -->
+  <div id="er-diagrams" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-project-diagram"></i> 3.4 Entity-Relationship (ER) Diagrams</h3>
+    <div class="def-box"><h4>📌 ER Diagram</h4><p>A graphical representation of the entities in a database and the relationships between them, showing cardinality (1:1, 1:M, M:M) and the attributes of each entity.</p></div>
+
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>ER диаграмма с тремя сущностями: Student ↔ Enrolment ↔ Course. Прямоугольники = entities; ромбы = relationships; овалы = attributes; линии с "1" и "M" показывают кардинальность. Crow's foot notation или Chen notation.</p><span class="img-search">Поиск: "ER diagram entity relationship one-to-many many-to-many example database"</span></div>
+
+    <div class="symbol-grid">
+      <div class="symbol-card"><div class="symbol-shape">▭</div><h5>Entity</h5><p>Real-world object (rectangle) — e.g., Student, Course, Teacher</p></div>
+      <div class="symbol-card"><div class="symbol-shape">⬧</div><h5>Relationship</h5><p>Association between entities (diamond) — e.g., ENROLS, TEACHES</p></div>
+      <div class="symbol-card"><div class="symbol-shape">⬭</div><h5>Attribute</h5><p>Property of an entity (ellipse) — e.g., StudentID, Name</p></div>
+      <div class="symbol-card"><div class="symbol-shape">1 — M</div><h5>Cardinality</h5><p>Shows how many of each entity participates — 1, M (many), or * (many)</p></div>
+    </div>
+
+    <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Steps to Draw an ER Diagram</h4><ol class="step-list">
+      <li>Identify all <strong>entities</strong> from the scenario (nouns: Student, Course, Teacher…).</li>
+      <li>Identify the <strong>relationships</strong> between entities (verbs: ENROLS, TEACHES…).</li>
+      <li>Determine <strong>cardinality</strong> for each relationship (1:1, 1:M, M:M).</li>
+      <li>Identify <strong>attributes</strong> for each entity (what data is stored about it?).</li>
+      <li>Mark the <strong>primary key</strong> attribute (underlined in Chen notation).</li>
+      <li>For M:M relationships, create a <strong>junction/link entity</strong> to resolve into 1:M.</li>
+    </ol></div>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> Example — School Database ER</h4><div class="code-block"><code>Entities: Student, Course, Teacher, Department
+```
+
+Relationships:
+Student ——[ENROLS]——> Course      (M:M → needs junction table: Enrolment)
+Teacher ——[TEACHES]——> Course     (1:M — one teacher teaches many courses)
+Department ——[EMPLOYS]——> Teacher (1:M — one dept has many teachers)
+
+Junction table: Enrolment(StudentID FK, CourseID FK, EnrolmentDate, Grade)</code></div></div>
+</div>
+
+```
+  <!-- 3.5 Data Dictionary -->
+  <div id="data-dictionary" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-book"></i> 3.5 Data Dictionary &amp; DDL vs DML</h3>
+    <div class="def-box"><h4>📌 Data Dictionary</h4><p>A centralised repository of metadata describing every table, attribute, data type, constraint, and relationship in a database. Acts as a reference for developers and database administrators.</p></div>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> Example Data Dictionary Entry</h4>
+    <table class="data-table"><thead><tr><th>Attribute</th><th>Data Type</th><th>Size</th><th>Constraint</th><th>Description</th></tr></thead><tbody>
+      <tr><td>StudentID</td><td>INTEGER</td><td>—</td><td>PRIMARY KEY, NOT NULL</td><td>Unique identifier for each student</td></tr>
+      <tr><td>FirstName</td><td>VARCHAR</td><td>50</td><td>NOT NULL</td><td>Student's first name</td></tr>
+      <tr><td>DateOfBirth</td><td>DATE</td><td>—</td><td>NOT NULL</td><td>Format: YYYY-MM-DD</td></tr>
+      <tr><td>ClassID</td><td>INTEGER</td><td>—</td><td>FOREIGN KEY → Classes(ClassID)</td><td>Links to the Classes table</td></tr>
+      <tr><td>IsActive</td><td>BOOLEAN</td><td>—</td><td>DEFAULT TRUE</td><td>Whether the student is currently enrolled</td></tr>
+    </tbody></table></div>
+
+    <div class="compare-grid">
+      <div class="compare-card tea"><h5>DDL — Data Definition Language</h5><ul>
+        <li>Defines and modifies the STRUCTURE of database objects</li>
+        <li>Commands: <strong>CREATE, ALTER, DROP</strong></li>
+        <li>Used to create tables, add/remove columns, delete tables</li>
+        <li>Changes are permanent and auto-committed</li>
+      </ul></div>
+      <div class="compare-card blue"><h5>DML — Data Manipulation Language</h5><ul>
+        <li>Manipulates the DATA stored within the database</li>
+        <li>Commands: <strong>SELECT, INSERT, UPDATE, DELETE</strong></li>
+        <li>Used to query, add, modify, or remove records</li>
+        <li>Changes can be rolled back (in transactions)</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- 3.6 SQL DDL -->
+  <div id="sql-ddl" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-code"></i> 3.6 SQL — DDL (CREATE / ALTER / DROP)</h3>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> CREATE TABLE — with all common constraints</h4><div class="code-block"><code><span class="sql-kw">CREATE TABLE</span> Students (
+StudentID   <span class="sql-kw">INTEGER</span>      <span class="sql-kw">PRIMARY KEY</span>,
+FirstName   <span class="sql-kw">VARCHAR</span>(50) <span class="sql-kw">NOT NULL</span>,
+LastName    <span class="sql-kw">VARCHAR</span>(50) <span class="sql-kw">NOT NULL</span>,
+DateOfBirth <span class="sql-kw">DATE</span>,
+Grade       <span class="sql-kw">INTEGER</span>      <span class="sql-kw">CHECK</span> (Grade <span class="sql-kw">BETWEEN</span> 1 <span class="sql-kw">AND</span> 12),
+Email       <span class="sql-kw">VARCHAR</span>(100) <span class="sql-kw">UNIQUE</span>,
+ClassID     <span class="sql-kw">INTEGER</span>      <span class="sql-kw">REFERENCES</span> Classes(ClassID),
+IsActive    <span class="sql-kw">BOOLEAN</span>      <span class="sql-kw">DEFAULT</span> <span class="sql-kw">TRUE</span>
+```
+
+);</code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> ALTER TABLE — add, modify, drop columns</h4><div class="code-block"><code><span class="sql-cmt">-- Add a new column</span>
+```
+
+<span class="sql-kw">ALTER TABLE</span> Students <span class="sql-kw">ADD</span> PhoneNumber <span class="sql-kw">VARCHAR</span>(20);
+
+<span class="sql-cmt">– Change a column’s data type</span>
+<span class="sql-kw">ALTER TABLE</span> Students <span class="sql-kw">MODIFY</span> Grade <span class="sql-kw">DECIMAL</span>(4,2);
+
+<span class="sql-cmt">– Remove a column</span>
+<span class="sql-kw">ALTER TABLE</span> Students <span class="sql-kw">DROP COLUMN</span> PhoneNumber;
+
+<span class="sql-cmt">– Rename a table</span>
+<span class="sql-kw">ALTER TABLE</span> Students <span class="sql-kw">RENAME TO</span> Pupils;</code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> DROP TABLE — permanently delete a table</h4><div class="code-block"><code><span class="sql-kw">DROP TABLE</span> Students;  <span class="sql-cmt">-- deletes the table AND all its data permanently</span></code></div></div>
+
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ DROP vs DELETE</h4><p><strong>DROP TABLE</strong> removes the entire table structure AND all data — DDL command, cannot be undone. <strong>DELETE</strong> removes only records from within a table — DML command, can be rolled back. Confusing these is a common error.</p></div>
+
+    <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ Common SQL Data Types</h4>
+    <table class="data-table"><thead><tr><th>Data Type</th><th>Usage</th><th>Example</th></tr></thead><tbody>
+      <tr><td><code>INTEGER</code> / <code>INT</code></td><td>Whole numbers</td><td>StudentID, Age, Quantity</td></tr>
+      <tr><td><code>VARCHAR(n)</code></td><td>Variable-length text up to n characters</td><td>Name VARCHAR(50)</td></tr>
+      <tr><td><code>CHAR(n)</code></td><td>Fixed-length text, always n characters</td><td>GenderCode CHAR(1)</td></tr>
+      <tr><td><code>DATE</code></td><td>Date values (YYYY-MM-DD)</td><td>DateOfBirth, EnrolmentDate</td></tr>
+      <tr><td><code>DECIMAL(p,s)</code></td><td>Exact decimal with p digits, s after point</td><td>Price DECIMAL(8,2)</td></tr>
+      <tr><td><code>BOOLEAN</code></td><td>TRUE or FALSE values</td><td>IsActive, HasPaid</td></tr>
+      <tr><td><code>TEXT</code></td><td>Long variable-length text</td><td>Notes, Description</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <!-- 3.7 SQL DML -->
+  <div id="sql-dml" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-database"></i> 3.7 SQL — DML (SELECT / INSERT / UPDATE / DELETE)</h3>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> SELECT — query data from a table</h4><div class="code-block"><code><span class="sql-cmt">-- Select all columns</span>
+```
+
+<span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> Students;
+
+<span class="sql-cmt">– Select specific columns</span>
+<span class="sql-kw">SELECT</span> FirstName, LastName, Grade <span class="sql-kw">FROM</span> Students;
+
+<span class="sql-cmt">– Filter with WHERE</span>
+<span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> Students
+<span class="sql-kw">WHERE</span> Grade = 12;
+
+<span class="sql-cmt">– Multiple conditions</span>
+<span class="sql-kw">SELECT</span> FirstName, LastName <span class="sql-kw">FROM</span> Students
+<span class="sql-kw">WHERE</span> Grade = 12 <span class="sql-kw">AND</span> IsActive = <span class="sql-kw">TRUE</span>;
+
+<span class="sql-cmt">– Sort results</span>
+<span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> Students
+<span class="sql-kw">ORDER BY</span> LastName <span class="sql-kw">ASC</span>;
+
+<span class="sql-cmt">– Pattern matching</span>
+<span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> Students
+<span class="sql-kw">WHERE</span> LastName <span class="sql-kw">LIKE</span> <span class="sql-str">‘Ali%’</span>;  <span class="sql-cmt">– starts with “Ali”</span></code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> INSERT — add new records</h4><div class="code-block"><code><span class="sql-cmt">-- Insert one record (all columns)</span>
+```
+
+<span class="sql-kw">INSERT INTO</span> Students
+<span class="sql-kw">VALUES</span> (1004, <span class="sql-str">‘Amir’</span>, <span class="sql-str">‘Seitkali’</span>, <span class="sql-str">‘2008-03-15’</span>, 12, <span class="sql-str">‘amir@nis.kz’</span>, <span class="sql-str">‘12A’</span>, <span class="sql-kw">TRUE</span>);
+
+<span class="sql-cmt">– Insert specifying columns (safer)</span>
+<span class="sql-kw">INSERT INTO</span> Students (StudentID, FirstName, LastName, Grade)
+<span class="sql-kw">VALUES</span> (1005, <span class="sql-str">‘Dina’</span>, <span class="sql-str">‘Ospanova’</span>, 11);</code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> UPDATE — modify existing records</h4><div class="code-block"><code><span class="sql-cmt">-- Update one field for specific records</span>
+```
+
+<span class="sql-kw">UPDATE</span> Students
+<span class="sql-kw">SET</span> Grade = 12
+<span class="sql-kw">WHERE</span> Grade = 11 <span class="sql-kw">AND</span> IsActive = <span class="sql-kw">TRUE</span>;
+
+<span class="sql-cmt">– Update multiple fields</span>
+<span class="sql-kw">UPDATE</span> Students
+<span class="sql-kw">SET</span> Email = <span class="sql-str">‘amir.new@nis.kz’</span>, ClassID = <span class="sql-str">‘12B’</span>
+<span class="sql-kw">WHERE</span> StudentID = 1004;</code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> DELETE — remove records</h4><div class="code-block"><code><span class="sql-cmt">-- Delete specific records</span>
+```
+
+<span class="sql-kw">DELETE FROM</span> Students
+<span class="sql-kw">WHERE</span> IsActive = <span class="sql-kw">FALSE</span>;
+
+<span class="sql-cmt">– Delete one record</span>
+<span class="sql-kw">DELETE FROM</span> Students
+<span class="sql-kw">WHERE</span> StudentID = 1003;</code></div></div>
+
+```
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Always use WHERE with UPDATE and DELETE</h4><p>An UPDATE or DELETE without a WHERE clause affects <strong>ALL records</strong> in the table. This is one of the most destructive mistakes in SQL. Always verify your WHERE condition with a SELECT first.</p></div>
+
+    <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ SELECT Clause Reference</h4>
+    <table class="data-table"><thead><tr><th>Clause</th><th>Purpose</th><th>Example</th></tr></thead><tbody>
+      <tr><td><code>WHERE</code></td><td>Filter rows by condition</td><td>WHERE Grade = 12</td></tr>
+      <tr><td><code>ORDER BY</code></td><td>Sort results ASC or DESC</td><td>ORDER BY LastName ASC</td></tr>
+      <tr><td><code>LIKE</code></td><td>Pattern match: % = any chars, _ = one char</td><td>LIKE 'A%', LIKE '_li'</td></tr>
+      <tr><td><code>BETWEEN</code></td><td>Range condition (inclusive)</td><td>WHERE Age BETWEEN 15 AND 18</td></tr>
+      <tr><td><code>IN</code></td><td>Match any value in a list</td><td>WHERE Grade IN (11, 12)</td></tr>
+      <tr><td><code>AND / OR / NOT</code></td><td>Combine conditions</td><td>WHERE Grade=12 AND IsActive=TRUE</td></tr>
+      <tr><td><code>COUNT(*)</code></td><td>Count number of rows</td><td>SELECT COUNT(*) FROM Students</td></tr>
+      <tr><td><code>GROUP BY</code></td><td>Group rows for aggregate functions</td><td>GROUP BY ClassID</td></tr>
+      <tr><td><code>HAVING</code></td><td>Filter groups (like WHERE for GROUP BY)</td><td>HAVING COUNT(*) > 5</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <!-- 3.8 SELECT with JOIN -->
+  <div id="sql-select" class="lesson-section">
+    <h3 class="lesson-section-title"><i class="fas fa-link"></i> 3.8 SQL — SELECT with Multiple Tables (JOIN)</h3>
+    <div class="def-box"><h4>📌 JOIN</h4><p>A SQL operation that combines rows from two or more tables based on a related column (usually a foreign key matching a primary key).</p></div>
+
+    <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Диаграмма Венна: INNER JOIN (пересечение), LEFT JOIN (вся левая + пересечение), RIGHT JOIN (вся правая + пересечение). Для каждого: название + цвет + что возвращает.</p><span class="img-search">Поиск: "SQL JOIN types INNER LEFT RIGHT OUTER Venn diagram"</span></div>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> INNER JOIN — most common in NIS exams</h4><div class="code-block"><code><span class="sql-cmt">-- Get student names with their class names</span>
+```
+
+<span class="sql-kw">SELECT</span> s.FirstName, s.LastName, c.ClassName
+<span class="sql-kw">FROM</span> Students s
+<span class="sql-kw">INNER JOIN</span> Classes c <span class="sql-kw">ON</span> s.ClassID = c.ClassID;
+
+<span class="sql-cmt">– Three-table JOIN: student + enrolment + course</span>
+<span class="sql-kw">SELECT</span> s.FirstName, c.CourseName, e.Grade
+<span class="sql-kw">FROM</span> Students s
+<span class="sql-kw">INNER JOIN</span> Enrolment e <span class="sql-kw">ON</span> s.StudentID = e.StudentID
+<span class="sql-kw">INNER JOIN</span> Courses c  <span class="sql-kw">ON</span> e.CourseID  = c.CourseID
+<span class="sql-kw">WHERE</span> e.Grade > 70
+<span class="sql-kw">ORDER BY</span> s.LastName;</code></div></div>
+
+```
+    <div class="worked-example"><h4><span class="step-num">★</span> Using table aliases for readability</h4><div class="code-block"><code><span class="sql-cmt">-- Aliases: 's' for Students, 'c' for Classes</span>
+```
+
+<span class="sql-kw">SELECT</span> s.StudentID, s.FirstName, c.ClassName, c.TeacherName
+<span class="sql-kw">FROM</span>   Students s
+<span class="sql-kw">JOIN</span>   Classes  c <span class="sql-kw">ON</span> s.ClassID = c.ClassID
+<span class="sql-kw">WHERE</span>  c.ClassName = <span class="sql-str">‘12A’</span>
+<span class="sql-kw">ORDER BY</span> s.LastName <span class="sql-kw">ASC</span>;</code></div></div>
+
+```
+    <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 How to Write a Multi-Table SELECT</h4><ol class="step-list">
+      <li>Identify which tables contain the data you need.</li>
+      <li>Write: <code>SELECT [columns] FROM [main table] [alias]</code></li>
+      <li>For each additional table: <code>JOIN [table] [alias] ON [foreign key] = [primary key]</code></li>
+      <li>Add <code>WHERE</code> for any filtering conditions.</li>
+      <li>Add <code>ORDER BY</code> to sort results if needed.</li>
+      <li>Use table aliases (e.g., <code>s.FirstName</code>) whenever column names exist in multiple tables.</li>
+    </ol></div>
+
+    <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Common SQL SELECT Mistakes</h4><ul>
+      <li>Forgetting table alias when the same column name exists in multiple tables — SQL will be ambiguous.</li>
+      <li>Writing <code>JOIN ON</code> with the wrong key — always link FK in one table to PK in the other.</li>
+      <li>Putting column aliases in WHERE clause — use the original column name in WHERE, not the alias.</li>
+      <li>Using = instead of LIKE for pattern matching — = requires exact match.</li>
+    </ul></div>
+
+    <div class="worked-example"><h4><span class="step-num">★</span> Complete SQL Worked Scenario</h4><p style="font-size:.88rem;color:var(--text-muted);margin-bottom:.5rem"><em>Given: Students(StudentID, FirstName, LastName, ClassID) | Classes(ClassID, ClassName) | Grades(StudentID, Subject, Score)</em></p>
+    <div class="code-block"><code><span class="sql-cmt">-- Q: List first and last names of Grade 12A students with score above 80 in Computer Science</span>
+```
+
+<span class="sql-kw">SELECT</span> s.FirstName, s.LastName, g.Score
+<span class="sql-kw">FROM</span>   Students s
+<span class="sql-kw">JOIN</span>   Classes  c <span class="sql-kw">ON</span> s.ClassID   = c.ClassID
+<span class="sql-kw">JOIN</span>   Grades   g <span class="sql-kw">ON</span> s.StudentID = g.StudentID
+<span class="sql-kw">WHERE</span>  c.ClassName = <span class="sql-str">‘12A’</span>
+<span class="sql-kw">AND</span>  g.Subject   = <span class="sql-str">‘Computer Science’</span>
+<span class="sql-kw">AND</span>  g.Score     > 80
+<span class="sql-kw">ORDER BY</span> g.Score <span class="sql-kw">DESC</span>;</code></div></div>
+</div>
+
+```
+  <!-- Lesson Nav -->
+  <nav class="lesson-nav">
+    <a href="paper1-revision.html"><i class="fas fa-arrow-left"></i><div><span class="nav-label">Also see</span><span class="nav-title">Paper 1 Guide</span></div></a>
+    <a href="index.html#assessment-hub"><div><span class="nav-label">Back to</span><span class="nav-title">Assessment Hub</span></div><i class="fas fa-arrow-right"></i></a>
+  </nav>
+
+</div></div>
+```
+
+  </main>
+</div>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
 
