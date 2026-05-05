@@ -279,7 +279,14 @@ Step 3: Add 1 → 1111 0001  ✓</code></div></div>
         <h3 class="lesson-section-title"><i class="fas fa-wave-square"></i> 1.5 Floating-Point &amp; Normalisation</h3>
         <div class="def-box"><h4>📌 Floating-Point</h4><p>Stores a real number as <strong>mantissa</strong> (significant digits) and <strong>exponent</strong> (power of 2 scaling the mantissa). Far wider range than fixed-point.</p></div>
         <div class="def-box"><h4>📌 Normalisation Rule</h4><p>Positive normalised: mantissa starts <code>0.1...</code> | Negative normalised: mantissa starts <code>1.0...</code> — ensures maximum precision.</p></div>
-        <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>10001.11₂ → сдвиг точки на 5 влево → 0.100011100 × 2⁵. Exponent = количество сдвигов.</p><span class="img-search">Поиск: "floating point normalisation binary shift diagram mantissa exponent"</span></div>
+         <iframe width="315" height="560" 
+        src="https://www.youtube.com/embed/Bw-Et8Rokkk" 
+        title="How to normalise a positive floating-point binary representation" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+        
         <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Positive Denary → Normalised Floating-Point</h4><ol class="step-list"><li>Convert integer part to binary.</li><li>Convert fractional part (multiply-by-2).</li><li>Write combined: integer.fraction₂</li><li>Normalise: shift point left until mantissa = <code>0.1xxxxxxx</code></li><li>Count shifts = positive exponent.</li><li>Express exponent in two's complement.</li><li>Write mantissa bits padded to required length.</li></ol></div>
         <div class="worked-example"><h4><span class="step-num">★</span> 2023 Paper Q1d — 17.75₁₀ (10-bit mantissa, 6-bit exponent)</h4><div class="code-block"><code>17=10001₂  |  0.75=.11₂  →  10001.11₂
 Normalise: 0.100011100 × 2⁵  (shift 5 left)
