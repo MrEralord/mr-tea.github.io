@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper 3 Crash Course — G12 CS | mr. TEA</title>
+  <link rel="icon" type="image/png" href="assets/images/mr-tea.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/lesson.css">
+  <style>
+    .def-box{background:rgba(13,148,136,.07);border:1px solid rgba(13,148,136,.25);border-left:4px solid var(--clr-tea);border-radius:var(--radius-md);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-md);font-size:.9rem;line-height:1.65}
+    .def-box h4{color:var(--clr-tea);font-size:.85rem;font-weight:700;margin-bottom:var(--space-sm);display:flex;align-items:center;gap:var(--space-xs)}
+    .def-box p,.def-box ul{color:var(--text-secondary);margin:0}
+    .img-placeholder{background:var(--bg-glass);border:2px dashed var(--border-hover);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-md);font-size:.88rem}
+    .img-placeholder h4{font-size:.82rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:var(--space-sm);display:flex;gap:var(--space-xs);align-items:center}
+    .img-placeholder p{color:var(--text-secondary);margin:0 0 var(--space-xs)}
+    .img-search{display:inline-block;font-family:var(--font-code);font-size:.78rem;background:var(--bg-code);color:var(--text-muted);padding:.2em .6em;border-radius:var(--radius-sm);border:1px solid var(--border)}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);margin-bottom:var(--space-md)}
+    .compare-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-md)}
+    .compare-card h5{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding-bottom:var(--space-xs);border-bottom:2px solid;margin-bottom:var(--space-sm)}
+    .compare-card.tea h5{color:var(--clr-tea);border-color:var(--clr-tea)}
+    .compare-card.blue h5{color:var(--clr-blue);border-color:var(--clr-blue)}
+    .compare-card.cs h5{color:var(--clr-cs);border-color:var(--clr-cs)}
+    .compare-card.orange h5{color:var(--clr-orange);border-color:var(--clr-orange)}
+    .compare-card ul{padding-left:var(--space-lg);margin:0}
+    .compare-card li{font-size:.88rem;color:var(--text-secondary);line-height:1.6;margin-bottom:2px}
+    .chapter-break{display:flex;align-items:center;gap:var(--space-md);margin:var(--space-2xl) 0 var(--space-xl)}
+    .chapter-break h2{margin:0;font-size:1.5rem;font-weight:800;color:var(--text-primary)}
+    .chapter-break::before{content:'';flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--border))}
+    .chapter-break::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--border),transparent)}
+    .chapter-icon{width:40px;height:40px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;flex-shrink:0}
+    .page-toc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-lg);margin-bottom:var(--space-xl)}
+    .page-toc h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--clr-tea);margin-bottom:var(--space-sm)}
+    .page-toc ul{list-style:none;padding:0;margin:0;columns:2;column-gap:var(--space-xl)}
+    .page-toc li{break-inside:avoid;margin-bottom:2px}
+    .page-toc a{font-size:.85rem;color:var(--text-secondary);text-decoration:none;transition:color var(--transition)}
+    .page-toc a:hover{color:var(--clr-tea)}
+    .page-toc .toc-ch{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-top:var(--space-sm);margin-bottom:2px;display:block}
+    .data-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-bottom:var(--space-md)}
+    .data-table thead tr{background:var(--bg-code)}
+    .data-table thead th{padding:var(--space-sm) var(--space-md);text-align:left;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-primary);border-bottom:2px solid var(--border)}
+    .data-table tbody td{padding:var(--space-sm) var(--space-md);border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top;line-height:1.5}
+    .data-table tbody tr:hover{background:var(--bg-glass)}
+    .step-list{list-style:none;padding:0;counter-reset:steps}
+    .step-list li{counter-increment:steps;display:flex;gap:var(--space-sm);margin-bottom:var(--space-sm);font-size:.9rem;color:var(--text-secondary);line-height:1.6}
+    .step-list li::before{content:counter(steps);display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;background:var(--accent-tea);color:#fff;font-size:.72rem;font-weight:700;border-radius:50%;flex-shrink:0;margin-top:1px;font-family:var(--font-code)}
+    .check-list{list-style:none;padding:0}
+    .check-list li{padding:3px 0 3px 22px;position:relative;font-size:.9rem;color:var(--text-secondary);line-height:1.6}
+    .check-list li::before{content:'✓';position:absolute;left:0;color:var(--clr-tea);font-weight:700;font-size:.82rem}
+    /* Trace table */
+    .trace-table{font-family:var(--font-code);font-size:.82rem;border-collapse:collapse;margin-bottom:var(--space-md);width:100%}
+    .trace-table th,.trace-table td{padding:.35rem .6rem;border:1px solid var(--border);text-align:center}
+    .trace-table thead{background:var(--bg-code);font-weight:700}
+    .trace-table .highlight{background:rgba(13,148,136,.12);font-weight:700;color:var(--clr-tea)}
+    /* Task box */
+    .task-box{background:var(--bg-alt,#f8f9fa);border:1px solid var(--border);border-left:4px solid var(--clr-cs);border-radius:var(--radius-md);padding:var(--space-md) var(--space-lg);margin-bottom:var(--space-md)}
+    .task-box h4{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--clr-cs);margin-bottom:var(--space-sm);display:flex;align-items:center;gap:var(--space-xs)}
+    .task-box p{font-size:.9rem;color:var(--text-secondary);margin:0 0 var(--space-sm)}
+    /* LMC table */
+    .lmc-kw{color:var(--clr-blue);font-weight:700}
+    .lmc-cmt{color:var(--text-muted);font-style:italic}
+    /* HTML/CSS code colors */
+    .html-tag{color:var(--clr-blue);font-weight:700}
+    .html-attr{color:var(--clr-orange)}
+    .html-val{color:var(--clr-tea)}
+    .css-prop{color:var(--clr-blue)}
+    .css-val{color:var(--clr-tea)}
+    /* Badge */
+    .badge{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.15em .55em;border-radius:var(--radius-sm);margin-right:4px}
+    .badge-critical{background:rgba(239,68,68,.12);color:#ef4444}
+    .badge-high{background:rgba(245,158,11,.12);color:#f59e0b}
+    .badge-medium{background:rgba(16,185,129,.12);color:#10b981}
+    /* Tree node */
+    .tree-diagram{font-family:var(--font-code);font-size:.9rem;line-height:1.8;background:var(--bg-code);border-radius:var(--radius-md);padding:var(--space-lg);margin-bottom:var(--space-md);color:var(--text-primary)}
+    @media(max-width:640px){.compare-grid{grid-template-columns:1fr}.page-toc ul{columns:1}}
+  </style>
+</head>
+<body>
+<div class="layout-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></div>
+      <button id="close-sidebar-btn" class="close-sidebar"><i class="fas fa-times"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <a href="paper1-revision.html"><i class="fas fa-file-alt"></i> Paper 1 Guide</a>
+      <a href="paper2-revision.html"><i class="fas fa-file-alt"></i> Paper 2 Guide</a>
+      <hr class="divider">
+      <h3 class="nav-title">Paper 3 Topics</h3>
+      <details class="syllabus-group" open>
+        <summary>Programming Paradigms</summary>
+        <div class="syllabus-terms"><ul>
+          <li><a href="#assembly">Assembly / LMC</a></li>
+          <li><a href="#trace-tables">Trace Tables</a></li>
+          <li><a href="#expert-systems">Expert Systems</a></li>
+        </ul></div>
+      </details>
+      <details class="syllabus-group" open>
+        <summary>Algorithms &amp; Data Structures</summary>
+        <div class="syllabus-terms"><ul>
+          <li><a href="#arrays">Arrays (1D &amp; 2D)</a></li>
+          <li><a href="#bubble-sort">Bubble Sort</a></li>
+          <li><a href="#insertion-sort">Insertion Sort</a></li>
+          <li><a href="#binary-search">Binary Search</a></li>
+          <li><a href="#efficiency">Algorithm Efficiency</a></li>
+          <li><a href="#stack-queue">Stack &amp; Queue</a></li>
+          <li><a href="#binary-tree">Binary Tree</a></li>
+        </ul></div>
+      </details>
+      <details class="syllabus-group" open>
+        <summary>Testing &amp; Errors</summary>
+        <div class="syllabus-terms"><ul>
+          <li><a href="#errors">Error Types</a></li>
+          <li><a href="#testing">Testing Methods</a></li>
+          <li><a href="#good-style">Good Programming Style</a></li>
+        </ul></div>
+      </details>
+      <details class="syllabus-group" open>
+        <summary>HTML / CSS / Web</summary>
+        <div class="syllabus-terms"><ul>
+          <li><a href="#html-basics">HTML Basics</a></li>
+          <li><a href="#html-forms">HTML Forms</a></li>
+          <li><a href="#css">CSS Stylesheet</a></li>
+        </ul></div>
+      </details>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="lang-switcher">
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="kz">KZ</button>
+      </div>
+      <button id="theme-toggle" class="theme-toggle"><i class="fas fa-sun"></i></button>
+    </div>
+  </aside>
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+  <main class="main-content">
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle"><i class="fas fa-bars"></i></button>
+        <a href="index.html" class="logo" style="margin-left:15px"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a>
+      </div>
+    </div>
+    <div class="lesson-page">
+    <div class="lesson-container">
+      <div class="lesson-breadcrumb">
+        <a href="index.html">Home</a><span class="sep">/</span>
+        <a href="index.html#assessment-hub">Assessment Hub</a><span class="sep">/</span>
+        <span>Paper 3 Crash Course</span>
+      </div>
+      <div class="lesson-header">
+        <div class="lesson-unit-badge"><i class="fas fa-graduation-cap"></i> NIS 2025 · Grade 11–12 · Paper 3 · Programming</div>
+        <h1 class="lesson-title">Paper 3 — Programming Crash Course</h1>
+        <p class="lesson-intro">Complete practical guide for Paper 3: Assembly language, Trace tables, Arrays, Sorting algorithms, Binary search, Stacks, Queues, Binary trees, Algorithm efficiency, Error types, Testing, Good programming style, HTML/CSS fundamentals. Each section includes detailed examples and practice tasks.</p>
+        <div class="lesson-lo-card">
+          <h3><i class="fas fa-map-signs"></i> How to use this guide</h3>
+          <ul class="lesson-lo-list">
+            <li><span class="lo-code" style="background:rgba(239,68,68,.12);color:#ef4444">⚠️ WARNING</span> Common mistake — marks lost here</li>
+            <li><span class="lo-code" style="background:rgba(13,148,136,.12);color:var(--clr-tea)">📌 DEFINITION</span> Technical term — learn exactly</li>
+            <li><span class="lo-code" style="background:rgba(59,130,246,.12);color:#3b82f6">📋 RULE</span> Step-by-step procedure</li>
+            <li><span class="lo-code" style="background:rgba(245,158,11,.12);color:#f59e0b">✅ EXAM TIP</span> Examiner-ready answer</li>
+            <li><span class="lo-code" style="background:rgba(139,92,246,.12);color:#7c3aed">🧩 TASK</span> Practice task — solve before checking answer</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="page-toc">
+        <h3><i class="fas fa-list"></i> &nbsp;Contents</h3>
+        <ul>
+          <li><span class="toc-ch">Ch.1 — Programming Paradigms</span></li>
+          <li><a href="#assembly">1.1 Assembly Language / LMC</a></li>
+          <li><a href="#trace-tables">1.2 Trace Tables</a></li>
+          <li><a href="#expert-systems">1.3 Expert Systems</a></li>
+          <li><span class="toc-ch">Ch.2 — Algorithms &amp; Data Structures</span></li>
+          <li><a href="#arrays">2.1 Arrays (1D &amp; 2D)</a></li>
+          <li><a href="#bubble-sort">2.2 Bubble Sort</a></li>
+          <li><a href="#insertion-sort">2.3 Insertion Sort</a></li>
+          <li><a href="#binary-search">2.4 Binary Search</a></li>
+          <li><a href="#efficiency">2.5 Algorithm Efficiency</a></li>
+          <li><a href="#stack-queue">2.6 Stack &amp; Queue</a></li>
+          <li><a href="#binary-tree">2.7 Binary Tree</a></li>
+          <li><span class="toc-ch">Ch.3 — Testing &amp; Style</span></li>
+          <li><a href="#errors">3.1 Types of Errors</a></li>
+          <li><a href="#testing">3.2 Testing Methods</a></li>
+          <li><a href="#good-style">3.3 Good Programming Style</a></li>
+          <li><span class="toc-ch">Ch.4 — HTML &amp; CSS</span></li>
+          <li><a href="#html-basics">4.1 HTML Basics</a></li>
+          <li><a href="#html-forms">4.2 HTML Forms</a></li>
+          <li><a href="#css">4.3 CSS Stylesheet</a></li>
+        </ul>
+      </div>
+
+      <!-- ===== CHAPTER 1 ===== -->
+      <div class="chapter-break">
+        <div class="chapter-icon" style="background:var(--accent-warm)"><i class="fas fa-terminal"></i></div>
+        <h2>Chapter 1 — Programming Paradigms</h2>
+      </div>
+
+      <!-- 1.1 Assembly / LMC -->
+      <div id="assembly" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-microchip"></i> 1.1 Assembly Language &amp; LMC</h3>
+        <div class="def-box"><h4>📌 Assembly Language (2GL)</h4><p>A low-level programming language using <strong>mnemonics</strong> (short text codes) that map almost directly to machine code instructions. Each mnemonic represents one CPU instruction. Requires an <strong>assembler</strong> to translate to machine code.</p></div>
+        <div class="def-box"><h4>📌 LMC (Little Man Computer)</h4><p>A simplified educational model of a CPU with 100 memory cells (00–99), one accumulator, and a small set of instructions. Used to understand how a CPU executes fetch-decode-execute cycles.</p></div>
+
+        <h4 style="margin:var(--space-md) 0 var(--space-sm);color:var(--text-primary)">LMC Instruction Set</h4>
+        <table class="data-table"><thead><tr><th>Mnemonic</th><th>Opcode</th><th>Operation</th><th>Effect on Accumulator</th></tr></thead><tbody>
+          <tr><td><code class="lmc-kw">INP</code></td><td>901</td><td>Input</td><td>ACC ← user input value</td></tr>
+          <tr><td><code class="lmc-kw">OUT</code></td><td>902</td><td>Output</td><td>Display current ACC value</td></tr>
+          <tr><td><code class="lmc-kw">LDA xx</code></td><td>5xx</td><td>Load from memory</td><td>ACC ← value at address xx</td></tr>
+          <tr><td><code class="lmc-kw">STA xx</code></td><td>3xx</td><td>Store to memory</td><td>Memory[xx] ← ACC</td></tr>
+          <tr><td><code class="lmc-kw">ADD xx</code></td><td>1xx</td><td>Add</td><td>ACC ← ACC + Memory[xx]</td></tr>
+          <tr><td><code class="lmc-kw">SUB xx</code></td><td>2xx</td><td>Subtract</td><td>ACC ← ACC − Memory[xx]</td></tr>
+          <tr><td><code class="lmc-kw">BRA xx</code></td><td>6xx</td><td>Branch always</td><td>Jump to address xx unconditionally</td></tr>
+          <tr><td><code class="lmc-kw">BRZ xx</code></td><td>7xx</td><td>Branch if zero</td><td>Jump to xx if ACC = 0</td></tr>
+          <tr><td><code class="lmc-kw">BRP xx</code></td><td>8xx</td><td>Branch if positive</td><td>Jump to xx if ACC ≥ 0</td></tr>
+          <tr><td><code class="lmc-kw">HLT</code></td><td>000</td><td>Halt</td><td>Stop program execution</td></tr>
+          <tr><td><code class="lmc-kw">DAT xx</code></td><td>—</td><td>Data declaration</td><td>Reserve memory cell with initial value xx</td></tr>
+        </tbody></table>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Example 1 — Add two numbers entered by user</h4><div class="code-block"><code><span class="lmc-kw">INP</span>          <span class="lmc-cmt">; input first number → ACC</span>
+<span class="lmc-kw">STA</span> NUM1      <span class="lmc-cmt">; store in NUM1</span>
+<span class="lmc-kw">INP</span>          <span class="lmc-cmt">; input second number → ACC</span>
+<span class="lmc-kw">ADD</span> NUM1      <span class="lmc-cmt">; ACC = ACC + NUM1</span>
+<span class="lmc-kw">OUT</span>          <span class="lmc-cmt">; output sum</span>
+<span class="lmc-kw">HLT</span>          <span class="lmc-cmt">; stop</span>
+NUM1 <span class="lmc-kw">DAT</span> 0   <span class="lmc-cmt">; memory cell for first number</span></code></div></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Example 2 — Count down from input to 1</h4><div class="code-block"><code>LOOP <span class="lmc-kw">INP</span>       <span class="lmc-cmt">; input the starting number</span>
+     <span class="lmc-kw">STA</span> COUNT   <span class="lmc-cmt">; store in COUNT</span>
+NEXT <span class="lmc-kw">LDA</span> COUNT   <span class="lmc-cmt">; load COUNT into ACC</span>
+     <span class="lmc-kw">BRZ</span> END     <span class="lmc-cmt">; if ACC = 0, jump to END</span>
+     <span class="lmc-kw">OUT</span>         <span class="lmc-cmt">; output current COUNT</span>
+     <span class="lmc-kw">SUB</span> ONE     <span class="lmc-cmt">; ACC = ACC - 1</span>
+     <span class="lmc-kw">STA</span> COUNT   <span class="lmc-cmt">; save updated COUNT</span>
+     <span class="lmc-kw">BRA</span> NEXT    <span class="lmc-cmt">; loop back</span>
+END  <span class="lmc-kw">HLT</span>
+COUNT <span class="lmc-kw">DAT</span> 0
+ONE   <span class="lmc-kw">DAT</span> 1</code></div></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Example 3 — Find larger of two numbers</h4><div class="code-block"><code>     <span class="lmc-kw">INP</span>        <span class="lmc-cmt">; input A</span>
+     <span class="lmc-kw">STA</span> A
+     <span class="lmc-kw">INP</span>        <span class="lmc-cmt">; input B</span>
+     <span class="lmc-kw">STA</span> B
+     <span class="lmc-kw">SUB</span> A      <span class="lmc-cmt">; ACC = B - A</span>
+     <span class="lmc-kw">BRP</span> BGRT   <span class="lmc-cmt">; if B >= A, jump to BGRT</span>
+     <span class="lmc-kw">LDA</span> A      <span class="lmc-cmt">; else A is larger</span>
+     <span class="lmc-kw">OUT</span>
+     <span class="lmc-kw">HLT</span>
+BGRT <span class="lmc-kw">LDA</span> B    <span class="lmc-cmt">; B is larger</span>
+     <span class="lmc-kw">OUT</span>
+     <span class="lmc-kw">HLT</span>
+A    <span class="lmc-kw">DAT</span> 0
+B    <span class="lmc-kw">DAT</span> 0</code></div></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 1 — Analyse this LMC program</h4>
+        <p>Trace through the program with input 5. What does it output? What does it calculate?</p>
+        <div class="code-block"><code>     <span class="lmc-kw">INP</span>
+     <span class="lmc-kw">STA</span> N
+     <span class="lmc-kw">LDA</span> ZERO
+     <span class="lmc-kw">STA</span> SUM
+LOOP <span class="lmc-kw">LDA</span> N
+     <span class="lmc-kw">BRZ</span> END
+     <span class="lmc-kw">ADD</span> SUM
+     <span class="lmc-kw">STA</span> SUM
+     <span class="lmc-kw">LDA</span> N
+     <span class="lmc-kw">SUB</span> ONE
+     <span class="lmc-kw">STA</span> N
+     <span class="lmc-kw">BRA</span> LOOP
+END  <span class="lmc-kw">LDA</span> SUM
+     <span class="lmc-kw">OUT</span>
+     <span class="lmc-kw">HLT</span>
+N    <span class="lmc-kw">DAT</span> 0
+SUM  <span class="lmc-kw">DAT</span> 0
+ONE  <span class="lmc-kw">DAT</span> 1
+ZERO <span class="lmc-kw">DAT</span> 0</code></div>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Answer: Calculates 1+2+3+...+N = sum from 1 to N. With input 5 → outputs 15.</em></p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Common LMC Mistakes</h4><ul>
+          <li><code>BRZ</code> checks if ACC = 0, not if memory is 0. Always LDA before BRZ.</li>
+          <li><code>BRP</code> branches if ACC ≥ 0 (including zero). Use BRZ first if you only want strictly positive.</li>
+          <li>Forgetting to <code>STA</code> before looping — the accumulator value will be lost on the next INP or ADD.</li>
+          <li>All LMC programs end with <code>HLT</code> — missing this causes the program to continue executing garbage.</li>
+        </ul></div>
+      </div>
+
+      <!-- 1.2 Trace Tables -->
+      <div id="trace-tables" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-table"></i> 1.2 Trace Tables</h3>
+        <div class="def-box"><h4>📌 Trace Table</h4><p>A method of manually executing an algorithm step by step, recording the value of each variable after every instruction. Used to verify algorithm correctness, find bugs, and predict output.</p></div>
+
+        <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 How to Complete a Trace Table</h4><ol class="step-list">
+          <li>Create one column per variable + one column for output.</li>
+          <li>Execute each line of code in order — follow IF/ELSE branches and loops exactly.</li>
+          <li>Only fill in a cell when that variable's value CHANGES — leave blank if unchanged.</li>
+          <li>For loops: repeat the loop body rows until the exit condition is true.</li>
+          <li>Mark the output column whenever PRINT/OUTPUT is called.</li>
+        </ol></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Example 1 — Trace this algorithm (find max)</h4>
+        <div class="code-block"><code>nums = [3, 7, 2, 9, 5]
+max = nums[0]              # max = 3
+FOR i = 1 TO 4
+    IF nums[i] > max THEN
+        max = nums[i]
+    ENDIF
+NEXT i
+PRINT max</code></div>
+        <table class="trace-table"><thead><tr><th>i</th><th>nums[i]</th><th>max</th><th>nums[i] > max?</th><th>OUTPUT</th></tr></thead><tbody>
+          <tr><td>—</td><td>—</td><td>3</td><td>—</td><td></td></tr>
+          <tr><td>1</td><td>7</td><td class="highlight">7</td><td>YES</td><td></td></tr>
+          <tr><td>2</td><td>2</td><td>7</td><td>NO</td><td></td></tr>
+          <tr><td>3</td><td>9</td><td class="highlight">9</td><td>YES</td><td></td></tr>
+          <tr><td>4</td><td>5</td><td>9</td><td>NO</td><td></td></tr>
+          <tr><td>—</td><td>—</td><td>—</td><td>—</td><td class="highlight">9</td></tr>
+        </tbody></table></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Example 2 — Trace with counter</h4>
+        <div class="code-block"><code>count = 0
+total = 0
+WHILE count < 5
+    total = total + count
+    count = count + 1
+ENDWHILE
+PRINT total</code></div>
+        <table class="trace-table"><thead><tr><th>count</th><th>total</th><th>count &lt; 5?</th><th>OUTPUT</th></tr></thead><tbody>
+          <tr><td>0</td><td>0</td><td>YES</td><td></td></tr>
+          <tr><td class="highlight">1</td><td class="highlight">0</td><td>YES</td><td></td></tr>
+          <tr><td class="highlight">2</td><td class="highlight">1</td><td>YES</td><td></td></tr>
+          <tr><td class="highlight">3</td><td class="highlight">3</td><td>YES</td><td></td></tr>
+          <tr><td class="highlight">4</td><td class="highlight">6</td><td>YES</td><td></td></tr>
+          <tr><td class="highlight">5</td><td class="highlight">10</td><td>NO</td><td class="highlight">10</td></tr>
+        </tbody></table></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 2 — Complete the trace table</h4>
+        <div class="code-block"><code>x = 10
+y = 3
+WHILE y > 0
+    x = x - y
+    y = y - 1
+ENDWHILE
+PRINT x</code></div>
+        <p>Complete the trace table for variables x, y. What does the program output?</p>
+        <table class="trace-table"><thead><tr><th>x</th><th>y</th><th>y &gt; 0?</th><th>OUTPUT</th></tr></thead><tbody>
+          <tr><td>10</td><td>3</td><td>YES</td><td></td></tr>
+          <tr><td>?</td><td>?</td><td>YES</td><td></td></tr>
+          <tr><td>?</td><td>?</td><td>YES</td><td></td></tr>
+          <tr><td>?</td><td>?</td><td>NO</td><td>?</td></tr>
+        </tbody></table>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Answer: x=10-3=7, y=2 | x=7-2=5, y=1 | x=5-1=4, y=0 → output: 4</em></p></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 3 — Nested loop trace</h4>
+        <div class="code-block"><code>result = 0
+FOR i = 1 TO 3
+    FOR j = 1 TO i
+        result = result + 1
+    NEXT j
+NEXT i
+PRINT result</code></div>
+        <p>Trace the variables i, j, result. What is the final output?</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Answer: i=1,j=1→result=1 | i=2,j=1→2,j=2→3 | i=3,j=1→4,j=2→5,j=3→6. Output: 6</em></p></div>
+      </div>
+
+      <!-- 1.3 Expert Systems -->
+      <div id="expert-systems" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-brain"></i> 1.3 Expert Systems</h3>
+        <div class="def-box"><h4>📌 Expert System</h4><p>A computer system that simulates the decision-making ability of a human expert in a specific domain by using a <strong>knowledge base</strong> (facts + rules) and an <strong>inference engine</strong> that applies rules to reach conclusions.</p></div>
+
+        <div class="compare-grid">
+          <div class="compare-card tea"><h5>Components</h5><ul>
+            <li><strong>Knowledge base:</strong> facts and IF-THEN rules provided by human experts</li>
+            <li><strong>Inference engine:</strong> applies rules to known facts to draw new conclusions</li>
+            <li><strong>User interface:</strong> questions asked to the user; conclusions displayed</li>
+            <li><strong>Explanation module:</strong> explains HOW a conclusion was reached</li>
+          </ul></div>
+          <div class="compare-card blue"><h5>Examples &amp; Uses</h5><ul>
+            <li>Medical diagnosis (MYCIN — identifies bacterial infections)</li>
+            <li>Technical support troubleshooting</li>
+            <li>Loan approval systems (banking)</li>
+            <li>Legal advice systems</li>
+            <li>Agricultural pest identification</li>
+          </ul></div>
+        </div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Simple Expert System — Animal Identification</h4><div class="code-block"><code>RULES:
+IF has_feathers = YES AND can_fly = YES THEN animal = "bird"
+IF has_feathers = YES AND can_fly = NO  THEN animal = "penguin"
+IF has_fur = YES AND barks = YES        THEN animal = "dog"
+IF has_fur = YES AND meows = YES        THEN animal = "cat"
+IF cold_blooded = YES AND has_scales = YES THEN animal = "reptile"
+
+FACTS (from user input):
+has_feathers = YES
+can_fly = NO
+
+INFERENCE ENGINE applies rules:
+Rule 2 matches → animal = "penguin"  ✓</code></div></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 4 — Create a simple expert system</h4>
+        <p>Write 4 IF-THEN rules for a weather clothing advisor. Include: temperature and rain as inputs; outputs: coat, umbrella, sunscreen, light jacket.</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Example answer: IF temp &lt; 10 AND raining = YES THEN wear coat AND umbrella | IF temp &gt; 25 AND raining = NO THEN wear sunscreen, etc.</em></p></div>
+      </div>
+
+      <!-- ===== CHAPTER 2 ===== -->
+      <div class="chapter-break">
+        <div class="chapter-icon" style="background:var(--accent-blue)"><i class="fas fa-sort"></i></div>
+        <h2>Chapter 2 — Algorithms &amp; Data Structures</h2>
+      </div>
+
+      <!-- 2.1 Arrays -->
+      <div id="arrays" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-table-cells"></i> 2.1 Arrays (1D &amp; 2D)</h3>
+        <div class="def-box"><h4>📌 Array</h4><p>A data structure storing a fixed-size, ordered collection of elements of the same data type, accessible by <strong>index</strong>. Arrays have a defined <strong>lower bound</strong> (usually 0 or 1) and <strong>upper bound</strong> (last valid index).</p></div>
+
+        <table class="data-table"><thead><tr><th>Term</th><th>Definition</th><th>Example (array of 5 items)</th></tr></thead><tbody>
+          <tr><td><strong>Lower bound</strong></td><td>The index of the first element</td><td>0 (in Python/C) or 1 (in pseudocode)</td></tr>
+          <tr><td><strong>Upper bound</strong></td><td>The index of the last element</td><td>4 (0-indexed) or 5 (1-indexed)</td></tr>
+          <tr><td><strong>Size / Length</strong></td><td>Total number of elements</td><td>Upper bound − Lower bound + 1 = 5</td></tr>
+          <tr><td><strong>Element</strong></td><td>One item stored in the array</td><td>scores[2] = 85</td></tr>
+          <tr><td><strong>Index / Subscript</strong></td><td>Position of an element in the array</td><td>scores[0], scores[1], … scores[4]</td></tr>
+        </tbody></table>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> 1D Array — Declaration &amp; Access</h4><div class="code-block"><code># Python
+scores = [72, 85, 91, 64, 78]    # 1D array, indices 0–4
+print(scores[0])                  # 72 (first element)
+print(scores[4])                  # 78 (last element)
+print(len(scores))                # 5 (size)
+
+# Sum all elements
+total = 0
+FOR i = 0 TO 4
+    total = total + scores[i]
+NEXT i
+PRINT total   # 390</code></div></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> 2D Array — Grid / Matrix</h4><div class="code-block"><code># 2D array: 3 rows × 4 columns
+grid = [[1,2,3,4],
+        [5,6,7,8],
+        [9,10,11,12]]
+
+grid[0][0] = 1     # row 0, column 0
+grid[1][2] = 7     # row 1, column 2
+grid[2][3] = 12    # row 2, column 3
+
+# Print all elements
+FOR row = 0 TO 2
+    FOR col = 0 TO 3
+        PRINT grid[row][col]
+    NEXT col
+NEXT row</code></div></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 5 — Array operations</h4>
+        <p>Given: <code>marks = [55, 72, 48, 91, 65, 80, 37]</code></p>
+        <p>Write pseudocode to: (a) find the highest mark, (b) count how many marks are above 60, (c) print all marks in reverse order.</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>a) Highest: loop comparing each to max, update max if larger → 91. b) Counter: loop, increment if marks[i]>60 → count=4. c) FOR i=6 TO 0 STEP -1: PRINT marks[i]</em></p></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 6 — 2D Array: Class Grades</h4>
+        <p>A 2D array <code>grades[3][4]</code> stores grades for 3 students across 4 subjects. Write pseudocode to calculate the average grade for each student (row average).</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>FOR row=0 TO 2: total=0; FOR col=0 TO 3: total+=grades[row][col]; NEXT col; PRINT total/4; NEXT row</em></p></div>
+      </div>
+
+      <!-- 2.2 Bubble Sort -->
+      <div id="bubble-sort" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-arrow-up-short-wide"></i> 2.2 Bubble Sort</h3>
+        <div class="def-box"><h4>📌 Bubble Sort</h4><p>A simple comparison-based sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. Larger values "bubble up" to the end with each pass.</p></div>
+
+        <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Bubble Sort Algorithm (Pseudocode)</h4><div class="code-block"><code>PROCEDURE BubbleSort(arr, n)
+    FOR i = 0 TO n-2          # n-1 passes needed
+        swapped = FALSE
+        FOR j = 0 TO n-2-i    # last i elements already sorted
+            IF arr[j] > arr[j+1] THEN
+                temp = arr[j]
+                arr[j] = arr[j+1]
+                arr[j+1] = temp
+                swapped = TRUE
+            ENDIF
+        NEXT j
+        IF swapped = FALSE THEN   # optimisation: early exit
+            EXIT FOR
+        ENDIF
+    NEXT i
+END PROCEDURE</code></div></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Worked Example — Sort [64, 34, 25, 12, 22]</h4>
+        <div class="code-block"><code>Initial:  [64, 34, 25, 12, 22]
+
+Pass 1:   64>34 → swap → [34, 64, 25, 12, 22]
+          64>25 → swap → [34, 25, 64, 12, 22]
+          64>12 → swap → [34, 25, 12, 64, 22]
+          64>22 → swap → [34, 25, 12, 22, 64] ← 64 in place
+
+Pass 2:   34>25 → swap → [25, 34, 12, 22, 64]
+          34>12 → swap → [25, 12, 34, 22, 64]
+          34>22 → swap → [25, 12, 22, 34, 64] ← 34 in place
+
+Pass 3:   25>12 → swap → [12, 25, 22, 34, 64]
+          25>22 → swap → [12, 22, 25, 34, 64] ← 25 in place
+
+Pass 4:   12>22 → NO swap → [12, 22, 25, 34, 64] ✓ sorted!</code></div></div>
+
+        <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ Key Facts for Exam</h4><ul class="check-list">
+          <li>Time complexity: <strong>O(n²)</strong> worst/average; O(n) best (already sorted with flag)</li>
+          <li>After k passes, the last k elements are in their correct final position</li>
+          <li>Maximum passes needed = n−1 (for n elements)</li>
+          <li>The <code>swapped</code> flag optimisation exits early if no swaps occurred in a pass</li>
+        </ul></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 7 — Bubble Sort trace</h4>
+        <p>Show each pass of bubble sort on: <code>[5, 1, 4, 2, 8]</code>. How many passes are needed? How many comparisons total?</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Pass 1: [1,4,2,5,8] | Pass 2: [1,2,4,5,8] | Pass 3: no swaps → done. 3 passes, 4+3+2=9 comparisons.</em></p></div>
+      </div>
+
+      <!-- 2.3 Insertion Sort -->
+      <div id="insertion-sort" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-arrow-right-to-bracket"></i> 2.3 Insertion Sort</h3>
+        <div class="def-box"><h4>📌 Insertion Sort</h4><p>Builds a sorted list one element at a time by taking each unsorted element and inserting it into its correct position among the already-sorted elements, shifting others right to make room.</p></div>
+
+        <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Insertion Sort Algorithm (Pseudocode)</h4><div class="code-block"><code>PROCEDURE InsertionSort(arr, n)
+    FOR i = 1 TO n-1
+        key = arr[i]          # element to insert
+        j = i - 1
+        WHILE j >= 0 AND arr[j] > key
+            arr[j+1] = arr[j] # shift right
+            j = j - 1
+        ENDWHILE
+        arr[j+1] = key        # insert in correct position
+    NEXT i
+END PROCEDURE</code></div></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Worked Example — Sort [12, 11, 13, 5, 6]</h4><div class="code-block"><code>Start:    [12 | 11, 13, 5, 6]   (sorted part | unsorted part)
+
+Step 1:   key=11, compare 11<12 → shift 12 right
+          [11, 12 | 13, 5, 6]
+
+Step 2:   key=13, compare 13>12 → no shift
+          [11, 12, 13 | 5, 6]
+
+Step 3:   key=5, shift 13,12,11 right
+          [5, 11, 12, 13 | 6]
+
+Step 4:   key=6, shift 13,12,11 right, 5 stays
+          [5, 6, 11, 12, 13] ✓</code></div></div>
+
+        <div class="compare-grid">
+          <div class="compare-card tea"><h5>Bubble Sort</h5><ul>
+            <li>Compares adjacent pairs and swaps</li>
+            <li>Largest element bubbles to end each pass</li>
+            <li>Easy to understand; inefficient for large data</li>
+            <li>O(n²) time; O(1) space</li>
+          </ul></div>
+          <div class="compare-card blue"><h5>Insertion Sort</h5><ul>
+            <li>Picks one element, inserts in correct place</li>
+            <li>Efficient for small or nearly-sorted arrays</li>
+            <li>O(n²) worst case; O(n) best (sorted)</li>
+            <li>Stable, in-place; O(1) space</li>
+          </ul></div>
+        </div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 8 — Insertion Sort trace</h4>
+        <p>Trace insertion sort on: <code>[29, 10, 14, 37, 13]</code>. Show the array state after each step. How many shifts were made in total?</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Step 1: key=10 → [10,29,14,37,13] (1 shift) | Step 2: key=14 → [10,14,29,37,13] (1) | Step 3: key=37 → no shift | Step 4: key=13 → [10,13,14,29,37] (3 shifts). Total: 5 shifts.</em></p></div>
+      </div>
+
+      <!-- 2.4 Binary Search -->
+      <div id="binary-search" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-magnifying-glass"></i> 2.4 Binary Search</h3>
+        <div class="def-box"><h4>📌 Binary Search</h4><p>An efficient search algorithm for <strong>sorted</strong> arrays. Repeatedly divides the search interval in half by comparing the target with the middle element, eliminating half the remaining elements at each step.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Binary search ONLY works on sorted arrays!</h4><p>Applying binary search to an unsorted array will give incorrect results. Always sort the array first, or state that the array must be sorted.</p></div>
+
+        <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Binary Search Algorithm (Pseudocode)</h4><div class="code-block"><code>FUNCTION BinarySearch(arr, target, low, high)
+    WHILE low <= high
+        mid = (low + high) DIV 2    # integer division
+        IF arr[mid] = target THEN
+            RETURN mid              # found at index mid
+        ELSE IF arr[mid] < target THEN
+            low = mid + 1           # search right half
+        ELSE
+            high = mid - 1          # search left half
+        ENDIF
+    ENDWHILE
+    RETURN -1                       # not found
+END FUNCTION</code></div></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Example — Find 33 in [2, 5, 8, 12, 16, 23, 33, 42, 56, 70]</h4>
+        <table class="trace-table"><thead><tr><th>Step</th><th>low</th><th>high</th><th>mid</th><th>arr[mid]</th><th>Action</th></tr></thead><tbody>
+          <tr><td>1</td><td>0</td><td>9</td><td>4</td><td>16</td><td>16 &lt; 33 → low = 5</td></tr>
+          <tr><td>2</td><td>5</td><td>9</td><td>7</td><td>42</td><td>42 &gt; 33 → high = 6</td></tr>
+          <tr><td>3</td><td>5</td><td>6</td><td>5</td><td>23</td><td>23 &lt; 33 → low = 6</td></tr>
+          <tr class="highlight"><td>4</td><td>6</td><td>6</td><td>6</td><td>33</td><td>FOUND at index 6 ✓</td></tr>
+        </tbody></table></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Example — Search for 50 in [3, 7, 11, 18, 25, 37, 44, 60] (not found)</h4>
+        <table class="trace-table"><thead><tr><th>low</th><th>high</th><th>mid</th><th>arr[mid]</th><th>Action</th></tr></thead><tbody>
+          <tr><td>0</td><td>7</td><td>3</td><td>18</td><td>18 &lt; 50 → low = 4</td></tr>
+          <tr><td>4</td><td>7</td><td>5</td><td>37</td><td>37 &lt; 50 → low = 6</td></tr>
+          <tr><td>6</td><td>7</td><td>6</td><td>44</td><td>44 &lt; 50 → low = 7</td></tr>
+          <tr><td>7</td><td>7</td><td>7</td><td>60</td><td>60 &gt; 50 → high = 6</td></tr>
+          <tr class="highlight"><td>7</td><td>6</td><td>—</td><td>—</td><td>low &gt; high → return -1 (NOT FOUND)</td></tr>
+        </tbody></table></div>
+
+        <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ Binary vs Linear Search</h4>
+        <table class="data-table"><thead><tr><th>Feature</th><th>Linear Search</th><th>Binary Search</th></tr></thead><tbody>
+          <tr><td>Requires sorted array?</td><td>No</td><td><strong>YES</strong></td></tr>
+          <tr><td>Time complexity</td><td>O(n)</td><td><strong>O(log n)</strong></td></tr>
+          <tr><td>Best case</td><td>O(1) — found first</td><td>O(1) — found at mid first</td></tr>
+          <tr><td>Worst case (n=1000)</td><td>1000 comparisons</td><td>10 comparisons</td></tr>
+          <tr><td>Use when</td><td>Small or unsorted data</td><td>Large sorted data</td></tr>
+        </tbody></table></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 9 — Binary Search trace</h4>
+        <p>Trace binary search for target=17 in: <code>[1, 4, 7, 10, 14, 17, 21, 25, 30]</code>. Show each step (low, high, mid, arr[mid]). How many comparisons?</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Step 1: low=0,high=8,mid=4,arr[4]=14 &lt; 17 → low=5 | Step 2: mid=6,arr[6]=21 &gt; 17 → high=5 | Step 3: mid=5,arr[5]=17 = FOUND. 3 comparisons.</em></p></div>
+      </div>
+
+      <!-- 2.5 Efficiency -->
+      <div id="efficiency" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-gauge"></i> 2.5 Algorithm Efficiency</h3>
+        <div class="def-box"><h4>📌 Time Efficiency</h4><p>A measure of how the number of operations an algorithm performs grows as the size of the input (n) increases. Expressed using Big O notation.</p></div>
+        <div class="def-box"><h4>📌 Space Efficiency</h4><p>A measure of how the memory an algorithm requires grows as the size of the input (n) increases. An in-place algorithm uses O(1) extra space.</p></div>
+
+        <table class="data-table"><thead><tr><th>Notation</th><th>Name</th><th>Example</th><th>n=100 operations</th></tr></thead><tbody>
+          <tr><td><strong>O(1)</strong></td><td>Constant</td><td>Access array element by index</td><td>1</td></tr>
+          <tr><td><strong>O(log n)</strong></td><td>Logarithmic</td><td>Binary search</td><td>~7</td></tr>
+          <tr><td><strong>O(n)</strong></td><td>Linear</td><td>Linear search, single loop</td><td>100</td></tr>
+          <tr><td><strong>O(n log n)</strong></td><td>Linearithmic</td><td>Merge sort, Quick sort</td><td>~665</td></tr>
+          <tr><td><strong>O(n²)</strong></td><td>Quadratic</td><td>Bubble sort, Insertion sort, nested loop</td><td>10,000</td></tr>
+          <tr><td><strong>O(2ⁿ)</strong></td><td>Exponential</td><td>Recursive Fibonacci, brute force</td><td>Huge!</td></tr>
+        </tbody></table>
+
+        <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>График Big O: ось X = размер входа n, ось Y = количество операций. Кривые: O(1) плоская, O(log n) медленно растёт, O(n) линейная, O(n²) резко растёт. Разными цветами.</p><span class="img-search">Поиск: "Big O notation complexity graph comparison O(1) O(n) O(n2)"</span></div>
+
+        <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ Identifying Complexity from Code</h4><ul class="check-list">
+          <li>Single loop over n items → <strong>O(n)</strong></li>
+          <li>Two nested loops over n items → <strong>O(n²)</strong></li>
+          <li>Halving the search space each step → <strong>O(log n)</strong></li>
+          <li>No loop, fixed number of steps → <strong>O(1)</strong></li>
+        </ul></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 10 — Identify time complexity</h4>
+        <p>What is the time complexity of each algorithm? (a) Linear search in unsorted array of n items. (b) Bubble sort of n items. (c) Accessing grades[3][2] in a 2D array. (d) Binary search in sorted array of n items.</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>a) O(n) | b) O(n²) | c) O(1) | d) O(log n)</em></p></div>
+      </div>
+
+      <!-- 2.6 Stack & Queue -->
+      <div id="stack-queue" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-layer-group"></i> 2.6 Stack &amp; Queue</h3>
+
+        <div class="def-box"><h4>📌 Stack</h4><p>A <strong>LIFO</strong> (Last In, First Out) data structure. Elements are added (PUSH) and removed (POP) from the same end, called the <strong>top</strong>. Like a stack of plates — you always take from the top.</p></div>
+        <div class="def-box"><h4>📌 Queue</h4><p>A <strong>FIFO</strong> (First In, First Out) data structure. Elements are added (ENQUEUE) at the <strong>rear</strong> and removed (DEQUEUE) from the <strong>front</strong>. Like a queue at a shop.</p></div>
+
+        <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>Две диаграммы рядом: (1) Stack — вертикальный столбик элементов, стрелки PUSH (вверх) и POP (вниз), TOP указатель; (2) Queue — горизонтальная очередь, ENQUEUE справа, DEQUEUE слева, FRONT и REAR указатели.</p><span class="img-search">Поиск: "stack LIFO queue FIFO data structure diagram push pop enqueue dequeue"</span></div>
+
+        <div class="compare-grid">
+          <div class="compare-card tea"><h5>Stack Operations</h5><ul>
+            <li><strong>PUSH(x)</strong> — add x to the top</li>
+            <li><strong>POP()</strong> — remove &amp; return top element</li>
+            <li><strong>PEEK/TOP()</strong> — view top without removing</li>
+            <li><strong>isEmpty()</strong> — check if stack is empty</li>
+            <li><strong>Stack overflow</strong> — pushing to a full stack</li>
+            <li><strong>Stack underflow</strong> — popping from empty stack</li>
+          </ul></div>
+          <div class="compare-card blue"><h5>Queue Operations</h5><ul>
+            <li><strong>ENQUEUE(x)</strong> — add x to the rear</li>
+            <li><strong>DEQUEUE()</strong> — remove &amp; return front element</li>
+            <li><strong>PEEK/FRONT()</strong> — view front without removing</li>
+            <li><strong>isEmpty()</strong> — check if queue is empty</li>
+            <li><strong>Overflow</strong> — enqueueing to a full queue</li>
+            <li><strong>Underflow</strong> — dequeueing from empty queue</li>
+          </ul></div>
+        </div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Stack Example — Bracket Checker</h4><div class="code-block"><code>Expression: ( { [ ] } )
+Stack trace:
+( → PUSH  → Stack: [(]
+{ → PUSH  → Stack: [(, {]
+[ → PUSH  → Stack: [(, {, []
+] → POP   → Stack: [(, {]    (matched with [)
+} → POP   → Stack: [(]       (matched with {)
+) → POP   → Stack: []        (matched with ()
+Stack empty → BALANCED ✓
+
+Expression: ( [ ) ]
+( → PUSH → Stack: [(]
+[ → PUSH → Stack: [(, []
+) → POP  → Stack: [(]  (but [ ≠ ) → NOT BALANCED ✗</code></div></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Queue Example — Print Queue Simulation</h4><div class="code-block"><code>Documents arrive: Doc1, Doc2, Doc3, Doc4
+
+ENQUEUE Doc1 → Queue: [Doc1]
+ENQUEUE Doc2 → Queue: [Doc1, Doc2]
+ENQUEUE Doc3 → Queue: [Doc1, Doc2, Doc3]
+DEQUEUE → Print Doc1 → Queue: [Doc2, Doc3]
+ENQUEUE Doc4 → Queue: [Doc2, Doc3, Doc4]
+DEQUEUE → Print Doc2 → Queue: [Doc3, Doc4]
+# Doc1 was added first → printed first (FIFO)</code></div></div>
+
+        <div class="compare-grid">
+          <div class="compare-card tea"><h5>Stack — Real Applications</h5><ul>
+            <li>Undo/Redo in text editors</li>
+            <li>Browser back button history</li>
+            <li>Function call stack (recursion)</li>
+            <li>Bracket/parenthesis checking</li>
+            <li>Expression evaluation</li>
+          </ul></div>
+          <div class="compare-card blue"><h5>Queue — Real Applications</h5><ul>
+            <li>Print spooling (print queue)</li>
+            <li>CPU process scheduling</li>
+            <li>Keyboard input buffer</li>
+            <li>Network packet queue</li>
+            <li>Ticket booking systems</li>
+          </ul></div>
+        </div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 11 — Stack trace</h4>
+        <p>Perform these operations on an empty stack. Show the stack state after each:</p>
+        <p>PUSH 5 → PUSH 3 → PUSH 8 → POP → PUSH 2 → POP → PEEK</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>[5] → [5,3] → [5,3,8] → [5,3] (popped 8) → [5,3,2] → [5,3] (popped 2) → PEEK = 3</em></p></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 12 — Queue trace</h4>
+        <p>Perform: ENQUEUE A → ENQUEUE B → DEQUEUE → ENQUEUE C → ENQUEUE D → DEQUEUE → DEQUEUE</p>
+        <p>What are the three dequeued values and in what order?</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Queue: [A] → [A,B] → [B] (dequeued A) → [B,C] → [B,C,D] → [C,D] (dequeued B) → [D] (dequeued C). Dequeued: A, B, C</em></p></div>
+      </div>
+
+      <!-- 2.7 Binary Tree -->
+      <div id="binary-tree" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-sitemap"></i> 2.7 Binary Tree</h3>
+        <div class="def-box"><h4>📌 Binary Tree</h4><p>A hierarchical data structure where each node has at most <strong>two children</strong>: a <strong>left child</strong> and a <strong>right child</strong>. The topmost node is the <strong>root</strong>. Nodes with no children are <strong>leaves</strong>.</p></div>
+        <div class="def-box"><h4>📌 Binary Search Tree (BST)</h4><p>A binary tree where: for every node, all values in the <strong>left subtree are smaller</strong>, and all values in the <strong>right subtree are larger</strong>. This property enables efficient searching.</p></div>
+
+        <div class="img-placeholder"><h4><i class="fas fa-image"></i> Image to insert</h4><p>BST диаграмма: корень 50, левое поддерево (30 → 20, 40), правое поддерево (70 → 60, 80). Подписи: Root, Left child, Right child, Leaf nodes. Стрелки от родителя к детям.</p><span class="img-search">Поиск: "binary search tree diagram root leaf nodes example 50"</span></div>
+
+        <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Inserting into a Binary Search Tree</h4><ol class="step-list">
+          <li>Start at the root.</li>
+          <li>If new value &lt; current node → go LEFT.</li>
+          <li>If new value &gt; current node → go RIGHT.</li>
+          <li>If the position is empty → insert the new node here.</li>
+          <li>If new value = current node → handle as duplicate (usually ignore or go right).</li>
+        </ol></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Example — Build BST from: 50, 30, 70, 20, 40, 60, 80</h4>
+        <div class="tree-diagram"><pre>Insert 50 → root
+Insert 30 → 30 &lt; 50 → left of 50
+Insert 70 → 70 &gt; 50 → right of 50
+Insert 20 → 20 &lt; 50 → left; 20 &lt; 30 → left of 30
+Insert 40 → 40 &lt; 50 → left; 40 &gt; 30 → right of 30
+Insert 60 → 60 &gt; 50 → right; 60 &lt; 70 → left of 70
+Insert 80 → 80 &gt; 50 → right; 80 &gt; 70 → right of 70
+
+Final BST:
+            50
+          /    \
+        30      70
+       /  \    /  \
+      20  40  60  80</pre></div></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Tree Traversals</h4><div class="code-block"><code># Using the tree above: 50, 30, 70, 20, 40, 60, 80
+
+IN-ORDER (Left → Root → Right) → sorted ascending:
+    20, 30, 40, 50, 60, 70, 80
+
+PRE-ORDER (Root → Left → Right):
+    50, 30, 20, 40, 70, 60, 80
+
+POST-ORDER (Left → Right → Root):
+    20, 40, 30, 60, 80, 70, 50</code></div></div>
+
+        <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ In-order traversal of a BST always gives sorted order!</h4><p>This is a key property. If you need to verify a BST is correct, perform in-order traversal — the result must be in ascending order.</p></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 13 — Build a BST</h4>
+        <p>Insert these values one by one into an empty BST: <strong>45, 22, 77, 11, 33, 60, 90, 55</strong></p>
+        <p>Draw the final tree. What is the in-order traversal? How many comparisons to find 55?</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Tree: 45 → left:22(11,33) right:77(60→55,90) | In-order: 11,22,33,45,55,60,77,90 | Find 55: 55>45→right(77), 55&lt;77→left(60), 55&lt;60→left(55) → 3 comparisons</em></p></div>
+      </div>
+
+      <!-- ===== CHAPTER 3 ===== -->
+      <div class="chapter-break">
+        <div class="chapter-icon" style="background:var(--accent-cs)"><i class="fas fa-bug"></i></div>
+        <h2>Chapter 3 — Testing &amp; Programming Style</h2>
+      </div>
+
+      <!-- 3.1 Error Types -->
+      <div id="errors" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-triangle-exclamation"></i> 3.1 Types of Errors</h3>
+
+        <table class="data-table"><thead><tr><th>Error Type</th><th>Definition</th><th>When detected</th><th>Example</th></tr></thead><tbody>
+          <tr>
+            <td><strong>Syntax Error</strong></td>
+            <td>Code violates the grammatical rules of the programming language — the interpreter/compiler cannot understand it</td>
+            <td>Compile time / before running</td>
+            <td><code>if x = 5</code> instead of <code>if x == 5</code>; missing colon; wrong indentation in Python</td>
+          </tr>
+          <tr>
+            <td><strong>Runtime Error (Execution Error)</strong></td>
+            <td>Code is syntactically correct but causes a crash or exception during execution</td>
+            <td>During program execution</td>
+            <td>Division by zero; accessing index out of bounds; opening a file that doesn't exist; calling method on None</td>
+          </tr>
+          <tr>
+            <td><strong>Logic Error</strong></td>
+            <td>Code runs without crashing but produces incorrect results because the algorithm or formula is wrong</td>
+            <td>When testing / checking output</td>
+            <td>Using <code>+</code> instead of <code>-</code>; wrong loop range; off-by-one error; incorrect condition (&lt; vs ≤)</td>
+          </tr>
+        </tbody></table>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Identifying Error Types</h4><div class="code-block"><code># SYNTAX ERROR: missing = sign
+if x 5:           # SyntaxError: invalid syntax
+    print("yes")
+
+# RUNTIME ERROR: division by zero
+total = 100
+count = 0
+avg = total / count   # ZeroDivisionError!
+
+# LOGIC ERROR: wrong formula for circle area
+import math
+radius = 5
+area = math.pi * radius   # WRONG — should be radius**2
+print(area)               # Runs but gives wrong answer: 15.7 instead of 78.5</code></div></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Logic Errors are the Hardest to Find</h4><p>Syntax errors are caught by the compiler/interpreter immediately. Runtime errors crash the program with an error message. Logic errors are silent — the program runs fine but gives wrong output. They can only be found through careful testing.</p></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 14 — Classify the errors</h4>
+        <p>Identify the error type in each: (a) <code>pint("Hello")</code> &nbsp; (b) A program calculating average gives 200 when answer should be 20 &nbsp; (c) <code>grades = [90,80,70]; print(grades[5])</code></p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>a) Runtime error (NameError — pint is not defined) | b) Logic error (probably forgot to divide by n) | c) Runtime error (IndexError: list index out of range)</em></p></div>
+      </div>
+
+      <!-- 3.2 Testing -->
+      <div id="testing" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-flask"></i> 3.2 Testing Methods</h3>
+        <div class="def-box"><h4>📌 Normal (Valid) Data</h4><p>Data that is within the expected, valid range and type. Tests that the program works correctly under typical conditions.</p></div>
+        <div class="def-box"><h4>📌 Extreme (Boundary) Data</h4><p>Data at the very edges of the valid range — the minimum and maximum allowed values. Tests boundary conditions where off-by-one errors commonly occur.</p></div>
+        <div class="def-box"><h4>📌 Erroneous (Invalid) Data</h4><p>Data that is outside the valid range, wrong type, or deliberately incorrect. Tests that the program rejects invalid input gracefully without crashing.</p></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Testing Plan — Age Input (valid range: 0–120)</h4>
+        <table class="data-table"><thead><tr><th>Test #</th><th>Data Type</th><th>Input</th><th>Expected Output</th><th>Reason</th></tr></thead><tbody>
+          <tr><td>1</td><td>Normal</td><td>25</td><td>Accepted</td><td>Typical valid age</td></tr>
+          <tr><td>2</td><td>Normal</td><td>45</td><td>Accepted</td><td>Another typical valid age</td></tr>
+          <tr><td>3</td><td>Extreme</td><td>0</td><td>Accepted</td><td>Minimum valid age (boundary)</td></tr>
+          <tr><td>4</td><td>Extreme</td><td>120</td><td>Accepted</td><td>Maximum valid age (boundary)</td></tr>
+          <tr><td>5</td><td>Erroneous</td><td>-1</td><td>Error message</td><td>Below minimum — invalid</td></tr>
+          <tr><td>6</td><td>Erroneous</td><td>121</td><td>Error message</td><td>Above maximum — invalid</td></tr>
+          <tr><td>7</td><td>Erroneous</td><td>"hello"</td><td>Error message</td><td>Wrong data type — string</td></tr>
+          <tr><td>8</td><td>Erroneous</td><td>25.7</td><td>Error message</td><td>Decimal when integer expected</td></tr>
+        </tbody></table></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 15 — Design a test plan</h4>
+        <p>Design a test plan for a program that accepts a mark between 0 and 100 (integer) and outputs a grade (A: 90–100, B: 75–89, C: 60–74, D: 0–59). Include at least 8 test cases covering all types.</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Normal: 95→A, 80→B, 65→C, 30→D | Extreme: 0→D, 100→A, 90→A, 59→D, 60→C, 74→C, 75→B, 89→B | Erroneous: -1→error, 101→error, "abc"→error</em></p></div>
+      </div>
+
+      <!-- 3.3 Good Style -->
+      <div id="good-style" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-star"></i> 3.3 Good Programming Style</h3>
+
+        <div class="note-box"><h4><i class="fas fa-list-ol"></i> 📋 Rules of Good Programming Style</h4><ol class="step-list">
+          <li><strong>Meaningful variable names:</strong> use descriptive names (<code>studentAge</code> not <code>x</code>, <code>totalScore</code> not <code>ts</code>).</li>
+          <li><strong>Comments and documentation:</strong> explain what each section does, especially complex logic.</li>
+          <li><strong>Consistent indentation:</strong> use 4 spaces (Python) or consistent tabs to show code blocks visually.</li>
+          <li><strong>Avoid magic numbers:</strong> use named constants instead of hard-coded values (<code>MAX_SIZE = 100</code> not <code>100</code>).</li>
+          <li><strong>Modular code:</strong> break programs into functions/procedures, each doing one task.</li>
+          <li><strong>Avoid duplication (DRY):</strong> Don't Repeat Yourself — use loops and functions instead of copy-pasting code.</li>
+          <li><strong>Limit line length:</strong> keep lines readable (max ~80 characters).</li>
+          <li><strong>Validate inputs:</strong> always check user input before using it.</li>
+        </ol></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> BAD vs GOOD style comparison</h4>
+        <div class="compare-grid">
+          <div class="compare-card cs"><h5>❌ Bad Style</h5><div class="code-block" style="margin-top:.5rem"><code>x = int(input())
+y = int(input())
+z = x * y * 3.14159
+if z > 100:
+    print("big")
+else:
+    print("small")</code></div></div>
+          <div class="compare-card tea"><h5>✅ Good Style</h5><div class="code-block" style="margin-top:.5rem"><code>PI = 3.14159  # constant
+
+# Get dimensions from user
+length = int(input("Enter length: "))
+width  = int(input("Enter width: "))
+
+# Calculate volume of cylinder
+volume = length * width * PI
+
+# Classify volume
+THRESHOLD = 100
+if volume > THRESHOLD:
+    print("Large volume")
+else:
+    print("Small volume")</code></div></div>
+        </div></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 16 — Improve this code</h4>
+        <div class="code-block"><code>a = int(input())
+b = int(input())
+c = a + b
+d = c / 2
+if d >= 50:
+    print(1)
+else:
+    print(0)</code></div>
+        <p>Rewrite this code following good programming style rules. Add comments, meaningful names, and improve readability.</p>
+        <p style="font-size:.85rem;color:var(--text-muted)"><em>Rename: score1, score2, totalScore, averageScore, PASS_MARK=50. Add comments. Print "Pass"/"Fail" instead of 1/0.</em></p></div>
+      </div>
+
+      <!-- ===== CHAPTER 4 ===== -->
+      <div class="chapter-break">
+        <div class="chapter-icon" style="background:var(--accent-python)"><i class="fab fa-html5"></i></div>
+        <h2>Chapter 4 — HTML &amp; CSS</h2>
+      </div>
+
+      <!-- 4.1 HTML Basics -->
+      <div id="html-basics" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fab fa-html5"></i> 4.1 HTML Basics</h3>
+        <div class="def-box"><h4>📌 HTML (HyperText Markup Language)</h4><p>The standard language for creating web pages. Uses <strong>tags</strong> (enclosed in &lt; &gt;) to mark up content, defining its structure and meaning. Most tags come in pairs: opening &lt;tag&gt; and closing &lt;/tag&gt;.</p></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Basic HTML Page Structure</h4><div class="code-block"><code><span class="html-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="html-tag">&lt;html</span> <span class="html-attr">lang</span>=<span class="html-val">"en"</span><span class="html-tag">&gt;</span>
+<span class="html-tag">&lt;head&gt;</span>
+  <span class="html-tag">&lt;meta</span> <span class="html-attr">charset</span>=<span class="html-val">"UTF-8"</span><span class="html-tag">&gt;</span>
+  <span class="html-tag">&lt;title&gt;</span>My Page Title<span class="html-tag">&lt;/title&gt;</span>
+  <span class="html-tag">&lt;link</span> <span class="html-attr">rel</span>=<span class="html-val">"stylesheet"</span> <span class="html-attr">href</span>=<span class="html-val">"style.css"</span><span class="html-tag">&gt;</span>
+<span class="html-tag">&lt;/head&gt;</span>
+<span class="html-tag">&lt;body&gt;</span>
+  <span class="html-tag">&lt;h1&gt;</span>Welcome to My Website<span class="html-tag">&lt;/h1&gt;</span>
+  <span class="html-tag">&lt;p&gt;</span>This is a paragraph of text.<span class="html-tag">&lt;/p&gt;</span>
+<span class="html-tag">&lt;/body&gt;</span>
+<span class="html-tag">&lt;/html&gt;</span></code></div></div>
+
+        <h4 style="margin:var(--space-md) 0 var(--space-sm);color:var(--text-primary)">Essential HTML Tags Reference</h4>
+        <table class="data-table"><thead><tr><th>Tag</th><th>Purpose</th><th>Example</th></tr></thead><tbody>
+          <tr><td><code>&lt;h1&gt; … &lt;h6&gt;</code></td><td>Headings (h1=largest, h6=smallest)</td><td><code>&lt;h2&gt;Section Title&lt;/h2&gt;</code></td></tr>
+          <tr><td><code>&lt;p&gt;</code></td><td>Paragraph of text</td><td><code>&lt;p&gt;Text here.&lt;/p&gt;</code></td></tr>
+          <tr><td><code>&lt;a href=""&gt;</code></td><td>Hyperlink to another page/URL</td><td><code>&lt;a href="page.html"&gt;Click&lt;/a&gt;</code></td></tr>
+          <tr><td><code>&lt;img src=""&gt;</code></td><td>Embed an image (self-closing)</td><td><code>&lt;img src="photo.jpg" alt="desc"&gt;</code></td></tr>
+          <tr><td><code>&lt;ul&gt; / &lt;ol&gt;</code></td><td>Unordered / Ordered list container</td><td><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code></td></tr>
+          <tr><td><code>&lt;li&gt;</code></td><td>List item (inside ul or ol)</td><td><code>&lt;li&gt;List item text&lt;/li&gt;</code></td></tr>
+          <tr><td><code>&lt;table&gt;</code></td><td>Table container</td><td>See table tags below</td></tr>
+          <tr><td><code>&lt;tr&gt;</code></td><td>Table row</td><td><code>&lt;tr&gt;…&lt;/tr&gt;</code></td></tr>
+          <tr><td><code>&lt;th&gt;</code></td><td>Table header cell (bold, centred)</td><td><code>&lt;th&gt;Name&lt;/th&gt;</code></td></tr>
+          <tr><td><code>&lt;td&gt;</code></td><td>Table data cell</td><td><code>&lt;td&gt;Asel&lt;/td&gt;</code></td></tr>
+          <tr><td><code>&lt;div&gt;</code></td><td>Block container for grouping</td><td><code>&lt;div class="card"&gt;…&lt;/div&gt;</code></td></tr>
+          <tr><td><code>&lt;span&gt;</code></td><td>Inline container for styling</td><td><code>&lt;span class="red"&gt;text&lt;/span&gt;</code></td></tr>
+          <tr><td><code>&lt;br&gt;</code></td><td>Line break (self-closing)</td><td><code>Line one&lt;br&gt;Line two</code></td></tr>
+          <tr><td><code>&lt;strong&gt;</code></td><td>Bold text (semantic)</td><td><code>&lt;strong&gt;Important!&lt;/strong&gt;</code></td></tr>
+          <tr><td><code>&lt;em&gt;</code></td><td>Italic text (emphasis)</td><td><code>&lt;em&gt;Italic text&lt;/em&gt;</code></td></tr>
+        </tbody></table>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Complete Example — Student Profile Page</h4><div class="code-block"><code><span class="html-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="html-tag">&lt;html&gt;&lt;head&gt;</span>
+  <span class="html-tag">&lt;title&gt;</span>Student Profile<span class="html-tag">&lt;/title&gt;</span>
+  <span class="html-tag">&lt;link</span> <span class="html-attr">rel</span>=<span class="html-val">"stylesheet"</span> <span class="html-attr">href</span>=<span class="html-val">"style.css"</span><span class="html-tag">&gt;</span>
+<span class="html-tag">&lt;/head&gt;&lt;body&gt;</span>
+  <span class="html-tag">&lt;h1&gt;</span>Student Profile<span class="html-tag">&lt;/h1&gt;</span>
+  <span class="html-tag">&lt;img</span> <span class="html-attr">src</span>=<span class="html-val">"photo.jpg"</span> <span class="html-attr">alt</span>=<span class="html-val">"Student photo"</span> <span class="html-attr">width</span>=<span class="html-val">"150"</span><span class="html-tag">&gt;</span>
+  <span class="html-tag">&lt;h2&gt;</span>Asel Nurova<span class="html-tag">&lt;/h2&gt;</span>
+  <span class="html-tag">&lt;p&gt;</span>Grade: <span class="html-tag">&lt;strong&gt;</span>12A<span class="html-tag">&lt;/strong&gt;&lt;/p&gt;</span>
+  <span class="html-tag">&lt;h3&gt;</span>Subjects<span class="html-tag">&lt;/h3&gt;</span>
+  <span class="html-tag">&lt;ul&gt;</span>
+    <span class="html-tag">&lt;li&gt;</span>Computer Science<span class="html-tag">&lt;/li&gt;</span>
+    <span class="html-tag">&lt;li&gt;</span>Mathematics<span class="html-tag">&lt;/li&gt;</span>
+    <span class="html-tag">&lt;li&gt;</span>Physics<span class="html-tag">&lt;/li&gt;</span>
+  <span class="html-tag">&lt;/ul&gt;</span>
+  <span class="html-tag">&lt;a</span> <span class="html-attr">href</span>=<span class="html-val">"index.html"</span><span class="html-tag">&gt;</span>Back to Home<span class="html-tag">&lt;/a&gt;</span>
+<span class="html-tag">&lt;/body&gt;&lt;/html&gt;</span></code></div></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 17 — Build an HTML page</h4>
+        <p>Create an HTML page for a school timetable. It should include: (a) a heading "Class Timetable", (b) a table with columns: Day, Subject, Teacher, Room — with 5 rows of data, (c) a link back to the school homepage.</p></div>
+      </div>
+
+      <!-- 4.2 HTML Forms -->
+      <div id="html-forms" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-wpforms"></i> 4.2 HTML Forms</h3>
+        <div class="def-box"><h4>📌 HTML Form</h4><p>A section of a web page allowing users to enter and submit data. Forms use the <code>&lt;form&gt;</code> element containing various input fields. The <code>action</code> attribute specifies where data is sent; <code>method</code> specifies GET or POST.</p></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Complete Registration Form Example</h4><div class="code-block"><code><span class="html-tag">&lt;form</span> <span class="html-attr">action</span>=<span class="html-val">"register.php"</span> <span class="html-attr">method</span>=<span class="html-val">"POST"</span><span class="html-tag">&gt;</span>
+
+  <span class="html-tag">&lt;label</span> <span class="html-attr">for</span>=<span class="html-val">"fname"</span><span class="html-tag">&gt;</span>First Name:<span class="html-tag">&lt;/label&gt;</span>
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"text"</span> <span class="html-attr">id</span>=<span class="html-val">"fname"</span> <span class="html-attr">name</span>=<span class="html-val">"firstname"</span>
+         <span class="html-attr">placeholder</span>=<span class="html-val">"Enter your name"</span> <span class="html-attr">required</span><span class="html-tag">&gt;</span>
+
+  <span class="html-tag">&lt;label</span> <span class="html-attr">for</span>=<span class="html-val">"email"</span><span class="html-tag">&gt;</span>Email:<span class="html-tag">&lt;/label&gt;</span>
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"email"</span> <span class="html-attr">id</span>=<span class="html-val">"email"</span> <span class="html-attr">name</span>=<span class="html-val">"email"</span> <span class="html-attr">required</span><span class="html-tag">&gt;</span>
+
+  <span class="html-tag">&lt;label</span> <span class="html-attr">for</span>=<span class="html-val">"age"</span><span class="html-tag">&gt;</span>Age:<span class="html-tag">&lt;/label&gt;</span>
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"number"</span> <span class="html-attr">id</span>=<span class="html-val">"age"</span> <span class="html-attr">name</span>=<span class="html-val">"age"</span>
+         <span class="html-attr">min</span>=<span class="html-val">"0"</span> <span class="html-attr">max</span>=<span class="html-val">"120"</span><span class="html-tag">&gt;</span>
+
+  <span class="html-tag">&lt;label</span> <span class="html-attr">for</span>=<span class="html-val">"grade"</span><span class="html-tag">&gt;</span>Grade:<span class="html-tag">&lt;/label&gt;</span>
+  <span class="html-tag">&lt;select</span> <span class="html-attr">id</span>=<span class="html-val">"grade"</span> <span class="html-attr">name</span>=<span class="html-val">"grade"</span><span class="html-tag">&gt;</span>
+    <span class="html-tag">&lt;option</span> <span class="html-attr">value</span>=<span class="html-val">"11"</span><span class="html-tag">&gt;</span>Grade 11<span class="html-tag">&lt;/option&gt;</span>
+    <span class="html-tag">&lt;option</span> <span class="html-attr">value</span>=<span class="html-val">"12"</span><span class="html-tag">&gt;</span>Grade 12<span class="html-tag">&lt;/option&gt;</span>
+  <span class="html-tag">&lt;/select&gt;</span>
+
+  <span class="html-tag">&lt;label&gt;</span>Gender:<span class="html-tag">&lt;/label&gt;</span>
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"radio"</span> <span class="html-attr">name</span>=<span class="html-val">"gender"</span> <span class="html-attr">value</span>=<span class="html-val">"M"</span><span class="html-tag">&gt;</span> Male
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"radio"</span> <span class="html-attr">name</span>=<span class="html-val">"gender"</span> <span class="html-attr">value</span>=<span class="html-val">"F"</span><span class="html-tag">&gt;</span> Female
+
+  <span class="html-tag">&lt;label&gt;</span>Interests:<span class="html-tag">&lt;/label&gt;</span>
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"checkbox"</span> <span class="html-attr">name</span>=<span class="html-val">"interest"</span> <span class="html-attr">value</span>=<span class="html-val">"cs"</span><span class="html-tag">&gt;</span> CS
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"checkbox"</span> <span class="html-attr">name</span>=<span class="html-val">"interest"</span> <span class="html-attr">value</span>=<span class="html-val">"math"</span><span class="html-tag">&gt;</span> Math
+
+  <span class="html-tag">&lt;label</span> <span class="html-attr">for</span>=<span class="html-val">"notes"</span><span class="html-tag">&gt;</span>Notes:<span class="html-tag">&lt;/label&gt;</span>
+  <span class="html-tag">&lt;textarea</span> <span class="html-attr">id</span>=<span class="html-val">"notes"</span> <span class="html-attr">name</span>=<span class="html-val">"notes"</span> <span class="html-attr">rows</span>=<span class="html-val">"4"</span><span class="html-tag">&gt;&lt;/textarea&gt;</span>
+
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"submit"</span> <span class="html-attr">value</span>=<span class="html-val">"Register"</span><span class="html-tag">&gt;</span>
+  <span class="html-tag">&lt;input</span> <span class="html-attr">type</span>=<span class="html-val">"reset"</span>  <span class="html-attr">value</span>=<span class="html-val">"Clear"</span><span class="html-tag">&gt;</span>
+
+<span class="html-tag">&lt;/form&gt;</span></code></div></div>
+
+        <div class="pro-tip-box"><h4><i class="fas fa-star"></i> ✅ Input Type Reference</h4>
+        <table class="data-table"><thead><tr><th>type=</th><th>Use case</th><th>Special attributes</th></tr></thead><tbody>
+          <tr><td><code>"text"</code></td><td>Single line text input</td><td>placeholder, maxlength, required</td></tr>
+          <tr><td><code>"email"</code></td><td>Email address (validates format)</td><td>required</td></tr>
+          <tr><td><code>"password"</code></td><td>Hidden password input</td><td>minlength</td></tr>
+          <tr><td><code>"number"</code></td><td>Numeric input with min/max</td><td>min, max, step</td></tr>
+          <tr><td><code>"date"</code></td><td>Date picker</td><td>min, max</td></tr>
+          <tr><td><code>"radio"</code></td><td>Choose one option from group</td><td>name (same for group), value</td></tr>
+          <tr><td><code>"checkbox"</code></td><td>Toggle on/off option</td><td>checked (default checked)</td></tr>
+          <tr><td><code>"submit"</code></td><td>Submit button</td><td>value (button text)</td></tr>
+          <tr><td><code>"reset"</code></td><td>Reset all fields to default</td><td>value</td></tr>
+        </tbody></table></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ Radio Buttons Must Share the Same name Attribute</h4><p>Radio buttons in a group MUST have the same <code>name</code> value. This is how the browser knows they are mutually exclusive (only one can be selected at a time). If they have different names, multiple can be selected — making them behave like checkboxes.</p></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 18 — Create a quiz form</h4>
+        <p>Build an HTML form for a quiz about Computer Science. It should include: (a) text field for student name, (b) three multiple-choice questions using radio buttons, (c) a text area for "any comments", (d) submit and reset buttons.</p></div>
+      </div>
+
+      <!-- 4.3 CSS -->
+      <div id="css" class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fab fa-css3-alt"></i> 4.3 CSS Stylesheet</h3>
+        <div class="def-box"><h4>📌 CSS (Cascading Style Sheets)</h4><p>A language that controls the <strong>presentation and layout</strong> of HTML elements — colours, fonts, spacing, borders, positioning. CSS separates content (HTML) from visual design, allowing one stylesheet to style an entire website.</p></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> CSS Syntax &amp; Selectors</h4><div class="code-block"><code><span class="css-prop">/* Syntax: selector { property: value; } */</span>
+
+<span class="css-prop">/* Element selector — all h1 tags */</span>
+h1 {
+    <span class="css-prop">color:</span> <span class="css-val">#333333</span>;
+    <span class="css-prop">font-size:</span> <span class="css-val">2rem</span>;
+    <span class="css-prop">text-align:</span> <span class="css-val">center</span>;
+}
+
+<span class="css-prop">/* Class selector — elements with class="card" */</span>
+.card {
+    <span class="css-prop">background-color:</span> <span class="css-val">#ffffff</span>;
+    <span class="css-prop">border:</span> <span class="css-val">1px solid #ccc</span>;
+    <span class="css-prop">border-radius:</span> <span class="css-val">8px</span>;
+    <span class="css-prop">padding:</span> <span class="css-val">16px</span>;
+    <span class="css-prop">margin:</span> <span class="css-val">10px</span>;
+}
+
+<span class="css-prop">/* ID selector — element with id="header" */</span>
+#header {
+    <span class="css-prop">background-color:</span> <span class="css-val">#1a1a2e</span>;
+    <span class="css-prop">color:</span> <span class="css-val">white</span>;
+    <span class="css-prop">padding:</span> <span class="css-val">20px 40px</span>;
+}
+
+<span class="css-prop">/* Descendant selector — p inside a div */</span>
+div p {
+    <span class="css-prop">line-height:</span> <span class="css-val">1.6</span>;
+    <span class="css-prop">color:</span> <span class="css-val">#555</span>;
+}</code></div></div>
+
+        <h4 style="margin:var(--space-md) 0 var(--space-sm);color:var(--text-primary)">Common CSS Properties Reference</h4>
+        <table class="data-table"><thead><tr><th>Property</th><th>Purpose</th><th>Example Values</th></tr></thead><tbody>
+          <tr><td><code>color</code></td><td>Text colour</td><td><code>red</code>, <code>#ff0000</code>, <code>rgb(255,0,0)</code></td></tr>
+          <tr><td><code>background-color</code></td><td>Background colour of element</td><td><code>lightblue</code>, <code>#f5f5f5</code></td></tr>
+          <tr><td><code>font-family</code></td><td>Font typeface</td><td><code>Arial, sans-serif</code></td></tr>
+          <tr><td><code>font-size</code></td><td>Text size</td><td><code>16px</code>, <code>1.2rem</code>, <code>large</code></td></tr>
+          <tr><td><code>font-weight</code></td><td>Bold/normal/light</td><td><code>bold</code>, <code>normal</code>, <code>700</code></td></tr>
+          <tr><td><code>text-align</code></td><td>Horizontal text alignment</td><td><code>left</code>, <code>center</code>, <code>right</code></td></tr>
+          <tr><td><code>margin</code></td><td>Space outside the element border</td><td><code>10px</code>, <code>10px 20px</code>, <code>auto</code></td></tr>
+          <tr><td><code>padding</code></td><td>Space inside the element border</td><td><code>8px</code>, <code>10px 20px</code></td></tr>
+          <tr><td><code>border</code></td><td>Element border shorthand</td><td><code>1px solid black</code></td></tr>
+          <tr><td><code>border-radius</code></td><td>Rounded corners</td><td><code>5px</code>, <code>50%</code> (circle)</td></tr>
+          <tr><td><code>width / height</code></td><td>Element dimensions</td><td><code>200px</code>, <code>50%</code>, <code>auto</code></td></tr>
+          <tr><td><code>display</code></td><td>Layout behaviour</td><td><code>block</code>, <code>inline</code>, <code>flex</code>, <code>none</code></td></tr>
+        </tbody></table>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Complete CSS Stylesheet Example — Student Card</h4><div class="code-block"><code><span class="css-prop">/* Reset default browser styles */</span>
+* {
+    <span class="css-prop">box-sizing:</span> <span class="css-val">border-box</span>;
+    <span class="css-prop">margin:</span> <span class="css-val">0</span>;
+    <span class="css-prop">padding:</span> <span class="css-val">0</span>;
+}
+
+body {
+    <span class="css-prop">font-family:</span> <span class="css-val">Arial, sans-serif</span>;
+    <span class="css-prop">background-color:</span> <span class="css-val">#f0f4f8</span>;
+    <span class="css-prop">color:</span> <span class="css-val">#333</span>;
+    <span class="css-prop">padding:</span> <span class="css-val">20px</span>;
+}
+
+h1 {
+    <span class="css-prop">font-size:</span> <span class="css-val">2rem</span>;
+    <span class="css-prop">color:</span> <span class="css-val">#0d9488</span>;
+    <span class="css-prop">text-align:</span> <span class="css-val">center</span>;
+    <span class="css-prop">margin-bottom:</span> <span class="css-val">20px</span>;
+}
+
+.student-card {
+    <span class="css-prop">background-color:</span> <span class="css-val">white</span>;
+    <span class="css-prop">border:</span> <span class="css-val">1px solid #ddd</span>;
+    <span class="css-prop">border-radius:</span> <span class="css-val">12px</span>;
+    <span class="css-prop">padding:</span> <span class="css-val">24px</span>;
+    <span class="css-prop">max-width:</span> <span class="css-val">400px</span>;
+    <span class="css-prop">margin:</span> <span class="css-val">0 auto</span>;
+    <span class="css-prop">box-shadow:</span> <span class="css-val">0 4px 12px rgba(0,0,0,0.1)</span>;
+}
+
+.student-card img {
+    <span class="css-prop">width:</span> <span class="css-val">100px</span>;
+    <span class="css-prop">height:</span> <span class="css-val">100px</span>;
+    <span class="css-prop">border-radius:</span> <span class="css-val">50%</span>;
+    <span class="css-prop">display:</span> <span class="css-val">block</span>;
+    <span class="css-prop">margin:</span> <span class="css-val">0 auto 16px</span>;
+}
+
+.badge {
+    <span class="css-prop">background-color:</span> <span class="css-val">#0d9488</span>;
+    <span class="css-prop">color:</span> <span class="css-val">white</span>;
+    <span class="css-prop">padding:</span> <span class="css-val">4px 12px</span>;
+    <span class="css-prop">border-radius:</span> <span class="css-val">20px</span>;
+    <span class="css-prop">font-size:</span> <span class="css-val">0.8rem</span>;
+    <span class="css-prop">display:</span> <span class="css-val">inline-block</span>;
+}</code></div></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> ⚠️ margin vs padding — Know the difference!</h4><p><strong>Padding</strong> = space INSIDE the element, between content and border (affects background colour area). <strong>Margin</strong> = space OUTSIDE the element, between the border and other elements. Writing <code>margin: 10px 20px</code> means 10px top/bottom, 20px left/right.</p></div>
+
+        <div class="worked-example"><h4><span class="step-num">★</span> Inline vs Internal vs External CSS</h4><div class="code-block"><code><span class="html-tag">&lt;!-- 1. INLINE — directly on element (avoid) --&gt;</span>
+<span class="html-tag">&lt;p</span> <span class="html-attr">style</span>=<span class="html-val">"color:red; font-size:16px"</span><span class="html-tag">&gt;</span>Red text<span class="html-tag">&lt;/p&gt;</span>
+
+<span class="html-tag">&lt;!-- 2. INTERNAL — inside &lt;style&gt; in &lt;head&gt; --&gt;</span>
+<span class="html-tag">&lt;head&gt;</span>
+  <span class="html-tag">&lt;style&gt;</span>
+    p { color: blue; }
+  <span class="html-tag">&lt;/style&gt;</span>
+<span class="html-tag">&lt;/head&gt;</span>
+
+<span class="html-tag">&lt;!-- 3. EXTERNAL — separate .css file (BEST PRACTICE) --&gt;</span>
+<span class="html-tag">&lt;head&gt;</span>
+  <span class="html-tag">&lt;link</span> <span class="html-attr">rel</span>=<span class="html-val">"stylesheet"</span> <span class="html-attr">href</span>=<span class="html-val">"style.css"</span><span class="html-tag">&gt;</span>
+<span class="html-tag">&lt;/head&gt;</span></code></div>
+        <p style="font-size:.85rem;color:var(--text-secondary);margin-top:.5rem"><strong>Best practice:</strong> always use external CSS. It keeps HTML clean, one file styles all pages, and it is easier to maintain.</p></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 19 — Style the timetable</h4>
+        <p>Write a CSS stylesheet for the HTML timetable page from Task 17. Include: (a) a navy background for the table header row, (b) alternating row colours (white and light grey), (c) a border around all table cells, (d) the page title centred in green, (e) the body using Arial font.</p></div>
+
+        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 20 — Full project task</h4>
+        <p>Create a complete 2-page website for a school library system:</p>
+        <p><strong>Page 1 (index.html):</strong> Library homepage with name, navigation links, list of available books as a table (Title, Author, Genre, Available?)</p>
+        <p><strong>Page 2 (borrow.html):</strong> Borrow a book form — student name (text), student ID (number), book title (dropdown select from 5 options), borrow date (date input), submit/reset buttons</p>
+        <p><strong>style.css:</strong> Style both pages consistently — matching header colour, table styling, form layout, button colours.</p></div>
+      </div>
+
+      <!-- Lesson Nav -->
+      <nav class="lesson-nav">
+        <a href="paper2-revision.html"><i class="fas fa-arrow-left"></i><div><span class="nav-label">Also see</span><span class="nav-title">Paper 2 Guide</span></div></a>
+        <a href="index.html#assessment-hub"><div><span class="nav-label">Back to</span><span class="nav-title">Assessment Hub</span></div><i class="fas fa-arrow-right"></i></a>
+      </nav>
+
+    </div></div>
+  </main>
+</div>
+<script src="js/i18n.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
