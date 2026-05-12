@@ -362,45 +362,87 @@ PRINT result</code></div>
         <p style="font-size:.85rem;color:var(--text-muted)"><em>Answer: i=1,j=1→result=1 | i=2,j=1→2,j=2→3 | i=3,j=1→4,j=2→5,j=3→6. Output: 6</em></p></div>
       </div>
 
+
       <!-- 1.3 Expert Systems -->
       <div id="expert-systems" class="lesson-section">
         <h3 class="lesson-section-title"><i class="fas fa-brain"></i> 1.3 Expert Systems</h3>
-        <div class="def-box"><h4>📌 Expert System</h4><p>A computer system that simulates the decision-making ability of a human expert in a specific domain by using a <strong>knowledge base</strong> (facts + rules) and an <strong>inference engine</strong> that applies rules to reach conclusions.</p></div>
-
-        <div class="compare-grid">
-          <div class="compare-card tea"><h5>Components</h5><ul>
-            <li><strong>Knowledge base:</strong> facts and IF-THEN rules provided by human experts</li>
-            <li><strong>Inference engine:</strong> applies rules to known facts to draw new conclusions</li>
-            <li><strong>User interface:</strong> questions asked to the user; conclusions displayed</li>
-            <li><strong>Explanation module:</strong> explains HOW a conclusion was reached</li>
-          </ul></div>
-          <div class="compare-card blue"><h5>Examples &amp; Uses</h5><ul>
-            <li>Medical diagnosis (MYCIN — identifies bacterial infections)</li>
-            <li>Technical support troubleshooting</li>
-            <li>Loan approval systems (banking)</li>
-            <li>Legal advice systems</li>
-            <li>Agricultural pest identification</li>
-          </ul></div>
+        <div class="def-box">
+          <h4>📌 Expert System</h4>
+          <p>A computer system that simulates the decision-making ability of a human expert in a specific domain. It uses logic programming (like <strong>Prolog</strong>) to separate the <strong>knowledge base</strong> (facts + rules) from the <strong>inference engine</strong> (which applies rules to reach conclusions).</p>
         </div>
 
-        <div class="worked-example"><h4><span class="step-num">★</span> Simple Expert System — Animal Identification</h4><div class="code-block"><code>RULES:
-IF has_feathers = YES AND can_fly = YES THEN animal = "bird"
-IF has_feathers = YES AND can_fly = NO  THEN animal = "penguin"
-IF has_fur = YES AND barks = YES        THEN animal = "dog"
-IF has_fur = YES AND meows = YES        THEN animal = "cat"
-IF cold_blooded = YES AND has_scales = YES THEN animal = "reptile"
+        <div class="compare-grid">
+          <div class="compare-card tea">
+            <h5>Core Components</h5>
+            <ul>
+              <li><strong>Knowledge base:</strong> a database of <em>facts</em> (unconditional truths) and <em>rules</em> (conditional statements, written as <code>Head :- Body</code> in Prolog).</li>
+              <li><strong>Inference engine:</strong> the reasoning mechanism that applies logic to known facts to answer queries or draw new conclusions.</li>
+              <li><strong>User interface:</strong> how the user inputs data and receives the system's conclusions.</li>
+              <li><strong>Explanation module:</strong> traces the logic path to explain <em>HOW</em> or <em>WHY</em> a conclusion was reached.</li>
+            </ul>
+          </div>
+          <div class="compare-card blue">
+            <h5>Examples & Uses</h5>
+            <ul>
+              <li><strong>Medical diagnosis:</strong> (e.g., MYCIN) identifying illnesses based on patient symptoms.</li>
+              <li><strong>Technical support:</strong> hardware/software troubleshooting diagnostics.</li>
+              <li><strong>Finance:</strong> loan approval systems, credit scoring, fraud detection.</li>
+              <li><strong>Agriculture:</strong> soil analysis and pest identification.</li>
+            </ul>
+          </div>
+        </div>
 
-FACTS (from user input):
-has_feathers = YES
-can_fly = NO
+        <div class="worked-example">
+          <h4><span class="step-num">★</span> Example 1: Animal Identification (Prolog)</h4>
+          <p>In Prolog, we define facts and rules. The <code>:-</code> operator means "IF", and the <code>,</code> means "AND".</p>
+          <div class="code-block"><code>% 1. FACTS (Knowledge Base)
+has_feathers(tweety).
+can_fly(tweety).
+has_feathers(pingu).
+swims(pingu).
+has_fur(rex).
+barks(rex).
 
-INFERENCE ENGINE applies rules:
-Rule 2 matches → animal = "penguin"  ✓</code></div></div>
+% 2. RULES (Knowledge Base)
+is_bird(Animal) :- has_feathers(Animal), can_fly(Animal).
+is_penguin(Animal) :- has_feathers(Animal), swims(Animal).
+is_dog(Animal) :- has_fur(Animal), barks(Animal).
 
-        <div class="task-box"><h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 4 — Create a simple expert system</h4>
-        <p>Write 4 IF-THEN rules for a weather clothing advisor. Include: temperature and rain as inputs; outputs: coat, umbrella, sunscreen, light jacket.</p>
-        <p style="font-size:.85rem;color:var(--text-muted)"><em>Example answer: IF temp &lt; 10 AND raining = YES THEN wear coat AND umbrella | IF temp &gt; 25 AND raining = NO THEN wear sunscreen, etc.</em></p></div>
+% 3. QUERIES (Inference Engine in action)
+% User asks: Is Tweety a bird?
+% ?- is_bird(tweety).
+% Output: true.
+
+% User asks: Which animal is a dog?
+% ?- is_dog(X).
+% Output: X = rex.</code></div>
+        </div>
+
+        <div class="worked-example">
+          <h4><span class="step-num">★</span> Example 2: Medical Diagnosis (Prolog)</h4>
+          <div class="code-block"><code>% FACTS: Patient symptoms
+symptom(john, fever).
+symptom(john, cough).
+symptom(mary, headache).
+symptom(mary, sneezing).
+
+% RULES: Illness definitions
+has_flu(Patient) :- symptom(Patient, fever), symptom(Patient, cough).
+has_cold(Patient) :- symptom(Patient, headache), symptom(Patient, sneezing).
+
+% QUERY: Does John have the flu?
+% ?- has_flu(john).
+% Output: true.</code></div>
+        </div>
+
+        <div class="task-box">
+          <h4><i class="fas fa-puzzle-piece"></i> 🧩 Task 4 — Weather Clothing Advisor in Prolog</h4>
+          <p>Write a Prolog knowledge base (facts and rules) for a clothing advisor. Define facts for the current weather (e.g., <code>temperature(monday, cold).</code>, <code>weather(monday, raining).</code>) and write rules for when to wear a coat, umbrella, or sunscreen.</p>
+          <p style="font-size:.85rem;color:var(--text-muted)"><em>Example: <code>wear_coat(Day) :- temperature(Day, cold), weather(Day, raining).</code></em></p>
+        </div>
       </div>
+
+      
 
       <!-- ===== CHAPTER 2 ===== -->
       <div class="chapter-break">
