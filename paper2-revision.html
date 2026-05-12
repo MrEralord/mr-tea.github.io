@@ -958,7 +958,244 @@ IsActive    <span class="sql-kw">BOOLEAN</span>      <span class="sql-kw">DEFAUL
 <span class="sql-kw">ORDER BY</span> g.Score <span class="sql-kw">DESC</span>;</code></div></div>
 </div>
 
-```
+      
+<!-- ===== APPENDIX ===== -->
+      <div class="chapter-break">
+        <div class="chapter-icon" style="background:var(--accent-warm)"><i class="fas fa-bookmark"></i></div>
+        <h2>Appendix — Quick Reference</h2>
+      </div>
+
+      <!-- A — SDLC Quick Reference -->
+      <div class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-arrows-spin"></i> A — SDLC &amp; Implementation Quick Reference</h3>
+
+        <table class="data-table">
+          <thead><tr><th>SDLC Model</th><th>Structure</th><th>Best for</th><th>Key weakness</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Waterfall</strong></td><td>Linear, sequential stages, no going back</td><td>Well-defined, stable requirements</td><td>Inflexible — changes mid-project are expensive</td></tr>
+            <tr><td><strong>Spiral</strong></td><td>Iterative loops with risk analysis each cycle</td><td>Large, complex, high-risk systems</td><td>Expensive; needs experienced risk management</td></tr>
+            <tr><td><strong>Agile</strong></td><td>Short sprints; continuous client feedback</td><td>Changing requirements; fast delivery needed</td><td>Hard to predict final cost/time; needs constant client involvement</td></tr>
+          </tbody>
+        </table>
+
+        <table class="data-table">
+          <thead><tr><th>Implementation Method</th><th>Risk</th><th>Cost</th><th>Use when…</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Direct (Big Bang)</strong></td><td>🔴 Very High</td><td>Low</td><td>Small, non-critical system; rollback not needed</td></tr>
+            <tr><td><strong>Parallel Running</strong></td><td>🟢 Very Low</td><td>High</td><td>Critical system; results must be verified (e.g., bank)</td></tr>
+            <tr><td><strong>Phased</strong></td><td>🟡 Medium</td><td>Medium</td><td>Large system that can be split into independent modules</td></tr>
+            <tr><td><strong>Pilot</strong></td><td>🟡 Medium</td><td>Medium</td><td>Testing real-world conditions before full rollout</td></tr>
+          </tbody>
+        </table>
+
+        <table class="data-table">
+          <thead><tr><th>Data Collection Method</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Interview</strong></td><td>In-depth; clarify answers immediately</td><td>Time-consuming; limited reach</td></tr>
+            <tr><td><strong>Questionnaire</strong></td><td>Reaches many people; cheap</td><td>Low response rate; can't clarify answers</td></tr>
+            <tr><td><strong>Observation</strong></td><td>Shows real behaviour; uncovers hidden processes</td><td>Hawthorne effect; time-consuming</td></tr>
+            <tr><td><strong>Document analysis</strong></td><td>No disruption to users</td><td>Documents may be outdated</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- B — Boolean Laws -->
+      <div class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-scale-balanced"></i> B — Boolean Laws Quick Reference</h3>
+
+        <table class="data-table">
+          <thead><tr><th>Law</th><th>AND form</th><th>OR form</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Identity</strong></td><td><code>A AND 1 = A</code></td><td><code>A OR 0 = A</code></td></tr>
+            <tr><td><strong>Null</strong></td><td><code>A AND 0 = 0</code></td><td><code>A OR 1 = 1</code></td></tr>
+            <tr><td><strong>Idempotent</strong></td><td><code>A AND A = A</code></td><td><code>A OR A = A</code></td></tr>
+            <tr><td><strong>Complement</strong></td><td><code>A AND NOT A = 0</code></td><td><code>A OR NOT A = 1</code></td></tr>
+            <tr><td><strong>Double Negation</strong></td><td colspan="2"><code>NOT(NOT A) = A</code></td></tr>
+            <tr><td><strong>Commutative</strong></td><td><code>A AND B = B AND A</code></td><td><code>A OR B = B OR A</code></td></tr>
+            <tr><td><strong>Distributive</strong></td><td><code>A AND (B OR C) = (A AND B) OR (A AND C)</code></td><td><code>A OR (B AND C) = (A OR B) AND (A OR C)</code></td></tr>
+            <tr><td><strong>Absorption</strong></td><td><code>A AND (A OR B) = A</code></td><td><code>A OR (A AND B) = A</code></td></tr>
+            <tr><td><strong>De Morgan's</strong></td><td><code>NOT(A AND B) = NOT A OR NOT B</code></td><td><code>NOT(A OR B) = NOT A AND NOT B</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="pro-tip-box">
+          <h4><i class="fas fa-star"></i> ✅ Simplification Strategy — Always try in this order</h4>
+          <ul class="check-list">
+            <li><strong>Step 1:</strong> Look for <code>A AND NOT A = 0</code> or <code>A OR NOT A = 1</code> — eliminates terms immediately</li>
+            <li><strong>Step 2:</strong> Apply <strong>Absorption</strong>: <code>A OR (A AND B) = A</code> — removes the inner term</li>
+            <li><strong>Step 3:</strong> Apply <strong>Distributive</strong> to factor out a common variable</li>
+            <li><strong>Step 4:</strong> Apply <strong>De Morgan's</strong> to remove double NOT or distribute negation</li>
+            <li><strong>Step 5:</strong> Apply <strong>Idempotent</strong>: <code>A AND A = A</code>, <code>A OR A = A</code></li>
+          </ul>
+        </div>
+
+        <h4 style="margin:var(--space-md) 0 var(--space-sm);color:var(--text-primary)">Truth Tables — All 6 Gates at a Glance</h4>
+        <div style="overflow-x:auto">
+        <table style="font-family:var(--font-code);font-size:.82rem;border-collapse:collapse;width:100%">
+          <thead>
+            <tr style="background:var(--bg-code)">
+              <th style="padding:.4rem .7rem;border:1px solid var(--border)">A</th>
+              <th style="padding:.4rem .7rem;border:1px solid var(--border)">B</th>
+              <th style="padding:.4rem .7rem;border:1px solid var(--border);color:var(--clr-blue)">AND</th>
+              <th style="padding:.4rem .7rem;border:1px solid var(--border);color:var(--clr-tea)">OR</th>
+              <th style="padding:.4rem .7rem;border:1px solid var(--border);color:var(--clr-cs)">NOT A</th>
+              <th style="padding:.4rem .7rem;border:1px solid var(--border);color:var(--clr-orange)">NAND</th>
+              <th style="padding:.4rem .7rem;border:1px solid var(--border);color:var(--clr-blue)">NOR</th>
+              <th style="padding:.4rem .7rem;border:1px solid var(--border);color:var(--clr-tea)">XOR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--bg-alt,#f8f9fa)"><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td></tr>
+            <tr><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td></tr>
+            <tr style="background:var(--bg-alt,#f8f9fa)"><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td></tr>
+            <tr><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--clr-tea);font-weight:700">1</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td><td style="padding:.35rem .7rem;border:1px solid var(--border);text-align:center;color:var(--text-muted)">0</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <!-- C — SQL Quick Reference -->
+      <div class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-code"></i> C — SQL Quick Reference</h3>
+
+        <table class="data-table">
+          <thead><tr><th>Category</th><th>Command</th><th>Purpose</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="3"><strong>DDL</strong></td><td><code>CREATE TABLE</code></td><td>Create a new table</td><td><code>CREATE TABLE Students (ID INT PRIMARY KEY, Name VARCHAR(50));</code></td></tr>
+            <tr><td><code>ALTER TABLE</code></td><td>Modify table structure</td><td><code>ALTER TABLE Students ADD Email VARCHAR(100);</code></td></tr>
+            <tr><td><code>DROP TABLE</code></td><td>Delete table + all data permanently</td><td><code>DROP TABLE Students;</code></td></tr>
+            <tr><td rowspan="4"><strong>DML</strong></td><td><code>SELECT</code></td><td>Query data from tables</td><td><code>SELECT Name, Grade FROM Students WHERE Grade=12;</code></td></tr>
+            <tr><td><code>INSERT INTO</code></td><td>Add new records</td><td><code>INSERT INTO Students VALUES (1001, 'Asel', 12);</code></td></tr>
+            <tr><td><code>UPDATE</code></td><td>Modify existing records</td><td><code>UPDATE Students SET Grade=12 WHERE ID=1001;</code></td></tr>
+            <tr><td><code>DELETE FROM</code></td><td>Remove records</td><td><code>DELETE FROM Students WHERE Grade=11;</code></td></tr>
+          </tbody>
+        </table>
+
+        <table class="data-table">
+          <thead><tr><th>SELECT Clause</th><th>Purpose</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><code>WHERE</code></td><td>Filter rows by condition</td><td><code>WHERE Score &gt; 80</code></td></tr>
+            <tr><td><code>AND / OR / NOT</code></td><td>Combine conditions</td><td><code>WHERE Grade=12 AND IsActive=TRUE</code></td></tr>
+            <tr><td><code>ORDER BY … ASC/DESC</code></td><td>Sort results</td><td><code>ORDER BY LastName ASC</code></td></tr>
+            <tr><td><code>LIKE</code></td><td>Pattern match (% = any, _ = one char)</td><td><code>WHERE Name LIKE 'A%'</code></td></tr>
+            <tr><td><code>BETWEEN</code></td><td>Range (inclusive)</td><td><code>WHERE Score BETWEEN 60 AND 100</code></td></tr>
+            <tr><td><code>IN</code></td><td>Match from a list</td><td><code>WHERE Grade IN (11, 12)</code></td></tr>
+            <tr><td><code>INNER JOIN … ON</code></td><td>Combine rows from two tables</td><td><code>JOIN Classes c ON s.ClassID = c.ClassID</code></td></tr>
+            <tr><td><code>COUNT(*)</code></td><td>Count rows</td><td><code>SELECT COUNT(*) FROM Students</code></td></tr>
+            <tr><td><code>GROUP BY</code></td><td>Group for aggregation</td><td><code>GROUP BY ClassID</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="worked-example">
+          <h4><span class="step-num">★</span> SQL Cheat Sheet — Full Query Template</h4>
+          <div class="code-block"><code>SELECT   [table_alias].[column], ...          -- what to show
+FROM     [main_table] [alias]                -- primary table
+JOIN     [other_table] [alias]               -- link second table
+  ON     [alias1].[FK] = [alias2].[PK]      -- join condition
+WHERE    [condition1] AND [condition2]       -- filter rows
+ORDER BY [column] ASC / DESC;               -- sort result
+
+-- Example:
+SELECT   s.FirstName, s.LastName, c.ClassName, g.Score
+FROM     Students s
+JOIN     Classes  c ON s.ClassID   = c.ClassID
+JOIN     Grades   g ON s.StudentID = g.StudentID
+WHERE    c.ClassName = '12A' AND g.Score > 70
+ORDER BY g.Score DESC;</code></div>
+        </div>
+
+        <table class="data-table">
+          <thead><tr><th>SQL Data Type</th><th>Use</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><code>INTEGER</code></td><td>Whole numbers</td><td>StudentID, Age, Quantity</td></tr>
+            <tr><td><code>VARCHAR(n)</code></td><td>Variable text up to n chars</td><td>Name VARCHAR(50)</td></tr>
+            <tr><td><code>CHAR(n)</code></td><td>Fixed-length text</td><td>Code CHAR(3)</td></tr>
+            <tr><td><code>DATE</code></td><td>Date (YYYY-MM-DD)</td><td>DateOfBirth, EnrolDate</td></tr>
+            <tr><td><code>DECIMAL(p,s)</code></td><td>Decimal: p digits, s after point</td><td>Price DECIMAL(8,2)</td></tr>
+            <tr><td><code>BOOLEAN</code></td><td>TRUE or FALSE</td><td>IsActive, HasPaid</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- D — Database Concepts -->
+      <div class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-key"></i> D — Database Concepts Quick Reference</h3>
+
+        <table class="data-table">
+          <thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Table (Relation)</strong></td><td>Collection of related data in rows and columns</td><td>Students, Classes, Courses</td></tr>
+            <tr><td><strong>Attribute (Field)</strong></td><td>A named property of an entity — one column</td><td>StudentID, FirstName, Grade</td></tr>
+            <tr><td><strong>Record (Tuple)</strong></td><td>One complete row — one instance of the entity</td><td>One student's full data row</td></tr>
+            <tr><td><strong>Primary Key (PK)</strong></td><td>Uniquely identifies every record; NOT NULL; must not change</td><td>StudentID, CourseID</td></tr>
+            <tr><td><strong>Composite Key</strong></td><td>PK made of two or more attributes combined</td><td>(StudentID + CourseID) in Enrolment</td></tr>
+            <tr><td><strong>Foreign Key (FK)</strong></td><td>References the PK of another table; creates a relationship</td><td>ClassID in Students → Classes.ClassID</td></tr>
+            <tr><td><strong>1:1 Relationship</strong></td><td>One record in A ↔ exactly one in B</td><td>Student ↔ Passport</td></tr>
+            <tr><td><strong>1:M Relationship</strong></td><td>One record in A ↔ many in B</td><td>Class → many Students</td></tr>
+            <tr><td><strong>M:M Relationship</strong></td><td>Many in A ↔ many in B; needs junction table</td><td>Students ↔ Courses (via Enrolment)</td></tr>
+          </tbody>
+        </table>
+
+        <table class="data-table">
+          <thead><tr><th>Normal Form</th><th>Rule</th><th>Fixes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1NF</strong></td><td>All values atomic; no repeating groups; each row has a PK</td><td>Repeating groups (e.g., multiple phones in one cell)</td></tr>
+            <tr><td><strong>2NF</strong></td><td>1NF + every non-key attribute fully depends on the ENTIRE composite PK</td><td>Partial dependencies (only applies with composite PK)</td></tr>
+            <tr><td><strong>3NF</strong></td><td>2NF + no non-key attribute depends on another non-key attribute</td><td>Transitive dependencies (A→B→C where B is not a key)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- E — Command Words -->
+      <div class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-spell-check"></i> E — Command Words</h3>
+
+        <table class="data-table">
+          <thead><tr><th>Command Word</th><th>Expected Response</th><th>Typical Marks</th></tr></thead>
+          <tbody>
+            <tr><td><strong>STATE / NAME / IDENTIFY</strong></td><td>Specific fact only. Zero explanation needed.</td><td>1</td></tr>
+            <tr><td><strong>DESCRIBE</strong></td><td>What it is + how it works. Do NOT explain why.</td><td>2–3</td></tr>
+            <tr><td><strong>EXPLAIN</strong></td><td>Fact + reason/consequence. Use "because…", "therefore…", "which means…"</td><td>2–4</td></tr>
+            <tr><td><strong>COMPARE / CONTRAST</strong></td><td>Address BOTH items in the same sentence. "Unlike X which A, Y does B."</td><td>2–4</td></tr>
+            <tr><td><strong>EVALUATE</strong></td><td>Advantages + disadvantages + concluding judgement for the scenario.</td><td>4–6</td></tr>
+            <tr><td><strong>DEFINE</strong></td><td>Precise technical meaning. No analogies.</td><td>1–2</td></tr>
+            <tr><td><strong>JUSTIFY</strong></td><td>State the decision + defend with technical reasons from the scenario.</td><td>2–3</td></tr>
+            <tr><td><strong>DRAW / CONSTRUCT</strong></td><td>Produce an accurate diagram (DFD, flowchart, ER diagram, logic circuit, BST) with correct symbols labelled.</td><td>3–6</td></tr>
+            <tr><td><strong>COMPLETE</strong></td><td>Fill in missing parts of a given diagram or table — follow the existing style exactly.</td><td>1–4</td></tr>
+            <tr><td><strong>WRITE (SQL query)</strong></td><td>Produce working SQL — correct syntax, correct table/column names from the scenario, WHERE clause if filtering needed.</td><td>3–5</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- F — All Warnings -->
+      <div class="lesson-section">
+        <h3 class="lesson-section-title"><i class="fas fa-triangle-exclamation"></i> F — All Warnings (Pre-exam Review)</h3>
+        <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:var(--space-md)">All ⚠️ WARNING blocks from the guide, consolidated for rapid pre-exam review.</p>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W1 — Compare models, don't just describe one</h4><p>Questions asking to "compare" SDLC or implementation models require both advantages AND disadvantages for EACH model, linked in the same answer. "Unlike Waterfall which is linear, Agile uses short sprints allowing changes between iterations."</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W2 — DFD: no direct entity-to-entity or store-to-store data flows</h4><p>Data CANNOT flow directly between two external entities or between two data stores. All data must pass through a process. Unlabelled arrows also lose marks — always name the data being transferred.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W3 — DFD ≠ Flowchart</h4><p>DFD shows WHERE data flows (system perspective). Flowchart shows HOW steps happen sequentially (algorithm perspective). Never mix their symbols. DFD has no decision diamonds; flowcharts have no data stores or external entities.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W4 — De Morgan's: flip the operator AND negate each term</h4><p>NOT(A AND B) = NOT A OR NOT B. NOT(A OR B) = NOT A AND NOT B. The most common mistake: NOT(A AND B) = NOT A AND NOT B — WRONG. Memory aid: <em>"Break the line, change the sign."</em></p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W5 — Simplification: show every step with law name</h4><p>In exams, writing each step with the name of the law applied earns method marks even if the final answer is wrong. Never skip steps or jump to the answer without showing working.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W6 — Primary Key vs Foreign Key</h4><p>PK uniquely identifies a record in its OWN table. FK appears in ANOTHER table to link to the PK. The same attribute can be a PK in one table and a FK in another. Writing "the primary key links two tables" is incorrect — the foreign key creates the link.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W7 — 2NF only applies when PK is composite</h4><p>If the primary key is a single attribute, there can be no partial dependency. 2NF is only relevant when you have a composite primary key (two or more attributes forming the PK together).</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W8 — DROP TABLE vs DELETE FROM</h4><p>DROP TABLE removes the entire table structure AND all data permanently (DDL — cannot be undone). DELETE FROM removes only records from within the table (DML — can be rolled back). Confusing these in an answer loses the mark.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W9 — Always use WHERE with UPDATE and DELETE</h4><p>An UPDATE or DELETE without a WHERE clause affects ALL records in the table — one of the most destructive SQL mistakes. Always verify with a SELECT first.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W10 — SQL JOIN: link FK to PK, not column to column by name</h4><p>The ON clause must link the foreign key in one table to the primary key in the referenced table. Using the wrong key pair gives incorrect results — no error message, just wrong data.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W11 — Radio buttons need the same name attribute</h4><p>Radio buttons in a group MUST share the same <code>name</code> attribute. Different names = independent selections = behave like checkboxes. Only the <code>value</code> differs between options in the same group.</p></div>
+
+        <div class="pitfall-box"><h4><i class="fas fa-triangle-exclamation"></i> W12 — Normalisation: describe what you're removing, not just what you're doing</h4><p>Saying "I split the table" is insufficient. Explain WHY: "Attribute X has a partial dependency on only part of the composite key, so it is moved to a separate table." The examiner marks the reasoning, not just the action.</p></div>
+      </div>
   <!-- Lesson Nav -->
   <nav class="lesson-nav">
     <a href="paper1-revision.html"><i class="fas fa-arrow-left"></i><div><span class="nav-label">Also see</span><span class="nav-title">Paper 1 Guide</span></div></a>
