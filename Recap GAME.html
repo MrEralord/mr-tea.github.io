@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeopardy Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a1a;
+    --board-blue: #1a1aad;
+    --board-blue-dark: #12128a;
+    --board-blue-hover: #2222cc;
+    --gold: #f5c518;
+    --gold-dark: #c9a000;
+    --cell-text: #fff;
+    --border: #000;
+    --used: #0d0d5e;
+    --used-text: #3a3a7a;
+    --red: #e63946;
+    --green: #2ec466;
+    --panel: #12124a;
+    --panel-border: #2a2a8a;
+    --input-bg: #1e1e6e;
+    --input-border: #3a3aaa;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Barlow Condensed', sans-serif;
+    color: var(--cell-text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── TOP BAR ── */
+  #topbar {
+    background: linear-gradient(135deg, #0d0d6e 0%, #1a1aad 50%, #0d0d6e 100%);
+    border-bottom: 3px solid var(--gold);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  }
+
+  #game-title-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(245,197,24,0.4);
+    cursor: pointer;
+  }
+
+  .top-actions { display: flex; gap: 10px; align-items: center; }
+
+  .btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    padding: 8px 18px;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+  .btn-gold { background: var(--gold); color: #000; }
+  .btn-gold:hover { background: var(--gold-dark); }
+  .btn-outline { background: transparent; color: var(--gold); border: 2px solid var(--gold); }
+  .btn-outline:hover { background: var(--gold); color: #000; }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn-red:hover { background: #c0303a; }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-green:hover { background: #24a455; }
+  .btn-sm { font-size: 0.82rem; padding: 5px 12px; }
+
+  /* ── MAIN GAME ── */
+  #game-view { display: flex; flex-direction: column; align-items: center; padding: 16px; }
+
+  /* ── BOARD ── */
+  #board-wrap { width: 100%; max-width: 1200px; }
+
+  #board {
+    display: grid;
+    border: 3px solid #000;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+  }
+
+  .cat-header {
+    background: linear-gradient(180deg, #1e1eb8 0%, #1212a0 100%);
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 14px 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(0.85rem, 1.5vw, 1.15rem);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    min-height: 70px;
+    line-height: 1.2;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+  }
+
+  .cell {
+    background: linear-gradient(180deg, var(--board-blue) 0%, var(--board-blue-dark) 100%);
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    min-height: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .cell:hover:not(.used) {
+    background: linear-gradient(180deg, var(--board-blue-hover) 0%, #1818b0 100%);
+    transform: scale(1.02);
+    z-index: 2;
+    box-shadow: inset 0 0 0 3px var(--gold);
+  }
+  .cell.used {
+    background: var(--used);
+    cursor: default;
+  }
+
+  .cell-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    color: var(--gold);
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.6), 0 0 15px rgba(245,197,24,0.3);
+    letter-spacing: 1px;
+  }
+  .cell.used .cell-value { color: var(--used-text); text-shadow: none; }
+
+  /* ── SCORES ── */
+  #scoreboard {
+    display: flex;
+    gap: 14px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .team-card {
+    background: linear-gradient(135deg, var(--panel) 0%, #0e0e55 100%);
+    border: 2px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    min-width: 140px;
+    text-align: center;
+    position: relative;
+  }
+  .team-card.active-team {
+    border-color: var(--gold);
+    box-shadow: 0 0 16px rgba(245,197,24,0.35);
+  }
+
+  .team-name-label {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8888cc;
+    cursor: pointer;
+  }
+  .team-name-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--gold);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    text-align: center;
+    width: 100%;
+    outline: none;
+    display: none;
+  }
+
+  .team-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    color: #fff;
+    line-height: 1;
+    margin: 4px 0;
+  }
+  .team-score.positive { color: var(--green); }
+  .team-score.negative { color: var(--red); }
+
+  .score-btns { display: flex; gap: 6px; justify-content: center; margin-top: 6px; }
+  .score-btn {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.1s;
+    line-height: 1;
+  }
+  .score-btn:hover { transform: scale(1.15); }
+  .score-btn.plus { background: var(--green); color: #fff; }
+  .score-btn.minus { background: var(--red); color: #fff; }
+
+  #add-team-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; cursor: pointer;
+    background: transparent;
+    border: 2px dashed var(--panel-border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    min-width: 80px;
+    color: #5555aa;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  #add-team-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── QUESTION MODAL ── */
+  #q-modal {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #q-modal.open { display: flex; }
+
+  #q-box {
+    background: linear-gradient(135deg, #1414a8 0%, #0d0d88 100%);
+    border: 3px solid var(--gold);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 720px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 60px rgba(245,197,24,0.2), 0 20px 60px rgba(0,0,0,0.8);
+    animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  #q-points-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  #q-category-badge {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #9999dd;
+    margin-bottom: 20px;
+  }
+
+  #q-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.35;
+    color: #fff;
+    margin-bottom: 28px;
+    min-height: 80px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  #reveal-btn {
+    background: var(--gold);
+    color: #000;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    border: none;
+    padding: 12px 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 20px;
+  }
+  #reveal-btn:hover { background: var(--gold-dark); transform: scale(1.04); }
+
+  #a-text {
+    display: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(245,197,24,0.5);
+    margin-bottom: 24px;
+    animation: fadeUp 0.3s ease;
+  }
+  @keyframes fadeUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  #q-score-actions {
+    display: none;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .award-btn {
+    background: transparent;
+    border: 2px solid #4444aa;
+    border-radius: 6px;
+    padding: 7px 16px;
+    color: #ccc;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .award-btn:hover { border-color: var(--green); color: var(--green); }
+  .award-btn.deduct:hover { border-color: var(--red); color: var(--red); }
+
+  #close-q {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none;
+    font-size: 1.8rem; color: #5555aa;
+    cursor: pointer; line-height: 1;
+    transition: color 0.15s;
+  }
+  #close-q:hover { color: #fff; }
+
+  /* ── EDITOR ── */
+  #editor-view {
+    display: none;
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .editor-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--gold);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .editor-section {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .editor-section-head {
+    background: #1a1a70;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .cat-name-input {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    width: 220px;
+    outline: none;
+  }
+  .cat-name-input:focus { border-color: var(--gold); }
+
+  .q-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr auto;
+    gap: 10px;
+    padding: 10px 16px;
+    border-top: 1px solid #1e1e5e;
+    align-items: center;
+  }
+
+  .pts-input, .q-input, .a-input {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem;
+    padding: 7px 10px;
+    outline: none;
+    width: 100%;
+  }
+  .pts-input:focus, .q-input:focus, .a-input:focus { border-color: var(--gold); }
+  .pts-input { text-align: center; font-weight: 700; font-size: 1rem; }
+
+  .row-label {
+    font-size: 0.78rem;
+    color: #6666aa;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .del-row-btn {
+    background: none; border: none;
+    color: #4444aa; font-size: 1.3rem;
+    cursor: pointer; transition: color 0.15s;
+    padding: 4px;
+  }
+  .del-row-btn:hover { color: var(--red); }
+
+  #editor-controls {
+    display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
+  }
+
+  .title-edit-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .title-edit-label {
+    font-size: 0.8rem; letter-spacing: 2px; color: #6666aa; text-transform: uppercase;
+  }
+  .title-edit-input {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    outline: none;
+    width: 320px;
+  }
+  .title-edit-input:focus { border-color: var(--gold); }
+
+  /* scrollable column list */
+  #editor-cols { display: flex; flex-direction: column; gap: 0; }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: #000;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 1rem; letter-spacing: 1px;
+    padding: 10px 28px; border-radius: 30px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 999;
+  }
+  #toast.show { opacity: 1; }
+
+  /* ── UTIL ── */
+  input::placeholder { color: #4444aa; }
+  @media (max-width: 600px) {
+    .q-row { grid-template-columns: 60px 1fr 1fr 24px; gap: 6px; padding: 8px 10px; }
+    #q-box { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <div id="game-title-display">⚡ Jeopardy!</div>
+  <div class="top-actions">
+    <button class="btn btn-outline" onclick="showEditor()">✏️ Edit Board</button>
+    <button class="btn btn-gold" onclick="resetGame()">↺ Reset Game</button>
+  </div>
+</div>
+
+<!-- GAME VIEW -->
+<div id="game-view">
+  <div id="board-wrap">
+    <div id="board"></div>
+  </div>
+  <div id="scoreboard"></div>
+</div>
+
+<!-- EDITOR VIEW -->
+<div id="editor-view">
+  <div class="editor-header">
+    <span>📋 Board Editor</span>
+    <button class="btn btn-green btn-sm" onclick="saveAndPlay()">▶ Save & Play</button>
+    <button class="btn btn-outline btn-sm" onclick="showGame()">✕ Cancel</button>
+  </div>
+
+  <div class="title-edit-row">
+    <span class="title-edit-label">Game Title</span>
+    <input class="title-edit-input" id="title-input" value="Jeopardy!" />
+  </div>
+
+  <div id="editor-controls">
+    <button class="btn btn-gold btn-sm" onclick="addCategory()">＋ Add Category</button>
+    <button class="btn btn-outline btn-sm" onclick="addRowToAll()">＋ Add Row to All</button>
+    <button class="btn btn-outline btn-sm" onclick="importJSON()">⬆ Import JSON</button>
+    <button class="btn btn-outline btn-sm" onclick="exportJSON()">⬇ Export JSON</button>
+  </div>
+
+  <div id="editor-cols"></div>
+</div>
+
+<!-- QUESTION MODAL -->
+<div id="q-modal">
+  <div id="q-box">
+    <button id="close-q" onclick="closeQuestion()">✕</button>
+    <div id="q-points-badge"></div>
+    <div id="q-category-badge"></div>
+    <div id="q-text"></div>
+    <button id="reveal-btn" onclick="revealAnswer()">Reveal Answer</button>
+    <div id="a-text"></div>
+    <div id="q-score-actions"></div>
+    <div style="margin-top:8px">
+      <button class="btn btn-red btn-sm" onclick="closeQuestion(false)">Skip / No Score</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+//  DEFAULT GAME DATA
+// ═══════════════════════════════════════════
+const defaultData = {
+  title: "A-Level Computer Science",
+  categories: [
+    {
+      name: "Security, Privacy & Data Integrity",
+      questions: [
+        { points: 100, q: "Define the term 'computer security.'", a: "Protecting computer systems, networks, and data from unauthorised access, damage, or attack." },
+        { points: 200, q: "What is the difference between 'privacy' and 'data integrity'?", a: "Privacy: an individual's right to control how their personal data is collected and used. Data Integrity: ensuring data remains accurate and unaltered." },
+        { points: 300, q: "Give TWO reasons why protecting personal data is important.", a: "Any two: prevent identity theft / avoid financial harm / maintain user trust / comply with laws like GDPR / prevent misuse of sensitive information." },
+        { points: 400, q: "A hacker gains access to a database and changes customer records. Which concept is violated — security, privacy, or data integrity? Explain why all three may apply.", a: "Security: system was accessed without permission. Privacy: personal data was exposed. Data Integrity: records were altered, so they can no longer be trusted as accurate." },
+        { points: 500, q: "Explain the difference between symmetric and asymmetric encryption. Give one advantage of each.", a: "Symmetric: same key to encrypt and decrypt — fast, but the key must be securely shared. Asymmetric: public key encrypts, private key decrypts — no need to share a secret key, but slower." },
+        { points: 600, q: "Explain how a man-in-the-middle (MITM) attack works and which security concepts it threatens.", a: "Attacker secretly intercepts communication between two parties. Threatens: Security (unauthorised access), Privacy (attacker reads private data), Integrity (attacker can modify messages before forwarding them)." },
+        { points: 700, q: "A company uses encryption, firewalls, and access controls. Explain why technical measures alone are not enough to guarantee data security.", a: "Technical measures can't prevent social engineering, phishing, or insider threats. Staff may be tricked into revealing passwords. Human error remains a major cause of breaches. Policies, training, and regular audits are also needed alongside technical controls." }
+      ]
+    },
+    {
+      name: "Safety Methods",
+      questions: [
+        { points: 100, q: "What is a data backup and why is it important?", a: "A copy of data stored separately from the original, allowing recovery if the original is lost, corrupted, or attacked." },
+        { points: 200, q: "Explain how disk mirroring (RAID 1) works and state one limitation.", a: "Data is written simultaneously to two drives. If one fails, the other continues without data loss. Limitation: doesn't protect against accidental deletion or malware, as changes are mirrored instantly." },
+        { points: 300, q: "Explain how encryption protects stored data. What is needed to read encrypted data?", a: "Encryption converts data into an unreadable format using an algorithm and a key. Only someone with the correct decryption key can read it, so even if data is stolen it remains protected." },
+        { points: 400, q: "What are access rights? Explain how restricting access reduces security risks.", a: "Access rights define what each user or role is permitted to do (read, write, delete). Restricting access means if an account is compromised, the attacker can only access what that account is permitted — limiting damage." },
+        { points: 500, q: "Compare full, incremental, and differential backups. For each, state one advantage and one disadvantage.", a: "Full: complete copy — easiest to restore but takes most time/storage. Incremental: only changes since last backup — quick and small, but restoration requires multiple files. Differential: changes since last full backup — faster restore than incremental but uses more storage than incremental." },
+        { points: 600, q: "Explain how asymmetric encryption is used to set up a secure HTTPS connection between a browser and a web server.", a: "Server sends its public key to the browser. Browser uses the public key to encrypt a session key and sends it. Only the server's private key can decrypt it. Both parties then use this shared session key for fast symmetric encryption during the rest of the connection." },
+        { points: 700, q: "A company uses AES-256 encryption, HTTPS, and role-based access control. Evaluate whether these measures fully protect customer data.", a: "These are strong technical measures — AES-256 is practically unbreakable, HTTPS protects data in transit, and RBAC limits exposure. However: stolen credentials, social engineering, misconfigurations, and insider threats are not addressed by these alone. Full protection also requires staff training, auditing, strong password policies, and incident response plans." }
+      ]
+    },
+    {
+      name: "Validation & Verification",
+      questions: [
+        { points: 100, q: "What is the difference between validation and verification?", a: "Validation: checks data is reasonable, complete, and in the correct format before it is accepted. Verification: checks that data has been entered accurately and matches the intended source." },
+        { points: 200, q: "Give TWO types of validation check and an example of each.", a: "Range check: age must be between 0 and 120. Format check: email must contain '@' and a domain. Also accept: presence check, length check, type check." },
+        { points: 300, q: "A website asks a user to type their email address twice. What type of check is this and what error does it catch?", a: "This is a verification technique (double-entry / proofreading). It catches transcription errors — if both entries match, the user is less likely to have mistyped their address." },
+        { points: 400, q: "Explain why data that passes validation may still be incorrect. Use an example.", a: "Validation only checks that data is plausible, not that it is true. E.g. a date of birth of 01/01/1995 may pass all checks but be wrong if the user entered the wrong year — validation cannot detect this." },
+        { points: 500, q: "Describe FOUR different types of validation check. For each, give a real-world example.", a: "Presence check: name field cannot be empty. Range check: test score must be 0–100. Format check: phone number must be 11 digits. Length check: password must be at least 8 characters. (Accept other valid examples.)" },
+        { points: 600, q: "Explain how checksums are used to verify data integrity when a file is transmitted across a network.", a: "Sender calculates a checksum (e.g. sum of all bytes) and sends it with the data. Receiver recalculates the checksum from the received data and compares. If they differ, the data was corrupted in transit and must be retransmitted." },
+        { points: 700, q: "Compare parity bits and checksums as error-detection methods. What types of error can each detect, and what are their limitations?", a: "Parity bit: adds one bit to make the total number of 1s even or odd. Detects single-bit errors only — two flipped bits cancel out and go undetected. Checksum: sum of data values — detects more errors than parity, especially burst errors, but certain combinations of errors can still cancel out. Neither method can correct errors, only detect them." }
+      ]
+    },
+    {
+      name: "Blockchain Technology",
+      questions: [
+        { points: 100, q: "What is a distributed ledger? How does it differ from a traditional database?", a: "A distributed ledger stores identical copies of records across many computers (nodes) with no central authority. Unlike a traditional database, no single party controls it and there is no single point of failure." },
+        { points: 200, q: "What is a cryptographic hash? Why is it used to link blocks in a blockchain?", a: "A hash is a fixed-length digital fingerprint of data — any change to the input produces a completely different hash. Each block stores the hash of the previous block, so altering any block instantly breaks the chain and is detectable." },
+        { points: 300, q: "Describe what 'Proof of Work' means in a blockchain. What do miners actually do?", a: "Miners compete to find a number (nonce) that, when added to the block and hashed, produces a result below a target value. This requires vast computation. The first to succeed broadcasts the block; others verify it. This makes adding fraudulent blocks very costly." },
+        { points: 400, q: "Explain why it is very difficult to change a transaction that was recorded several blocks ago.", a: "Changing one block changes its hash. This invalidates the next block's stored hash, which must be re-mined — and so on for every block after. The attacker must redo all this work faster than the rest of the network is adding new blocks, which is practically impossible with many honest nodes." },
+        { points: 500, q: "What is a smart contract? Give ONE advantage it has over a traditional contract.", a: "A smart contract is code stored on a blockchain that automatically executes when set conditions are met — no human intermediary is needed. Advantage: removes the need for a trusted third party (e.g. solicitor or bank), reducing cost and the risk of fraud." },
+        { points: 600, q: "Compare public and private blockchains. Give an appropriate use case for each.", a: "Public: open to anyone, fully decentralised, slower — e.g. Bitcoin/cryptocurrency. Private: restricted to approved participants, faster and more efficient — e.g. supply chain management between known companies, or internal bank settlements." },
+        { points: 700, q: "Evaluate the claim that 'blockchain is completely secure.' Include hashing, decentralisation, and the 51% attack in your answer.", a: "Strengths: hashing makes tampering detectable; decentralisation removes single points of failure. Weakness: if one entity controls more than 50% of the network's computing power (51% attack), they can rewrite recent transactions. Smaller blockchains are especially vulnerable. Additionally, smart contract bugs can be exploited regardless of the chain's integrity. The claim is an overstatement — blockchain is highly resistant but not perfectly secure." }
+      ]
+    },
+    {
+      name: "Computer Networks",
+      questions: [
+        { points: 100, q: "State TWO differences between a LAN and a WAN.", a: "LAN: covers a small area (single building), usually privately owned, faster speeds. WAN: spans large geographic areas, uses public/leased infrastructure, generally slower." },
+        { points: 200, q: "Describe the star topology. Give one advantage and one disadvantage.", a: "All devices connect to a central switch. Advantage: one device failing doesn't affect others; easy to add/remove devices. Disadvantage: if the central switch fails, the whole network goes down." },
+        { points: 300, q: "Explain the difference between a router and a switch in a network.", a: "Router: connects different networks and directs data packets between them using IP addresses (e.g. connects LAN to the Internet). Switch: connects devices within the same LAN and sends data only to the intended device using MAC addresses." },
+        { points: 400, q: "Compare the bus topology and mesh topology. For each, give one advantage and one disadvantage.", a: "Bus: all devices share one cable — cheap but entire network fails if cable breaks. Mesh: every device connects to every other — very resilient (many paths) but expensive and complex to set up." },
+        { points: 500, q: "Explain the difference between packet switching and circuit switching. Which does the Internet use and why?", a: "Circuit switching: a dedicated path is reserved for the full duration of communication. Packet switching: data is split into packets, each routed independently, and reassembled at the destination. The Internet uses packet switching — more efficient, resilient (packets reroute if a path fails), and can handle many users simultaneously." },
+        { points: 600, q: "Explain the different roles of a MAC address and an IP address in network communication.", a: "MAC address: a hardware address burned into the NIC, used to identify devices within a local network (LAN). IP address: a logical address assigned by DHCP or a network admin, used to route data across different networks. MAC is used for local delivery; IP is used for end-to-end routing across the Internet." },
+        { points: 700, q: "A school has 300 computers spread across 4 buildings. Evaluate which network topology would be most suitable and justify your recommendation.", a: "A pure bus is unsuitable — too many collision and failure risks at scale. Full mesh is too expensive (too many cables). A star topology per building, connected via a high-speed backbone (hierarchical/hybrid approach), is most suitable: easy to manage, faults are isolated per building, scalable, and cost-effective. Partial mesh between building switches adds resilience without full mesh cost." }
+      ]
+    },
+    {
+      name: "Internet Principles",
+      questions: [
+        { points: 100, q: "What does URL stand for? Identify the protocol, domain, and resource in: https://www.aqa.org.uk/overview.html", a: "Uniform Resource Locator. Protocol: https | Domain: www.aqa.org.uk | Resource: overview.html. It uniquely identifies the location of a resource on the web." },
+        { points: 200, q: "Describe the format of an IPv4 address and state how many unique addresses it can support.", a: "32-bit address written as four groups of numbers (0–255) separated by dots, e.g. 192.168.1.1. Supports 2³² ≈ 4.3 billion unique addresses." },
+        { points: 300, q: "Explain the difference between a public IP address and a private IP address.", a: "Public IP: unique address assigned by an ISP, visible and routable on the Internet. Private IP: used only within a local network (e.g. 192.168.x.x), not directly accessible from the Internet. A router uses NAT to allow private devices to share one public IP." },
+        { points: 400, q: "Describe the purpose of DNS and explain what happens when you type a domain name into a browser.", a: "DNS translates domain names (e.g. www.google.com) into IP addresses. Process: browser checks its cache → queries a DNS resolver (usually the ISP's) → resolver queries root and TLD servers if needed → retrieves the IP from the domain's authoritative server → browser connects to that IP." },
+        { points: 500, q: "Explain the client-server model. Give TWO advantages and ONE disadvantage compared to peer-to-peer networking.", a: "Clients request resources; a dedicated server provides them. Advantages: centralised management and security; consistent performance. Disadvantage: if the server goes down, all clients lose access — unlike P2P where there is no single point of failure." },
+        { points: 600, q: "Explain why IPv6 was developed and state TWO ways it differs from IPv4.", a: "IPv4 addresses are running out (~4.3bn is insufficient for all modern devices). IPv6 uses 128-bit addresses (2¹²⁸ — practically unlimited). Differences: IPv6 is written in hexadecimal groups; every device can have a unique global IP without NAT; IPv6 has a simpler packet header for faster routing." },
+        { points: 700, q: "Explain what DNS cache poisoning is, how it works, and how DNSSEC helps protect against it.", a: "DNS cache poisoning: an attacker injects false DNS records into a resolver's cache, so users are redirected to malicious websites without knowing. DNSSEC (DNS Security Extensions): adds digital signatures to DNS records using asymmetric encryption. Resolvers verify the signature before trusting a record, so fake records are rejected. Limitation: DNSSEC is not universally adopted and doesn't encrypt DNS queries — DNS over HTTPS (DoH) is also needed for full privacy." }
+      ]
+    },
+    {
+      name: "Protocols",
+      questions: [
+        { points: 100, q: "What does HTTP stand for and what is its role in web communication?", a: "HyperText Transfer Protocol. It defines the rules for requesting and delivering web pages between a browser (client) and a web server." },
+        { points: 200, q: "How does HTTPS differ from HTTP? Why is it important for websites that handle personal information?", a: "HTTPS adds TLS encryption to HTTP, so all data sent between the browser and server is encrypted. Important because it prevents attackers from intercepting passwords, payment details, or personal data during transmission." },
+        { points: 300, q: "Compare FTP and FTPS. What specific security risk does FTPS address?", a: "FTP transfers files in plain text, including usernames and passwords — anyone intercepting the connection can read them. FTPS adds TLS encryption, protecting credentials and file contents during transfer." },
+        { points: 400, q: "Describe the roles of SMTP and POP3 in email. In which direction does data flow for each?", a: "SMTP (Simple Mail Transfer Protocol): sends emails — from client to mail server, or between mail servers. Data flows outward. POP3 (Post Office Protocol 3): retrieves emails — from mail server to client. Data flows inward. POP3 typically removes emails from the server after download." },
+        { points: 500, q: "Describe the four layers of the TCP/IP model and give an example protocol at each layer.", a: "Application: provides services to applications — HTTP, FTP, DNS, SMTP. Transport: manages end-to-end communication — TCP (reliable), UDP (fast). Internet: addresses and routes packets — IP, ICMP. Link: handles physical transmission on the local network — Ethernet, Wi-Fi." },
+        { points: 600, q: "Explain what port numbers are and why they are used. Give the standard port numbers for HTTP, HTTPS, FTP, SMTP, and POP3.", a: "Port numbers identify specific services running on a host. They allow a device to run multiple services simultaneously and direct incoming data to the correct application. HTTP: 80, HTTPS: 443, FTP: 21, SMTP: 25/587, POP3: 110." },
+        { points: 700, q: "Compare TCP and UDP. For each of the following, state which protocol is more appropriate and why: file download, video call, online game.", a: "TCP: reliable — guarantees all data arrives in order (retransmits lost packets). UDP: fast — no delivery guarantees, lower latency. File download → TCP (every byte must arrive correctly). Video call → UDP (slight packet loss acceptable; retransmission would cause worse lag). Online game → UDP (low latency is critical; a delayed old packet is useless)." }
+      ]
+    },
+    {
+      name: "Ethics & Ownership",
+      questions: [
+        { points: 100, q: "What does copyright law protect, and how does it apply to software?", a: "Copyright automatically protects original creative works from being copied, distributed, or modified without the creator's permission. For software: both the source code and compiled program are protected — others need a licence to use or modify them." },
+        { points: 200, q: "State TWO characteristics of open source software.", a: "Any two: source code is publicly available; can usually be freely modified and redistributed; often developed by a community; may use copyleft licences (e.g. GPL) requiring derivatives to remain open source." },
+        { points: 300, q: "Compare open source and closed source software in terms of cost, security, and customisation.", a: "Cost: open source is usually free; closed source requires purchasing a licence. Security: open source code can be reviewed by anyone (may find bugs faster, but attackers can also look); closed source relies on the vendor to patch issues. Customisation: open source can be modified freely; closed source cannot be altered by the user." },
+        { points: 400, q: "Describe FOUR methods that can be used to restrict access to data published on the Internet.", a: "Any four: username and password login / two-factor authentication (2FA) / HTTPS encryption / firewall rules blocking unauthorised IPs or ports / OAuth/token-based access / IP whitelisting / CAPTCHA / API keys." },
+        { points: 500, q: "A school wants to store student data on a cloud service. Describe TWO risks and link each to a legal obligation under GDPR.", a: "Data breach: if the cloud provider is hacked, personal data is exposed — GDPR requires breach notification within 72 hours and may result in fines. Data sovereignty: data may be stored outside the UK/EU under weaker legal protection — GDPR requires data to only be transferred to countries with adequate protection." },
+        { points: 600, q: "Explain what a Creative Commons licence is. Describe THREE specific CC licence types and what each allows.", a: "Creative Commons provides standard licences that allow creators to grant certain rights while keeping copyright. CC BY: use freely with attribution. CC BY-SA: use with attribution; derivatives must use same licence. CC BY-NC: use with attribution for non-commercial purposes only. CC0: full public domain — no restrictions at all." },
+        { points: 700, q: "A tech company collects detailed user behaviour data and sells it (anonymised) to advertisers. Evaluate the ethical and legal issues involved.", a: "Legal: GDPR requires a lawful basis for processing — 'anonymised' data can sometimes be re-identified, making it still personal data. Selling data may require explicit user consent. Ethical: users may not fully understand their data is being monetised; power imbalance between company and user. Counter-argument: funds free services users benefit from. A balanced answer should note that transparency, genuine anonymisation, clear opt-out options, and regulatory oversight are all needed." }
+      ]
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+let gameData = JSON.parse(JSON.stringify(defaultData));
+let used = {}; // "colIdx-rowIdx"
+let teams = [
+  { name: "Team 1", score: 0 },
+  { name: "Team 2", score: 0 }
+];
+let activeQ = null; // { colIdx, rowIdx, points }
+
+// ═══════════════════════════════════════════
+//  BOARD RENDERING
+// ═══════════════════════════════════════════
+function buildBoard() {
+  const board = document.getElementById('board');
+  const cols = gameData.categories.length;
+  const maxRows = Math.max(...gameData.categories.map(c => c.questions.length));
+
+  board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  board.innerHTML = '';
+
+  // Headers
+  gameData.categories.forEach(cat => {
+    const h = document.createElement('div');
+    h.className = 'cat-header';
+    h.textContent = cat.name;
+    board.appendChild(h);
+  });
+
+  // Rows
+  for (let r = 0; r < maxRows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const q = gameData.categories[c].questions[r];
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      const key = `${c}-${r}`;
+      if (used[key]) {
+        cell.classList.add('used');
+        cell.innerHTML = `<span class="cell-value">—</span>`;
+      } else if (q) {
+        cell.innerHTML = `<span class="cell-value">$${q.points}</span>`;
+        cell.onclick = () => openQuestion(c, r);
+      } else {
+        cell.style.background = 'var(--used)';
+      }
+      board.appendChild(cell);
+    }
+  }
+
+  document.getElementById('game-title-display').textContent = '⚡ ' + gameData.title;
+  document.title = gameData.title;
+}
+
+// ═══════════════════════════════════════════
+//  QUESTION MODAL
+// ═══════════════════════════════════════════
+function openQuestion(colIdx, rowIdx) {
+  const q = gameData.categories[colIdx].questions[rowIdx];
+  if (!q) return;
+  activeQ = { colIdx, rowIdx, points: q.points };
+
+  document.getElementById('q-points-badge').textContent = `$${q.points}`;
+  document.getElementById('q-category-badge').textContent = gameData.categories[colIdx].name;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('a-text').textContent = q.a;
+  document.getElementById('a-text').style.display = 'none';
+  document.getElementById('reveal-btn').style.display = 'inline-block';
+  document.getElementById('q-score-actions').style.display = 'none';
+  document.getElementById('q-modal').classList.add('open');
+}
+
+function revealAnswer() {
+  document.getElementById('a-text').style.display = 'block';
+  document.getElementById('reveal-btn').style.display = 'none';
+  buildScoreActions();
+  document.getElementById('q-score-actions').style.display = 'flex';
+}
+
+function buildScoreActions() {
+  const div = document.getElementById('q-score-actions');
+  div.innerHTML = '';
+  teams.forEach((t, i) => {
+    const pts = activeQ ? activeQ.points : 0;
+    const add = document.createElement('button');
+    add.className = 'award-btn';
+    add.textContent = `✓ ${t.name} +$${pts}`;
+    add.onclick = () => { adjustScore(i, pts); closeQuestion(true); };
+    div.appendChild(add);
+
+    const sub = document.createElement('button');
+    sub.className = 'award-btn deduct';
+    sub.textContent = `✗ ${t.name} -$${pts}`;
+    sub.onclick = () => { adjustScore(i, -pts); closeQuestion(true); };
+    div.appendChild(sub);
+  });
+}
+
+function closeQuestion(markUsed = true) {
+  if (markUsed && activeQ) {
+    const key = `${activeQ.colIdx}-${activeQ.rowIdx}`;
+    used[key] = true;
+    buildBoard();
+  }
+  document.getElementById('q-modal').classList.remove('open');
+  activeQ = null;
+}
+
+// ═══════════════════════════════════════════
+//  SCOREBOARD
+// ═══════════════════════════════════════════
+function buildScoreboard() {
+  const sb = document.getElementById('scoreboard');
+  sb.innerHTML = '';
+
+  teams.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = 'team-card';
+    card.id = `team-card-${i}`;
+
+    const nameLabel = document.createElement('div');
+    nameLabel.className = 'team-name-label';
+    nameLabel.textContent = t.name;
+    nameLabel.title = 'Click to rename';
+    nameLabel.onclick = () => startRenameTeam(i);
+
+    const nameInput = document.createElement('input');
+    nameInput.className = 'team-name-input';
+    nameInput.id = `team-name-input-${i}`;
+    nameInput.value = t.name;
+    nameInput.onblur = () => finishRenameTeam(i);
+    nameInput.onkeydown = e => { if (e.key === 'Enter') finishRenameTeam(i); };
+
+    const scoreDiv = document.createElement('div');
+    scoreDiv.className = 'team-score' + (t.score > 0 ? ' positive' : t.score < 0 ? ' negative' : '');
+    scoreDiv.id = `team-score-${i}`;
+    scoreDiv.textContent = '$' + t.score;
+
+    const btnRow = document.createElement('div');
+    btnRow.className = 'score-btns';
+
+    const plus = document.createElement('button');
+    plus.className = 'score-btn plus';
+    plus.textContent = '+';
+    plus.onclick = () => {
+      const v = parseInt(prompt('Add points:', '100')) || 0;
+      adjustScore(i, v);
+    };
+
+    const minus = document.createElement('button');
+    minus.className = 'score-btn minus';
+    minus.textContent = '−';
+    minus.onclick = () => {
+      const v = parseInt(prompt('Deduct points:', '100')) || 0;
+      adjustScore(i, -v);
+    };
+
+    const del = document.createElement('button');
+    del.className = 'score-btn';
+    del.style.cssText = 'background:#1a1a6e;color:#5555aa;font-size:0.8rem;';
+    del.textContent = '✕';
+    del.title = 'Remove team';
+    del.onclick = () => removeTeam(i);
+
+    btnRow.append(plus, minus, del);
+    card.append(nameLabel, nameInput, scoreDiv, btnRow);
+    sb.appendChild(card);
+  });
+
+  // Add team button
+  const addBtn = document.createElement('button');
+  addBtn.id = 'add-team-btn';
+  addBtn.innerHTML = '<span style="font-size:1.4rem">＋</span><span>Add Team</span>';
+  addBtn.onclick = () => {
+    teams.push({ name: `Team ${teams.length + 1}`, score: 0 });
+    buildScoreboard();
+  };
+  sb.appendChild(addBtn);
+}
+
+function adjustScore(teamIdx, delta) {
+  teams[teamIdx].score += delta;
+  const scoreEl = document.getElementById(`team-score-${teamIdx}`);
+  if (scoreEl) {
+    scoreEl.textContent = '$' + teams[teamIdx].score;
+    scoreEl.className = 'team-score' + (teams[teamIdx].score > 0 ? ' positive' : teams[teamIdx].score < 0 ? ' negative' : '');
+  }
+  // Flash animation
+  const card = document.getElementById(`team-card-${teamIdx}`);
+  if (card) {
+    card.style.transition = 'box-shadow 0.1s';
+    card.style.boxShadow = delta >= 0 ? '0 0 20px rgba(46,196,102,0.6)' : '0 0 20px rgba(230,57,70,0.6)';
+    setTimeout(() => { card.style.boxShadow = ''; }, 400);
+  }
+}
+
+function startRenameTeam(i) {
+  const label = document.querySelector(`#team-card-${i} .team-name-label`);
+  const input = document.getElementById(`team-name-input-${i}`);
+  label.style.display = 'none';
+  input.style.display = 'block';
+  input.focus();
+  input.select();
+}
+
+function finishRenameTeam(i) {
+  const input = document.getElementById(`team-name-input-${i}`);
+  const label = document.querySelector(`#team-card-${i} .team-name-label`);
+  teams[i].name = input.value || teams[i].name;
+  label.textContent = teams[i].name;
+  label.style.display = '';
+  input.style.display = 'none';
+}
+
+function removeTeam(i) {
+  if (teams.length <= 1) { toast('Need at least one team!'); return; }
+  teams.splice(i, 1);
+  buildScoreboard();
+}
+
+// ═══════════════════════════════════════════
+//  EDITOR
+// ═══════════════════════════════════════════
+function showEditor() {
+  document.getElementById('game-view').style.display = 'none';
+  document.getElementById('editor-view').style.display = 'block';
+  renderEditor();
+}
+
+function showGame() {
+  document.getElementById('editor-view').style.display = 'none';
+  document.getElementById('game-view').style.display = 'flex';
+}
+
+function renderEditor() {
+  document.getElementById('title-input').value = gameData.title;
+  const container = document.getElementById('editor-cols');
+  container.innerHTML = '';
+
+  gameData.categories.forEach((cat, ci) => {
+    const section = document.createElement('div');
+    section.className = 'editor-section';
+
+    const head = document.createElement('div');
+    head.className = 'editor-section-head';
+
+    const nameInput = document.createElement('input');
+    nameInput.className = 'cat-name-input';
+    nameInput.value = cat.name;
+    nameInput.placeholder = 'Category Name';
+    nameInput.oninput = e => { cat.name = e.target.value; };
+
+    const actions = document.createElement('div');
+    actions.style.display = 'flex'; actions.style.gap = '8px';
+
+    const addRowBtn = document.createElement('button');
+    addRowBtn.className = 'btn btn-outline btn-sm';
+    addRowBtn.textContent = '＋ Row';
+    addRowBtn.onclick = () => {
+      const lastPts = cat.questions.length ? cat.questions[cat.questions.length-1].points + 100 : 100;
+      cat.questions.push({ points: lastPts, q: '', a: '' });
+      renderEditor();
+    };
+
+    const delCatBtn = document.createElement('button');
+    delCatBtn.className = 'btn btn-red btn-sm';
+    delCatBtn.textContent = '✕ Category';
+    delCatBtn.onclick = () => {
+      if (gameData.categories.length <= 1) { toast("Need at least 1 category!"); return; }
+      gameData.categories.splice(ci, 1);
+      renderEditor();
+    };
+
+    actions.append(addRowBtn, delCatBtn);
+    head.append(nameInput, actions);
+    section.appendChild(head);
+
+    // Column labels
+    const labelRow = document.createElement('div');
+    labelRow.className = 'q-row';
+    labelRow.innerHTML = `<div class="row-label">Points</div><div class="row-label">Question / Clue</div><div class="row-label">Answer</div><div></div>`;
+    section.appendChild(labelRow);
+
+    cat.questions.forEach((qObj, qi) => {
+      const row = document.createElement('div');
+      row.className = 'q-row';
+
+      const ptsIn = document.createElement('input');
+      ptsIn.className = 'pts-input';
+      ptsIn.type = 'number';
+      ptsIn.value = qObj.points;
+      ptsIn.min = 0;
+      ptsIn.oninput = e => { qObj.points = parseInt(e.target.value) || 0; };
+
+      const qIn = document.createElement('input');
+      qIn.className = 'q-input';
+      qIn.value = qObj.q;
+      qIn.placeholder = 'Enter clue / question…';
+      qIn.oninput = e => { qObj.q = e.target.value; };
+
+      const aIn = document.createElement('input');
+      aIn.className = 'a-input';
+      aIn.value = qObj.a;
+      aIn.placeholder = 'Enter answer…';
+      aIn.oninput = e => { qObj.a = e.target.value; };
+
+      const delBtn = document.createElement('button');
+      delBtn.className = 'del-row-btn';
+      delBtn.innerHTML = '🗑';
+      delBtn.title = 'Delete row';
+      delBtn.onclick = () => {
+        if (cat.questions.length <= 1) { toast("Need at least 1 row!"); return; }
+        cat.questions.splice(qi, 1);
+        renderEditor();
+      };
+
+      row.append(ptsIn, qIn, aIn, delBtn);
+      section.appendChild(row);
+    });
+
+    container.appendChild(section);
+  });
+}
+
+function addCategory() {
+  const rows = gameData.categories[0]?.questions.length || 5;
+  const questions = [];
+  for (let r = 0; r < rows; r++) questions.push({ points: (r+1)*100, q: '', a: '' });
+  gameData.categories.push({ name: 'New Category', questions });
+  renderEditor();
+}
+
+function addRowToAll() {
+  gameData.categories.forEach(cat => {
+    const lastPts = cat.questions.length ? cat.questions[cat.questions.length-1].points + 100 : 100;
+    cat.questions.push({ points: lastPts, q: '', a: '' });
+  });
+  renderEditor();
+}
+
+function saveAndPlay() {
+  gameData.title = document.getElementById('title-input').value || 'Jeopardy!';
+  used = {};
+  buildBoard();
+  buildScoreboard();
+  showGame();
+  toast('Board saved! Game reset.');
+}
+
+function resetGame() {
+  if (!confirm('Reset all scores and mark all questions as unplayed?')) return;
+  used = {};
+  teams.forEach(t => t.score = 0);
+  buildBoard();
+  buildScoreboard();
+  toast('Game reset!');
+}
+
+// ═══════════════════════════════════════════
+//  JSON IMPORT / EXPORT
+// ═══════════════════════════════════════════
+function exportJSON() {
+  const json = JSON.stringify(gameData, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'jeopardy-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Exported!');
+}
+
+function importJSON() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (data.categories && Array.isArray(data.categories)) {
+          gameData = data;
+          renderEditor();
+          toast('Imported!');
+        } else {
+          toast('Invalid format!');
+        }
+      } catch { toast('Failed to parse JSON!'); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ═══════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+// ═══════════════════════════════════════════
+//  CLOSE MODAL ON BACKDROP
+// ═══════════════════════════════════════════
+document.getElementById('q-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('q-modal')) closeQuestion(false);
+});
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+buildBoard();
+buildScoreboard();
+</script>
+</body>
+</html>
