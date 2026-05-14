@@ -12,7 +12,70 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initImageLightbox();
   initHidePlaceholderPdf();
+  initSidebarSearch();
 });
+function initSidebarSearch() {
+  const searchInput = document.getElementById('topic-search');
+  const clearBtn = document.getElementById('clear-search');
+  const sidebarNav = document.querySelector('.sidebar-nav');
+  
+  if (!searchInput || !sidebarNav) return;
+
+  const links = sidebarNav.querySelectorAll('ul a');
+  const syllabusGroups = sidebarNav.querySelectorAll('.syllabus-group');
+  const termGroups = sidebarNav.querySelectorAll('.term-group');
+
+  searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    clearBtn.style.display = query.length > 0 ? 'block' : 'none';
+
+    if (query.length < 2) {
+      // Если запрос слишком короткий, сбрасываем фильтр (по желанию)
+      if (query.length === 0) resetSearch();
+      return;
+    }
+
+    links.forEach(link => {
+      const text = link.textContent.toLowerCase();
+      const listItem = link.parentElement; // li element
+
+      if (text.includes(query)) {
+        listItem.classList.remove('hidden-search-item');
+        
+        // Рекурсивно раскрываем родителей details
+        let parentDetails = link.closest('details');
+        while (parentDetails) {
+          parentDetails.open = true;
+          parentDetails = parentDetails.parentElement.closest('details');
+        }
+      } else {
+        listItem.classList.add('hidden-search-item');
+      }
+    });
+
+    // Скрываем пустые группы четвертей
+    termGroups.forEach(term => {
+      const visibleLinks = term.querySelectorAll('ul li:not(.hidden-search-item)');
+      term.classList.toggle('hidden-search-item', visibleLinks.length === 0);
+    });
+
+    // Скрываем пустые группы классов
+    syllabusGroups.forEach(group => {
+      const visibleTerms = group.querySelectorAll('.term-group:not(.hidden-search-item)');
+      group.classList.toggle('hidden-search-item', visibleTerms.length === 0);
+    });
+  });
+
+  clearBtn.addEventListener('click', resetSearch);
+
+  function resetSearch() {
+    searchInput.value = '';
+    clearBtn.style.display = 'none';
+    const allHidden = sidebarNav.querySelectorAll('.hidden-search-item');
+    allHidden.forEach(el => el.classList.remove('hidden-search-item'));
+    // Опционально: не закрывать открытые вкладки, чтобы не раздражать юзера
+  }
+}
 
 /* ============================================================
    THEME  — System-aware (prefers-color-scheme) + manual toggle
