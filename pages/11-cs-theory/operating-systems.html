@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Operating Systems &amp; Types — mr. TEA</title>
     <meta name="description"
-        content="OS purpose, functions, single-user vs multi-user, single-task vs multitasking. NIS Grade 11 CS Theory.">
+        content="OS functions, single-user vs multi-user, real-time, network, and batch processing systems. NIS Grade 11 CS Theory.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
@@ -49,16 +49,18 @@
                 <div class="lesson-unit-badge"><i class="fas fa-desktop"></i> Unit 11.1A · Term 1</div>
                 <h1 class="lesson-title">Operating Systems &amp; Types</h1>
                 <p class="lesson-intro">The <strong>Operating System (OS)</strong> is the most important system
-                    software on any computer. It manages hardware, runs applications, and provides an interface
-                    for the user. Different types of OS serve different needs.</p>
+                    software on any computer. It acts as an interface between the user and the hardware. Depending on the environment—from personal laptops to hospital life-support machines—different types of OS are required.</p>
             </div>
 
             <div class="lesson-lo-card">
                 <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
                 <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.3.1.3</span> Describe the purpose and main functions of an OS</li>
-                    <li><span class="lo-code">11.3.1.4</span> Compare single-user and multi-user OS</li>
-                    <li><span class="lo-code">11.3.1.5</span> Compare one-task and multitasking OS</li>
+                    <li><span class="lo-code">11.3.1.5</span> Describe the main functions of operating systems</li>
+                    <li><span class="lo-code">11.3.1.6</span> Compare single-user and multi-user operating systems</li>
+                    <li><span class="lo-code">11.3.1.7</span> Compare single-tasking and multitasking operating systems</li>
+                    <li><span class="lo-code">11.3.1.8</span> Describe the features of a real-time operating system</li>
+                    <li><span class="lo-code">11.3.1.9</span> Describe the features of a network operating system</li>
+                    <li><span class="lo-code">11.3.1.10</span> Describe the features of a batch processing operating system</li>
                 </ul>
             </div>
 
@@ -78,19 +80,30 @@
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
                 <div class="analogy-box">
-                    <h4><i class="fas fa-traffic-light"></i> The Traffic Controller Analogy</h4>
-                    <p>An OS is like a <strong>traffic controller</strong> at a busy intersection. It decides which
-                        cars (programs) go when, prevents collisions (memory conflicts), directs traffic to the
-                        right lanes (CPU/memory allocation), and keeps everything flowing smoothly. Without the
-                        controller, there would be chaos.</p>
+                    <h4><i class="fas fa-traffic-light"></i> The OS as a City Manager</h4>
+                    <p>Think of the OS as the ultimate manager of a digital city:
+                        <ul>
+                            <li><strong>The Police (Security & Error Handling):</strong> Stops unauthorized access and handles crashes.</li>
+                            <li><strong>The Traffic Controller (Process & Multitasking Management):</strong> Decides which cars (programs) get to use the road (CPU) and prevents collisions.</li>
+                            <li><strong>The Librarian (File Management):</strong> Keeps track of where every single document is stored.</li>
+                        </ul>
+                    </p>
                 </div>
             </section>
 
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Main Functions of an
-                    OS</h3>
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Main Functions of an OS</h3>
+
+                <div class="video-responsive" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                            src="https://www.youtube.com/embed/cgiHpRPqCpo" 
+                            title="The purpose and functions of operating systems" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
 
                 <table class="theory-table">
                     <thead>
@@ -102,196 +115,140 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td><strong>Provides User Interface</strong></td>
+                            <td>Allows users to interact with the system via GUI (Graphical) or CLI (Command Line).</td>
+                            <td>Clicking an icon with a mouse.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>I/O Device Management</strong></td>
+                            <td>Controls the flow of data between the computer and peripherals using drivers.</td>
+                            <td>Sending a document to a printer.</td>
+                        </tr>
+                        <tr>
                             <td><strong>Memory Management</strong></td>
-                            <td>Allocates RAM to programs, frees it when done</td>
-                            <td>Giving Chrome 2GB, Photoshop 4GB</td>
+                            <td>Allocates RAM to running programs and ensures they do not overwrite each other's data.</td>
+                            <td>Giving a game 4GB of RAM while running.</td>
                         </tr>
                         <tr>
-                            <td><strong>Process Management</strong></td>
-                            <td>Creates, schedules, terminates processes</td>
-                            <td>Task Manager showing running apps</td>
+                            <td><strong>Process & Multitasking Management</strong></td>
+                            <td>Allocates CPU time slices to different programs so they can run simultaneously.</td>
+                            <td>Listening to Spotify while typing in Word.</td>
                         </tr>
                         <tr>
-                            <td><strong>File Management</strong></td>
-                            <td>Organises files in directories, controls access</td>
-                            <td>File Explorer, Finder</td>
+                            <td><strong>File System Management</strong></td>
+                            <td>Controls the creation, reading, writing, and deletion of files and directories.</td>
+                            <td>Saving a document in a specific folder.</td>
                         </tr>
                         <tr>
-                            <td><strong>Device Management</strong></td>
-                            <td>Communicates with hardware via drivers</td>
-                            <td>Detecting a USB when plugged in</td>
+                            <td><strong>Security & Access Control</strong></td>
+                            <td>Protects the system from unauthorized access using passwords and permissions.</td>
+                            <td>Logging into a Windows account.</td>
                         </tr>
                         <tr>
-                            <td><strong>User Interface</strong></td>
-                            <td>Provides GUI or CLI for interaction</td>
-                            <td>Windows desktop, Linux terminal</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Security</strong></td>
-                            <td>User authentication, file permissions</td>
-                            <td>Login password, file permissions</td>
+                            <td><strong>Error Handling</strong></td>
+                            <td>Detects software/hardware errors, prevents full system crashes, and provides error messages.</td>
+                            <td>Showing a "Printer out of paper" warning.</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
-                    Single-User vs Multi-User OS</h3>
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Basic OS Distinctions</h3>
 
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>Single-User OS</th>
-                            <th>Multi-User OS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Users</strong></td>
-                            <td>One user at a time</td>
-                            <td>Multiple users simultaneously</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Examples</strong></td>
-                            <td>MS-DOS, Windows (home)</td>
-                            <td>Linux Server, Windows Server, UNIX</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Use case</strong></td>
-                            <td>Personal computers, phones</td>
-                            <td>Servers, mainframes, universities</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Resources</strong></td>
-                            <td>All resources for one user</td>
-                            <td>Resources shared between users</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Security</strong></td>
-                            <td>Basic (one account)</td>
-                            <td>Advanced (permissions per user)</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
-                    Single-Task vs Multitasking OS</h3>
-
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>Single-Task OS</th>
-                            <th>Multitasking OS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Programs</strong></td>
-                            <td>One program at a time</td>
-                            <td>Multiple programs simultaneously</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Examples</strong></td>
-                            <td>MS-DOS, early Palm OS</td>
-                            <td>Windows 11, macOS, Linux, Android</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CPU sharing</strong></td>
-                            <td>Not needed</td>
-                            <td>Time-slicing between processes</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Efficiency</strong></td>
-                            <td>Simpler, less overhead</td>
-                            <td>More efficient use of CPU</td>
-                        </tr>
-                        <tr>
-                            <td><strong>User experience</strong></td>
-                            <td>Must close one app to open another</td>
-                            <td>Switch between apps freely</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Popular
-                    Operating Systems</h3>
-
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>OS</th>
-                            <th>Type</th>
-                            <th>Key Features</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Windows</strong></td>
-                            <td>Desktop/Server</td>
-                            <td>Most popular desktop OS, GUI-based, wide software support</td>
-                        </tr>
-                        <tr>
-                            <td><strong>macOS</strong></td>
-                            <td>Desktop</td>
-                            <td>Apple-only, Unix-based, creative professionals</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Linux</strong></td>
-                            <td>Desktop/Server</td>
-                            <td>Open-source, highly customisable, server standard</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Android</strong></td>
-                            <td>Mobile</td>
-                            <td>Linux-based, most popular mobile OS</td>
-                        </tr>
-                        <tr>
-                            <td><strong>iOS</strong></td>
-                            <td>Mobile</td>
-                            <td>Apple-only, closed ecosystem, secure</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Multitasking ≠ Parallel Execution</h4>
-                    <p>On a single-core CPU, multitasking is an <strong>illusion</strong> — the OS rapidly switches
-                        between tasks (time-slicing) so fast that it seems like they run simultaneously. True
-                        parallel execution requires multiple CPU cores.</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px;">
+                        <h4 style="margin-bottom: 10px; color: var(--text-primary);">Single-User vs Multi-User</h4>
+                        <p><strong>Single-User OS:</strong> Designed for one person using the device at a time. All resources belong to them. (e.g., Windows 11 Home, iOS).</p>
+                        <p><strong>Multi-User OS:</strong> Allows multiple users to log in and use the system's resources simultaneously. Requires strict security and resource allocation. (e.g., Linux Server, UNIX, Mainframes).</p>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px;">
+                        <h4 style="margin-bottom: 10px; color: var(--text-primary);">Single-Tasking vs Multitasking</h4>
+                        <p><strong>Single-Tasking OS:</strong> Can only execute one program at a time. The current program must be closed to open a new one. (e.g., MS-DOS, early mobile OS).</p>
+                        <p><strong>Multitasking OS:</strong> Executes multiple programs at once by rapidly switching the CPU's focus (time-slicing) between tasks. (e.g., modern Windows, macOS, Android).</p>
+                    </div>
                 </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Advanced Operating System Types</h3>
+
+                <div class="video-responsive" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                            src="https://www.youtube.com/embed/YjwXNUpsByE" 
+                            title="Types of operating system" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type of OS</th>
+                            <th>Key Features</th>
+                            <th>Use Cases & Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Real-Time Operating System (RTOS)</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Strict time constraints; must process inputs and output results within a guaranteed, critical timeframe (minimizing delays).</li>
+                                    <li>Prioritizes critical tasks over everything else.</li>
+                                    <li>Fails if deadlines are missed (hard real-time).</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <strong>Uses:</strong> Airplane autopilot systems, hospital life-support machines, car anti-lock braking systems (ABS).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Batch Processing OS</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Jobs with similar needs are grouped into "batches" and executed automatically one after another.</li>
+                                    <li>No user interaction is required (or possible) once the batch processing begins.</li>
+                                    <li>Highly efficient for large volumes of repetitive data.</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <strong>Uses:</strong> Processing millions of bank checks overnight, generating monthly payrolls, processing massive utility bills.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Network Operating System (NOS)</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Runs on a server and manages network resources.</li>
+                                    <li>Provides "transparency"—users on client PCs can access files and printers as if they were stored locally.</li>
+                                    <li>Handles central security, user management, and shared data access.</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <strong>Uses:</strong> School networks, corporate offices. (e.g., Windows Server, Ubuntu Server).
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
 
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
                 <div class="worked-example">
-                    <h4><span class="step-num">1</span> Identify the OS Type</h4>
-                    <div class="code-block"><code>Scenario: A university server runs Linux. 200 students log in remotely
-via SSH at the same time, each running their own programs.
+                    <h4><span class="step-num">1</span> Selecting the Right OS Type</h4>
+                    <div class="code-block"><code>Scenario A: A hospital heart-rate monitor.
+Answer: Real-Time OS.
+Reasoning: The system cannot lag. It must respond to changes in a patient's heart rate instantly, within guaranteed milliseconds. Any delay could be fatal.
 
-OS Type: Multi-user + Multitasking
-  Multi-user  → 200 students use it simultaneously
-  Multitasking → Each student can run multiple programs</code></div>
-                </div>
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> OS Function Analysis</h4>
-                    <div class="code-block"><code>User action: You plug in a USB flash drive
-
-OS Functions involved:
-  1. Device Management → detects the USB, loads the driver
-  2. File Management   → mounts the drive, shows files in Explorer
-  3. Security          → scans for autorun malware (if antivirus active)
-  4. User Interface    → displays notification "USB detected"</code></div>
+Scenario B: Generating electricity bills for 100,000 citizens.
+Answer: Batch Processing OS.
+Reasoning: The task is highly repetitive, requires no human interaction during the calculation, and can be grouped into a batch and run overnight when CPU usage is low.</code></div>
                 </div>
             </section>
 
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
                 <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Multi-user = Multitasking</h4>
-                    <p>They are different concepts! Multi-user = multiple people using the system. Multitasking =
-                        multiple programs running. MS-DOS was single-user AND single-task. Modern Linux servers are
-                        both multi-user AND multitasking.</p>
+                    <h4><i class="fas fa-bug"></i> Fast OS vs Real-Time OS</h4>
+                    <p>A high-end gaming PC is extremely fast, but it does NOT run a Real-Time OS. If a game drops a frame or lags for 0.5 seconds, it's just annoying. In a true RTOS (like in a self-driving car), lagging for 0.5 seconds results in a crash. RTOS is about <strong>guaranteed response times</strong>, not just raw speed.</p>
                 </div>
             </section>
 
@@ -300,16 +257,19 @@ OS Functions involved:
                 <div class="assessment-tasks">
                     <div class="task-item">
                         <span class="task-level remember">Remember</span>
-                        <p>List the 6 main functions of an operating system.</p>
+                        <p>List 5 main functions of an operating system.</p>
                     </div>
                     <div class="task-item">
                         <span class="task-level understand">Understand</span>
-                        <p>Explain why a server uses a multi-user OS but a smartphone uses a single-user OS.</p>
+                        <p>Explain the concept of "time-slicing" in a multitasking operating system. How does it work on a single-core CPU?</p>
                     </div>
                     <div class="task-item">
                         <span class="task-level apply">Apply</span>
-                        <p>You open Chrome, Spotify, and Word at the same time. Describe which OS functions are active
-                            and how multitasking is achieved.</p>
+                        <p>A school wants to install a system to manage user accounts, block specific websites, and allow teachers to share a central printer. Which type of OS should they install on their main server, and why?</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>Compare Batch Processing OS and Real-Time OS in terms of <strong>User Interactivity</strong> and <strong>Time Constraints</strong>.</p>
                     </div>
                 </div>
             </section>
@@ -317,21 +277,16 @@ OS Functions involved:
             <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
                 <div class="quiz-item">
-                    <p class="quiz-question">Q1: What are the main functions of an OS?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Memory management, process
-                        management, file management, device management, user interface, security.</div>
+                    <p class="quiz-question">Q1: Which OS function prevents two programs from trying to use the same block of RAM at the same time?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Memory Management.</div>
                 </div>
                 <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is the difference between single-user and multi-user OS?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Single-user supports one user
-                        at a time (e.g. Windows Home). Multi-user supports multiple users simultaneously (e.g. Linux
-                        Server).</div>
+                    <p class="quiz-question">Q2: Why is batch processing generally done at night?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Because processing huge batches of data requires massive CPU power. Running it at night ensures it doesn't slow down the system for human users during the day.</div>
                 </div>
                 <div class="quiz-item">
-                    <p class="quiz-question">Q3: How does a single-core CPU achieve multitasking?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Through time-slicing — the OS
-                        rapidly switches between processes, giving each a small time slot, creating the illusion of
-                        simultaneous execution.</div>
+                    <p class="quiz-question">Q3: Give an example of a hard real-time system constraint.</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A car's airbag deployment system. It must execute its instructions in exact milliseconds upon impact; otherwise, it is useless.</div>
                 </div>
             </section>
 
@@ -340,16 +295,16 @@ OS Functions involved:
                     <span class="nav-label">← Previous</span>
                     <span class="nav-title">Software Categories</span>
                 </a>
-                <a href="von-neumann.html">
+                <a href="user-interfaces.html">
                     <span class="nav-label">Next →</span>
-                    <span class="nav-title">Von Neumann Architecture</span>
+                    <span class="nav-title">User Interfaces</span>
                 </a>
             </nav>
 
         </div>
-        </div>
+    </div>
     </main>
-  </div>
+</div>
 
     <footer class="site-footer">
         <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
