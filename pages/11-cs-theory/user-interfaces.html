@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Interfaces — mr. TEA</title>
+    <title>User Interfaces (GUI, CLI, NLI, GRI) — mr. TEA</title>
     <meta name="description"
         content="GUI, CLI, NLI, and GRI. Advantages, disadvantages, and comparison of user interfaces. NIS Grade 11 CS Theory.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -88,6 +88,47 @@
             </section>
 
             <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-sliders-h"></i> Choosing the Right Interface</h2>
+                <p>There is no single "best" interface — the right choice depends on several practical factors. Use this checklist whenever you compare interface types:</p>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Question to ask</th>
+                            <th>Typical effect on choice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>User skill level</strong></td>
+                            <td>Is the user a beginner, casual user, or trained specialist?</td>
+                            <td>Beginners → GUI / NLI. Trained specialists (admins, developers) → CLI.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User age / accessibility needs</strong></td>
+                            <td>Does the user have physical, visual, or cognitive limitations?</td>
+                            <td>Young children and users with disabilities often benefit from NLI or GRI.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Environment of use</strong></td>
+                            <td>Is the setting sterile, noisy, hands-free, or a quiet office?</td>
+                            <td>Sterile/hands-free environments → GRI. Noisy environments → NLI becomes unreliable.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware / equipment cost</strong></td>
+                            <td>Can the organisation afford cameras, sensors, or microphones?</td>
+                            <td>Low budget → CLI or GUI. Larger budget → GRI (sensors) or advanced NLI systems.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed &amp; scale of the task</strong></td>
+                            <td>Is this a one-off action or a repetitive task across many devices?</td>
+                            <td>Repetitive / large-scale tasks → CLI (scripting and automation).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
                 <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
 
                 <div class="pitfall-box" style="border-left: 4px solid #e74c3c; background-color: #fdf3f2; margin-bottom: var(--space-lg);">
@@ -141,6 +182,7 @@
                                 <ul>
                                     <li><strong>High speed of work:</strong> Direct access to system functions.</li>
                                     <li><strong>Flexibility & Automation:</strong> Complex tasks can be automated using scripts.</li>
+                                    <li><strong>Low resource usage over remote access:</strong> A text-only connection (e.g. SSH into a server) uses far less bandwidth and processing power than streaming a full graphical desktop.</li>
                                 </ul>
                             </td>
                             <td>
@@ -202,6 +244,54 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="analogy-box" style="margin-top: var(--space-lg);">
+                    <h4><i class="fas fa-shield-alt"></i> Critical Thinking: NLI and Privacy</h4>
+                    <p>NLI systems must record and process audio to work. Before they respond, they may send your voice data to a remote server for analysis. Consider: <em>Who owns that recording? How long is it stored? Could a device "listening" for a wake word raise privacy concerns even when not actively being used?</em> This is a key AO3-style evaluation point beyond the basic advantages/disadvantages.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Summary: All Four Interfaces Compared</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Criterion</th>
+                            <th>GUI</th>
+                            <th>CLI</th>
+                            <th>NLI</th>
+                            <th>GRI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Speed to learn</strong></td>
+                            <td>Fast</td>
+                            <td>Slow</td>
+                            <td>Fast</td>
+                            <td>Moderate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed of use (once learned)</strong></td>
+                            <td>Moderate</td>
+                            <td>Very fast</td>
+                            <td>Moderate</td>
+                            <td>Moderate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware / setup cost</strong></td>
+                            <td>Low</td>
+                            <td>Very low</td>
+                            <td>Moderate</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accessibility for users with disabilities</strong></td>
+                            <td>Limited</td>
+                            <td>Limited</td>
+                            <td>Strong</td>
+                            <td>Strong (motor-limited users may still struggle)</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
 
             <section class="lesson-section">
@@ -214,7 +304,15 @@ Reasoning: CLI allows for scripting and task automation. Attempting this via GUI
 
 Scenario B: A surgeon in a sterile operating theatre needs to navigate 3D X-Ray scans without touching unsterilized hardware.
 Selection: GRI
-Reasoning: Gesture Recognition allows interaction without physical contact, maintaining the sterile environment.</code></div>
+Reasoning: Gesture Recognition allows interaction without physical contact, maintaining the sterile environment.
+
+Scenario C: An elderly user with no prior computer experience wants to browse family photos on a tablet.
+Selection: GUI
+Reasoning: A GUI uses recognisable icons and touch/pointer interaction, requiring no memorised commands and minimal training.
+
+Scenario D: A driver wants to change the destination on their car's navigation system while keeping both hands on the wheel.
+Selection: NLI
+Reasoning: Natural Language Interfaces allow hands-free, eyes-on-the-road control, which is critical for safety while driving.</code></div>
                 </div>
             </section>
 
@@ -223,6 +321,10 @@ Reasoning: Gesture Recognition allows interaction without physical contact, main
                 <div class="pitfall-box">
                     <h4><i class="fas fa-bug"></i> "CLI is an outdated technology."</h4>
                     <p>False! While GUIs dominate consumer software, CLI remains the absolute industry standard for software developers, server administrators, and cybersecurity professionals due to its raw speed, low resource usage, and automation capabilities.</p>
+                </div>
+                <div class="pitfall-box" style="margin-top: var(--space-md);">
+                    <h4><i class="fas fa-bug"></i> "NLI and GRI are basically the same thing — both let you skip the keyboard."</h4>
+                    <p>False! They use completely different input methods. <strong>NLI</strong> processes <em>spoken or typed natural language</em> (words and sentences), while <strong>GRI</strong> processes <em>physical body movement</em> (hand or body position, tracked by a camera or sensor) — no speech is involved. A user could have a voice-controlled assistant fail because of background noise (an NLI problem) while a motion-controlled game fails because of poor lighting or an unrecognised gesture (a GRI problem) — the causes of failure are entirely different.</p>
                 </div>
             </section>
 
@@ -252,6 +354,23 @@ Reasoning: Gesture Recognition allows interaction without physical contact, main
                         <p><strong>Instructions:</strong> Formulate two complex questions about today's topic (e.g., "In what situation would an NLI be dangerous to use?"). Ask the class. The student who answers correctly gets to ask their question next.</p>
                     </div>
 
+                    <div class="task-item">
+                        <span class="task-level apply">Individual Classification (Apply)</span>
+                        <h4>Interface Detective</h4>
+                        <p><strong>Instructions:</strong> Working alone, classify each of the following as GUI, CLI, NLI, or GRI, and justify your answer in one sentence:</p>
+                        <ul>
+                            <li>A server admin console used to configure network routers.</li>
+                            <li>A voice-controlled smart speaker that plays music on request.</li>
+                            <li>A motion-tracking system in a VR headset used to "grab" virtual objects.</li>
+                            <li>A file manager with drag-and-drop folders and icons.</li>
+                            <li>A photo-editing app that lets you swipe your hand to rotate a 3D model.</li>
+                            <li>A script that automatically renames 1,000 files at once from a terminal.</li>
+                            <li>A smart TV that responds to spoken commands like "turn up the volume".</li>
+                            <li>A tablet app for children that uses only large picture buttons.</li>
+                        </ul>
+                        <p><em>Remember: describe devices generically — do not use brand names.</em></p>
+                    </div>
+
                 </div>
             </section>
 
@@ -268,6 +387,10 @@ Reasoning: Gesture Recognition allows interaction without physical contact, main
                 <div class="quiz-item">
                     <p class="quiz-question">Q3: Why might an NLI fail to execute a command correctly?</p>
                     <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Because it struggles with understanding context, background noise, or heavy regional accents.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q4 (Apply): A warehouse worker needs to update inventory records while wearing thick gloves and carrying boxes in both hands, in a loud environment with constant machinery noise. Which interface should be chosen, and why?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">GRI (Gesture Recognition) is the best choice. NLI would fail due to the loud background noise interfering with voice accuracy, while GUI and CLI both require free hands to type or click — which this worker does not have. Gesture recognition allows hands-free-of-typing control even while the hands are occupied with carrying boxes, provided the gestures used don't require setting the boxes down.</div>
                 </div>
             </section>
 
