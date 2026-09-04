@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Page Design &amp; Forms — mr. TEA</title>
+    <meta name="description"
+        content="HTML structure, semantic elements, CSS basics, and HTML forms for data entry. NIS Grade 11 CS Theory.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.1B — Web Page Design</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-globe"></i> Unit 11.1B · Term 1</div>
+                <h1 class="lesson-title">Web Page Design &amp; Forms</h1>
+                <p class="lesson-intro">Every website you visit is built using <strong>HTML</strong> for structure and <strong>CSS</strong> for styling. In this lesson, we will explore semantic webpage layouts and learn how to collect user data using HTML forms.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.3.1</span> Identify common elements of a web page structure</li>
+                    <li><span class="lo-code">11.5.3.2</span> Create an interface using HTML and CSS</li>
+                    <li><span class="lo-code">11.5.3.4</span> Create HTML forms for data entry</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-code"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Materials</h4>
+                    <p>11.1B-web-design.pdf · Code snippets and tags reference</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-hammer"></i> The House Construction Analogy</h4>
+                    <p>Building a webpage is like building a house:</p>
+                    <ul>
+                        <li><strong>HTML (HyperText Markup Language)</strong> provides the skeleton and structure (walls, floors, rooms).</li>
+                        <li><strong>CSS (Cascading Style Sheets)</strong> provides the interior design (paint colour, wallpaper, furniture arrangement).</li>
+                        <li><strong>HTML Forms</strong> are the letterboxes and intercoms that allow visitors to send information back to the house owner.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Semantic Web Page Structure</h3>
+
+                <p>Modern HTML5 uses <strong>semantic tags</strong>. This means the tags clearly describe their meaning to both the browser and the developer, making the site structure logical and accessible.</p>
+
+                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                    <img src="/assets/images/lessons/html5-semantic-layout.png" width="500" style="height: auto; border-radius: 8px; border: 1px solid #ddd;" alt="Diagram of a web page layout showing header at top, nav below it, main content area with section and article, aside on the right, and footer at the bottom.">
+                    <figcaption style="margin-top: 10px; font-size: 0.9rem; color: #555;">Figure 1: Standard HTML5 Semantic Layout.</figcaption>
+                </figure>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Semantic Tag</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;header&gt;</code></td>
+                            <td>Contains introductory content, site logo, or main headings.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;nav&gt;</code></td>
+                            <td>Contains the main navigation links (menus) for the website.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;main&gt;</code></td>
+                            <td>Specifies the dominant content of the document. Unique to each page.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;section&gt;</code></td>
+                            <td>A thematic grouping of content, typically with a heading.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;aside&gt;</code></td>
+                            <td>Content tangentially related to the main content (e.g., a sidebar).</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;footer&gt;</code></td>
+                            <td>Contains copyright information, author details, or secondary links.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Essential Content Tags</h3>
+                
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Tag Category</th>
+                            <th>Tags and Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Text Formatting</strong></td>
+                            <td><code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code> (Headings), <code>&lt;p&gt;</code> (Paragraph), <code>&lt;br&gt;</code> (Line break), <code>&lt;hr&gt;</code> (Horizontal rule).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lists</strong></td>
+                            <td><code>&lt;ul&gt;</code> (Unordered bullet list), <code>&lt;ol&gt;</code> (Ordered numbered list), <code>&lt;li&gt;</code> (List item).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Media & Links</strong></td>
+                            <td><code>&lt;img src="..." alt="..."&gt;</code> (Image), <code>&lt;a href="..."&gt;</code> (Hyperlink).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tables</strong></td>
+                            <td><code>&lt;table&gt;</code> (Container), <code>&lt;tr&gt;</code> (Row), <code>&lt;th&gt;</code> (Header cell), <code>&lt;td&gt;</code> (Standard data cell).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">HTML Forms for Data Entry</h3>
+
+                <p>Forms are used to collect user input. The <code>&lt;form&gt;</code> element is a container for different types of input elements, such as text fields, checkboxes, radio buttons, and submit buttons.</p>
+
+                <div class="video-responsive" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                            src="https://www.youtube.com/embed/frAGrGN00OA" 
+                            title="HTML Forms and Inputs Tutorial" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+
+                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                    <img src="/assets/images/lessons/html-form-elements.png" width="550" style="height: auto; border-radius: 8px; border: 1px solid #ddd;" alt="Visual breakdown of a web form showing text inputs, radio buttons, checkboxes, and a submit button with their corresponding HTML tags.">
+                    <figcaption style="margin-top: 10px; font-size: 0.9rem; color: #555;">Figure 2: Common HTML Form input types.</figcaption>
+                </figure>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Form Element</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;form action="..." method="..."&gt;</code></td>
+                            <td>Wraps all input elements. <code>action</code> defines where to send the data. <code>method</code> defines how to send it (GET or POST).</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;label for="..."&gt;</code></td>
+                            <td>Defines a clickable label for an input element, improving accessibility.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text"&gt;</code></td>
+                            <td>A single-line text input field (e.g., for First Name).</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="radio"&gt;</code></td>
+                            <td>A radio button. Allows a user to select ONLY ONE option from a group (e.g., Language).</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="checkbox"&gt;</code></td>
+                            <td>A checkbox. Allows a user to select ZERO or MORE options.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="submit"&gt;</code></td>
+                            <td>A button that submits the form data to the server.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Basic Document Skeleton</h4>
+                    <p>Every HTML file starts with a standard structure linking to a CSS file.</p>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Interface&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt; &lt;!-- Link to CSS --&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;Welcome to My Website&lt;/h1&gt;
+    &lt;/header&gt;
+    &lt;main&gt;
+        &lt;p&gt;This is the main content area.&lt;/p&gt;
+    &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Building a Registration Form</h4>
+                    <p>A simple form collecting a user's name and preferred language.</p>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;form action="/submit_data" method="GET"&gt;
+    &lt;!-- Text Input --&gt;
+    &lt;label for="fname"&gt;First name:&lt;/label&gt;&lt;br&gt;
+    &lt;input type="text" id="fname" name="fname"&gt;&lt;br&gt;&lt;br&gt;
+    
+    &lt;!-- Radio Buttons (must share the same 'name' attribute) --&gt;
+    &lt;p&gt;Select preferred language:&lt;/p&gt;
+    &lt;input type="radio" id="eng" name="language" value="English"&gt;
+    &lt;label for="eng"&gt;English&lt;/label&gt;&lt;br&gt;
+    
+    &lt;input type="radio" id="kz" name="language" value="Kazakh"&gt;
+    &lt;label for="kz"&gt;Kazakh&lt;/label&gt;&lt;br&gt;&lt;br&gt;
+    
+    &lt;!-- Submit Button --&gt;
+    &lt;input type="submit" value="Register"&gt;
+&lt;/form&gt;</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Using Deprecated Formatting Tags</h4>
+                    <p>Tags like <code>&lt;font&gt;</code>, <code>&lt;center&gt;</code>, <code>&lt;strike&gt;</code>, and <code>&lt;big&gt;</code> are <strong>deprecated</strong> in HTML5. Modern web design strictly separates structure from styling. You should use HTML for structure and <strong>CSS</strong> for styling (colours, sizes, alignment).</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting to link Radio Buttons</h4>
+                    <p>If you create two radio buttons but give them different <code>name="..."</code> attributes, the user will be able to select both of them at the same time! To group radio buttons together so only one can be clicked, they <strong>must share the exact same <code>name</code></strong>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section" id="activities">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
+                <div class="assessment-tasks">
+                    
+                    <div class="task-item">
+                        <span class="task-level apply">Apply (Coding Practice)</span>
+                        <h4>Task 1: Create a Store Catalog</h4>
+                        <p><strong>Instructions:</strong> Open a code editor (or online compiler). Create an <code>index.html</code> file. Use the <code>&lt;table&gt;</code> tag to create a product list for an electronics store. The table must have 3 columns: <strong>Product Name</strong>, <strong>Description</strong>, and <strong>Price</strong>. Add at least 3 rows of data.</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level apply">Apply (Form Creation)</span>
+                        <h4>Task 2: The Search Engine Form</h4>
+                        <p><strong>Instructions:</strong> Create a web page containing a form that submits data using the <code>GET</code> method. The form must include:
+                        <br>- A text input field for a search query.
+                        <br>- Three radio buttons allowing the user to select the search language (English, Kazakh, Russian).
+                        <br>- A submit button labeled "Search".</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze (Code Inspection)</span>
+                        <h4>Task 3: Find the Difference</h4>
+                        <p><strong>Instructions:</strong> Briefly explain the visual and structural difference between using the <code>&lt;p&gt;</code> tag and using the <code>&lt;br&gt;</code> tag when separating lines of text on a web page.</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q1: What is the purpose of the <code>&lt;nav&gt;</code> tag in HTML5?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It is a semantic tag used to define a block of navigation links (such as a website's main menu).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q2: If you want a user to select multiple hobbies from a list (e.g., Reading, Coding, Sports), which input type should you use?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">You should use <code>&lt;input type="checkbox"&gt;</code>, because checkboxes allow zero, one, or multiple selections, whereas radio buttons allow only one.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q3: How do you link an external CSS file to an HTML document?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">By using the link tag inside the head section: <code>&lt;link rel="stylesheet" href="styles.css"&gt;</code>.</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="programming-languages.html">
+                    <span class="nav-label">← Previous</span>
+                    <span class="nav-title">Programming Languages</span>
+                </a>
+                <a href="css-types.html">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">Cascading Style Sheets</span>
+                </a>
+            </nav>
+
+        </div>
+    </div>
+    </main>
+</div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
