@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Implementation Types — mr. TEA</title>
+    <meta name="description"
+        content="Comparing and using the three main types of CSS implementation: Inline, Internal, and External. NIS Grade 11 CS Theory.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.5 — CSS Implementation Types</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-paint-brush"></i> Unit 11.5 · Web Development</div>
+                <h1 class="lesson-title">Cascading Style Sheets (CSS)</h1>
+                <p class="lesson-intro">Understanding how to properly style HTML pages is a core skill in web development. In this lesson, we will explore and compare the three main types of <strong>CSS implementation</strong>: Inline, Internal, and External.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.5.3.5</span> Compare CSS implementation types</li>
+                    <li><span class="lo-code">11.5.3.6</span> Use CSS when designing a website</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.5-css-implementation.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Knowledge Retrieval</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-sync-alt"></i> Let's Recall</h4>
+                    <p>Before jumping into CSS types, make sure you can answer these core questions:</p>
+                    <ul>
+                        <li><strong>What does CSS mean?</strong> (Cascading Style Sheets - it separates HTML content from design).</li>
+                        <li><strong>Why are identifiers (ID) and classes used?</strong> (To target specific elements or groups of elements for styling without affecting the whole page).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> The 3 Types of CSS Implementation</h2>
+
+                <p>There are three ways to apply CSS to an HTML document. The best method depends on the scope of the project and how many pages need to share the design.</p>
+
+                <!-- ВСТАВИТЬ КАРТИНКУ ТУТ: Визуальная схема/инфографика, показывающая 3 типа CSS (Inline внутри тега, Internal внутри <head>, External в файле .css). -->
+                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                    <img src="/assets/images/lessons/css-three-types.png" width="600" style="height: auto; border-radius: 8px;" alt="Diagram showing Inline, Internal, and External CSS connections">
+                    <figcaption style="margin-top: 10px; font-size: 0.9rem; color: #555;">Figure 1: Three ways to include CSS in your HTML structure.</figcaption>
+                </figure>
+
+                <div class="video-responsive" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 30px 0;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                            src="https://www.youtube.com/embed/3Fo47VOXNLc" 
+                            title="How to include CSS? Inline, Internal and External CSS" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Comparison Chart (Carousel Task Summary)</h3>
+                
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Application</th>
+                            <th>Scope</th>
+                            <th>Advantages</th>
+                            <th>Disadvantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Inline CSS</strong></td>
+                            <td>Using the <code>style</code> attribute directly inside HTML tags.</td>
+                            <td>A single specific element.</td>
+                            <td>Highest priority. Good for quick, temporary overrides.</td>
+                            <td>Mixes content with design. Very hard to maintain across a site.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Internal CSS</strong></td>
+                            <td>Using the <code>&lt;style&gt;</code> tag inside the <code>&lt;head&gt;</code> section.</td>
+                            <td>A single HTML document.</td>
+                            <td>Does not require uploading extra files. Keeps styles grouped per page.</td>
+                            <td>Cannot be shared across multiple pages. Increases HTML file size.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>External CSS</strong></td>
+                            <td>Placing styles in a separate <code>.css</code> file and linking it via <code>&lt;link&gt;</code>.</td>
+                            <td>The entire website (multiple pages).</td>
+                            <td>Clean HTML, full reusability, easy to maintain globally, faster loading (caching).</td>
+                            <td>Requires an extra HTTP request to fetch the file (minor performance impact).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-laptop-code"></i> Practical Tasks</h2>
+                <p>Complete the following tasks independently to practice applying CSS. <strong>Note:</strong> Create a folder for these tasks and use your code editor.</p>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Task 1: Inline CSS</h4>
+                    <p><strong>Goal:</strong> To use inline CSS directly inside elements.</p>
+                    <ul>
+                        <li>Open a newly created HTML document.</li>
+                        <li>Add an <code>&lt;h1&gt;</code> element with the text "Welcome".</li>
+                        <li>Apply inline styles to this heading to set: Text color (blue), Font size (36px), and Top padding (20px).</li>
+                    </ul>
+                    <div class="code-block"><code>&lt;h1 style="color: blue; font-size: 36px; margin-top: 20px;"&gt; Welcome &lt;/h1&gt;</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Task 2: Internal CSS</h4>
+                    <p><strong>Goal:</strong> To use internal CSS using the style tag.</p>
+                    <ul>
+                        <li>Inside the <code>&lt;head&gt;</code> tag, add the <code>&lt;style&gt;</code> tag.</li>
+                        <li>Define styles for <code>&lt;h2&gt;</code>: text color – green, font size – 24 pixels.</li>
+                        <li>Define styles for <code>&lt;p&gt;</code>: font – italic, size – 16 pixels.</li>
+                    </ul>
+<div class="code-block"><code>&lt;head&gt;
+  &lt;style&gt;
+    h2 {
+      color: green;
+      font-size: 24px;
+    }
+    p {
+      font-style: italic;
+      font-size: 16px;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Task 3: External CSS</h4>
+                    <p><strong>Goal:</strong> To link and use an external CSS file.</p>
+                    <ul>
+                        <li>Create a new file and save it as <code>styles.css</code>.</li>
+                        <li>In this file, define styles for <code>&lt;h3&gt;</code>: color – red, size – 20 pixels.</li>
+                        <li>Define styles for <code>&lt;button&gt;</code>: background – light blue, text color – white, padding – 10 pixels.</li>
+                        <li>Save the HTML page, and link the external CSS file to it using the <code>&lt;link&gt;</code> tag in the head.</li>
+                    </ul>
+<div class="code-block"><code>/* Inside styles.css */
+h3 {
+  color: red;
+  font-size: 20px;
+}
+button {
+  background-color: lightblue;
+  color: white;
+  padding: 10px;
+}</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">4</span> Task 4: Combining CSS Types</h4>
+                    <p><strong>Goal:</strong> To combine all three types of CSS and observe the cascading priority.</p>
+                    <ul>
+                        <li>Open your HTML document.</li>
+                        <li>Inside the <code>&lt;head&gt;</code>, include the external CSS link.</li>
+                        <li>Add internal CSS to style the <code>&lt;h1&gt;</code> heading (e.g., color: purple).</li>
+                        <li>Insert elements in the body that utilize inline, internal, and external styles simultaneously.</li>
+                    </ul>
+<div class="code-block"><code>&lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+  &lt;style&gt;
+    h1 { color: purple; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Home page&lt;/h1&gt;
+  &lt;h2 style="color: orange;"&gt;Subheading&lt;/h2&gt;
+  &lt;p&gt;This is an example paragraph.&lt;/p&gt;
+&lt;/body&gt;</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Plenary & Reflection</h2>
+                <div class="quiz-item">
+                    <p class="quiz-question">Critical Analysis: Which CSS method is considered the most efficient for building a multi-page website, and why?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><strong>External CSS.</strong> It allows developers to control the design of the entire website from one single file, enforcing consistency, cleaner HTML code, and much faster loading times because the browser caches the CSS file.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Concept Map Task: Visualize the hierarchy</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">In your notebooks, draw a concept map illustrating the 3 CSS types. Connect each type to its key characteristics, advantages, and disadvantages discussed in the comparison table.</div>
+                </div>
+            </section>
+
+            <!-- ВСТАВИТЬ КАРТИНКУ ТУТ: Можно добавить скриншот финального результата Task 4 из браузера (как это выглядит отрендеренным). -->
+            <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                <img src="/assets/images/lessons/css-tasks-result.png" width="600" style="height: auto; border-radius: 8px; border: 1px solid #ddd;" alt="Browser output showing the combined result of inline, internal, and external CSS">
+                <figcaption style="margin-top: 10px; font-size: 0.9rem; color: #555;">Figure 2: Expected browser output after combining all CSS methods.</figcaption>
+            </figure>
+
+            <nav class="lesson-nav">
+                <a href="/index.html#syllabus">
+                    <span class="nav-label">← Back to</span>
+                    <span class="nav-title">Syllabus</span>
+                </a>
+                <a href="#">
+                    <span class="nav-label">Next →</span>
+                    <span class="nav-title">CSS Box Model & Layouts</span>
+                </a>
+            </nav>
+
+        </div>
+    </div>
+    </main>
+</div>
+
+    <footer class="site-footer">
+        <p>mr. TEA © 2026 — NIS Grade 11 Computer Science</p>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
