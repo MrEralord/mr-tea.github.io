@@ -192,8 +192,11 @@
                             <td>
                                 <ul>
                                     <li>Strict time constraints; must process inputs and output results within a guaranteed, critical timeframe (minimizing delays).</li>
-                                    <li>Prioritizes critical tasks over everything else.</li>
-                                    <li>Fails if deadlines are missed (hard real-time).</li>
+                                    <li>Interrupt-driven: immediately suspends lower-priority tasks to respond to an urgent hardware signal.</li>
+                                    <li>Uses priority-based scheduling rather than fair time-slicing, so the most critical task always pre-empts less urgent ones.</li>
+                                    <li><strong>Deterministic</strong> — the time taken to respond is predictable and consistent every time, not just fast on average.</li>
+                                    <li><strong>Hard real-time:</strong> missing a deadline is a total system failure (e.g. airbag deployment). <strong>Soft real-time:</strong> missing a deadline degrades quality but the system keeps running (e.g. video streaming).</li>
+                                    <li>Usually embedded and dedicated to one specific task, with a minimal or no general user interface.</li>
                                 </ul>
                             </td>
                             <td>
@@ -205,8 +208,11 @@
                             <td>
                                 <ul>
                                     <li>Jobs with similar needs are grouped into "batches" and executed automatically one after another.</li>
-                                    <li>No user interaction is required (or possible) once the batch processing begins.</li>
-                                    <li>Highly efficient for large volumes of repetitive data.</li>
+                                    <li>Jobs are stored in a queue on backing storage and processed in sequence using a scheduler; no user interaction is possible once the batch starts.</li>
+                                    <li>Processing is <strong>offline</strong>: the user submits data in advance and collects the finished output later — there is no real-time feedback.</li>
+                                    <li>Optimised for high throughput and CPU efficiency, often scheduled overnight or off-peak to use idle processing power.</li>
+                                    <li>If an error occurs partway through, the whole job usually has to be corrected and resubmitted, since no user is present to respond to a prompt.</li>
+                                    <li>Performance is measured by <strong>turnaround time</strong> (total time from job submission to completed output) rather than by response time.</li>
                                 </ul>
                             </td>
                             <td>
@@ -218,8 +224,13 @@
                             <td>
                                 <ul>
                                     <li>Runs on a server and manages network resources.</li>
+                                    <li>Follows a <strong>client-server model</strong>: the NOS runs centrally on the server while each client machine runs its own local OS (e.g. Windows 11) and requests services from the server.</li>
                                     <li>Provides "transparency"—users on client PCs can access files and printers as if they were stored locally.</li>
-                                    <li>Handles central security, user management, and shared data access.</li>
+                                    <li>Enables <strong>resource sharing</strong> across the network: shared printers, shared storage/drives, and a shared internet connection.</li>
+                                    <li>Centralised administration—a network administrator manages user accounts, permissions, and security policies from one place instead of on every individual machine.</li>
+                                    <li>Handles central security (authentication, access rights) and shared data access.</li>
+                                    <li>Supports <strong>remote access</strong>, so an authorised user can log in and reach their files from a different physical machine on the network.</li>
+                                    <li><strong>Scalable</strong>—built to support many simultaneous users and devices, unlike a single-user OS.</li>
                                 </ul>
                             </td>
                             <td>
