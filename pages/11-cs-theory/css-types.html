@@ -48,7 +48,7 @@
             <div class="lesson-header">
                 <div class="lesson-unit-badge"><i class="fas fa-paint-brush"></i> Unit 11.5 · Web Development</div>
                 <h1 class="lesson-title">Cascading Style Sheets (CSS)</h1>
-                <p class="lesson-intro">Understanding how to properly style HTML pages is a core skill in web development. In this lesson, we will explore and compare the three main types of <strong>CSS implementation</strong>: Inline, Internal, and External.</p>
+                <p class="lesson-intro">Understanding how to properly style HTML pages is a core skill in web development. In this lesson, we will explore and compare the three main types of <strong>CSS implementation</strong> — Inline, Internal, and External — and learn how the browser decides which rule wins when several of them target the same element.</p>
             </div>
 
             <div class="lesson-lo-card">
@@ -77,34 +77,41 @@
                     <h4><i class="fas fa-sync-alt"></i> Let's Recall</h4>
                     <p>Before jumping into CSS types, make sure you can answer these core questions:</p>
                     <ul>
-                        <li><strong>What does CSS mean?</strong> (Cascading Style Sheets - it separates HTML content from design).</li>
+                        <li><strong>What does CSS mean?</strong> (Cascading Style Sheets — it separates HTML content from design).</li>
                         <li><strong>Why are identifiers (ID) and classes used?</strong> (To target specific elements or groups of elements for styling without affecting the whole page).</li>
+                        <li><strong>What does the word "Cascading" hint at?</strong> (That styles flow down and can override one another — which is exactly what this lesson explains).</li>
                     </ul>
                 </div>
             </section>
 
             <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> The 3 Types of CSS Implementation</h2>
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> 1. Rules &amp; Theory</h2>
 
-                <p>There are three ways to apply CSS to an HTML document. The best method depends on the scope of the project and how many pages need to share the design.</p>
+                <p class="concept-text">There are three ways to apply CSS to an HTML document. The best method depends on the scope of the project, how many pages need to share the design, and how permanent the styling is meant to be.</p>
 
-                <!-- ВСТАВИТЬ КАРТИНКУ ТУТ: Визуальная схема/инфографика, показывающая 3 типа CSS (Inline внутри тега, Internal внутри <head>, External в файле .css). -->
-                <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+                <figure class="lesson-image-block">
                     <img src="/assets/images/lessons/css-three-types.png" width="600" style="height: auto; border-radius: 8px;" alt="Diagram showing Inline, Internal, and External CSS connections">
-                    <figcaption style="margin-top: 10px; font-size: 0.9rem; color: #555;">Figure 1: Three ways to include CSS in your HTML structure.</figcaption>
+                    <figcaption>Figure 1: Three ways to include CSS in your HTML structure.</figcaption>
                 </figure>
 
-                <div class="video-responsive" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 30px 0;">
-                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
-                            src="https://www.youtube.com/embed/3Fo47VOXNLc" 
-                            title="How to include CSS? Inline, Internal and External CSS" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                    </iframe>
+                <div class="lesson-video-block">
+                    <div class="lesson-video-header">
+                        <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                        <div class="lesson-video-info">
+                            <h4>Watch: Inline, Internal &amp; External CSS</h4>
+                            <p>A short walkthrough of all three methods in action</p>
+                        </div>
+                    </div>
+                    <div class="lesson-video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/3Fo47VOXNLc"
+                            title="How to include CSS? Inline, Internal and External CSS"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
                 </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Comparison Chart (Carousel Task Summary)</h3>
-                
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Comparison Chart</h3>
+
                 <table class="theory-table">
                     <thead>
                         <tr>
@@ -120,7 +127,7 @@
                             <td><strong>Inline CSS</strong></td>
                             <td>Using the <code>style</code> attribute directly inside HTML tags.</td>
                             <td>A single specific element.</td>
-                            <td>Highest priority. Good for quick, temporary overrides.</td>
+                            <td>Highest priority. Good for quick, temporary overrides or JS-generated styles.</td>
                             <td>Mixes content with design. Very hard to maintain across a site.</td>
                         </tr>
                         <tr>
@@ -135,35 +142,121 @@
                             <td>Placing styles in a separate <code>.css</code> file and linking it via <code>&lt;link&gt;</code>.</td>
                             <td>The entire website (multiple pages).</td>
                             <td>Clean HTML, full reusability, easy to maintain globally, faster loading (caching).</td>
-                            <td>Requires an extra HTTP request to fetch the file (minor performance impact).</td>
+                            <td>Requires an extra HTTP request to fetch the file (minor performance impact on first load).</td>
                         </tr>
+                    </tbody>
+                </table>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-scale-balanced"></i> The Cascade &amp; Specificity</h4>
+                    <p>When two or more rules target the <em>same</em> element, the browser must pick a winner — this is the "C" in CSS. From highest to lowest priority:</p>
+                    <ul>
+                        <li><code>!important</code> — overrides everything else (use only as a last resort)</li>
+                        <li>Inline CSS — <code>style="..."</code> on the element itself</li>
+                        <li>ID selectors — <code>#header</code></li>
+                        <li>Class, attribute, and pseudo-class selectors — <code>.title</code>, <code>[type]</code>, <code>:hover</code></li>
+                        <li>Element and pseudo-element selectors — <code>p</code>, <code>::before</code></li>
+                    </ul>
+                    <p>If two rules have <strong>equal</strong> specificity, the one written <strong>later in the source order</strong> wins — which is why an internal <code>&lt;style&gt;</code> block placed after a <code>&lt;link&gt;</code> can override the external file.</p>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);"><i class="fas fa-table" style="color:var(--clr-tea);"></i> Cheat Sheet: Attaching CSS — Syntax Reference</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Syntax pattern</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Inline</td>
+                            <td><code>&lt;p style="color:red;"&gt;</code></td>
+                            <td>Declarations go directly in the attribute, separated by semicolons.</td>
+                        </tr>
+                        <tr>
+                            <td>Internal</td>
+                            <td><code>&lt;style&gt; ... &lt;/style&gt;</code></td>
+                            <td>Must sit inside <code>&lt;head&gt;</code>; contains full CSS rules.</td>
+                        </tr>
+                        <tr>
+                            <td>External</td>
+                            <td><code>&lt;link rel="stylesheet" href="styles.css"&gt;</code></td>
+                            <td><code>href</code> holds the file path; goes inside <code>&lt;head&gt;</code>.</td>
+                        </tr>
+                        <tr>
+                            <td>Multiple files</td>
+                            <td><code>&lt;link href="reset.css"&gt;&lt;link href="main.css"&gt;</code></td>
+                            <td>Later linked file wins on conflicts (source order rule).</td>
+                        </tr>
+                        <tr>
+                            <td><code>@import</code> (rare)</td>
+                            <td><code>@import url("theme.css");</code></td>
+                            <td>Written inside a stylesheet or <code>&lt;style&gt;</code> block; slower than <code>&lt;link&gt;</code> — avoid in production.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);"><i class="fas fa-table" style="color:var(--clr-tea);"></i> Cheat Sheet: Selectors</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Selector</th>
+                            <th>Example</th>
+                            <th>Matches</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Element</td><td><code>p { }</code></td><td>Every <code>&lt;p&gt;</code> on the page</td></tr>
+                        <tr><td>Class</td><td><code>.card { }</code></td><td>Any element with <code>class="card"</code></td></tr>
+                        <tr><td>ID</td><td><code>#main { }</code></td><td>The one element with <code>id="main"</code></td></tr>
+                        <tr><td>Universal</td><td><code>* { }</code></td><td>Every element on the page</td></tr>
+                        <tr><td>Grouping</td><td><code>h1, h2 { }</code></td><td>Both <code>&lt;h1&gt;</code> AND <code>&lt;h2&gt;</code></td></tr>
+                        <tr><td>Descendant</td><td><code>nav a { }</code></td><td>Any <code>&lt;a&gt;</code> nested anywhere inside <code>&lt;nav&gt;</code></td></tr>
+                        <tr><td>Direct child</td><td><code>ul &gt; li { }</code></td><td><code>&lt;li&gt;</code> that are direct children of <code>&lt;ul&gt;</code></td></tr>
+                        <tr><td>Attribute</td><td><code>input[type="text"] { }</code></td><td>Inputs with that exact attribute value</td></tr>
+                        <tr><td>Pseudo-class</td><td><code>a:hover { }</code></td><td>A link while the mouse hovers over it</td></tr>
+                        <tr><td>Pseudo-element</td><td><code>p::first-line { }</code></td><td>Just the first line of text inside a <code>&lt;p&gt;</code></td></tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);"><i class="fas fa-table" style="color:var(--clr-tea);"></i> Cheat Sheet: Common Property Groups</h3>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Group</th>
+                            <th>Key properties</th>
+                            <th>Quick example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Text &amp; Font</td><td><code>color</code>, <code>font-family</code>, <code>font-size</code>, <code>font-weight</code>, <code>text-align</code></td><td><code>color: #1a1a1a; font-size: 1rem;</code></td></tr>
+                        <tr><td>Box Model</td><td><code>width</code>, <code>height</code>, <code>margin</code>, <code>padding</code>, <code>border</code></td><td><code>padding: 10px; border: 1px solid #ccc;</code></td></tr>
+                        <tr><td>Background</td><td><code>background-color</code>, <code>background-image</code>, <code>background-size</code></td><td><code>background-color: lightblue;</code></td></tr>
+                        <tr><td>Layout &amp; Position</td><td><code>display</code>, <code>position</code>, <code>top</code>/<code>left</code>, <code>flex</code></td><td><code>display: flex; justify-content: center;</code></td></tr>
+                        <tr><td>Effects</td><td><code>opacity</code>, <code>box-shadow</code>, <code>transition</code>, <code>transform</code></td><td><code>transition: all 0.3s ease;</code></td></tr>
                     </tbody>
                 </table>
             </section>
 
             <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-laptop-code"></i> Practical Tasks</h2>
-                <p>Complete the following tasks independently to practice applying CSS. <strong>Note:</strong> Create a folder for these tasks and use your code editor.</p>
+                <h2 class="lesson-section-title"><i class="fas fa-chalkboard-user"></i> 2. Worked Examples</h2>
+                <p class="concept-text">Read through each example, then predict the result before checking the explanation underneath the code.</p>
 
                 <div class="worked-example">
-                    <h4><span class="step-num">1</span> Task 1: Inline CSS</h4>
-                    <p><strong>Goal:</strong> To use inline CSS directly inside elements.</p>
-                    <ul>
-                        <li>Open a newly created HTML document.</li>
-                        <li>Add an <code>&lt;h1&gt;</code> element with the text "Welcome".</li>
-                        <li>Apply inline styles to this heading to set: Text color (blue), Font size (36px), and Top padding (20px).</li>
-                    </ul>
+                    <h4><span class="step-num">1</span> Inline CSS</h4>
+                    <p><strong>Goal:</strong> style a single heading directly inside its tag.</p>
                     <div class="code-block"><code>&lt;h1 style="color: blue; font-size: 36px; margin-top: 20px;"&gt; Welcome &lt;/h1&gt;</code></div>
+                    <p><strong>Result:</strong> the word "Welcome" renders in blue, at 36px, with extra space above it. Because the rule lives inside the tag itself, it applies to <em>this element only</em> — copy the <code>&lt;h1&gt;</code> anywhere else and you'd have to retype the whole <code>style</code> attribute.</p>
                 </div>
 
                 <div class="worked-example">
-                    <h4><span class="step-num">2</span> Task 2: Internal CSS</h4>
-                    <p><strong>Goal:</strong> To use internal CSS using the style tag.</p>
-                    <ul>
-                        <li>Inside the <code>&lt;head&gt;</code> tag, add the <code>&lt;style&gt;</code> tag.</li>
-                        <li>Define styles for <code>&lt;h2&gt;</code>: text color – green, font size – 24 pixels.</li>
-                        <li>Define styles for <code>&lt;p&gt;</code>: font – italic, size – 16 pixels.</li>
-                    </ul>
+                    <h4><span class="step-num">2</span> Internal CSS</h4>
+                    <p><strong>Goal:</strong> style every <code>&lt;h2&gt;</code> and <code>&lt;p&gt;</code> on one page from a single block.</p>
 <div class="code-block"><code>&lt;head&gt;
   &lt;style&gt;
     h2 {
@@ -176,18 +269,13 @@
     }
   &lt;/style&gt;
 &lt;/head&gt;</code></div>
+                    <p><strong>Result:</strong> every <code>&lt;h2&gt;</code> on this page turns green at 24px, and every <code>&lt;p&gt;</code> becomes italic at 16px — but only on <em>this document</em>. A second HTML page would need the whole <code>&lt;style&gt;</code> block pasted in again.</p>
                 </div>
 
                 <div class="worked-example">
-                    <h4><span class="step-num">3</span> Task 3: External CSS</h4>
-                    <p><strong>Goal:</strong> To link and use an external CSS file.</p>
-                    <ul>
-                        <li>Create a new file and save it as <code>styles.css</code>.</li>
-                        <li>In this file, define styles for <code>&lt;h3&gt;</code>: color – red, size – 20 pixels.</li>
-                        <li>Define styles for <code>&lt;button&gt;</code>: background – light blue, text color – white, padding – 10 pixels.</li>
-                        <li>Save the HTML page, and link the external CSS file to it using the <code>&lt;link&gt;</code> tag in the head.</li>
-                    </ul>
-<div class="code-block"><code>/* Inside styles.css */
+                    <h4><span class="step-num">3</span> External CSS</h4>
+                    <p><strong>Goal:</strong> define reusable rules once and share them across the whole site.</p>
+<div class="code-block"><code>/* styles.css */
 h3 {
   color: red;
   font-size: 20px;
@@ -197,17 +285,18 @@ button {
   color: white;
   padding: 10px;
 }</code></div>
+<div class="code-block"><code>&lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;</code></div>
+                    <p><strong>Result:</strong> any page that links <code>styles.css</code> gets red <code>&lt;h3&gt;</code> headings and light-blue buttons automatically. Update the one file, and every linked page updates too — and after the first visit, the browser caches it, so later page loads are faster.</p>
                 </div>
 
                 <div class="worked-example">
-                    <h4><span class="step-num">4</span> Task 4: Combining CSS Types</h4>
-                    <p><strong>Goal:</strong> To combine all three types of CSS and observe the cascading priority.</p>
-                    <ul>
-                        <li>Open your HTML document.</li>
-                        <li>Inside the <code>&lt;head&gt;</code>, include the external CSS link.</li>
-                        <li>Add internal CSS to style the <code>&lt;h1&gt;</code> heading (e.g., color: purple).</li>
-                        <li>Insert elements in the body that utilize inline, internal, and external styles simultaneously.</li>
-                    </ul>
+                    <h4><span class="step-num">4</span> Combining All Three — Reading the Cascade</h4>
+                    <p><strong>Goal:</strong> predict which rule wins when Inline, Internal, and External CSS all target overlapping elements.</p>
+<div class="code-block"><code>/* styles.css (external) */
+h1 { color: navy; }
+h2 { color: red; }</code></div>
 <div class="code-block"><code>&lt;head&gt;
   &lt;link rel="stylesheet" href="styles.css"&gt;
   &lt;style&gt;
@@ -219,25 +308,138 @@ button {
   &lt;h2 style="color: orange;"&gt;Subheading&lt;/h2&gt;
   &lt;p&gt;This is an example paragraph.&lt;/p&gt;
 &lt;/body&gt;</code></div>
+                    <p><strong>Result:</strong></p>
+                    <ul>
+                        <li><code>&lt;h1&gt;</code> renders <strong>purple</strong>, not navy — internal and external rules have equal specificity (both are element selectors), so the one written <em>later</em> in the <code>&lt;head&gt;</code> (internal) wins.</li>
+                        <li><code>&lt;h2&gt;</code> renders <strong>orange</strong>, not red — inline styling always beats a plain external selector, regardless of source order.</li>
+                        <li><code>&lt;p&gt;</code> renders in the browser's default black — no rule targets it at all, from any of the three types.</li>
+                    </ul>
                 </div>
             </section>
 
             <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Plenary & Reflection</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Critical Analysis: Which CSS method is considered the most efficient for building a multi-page website, and why?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><strong>External CSS.</strong> It allows developers to control the design of the entire website from one single file, enforcing consistency, cleaner HTML code, and much faster loading times because the browser caches the CSS file.</div>
+                <h2 class="lesson-section-title"><i class="fas fa-triangle-exclamation"></i> 3. Common Pitfalls</h2>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Missing semicolons</h4>
+                    <p>Forgetting <code>;</code> between declarations (e.g. <code>color: red font-size: 20px</code>) can break the rule that follows. Always end every declaration with a semicolon, even the last one in a block.</p>
                 </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Concept Map Task: Visualize the hierarchy</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">In your notebooks, draw a concept map illustrating the 3 CSS types. Connect each type to its key characteristics, advantages, and disadvantages discussed in the comparison table.</div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> <code>&lt;style&gt;</code> placed in the wrong spot</h4>
+                    <p>An internal <code>&lt;style&gt;</code> block belongs inside <code>&lt;head&gt;</code>, not <code>&lt;body&gt;</code>. Placing it in the body is invalid HTML and can cause a visible "flash" of unstyled content while the page loads.</p>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Broken or mistyped file paths</h4>
+                    <p>A <code>&lt;link href="Style.css"&gt;</code> pointing at a file actually saved as <code>style.css</code> will silently fail on most web servers (file paths are case-sensitive) — no styling appears, and there's no obvious on-page error, only a 404 in the browser's console.</p>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Mixing up <code>.</code> and <code>#</code></h4>
+                    <p>Writing <code>#title { }</code> in your CSS when the HTML actually says <code>class="title"</code> (or vice versa) means the selector never matches anything — the rule quietly does nothing, with no error at all.</p>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Overusing <code>!important</code></h4>
+                    <p><code>!important</code> forces a rule to win regardless of specificity or source order. Sprinkling it everywhere breaks the natural cascade and makes future overrides very hard to debug — treat it as a last resort, not a habit.</p>
+                </div>
+
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Trusting a cached stylesheet</h4>
+                    <p>Because browsers cache external CSS for speed, editing <code>styles.css</code> and refreshing normally may still show the <em>old</em> styles. Use a hard refresh (<code>Ctrl+Shift+R</code>) while testing changes.</p>
+                </div>
+
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-star"></i> So which type should I actually use?</h4>
+                    <p>As a default, reach for <strong>External CSS</strong> on any real project. Use <strong>Internal CSS</strong> only for a single quick prototype page or an email template. Save <strong>Inline CSS</strong> for one-off testing or styles generated dynamically by JavaScript.</p>
                 </div>
             </section>
 
-            <!-- ВСТАВИТЬ КАРТИНКУ ТУТ: Можно добавить скриншот финального результата Task 4 из браузера (как это выглядит отрендеренным). -->
-            <figure class="lesson-image-block" style="margin: 20px auto; display: table; text-align: center;">
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-list-check"></i> 4. Practice Tasks</h2>
+                <p>Complete the following tasks independently. <strong>Note:</strong> create a folder for these tasks and use your code editor — no solutions are shown here, so test your own code in the browser.</p>
+
+                <div class="assessment-tasks">
+                    <div class="task-item">
+                        <span class="task-level remember">Remember</span>
+                        <p>List the three ways to add CSS to a page, and state one advantage of each.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level understand">Understand</span>
+                        <p>In your own words, explain why External CSS is usually considered "cleaner" than Inline CSS for a real website.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Build a small HTML file that styles an <code>&lt;h1&gt;</code>, a <code>&lt;p&gt;</code>, and a <code>&lt;button&gt;</code> using <strong>Internal CSS only</strong>.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level apply">Apply</span>
+                        <p>Create a separate <code>styles.css</code> file with rules for at least three different elements, then link it correctly to an HTML page.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze</span>
+                        <p>A page links an external stylesheet, includes an internal <code>&lt;style&gt;</code> block, <strong>and</strong> has an inline style — all three targeting the same <code>&lt;h2&gt;</code>. Predict which color actually displays, and explain your answer using the cascade rules from this lesson.</p>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-level create">Create</span>
+                        <p>Design a simple one-page "About Me" profile using <strong>only External CSS</strong>, applying at least six different properties across text, box model, background, and layout.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> 5. Self-Check Quiz</h2>
+
+                <div class="quiz-item">
+                    <p class="quiz-question">1. What does "CSS" stand for, and what is its core purpose?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Cascading Style Sheets — it separates a page's content (HTML) from its presentation/design.</div>
+                </div>
+
+                <div class="quiz-item">
+                    <p class="quiz-question">2. Which CSS type has the smallest scope — a single element, a single page, or an entire website?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Inline CSS — it applies to a single specific element only.</div>
+                </div>
+
+                <div class="quiz-item">
+                    <p class="quiz-question">3. Where must the <code>&lt;style&gt;</code> tag for Internal CSS be placed?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Inside the <code>&lt;head&gt;</code> section of the HTML document.</div>
+                </div>
+
+                <div class="quiz-item">
+                    <p class="quiz-question">4. Which HTML tag connects an External CSS file, and which attribute holds its path?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The <code>&lt;link&gt;</code> tag, using the <code>href</code> attribute (with <code>rel="stylesheet"</code>).</div>
+                </div>
+
+                <div class="quiz-item">
+                    <p class="quiz-question">5. An element has both an ID-selector rule and a class-selector rule, each setting a different color. Which one wins, and why?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The ID rule wins — ID selectors carry higher specificity than class selectors, regardless of source order.</div>
+                </div>
+
+                <div class="quiz-item">
+                    <p class="quiz-question">6. True or False: External CSS always loads faster than Internal CSS, on every single page view.</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">False. External CSS needs an extra HTTP request the first time it's fetched — but the browser then caches it, so it becomes faster than repeating Internal CSS on every subsequent page.</div>
+                </div>
+
+                <div class="quiz-item">
+                    <p class="quiz-question">7. A stylesheet linked in <code>&lt;head&gt;</code> sets <code>p { color: blue; }</code>. An internal <code>&lt;style&gt;</code> block placed right after it sets <code>p { color: green; }</code>. No inline style is used. What color is the paragraph text, and why?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Green — both rules use the same element selector (equal specificity), so the rule written later in the source order (the internal one) wins.</div>
+                </div>
+
+                <div class="quiz-item">
+                    <p class="quiz-question">8. Critical analysis: which CSS method is most efficient for building a multi-page website, and why?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">External CSS — it controls the design of the entire site from one file, enforcing consistency, keeping HTML clean, and loading faster overall thanks to browser caching.</div>
+                </div>
+
+                <div class="note-box">
+                    <h4><i class="fas fa-diagram-project"></i> Extension Activity: Concept Map</h4>
+                    <p>In your notebooks, draw a concept map illustrating the three CSS types. Connect each type to its scope, its key advantages and disadvantages, and where it sits in the cascade priority order covered in Section 1.</p>
+                </div>
+            </section>
+
+            <figure class="lesson-image-block">
                 <img src="/assets/images/lessons/css-tasks-result.png" width="600" style="height: auto; border-radius: 8px; border: 1px solid #ddd;" alt="Browser output showing the combined result of inline, internal, and external CSS">
-                <figcaption style="margin-top: 10px; font-size: 0.9rem; color: #555;">Figure 2: Expected browser output after combining all CSS methods.</figcaption>
+                <figcaption>Figure 2: Expected browser output after combining all CSS methods.</figcaption>
             </figure>
 
             <nav class="lesson-nav">
