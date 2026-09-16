@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Page Design &amp; Forms — mr. TEA</title>
     <meta name="description"
-        content="HTML structure, semantic elements, CSS basics, and HTML forms for data entry. NIS Grade 11 CS Theory.">
+        content="HTML structure, semantic elements, the head element, text formatting, hyperlinks, images, and HTML forms for data entry. NIS Grade 11 CS Theory.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
@@ -48,7 +48,7 @@
             <div class="lesson-header">
                 <div class="lesson-unit-badge"><i class="fas fa-globe"></i> Unit 11.1B · Term 1</div>
                 <h1 class="lesson-title">Web Page Design &amp; Forms</h1>
-                <p class="lesson-intro">Every website you visit is built using <strong>HTML</strong> for structure and <strong>CSS</strong> for styling. In this lesson, we will explore semantic webpage layouts and learn how to collect user data using HTML forms.</p>
+                <p class="lesson-intro">Every website you visit is built using <strong>HTML</strong> for structure and <strong>CSS</strong> for styling. In this lesson, we will explore where HTML came from, how a page is structured from the inside out, and how to collect user data using HTML forms.</p>
             </div>
 
             <div class="lesson-lo-card">
@@ -83,6 +83,29 @@
                         <li><strong>HTML Forms</strong> are the letterboxes and intercoms that allow visitors to send information back to the house owner.</li>
                     </ul>
                 </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-clock-rotate-left"></i> Foundations: What Exactly Is a Markup Language?</h2>
+
+                <p><strong>HTML</strong> stands for <strong>HyperText Markup Language</strong>. A <strong>markup language</strong> is a computer language that describes the structure and presentation of raw text using <strong>tags</strong> — it does not perform calculations or logic like a programming language (e.g. Python); it simply labels content so a browser knows how to display it.</p>
+
+                <p><strong>Hypertext</strong> is text displayed on a screen that contains links (<em>hyperlinks</em>) to other text or pages, allowing non-linear navigation between documents — this is the "H" in HTML and the foundation of the World Wide Web.</p>
+
+                <div class="analogy-box">
+                    <h4><i class="fas fa-timeline"></i> A Very Short History</h4>
+                    <ul>
+                        <li><strong>1990</strong> — HTML created by Tim Berners-Lee at CERN, based on an older markup standard called SGML.</li>
+                        <li><strong>1997–1999</strong> — HTML 4.01 becomes a widely supported W3C standard.</li>
+                        <li><strong>2000s</strong> — XHTML attempts a stricter, XML-based version of HTML.</li>
+                        <li><strong>2014</strong> — HTML5 is finalised, adding semantic tags (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;video&gt;</code>, etc.) and is the current standard used today.</li>
+                    </ul>
+                </div>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Tags vs. Attributes</h3>
+                <p>A <strong>tag</strong> names an element and is written inside angle brackets, e.g. <code>&lt;p&gt;</code>. Most tags come in pairs — an opening tag and a closing tag with a forward slash, e.g. <code>&lt;p&gt;...&lt;/p&gt;</code>. A few tags are "empty" and never need a closing tag, such as <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>, and <code>&lt;img&gt;</code>.</p>
+                <p>An <strong>attribute</strong> gives extra information about an element and is written inside the opening tag as <code>name="value"</code>, e.g. in <code>&lt;img src="cat.jpg" alt="A cat"&gt;</code>, <code>src</code> and <code>alt</code> are attributes.</p>
+                <p>You can also add a <strong>comment</strong> to your code that the browser will ignore — useful for leaving notes for yourself: <code>&lt;!-- this is a comment --&gt;</code></p>
             </section>
 
             <section class="lesson-section">
@@ -132,6 +155,51 @@
                     </tbody>
                 </table>
 
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Inside the &lt;head&gt; Element</h3>
+
+                <p>The <code>&lt;head&gt;</code> section never displays content in the browser window — instead it carries <em>metadata</em> (data about the page) that browsers and search engines use behind the scenes.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Tag inside &lt;head&gt;</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;title&gt;</code></td>
+                            <td>Text shown in the browser tab / title bar. Every HTML page must have exactly one.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;meta charset="UTF-8"&gt;</code></td>
+                            <td>Declares the character encoding so text (including non-English letters) displays correctly.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;meta name="description" content="..."&gt;</code></td>
+                            <td>A short summary of the page, often shown in search engine results.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;link rel="stylesheet" href="..."&gt;</code></td>
+                            <td>Connects an external CSS file to style the page.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;script&gt;</code></td>
+                            <td>Embeds or links JavaScript code (can also appear at the end of <code>&lt;body&gt;</code>).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">A</span> A Complete &lt;head&gt; Example</h4>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My Portfolio&lt;/title&gt;
+    &lt;meta name="description" content="A student portfolio website."&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;</code></div>
+                </div>
+
                 <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Essential Content Tags</h3>
                 
                 <table class="theory-table">
@@ -157,6 +225,95 @@
                         <tr>
                             <td><strong>Tables</strong></td>
                             <td><code>&lt;table&gt;</code> (Container), <code>&lt;tr&gt;</code> (Row), <code>&lt;th&gt;</code> (Header cell), <code>&lt;td&gt;</code> (Standard data cell).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Text Formatting &amp; Emphasis</h3>
+
+                <p>HTML5 draws a line between <strong>presentation</strong> (how text looks) and <strong>semantics</strong> (what text means). Where possible, prefer the semantic tag — CSS should handle pure appearance.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Tag</th>
+                            <th>Effect / Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;strong&gt;</code></td>
+                            <td>Marks text as important — renders bold. Preferred over <code>&lt;b&gt;</code>, which is purely visual.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;em&gt;</code></td>
+                            <td>Marks text as emphasised — renders italic. Preferred over <code>&lt;i&gt;</code>, which is purely visual.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;u&gt;</code></td>
+                            <td>Underlines text. Use sparingly — underlined text is usually expected to be a link.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;font color="..." size="..."&gt;</code></td>
+                            <td><strong>Deprecated in HTML5.</strong> Colour and size should be set with CSS instead (e.g. <code>style="color:red;"</code>).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Hyperlinks</h3>
+
+                <p>The anchor tag <code>&lt;a&gt;</code> creates a clickable hyperlink. Its most important attribute is <code>href</code>, which points to the destination.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Example</th>
+                            <th>What it does</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;a href="about.html"&gt;About&lt;/a&gt;</code></td>
+                            <td>Links to another page on the same website (a relative path).</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="https://nis.edu.kz"&gt;NIS&lt;/a&gt;</code></td>
+                            <td>Links to an external website (an absolute path).</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="mailto:teacher@school.kz"&gt;Email us&lt;/a&gt;</code></td>
+                            <td>Opens the visitor's default email client with the address pre-filled.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="..." target="_blank"&gt;</code></td>
+                            <td>Opens the link in a new browser tab.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Images in Detail</h3>
+
+                <p>The <code>&lt;img&gt;</code> tag is an empty element (no closing tag) that always needs a <code>src</code> attribute. Three attributes matter most for the exam:</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>src</code></td>
+                            <td>The file path or URL of the image — required.</td>
+                        </tr>
+                        <tr>
+                            <td><code>alt</code></td>
+                            <td>Alternative text shown if the image fails to load, and read aloud by screen readers — required for accessibility.</td>
+                        </tr>
+                        <tr>
+                            <td><code>width</code> / <code>height</code></td>
+                            <td>Sets the display size of the image in pixels.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -200,12 +357,36 @@
                             <td>A single-line text input field (e.g., for First Name).</td>
                         </tr>
                         <tr>
+                            <td><code>&lt;input type="password"&gt;</code></td>
+                            <td>A single-line text field that masks characters as dots — used for passwords.</td>
+                        </tr>
+                        <tr>
                             <td><code>&lt;input type="radio"&gt;</code></td>
                             <td>A radio button. Allows a user to select ONLY ONE option from a group (e.g., Language).</td>
                         </tr>
                         <tr>
                             <td><code>&lt;input type="checkbox"&gt;</code></td>
                             <td>A checkbox. Allows a user to select ZERO or MORE options.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;textarea&gt;&lt;/textarea&gt;</code></td>
+                            <td>A multi-line text box, e.g. for comments or messages.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;select&gt;&lt;option&gt;...&lt;/option&gt;&lt;/select&gt;</code></td>
+                            <td>A drop-down list; each <code>&lt;option&gt;</code> is one choice.</td>
+                        </tr>
+                        <tr>
+                            <td><code>placeholder="..."</code></td>
+                            <td>Grey hint text shown inside an empty input before the user types.</td>
+                        </tr>
+                        <tr>
+                            <td><code>required</code></td>
+                            <td>Prevents the form from submitting until this field is filled in.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;fieldset&gt;&lt;legend&gt;...&lt;/legend&gt;&lt;/fieldset&gt;</code></td>
+                            <td>Groups related form fields together under a shared caption.</td>
                         </tr>
                         <tr>
                             <td><code>&lt;input type="submit"&gt;</code></td>
@@ -258,6 +439,28 @@
     &lt;input type="submit" value="Register"&gt;
 &lt;/form&gt;</code></div>
                 </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> A Feedback Form with Dropdown &amp; Textarea</h4>
+                    <p>This example combines a drop-down list, a multi-line comment box, and a required field.</p>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;form action="/feedback" method="POST"&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Lesson Feedback&lt;/legend&gt;
+
+        &lt;label for="rating"&gt;How useful was this lesson?&lt;/label&gt;&lt;br&gt;
+        &lt;select id="rating" name="rating"&gt;
+            &lt;option value="5"&gt;Excellent&lt;/option&gt;
+            &lt;option value="3"&gt;Average&lt;/option&gt;
+            &lt;option value="1"&gt;Needs work&lt;/option&gt;
+        &lt;/select&gt;&lt;br&gt;&lt;br&gt;
+
+        &lt;label for="comments"&gt;Comments:&lt;/label&gt;&lt;br&gt;
+        &lt;textarea id="comments" name="comments" rows="4" cols="30" placeholder="Type here..." required&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+
+        &lt;input type="submit" value="Send Feedback"&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;</code></div>
+                </div>
             </section>
 
             <section class="lesson-section">
@@ -269,6 +472,18 @@
                 <div class="pitfall-box">
                     <h4><i class="fas fa-bug"></i> Forgetting to link Radio Buttons</h4>
                     <p>If you create two radio buttons but give them different <code>name="..."</code> attributes, the user will be able to select both of them at the same time! To group radio buttons together so only one can be clicked, they <strong>must share the exact same <code>name</code></strong>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Missing the <code>alt</code> Attribute</h4>
+                    <p>Every <code>&lt;img&gt;</code> tag should include an <code>alt</code> attribute. Without it, screen readers cannot describe the image to visually impaired users, and visitors see nothing useful if the image fails to load.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Confusing GET and POST</h4>
+                    <p><code>method="GET"</code> appends form data visibly to the URL — fine for searches, but not for sensitive data. <code>method="POST"</code> sends data invisibly in the request body — always use POST for passwords or personal information.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Incorrect Tag Nesting</h4>
+                    <p>Tags must close in the reverse order they were opened. <code>&lt;p&gt;&lt;strong&gt;text&lt;/p&gt;&lt;/strong&gt;</code> is invalid; it should be <code>&lt;p&gt;&lt;strong&gt;text&lt;/strong&gt;&lt;/p&gt;</code>.</p>
                 </div>
             </section>
 
@@ -297,6 +512,32 @@
                         <p><strong>Instructions:</strong> Briefly explain the visual and structural difference between using the <code>&lt;p&gt;</code> tag and using the <code>&lt;br&gt;</code> tag when separating lines of text on a web page.</p>
                     </div>
 
+                    <div class="task-item">
+                        <span class="task-level apply">Apply (Form Creation)</span>
+                        <h4>Task 4: Class Survey Form</h4>
+                        <p><strong>Instructions:</strong> Build a form that collects a student's name (text), favourite subject (drop-down <code>&lt;select&gt;</code> with at least 4 subjects), and an open comment (<code>&lt;textarea&gt;</code>). Make the name field <code>required</code>. Submit using <code>POST</code>.</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level analyze">Analyze (Debugging)</span>
+                        <h4>Task 5: Find the Three Errors</h4>
+                        <p><strong>Instructions:</strong> The code below contains three mistakes. Identify and correct them.</p>
+                        <div class="code-block" style="margin-top: 5px;"><code>&lt;html&gt;
+&lt;head&gt
+    &lt;title&gt;My Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome&lt;/h2&gt;
+    &lt;img src="dog.jpg"&gt;
+&lt;/body&gt;</code></div>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level evaluate">Evaluate (Structure Planning)</span>
+                        <h4>Task 6: Plan a Semantic Homepage</h4>
+                        <p><strong>Instructions:</strong> A local bakery wants a one-page website with a logo, a navigation menu, a welcome message, a menu of products, a customer testimonial sidebar, and contact details at the bottom. Sketch which semantic tag (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code>) you would use for each part, and explain your choices.</p>
+                    </div>
+
                 </div>
             </section>
 
@@ -313,6 +554,26 @@
                 <div class="quiz-item">
                     <p class="quiz-question">Q3: How do you link an external CSS file to an HTML document?</p>
                     <div class="quiz-answer" onclick="this.classList.toggle('revealed')">By using the link tag inside the head section: <code>&lt;link rel="stylesheet" href="styles.css"&gt;</code>.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q4: What is the difference between <code>method="GET"</code> and <code>method="POST"</code> on a form?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">GET sends form data visibly as part of the URL (suitable for searches); POST sends it invisibly in the request body (suitable for sensitive or large data).</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q5: Why should <code>&lt;strong&gt;</code> generally be used instead of <code>&lt;b&gt;</code>?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>&lt;strong&gt;</code> conveys semantic importance (meaning) as well as bold styling, while <code>&lt;b&gt;</code> only affects visual appearance with no meaning attached.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q6: A student writes <code>&lt;img src="photo.jpg"&gt;</code> with no other attributes. What important attribute is missing, and why does it matter?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The <code>alt</code> attribute is missing. It provides alternative text for screen readers and for when the image fails to load — important for accessibility.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q7: Which form element would you use to let a user pick exactly one option from a drop-down list of 10 countries?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>&lt;select&gt;</code> with multiple <code>&lt;option&gt;</code> elements — it's more compact than 10 radio buttons for a long list of choices.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q8: What does the <code>required</code> attribute do on a form field?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It stops the browser from submitting the form until that field has been filled in.</div>
                 </div>
             </section>
 
