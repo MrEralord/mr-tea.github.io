@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Page Design &amp; Forms — mr. TEA</title>
     <meta name="description"
-        content="HTML structure, semantic elements, the head element, text formatting, hyperlinks, images, and HTML forms for data entry. NIS Grade 11 CS Theory.">
+        content="HTML structure, semantic elements, the head element, text formatting, hyperlinks, images, tables, multimedia, and HTML forms for data entry. NIS Grade 11 CS Theory.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
@@ -17,6 +17,14 @@
       gtag('js', new Date());
       gtag('config', 'G-P4C0Y8SW2K');
     </script>
+    <style>
+      .live-preview { border: 1px solid #ddd; border-radius: 8px; padding: 14px 16px; margin: 8px 0 20px; background: #fafafa; }
+      .live-preview-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #888; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+      .live-preview-body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: #222; }
+      .live-preview-body form { margin: 0; }
+      .live-preview-body table { border-collapse: collapse; }
+      .live-preview-body td, .live-preview-body th { border: 1px solid #ccc; padding: 6px 10px; }
+    </style>
 </head>
 
 <body>
@@ -219,7 +227,7 @@
                             <td><code>&lt;ul&gt;</code> (Unordered bullet list), <code>&lt;ol&gt;</code> (Ordered numbered list), <code>&lt;li&gt;</code> (List item).</td>
                         </tr>
                         <tr>
-                            <td><strong>Media & Links</strong></td>
+                            <td><strong>Media &amp; Links</strong></td>
                             <td><code>&lt;img src="..." alt="..."&gt;</code> (Image), <code>&lt;a href="..."&gt;</code> (Hyperlink).</td>
                         </tr>
                         <tr>
@@ -254,11 +262,44 @@
                             <td>Underlines text. Use sparingly — underlined text is usually expected to be a link.</td>
                         </tr>
                         <tr>
+                            <td><code>&lt;mark&gt;</code></td>
+                            <td>Highlights text with a yellow background, like a highlighter pen.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;small&gt;</code></td>
+                            <td>Renders text at a smaller font size — often used for fine print.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;del&gt;</code> / <code>&lt;ins&gt;</code></td>
+                            <td>Shows edited content: <code>&lt;del&gt;</code> strikes through removed text, <code>&lt;ins&gt;</code> underlines newly added text.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;sub&gt;</code> / <code>&lt;sup&gt;</code></td>
+                            <td>Subscript (below the line, e.g. H<sub>2</sub>O) and superscript (above the line, e.g. footnotes<sup>1</sup>).</td>
+                        </tr>
+                        <tr>
                             <td><code>&lt;font color="..." size="..."&gt;</code></td>
                             <td><strong>Deprecated in HTML5.</strong> Colour and size should be set with CSS instead (e.g. <code>style="color:red;"</code>).</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">B</span> All the Formatting Tags Together</h4>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;p&gt;&lt;strong&gt;Important:&lt;/strong&gt; the exam is &lt;mark&gt;next Monday&lt;/mark&gt;.&lt;/p&gt;
+&lt;p&gt;The formula for water is H&lt;sub&gt;2&lt;/sub&gt;O.&lt;/p&gt;
+&lt;p&gt;My favourite colour is &lt;del&gt;blue&lt;/del&gt; &lt;ins&gt;red&lt;/ins&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;small&gt;Terms and conditions apply.&lt;/small&gt;&lt;/p&gt;</code></div>
+                    <div class="live-preview">
+                        <div class="live-preview-label"><i class="fas fa-eye"></i> Live Result</div>
+                        <div class="live-preview-body">
+                            <p><strong>Important:</strong> the exam is <mark>next Monday</mark>.</p>
+                            <p>The formula for water is H<sub>2</sub>O.</p>
+                            <p>My favourite colour is <del>blue</del> <ins>red</ins>.</p>
+                            <p><small>Terms and conditions apply.</small></p>
+                        </div>
+                    </div>
+                </div>
 
                 <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Hyperlinks</h3>
 
@@ -286,14 +327,35 @@
                         </tr>
                         <tr>
                             <td><code>&lt;a href="..." target="_blank"&gt;</code></td>
-                            <td>Opens the link in a new browser tab.</td>
+                            <td>Opens the link in a new browser tab. Other values: <code>_self</code> (default, same tab), <code>_parent</code>, <code>_top</code> (used with frames).</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="..." title="..."&gt;</code></td>
+                            <td>Adds a tooltip that appears when the mouse hovers over the link.</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="..."&gt;&lt;img src="..." alt="..."&gt;&lt;/a&gt;</code></td>
+                            <td>Turns an image into a clickable link by placing <code>&lt;img&gt;</code> inside <code>&lt;a&gt;</code>.</td>
                         </tr>
                     </tbody>
                 </table>
 
+                <div class="worked-example">
+                    <h4><span class="step-num">C</span> Links in Action</h4>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;a href="https://www.cambridgeinternational.org/" target="_blank" title="Opens in a new tab"&gt;Visit Cambridge International&lt;/a&gt;&lt;br&gt;
+&lt;a href="mailto:teacher@school.kz"&gt;Send an email&lt;/a&gt;</code></div>
+                    <div class="live-preview">
+                        <div class="live-preview-label"><i class="fas fa-eye"></i> Live Result</div>
+                        <div class="live-preview-body">
+                            <a href="https://www.cambridgeinternational.org/" target="_blank" title="Opens in a new tab">Visit Cambridge International</a><br>
+                            <a href="mailto:teacher@school.kz">Send an email</a>
+                        </div>
+                    </div>
+                </div>
+
                 <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Images in Detail</h3>
 
-                <p>The <code>&lt;img&gt;</code> tag is an empty element (no closing tag) that always needs a <code>src</code> attribute. Three attributes matter most for the exam:</p>
+                <p>The <code>&lt;img&gt;</code> tag is an empty element (no closing tag) that always needs a <code>src</code> attribute.</p>
 
                 <table class="theory-table">
                     <thead>
@@ -313,10 +375,100 @@
                         </tr>
                         <tr>
                             <td><code>width</code> / <code>height</code></td>
-                            <td>Sets the display size of the image in pixels.</td>
+                            <td>Sets the display size in pixels. Always set these to stop the page flickering while the image loads.</td>
+                        </tr>
+                        <tr>
+                            <td><code>style="width:...;height:..."</code></td>
+                            <td>An alternative way to size an image with CSS — many developers prefer this because it can't be overridden accidentally by other width/height attributes.</td>
+                        </tr>
+                        <tr>
+                            <td><code>style="float:left;"</code> / <code>float:right;</code></td>
+                            <td>Makes surrounding text wrap around the image, like in a newspaper.</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <p>Common image formats you should recognise:</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Format</th>
+                            <th>Extension</th>
+                            <th>Typical use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>JPEG</td><td><code>.jpg</code>, <code>.jpeg</code></td><td>Photographs (small file size, no transparency).</td></tr>
+                        <tr><td>PNG</td><td><code>.png</code></td><td>Graphics/logos needing transparency.</td></tr>
+                        <tr><td>GIF</td><td><code>.gif</code></td><td>Simple animations.</td></tr>
+                        <tr><td>SVG</td><td><code>.svg</code></td><td>Vector icons/logos that scale without losing quality.</td></tr>
+                    </tbody>
+                </table>
+
+                <p>If an image sits inside a sub-folder, include the folder name in <code>src</code>, e.g. <code>&lt;img src="/images/logo.png" alt="Logo"&gt;</code>.</p>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">D</span> Sizing and Floating an Image</h4>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;img src="icon.svg" alt="Warning icon" style="width:60px;height:60px;float:left;margin-right:10px;"&gt;
+&lt;p&gt;Text will wrap neatly around an image that floats to the left, which is useful for magazine-style layouts.&lt;/p&gt;</code></div>
+                    <div class="live-preview">
+                        <div class="live-preview-label"><i class="fas fa-eye"></i> Live Result</div>
+                        <div class="live-preview-body">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><rect width='60' height='60' rx='8' fill='%23e0a800'/><text x='30' y='38' font-size='30' text-anchor='middle' fill='white'>!</text></svg>" alt="Warning icon" style="width:60px;height:60px;float:left;margin-right:10px;">
+                            <p>Text will wrap neatly around an image that floats to the left, which is useful for magazine-style layouts.</p>
+                            <div style="clear:both;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Tables in Detail</h3>
+
+                <p>Beyond the basic <code>&lt;table&gt;</code>/<code>&lt;tr&gt;</code>/<code>&lt;td&gt;</code>, a few extra tags make tables more structured and accessible:</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Tag</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>&lt;caption&gt;</code></td><td>Adds a title/caption above the table, describing what it shows.</td></tr>
+                        <tr><td><code>&lt;thead&gt;</code></td><td>Groups the header row(s) of a table.</td></tr>
+                        <tr><td><code>&lt;tbody&gt;</code></td><td>Groups the main data rows of a table.</td></tr>
+                        <tr><td><code>&lt;tfoot&gt;</code></td><td>Groups footer rows, e.g. totals at the bottom.</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">E</span> A Fully Structured Table</h4>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;table&gt;
+    &lt;caption&gt;Grade 11 Elective Choices&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;&lt;th&gt;Student&lt;/th&gt;&lt;th&gt;Elective&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;&lt;td&gt;Aisulu&lt;/td&gt;&lt;td&gt;Computer Science&lt;/td&gt;&lt;/tr&gt;
+        &lt;tr&gt;&lt;td&gt;Nurlan&lt;/td&gt;&lt;td&gt;Physics&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></div>
+                    <div class="live-preview">
+                        <div class="live-preview-label"><i class="fas fa-eye"></i> Live Result</div>
+                        <div class="live-preview-body">
+                            <table>
+                                <caption>Grade 11 Elective Choices</caption>
+                                <thead>
+                                    <tr><th>Student</th><th>Elective</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Aisulu</td><td>Computer Science</td></tr>
+                                    <tr><td>Nurlan</td><td>Physics</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
                 <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">HTML Forms for Data Entry</h3>
 
@@ -392,8 +544,41 @@
                             <td><code>&lt;input type="submit"&gt;</code></td>
                             <td>A button that submits the form data to the server.</td>
                         </tr>
+                        <tr>
+                            <td><code>name</code> attribute</td>
+                            <td>Every input needs a <code>name</code> to be submitted at all — without it, that field's value is silently ignored.</td>
+                        </tr>
                     </tbody>
                 </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-film"></i> Extra: Multimedia (Video &amp; Audio)</h2>
+                <p>Not part of the core assessment objectives for this unit, but useful for building richer interfaces and often appears in project-style tasks.</p>
+
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Tag / Attribute</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>&lt;video controls&gt;&lt;source src="..." type="video/mp4"&gt;&lt;/video&gt;</code></td><td>Embeds a video with play/pause/volume controls.</td></tr>
+                        <tr><td><code>&lt;audio controls&gt;&lt;source src="..." type="audio/mpeg"&gt;&lt;/audio&gt;</code></td><td>Embeds an audio player.</td></tr>
+                        <tr><td><code>autoplay</code> / <code>muted</code> / <code>loop</code></td><td>Starts playback automatically (most browsers require <code>muted</code> for autoplay to work), and/or repeats playback.</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">F</span> Embedding a Video with a Fallback</h4>
+                    <div class="code-block" style="margin-top: 5px;"><code>&lt;video width="320" height="240" controls&gt;
+    &lt;source src="lesson-demo.mp4" type="video/mp4"&gt;
+    &lt;source src="lesson-demo.ogg" type="video/ogg"&gt;
+    Your browser does not support the video tag.
+&lt;/video&gt;</code></div>
+                    <p style="font-size:0.9rem;color:#666;"><i class="fas fa-circle-info"></i> No live preview here — the browser needs a real video file at that path to play anything; on your own site, point <code>src</code> to an uploaded video.</p>
+                </div>
             </section>
 
             <section class="lesson-section">
@@ -417,6 +602,13 @@
     &lt;/main&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></div>
+                    <div class="live-preview">
+                        <div class="live-preview-label"><i class="fas fa-eye"></i> Live Result (body content only — &lt;head&gt; is invisible)</div>
+                        <div class="live-preview-body">
+                            <h1 style="margin:0 0 8px;">Welcome to My Website</h1>
+                            <p>This is the main content area.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="worked-example">
@@ -438,6 +630,21 @@
     &lt;!-- Submit Button --&gt;
     &lt;input type="submit" value="Register"&gt;
 &lt;/form&gt;</code></div>
+                    <div class="live-preview">
+                        <div class="live-preview-label"><i class="fas fa-eye"></i> Live Result</div>
+                        <div class="live-preview-body">
+                            <form onsubmit="return false;">
+                                <label for="fname-demo">First name:</label><br>
+                                <input type="text" id="fname-demo" name="fname"><br><br>
+                                <p>Select preferred language:</p>
+                                <input type="radio" id="eng-demo" name="language-demo" value="English">
+                                <label for="eng-demo">English</label><br>
+                                <input type="radio" id="kz-demo" name="language-demo" value="Kazakh">
+                                <label for="kz-demo">Kazakh</label><br><br>
+                                <input type="submit" value="Register">
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="worked-example">
@@ -460,6 +667,25 @@
         &lt;input type="submit" value="Send Feedback"&gt;
     &lt;/fieldset&gt;
 &lt;/form&gt;</code></div>
+                    <div class="live-preview">
+                        <div class="live-preview-label"><i class="fas fa-eye"></i> Live Result</div>
+                        <div class="live-preview-body">
+                            <form onsubmit="return false;">
+                                <fieldset>
+                                    <legend>Lesson Feedback</legend>
+                                    <label for="rating-demo">How useful was this lesson?</label><br>
+                                    <select id="rating-demo" name="rating">
+                                        <option value="5">Excellent</option>
+                                        <option value="3">Average</option>
+                                        <option value="1">Needs work</option>
+                                    </select><br><br>
+                                    <label for="comments-demo">Comments:</label><br>
+                                    <textarea id="comments-demo" name="comments" rows="4" cols="30" placeholder="Type here..."></textarea><br><br>
+                                    <input type="submit" value="Send Feedback">
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -484,6 +710,10 @@
                 <div class="pitfall-box">
                     <h4><i class="fas fa-bug"></i> Incorrect Tag Nesting</h4>
                     <p>Tags must close in the reverse order they were opened. <code>&lt;p&gt;&lt;strong&gt;text&lt;/p&gt;&lt;/strong&gt;</code> is invalid; it should be <code>&lt;p&gt;&lt;strong&gt;text&lt;/strong&gt;&lt;/p&gt;</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting an Input's <code>name</code> Attribute</h4>
+                    <p>If an <code>&lt;input&gt;</code> has no <code>name</code>, its value is not submitted at all when the form is sent — the field is effectively invisible to the server.</p>
                 </div>
             </section>
 
@@ -538,6 +768,18 @@
                         <p><strong>Instructions:</strong> A local bakery wants a one-page website with a logo, a navigation menu, a welcome message, a menu of products, a customer testimonial sidebar, and contact details at the bottom. Sketch which semantic tag (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code>) you would use for each part, and explain your choices.</p>
                     </div>
 
+                    <div class="task-item">
+                        <span class="task-level apply">Apply (Tables)</span>
+                        <h4>Task 7: A Fully Structured Timetable</h4>
+                        <p><strong>Instructions:</strong> Build a weekly timetable using <code>&lt;table&gt;</code>. Include a <code>&lt;caption&gt;</code> describing the table, group the day names in a <code>&lt;thead&gt;</code>, and put the lesson rows inside a <code>&lt;tbody&gt;</code>.</p>
+                    </div>
+
+                    <div class="task-item">
+                        <span class="task-level apply">Apply (Links &amp; Images)</span>
+                        <h4>Task 8: A Clickable Image Gallery Link</h4>
+                        <p><strong>Instructions:</strong> Create a small thumbnail image that, when clicked, opens a full-size version of the same image in a new browser tab. Add a <code>title</code> attribute with a short tooltip description.</p>
+                    </div>
+
                 </div>
             </section>
 
@@ -574,6 +816,18 @@
                 <div class="quiz-item">
                     <p class="quiz-question">Q8: What does the <code>required</code> attribute do on a form field?</p>
                     <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It stops the browser from submitting the form until that field has been filled in.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q9: Which tag would you use to show a chemical formula like H<sub>2</sub>O correctly?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>&lt;sub&gt;</code> (subscript), to place the "2" slightly below the normal line.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q10: What does <code>target="_blank"</code> do on a hyperlink?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It opens the linked page in a new browser tab or window, instead of replacing the current page.</div>
+                </div>
+                <div class="quiz-item">
+                    <p class="quiz-question">Q11: Why might a developer group table rows inside <code>&lt;thead&gt;</code> and <code>&lt;tbody&gt;</code> instead of leaving them as plain <code>&lt;tr&gt;</code> rows?</p>
+                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It clearly separates header rows from data rows, which improves accessibility and makes the table easier to style with CSS.</div>
                 </div>
             </section>
 
