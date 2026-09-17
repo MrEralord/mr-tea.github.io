@@ -3,480 +3,3745 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Program Compilation Stages — mr. TEA</title>
+
     <meta name="description"
-        content="The 6 stages of program compilation: lexical, syntax, semantic analysis, intermediate code, optimization, and target code generation. Linkers and loaders. NIS Grade 12 CS.">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+          content="Grade 12 Computer Science lesson about the six stages of program compilation: lexical analysis, syntax analysis, semantic analysis, intermediate code generation, optimization and target code generation. Includes tokens, lexemes, parse trees, ASTs, linkers, loaders and library routines.">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+
+    <!-- =========================================================
+         Extra styles only for this lesson page
+         You may later move them to lesson.css
+    ========================================================== -->
+    <style>
+
+        /* ---------- Pipeline ---------- */
+
+        .compiler-pipeline {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin: 24px 0;
+        }
+
+        .pipeline-stage {
+            position: relative;
+            padding: 18px 12px;
+            border: 1px solid var(--border-color, #dfe3e8);
+            border-radius: 14px;
+            background: var(--card-bg, #ffffff);
+            text-align: center;
+            min-height: 150px;
+        }
+
+        .pipeline-stage .pipeline-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent-color, #f59e0b);
+            color: white;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .pipeline-stage h4 {
+            margin: 5px 0 8px;
+            font-size: 0.95rem;
+        }
+
+        .pipeline-stage p {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .pipeline-stage .pipeline-output {
+            margin-top: 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+
+        /* ---------- Translator cards ---------- */
+
+        .translator-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .translator-card {
+            border: 1px solid var(--border-color, #e0e0e0);
+            border-radius: 14px;
+            padding: 18px;
+            background: var(--card-bg, #fff);
+        }
+
+        .translator-card h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .translator-card .translator-icon {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--accent-color, #f59e0b);
+        }
+
+
+        /* ---------- Source code examples ---------- */
+
+        .code-demo {
+            background: #111827;
+            color: #f9fafb;
+            padding: 16px 18px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 14px 0;
+            font-family: Consolas, Monaco, "Courier New", monospace;
+            line-height: 1.6;
+        }
+
+        .code-demo code {
+            color: inherit;
+        }
+
+
+        /* ---------- Running example ---------- */
+
+        .running-example {
+            border-left: 5px solid var(--accent-color, #f59e0b);
+            background: var(--card-bg, #ffffff);
+            border-radius: 10px;
+            padding: 18px;
+            margin: 24px 0;
+        }
+
+        .running-example h3,
+        .running-example h4 {
+            margin-top: 0;
+        }
+
+
+        /* ---------- Input -> Process -> Output ---------- */
+
+        .stage-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            align-items: center;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .stage-flow-box {
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            background: var(--card-bg, #fff);
+            font-size: 0.9rem;
+        }
+
+        .stage-flow-arrow {
+            font-size: 1.25rem;
+            opacity: 0.7;
+        }
+
+
+        /* ---------- Token colours ---------- */
+
+        .token-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color, #ddd);
+            margin: 14px 0;
+        }
+
+        .token-chip {
+            display: inline-flex;
+            flex-direction: column;
+            padding: 8px 11px;
+            border-radius: 8px;
+            background: rgba(120,120,120,0.1);
+            font-family: Consolas, monospace;
+        }
+
+        .token-chip strong {
+            font-size: 0.9rem;
+        }
+
+        .token-chip small {
+            margin-top: 3px;
+            opacity: 0.7;
+            font-family: inherit;
+            font-size: 0.68rem;
+        }
+
+
+        /* ---------- Media placeholder ---------- */
+
+        .media-placeholder {
+            margin: 24px 0;
+            padding: 28px 20px;
+            border: 2px dashed var(--border-color, #cccccc);
+            border-radius: 14px;
+            text-align: center;
+            background: rgba(127,127,127,0.04);
+        }
+
+        .media-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.65;
+        }
+
+        .media-placeholder strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .media-placeholder p {
+            max-width: 700px;
+            margin: auto;
+            font-size: 0.9rem;
+        }
+
+
+        /* ---------- Error grid ---------- */
+
+        .error-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .error-card {
+            border-radius: 12px;
+            padding: 18px;
+            border: 1px solid var(--border-color, #ddd);
+            background: var(--card-bg, #fff);
+        }
+
+        .error-card h4 {
+            margin-top: 0;
+        }
+
+
+        /* ---------- Compiler architecture ---------- */
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .architecture-card {
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color, #ddd);
+            background: var(--card-bg, #fff);
+        }
+
+        .architecture-card h3 {
+            margin-top: 0;
+        }
+
+
+        /* ---------- Linker flow ---------- */
+
+        .linker-flow {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 22px 0;
+        }
+
+        .linker-box {
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 10px;
+            padding: 13px 16px;
+            background: var(--card-bg, #fff);
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .linker-arrow {
+            align-self: center;
+            font-size: 1.2rem;
+            opacity: 0.65;
+        }
+
+
+        /* ---------- Mobile ---------- */
+
+        @media (max-width: 1000px) {
+
+            .compiler-pipeline {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            .compiler-pipeline,
+            .translator-grid,
+            .architecture-grid,
+            .error-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stage-flow {
+                grid-template-columns: 1fr;
+            }
+
+            .stage-flow-arrow {
+                transform: rotate(90deg);
+                text-align: center;
+            }
+
+            .lesson-page table {
+                display: block;
+                overflow-x: auto;
+                white-space: normal;
+            }
+
+        }
+
+    </style>
+
+
+    <!-- Google Analytics -->
+    <script async
+            src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K">
+    </script>
+
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
         gtag('config', 'G-P4C0Y8SW2K');
     </script>
-    <style>
-        /* Custom Styles for Interactive & Visual Elements */
-        .placeholder-block {
-            background-color: #f1f3f4;
-            border: 2px dashed #9aa0a6;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-            color: #5f6368;
-        }
-        .placeholder-block i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: #1a73e8;
-        }
-        .pipeline-tabs {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 2rem 0;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        .tab-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
-            border-radius: 8px 8px 0 0;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 12px 16px;
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #5f6368;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .tab-btn:hover {
-            background-color: #f1f3f4;
-            color: #202124;
-        }
-        .tab-btn.active {
-            color: #1a73e8;
-            border-bottom-color: #1a73e8;
-            background-color: #ffffff;
-        }
-        .tab-content {
-            display: none;
-            padding: 24px;
-            animation: fadeIn 0.3s;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        .code-snippet {
-            background-color: #f8f9fa;
-            padding: 16px;
-            border-radius: 6px;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 1rem;
-            color: #202124;
-            overflow-x: auto;
-            border: 1px solid #e0e0e0;
-        }
-        .phase-desc {
-            margin-bottom: 12px;
-            color: #3c4043;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        .checklist-item { margin-bottom: 8px; }
-        .checklist-item i { color: #34a853; margin-right: 8px; }
-        .teacher-script { border-left: 4px solid #fbbc04; padding-left: 15px; margin: 15px 0; background: #fffde7; padding: 10px 15px; border-radius: 0 4px 4px 0; font-style: italic;}
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
+
 </head>
+
 
 <body>
 
-    <div class="layout-wrapper">
-        <main class="main-content">
+<div class="layout-wrapper">
 
-            <div class="mobile-header">
-                <div class="header-left">
-                    <button id="mobile-menu-btn" class="mobile-toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <a href="/" class="logo" style="margin-left: 15px;">
-                        <i class="fas fa-mug-hot logo-icon"></i>
-                        <span class="logo-text">mr. TEA</span>
+    <main class="main-content">
+
+
+        <!-- =====================================================
+             MOBILE HEADER
+        ====================================================== -->
+
+        <div class="mobile-header">
+
+            <div class="header-left">
+
+                <button id="mobile-menu-btn"
+                        class="mobile-toggle"
+                        aria-label="Open menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <a href="/"
+                   class="logo"
+                   style="margin-left:15px;">
+
+                    <i class="fas fa-mug-hot logo-icon"></i>
+                    <span class="logo-text">mr. TEA</span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             LESSON
+        ====================================================== -->
+
+        <div class="lesson-page">
+
+            <div class="lesson-container">
+
+
+                <!-- Breadcrumb -->
+
+                <nav class="lesson-breadcrumb">
+
+                    <a href="/index.html">Home</a>
+
+                    <span class="sep">/</span>
+
+                    <a href="/index.html#syllabus">
+                        Grade 12 CS
                     </a>
+
+                    <span class="sep">/</span>
+
+                    <span>
+                        12.1B — Compilation Stages
+                    </span>
+
+                </nav>
+
+
+
+                <!-- =================================================
+                     HEADER
+                ================================================== -->
+
+                <div class="lesson-header">
+
+                    <div class="lesson-unit-badge">
+
+                        <i class="fas fa-cogs"></i>
+
+                        Unit 12.1B · Term 1
+
+                    </div>
+
+                    <h1 class="lesson-title">
+                        Program Compilation Stages
+                    </h1>
+
+                    <p class="lesson-intro">
+
+                        <strong>Compilation</strong> is the process
+                        of translating source code written in a
+                        high-level programming language into a
+                        lower-level representation that can eventually
+                        be executed by a computer.
+
+                        A compiler analyses the program, detects
+                        errors, creates intermediate representations,
+                        may optimise the program, and generates
+                        target code.
+
+                    </p>
+
                 </div>
-            </div>
 
-            <div class="lesson-page">
-                <div class="lesson-container">
-                    
-                    <!-- BREADCRUMBS -->
-                    <nav class="lesson-breadcrumb">
-                        <a href="/index.html">Home</a> <span class="sep">/</span>
-                        <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
-                        <span>12.1B — Compilation Stages</span>
-                    </nav>
 
-                    <!-- HEADER & STARTER -->
-                    <div class="lesson-header">
-                        <div class="lesson-unit-badge"><i class="fas fa-cogs"></i> Unit 12.1B · Term 1</div>
-                        <h1 class="lesson-title">Program Compilation Stages</h1>
-                        <p class="lesson-intro"><strong>Compilation</strong> is the rigorous process of translating high-level
-                            source code (e.g., C++ or Java) into low-level object/machine code that a computer's CPU can execute.
+
+                <!-- =================================================
+                     LEARNING OBJECTIVES
+                ================================================== -->
+
+                <div class="lesson-lo-card">
+
+                    <h3>
+
+                        <i class="fas fa-bullseye"></i>
+
+                        Learning Objectives
+
+                    </h3>
+
+                    <ul class="lesson-lo-list">
+
+                        <li>
+
+                            <span class="lo-code">
+                                12.5.1.3
+                            </span>
+
+                            Describe programme compilation stages:
+                            lexical analysis, syntactic analysis,
+                            semantic analysis, intermediate code
+                            generation, optimization and target code
+                            generation.
+
+                        </li>
+
+                        <li>
+
+                            <span class="lo-code">
+                                12.5.1.4
+                            </span>
+
+                            Understand the role of linkers, loaders
+                            and library routines.
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     MAIN PIPELINE IMAGE
+                ================================================== -->
+
+                <!--
+                    IMAGE TO CREATE:
+                    compiler-pipeline-6-stages.svg
+
+                    Detailed description is provided after the HTML.
+                -->
+
+                <figure class="lesson-image-block">
+
+                    <img src="/assets/images/lessons/compiler-pipeline-6-stages.svg"
+                         width="1100"
+                         height="520"
+                         loading="lazy"
+                         alt="Six stages of program compilation from source code to target code">
+
+                    <figcaption>
+                        The compiler transforms source code step by step:
+                        Source Code → Tokens → Syntax Tree → Semantically
+                        Checked Representation → Intermediate Code →
+                        Optimized Code → Target Code.
+                    </figcaption>
+
+                </figure>
+
+
+
+                <!-- =================================================
+                     PIPELINE QUICK OVERVIEW
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-route"></i>
+
+                        The Compilation Pipeline
+
+                    </h2>
+
+                    <p>
+                        Compilation should not be viewed as a single
+                        translation step. A modern compiler performs a
+                        sequence of specialised stages. Each stage
+                        receives an input, performs a particular job,
+                        and passes its output to the next stage.
+                    </p>
+
+
+                    <div class="compiler-pipeline">
+
+
+                        <div class="pipeline-stage">
+
+                            <span class="pipeline-number">
+                                1
+                            </span>
+
+                            <h4>
+                                Lexical Analysis
+                            </h4>
+
+                            <p>
+                                Converts characters into meaningful
+                                tokens.
+                            </p>
+
+                            <div class="pipeline-output">
+                                Output: Token stream
+                            </div>
+
+                        </div>
+
+
+                        <div class="pipeline-stage">
+
+                            <span class="pipeline-number">
+                                2
+                            </span>
+
+                            <h4>
+                                Syntax Analysis
+                            </h4>
+
+                            <p>
+                                Checks whether tokens follow the grammar
+                                of the language.
+                            </p>
+
+                            <div class="pipeline-output">
+                                Output: Parse Tree / AST
+                            </div>
+
+                        </div>
+
+
+                        <div class="pipeline-stage">
+
+                            <span class="pipeline-number">
+                                3
+                            </span>
+
+                            <h4>
+                                Semantic Analysis
+                            </h4>
+
+                            <p>
+                                Checks whether the program is meaningful
+                                and type-correct.
+                            </p>
+
+                            <div class="pipeline-output">
+                                Output: Checked AST
+                            </div>
+
+                        </div>
+
+
+                        <div class="pipeline-stage">
+
+                            <span class="pipeline-number">
+                                4
+                            </span>
+
+                            <h4>
+                                Intermediate Code
+                            </h4>
+
+                            <p>
+                                Converts the program into an internal,
+                                machine-independent representation.
+                            </p>
+
+                            <div class="pipeline-output">
+                                Output: IR
+                            </div>
+
+                        </div>
+
+
+                        <div class="pipeline-stage">
+
+                            <span class="pipeline-number">
+                                5
+                            </span>
+
+                            <h4>
+                                Optimization
+                            </h4>
+
+                            <p>
+                                Improves the code while preserving its
+                                behaviour.
+                            </p>
+
+                            <div class="pipeline-output">
+                                Output: Optimized IR
+                            </div>
+
+                        </div>
+
+
+                        <div class="pipeline-stage">
+
+                            <span class="pipeline-number">
+                                6
+                            </span>
+
+                            <h4>
+                                Target Code
+                            </h4>
+
+                            <p>
+                                Generates instructions suitable for
+                                the target architecture.
+                            </p>
+
+                            <div class="pipeline-output">
+                                Output: Object / Machine Code
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     PRESENTATION
+                ================================================== -->
+
+                <div class="lesson-pdf-block">
+
+                    <div class="lesson-pdf-icon">
+
+                        <i class="fas fa-file-powerpoint"></i>
+
+                    </div>
+
+                    <div class="lesson-pdf-info">
+
+                        <h4>
+                            Lesson Presentation
+                        </h4>
+
+                        <p>
+                            Program Compilation · Slides for classroom use
                         </p>
+
                     </div>
 
-                    <div class="lesson-lo-card">
-                        <h3><i class="fas fa-bullseye"></i> Learning Objectives & Assessment Criteria</h3>
-                        <ul class="lesson-lo-list">
-                            <li><span class="lo-code">12.5.1.3</span> Describe programme compilation stages: lexical, syntactic,
-                                semantic analysis, intermediate code generation, optimization, and target code generation.</li>
-                            <li><span class="lo-code">12.5.1.4</span> Understand the role of linkers, loaders, and library routines.</li>
-                        </ul>
-                        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
-                        <div class="assessment-criteria">
-                            <strong><i class="fas fa-check-square"></i> By the end of the lesson, I can:</strong>
-                            <div class="checklist-item"><i class="fas fa-check"></i> classify translator types correctly.</div>
-                            <div class="checklist-item"><i class="fas fa-check"></i> turn a short code fragment into tokens/lexemes.</div>
-                            <div class="checklist-item"><i class="fas fa-check"></i> identify syntax and semantic errors and explain the parser’s role.</div>
-                            <div class="checklist-item"><i class="fas fa-check"></i> construct or interpret a simple Parse Tree and AST.</div>
-                        </div>
+                    <div class="lesson-pdf-actions">
+
+                        <a href="/assets/pdf/program_compilation.pdf"
+                           target="_blank"
+                           class="lesson-pdf-btn view-btn">
+
+                            <i class="fas fa-eye"></i>
+
+                            View
+
+                        </a>
+
+                        <a href="/assets/pdf/program_compilation.pdf"
+                           download
+                           class="lesson-pdf-btn download-btn">
+
+                            <i class="fas fa-download"></i>
+
+                            Download
+
+                        </a>
+
                     </div>
 
-                    <div class="lesson-pdf-block">
-                        <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                        <div class="lesson-pdf-info">
-                            <h4>Lesson Presentation</h4>
-                            <p>Program Compilation · Slides for classroom use</p>
-                        </div>
-                        <div class="lesson-pdf-actions">
-                            <a href="/assets/pdf/program_compilation.pdf" target="_blank"
-                                class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                            <a href="/assets/pdf/program_compilation.pdf" download class="lesson-pdf-btn download-btn"><i
-                                    class="fas fa-download"></i> Download</a>
-                        </div>
-                    </div>
-
-                    <!-- STAGE 1: KNOWLEDGE RETRIEVAL -->
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-undo"></i> 1. Retrieval: Translators Recap</h2>
-                        <p>Before diving into compilation stages, let's recall how translators operate.</p>
-                        <table class="theory-table">
-                            <thead>
-                                <tr>
-                                    <th>Compiler</th>
-                                    <th>Interpreter</th>
-                                    <th>Assembler</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Takes the <strong>entire</strong> source code in one go.</td>
-                                    <td>Takes a <strong>single line</strong> of code at a time.</td>
-                                    <td>Translates low-level assembly language.</td>
-                                </tr>
-                                <tr>
-                                    <td>Generates machine code / executable. Best for production.</td>
-                                    <td>Does not produce an executable. Best for development.</td>
-                                    <td>Generates specific machine code for a specific CPU architecture.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        <div class="teacher-script">
-                            <strong>Class Discussion Trigger:</strong> "Which translator would you choose if you are testing your code line by line to find a bug? Which one if you are preparing the final release of your software?"
-                        </div>
-                    </section>
-
-                    <!-- STAGE 3: THEORY -->
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-book"></i> 2. Theory: The 6 Phases of Compilation</h2>
-                        
-                        <!-- Main Pipeline Image Placeholder -->
-                        <div class="placeholder-block">
-                            <i class="fas fa-project-diagram"></i>
-                            <h4>[Insert SVG: compiler-pipeline-6-stages.svg]</h4>
-                            <p><em>Description for creation:</em> A horizontal or vertical flowchart showing SOURCE CODE entering the pipeline. Lexical → TOKENS → Syntax → AST → Semantic → Checked AST → Intermediate Code → IR → Optimization → Optimized IR → Target Code → OBJECT CODE. Show Symbol Table & Error Handler connected to ALL stages.</p>
-                        </div>
-
-                        <div class="worked-example">
-                            <h4><span class="step-num">1</span> Lexical Analysis</h4>
-                            <ul style="margin-bottom: var(--space-sm); padding-left: 20px;">
-                                <li>Comments and non-significant whitespace are ignored and removed.</li>
-                                <li>High-level code is grouped into a series of <strong>tokens</strong>.</li>
-                                <li><strong>Symbol Table Creation:</strong> Identifiers (names of variables, functions) are entered into the symbol table to store their attributes.</li>
-                            </ul>
-                        </div>
-
-                        <!-- Tokens vs Lexemes explicitly separated -->
-                        <div class="analogy-box" style="margin-left: 30px; margin-bottom: 20px;">
-                            <h4>Tokens vs Lexemes</h4>
-                            <p>A <strong>lexeme</strong> is the actual character sequence in the source code. A <strong>token</strong> is the category that lexeme belongs to.</p>
-                            <table class="theory-table">
-                                <thead>
-                                    <tr>
-                                        <th>Code Segment: <code>while (y >= 3)</code></th>
-                                        <th>Lexeme</th>
-                                        <th>Token Category</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td></td><td><code>while</code></td><td>KEYWORD</td></tr>
-                                    <tr><td></td><td><code>y</code></td><td>IDENTIFIER</td></tr>
-                                    <tr><td></td><td><code>>=</code></td><td>COMPARISON_OPERATOR</td></tr>
-                                    <tr><td></td><td><code>3</code></td><td>INTEGER_LITERAL</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="worked-example">
-                            <h4><span class="step-num">2</span> Syntactic Analysis (Parsing)</h4>
-                            <ul style="margin-bottom: var(--space-sm); padding-left: 20px;">
-                                <li>Checks the structural correctness of the token stream against grammar rules.</li>
-                                <li>Produces a <strong>Parse Tree</strong>.</li>
-                                <li>Produces an <strong>Abstract Syntax Tree (AST)</strong> by omitting unnecessary punctuation (like parentheses) while keeping the logical structure.</li>
-                            </ul>
-                        </div>
-
-                        <!-- Parse Tree vs AST Image Placeholder -->
-                        <div class="placeholder-block">
-                            <i class="fas fa-sitemap"></i>
-                            <h4>[Insert SVG: parse-tree-vs-ast.svg]</h4>
-                            <p><em>Description for creation:</em> Side-by-side comparison for the expression <code>a * b + c</code>. Left: Parse Tree showing detailed interior grammar nodes (expr, term, factor). Right: AST showing just the operators <code>+</code> and <code>*</code> as nodes and operands as leaves.</p>
-                        </div>
-
-                        <div class="worked-example">
-                            <h4><span class="step-num">3</span> Semantic Analysis</h4>
-                            <ul style="margin-bottom: var(--space-sm); padding-left: 20px;">
-                                <li>Verifies logical consistency. Ensures variables are declared before use.</li>
-                                <li>Performs <strong>type checking</strong> (e.g., ensuring a string is not multiplied by a float).</li>
-                                <li>Gathers data type information and updates the Symbol Table.</li>
-                            </ul>
-                        </div>
-
-                        <div class="worked-example">
-                            <h4><span class="step-num">4</span> Intermediate Code Generation</h4>
-                            <ul style="margin-bottom: var(--space-sm); padding-left: 20px;">
-                                <li>Generates a machine-independent intermediate representation (IR) of the source code (e.g., Three-Address Code).</li>
-                                <li>Acts as a bridge to facilitate cross-platform compilation.</li>
-                            </ul>
-                        </div>
-
-                        <div class="worked-example">
-                            <h4><span class="step-num">5</span> Code Optimization</h4>
-                            <ul style="margin-bottom: var(--space-sm); padding-left: 20px;">
-                                <li>Improves the IR to reduce execution time and minimize memory utilization.</li>
-                                <li>Eliminates dead code and calculates constants at compile time (Constant Folding) without altering the program's final output.</li>
-                            </ul>
-                        </div>
-
-                        <div class="worked-example">
-                            <h4><span class="step-num">6</span> Target Code Generation</h4>
-                            <ul style="margin-bottom: var(--space-sm); padding-left: 20px;">
-                                <li>Translates the optimized IR into specific machine/object code tailored to the target CPU's architecture.</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <!-- STAGE 4: MODELING (LIVE CODE) -->
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-laptop-code"></i> 3. Modeling: The Pipeline in Action</h2>
-                        <p>Let's track a single expression as it moves through the entire compiler pipeline.</p>
-                        
-                        <!-- Interactive Tabs Component -->
-                        <div class="pipeline-tabs">
-                            <div class="tab-buttons">
-                                <button class="tab-btn active" onclick="openPhase(event, 'phase-source')">Source</button>
-                                <button class="tab-btn" onclick="openPhase(event, 'phase-lex')">1. Lexical</button>
-                                <button class="tab-btn" onclick="openPhase(event, 'phase-syn')">2. Syntax</button>
-                                <button class="tab-btn" onclick="openPhase(event, 'phase-sem')">3. Semantic</button>
-                                <button class="tab-btn" onclick="openPhase(event, 'phase-ir')">4. Intermediate</button>
-                                <button class="tab-btn" onclick="openPhase(event, 'phase-opt')">5. Optimize</button>
-                                <button class="tab-btn" onclick="openPhase(event, 'phase-gen')">6. Target</button>
-                            </div>
-
-                            <div id="phase-source" class="tab-content active">
-                                <p class="phase-desc"><strong>High-Level Source Code:</strong> An assignment statement containing mixed data types (float and integer).</p>
-                                <div class="code-snippet">float a = b + c * 60;</div>
-                            </div>
-
-                            <div id="phase-lex" class="tab-content">
-                                <p class="phase-desc"><strong>Lexical Analysis:</strong> The scanner removes whitespace and creates a stream of tokens. Identifiers go to the Symbol Table.</p>
-                                <div class="code-snippet">
-<span style="color:blue;">float</span> <strong>id1</strong> = <strong>id2</strong> + <strong>id3</strong> * 60;
-<br><br><small>Tokens: [KEYWORD], [ID, 1], [ASSIGN], [ID, 2], [PLUS], [ID, 3], [MULT], [INT_LITERAL], [SEMI]</small>
-                                </div>
-                            </div>
-
-                            <div id="phase-syn" class="tab-content">
-                                <p class="phase-desc"><strong>Syntax Analysis:</strong> The parser builds an Abstract Syntax Tree (AST), enforcing operator precedence.</p>
-                                <div class="code-snippet">
-      = <br>
-    /   \ <br>
-  id1    + <br>
-       /   \ <br>
-     id2    * <br>
-          /   \ <br>
-        id3   60
-                                </div>
-                            </div>
-
-                            <div id="phase-sem" class="tab-content">
-                                <p class="phase-desc"><strong>Semantic Analysis:</strong> Checks types. Detects that '60' is an integer but 'c' is a float, inserting a conversion node.</p>
-                                <div class="code-snippet">
-      = <br>
-    /   \ <br>
-  id1    + <br>
-       /   \ <br>
-     id2    * <br>
-          /   \ <br>
-        id3  <strong>inttofloat(60)</strong>
-                                </div>
-                            </div>
-
-                            <div id="phase-ir" class="tab-content">
-                                <p class="phase-desc"><strong>Intermediate Code:</strong> Generates Three-Address Code (TAC), breaking the math into simple steps.</p>
-                                <div class="code-snippet">
-t1 = inttofloat(60)<br>
-t2 = id3 * t1<br>
-t3 = id2 + t2<br>
-id1 = t3
-                                </div>
-                            </div>
-
-                            <div id="phase-opt" class="tab-content">
-                                <p class="phase-desc"><strong>Code Optimization:</strong> Converts the integer to a float at compile time to save execution time.</p>
-                                <div class="code-snippet">
-t1 = id3 * 60.0<br>
-id1 = id2 + t1
-                                </div>
-                            </div>
-
-                            <div id="phase-gen" class="tab-content">
-                                <p class="phase-desc"><strong>Target Code Generation:</strong> Converts IR into CPU-specific assembly instructions.</p>
-                                <div class="code-snippet">
-LDF R2, id3<br>
-MULF R2, R2, #60.0<br>
-LDF R1, id2<br>
-ADDF R1, R1, R2<br>
-STF id1, R1
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- FRONTEND/BACKEND & LINKER -->
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-layer-group"></i> 4. Post-Compilation: Linkers & Loaders</h2>
-                        
-                        <div class="placeholder-block">
-                            <i class="fas fa-link"></i>
-                            <h4>[Insert SVG: linker-loader-flow.svg]</h4>
-                            <p><em>Description for creation:</em> Visual flow: <code>file1.o</code> + <code>file2.o</code> + <code>Library Routines</code> → <strong>LINKER</strong> → <code>Executable (.exe)</code> → <strong>LOADER</strong> → RAM (Memory).</p>
-                        </div>
-
-                        <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                            <li><strong>Library Routines:</strong> Pre-written, pre-compiled segments of code (e.g., standard math operations). Reduces development and compile time.</li>
-                            <li><strong>Linker:</strong> Used <em>during the build process</em>. Links multiple compiled object files and libraries into a single executable, ensuring cross-references are correct.</li>
-                            <li><strong>Loader:</strong> Used <em>at runtime</em>. Loads the executable and required libraries into RAM and prepares them for execution.</li>
-                        </ul>
-                    </section>
-
-                    <!-- STAGE 6: INDEPENDENT PRACTICE & CHALLENGE -->
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> 5. Practice & Challenge</h2>
-                        
-                        <div class="pitfall-box" style="background-color: #fff3e0; border-left-color: #ff9800;">
-                            <h4><i class="fas fa-search"></i> Challenge: Beyond the Obvious (Differentiation)</h4>
-                            <p>Look at this C++ code snippet. The syntax is perfectly valid. However, the compiler will throw an error.</p>
-                            <code>string name = "User";<br>int result = name * 5;</code>
-                            <p style="margin-top: 10px;"><strong>Task:</strong> Explain exactly <em>which</em> compilation stage will catch this error and <em>why</em>.</p>
-                        </div>
-
-                        <div class="assessment-tasks">
-                            <div class="task-item"><span class="task-level apply">Apply</span>
-                                <p>Create an Abstract Syntax Tree (AST) for the expression:
-                                    <code>a + b * c</code>. Remember that the operators act as the root nodes and the operands as the leaves.
-                                </p>
-                            </div>
-                            <div class="task-item"><span class="task-level analyze">Analyze</span>
-                                <p>State <strong>two</strong> advantages of using a compiler and <strong>two</strong> advantages of using an interpreter during software development.</p>
-                            </div>
-                            <div class="task-item"><span class="task-level evaluate">Evaluate</span>
-                                <p>Explain why an AST is described as an 'abstract' representation compared to a Parse Tree.</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- STAGE 7 & 8: FEEDBACK & REFLECTION -->
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-plane"></i> 6. Plenary & Reflection</h2>
-                        
-                        <div class="teacher-script">
-                            <h4><i class="fas fa-users"></i> Takeoff & Landing (Feedback)</h4>
-                            <p><em>Teacher script: "Stand up if you believe the statement is true. Remain seated if it is false."</em></p>
-                            <ul style="margin-top: 10px;">
-                                <li>"The Symbol table is deleted immediately after the Lexical Analysis phase." (False)</li>
-                                <li>"A Lexeme is the actual text, and a Token is its category." (True)</li>
-                                <li>"The Linker operates while the user is launching the application." (False - that's the Loader)</li>
-                            </ul>
-                        </div>
-
-                        <div class="placeholder-block" style="background-color: #e8f0fe; border-color: #1a73e8; text-align: left;">
-                            <h4><i class="fas fa-ticket-alt"></i> Exit Ticket: 3-2-1 Summary (Write in notebook)</h4>
-                            <ul>
-                                <li><strong>3</strong> tasks performed by the Lexical Analyser.</li>
-                                <li><strong>2</strong> differences between a Parse Tree and an AST.</li>
-                                <li><strong>1</strong> reason why Intermediate Code Generation is necessary.</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <!-- BOTTOM NAVIGATION -->
-                    <nav class="lesson-nav">
-                        <a href="expert-systems.html"><span class="nav-label">← Previous</span><span class="nav-title">Expert Systems & Prolog</span></a>
-                        <a href="testing-methods.html"><span class="nav-label">Next →</span><span class="nav-title">Testing Methods</span></a>
-                    </nav>
                 </div>
+
+
+
+                <!-- =================================================
+                     TRANSLATORS RECAP
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-language"></i>
+
+                        Before We Compile — Translators Recap
+
+                    </h2>
+
+                    <p>
+
+                        Programs may be translated using different types
+                        of translator software. The three main types are
+                        <strong>compiler</strong>,
+                        <strong>interpreter</strong> and
+                        <strong>assembler</strong>.
+
+                    </p>
+
+
+                    <div class="translator-grid">
+
+
+                        <div class="translator-card">
+
+                            <div class="translator-icon">
+                                <i class="fas fa-gears"></i>
+                            </div>
+
+                            <h3>
+                                Compiler
+                            </h3>
+
+                            <p>
+                                Translates a complete high-level program
+                                into object or target code.
+                            </p>
+
+                            <p>
+                                <strong>Useful when:</strong>
+                                preparing the finished program for
+                                repeated execution.
+                            </p>
+
+                        </div>
+
+
+                        <div class="translator-card">
+
+                            <div class="translator-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+
+                            <h3>
+                                Interpreter
+                            </h3>
+
+                            <p>
+                                Translates and executes program
+                                instructions during execution rather
+                                than first producing a standalone
+                                executable.
+                            </p>
+
+                            <p>
+                                <strong>Useful when:</strong>
+                                developing, testing or debugging code.
+                            </p>
+
+                        </div>
+
+
+                        <div class="translator-card">
+
+                            <div class="translator-icon">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+
+                            <h3>
+                                Assembler
+                            </h3>
+
+                            <p>
+                                Translates assembly-language
+                                instructions into machine code.
+                            </p>
+
+                            <p>
+                                <strong>Input:</strong>
+                                assembly language
+                                <br>
+                                <strong>Output:</strong>
+                                machine/object code
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="pitfall-box">
+
+                        <h4>
+
+                            <i class="fas fa-circle-info"></i>
+
+                            Important
+
+                        </h4>
+
+                        <p>
+                            Different programming languages use
+                            different execution models. For example,
+                            Java normally compiles source code into JVM
+                            bytecode, while Python implementations may
+                            compile source code into an intermediate
+                            bytecode before execution.
+                        </p>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =================================================
+                     CONCEPTUAL ANCHOR
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-lightbulb"></i>
+
+                        Conceptual Anchor
+
+                    </h2>
+
+
+                    <div class="analogy-box">
+
+                        <h4>
+
+                            <i class="fas fa-book-open"></i>
+
+                            The Translation Bureau
+
+                        </h4>
+
+                        <p>
+
+                            Imagine translating a complex academic text.
+
+                            First, the text is separated into meaningful
+                            <strong>words and symbols</strong>
+                            — lexical analysis.
+
+                            Then its
+                            <strong>grammar and structure</strong>
+                            are checked — syntax analysis.
+
+                            Next, the translator verifies that the
+                            <strong>meaning makes sense</strong>
+                            — semantic analysis.
+
+                            A structured
+                            <strong>working version</strong>
+                            is produced — intermediate code.
+
+                            The text is then
+                            <strong>polished without changing its meaning</strong>
+                            — optimization.
+
+                            Finally, the result is converted into the
+                            <strong>target form</strong>
+                            required by the destination system.
+
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     RUNNING EXAMPLE
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-code"></i>
+
+                        One Program Through the Whole Compiler
+
+                    </h2>
+
+
+                    <p>
+                        We will use one simple statement throughout the
+                        lesson:
+                    </p>
+
+
+                    <div class="code-demo">
+                        <code>int result = (3 + 4) * x;</code>
+                    </div>
+
+
+                    <div class="running-example">
+
+                        <h3>
+                            Follow the transformation
+                        </h3>
+
+                        <p>
+                            The meaning of the program does not change,
+                            but its internal representation changes at
+                            every compilation stage.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     STAGE 1
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-scissors"></i>
+
+                        1. Lexical Analysis
+
+                    </h2>
+
+
+                    <p>
+
+                        <strong>Lexical analysis</strong> is the first
+                        compiler stage and is performed by a component
+                        called the <strong>lexer</strong> or
+                        <strong>scanner</strong>.
+
+                    </p>
+
+
+                    <div class="stage-flow">
+
+                        <div class="stage-flow-box">
+
+                            <strong>INPUT</strong>
+
+                            <br><br>
+
+                            Source code characters
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>PROCESS</strong>
+
+                            <br><br>
+
+                            Recognise lexemes and classify tokens
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>OUTPUT</strong>
+
+                            <br><br>
+
+                            Token stream
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        Main tasks of the lexical analyser
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            Reads the source program as a stream of
+                            characters.
+                        </li>
+
+                        <li>
+                            Groups characters into meaningful units
+                            called <strong>lexemes</strong>.
+                        </li>
+
+                        <li>
+                            Classifies lexemes into categories called
+                            <strong>tokens</strong>.
+                        </li>
+
+                        <li>
+                            Recognises keywords, identifiers, literals,
+                            operators and punctuation.
+                        </li>
+
+                        <li>
+                            Usually ignores comments and
+                            non-significant whitespace.
+                        </li>
+
+                        <li>
+                            Reports lexical errors such as invalid
+                            characters or malformed literals.
+                        </li>
+
+                        <li>
+                            Supplies information about identifiers to
+                            the compiler's
+                            <strong>symbol table</strong>.
+                        </li>
+
+                    </ul>
+
+
+                    <div class="pitfall-box">
+
+                        <h4>
+
+                            <i class="fas fa-triangle-exclamation"></i>
+
+                            Whitespace is not always meaningless
+
+                        </h4>
+
+                        <p>
+
+                            In many languages, spaces are mostly used
+                            only to separate tokens.
+
+                            However, some languages give whitespace
+                            syntactic meaning.
+
+                            Python, for example, uses indentation to
+                            represent blocks of code.
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- TOKEN VS LEXEME -->
+
+
+                    <h3>
+                        Token vs Lexeme
+                    </h3>
+
+
+                    <p>
+
+                        A <strong>lexeme</strong> is the actual sequence
+                        of characters written in the source code.
+
+                        A <strong>token</strong> is the category that
+                        lexeme belongs to.
+
+                    </p>
+
+
+                    <div class="code-demo">
+                        <code>while (y &gt;= t) y = y - 3;</code>
+                    </div>
+
+
+                    <div class="token-demo">
+
+                        <span class="token-chip">
+
+                            <strong>while</strong>
+
+                            <small>KEYWORD</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>(</strong>
+
+                            <small>LPAREN</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>y</strong>
+
+                            <small>IDENTIFIER</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>&gt;=</strong>
+
+                            <small>COMPARISON</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>t</strong>
+
+                            <small>IDENTIFIER</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>)</strong>
+
+                            <small>RPAREN</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>y</strong>
+
+                            <small>IDENTIFIER</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>=</strong>
+
+                            <small>ASSIGNMENT</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>y</strong>
+
+                            <small>IDENTIFIER</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>-</strong>
+
+                            <small>ARITHMETIC</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>3</strong>
+
+                            <small>INTEGER_LITERAL</small>
+
+                        </span>
+
+                        <span class="token-chip">
+
+                            <strong>;</strong>
+
+                            <small>SEMICOLON</small>
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- IMAGE -->
+
+                    <figure class="lesson-image-block">
+
+                        <img src="/assets/images/lessons/token-vs-lexeme.svg"
+                             width="1000"
+                             height="500"
+                             loading="lazy"
+                             alt="Visual explanation of tokens and lexemes during lexical analysis">
+
+                        <figcaption>
+                            Lexemes are the actual character sequences;
+                            tokens describe their categories.
+                        </figcaption>
+
+                    </figure>
+
+
+
+                    <h3>
+                        Running Example
+                    </h3>
+
+
+                    <div class="code-demo">
+                        <code>int result = (3 + 4) * x;</code>
+                    </div>
+
+
+                    <p>
+                        The lexical analyser could produce a token
+                        sequence similar to:
+                    </p>
+
+
+                    <div class="code-demo">
+<code>TYPE(int)
+IDENTIFIER(result)
+ASSIGNMENT(=)
+LPAREN
+INTEGER(3)
+PLUS
+INTEGER(4)
+RPAREN
+MULTIPLY
+IDENTIFIER(x)
+SEMICOLON</code>
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     SYMBOL TABLE
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-table"></i>
+
+                        The Symbol Table
+
+                    </h2>
+
+
+                    <p>
+
+                        The <strong>symbol table</strong> is an important
+                        data structure used by several compiler stages.
+
+                        It stores information about program identifiers
+                        such as variables, constants, functions and
+                        classes.
+
+                    </p>
+
+
+                    <table class="theory-table">
+
+                        <thead>
+
+                        <tr>
+
+                            <th>
+                                Identifier
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Scope
+                            </th>
+
+                            <th>
+                                Other information
+                            </th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        <tr>
+
+                            <td>
+                                result
+                            </td>
+
+                            <td>
+                                int
+                            </td>
+
+                            <td>
+                                local
+                            </td>
+
+                            <td>
+                                variable
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                x
+                            </td>
+
+                            <td>
+                                int
+                            </td>
+
+                            <td>
+                                local
+                            </td>
+
+                            <td>
+                                variable
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <p>
+
+                        The compiler can use this information later for
+                        declaration checking, type checking, scope
+                        analysis and code generation.
+
+                    </p>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     STAGE 2
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-sitemap"></i>
+
+                        2. Syntax Analysis — Parsing
+
+                    </h2>
+
+
+                    <p>
+
+                        The <strong>syntax analyser</strong>, also called
+                        the <strong>parser</strong>, receives the token
+                        stream and checks whether the tokens follow the
+                        grammatical rules of the programming language.
+
+                    </p>
+
+
+                    <div class="stage-flow">
+
+                        <div class="stage-flow-box">
+
+                            <strong>INPUT</strong>
+
+                            <br><br>
+
+                            Token stream
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>PROCESS</strong>
+
+                            <br><br>
+
+                            Apply grammar rules
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>OUTPUT</strong>
+
+                            <br><br>
+
+                            Parse Tree / AST
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        The parser checks:
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            that tokens appear in a valid order;
+                        </li>
+
+                        <li>
+                            that expressions follow language grammar;
+                        </li>
+
+                        <li>
+                            that brackets and parentheses are structured
+                            correctly;
+                        </li>
+
+                        <li>
+                            that statements contain the required
+                            components;
+                        </li>
+
+                        <li>
+                            that the program can be represented using
+                            the language grammar.
+                        </li>
+
+                    </ul>
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            Example of a syntax error
+                        </h4>
+
+                        <div class="code-demo">
+                            <code>int result = (3 + 4 * x;</code>
+                        </div>
+
+                        <p>
+                            The opening parenthesis does not have a
+                            matching closing parenthesis.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         PARSE TREE VS AST
+                    ================================================== -->
+
+                    <h3>
+                        Parse Tree vs Abstract Syntax Tree
+                    </h3>
+
+
+                    <table class="theory-table">
+
+                        <thead>
+
+                        <tr>
+
+                            <th>
+                                Parse Tree
+                            </th>
+
+                            <th>
+                                Abstract Syntax Tree (AST)
+                            </th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                Closely represents the grammar used by
+                                the parser.
+                            </td>
+
+                            <td>
+                                Represents the essential structure and
+                                meaning of the program.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                May contain grammar nodes such as
+                                expression, term and factor.
+                            </td>
+
+                            <td>
+                                Usually uses operations and language
+                                constructs as the important nodes.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                More detailed and verbose.
+                            </td>
+
+                            <td>
+                                More compact.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Closely reflects concrete syntax.
+                            </td>
+
+                            <td>
+                                Usually omits punctuation such as
+                                parentheses as separate nodes while
+                                preserving the structure they create.
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+
+                    <!-- IMAGE -->
+
+                    <figure class="lesson-image-block">
+
+                        <img src="/assets/images/lessons/parse-tree-vs-ast.svg"
+                             width="1050"
+                             height="600"
+                             loading="lazy"
+                             alt="Comparison between a parse tree and an abstract syntax tree">
+
+                        <figcaption>
+                            The same expression represented as a detailed
+                            Parse Tree and as a more compact Abstract
+                            Syntax Tree.
+                        </figcaption>
+
+                    </figure>
+
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            Example AST
+                        </h4>
+
+                        <p>
+                            For the expression:
+                        </p>
+
+                        <div class="code-demo">
+                            <code>a * b + c</code>
+                        </div>
+
+                        <p>
+                            The root operation is
+                            <code>+</code>.
+                            Its left child is
+                            <code>*</code>,
+                            which has
+                            <code>a</code> and
+                            <code>b</code>
+                            as children.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     STAGE 3
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-circle-check"></i>
+
+                        3. Semantic Analysis
+
+                    </h2>
+
+
+                    <p>
+
+                        A statement may be grammatically correct but
+                        still make no sense.
+
+                        <strong>Semantic analysis</strong> verifies that
+                        the syntactically correct program also follows
+                        the meaning rules of the language.
+
+                    </p>
+
+
+                    <div class="stage-flow">
+
+                        <div class="stage-flow-box">
+
+                            <strong>INPUT</strong>
+
+                            <br><br>
+
+                            AST + Symbol Table
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>PROCESS</strong>
+
+                            <br><br>
+
+                            Type, declaration and scope checks
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>OUTPUT</strong>
+
+                            <br><br>
+
+                            Semantically checked representation
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        Semantic checks may include:
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            checking that identifiers have been declared;
+                        </li>
+
+                        <li>
+                            checking variable and expression data types;
+                        </li>
+
+                        <li>
+                            checking that operators are applied to
+                            compatible operands;
+                        </li>
+
+                        <li>
+                            checking function arguments and return types;
+                        </li>
+
+                        <li>
+                            checking scope rules.
+                        </li>
+
+                    </ul>
+
+
+
+                    <table class="theory-table">
+
+                        <thead>
+
+                        <tr>
+
+                            <th>
+                                Code
+                            </th>
+
+                            <th>
+                                Problem
+                            </th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        <tr>
+
+                            <td>
+                                <code>total = number + 5;</code>
+                            </td>
+
+                            <td>
+                                <code>number</code> may not have been
+                                declared.
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                <code>age = "hello" + 5;</code>
+                            </td>
+
+                            <td>
+                                Incompatible operand types for the
+                                intended numeric operation.
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                <code>calculate(5, 8, 10);</code>
+                            </td>
+
+                            <td>
+                                The function may expect a different
+                                number or type of arguments.
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+
+                    <!-- IMAGE -->
+
+                    <figure class="lesson-image-block">
+
+                        <img src="/assets/images/lessons/semantic-analysis-errors.svg"
+                             width="1000"
+                             height="500"
+                             loading="lazy"
+                             alt="Examples of semantic errors including undeclared variables and type mismatches">
+
+                        <figcaption>
+                            Semantic analysis checks whether a
+                            syntactically valid program is logically and
+                            type-wise meaningful.
+                        </figcaption>
+
+                    </figure>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     STAGE 4
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-code-branch"></i>
+
+                        4. Intermediate Code Generation
+
+                    </h2>
+
+
+                    <p>
+
+                        The compiler now transforms the program into an
+                        <strong>Intermediate Representation (IR)</strong>.
+
+                        IR is easier for the compiler to analyse and
+                        optimise than the original source code and is
+                        usually independent of a specific CPU.
+
+                    </p>
+
+
+                    <div class="stage-flow">
+
+                        <div class="stage-flow-box">
+
+                            <strong>INPUT</strong>
+
+                            <br><br>
+
+                            Checked AST
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>PROCESS</strong>
+
+                            <br><br>
+
+                            Convert program structure into IR
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>OUTPUT</strong>
+
+                            <br><br>
+
+                            Intermediate Representation
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            Running Example
+                        </h4>
+
+
+                        <p>
+                            Source code:
+                        </p>
+
+
+                        <div class="code-demo">
+                            <code>int result = (3 + 4) * x;</code>
+                        </div>
+
+
+                        <p>
+                            A simple three-address-style intermediate
+                            representation might look like:
+                        </p>
+
+
+                        <div class="code-demo">
+<code>t1 = 3 + 4
+t2 = t1 * x
+result = t2</code>
+                        </div>
+
+
+                        <p>
+
+                            Temporary values such as
+                            <code>t1</code> and
+                            <code>t2</code>
+                            make each operation explicit and easier for
+                            later compiler stages to manipulate.
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- IMAGE -->
+
+                    <figure class="lesson-image-block">
+
+                        <img src="/assets/images/lessons/intermediate-code.svg"
+                             width="1000"
+                             height="480"
+                             loading="lazy"
+                             alt="High level source code converted into three address intermediate code">
+
+                        <figcaption>
+                            High-level source code converted into a
+                            simple machine-independent intermediate
+                            representation.
+                        </figcaption>
+
+                    </figure>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     STAGE 5
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-gauge-high"></i>
+
+                        5. Code Optimization
+
+                    </h2>
+
+
+                    <p>
+
+                        <strong>Optimization</strong> improves the
+                        intermediate program without changing its
+                        intended behaviour.
+
+                    </p>
+
+                    <p>
+                        The compiler may try to:
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            reduce execution time;
+                        </li>
+
+                        <li>
+                            reduce memory usage;
+                        </li>
+
+                        <li>
+                            remove unnecessary calculations;
+                        </li>
+
+                        <li>
+                            remove unreachable or dead code;
+                        </li>
+
+                        <li>
+                            simplify expressions;
+                        </li>
+
+                        <li>
+                            improve loop execution.
+                        </li>
+
+                    </ul>
+
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            Constant Folding
+                        </h4>
+
+                        <p>
+                            Before optimization:
+                        </p>
+
+                        <div class="code-demo">
+<code>t1 = 3 + 4
+t2 = t1 * x
+result = t2</code>
+                        </div>
+
+
+                        <p>
+                            The expression
+                            <code>3 + 4</code>
+                            can be calculated during compilation.
+                        </p>
+
+
+                        <p>
+                            After optimization:
+                        </p>
+
+
+                        <div class="code-demo">
+<code>t1 = 7
+t2 = 7 * x
+result = t2</code>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            Dead Code Elimination
+                        </h4>
+
+                        <div class="code-demo">
+<code>return total;
+
+total = total + 10;</code>
+                        </div>
+
+                        <p>
+                            The second statement can never execute after
+                            the <code>return</code>, so the compiler may
+                            remove it.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- IMAGE -->
+
+                    <figure class="lesson-image-block">
+
+                        <img src="/assets/images/lessons/code-optimization-before-after.svg"
+                             width="1000"
+                             height="500"
+                             loading="lazy"
+                             alt="Code optimization shown before and after constant folding and dead code elimination">
+
+                        <figcaption>
+                            Optimization improves the internal code
+                            without changing the final result produced
+                            by the program.
+                        </figcaption>
+
+                    </figure>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     STAGE 6
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-microchip"></i>
+
+                        6. Target Code Generation
+
+                    </h2>
+
+
+                    <p>
+
+                        In the final compiler stage, the optimized
+                        intermediate representation is converted into
+                        instructions suitable for the target processor
+                        or virtual machine.
+
+                    </p>
+
+
+                    <div class="stage-flow">
+
+                        <div class="stage-flow-box">
+
+                            <strong>INPUT</strong>
+
+                            <br><br>
+
+                            Optimized IR
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>PROCESS</strong>
+
+                            <br><br>
+
+                            Instruction selection and register use
+
+                        </div>
+
+                        <div class="stage-flow-arrow">
+                            →
+                        </div>
+
+                        <div class="stage-flow-box">
+
+                            <strong>OUTPUT</strong>
+
+                            <br><br>
+
+                            Target / Object Code
+
+                        </div>
+
+                    </div>
+
+
+                    <p>
+
+                        Target code depends on the architecture for
+                        which the program is being generated.
+
+                        Different CPUs have different instruction sets,
+                        registers and machine-code formats.
+
+                    </p>
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            Simplified Example
+                        </h4>
+
+                        <p>
+                            The compiler might eventually generate
+                            assembly-like instructions such as:
+                        </p>
+
+                        <div class="code-demo">
+<code>MOV R1, x
+MUL R1, 7
+MOV result, R1</code>
+                        </div>
+
+                        <p>
+                            This example is intentionally simplified;
+                            real instruction generation depends on the
+                            target processor and compiler.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     VIDEO
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-video"></i>
+
+                        Watch the Compilation Process
+
+                    </h2>
+
+
+                    <!--
+                        VIDEO TO INSERT:
+
+                        Recommended length:
+                        2–6 minutes.
+
+                        Recommended content:
+                        One program moving through:
+                        source code
+                        -> lexical analysis
+                        -> tokens
+                        -> parser / AST
+                        -> semantic analysis
+                        -> IR
+                        -> optimization
+                        -> machine/object code.
+                    -->
+
+
+                    <div class="media-placeholder">
+
+                        <i class="fas fa-circle-play"></i>
+
+                        <strong>
+                            Video placeholder
+                        </strong>
+
+                        <p>
+
+                            Insert a short video explaining how source
+                            code passes through the compiler stages.
+
+                            Recommended duration:
+                            <strong>2–6 minutes</strong>.
+
+                        </p>
+
+                    </div>
+
+
+                    <!--
+                    EXAMPLE WHEN YOU FIND A YOUTUBE VIDEO:
+
+                    <div class="video-wrapper">
+
+                        <iframe
+                            width="100%"
+                            height="500"
+                            src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                            title="Compiler stages"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+
+                    </div>
+                    -->
+
+                </section>
+
+
+
+                <!-- =================================================
+                     FRONT END / MIDDLE END / BACK END
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-layer-group"></i>
+
+                        Compiler Architecture
+
+                    </h2>
+
+
+                    <p>
+
+                        Compiler stages are also often grouped into
+                        larger parts called the
+                        <strong>front end</strong>,
+                        <strong>middle end</strong> and
+                        <strong>back end</strong>.
+
+                    </p>
+
+
+                    <div class="architecture-grid">
+
+
+                        <div class="architecture-card">
+
+                            <h3>
+                                Front End
+                            </h3>
+
+                            <p>
+                                Understands the source language.
+                            </p>
+
+                            <ul>
+
+                                <li>
+                                    Lexical analysis
+                                </li>
+
+                                <li>
+                                    Syntax analysis
+                                </li>
+
+                                <li>
+                                    Semantic analysis
+                                </li>
+
+                                <li>
+                                    IR creation
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+
+                        <div class="architecture-card">
+
+                            <h3>
+                                Middle End
+                            </h3>
+
+                            <p>
+                                Works mainly with intermediate
+                                representations.
+                            </p>
+
+                            <ul>
+
+                                <li>
+                                    Program analysis
+                                </li>
+
+                                <li>
+                                    Machine-independent optimization
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+
+                        <div class="architecture-card">
+
+                            <h3>
+                                Back End
+                            </h3>
+
+                            <p>
+                                Produces code for the target machine.
+                            </p>
+
+                            <ul>
+
+                                <li>
+                                    Instruction selection
+                                </li>
+
+                                <li>
+                                    Register allocation
+                                </li>
+
+                                <li>
+                                    Target code generation
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- IMAGE -->
+
+                    <figure class="lesson-image-block">
+
+                        <img src="/assets/images/lessons/compiler-front-middle-back.svg"
+                             width="1050"
+                             height="450"
+                             loading="lazy"
+                             alt="Compiler architecture divided into front end middle end and back end">
+
+                        <figcaption>
+                            The front end understands the source
+                            language, the middle end improves the
+                            intermediate program, and the back end
+                            generates target-specific code.
+                        </figcaption>
+
+                    </figure>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     ERROR TYPES
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-bug"></i>
+
+                        Errors Detected During Compilation
+
+                    </h2>
+
+
+                    <div class="error-grid">
+
+
+                        <div class="error-card">
+
+                            <h4>
+                                Lexical Error
+                            </h4>
+
+                            <p>
+                                The source contains a character sequence
+                                that cannot form a valid token.
+                            </p>
+
+                            <div class="code-demo">
+                                <code>int @value = 5;</code>
+                            </div>
+
+                        </div>
+
+
+                        <div class="error-card">
+
+                            <h4>
+                                Syntax Error
+                            </h4>
+
+                            <p>
+                                Valid tokens appear in an invalid
+                                grammatical structure.
+                            </p>
+
+                            <div class="code-demo">
+                                <code>if (x &gt; 5 {</code>
+                            </div>
+
+                        </div>
+
+
+                        <div class="error-card">
+
+                            <h4>
+                                Semantic Error
+                            </h4>
+
+                            <p>
+                                The syntax is valid, but the statement
+                                violates language meaning or type rules.
+                            </p>
+
+                            <div class="code-demo">
+                                <code>number = text * 5;</code>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- IMAGE -->
+
+                    <figure class="lesson-image-block">
+
+                        <img src="/assets/images/lessons/compiler-error-types.svg"
+                             width="1000"
+                             height="480"
+                             loading="lazy"
+                             alt="Comparison of lexical syntax and semantic compiler errors">
+
+                        <figcaption>
+                            Different compiler stages are responsible
+                            for detecting different classes of errors.
+                        </figcaption>
+
+                    </figure>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     LINKER / LOADER / LIBRARY
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-link"></i>
+
+                        Linkers, Loaders & Library Routines
+
+                    </h2>
+
+
+                    <p>
+
+                        Generating object code is not always the final
+                        step before a program runs.
+
+                        Large programs may consist of multiple object
+                        files and use pre-written library code.
+
+                    </p>
+
+
+
+                    <!-- LIBRARY -->
+
+
+                    <h3>
+                        Library Routines
+                    </h3>
+
+
+                    <p>
+
+                        <strong>Library routines</strong> are
+                        pre-written and tested pieces of reusable code.
+
+                        They prevent programmers from having to
+                        implement common functionality repeatedly.
+
+                    </p>
+
+
+                    <p>
+                        Examples include:
+                    </p>
+
+
+                    <ul>
+
+                        <li>
+                            mathematical operations;
+                        </li>
+
+                        <li>
+                            input/output operations;
+                        </li>
+
+                        <li>
+                            string processing;
+                        </li>
+
+                        <li>
+                            file handling;
+                        </li>
+
+                        <li>
+                            graphical functions.
+                        </li>
+
+                    </ul>
+
+
+
+                    <!-- LINKER -->
+
+
+                    <h3>
+                        Linker
+                    </h3>
+
+
+                    <p>
+
+                        A <strong>linker</strong> combines object files
+                        and required library code into a program that
+                        can be executed.
+
+                    </p>
+
+
+                    <p>
+                        The linker also resolves references between
+                        different program modules.
+                    </p>
+
+
+
+                    <!-- LOADER -->
+
+
+                    <h3>
+                        Loader
+                    </h3>
+
+
+                    <p>
+
+                        A <strong>loader</strong> is used when a program
+                        is launched.
+
+                        It places the executable program and required
+                        components into memory and prepares the program
+                        for execution.
+
+                    </p>
+
+
+
+                    <!-- FLOW -->
+
+
+                    <div class="linker-flow">
+
+
+                        <div class="linker-box">
+
+                            file1.o
+
+                        </div>
+
+                        <div class="linker-box">
+
+                            file2.o
+
+                        </div>
+
+                        <div class="linker-box">
+
+                            Libraries
+
+                        </div>
+
+                        <div class="linker-arrow">
+                            →
+                        </div>
+
+                        <div class="linker-box">
+
+                            <strong>LINKER</strong>
+
+                        </div>
+
+                        <div class="linker-arrow">
+                            →
+                        </div>
+
+                        <div class="linker-box">
+
+                            Executable
+
+                        </div>
+
+                        <div class="linker-arrow">
+                            →
+                        </div>
+
+                        <div class="linker-box">
+
+                            <strong>LOADER</strong>
+
+                        </div>
+
+                        <div class="linker-arrow">
+                            →
+                        </div>
+
+                        <div class="linker-box">
+
+                            RAM
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- IMAGE -->
+
+                    <figure class="lesson-image-block">
+
+                        <img src="/assets/images/lessons/linker-loader-flow.svg"
+                             width="1100"
+                             height="440"
+                             loading="lazy"
+                             alt="Object files and libraries combined by linker then loaded into RAM by loader">
+
+                        <figcaption>
+                            The linker combines program components into
+                            an executable; the loader prepares that
+                            executable for execution in memory.
+                        </figcaption>
+
+                    </figure>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     PITFALLS
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-triangle-exclamation"></i>
+
+                        Common Pitfalls
+
+                    </h2>
+
+
+                    <div class="pitfall-box">
+
+                        <h4>
+                            Token ≠ Lexeme
+                        </h4>
+
+                        <p>
+
+                            <strong>Lexeme:</strong>
+                            the actual characters in the program.
+
+                            <br>
+
+                            <strong>Token:</strong>
+                            the category assigned to those characters.
+
+                            <br><br>
+
+                            Example:
+
+                            <code>total</code>
+                            is a lexeme;
+
+                            <code>IDENTIFIER</code>
+                            is its token category.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="pitfall-box">
+
+                        <h4>
+                            Parser ≠ Parse Tree
+                        </h4>
+
+                        <p>
+
+                            The <strong>parser</strong> is the compiler
+                            component that performs syntax analysis.
+
+                            The <strong>parse tree</strong> is one
+                            representation that may be produced during
+                            parsing.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="pitfall-box">
+
+                        <h4>
+                            AST ≠ Parse Tree
+                        </h4>
+
+                        <p>
+
+                            A parse tree closely represents grammatical
+                            rules.
+
+                            An AST normally removes unnecessary
+                            syntactic detail and preserves the important
+                            program structure.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="pitfall-box">
+
+                        <h4>
+                            Syntax ≠ Semantics
+                        </h4>
+
+                        <p>
+
+                            Syntax asks:
+
+                            <strong>
+                                "Is this statement written correctly?"
+                            </strong>
+
+                            <br>
+
+                            Semantics asks:
+
+                            <strong>
+                                "Does this statement make sense?"
+                            </strong>
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="pitfall-box">
+
+                        <h4>
+                            Compiler ≠ Linker
+                        </h4>
+
+                        <p>
+
+                            Compilation translates source program
+                            structures into target or object code.
+
+                            Linking combines separate compiled program
+                            components and resolves references between
+                            them.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="pitfall-box">
+
+                        <h4>
+                            Linker ≠ Loader
+                        </h4>
+
+                        <p>
+
+                            The <strong>linker</strong> works during the
+                            program build process.
+
+                            The <strong>loader</strong> works when the
+                            program is launched.
+
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     QUICK SUMMARY TABLE
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-table-list"></i>
+
+                        Compilation Stages Summary
+
+                    </h2>
+
+
+                    <table class="theory-table">
+
+                        <thead>
+
+                        <tr>
+
+                            <th>
+                                Stage
+                            </th>
+
+                            <th>
+                                Input
+                            </th>
+
+                            <th>
+                                Main Purpose
+                            </th>
+
+                            <th>
+                                Output
+                            </th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                Lexical Analysis
+                            </td>
+
+                            <td>
+                                Characters
+                            </td>
+
+                            <td>
+                                Recognise tokens
+                            </td>
+
+                            <td>
+                                Token stream
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Syntax Analysis
+                            </td>
+
+                            <td>
+                                Tokens
+                            </td>
+
+                            <td>
+                                Check grammar
+                            </td>
+
+                            <td>
+                                Parse Tree / AST
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Semantic Analysis
+                            </td>
+
+                            <td>
+                                AST + Symbol Table
+                            </td>
+
+                            <td>
+                                Check meaning and types
+                            </td>
+
+                            <td>
+                                Checked AST
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Intermediate Code Generation
+                            </td>
+
+                            <td>
+                                Checked representation
+                            </td>
+
+                            <td>
+                                Produce machine-independent form
+                            </td>
+
+                            <td>
+                                IR
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Optimization
+                            </td>
+
+                            <td>
+                                IR
+                            </td>
+
+                            <td>
+                                Improve efficiency
+                            </td>
+
+                            <td>
+                                Optimized IR
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Target Code Generation
+                            </td>
+
+                            <td>
+                                Optimized IR
+                            </td>
+
+                            <td>
+                                Generate target instructions
+                            </td>
+
+                            <td>
+                                Object / machine code
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     EXAM TASKS
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-tasks"></i>
+
+                        Exam Style Tasks
+
+                    </h2>
+
+
+                    <div class="assessment-tasks">
+
+
+                        <!-- TASK 1 -->
+
+
+                        <div class="task-item">
+
+                            <span class="task-level understand">
+                                Remember
+                            </span>
+
+                            <p>
+
+                                <strong>1.</strong>
+
+                                State what is meant by
+                                <strong>program compilation</strong>.
+
+                                <strong>[1]</strong>
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- TASK 2 -->
+
+
+                        <div class="task-item">
+
+                            <span class="task-level understand">
+                                Understand
+                            </span>
+
+                            <p>
+
+                                <strong>2.</strong>
+
+                                Give two reasons why a program may be
+                                compiled.
+
+                                <strong>[2]</strong>
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- TASK 3 -->
+
+
+                        <div class="task-item">
+
+                            <span class="task-level understand">
+                                Understand
+                            </span>
+
+                            <p>
+
+                                <strong>3.</strong>
+
+                                Describe two activities performed during
+                                lexical analysis.
+
+                                <strong>[2]</strong>
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- TASK 4 -->
+
+
+                        <div class="task-item">
+
+                            <span class="task-level apply">
+                                Apply
+                            </span>
+
+                            <p>
+
+                                <strong>4.</strong>
+
+                                Explain the difference between a
+                                <strong>token</strong> and a
+                                <strong>lexeme</strong>.
+
+                                Use the following statement in your
+                                answer:
+
+                            </p>
+
+                            <div class="code-demo">
+                                <code>total = price + 5;</code>
+                            </div>
+
+                            <p>
+                                <strong>[2]</strong>
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- TASK 5 -->
+
+
+                        <div class="task-item">
+
+                            <span class="task-level apply">
+                                Apply
+                            </span>
+
+                            <p>
+
+                                <strong>5.</strong>
+
+                                Create an Abstract Syntax Tree for:
+
+                            </p>
+
+                            <div class="code-demo">
+                                <code>a * b + c</code>
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- TASK 6 -->
+
+
+                        <div class="task-item">
+
+                            <span class="task-level apply">
+                                Apply
+                            </span>
+
+                            <p>
+
+                                <strong>6.</strong>
+
+                                Create an Abstract Syntax Tree for the
+                                expression:
+
+                            </p>
+
+                            <div class="code-demo">
+                                <code>7 + 3 * (10 / (12 / (3 + 1) - 1))</code>
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- TASK 7 -->
+
+
+                        <div class="task-item">
+
+                            <span class="task-level analyze">
+                                Analyze
+                            </span>
+
+                            <p>
+
+                                <strong>7.</strong>
+
+                                Identify whether each problem would most
+                                likely be detected during
+                                <strong>lexical</strong>,
+                                <strong>syntax</strong> or
+                                <strong>semantic</strong> analysis.
+
+                            </p>
+
+                            <ol>
+
+                                <li>
+                                    An illegal character appears in an
+                                    identifier.
+                                </li>
+
+                                <li>
+                                    A closing parenthesis is missing.
+                                </li>
+
+                                <li>
+                                    An undeclared variable is used.
+                                </li>
+
+                                <li>
+                                    A string value is used where an
+                                    integer is required.
+                                </li>
+
+                            </ol>
+
+                        </div>
+
+
+
+                        <!-- TASK 8 -->
+
+
+                        <div class="task-item">
+
+                            <span class="task-level analyze">
+                                Analyze
+                            </span>
+
+                            <p>
+
+                                <strong>8.</strong>
+
+                                Explain the difference between a
+                                <strong>Linker</strong> and a
+                                <strong>Loader</strong>.
+
+                                Your answer should include when each is
+                                used.
+
+                                <strong>[4]</strong>
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     SELF CHECK
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-circle-question"></i>
+
+                        Self-Check Quiz
+
+                    </h2>
+
+
+
+                    <!-- Q1 -->
+
+                    <div class="quiz-item">
+
+                        <p class="quiz-question">
+
+                            Q1: What does the lexical analyser pass to
+                            the syntax analyser?
+
+                        </p>
+
+                        <div class="quiz-answer"
+                             onclick="this.classList.toggle('revealed')">
+
+                            A stream or sequence of tokens representing
+                            the meaningful elements recognised in the
+                            source code.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Q2 -->
+
+                    <div class="quiz-item">
+
+                        <p class="quiz-question">
+
+                            Q2: What is the difference between a token
+                            and a lexeme?
+
+                        </p>
+
+                        <div class="quiz-answer"
+                             onclick="this.classList.toggle('revealed')">
+
+                            A lexeme is the actual character sequence in
+                            the program, while a token represents the
+                            category that lexeme belongs to.
+
+                            For example,
+                            <code>count</code> is a lexeme and
+                            <code>IDENTIFIER</code> is its token
+                            category.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Q3 -->
+
+                    <div class="quiz-item">
+
+                        <p class="quiz-question">
+
+                            Q3: What is the role of the syntax analyser?
+
+                        </p>
+
+                        <div class="quiz-answer"
+                             onclick="this.classList.toggle('revealed')">
+
+                            It checks whether the sequence of tokens
+                            follows the grammar of the programming
+                            language and constructs a structural
+                            representation such as a parse tree or AST.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Q4 -->
+
+                    <div class="quiz-item">
+
+                        <p class="quiz-question">
+
+                            Q4: Why is an AST called "abstract"?
+
+                        </p>
+
+                        <div class="quiz-answer"
+                             onclick="this.classList.toggle('revealed')">
+
+                            Because it removes unnecessary concrete
+                            syntax detail and preserves the important
+                            structural meaning of the program.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Q5 -->
+
+                    <div class="quiz-item">
+
+                        <p class="quiz-question">
+
+                            Q5: Which stage normally performs type
+                            checking?
+
+                        </p>
+
+                        <div class="quiz-answer"
+                             onclick="this.classList.toggle('revealed')">
+
+                            Semantic analysis.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Q6 -->
+
+                    <div class="quiz-item">
+
+                        <p class="quiz-question">
+
+                            Q6: Does code optimization change what the
+                            program is supposed to calculate?
+
+                        </p>
+
+                        <div class="quiz-answer"
+                             onclick="this.classList.toggle('revealed')">
+
+                            No. Optimization should preserve the
+                            program's observable behaviour while making
+                            its implementation more efficient.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Q7 -->
+
+                    <div class="quiz-item">
+
+                        <p class="quiz-question">
+
+                            Q7: What is the difference between the
+                            linker and loader?
+
+                        </p>
+
+                        <div class="quiz-answer"
+                             onclick="this.classList.toggle('revealed')">
+
+                            The linker combines compiled program modules
+                            and libraries and resolves references during
+                            the build process.
+
+                            The loader places the executable program
+                            into memory and prepares it for execution
+                            when the program is launched.
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     EXIT TICKET
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-door-open"></i>
+
+                        Exit Ticket — 3–2–1
+
+                    </h2>
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            3
+                        </h4>
+
+                        <p>
+                            Write <strong>three things</strong> the
+                            lexical analyser does.
+                        </p>
+
+                    </div>
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            2
+                        </h4>
+
+                        <p>
+                            Write <strong>two differences</strong>
+                            between a Parse Tree and an AST.
+                        </p>
+
+                    </div>
+
+
+                    <div class="worked-example">
+
+                        <h4>
+                            1
+                        </h4>
+
+                        <p>
+                            Explain <strong>one reason</strong> why
+                            compilation is necessary.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     FINAL MEMORY MAP
+                ================================================== -->
+
+                <section class="lesson-section">
+
+                    <h2 class="lesson-section-title">
+
+                        <i class="fas fa-brain"></i>
+
+                        Remember the Flow
+
+                    </h2>
+
+
+                    <div class="analogy-box">
+
+                        <p style="font-size:1.05rem;text-align:center;">
+
+                            <strong>Characters</strong>
+
+                            →
+
+                            <strong>Tokens</strong>
+
+                            →
+
+                            <strong>AST</strong>
+
+                            →
+
+                            <strong>Checked Meaning</strong>
+
+                            →
+
+                            <strong>Intermediate Code</strong>
+
+                            →
+
+                            <strong>Optimized Code</strong>
+
+                            →
+
+                            <strong>Target Code</strong>
+
+                            →
+
+                            <strong>Linked Executable</strong>
+
+                            →
+
+                            <strong>Loaded into Memory</strong>
+
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     NAVIGATION
+                ================================================== -->
+
+                <nav class="lesson-nav">
+
+                    <a href="expert-systems.html">
+
+                        <span class="nav-label">
+                            ← Previous
+                        </span>
+
+                        <span class="nav-title">
+                            Expert Systems & Prolog
+                        </span>
+
+                    </a>
+
+
+                    <a href="testing-methods.html">
+
+                        <span class="nav-label">
+                            Next →
+                        </span>
+
+                        <span class="nav-title">
+                            Testing Methods
+                        </span>
+
+                    </a>
+
+                </nav>
+
+
             </div>
-        </main>
-    </div>
 
-    <footer class="site-footer">
-        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
-    </footer>
+        </div>
 
-    <script src="/js/sidebar.js"></script>
-    <script src="/js/app.js"></script>
-    
-    <!-- Tab Interaction Script -->
-    <script>
-        function openPhase(evt, phaseName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                tabcontent[i].classList.remove("active");
-            }
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(phaseName).style.display = "block";
-            setTimeout(() => { document.getElementById(phaseName).classList.add("active"); }, 10);
-            evt.currentTarget.className += " active";
-        }
-    </script>
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
+
+<footer class="site-footer">
+
+    <p>
+        mr. TEA © 2026 — NIS Grade 12 Computer Science
+    </p>
+
+</footer>
+
+
+
+<!-- =========================================================
+     SCRIPTS
+========================================================== -->
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+
+
 </body>
 
 </html>
