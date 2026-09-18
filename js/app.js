@@ -164,42 +164,16 @@ function initMobileNav() {
 }
 
 /* ============================================================
-   SYLLABUS TABS (Восстановлено, чтобы работали вкладки на главной)
+   SYLLABUS TABS — Delegated to syllabus-renderer.js
    ============================================================ */
 function initSyllabusTabs() {
-  const tabs = document.querySelectorAll('.syllabus-tab');
-  const grades = document.querySelectorAll('.syllabus-grade');
-
-  if (!tabs.length || !grades.length) return;
-
-  function switchTab(targetGradeId) {
-    tabs.forEach(t => t.classList.remove('active'));
-    grades.forEach(g => {
-        g.classList.remove('active');
-        g.style.display = 'none'; 
-    });
-
-    const activeTab = document.querySelector(`.syllabus-tab[data-filter="${targetGradeId}"]`);
-    if (activeTab) activeTab.classList.add('active');
-
-    const activeGrade = document.querySelector(`.syllabus-grade[data-grade="${targetGradeId}"]`);
-    if (activeGrade) {
-        activeGrade.classList.add('active');
-        activeGrade.style.display = 'block';
-    }
+  if (typeof initSyllabusRenderer === 'function') {
+    initSyllabusRenderer();
   }
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      switchTab(tab.getAttribute('data-filter'));
-    });
-  });
-
-  switchTab('g11-cs');
 }
 
 function initSyllabusAccordions() {
-  // Заглушка, чтобы не выдавало ошибку
+  // Handled by syllabus-renderer.js
 }
 
 /* ============================================================
