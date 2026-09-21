@@ -1,141 +1,1197 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
-<title>Computer Science Mock Examination — Component 1</title>
-<style>
-:root{--bg:#f4f6f8;--paper:#fff;--ink:#15171a;--muted:#667085;--line:#d7dce2;--dark:#111827;--accent:#1f4e79;--accent2:#eaf2f8;--ok:#176b3a;--warn:#a15c00;--danger:#b42318;--shadow:0 8px 24px rgba(16,24,40,.07)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Arial,Helvetica,sans-serif}.wrap{width:min(980px,calc(100% - 28px));margin:auto}.hidden{display:none!important}
-button,input,textarea,select{font:inherit}.btn{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;padding:11px 18px;font-weight:700;cursor:pointer}.btn:hover{filter:brightness(.94)}.btn.secondary{background:#fff;color:var(--ink);border-color:#aeb7c2}.btn.danger{background:#fff;color:var(--danger);border-color:#e0a09a}.btn:disabled{opacity:.55;cursor:not-allowed}
-.start{padding:42px 0 80px}.hero{background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);padding:30px;border-radius:12px}.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}.hero h1{margin:6px 0 4px;font-size:clamp(28px,5vw,42px);line-height:1.1}.hero p{margin:6px 0}.facts{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:24px 0}.fact{padding:14px 16px;border-right:1px solid var(--line)}.fact:last-child{border:0}.fact span{display:block;font-size:12px;color:var(--muted);text-transform:uppercase}.fact strong{font-size:22px}.rules{padding-left:20px}.candidate{margin-top:24px;border-top:1px solid var(--line);padding-top:22px;display:grid;grid-template-columns:2fr 1fr;gap:14px}.field label{display:block;font-weight:700;margin:0 0 6px}.field input{width:100%;padding:11px 12px;border:1px solid #aeb7c2;border-radius:7px;background:#fff}.start-actions{display:flex;align-items:center;gap:12px;margin-top:18px}.error{color:var(--danger);font-size:14px;min-height:22px}
-.exambar{position:sticky;top:0;z-index:50;background:var(--dark);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.18)}.examtop{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 0}.candidate-mini{min-width:0}.candidate-mini strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.candidate-mini span{font-size:12px;color:#c7ced8}.timer{font:700 30px/1 ui-monospace,SFMono-Regular,Menlo,monospace}.timer.warn{color:#fbbf24}.timer.danger{color:#ff8a80}.qnav{display:flex;gap:6px;padding:0 0 10px;overflow:auto}.qnav a{flex:0 0 auto;width:36px;height:31px;border:1px solid #526071;color:#e5e7eb;text-decoration:none;display:grid;place-items:center;border-radius:6px;font-size:13px}.qnav a.done{background:#d9efe1;color:#174b2b;border-color:#d9efe1}.qnav a.partial{background:#fff4d6;color:#6f4a00;border-color:#fff4d6}
-.paper{padding:16px 0 80px}.paper-head{background:#fff;border:1px solid var(--line);padding:18px 22px;border-radius:10px;margin-bottom:14px}.paper-head h2{margin:0 0 4px}.save-status{font-size:13px;color:var(--muted)}.question{background:#fff;border:1px solid var(--line);border-radius:10px;margin:14px 0;padding:22px;scroll-margin-top:118px;box-shadow:0 1px 2px rgba(16,24,40,.03)}.qtitle{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px}.qtitle h3{margin:0;font-size:21px}.marks{white-space:nowrap;color:var(--muted);font-weight:700}.part{margin:18px 0 22px}.part-title{font-weight:700;margin-bottom:8px}.subpart{margin:14px 0}.mark-inline{float:right;color:var(--muted);font-weight:700}.answer,.short{width:100%;border:1px solid #aeb7c2;border-radius:7px;padding:10px 12px;background:#fff}.answer{min-height:90px;resize:vertical}.answer.working{min-height:125px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.short{max-width:420px}.small{max-width:220px}.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.three-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.answer-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:8px;align-items:center}.answer-grid input,.answer-grid select{width:100%;padding:9px;border:1px solid #aeb7c2;border-radius:6px}.exam-table{width:100%;border-collapse:collapse;margin:10px 0}.exam-table th,.exam-table td{border:1px solid #777;padding:8px;vertical-align:middle}.exam-table th{background:#eef1f4}.exam-table input,.exam-table select{width:100%;border:1px solid #b7bec8;padding:8px;border-radius:5px;background:#fff}.codebox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f6f7f9;border:1px solid var(--line);padding:14px;border-radius:7px;white-space:pre-wrap}.byte{display:flex;gap:0;max-width:410px;margin:12px auto}.byte span{flex:1;text-align:center;border:1px solid #555;border-right:0;padding:10px;font:700 18px ui-monospace,monospace}.byte span:last-child{border-right:1px solid #555}.memory-box{display:grid;grid-template-columns:1fr 1.2fr;gap:26px;background:#f6f6f6;padding:18px;border-radius:8px}.memtbl{border-collapse:collapse;margin:auto}.memtbl td{border:1px solid #777;padding:6px 22px;text-align:center}.memtbl td.addr{border:0;text-align:right;padding-right:10px}.network-svg{width:100%;max-width:720px;display:block;margin:10px auto;background:#fafafa;border:1px solid var(--line);border-radius:8px}.protocol-grid{display:grid;grid-template-columns:180px 1fr;gap:10px 16px;align-items:center}.protocol-grid .name{font-weight:700;padding:12px;border:1px solid #777;text-align:center}.osi{width:min(360px,100%);margin:12px auto;border-collapse:collapse}.osi td{border:1px solid #777;padding:8px}.footer-actions{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-top:18px}.progress-note{color:var(--muted);font-size:14px}.receipt{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;width:max-content;max-width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;margin:18px 0}.receipt dt{color:var(--muted)}.receipt dd{margin:0;font-weight:700;overflow-wrap:anywhere}.donepage{padding:56px 0}.notice{background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px}.notice.fail{border-left:5px solid var(--danger)}dialog{border:1px solid var(--line);border-radius:10px;padding:24px;width:min(460px,calc(100% - 24px))}dialog::backdrop{background:rgba(0,0,0,.45)}dialog h3{margin-top:0}.dialog-actions{display:flex;justify-content:flex-end;gap:10px}.source-note{font-size:12px;color:var(--muted);margin-top:34px}
-@media(max-width:680px){.facts{grid-template-columns:1fr}.fact{border-right:0;border-bottom:1px solid var(--line)}.fact:last-child{border-bottom:0}.candidate,.two-cols,.three-cols,.memory-box{grid-template-columns:1fr}.question{padding:16px}.timer{font-size:25px}.qtitle{flex-direction:column;gap:4px}.mark-inline{float:none;margin-left:6px}.protocol-grid{grid-template-columns:1fr}.footer-actions{flex-direction:column;align-items:stretch}.btn{width:100%}}
-@media print{.exambar,.footer-actions,.save-status{display:none!important}body{background:#fff}.question,.paper-head{box-shadow:none;break-inside:avoid}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Computer Science Mock Examination — Component 1</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --paper: #fff;
+      --ink: #15171a;
+      --muted: #667085;
+      --line: #d7dce2;
+      --dark: #111827;
+      --accent: #1f4e79;
+      --accent2: #eaf2f8;
+      --ok: #176b3a;
+      --warn: #a15c00;
+      --danger: #b42318;
+      --shadow: 0 8px 24px rgba(16, 24, 40, .07)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.5 Arial, Helvetica, sans-serif
+    }
+
+    .wrap {
+      width: min(980px, calc(100% - 28px));
+      margin: auto
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      padding: 11px 18px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .btn:hover {
+      filter: brightness(.94)
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--ink);
+      border-color: #aeb7c2
+    }
+
+    .btn.danger {
+      background: #fff;
+      color: var(--danger);
+      border-color: #e0a09a
+    }
+
+    .btn:disabled {
+      opacity: .55;
+      cursor: not-allowed
+    }
+
+    .start {
+      padding: 42px 0 80px
+    }
+
+    .hero {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      border-radius: 12px
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700
+    }
+
+    .hero h1 {
+      margin: 6px 0 4px;
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: 1.1
+    }
+
+    .hero p {
+      margin: 6px 0
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 24px 0
+    }
+
+    .fact {
+      padding: 14px 16px;
+      border-right: 1px solid var(--line)
+    }
+
+    .fact:last-child {
+      border: 0
+    }
+
+    .fact span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase
+    }
+
+    .fact strong {
+      font-size: 22px
+    }
+
+    .rules {
+      padding-left: 20px
+    }
+
+    .candidate {
+      margin-top: 24px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 14px
+    }
+
+    .field label {
+      display: block;
+      font-weight: 700;
+      margin: 0 0 6px
+    }
+
+    .field input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #aeb7c2;
+      border-radius: 7px;
+      background: #fff
+    }
+
+    .start-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px
+    }
+
+    .error {
+      color: var(--danger);
+      font-size: 14px;
+      min-height: 22px
+    }
+
+    .exambar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--dark);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .18)
+    }
+
+    .examtop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 10px 0
+    }
+
+    .candidate-mini {
+      min-width: 0
+    }
+
+    .candidate-mini strong {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .candidate-mini span {
+      font-size: 12px;
+      color: #c7ced8
+    }
+
+    .timer {
+      font: 700 30px/1 ui-monospace, SFMono-Regular, Menlo, monospace
+    }
+
+    .timer.warn {
+      color: #fbbf24
+    }
+
+    .timer.danger {
+      color: #ff8a80
+    }
+
+    .qnav {
+      display: flex;
+      gap: 6px;
+      padding: 0 0 10px;
+      overflow: auto
+    }
+
+    .qnav a {
+      flex: 0 0 auto;
+      width: 36px;
+      height: 31px;
+      border: 1px solid #526071;
+      color: #e5e7eb;
+      text-decoration: none;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      font-size: 13px
+    }
+
+    .qnav a.done {
+      background: #d9efe1;
+      color: #174b2b;
+      border-color: #d9efe1
+    }
+
+    .qnav a.partial {
+      background: #fff4d6;
+      color: #6f4a00;
+      border-color: #fff4d6
+    }
+
+    .paper {
+      padding: 16px 0 80px
+    }
+
+    .paper-head {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 18px 22px;
+      border-radius: 10px;
+      margin-bottom: 14px
+    }
+
+    .paper-head h2 {
+      margin: 0 0 4px
+    }
+
+    .save-status {
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .question {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      margin: 14px 0;
+      padding: 22px;
+      scroll-margin-top: 118px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .03)
+    }
+
+    .qtitle {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 12px
+    }
+
+    .qtitle h3 {
+      margin: 0;
+      font-size: 21px
+    }
+
+    .marks {
+      white-space: nowrap;
+      color: var(--muted);
+      font-weight: 700
+    }
+
+    .part {
+      margin: 18px 0 22px
+    }
+
+    .part-title {
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .subpart {
+      margin: 14px 0
+    }
+
+    .mark-inline {
+      float: right;
+      color: var(--muted);
+      font-weight: 700
+    }
+
+    .answer,
+    .short {
+      width: 100%;
+      border: 1px solid #aeb7c2;
+      border-radius: 7px;
+      padding: 10px 12px;
+      background: #fff
+    }
+
+    .answer {
+      min-height: 90px;
+      resize: vertical
+    }
+
+    .answer.working {
+      min-height: 125px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace
+    }
+
+    .short {
+      max-width: 420px
+    }
+
+    .small {
+      max-width: 220px
+    }
+
+    .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .three-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 8px;
+      align-items: center
+    }
+
+    .answer-grid input,
+    .answer-grid select {
+      width: 100%;
+      padding: 9px;
+      border: 1px solid #aeb7c2;
+      border-radius: 6px
+    }
+
+    .exam-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0
+    }
+
+    .exam-table th,
+    .exam-table td {
+      border: 1px solid #777;
+      padding: 8px;
+      vertical-align: middle
+    }
+
+    .exam-table th {
+      background: #eef1f4
+    }
+
+    .exam-table input,
+    .exam-table select {
+      width: 100%;
+      border: 1px solid #b7bec8;
+      padding: 8px;
+      border-radius: 5px;
+      background: #fff
+    }
+
+    .codebox {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: #f6f7f9;
+      border: 1px solid var(--line);
+      padding: 14px;
+      border-radius: 7px;
+      white-space: pre-wrap
+    }
+
+    .byte {
+      display: flex;
+      gap: 0;
+      max-width: 410px;
+      margin: 12px auto
+    }
+
+    .byte span {
+      flex: 1;
+      text-align: center;
+      border: 1px solid #555;
+      border-right: 0;
+      padding: 10px;
+      font: 700 18px ui-monospace, monospace
+    }
+
+    .byte span:last-child {
+      border-right: 1px solid #555
+    }
+
+    .memory-box {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 26px;
+      background: #f6f6f6;
+      padding: 18px;
+      border-radius: 8px
+    }
+
+    .memtbl {
+      border-collapse: collapse;
+      margin: auto
+    }
+
+    .memtbl td {
+      border: 1px solid #777;
+      padding: 6px 22px;
+      text-align: center
+    }
+
+    .memtbl td.addr {
+      border: 0;
+      text-align: right;
+      padding-right: 10px
+    }
+
+    .network-svg {
+      width: 100%;
+      max-width: 720px;
+      display: block;
+      margin: 10px auto;
+      background: #fafafa;
+      border: 1px solid var(--line);
+      border-radius: 8px
+    }
+
+    .protocol-grid {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 10px 16px;
+      align-items: center
+    }
+
+    .protocol-grid .name {
+      font-weight: 700;
+      padding: 12px;
+      border: 1px solid #777;
+      text-align: center
+    }
+
+    .osi {
+      width: min(360px, 100%);
+      margin: 12px auto;
+      border-collapse: collapse
+    }
+
+    .osi td {
+      border: 1px solid #777;
+      padding: 8px
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-top: 18px
+    }
+
+    .progress-note {
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .receipt {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 18px;
+      width: max-content;
+      max-width: 100%;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 18px 0
+    }
+
+    .receipt dt {
+      color: var(--muted)
+    }
+
+    .receipt dd {
+      margin: 0;
+      font-weight: 700;
+      overflow-wrap: anywhere
+    }
+
+    .donepage {
+      padding: 56px 0
+    }
+
+    .notice {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 26px
+    }
+
+    .notice.fail {
+      border-left: 5px solid var(--danger)
+    }
+
+    dialog {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 24px;
+      width: min(460px, calc(100% - 24px))
+    }
+
+    dialog::backdrop {
+      background: rgba(0, 0, 0, .45)
+    }
+
+    dialog h3 {
+      margin-top: 0
+    }
+
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px
+    }
+
+    .source-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 34px
+    }
+
+    @media(max-width:680px) {
+      .facts {
+        grid-template-columns: 1fr
+      }
+
+      .fact {
+        border-right: 0;
+        border-bottom: 1px solid var(--line)
+      }
+
+      .fact:last-child {
+        border-bottom: 0
+      }
+
+      .candidate,
+      .two-cols,
+      .three-cols,
+      .memory-box {
+        grid-template-columns: 1fr
+      }
+
+      .question {
+        padding: 16px
+      }
+
+      .timer {
+        font-size: 25px
+      }
+
+      .qtitle {
+        flex-direction: column;
+        gap: 4px
+      }
+
+      .mark-inline {
+        float: none;
+        margin-left: 6px
+      }
+
+      .protocol-grid {
+        grid-template-columns: 1fr
+      }
+
+      .footer-actions {
+        flex-direction: column;
+        align-items: stretch
+      }
+
+      .btn {
+        width: 100%
+      }
+    }
+
+    @media print {
+
+      .exambar,
+      .footer-actions,
+      .save-status {
+        display: none !important
+      }
+
+      body {
+        background: #fff
+      }
+
+      .question,
+      .paper-head {
+        box-shadow: none;
+        break-inside: avoid
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div id="startScreen" class="start">
-  <div class="wrap"><section class="hero">
-    <div class="eyebrow">Grade 12 · Computer Science</div>
-    <h1>Mock Examination — Component 1</h1>
-    <p>Digital practice version based on Paper 1, May 2025.</p>
-    <div class="facts"><div class="fact"><span>Time</span><strong>90 min</strong></div><div class="fact"><span>Maximum mark</span><strong>70</strong></div><div class="fact"><span>Questions</span><strong>10</strong></div></div>
-    <ul class="rules">
-      <li>Answer all questions in English.</li><li>Show all working where requested.</li><li>You may write code in pseudocode or another programming language you studied.</li><li>Your answers are saved locally while you work and periodically synced to the teacher's Google Sheet.</li><li>When time expires, the exam is submitted automatically.</li>
-    </ul>
-    <div class="candidate"><div class="field"><label for="fullName">Full name</label><input id="fullName" autocomplete="name" placeholder="Surname First name"></div><div class="field"><label for="group">Class / group</label><input id="group" autocomplete="off" placeholder="12 A"></div></div>
-    <div id="startError" class="error"></div><div class="start-actions"><button id="startBtn" class="btn">Start examination</button><span style="color:var(--muted);font-size:14px">The timer starts immediately.</span></div>
-  </section></div>
-</div>
+  <div id="startScreen" class="start">
+    <div class="wrap">
+      <section class="hero">
+        <div class="eyebrow">Grade 12 · Computer Science</div>
+        <h1>Mock Examination — Component 1</h1>
+        <p>Digital practice version based on Paper 1, May 2025.</p>
+        <div class="facts">
+          <div class="fact"><span>Time</span><strong>90 min</strong></div>
+          <div class="fact"><span>Maximum mark</span><strong>70</strong></div>
+          <div class="fact"><span>Questions</span><strong>10</strong></div>
+        </div>
+        <ul class="rules">
+          <li>Answer all questions in English.</li>
+          <li>Show all working where requested.</li>
+          <li>You may write code in pseudocode or another programming language you studied.</li>
+          <li>Your answers are saved locally while you work and periodically synced to the teacher's Google Sheet.</li>
+          <li>When time expires, the exam is submitted automatically.</li>
+        </ul>
+        <div class="candidate">
+          <div class="field"><label for="fullName">Full name</label><input id="fullName" autocomplete="name"
+              placeholder="Surname First name"></div>
+          <div class="field"><label for="group">Class / group</label><input id="group" autocomplete="off"
+              placeholder="12 A"></div>
+        </div>
+        <div id="startError" class="error"></div>
+        <div class="start-actions"><button id="startBtn" class="btn">Start examination</button><span
+            style="color:var(--muted);font-size:14px">The timer starts immediately.</span></div>
+      </section>
+    </div>
+  </div>
 
-<div id="examScreen" class="hidden">
-<header class="exambar"><div class="wrap"><div class="examtop"><div class="candidate-mini"><strong id="candidateLabel"></strong><span id="progressLabel"></span></div><div id="timer" class="timer">90:00</div></div><nav id="qnav" class="qnav" aria-label="Question navigation"></nav></div></header>
-<main class="wrap paper">
-<section class="paper-head"><h2>Computer Science — Component 1</h2><div id="saveStatus" class="save-status">Saved locally</div></section>
+  <div id="examScreen" class="hidden">
+    <header class="exambar">
+      <div class="wrap">
+        <div class="examtop">
+          <div class="candidate-mini"><strong id="candidateLabel"></strong><span id="progressLabel"></span></div>
+          <div id="timer" class="timer">90:00</div>
+        </div>
+        <nav id="qnav" class="qnav" aria-label="Question navigation"></nav>
+      </div>
+    </header>
+    <main class="wrap paper">
+      <section class="paper-head">
+        <h2>Computer Science — Component 1</h2>
+        <div id="saveStatus" class="save-status">Saved locally</div>
+      </section>
 
-<section class="question" id="q1"><div class="qtitle"><h3>1. Number systems</h3><span class="marks">[Total: 13]</span></div>
-<div class="part"><div class="part-title">(a) Convert the denary number 183 to a hexadecimal number. <span class="mark-inline">[1]</span></div><input class="short" data-answer="1a" aria-label="Question 1a"></div>
-<div class="part"><div class="part-title">(b) Perform the addition using an 8-bit binary integer format: <strong>10101010 + 10111001</strong>. <span class="mark-inline">[2]</span></div><textarea class="answer working" data-answer="1b" placeholder="Show working and final answer"></textarea></div>
-<div class="part"><div class="part-title">(c) Perform the binary multiplication: <strong>1111 × 111</strong>. Show all your working. <span class="mark-inline">[2]</span></div><textarea class="answer working" data-answer="1c"></textarea></div>
-<div class="part"><div class="part-title">(d) The following byte value is stored as an unsigned binary integer.</div><div class="byte" aria-label="10110001"><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span></div>
-<div class="subpart"><strong>(i)</strong> Show the decimal value of the number. <span class="mark-inline">[1]</span><br><input class="short small" data-answer="1di"></div>
-<div class="subpart"><strong>(ii)</strong> Identify the decimal value if represented as a two’s complement binary integer. <span class="mark-inline">[1]</span><br><input class="short small" data-answer="1dii"></div>
-<div class="subpart"><strong>(iii)</strong> Identify the decimal value if represented as an unsigned fixed point binary number with the right three bits for the fractional part. <span class="mark-inline">[2]</span><br><textarea class="answer" data-answer="1diii"></textarea></div></div>
-<div class="part"><div class="part-title">(e) Convert the negative denary number −23.75 to binary. Represent the result as a signed floating-point two’s complement number. Show all your working. <span class="mark-inline">[4]</span></div><textarea class="answer working" data-answer="1e_work" placeholder="Working"></textarea><div class="two-cols" style="margin-top:10px"><div class="field"><label>Mantissa</label><input class="short" data-answer="1e_mantissa"></div><div class="field"><label>Exponent</label><input class="short" data-answer="1e_exponent"></div></div></div>
-</section>
+      <section class="question" id="q1">
+        <div class="qtitle">
+          <h3>1. Number systems</h3><span class="marks">[Total: 13]</span>
+        </div>
+        <div class="part">
+          <div class="part-title">(a) Convert the denary number 183 to a hexadecimal number. <span
+              class="mark-inline">[1]</span></div><input class="short" data-answer="1a" aria-label="Question 1a">
+        </div>
+        <div class="part">
+          <div class="part-title">(b) Perform the addition using an 8-bit binary integer format: <strong>10101010 +
+              10111001</strong>. <span class="mark-inline">[2]</span></div><textarea class="answer working"
+            data-answer="1b" placeholder="Show working and final answer"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(c) Perform the binary multiplication: <strong>1111 × 111</strong>. Show all your
+            working. <span class="mark-inline">[2]</span></div><textarea class="answer working"
+            data-answer="1c"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(d) The following byte value is stored as an unsigned binary integer.</div>
+          <div class="byte" aria-label="10110001">
+            <span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span><span>0</span><span>1</span>
+          </div>
+          <div class="subpart"><strong>(i)</strong> Show the decimal value of the number. <span
+              class="mark-inline">[1]</span><br><input class="short small" data-answer="1di"></div>
+          <div class="subpart"><strong>(ii)</strong> Identify the decimal value if represented as a two’s complement
+            binary integer. <span class="mark-inline">[1]</span><br><input class="short small" data-answer="1dii"></div>
+          <div class="subpart"><strong>(iii)</strong> Identify the decimal value if represented as an unsigned fixed
+            point binary number with the right three bits for the fractional part. <span
+              class="mark-inline">[2]</span><br><textarea class="answer" data-answer="1diii"></textarea></div>
+        </div>
+        <div class="part">
+          <div class="part-title">(e) Convert the negative denary number −23.75 to binary. Represent the result as a
+            signed floating-point two’s complement number. Show all your working. <span class="mark-inline">[4]</span>
+          </div><textarea class="answer working" data-answer="1e_work" placeholder="Working"></textarea>
+          <div class="two-cols" style="margin-top:10px">
+            <div class="field"><label>Mantissa</label><input class="short" data-answer="1e_mantissa"></div>
+            <div class="field"><label>Exponent</label><input class="short" data-answer="1e_exponent"></div>
+          </div>
+        </div>
+      </section>
 
-<section class="question" id="q2"><div class="qtitle"><h3>2. Data security</h3><span class="marks">[Total: 6]</span></div><p>An owner of a small business has just started an e-commerce website and needs to consider the security of the customer information.</p>
-<div class="part"><div class="part-title">(a) State two differences between the terms data security and data integrity. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="2a"></textarea></div>
-<div class="part"><div class="part-title">(b) The absence or improper implementation of data protection measures may lead to various negative consequences. Give one consequence to each measure. Do not repeat your answers.</div><div class="two-cols"><div class="field"><label>(i) Data backup [1]</label><textarea class="answer" data-answer="2bi"></textarea></div><div class="field"><label>(ii) Disk mirroring [1]</label><textarea class="answer" data-answer="2bii"></textarea></div></div></div>
-<div class="part"><div class="part-title">(c) Describe how encryption keeps sensitive information secure. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="2c"></textarea></div></section>
+      <section class="question" id="q2">
+        <div class="qtitle">
+          <h3>2. Data security</h3><span class="marks">[Total: 6]</span>
+        </div>
+        <p>An owner of a small business has just started an e-commerce website and needs to consider the security of the
+          customer information.</p>
+        <div class="part">
+          <div class="part-title">(a) State two differences between the terms data security and data integrity. <span
+              class="mark-inline">[2]</span></div><textarea class="answer" data-answer="2a"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(b) The absence or improper implementation of data protection measures may lead to
+            various negative consequences. Give one consequence to each measure. Do not repeat your answers.</div>
+          <div class="two-cols">
+            <div class="field"><label>(i) Data backup [1]</label><textarea class="answer" data-answer="2bi"></textarea>
+            </div>
+            <div class="field"><label>(ii) Disk mirroring [1]</label><textarea class="answer"
+                data-answer="2bii"></textarea></div>
+          </div>
+        </div>
+        <div class="part">
+          <div class="part-title">(c) Describe how encryption keeps sensitive information secure. <span
+              class="mark-inline">[2]</span></div><textarea class="answer" data-answer="2c"></textarea>
+        </div>
+      </section>
 
-<section class="question" id="q3"><div class="qtitle"><h3>3. Software and interfaces</h3><span class="marks">[Total: 6]</span></div>
-<div class="part"><div class="part-title">(a) State one advantage and one disadvantage of implementing bespoke software. <span class="mark-inline">[2]</span></div><div class="two-cols"><div class="field"><label>Advantage</label><textarea class="answer" data-answer="3a_adv"></textarea></div><div class="field"><label>Disadvantage</label><textarea class="answer" data-answer="3a_dis"></textarea></div></div></div>
-<div class="part"><div class="part-title">(b) Describe how a network operating system implements user account management. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="3b"></textarea></div>
-<div class="part"><div class="part-title">(c) Write one disadvantage of each user interface. <span class="mark-inline">[2]</span></div><div class="two-cols"><div class="field"><label>Natural-language</label><textarea class="answer" data-answer="3c_nli"></textarea></div><div class="field"><label>Gesture-recognition</label><textarea class="answer" data-answer="3c_gri"></textarea></div></div></div></section>
+      <section class="question" id="q3">
+        <div class="qtitle">
+          <h3>3. Software and interfaces</h3><span class="marks">[Total: 6]</span>
+        </div>
+        <div class="part">
+          <div class="part-title">(a) State one advantage and one disadvantage of implementing bespoke software. <span
+              class="mark-inline">[2]</span></div>
+          <div class="two-cols">
+            <div class="field"><label>Advantage</label><textarea class="answer" data-answer="3a_adv"></textarea></div>
+            <div class="field"><label>Disadvantage</label><textarea class="answer" data-answer="3a_dis"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="part">
+          <div class="part-title">(b) Describe how a network operating system implements user account management. <span
+              class="mark-inline">[2]</span></div><textarea class="answer" data-answer="3b"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(c) Write one disadvantage of each user interface. <span
+              class="mark-inline">[2]</span></div>
+          <div class="two-cols">
+            <div class="field"><label>Natural-language</label><textarea class="answer" data-answer="3c_nli"></textarea>
+            </div>
+            <div class="field"><label>Gesture-recognition</label><textarea class="answer"
+                data-answer="3c_gri"></textarea></div>
+          </div>
+        </div>
+      </section>
 
-<section class="question" id="q4"><div class="qtitle"><h3>4. Processor architecture</h3><span class="marks">[Total: 12]</span></div>
-<div class="part"><div class="part-title">(a) RISC and CISC are types of processor architecture. State two differences between the two architectures. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="4a"></textarea></div>
-<div class="part"><div class="part-title">(b) Complete the table with factors that affect the performance of the CPU. For each factor, give a definition. <span class="mark-inline">[6]</span></div><table class="exam-table"><thead><tr><th>Factor</th><th>Definition</th></tr></thead><tbody><tr><td><input data-answer="4b_f1"></td><td><input data-answer="4b_d1"></td></tr><tr><td><input data-answer="4b_f2"></td><td><input data-answer="4b_d2"></td></tr><tr><td><input data-answer="4b_f3"></td><td><input data-answer="4b_d3"></td></tr></tbody></table></div>
-<div class="part"><div class="part-title">(c) Complete the table with values loaded in the accumulator if different memory addressing modes were used. <span class="mark-inline">[4]</span></div><div class="memory-box"><div><strong>Memory</strong><table class="memtbl"><tr><td class="addr">15</td><td>25</td></tr><tr><td class="addr">25</td><td>35</td></tr><tr><td class="addr">35</td><td>5</td></tr><tr><td class="addr">45</td><td>10</td></tr><tr><td class="addr">85</td><td>30</td></tr></table><p style="text-align:center"><strong>LOAD 15</strong><br>Index = 70</p></div><div><table class="exam-table"><tr><th>Mode</th><th>Value loaded into AC</th></tr><tr><td>Immediate</td><td><input data-answer="4c_immediate"></td></tr><tr><td>Direct</td><td><input data-answer="4c_direct"></td></tr><tr><td>Indirect</td><td><input data-answer="4c_indirect"></td></tr><tr><td>Indexed</td><td><input data-answer="4c_indexed"></td></tr></table></div></div></div></section>
+      <section class="question" id="q4">
+        <div class="qtitle">
+          <h3>4. Processor architecture</h3><span class="marks">[Total: 12]</span>
+        </div>
+        <div class="part">
+          <div class="part-title">(a) RISC and CISC are types of processor architecture. State two differences between
+            the two architectures. <span class="mark-inline">[2]</span></div><textarea class="answer"
+            data-answer="4a"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(b) Complete the table with factors that affect the performance of the CPU. For each
+            factor, give a definition. <span class="mark-inline">[6]</span></div>
+          <table class="exam-table">
+            <thead>
+              <tr>
+                <th>Factor</th>
+                <th>Definition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input data-answer="4b_f1"></td>
+                <td><input data-answer="4b_d1"></td>
+              </tr>
+              <tr>
+                <td><input data-answer="4b_f2"></td>
+                <td><input data-answer="4b_d2"></td>
+              </tr>
+              <tr>
+                <td><input data-answer="4b_f3"></td>
+                <td><input data-answer="4b_d3"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="part">
+          <div class="part-title">(c) Complete the table with values loaded in the accumulator if different memory
+            addressing modes were used. <span class="mark-inline">[4]</span></div>
+          <div class="memory-box">
+            <div><strong>Memory</strong>
+              <table class="memtbl">
+                <tr>
+                  <td class="addr">15</td>
+                  <td>25</td>
+                </tr>
+                <tr>
+                  <td class="addr">25</td>
+                  <td>35</td>
+                </tr>
+                <tr>
+                  <td class="addr">35</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td class="addr">45</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td class="addr">85</td>
+                  <td>30</td>
+                </tr>
+              </table>
+              <p style="text-align:center"><strong>LOAD 15</strong><br>Index = 70</p>
+            </div>
+            <div>
+              <table class="exam-table">
+                <tr>
+                  <th>Mode</th>
+                  <th>Value loaded into AC</th>
+                </tr>
+                <tr>
+                  <td>Immediate</td>
+                  <td><input data-answer="4c_immediate"></td>
+                </tr>
+                <tr>
+                  <td>Direct</td>
+                  <td><input data-answer="4c_direct"></td>
+                </tr>
+                <tr>
+                  <td>Indirect</td>
+                  <td><input data-answer="4c_indirect"></td>
+                </tr>
+                <tr>
+                  <td>Indexed</td>
+                  <td><input data-answer="4c_indexed"></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<section class="question" id="q5"><div class="qtitle"><h3>5. Memory management and virtual machines</h3><span class="marks">[Total: 5]</span></div><div class="part"><div class="part-title">(a) Explain how paging is used in memory management. <span class="mark-inline">[3]</span></div><textarea class="answer" data-answer="5a"></textarea></div><div class="part"><div class="part-title">(b) Give two examples of the use of a virtual machine. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="5b"></textarea></div></section>
+      <section class="question" id="q5">
+        <div class="qtitle">
+          <h3>5. Memory management and virtual machines</h3><span class="marks">[Total: 5]</span>
+        </div>
+        <div class="part">
+          <div class="part-title">(a) Explain how paging is used in memory management. <span
+              class="mark-inline">[3]</span></div><textarea class="answer" data-answer="5a"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(b) Give two examples of the use of a virtual machine. <span
+              class="mark-inline">[2]</span></div><textarea class="answer" data-answer="5b"></textarea>
+        </div>
+      </section>
 
-<section class="question" id="q6"><div class="qtitle"><h3>6. Artificial Intelligence and Augmented Reality</h3><span class="marks">[Total: 5]</span></div><p>The use of Artificial Intelligence (AI) has been steadily increasing in various spheres of life.</p><div class="part"><div class="part-title">(a) Give one example of using AI in each area. <span class="mark-inline">[3]</span></div><div class="three-cols"><div class="field"><label>Medicine</label><textarea class="answer" data-answer="6a_med"></textarea></div><div class="field"><label>Gaming industry</label><textarea class="answer" data-answer="6a_game"></textarea></div><div class="field"><label>Society</label><textarea class="answer" data-answer="6a_soc"></textarea></div></div></div><div class="part"><div class="part-title">(b) State two purposes of Augmented Reality. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="6b"></textarea></div></section>
+      <section class="question" id="q6">
+        <div class="qtitle">
+          <h3>6. Artificial Intelligence and Augmented Reality</h3><span class="marks">[Total: 5]</span>
+        </div>
+        <p>The use of Artificial Intelligence (AI) has been steadily increasing in various spheres of life.</p>
+        <div class="part">
+          <div class="part-title">(a) Give one example of using AI in each area. <span class="mark-inline">[3]</span>
+          </div>
+          <div class="three-cols">
+            <div class="field"><label>Medicine</label><textarea class="answer" data-answer="6a_med"></textarea></div>
+            <div class="field"><label>Gaming industry</label><textarea class="answer" data-answer="6a_game"></textarea>
+            </div>
+            <div class="field"><label>Society</label><textarea class="answer" data-answer="6a_soc"></textarea></div>
+          </div>
+        </div>
+        <div class="part">
+          <div class="part-title">(b) State two purposes of Augmented Reality. <span class="mark-inline">[2]</span>
+          </div><textarea class="answer" data-answer="6b"></textarea>
+        </div>
+      </section>
 
-<section class="question" id="q7"><div class="qtitle"><h3>7. Compilation</h3><span class="marks">[Total: 5]</span></div><p>The process of compiling a program involves several stages.</p><div class="part"><div class="part-title">(a) Name the compilation stage that gives the following result. <span class="mark-inline">[1]</span></div><table class="exam-table" style="max-width:430px"><tr><td>Keyword</td><td>if</td></tr><tr><td>Bracket</td><td>(</td></tr><tr><td>Identifier</td><td>x</td></tr><tr><td>Operator</td><td>==</td></tr><tr><td>Number</td><td>0</td></tr><tr><td>Bracket</td><td>)</td></tr></table><input class="short" data-answer="7a"></div><div class="part"><div class="part-title">(b) Consider the code fragment:</div><div class="codebox">a = 5
-if (a != 5) {
-    ………
-}</div><div class="subpart"><strong>(i)</strong> Name the optimisation algorithm that will be used. <span class="mark-inline">[1]</span><br><input class="short" data-answer="7bi"></div><div class="subpart"><strong>(ii)</strong> Optimise the code. <span class="mark-inline">[1]</span><br><textarea class="answer working" data-answer="7bii"></textarea></div></div><div class="part"><div class="part-title">(c) Describe what happens at the stage of syntax analysis. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="7c"></textarea></div></section>
+      <section class="question" id="q7">
+        <div class="qtitle">
+          <h3>7. Compilation</h3><span class="marks">[Total: 5]</span>
+        </div>
+        <p>The process of compiling a program involves several stages.</p>
+        <div class="part">
+          <div class="part-title">(a) Name the compilation stage that gives the following result. <span
+              class="mark-inline">[1]</span></div>
+          <table class="exam-table" style="max-width:430px">
+            <tr>
+              <td>Keyword</td>
+              <td>if</td>
+            </tr>
+            <tr>
+              <td>Bracket</td>
+              <td>(</td>
+            </tr>
+            <tr>
+              <td>Identifier</td>
+              <td>x</td>
+            </tr>
+            <tr>
+              <td>Operator</td>
+              <td>==</td>
+            </tr>
+            <tr>
+              <td>Number</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>Bracket</td>
+              <td>)</td>
+            </tr>
+          </table><input class="short" data-answer="7a">
+        </div>
+        <div class="part">
+          <div class="part-title">(b) Consider the code fragment:</div>
+          <div class="codebox">a = 5
+            if (a != 5) {
+            ………
+            }</div>
+          <div class="subpart"><strong>(i)</strong> Name the optimisation algorithm that will be used. <span
+              class="mark-inline">[1]</span><br><input class="short" data-answer="7bi"></div>
+          <div class="subpart"><strong>(ii)</strong> Optimise the code. <span
+              class="mark-inline">[1]</span><br><textarea class="answer working" data-answer="7bii"></textarea></div>
+        </div>
+        <div class="part">
+          <div class="part-title">(c) Describe what happens at the stage of syntax analysis. <span
+              class="mark-inline">[2]</span></div><textarea class="answer" data-answer="7c"></textarea>
+        </div>
+      </section>
 
-<section class="question" id="q8"><div class="qtitle"><h3>8. Network topology and routers</h3><span class="marks">[Total: 5]</span></div><div class="part"><div class="part-title">(a) The following diagram shows how computers are connected to form a LAN.</div>
-<svg class="network-svg" viewBox="0 0 760 390" role="img" aria-label="Mixed network topology labelled A, B and C">
-<defs><g id="pc"><rect x="-18" y="-13" width="36" height="25" rx="3" fill="#d9d9d9" stroke="#555"/><rect x="-11" y="-8" width="22" height="13" fill="#777"/><line x1="0" y1="12" x2="0" y2="19" stroke="#555"/><line x1="-12" y1="19" x2="12" y2="19" stroke="#555"/></g></defs>
-<path d="M85 245 C145 180 245 180 305 245 C245 310 145 310 85 245Z" fill="none" stroke="#555" stroke-width="2"/><use href="#pc" x="115" y="245"/><use href="#pc" x="190" y="200"/><use href="#pc" x="190" y="290"/><use href="#pc" x="275" y="245"/><text x="185" y="250" font-size="22" font-weight="700">A</text>
-<line x1="190" y1="115" x2="650" y2="115" stroke="#555" stroke-width="2"/><line x1="190" y1="115" x2="190" y2="200" stroke="#555"/><line x1="335" y1="115" x2="335" y2="165" stroke="#555"/><line x1="470" y1="115" x2="470" y2="165" stroke="#555"/><line x1="600" y1="115" x2="600" y2="165" stroke="#555"/><use href="#pc" x="335" y="155"/><use href="#pc" x="470" y="155"/><use href="#pc" x="600" y="155"/><use href="#pc" x="335" y="70"/><use href="#pc" x="470" y="70"/><text x="375" y="145" font-size="22" font-weight="700">B</text>
-<rect x="520" y="270" width="42" height="24" rx="4" fill="#bbb" stroke="#555"/><line x1="541" y1="270" x2="541" y2="210" stroke="#555"/><line x1="541" y1="294" x2="470" y2="330" stroke="#555"/><line x1="541" y1="294" x2="610" y2="330" stroke="#555"/><line x1="562" y1="282" x2="650" y2="245" stroke="#555"/><line x1="520" y1="282" x2="445" y2="245" stroke="#555"/><line x1="650" y1="115" x2="650" y2="245" stroke="#555"/><use href="#pc" x="541" y="205"/><use href="#pc" x="445" y="245"/><use href="#pc" x="650" y="245"/><use href="#pc" x="470" y="335"/><use href="#pc" x="610" y="335"/><text x="475" y="270" font-size="22" font-weight="700">C</text></svg>
-<div class="subpart"><strong>(i)</strong> State the name for the network topology in the figure. <span class="mark-inline">[1]</span><br><input class="short" data-answer="8ai"></div><div class="subpart"><strong>(ii)</strong> Give one advantage of the topology in A. <span class="mark-inline">[1]</span><br><textarea class="answer" data-answer="8aii"></textarea></div><div class="subpart"><strong>(iii)</strong> Give one disadvantage of the topology in C. <span class="mark-inline">[1]</span><br><textarea class="answer" data-answer="8aiii"></textarea></div></div><div class="part"><div class="part-title">(b) Identify two purposes of a router. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="8b"></textarea></div></section>
+      <section class="question" id="q8">
+        <div class="qtitle">
+          <h3>8. Network topology and routers</h3><span class="marks">[Total: 5]</span>
+        </div>
+        <div class="part">
+          <div class="part-title">(a) The following diagram shows how computers are connected to form a LAN.</div>
+          <svg class="network-svg" viewBox="0 0 760 390" role="img"
+            aria-label="Mixed network topology labelled A, B and C">
+            <defs>
+              <g id="pc">
+                <rect x="-18" y="-13" width="36" height="25" rx="3" fill="#d9d9d9" stroke="#555" />
+                <rect x="-11" y="-8" width="22" height="13" fill="#777" />
+                <line x1="0" y1="12" x2="0" y2="19" stroke="#555" />
+                <line x1="-12" y1="19" x2="12" y2="19" stroke="#555" />
+              </g>
+            </defs>
+            <path d="M85 245 C145 180 245 180 305 245 C245 310 145 310 85 245Z" fill="none" stroke="#555"
+              stroke-width="2" />
+            <use href="#pc" x="115" y="245" />
+            <use href="#pc" x="190" y="200" />
+            <use href="#pc" x="190" y="290" />
+            <use href="#pc" x="275" y="245" /><text x="185" y="250" font-size="22" font-weight="700">A</text>
+            <line x1="190" y1="115" x2="650" y2="115" stroke="#555" stroke-width="2" />
+            <line x1="190" y1="115" x2="190" y2="200" stroke="#555" />
+            <line x1="335" y1="115" x2="335" y2="165" stroke="#555" />
+            <line x1="470" y1="115" x2="470" y2="165" stroke="#555" />
+            <line x1="600" y1="115" x2="600" y2="165" stroke="#555" />
+            <use href="#pc" x="335" y="155" />
+            <use href="#pc" x="470" y="155" />
+            <use href="#pc" x="600" y="155" />
+            <use href="#pc" x="335" y="70" />
+            <use href="#pc" x="470" y="70" /><text x="375" y="145" font-size="22" font-weight="700">B</text>
+            <rect x="520" y="270" width="42" height="24" rx="4" fill="#bbb" stroke="#555" />
+            <line x1="541" y1="270" x2="541" y2="210" stroke="#555" />
+            <line x1="541" y1="294" x2="470" y2="330" stroke="#555" />
+            <line x1="541" y1="294" x2="610" y2="330" stroke="#555" />
+            <line x1="562" y1="282" x2="650" y2="245" stroke="#555" />
+            <line x1="520" y1="282" x2="445" y2="245" stroke="#555" />
+            <line x1="650" y1="115" x2="650" y2="245" stroke="#555" />
+            <use href="#pc" x="541" y="205" />
+            <use href="#pc" x="445" y="245" />
+            <use href="#pc" x="650" y="245" />
+            <use href="#pc" x="470" y="335" />
+            <use href="#pc" x="610" y="335" /><text x="475" y="270" font-size="22" font-weight="700">C</text>
+          </svg>
+          <div class="subpart"><strong>(i)</strong> State the name for the network topology in the figure. <span
+              class="mark-inline">[1]</span><br><input class="short" data-answer="8ai"></div>
+          <div class="subpart"><strong>(ii)</strong> Give one advantage of the topology in A. <span
+              class="mark-inline">[1]</span><br><textarea class="answer" data-answer="8aii"></textarea></div>
+          <div class="subpart"><strong>(iii)</strong> Give one disadvantage of the topology in C. <span
+              class="mark-inline">[1]</span><br><textarea class="answer" data-answer="8aiii"></textarea></div>
+        </div>
+        <div class="part">
+          <div class="part-title">(b) Identify two purposes of a router. <span class="mark-inline">[2]</span></div>
+          <textarea class="answer" data-answer="8b"></textarea>
+        </div>
+      </section>
 
-<section class="question" id="q9"><div class="qtitle"><h3>9. IP, domain names and MAC addresses</h3><span class="marks">[Total: 6]</span></div><div class="part"><div class="part-title">(a) Describe the relationship between the IP address and the domain name. <span class="mark-inline">[1]</span></div><textarea class="answer" data-answer="9a"></textarea></div><div class="part"><div class="part-title">(b) Write two ways to identify the MAC address of a computer. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="9b"></textarea></div><div class="part"><div class="part-title">(c) Describe two differences between a MAC address and an IP address. <span class="mark-inline">[2]</span></div><textarea class="answer" data-answer="9c"></textarea></div><div class="part"><div class="part-title">(d) Give one example of a URL address indicating protocol, hostname, file location. <span class="mark-inline">[1]</span></div><input class="short" data-answer="9d" placeholder="e.g. protocol://hostname/path/file"></div></section>
+      <section class="question" id="q9">
+        <div class="qtitle">
+          <h3>9. IP, domain names and MAC addresses</h3><span class="marks">[Total: 6]</span>
+        </div>
+        <div class="part">
+          <div class="part-title">(a) Describe the relationship between the IP address and the domain name. <span
+              class="mark-inline">[1]</span></div><textarea class="answer" data-answer="9a"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(b) Write two ways to identify the MAC address of a computer. <span
+              class="mark-inline">[2]</span></div><textarea class="answer" data-answer="9b"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(c) Describe two differences between a MAC address and an IP address. <span
+              class="mark-inline">[2]</span></div><textarea class="answer" data-answer="9c"></textarea>
+        </div>
+        <div class="part">
+          <div class="part-title">(d) Give one example of a URL address indicating protocol, hostname, file location.
+            <span class="mark-inline">[1]</span></div><input class="short" data-answer="9d"
+            placeholder="e.g. protocol://hostname/path/file">
+        </div>
+      </section>
 
-<section class="question" id="q10"><div class="qtitle"><h3>10. Internet protocols and OSI model</h3><span class="marks">[Total: 7]</span></div><div class="part"><div class="part-title">(a) Match each protocol name with the correct role. One role is not used. <span class="mark-inline">[3]</span></div><div class="protocol-grid"><div class="name">TCP/IP</div><select data-answer="10a_tcp"><option value="">Choose a role…</option><option>used to establish a connection between devices on a network</option><option>used for sending email messages from a client to a mail server</option><option>used for transferring files between a client and a server on a network</option><option>used for retrieving email messages from a mail server</option></select><div class="name">FTP</div><select data-answer="10a_ftp"><option value="">Choose a role…</option><option>used to establish a connection between devices on a network</option><option>used for sending email messages from a client to a mail server</option><option>used for transferring files between a client and a server on a network</option><option>used for retrieving email messages from a mail server</option></select><div class="name">POP3</div><select data-answer="10a_pop3"><option value="">Choose a role…</option><option>used to establish a connection between devices on a network</option><option>used for sending email messages from a client to a mail server</option><option>used for transferring files between a client and a server on a network</option><option>used for retrieving email messages from a mail server</option></select></div></div>
-<div class="part"><div class="part-title">(b) Explain the formats of an IP address. <span class="mark-inline">[2]</span></div><div class="two-cols"><div class="field"><label>IPv4</label><textarea class="answer" data-answer="10b_ipv4"></textarea></div><div class="field"><label>IPv6</label><textarea class="answer" data-answer="10b_ipv6"></textarea></div></div></div>
-<div class="part"><div class="part-title">(c) Complete the missing layers of the OSI model. <span class="mark-inline">[2]</span></div><table class="osi"><tr><td>7. Application</td></tr><tr><td>6. Presentation</td></tr><tr><td>5. Session</td></tr><tr><td>4. <input class="short" style="width:75%" data-answer="10c_4"></td></tr><tr><td>3. Network</td></tr><tr><td>2. <input class="short" style="width:75%" data-answer="10c_2"></td></tr><tr><td>1. Physical</td></tr></table></div></section>
+      <section class="question" id="q10">
+        <div class="qtitle">
+          <h3>10. Internet protocols and OSI model</h3><span class="marks">[Total: 7]</span>
+        </div>
+        <div class="part">
+          <div class="part-title">(a) Match each protocol name with the correct role. One role is not used. <span
+              class="mark-inline">[3]</span></div>
+          <div class="protocol-grid">
+            <div class="name">TCP/IP</div><select data-answer="10a_tcp">
+              <option value="">Choose a role…</option>
+              <option>used to establish a connection between devices on a network</option>
+              <option>used for sending email messages from a client to a mail server</option>
+              <option>used for transferring files between a client and a server on a network</option>
+              <option>used for retrieving email messages from a mail server</option>
+            </select>
+            <div class="name">FTP</div><select data-answer="10a_ftp">
+              <option value="">Choose a role…</option>
+              <option>used to establish a connection between devices on a network</option>
+              <option>used for sending email messages from a client to a mail server</option>
+              <option>used for transferring files between a client and a server on a network</option>
+              <option>used for retrieving email messages from a mail server</option>
+            </select>
+            <div class="name">POP3</div><select data-answer="10a_pop3">
+              <option value="">Choose a role…</option>
+              <option>used to establish a connection between devices on a network</option>
+              <option>used for sending email messages from a client to a mail server</option>
+              <option>used for transferring files between a client and a server on a network</option>
+              <option>used for retrieving email messages from a mail server</option>
+            </select>
+          </div>
+        </div>
+        <div class="part">
+          <div class="part-title">(b) Explain the formats of an IP address. <span class="mark-inline">[2]</span></div>
+          <div class="two-cols">
+            <div class="field"><label>IPv4</label><textarea class="answer" data-answer="10b_ipv4"></textarea></div>
+            <div class="field"><label>IPv6</label><textarea class="answer" data-answer="10b_ipv6"></textarea></div>
+          </div>
+        </div>
+        <div class="part">
+          <div class="part-title">(c) Complete the missing layers of the OSI model. <span class="mark-inline">[2]</span>
+          </div>
+          <table class="osi">
+            <tr>
+              <td>7. Application</td>
+            </tr>
+            <tr>
+              <td>6. Presentation</td>
+            </tr>
+            <tr>
+              <td>5. Session</td>
+            </tr>
+            <tr>
+              <td>4. <input class="short" style="width:75%" data-answer="10c_4"></td>
+            </tr>
+            <tr>
+              <td>3. Network</td>
+            </tr>
+            <tr>
+              <td>2. <input class="short" style="width:75%" data-answer="10c_2"></td>
+            </tr>
+            <tr>
+              <td>1. Physical</td>
+            </tr>
+          </table>
+        </div>
+      </section>
 
-<div class="footer-actions"><div class="progress-note" id="footerProgress"></div><button id="submitBtn" class="btn">Submit examination</button></div>
-<p class="source-note">Practice digitisation prepared from the teacher-provided 2025 Grade 12 Computer Science Paper 1. Mark scheme is intentionally not embedded in this public HTML file.</p>
-</main></div>
+      <div class="footer-actions">
+        <div class="progress-note" id="footerProgress"></div><button id="submitBtn" class="btn">Submit
+          examination</button>
+      </div>
+      <p class="source-note">Practice digitisation prepared from the teacher-provided 2025 Grade 12 Computer Science
+        Paper 1. Mark scheme is intentionally not embedded in this public HTML file.</p>
+    </main>
+  </div>
 
-<div id="doneScreen" class="hidden donepage"><div class="wrap"><section id="doneBox" class="notice"></section></div></div>
-<dialog id="submitDialog"><h3>Submit examination?</h3><p id="submitMessage"></p><div class="dialog-actions"><button id="cancelSubmit" class="btn secondary">Return</button><button id="confirmSubmit" class="btn">Submit</button></div></dialog>
+  <div id="doneScreen" class="hidden donepage">
+    <div class="wrap">
+      <section id="doneBox" class="notice"></section>
+    </div>
+  </div>
+  <dialog id="submitDialog">
+    <h3>Submit examination?</h3>
+    <p id="submitMessage"></p>
+    <div class="dialog-actions"><button id="cancelSubmit" class="btn secondary">Return</button><button
+        id="confirmSubmit" class="btn">Submit</button></div>
+  </dialog>
 
-<script>
-const CONFIG={
-  examId:'g12-cs-component1-2025-pilot',
-  title:'Computer Science Mock Examination — Component 1',
-  durationMin:90,
-  maxMarks:70,
-  // Paste the deployed Google Apps Script /exec URL here.
-  submitUrl:'https://script.google.com/macros/s/AKfycbzBj7KrWyVBRlqNffyMMXf4jNIk5yOFrpAqBO7yKCk76kxpzN6nre8pnS_o-kMBXiOy/exec',
-  draftEveryMs:60000
-};
-const QUESTION_KEYS={1:['1a','1b','1c','1di','1dii','1diii','1e_work','1e_mantissa','1e_exponent'],2:['2a','2bi','2bii','2c'],3:['3a_adv','3a_dis','3b','3c_nli','3c_gri'],4:['4a','4b_f1','4b_d1','4b_f2','4b_d2','4b_f3','4b_d3','4c_immediate','4c_direct','4c_indirect','4c_indexed'],5:['5a','5b'],6:['6a_med','6a_game','6a_soc','6b'],7:['7a','7bi','7bii','7c'],8:['8ai','8aii','8aiii','8b'],9:['9a','9b','9c','9d'],10:['10a_tcp','10a_ftp','10a_pop3','10b_ipv4','10b_ipv6','10c_4','10c_2']};
-const ANSWER_META={
-'1a':['1(a)',1,'Convert denary 183 to hexadecimal.'],'1b':['1(b)',2,'Perform 10101010 + 10111001 using an 8-bit binary integer format.'],'1c':['1(c)',2,'Perform binary multiplication 1111 × 111; show working.'],'1di':['1(d)(i)',1,'Decimal value of 10110001 as unsigned binary.'],'1dii':['1(d)(ii)',1,'Decimal value of 10110001 as two’s complement.'],'1diii':['1(d)(iii)',2,'Decimal value of 10110001 as unsigned fixed point with right three fractional bits.'],'1e_work':['1(e) working',2,'Working for −23.75 signed floating-point two’s complement.'],'1e_mantissa':['1(e) mantissa',1,'Mantissa for −23.75 floating-point representation.'],'1e_exponent':['1(e) exponent',1,'Exponent for −23.75 floating-point representation.'],
-'2a':['2(a)',2,'Two differences between data security and data integrity.'],'2bi':['2(b)(i)',1,'Consequence related to data backup.'],'2bii':['2(b)(ii)',1,'Consequence related to disk mirroring.'],'2c':['2(c)',2,'How encryption keeps sensitive information secure.'],
-'3a_adv':['3(a) advantage',1,'One advantage of bespoke software.'],'3a_dis':['3(a) disadvantage',1,'One disadvantage of bespoke software.'],'3b':['3(b)',2,'How a network OS implements user account management.'],'3c_nli':['3(c) natural-language',1,'One disadvantage of a natural-language interface.'],'3c_gri':['3(c) gesture-recognition',1,'One disadvantage of a gesture-recognition interface.'],
-'4a':['4(a)',2,'Two differences between RISC and CISC.'],'4b_f1':['4(b) factor 1',1,'CPU performance factor 1.'],'4b_d1':['4(b) definition 1',1,'Definition of CPU performance factor 1.'],'4b_f2':['4(b) factor 2',1,'CPU performance factor 2.'],'4b_d2':['4(b) definition 2',1,'Definition of CPU performance factor 2.'],'4b_f3':['4(b) factor 3',1,'CPU performance factor 3.'],'4b_d3':['4(b) definition 3',1,'Definition of CPU performance factor 3.'],'4c_immediate':['4(c) Immediate',1,'Value loaded into AC using immediate addressing.'],'4c_direct':['4(c) Direct',1,'Value loaded into AC using direct addressing.'],'4c_indirect':['4(c) Indirect',1,'Value loaded into AC using indirect addressing.'],'4c_indexed':['4(c) Indexed',1,'Value loaded into AC using indexed addressing.'],
-'5a':['5(a)',3,'Explain paging in memory management.'],'5b':['5(b)',2,'Two uses of a virtual machine.'],
-'6a_med':['6(a) medicine',1,'Example of AI in medicine.'],'6a_game':['6(a) gaming',1,'Example of AI in gaming industry.'],'6a_soc':['6(a) society',1,'Example of AI in society.'],'6b':['6(b)',2,'Two purposes of Augmented Reality.'],
-'7a':['7(a)',1,'Compilation stage producing token classifications.'],'7bi':['7(b)(i)',1,'Optimisation algorithm for unreachable branch.'],'7bii':['7(b)(ii)',1,'Optimised code.'],'7c':['7(c)',2,'What happens during syntax analysis.'],
-'8ai':['8(a)(i)',1,'Name of topology in the mixed topology figure.'],'8aii':['8(a)(ii)',1,'One advantage of topology A.'],'8aiii':['8(a)(iii)',1,'One disadvantage of topology C.'],'8b':['8(b)',2,'Two purposes of a router.'],
-'9a':['9(a)',1,'Relationship between IP address and domain name.'],'9b':['9(b)',2,'Two ways to identify a computer MAC address.'],'9c':['9(c)',2,'Two differences between MAC and IP addresses.'],'9d':['9(d)',1,'Example URL with protocol, hostname and file location.'],
-'10a_tcp':['10(a) TCP/IP',1,'Match TCP/IP to its role.'],'10a_ftp':['10(a) FTP',1,'Match FTP to its role.'],'10a_pop3':['10(a) POP3',1,'Match POP3 to its role.'],'10b_ipv4':['10(b) IPv4',1,'Explain IPv4 format.'],'10b_ipv6':['10(b) IPv6',1,'Explain IPv6 format.'],'10c_4':['10(c) layer 4',1,'Missing OSI layer 4.'],'10c_2':['10(c) layer 2',1,'Missing OSI layer 2.']};
-const KEY='mockexam:'+CONFIG.examId;let state=load()||{};let timerHandle=null,draftHandle=null,sending=false,examActive=false,lastServerSave=0;
-function load(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch{return null}}function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
-function configured(){return /^https:\/\/script\.google\.com\//.test(CONFIG.submitUrl)}function makeId(){const a=new Uint8Array(6);crypto.getRandomValues(a);return Array.from(a,x=>x.toString(16).padStart(2,'0')).join('').toUpperCase()}
-function getAnswer(k){return (state.answers&&state.answers[k])||''}function setAnswer(k,v){state.answers=state.answers||{};state.answers[k]=v;state.updatedAt=Date.now();saveLocal();refreshProgress();setSaveText('Saved locally · server sync pending')}
-function questionStatus(n){const vals=QUESTION_KEYS[n].map(k=>String(getAnswer(k)).trim());const filled=vals.filter(Boolean).length;return filled===0?'empty':filled===vals.length?'done':'partial'}
-function refreshProgress(){let done=0;Object.keys(QUESTION_KEYS).forEach(n=>{const s=questionStatus(n);const a=document.querySelector('#qnav a[data-q="'+n+'"]');if(a){a.classList.toggle('done',s==='done');a.classList.toggle('partial',s==='partial')}if(s==='done')done++});const p=`Completed questions: ${done}/10`;document.getElementById('progressLabel').textContent=p;document.getElementById('footerProgress').textContent=p}
-function setSaveText(t){document.getElementById('saveStatus').textContent=t}
-function hydrateInputs(){document.querySelectorAll('[data-answer]').forEach(el=>{el.value=getAnswer(el.dataset.answer);el.addEventListener(el.tagName==='SELECT'?'change':'input',()=>setAnswer(el.dataset.answer,el.value))})}
-function buildPayload(status){const now=Date.now();if(!state.submissionId)state.submissionId=makeId();const answers=Object.entries(ANSWER_META).map(([key,m])=>({key,label:m[0],marks:m[1],question:m[2],answer:String(getAnswer(key)).trim()}));return{action:status==='SUBMITTED'?'submit':'draft',examId:CONFIG.examId,examTitle:CONFIG.title,id:state.submissionId,fullName:state.fullName,group:state.group||'',startedAt:new Date(state.startedAt).toISOString(),submittedAt:status==='SUBMITTED'?new Date(now).toISOString():'',lastSavedAt:new Date(now).toISOString(),secondsUsed:Math.min(Math.round((now-state.startedAt)/1000),CONFIG.durationMin*60),status,autoSubmitted:!!state.autoSubmitted,tabSwitches:state.tabSwitches||0,totalMarks:CONFIG.maxMarks,answers}}
-async function sendPayload(status,silent=false){if(!configured())return false;try{const ctl=new AbortController();const tm=setTimeout(()=>ctl.abort(),20000);const res=await fetch(CONFIG.submitUrl,{method:'POST',body:JSON.stringify(buildPayload(status)),signal:ctl.signal});clearTimeout(tm);const data=await res.json();if(!data||!data.ok)throw new Error(data&&data.error||'Server error');lastServerSave=Date.now();if(!silent)setSaveText(status==='SUBMITTED'?'Submitted':'Saved locally and synced to teacher');return true}catch(e){if(!silent)setSaveText('Saved locally · server sync failed');return false}}
-async function syncDraft(){if(!examActive||sending||!state.startedAt)return;await sendPayload('DRAFT')}
-function startExam(){const fullName=document.getElementById('fullName').value.trim().replace(/\s+/g,' '),group=document.getElementById('group').value.trim();if(fullName.length<4||!fullName.includes(' ')){document.getElementById('startError').textContent='Enter surname and first name.';return}state={fullName,group,startedAt:Date.now(),answers:{},tabSwitches:0,submissionId:makeId(),status:'DRAFT'};saveLocal();showExam()}
-function showExam(){examActive=true;document.getElementById('startScreen').classList.add('hidden');document.getElementById('doneScreen').classList.add('hidden');document.getElementById('examScreen').classList.remove('hidden');document.getElementById('candidateLabel').textContent=state.fullName+(state.group?' · '+state.group:'');const nav=document.getElementById('qnav');nav.innerHTML='';for(let i=1;i<=10;i++){const a=document.createElement('a');a.href='#q'+i;a.dataset.q=i;a.textContent=i;nav.appendChild(a)}hydrateInputs();refreshProgress();runTimer();clearInterval(draftHandle);draftHandle=setInterval(syncDraft,CONFIG.draftEveryMs);setTimeout(syncDraft,3500);window.scrollTo(0,0)}
-function runTimer(){clearInterval(timerHandle);const el=document.getElementById('timer');const tick=()=>{const left=state.startedAt+CONFIG.durationMin*60000-Date.now();if(left<=0){el.textContent='00:00';clearInterval(timerHandle);state.autoSubmitted=true;submitExam(true);return}const s=Math.ceil(left/1000),m=Math.floor(s/60),ss=s%60;el.textContent=String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');el.classList.toggle('warn',left<=10*60000&&left>5*60000);el.classList.toggle('danger',left<=5*60000)};tick();timerHandle=setInterval(tick,1000)}
-async function submitExam(auto){if(sending||state.submitted)return;sending=true;examActive=false;clearInterval(timerHandle);clearInterval(draftHandle);state.autoSubmitted=!!auto;state.status='SUBMITTED';state.submittedAt=Date.now();saveLocal();showDone('sending');let ok=false;for(let i=0;i<3&&!ok;i++){ok=await sendPayload('SUBMITTED',true);if(!ok)await new Promise(r=>setTimeout(r,1200*(i+1)))}if(ok){state.submitted=true;saveLocal();showDone('sent')}else showDone(configured()?'failed':'local');sending=false}
-function backupText(){const p=buildPayload('SUBMITTED');let out=`${p.examTitle}\nStudent: ${p.fullName}\nClass: ${p.group||'-'}\nSubmission ID: ${p.id}\nStarted: ${p.startedAt}\nSubmitted: ${p.submittedAt||new Date().toISOString()}\nPage exits: ${p.tabSwitches}\n\n`;p.answers.forEach(a=>{out+=`--- ${a.label} [${a.marks}] ---\n${a.question}\nANSWER:\n${a.answer||'(no answer)'}\n\n`});return out}
-function downloadBackup(){const blob=new Blob(['\ufeff'+backupText()],{type:'text/plain;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=CONFIG.examId+'_'+state.fullName.replace(/[^\p{L}\p{N}]+/gu,'_')+'.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)}
-function showDone(mode){document.getElementById('examScreen').classList.add('hidden');document.getElementById('startScreen').classList.add('hidden');document.getElementById('doneScreen').classList.remove('hidden');const box=document.getElementById('doneBox');box.className='notice'+(mode==='failed'?' fail':'');if(mode==='sending'){box.innerHTML='<h1>Submitting answers…</h1><p>Do not close this page.</p>';return}if(mode==='sent'){box.innerHTML=`<h1>Examination submitted</h1><p>Your responses were received. Results will be given by your teacher.</p><dl class="receipt"><dt>Student</dt><dd>${esc(state.fullName)}</dd><dt>Submission ID</dt><dd>${esc(state.submissionId)}</dd></dl><button class="btn secondary" id="backupBtn">Download a copy (.txt)</button>`}else if(mode==='local'){box.innerHTML='<h1>Saved on this device only</h1><p>The Google Apps Script URL has not been configured. Download the answer file and give it to the teacher.</p><button class="btn secondary" id="backupBtn">Download answers (.txt)</button>'}else{box.innerHTML='<h1>Server submission failed</h1><p>Your answers are still saved on this device. Check the internet connection, try again, or download a backup file.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="retryBtn">Try again</button><button class="btn secondary" id="backupBtn">Download answers (.txt)</button></div>'}const b=document.getElementById('backupBtn');if(b)b.onclick=downloadBackup;const r=document.getElementById('retryBtn');if(r)r.onclick=()=>submitExam(!!state.autoSubmitted)}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function openSubmitDialog(){const incomplete=Object.keys(QUESTION_KEYS).filter(n=>questionStatus(n)!=='done').length;document.getElementById('submitMessage').textContent=incomplete?`${incomplete} question(s) are incomplete or partially answered. After submission, answers cannot be changed.`:'All questions contain responses. After submission, answers cannot be changed.';document.getElementById('submitDialog').showModal()}
-document.getElementById('startBtn').onclick=startExam;document.getElementById('submitBtn').onclick=openSubmitDialog;document.getElementById('cancelSubmit').onclick=()=>document.getElementById('submitDialog').close();document.getElementById('confirmSubmit').onclick=()=>{document.getElementById('submitDialog').close();submitExam(false)};
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&examActive){state.tabSwitches=(state.tabSwitches||0)+1;saveLocal();syncDraft()}});window.addEventListener('beforeunload',e=>{if(examActive){e.preventDefault();e.returnValue=''}});
-if(state.submitted){showDone('sent')}else if(state.startedAt){if(Date.now()>=state.startedAt+CONFIG.durationMin*60000){state.autoSubmitted=true;submitExam(true)}else showExam()}
-</script>
-</body></html>
+  <script>
+    const CONFIG = {
+      examId: 'g12-cs-component1-2025-pilot',
+      title: 'Computer Science Mock Examination — Component 1',
+      durationMin: 90,
+      maxMarks: 70,
+      // Paste the deployed Google Apps Script /exec URL here.
+      submitUrl: 'PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE',
+      draftEveryMs: 60000
+    };
+    const QUESTION_KEYS = { 1: ['1a', '1b', '1c', '1di', '1dii', '1diii', '1e_work', '1e_mantissa', '1e_exponent'], 2: ['2a', '2bi', '2bii', '2c'], 3: ['3a_adv', '3a_dis', '3b', '3c_nli', '3c_gri'], 4: ['4a', '4b_f1', '4b_d1', '4b_f2', '4b_d2', '4b_f3', '4b_d3', '4c_immediate', '4c_direct', '4c_indirect', '4c_indexed'], 5: ['5a', '5b'], 6: ['6a_med', '6a_game', '6a_soc', '6b'], 7: ['7a', '7bi', '7bii', '7c'], 8: ['8ai', '8aii', '8aiii', '8b'], 9: ['9a', '9b', '9c', '9d'], 10: ['10a_tcp', '10a_ftp', '10a_pop3', '10b_ipv4', '10b_ipv6', '10c_4', '10c_2'] };
+    const ANSWER_META = {
+      '1a': ['1(a)', 1, 'Convert denary 183 to hexadecimal.'], '1b': ['1(b)', 2, 'Perform 10101010 + 10111001 using an 8-bit binary integer format.'], '1c': ['1(c)', 2, 'Perform binary multiplication 1111 × 111; show working.'], '1di': ['1(d)(i)', 1, 'Decimal value of 10110001 as unsigned binary.'], '1dii': ['1(d)(ii)', 1, 'Decimal value of 10110001 as two’s complement.'], '1diii': ['1(d)(iii)', 2, 'Decimal value of 10110001 as unsigned fixed point with right three fractional bits.'], '1e_work': ['1(e) working', 2, 'Working for −23.75 signed floating-point two’s complement.'], '1e_mantissa': ['1(e) mantissa', 1, 'Mantissa for −23.75 floating-point representation.'], '1e_exponent': ['1(e) exponent', 1, 'Exponent for −23.75 floating-point representation.'],
+      '2a': ['2(a)', 2, 'Two differences between data security and data integrity.'], '2bi': ['2(b)(i)', 1, 'Consequence related to data backup.'], '2bii': ['2(b)(ii)', 1, 'Consequence related to disk mirroring.'], '2c': ['2(c)', 2, 'How encryption keeps sensitive information secure.'],
+      '3a_adv': ['3(a) advantage', 1, 'One advantage of bespoke software.'], '3a_dis': ['3(a) disadvantage', 1, 'One disadvantage of bespoke software.'], '3b': ['3(b)', 2, 'How a network OS implements user account management.'], '3c_nli': ['3(c) natural-language', 1, 'One disadvantage of a natural-language interface.'], '3c_gri': ['3(c) gesture-recognition', 1, 'One disadvantage of a gesture-recognition interface.'],
+      '4a': ['4(a)', 2, 'Two differences between RISC and CISC.'], '4b_f1': ['4(b) factor 1', 1, 'CPU performance factor 1.'], '4b_d1': ['4(b) definition 1', 1, 'Definition of CPU performance factor 1.'], '4b_f2': ['4(b) factor 2', 1, 'CPU performance factor 2.'], '4b_d2': ['4(b) definition 2', 1, 'Definition of CPU performance factor 2.'], '4b_f3': ['4(b) factor 3', 1, 'CPU performance factor 3.'], '4b_d3': ['4(b) definition 3', 1, 'Definition of CPU performance factor 3.'], '4c_immediate': ['4(c) Immediate', 1, 'Value loaded into AC using immediate addressing.'], '4c_direct': ['4(c) Direct', 1, 'Value loaded into AC using direct addressing.'], '4c_indirect': ['4(c) Indirect', 1, 'Value loaded into AC using indirect addressing.'], '4c_indexed': ['4(c) Indexed', 1, 'Value loaded into AC using indexed addressing.'],
+      '5a': ['5(a)', 3, 'Explain paging in memory management.'], '5b': ['5(b)', 2, 'Two uses of a virtual machine.'],
+      '6a_med': ['6(a) medicine', 1, 'Example of AI in medicine.'], '6a_game': ['6(a) gaming', 1, 'Example of AI in gaming industry.'], '6a_soc': ['6(a) society', 1, 'Example of AI in society.'], '6b': ['6(b)', 2, 'Two purposes of Augmented Reality.'],
+      '7a': ['7(a)', 1, 'Compilation stage producing token classifications.'], '7bi': ['7(b)(i)', 1, 'Optimisation algorithm for unreachable branch.'], '7bii': ['7(b)(ii)', 1, 'Optimised code.'], '7c': ['7(c)', 2, 'What happens during syntax analysis.'],
+      '8ai': ['8(a)(i)', 1, 'Name of topology in the mixed topology figure.'], '8aii': ['8(a)(ii)', 1, 'One advantage of topology A.'], '8aiii': ['8(a)(iii)', 1, 'One disadvantage of topology C.'], '8b': ['8(b)', 2, 'Two purposes of a router.'],
+      '9a': ['9(a)', 1, 'Relationship between IP address and domain name.'], '9b': ['9(b)', 2, 'Two ways to identify a computer MAC address.'], '9c': ['9(c)', 2, 'Two differences between MAC and IP addresses.'], '9d': ['9(d)', 1, 'Example URL with protocol, hostname and file location.'],
+      '10a_tcp': ['10(a) TCP/IP', 1, 'Match TCP/IP to its role.'], '10a_ftp': ['10(a) FTP', 1, 'Match FTP to its role.'], '10a_pop3': ['10(a) POP3', 1, 'Match POP3 to its role.'], '10b_ipv4': ['10(b) IPv4', 1, 'Explain IPv4 format.'], '10b_ipv6': ['10(b) IPv6', 1, 'Explain IPv6 format.'], '10c_4': ['10(c) layer 4', 1, 'Missing OSI layer 4.'], '10c_2': ['10(c) layer 2', 1, 'Missing OSI layer 2.']
+    };
+    const KEY = 'mockexam:' + CONFIG.examId; let state = load() || {}; let timerHandle = null, draftHandle = null, sending = false, examActive = false, lastServerSave = 0;
+    function load() { try { return JSON.parse(localStorage.getItem(KEY) || 'null') } catch { return null } } function saveLocal() { try { localStorage.setItem(KEY, JSON.stringify(state)) } catch { } }
+    function configured() { return /^https:\/\/script\.google\.com\//.test(CONFIG.submitUrl) } function makeId() { const a = new Uint8Array(6); crypto.getRandomValues(a); return Array.from(a, x => x.toString(16).padStart(2, '0')).join('').toUpperCase() }
+    function getAnswer(k) { return (state.answers && state.answers[k]) || '' } function setAnswer(k, v) { state.answers = state.answers || {}; state.answers[k] = v; state.updatedAt = Date.now(); saveLocal(); refreshProgress(); setSaveText('Saved locally · server sync pending') }
+    function questionStatus(n) { const vals = QUESTION_KEYS[n].map(k => String(getAnswer(k)).trim()); const filled = vals.filter(Boolean).length; return filled === 0 ? 'empty' : filled === vals.length ? 'done' : 'partial' }
+    function refreshProgress() { let done = 0; Object.keys(QUESTION_KEYS).forEach(n => { const s = questionStatus(n); const a = document.querySelector('#qnav a[data-q="' + n + '"]'); if (a) { a.classList.toggle('done', s === 'done'); a.classList.toggle('partial', s === 'partial') } if (s === 'done') done++ }); const p = `Completed questions: ${done}/10`; document.getElementById('progressLabel').textContent = p; document.getElementById('footerProgress').textContent = p }
+    function setSaveText(t) { document.getElementById('saveStatus').textContent = t }
+    function hydrateInputs() { document.querySelectorAll('[data-answer]').forEach(el => { el.value = getAnswer(el.dataset.answer); el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', () => setAnswer(el.dataset.answer, el.value)) }) }
+    function buildPayload(status) { const now = Date.now(); if (!state.submissionId) state.submissionId = makeId(); const answers = Object.entries(ANSWER_META).map(([key, m]) => ({ key, label: m[0], marks: m[1], question: m[2], answer: String(getAnswer(key)).trim() })); return { schemaVersion: 2, action: status === 'SUBMITTED' ? 'submit' : 'draft', examId: CONFIG.examId, examTitle: CONFIG.title, id: state.submissionId, fullName: state.fullName, group: state.group || '', startedAt: new Date(state.startedAt).toISOString(), submittedAt: status === 'SUBMITTED' ? new Date(now).toISOString() : '', lastSavedAt: new Date(now).toISOString(), secondsUsed: Math.min(Math.round((now - state.startedAt) / 1000), CONFIG.durationMin * 60), status, autoSubmitted: !!state.autoSubmitted, tabSwitches: state.tabSwitches || 0, totalMarks: CONFIG.maxMarks, answers } }
+    async function sendPayload(status, silent = false) { if (!configured()) return false; try { const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 20000); const res = await fetch(CONFIG.submitUrl, { method: 'POST', body: JSON.stringify(buildPayload(status)), signal: ctl.signal }); clearTimeout(tm); const data = await res.json(); if (!data || !data.ok) throw new Error(data && data.error || 'Server error'); lastServerSave = Date.now(); if (!silent) setSaveText(status === 'SUBMITTED' ? 'Submitted' : 'Saved locally and synced to teacher'); return true } catch (e) { if (!silent) setSaveText('Saved locally · server sync failed'); return false } }
+    async function syncDraft() { if (!examActive || sending || !state.startedAt) return; await sendPayload('DRAFT') }
+    function startExam() { const fullName = document.getElementById('fullName').value.trim().replace(/\s+/g, ' '), group = document.getElementById('group').value.trim(); if (fullName.length < 4 || !fullName.includes(' ')) { document.getElementById('startError').textContent = 'Enter surname and first name.'; return } state = { fullName, group, startedAt: Date.now(), answers: {}, tabSwitches: 0, submissionId: makeId(), status: 'DRAFT' }; saveLocal(); showExam() }
+    function showExam() { examActive = true; document.getElementById('startScreen').classList.add('hidden'); document.getElementById('doneScreen').classList.add('hidden'); document.getElementById('examScreen').classList.remove('hidden'); document.getElementById('candidateLabel').textContent = state.fullName + (state.group ? ' · ' + state.group : ''); const nav = document.getElementById('qnav'); nav.innerHTML = ''; for (let i = 1; i <= 10; i++) { const a = document.createElement('a'); a.href = '#q' + i; a.dataset.q = i; a.textContent = i; nav.appendChild(a) } hydrateInputs(); refreshProgress(); runTimer(); clearInterval(draftHandle); draftHandle = setInterval(syncDraft, CONFIG.draftEveryMs); setTimeout(syncDraft, 3500); window.scrollTo(0, 0) }
+    function runTimer() { clearInterval(timerHandle); const el = document.getElementById('timer'); const tick = () => { const left = state.startedAt + CONFIG.durationMin * 60000 - Date.now(); if (left <= 0) { el.textContent = '00:00'; clearInterval(timerHandle); state.autoSubmitted = true; submitExam(true); return } const s = Math.ceil(left / 1000), m = Math.floor(s / 60), ss = s % 60; el.textContent = String(m).padStart(2, '0') + ':' + String(ss).padStart(2, '0'); el.classList.toggle('warn', left <= 10 * 60000 && left > 5 * 60000); el.classList.toggle('danger', left <= 5 * 60000) }; tick(); timerHandle = setInterval(tick, 1000) }
+    async function submitExam(auto) { if (sending || state.submitted) return; sending = true; examActive = false; clearInterval(timerHandle); clearInterval(draftHandle); state.autoSubmitted = !!auto; state.status = 'SUBMITTED'; state.submittedAt = Date.now(); saveLocal(); showDone('sending'); let ok = false; for (let i = 0; i < 3 && !ok; i++) { ok = await sendPayload('SUBMITTED', true); if (!ok) await new Promise(r => setTimeout(r, 1200 * (i + 1))) } if (ok) { state.submitted = true; saveLocal(); showDone('sent') } else showDone(configured() ? 'failed' : 'local'); sending = false }
+    function backupText() { const p = buildPayload('SUBMITTED'); let out = `${p.examTitle}\nStudent: ${p.fullName}\nClass: ${p.group || '-'}\nSubmission ID: ${p.id}\nStarted: ${p.startedAt}\nSubmitted: ${p.submittedAt || new Date().toISOString()}\nPage exits: ${p.tabSwitches}\n\n`; p.answers.forEach(a => { out += `--- ${a.label} [${a.marks}] ---\n${a.question}\nANSWER:\n${a.answer || '(no answer)'}\n\n` }); return out }
+    function downloadBackup() { const blob = new Blob(['\ufeff' + backupText()], { type: 'text/plain;charset=utf-8' }), u = URL.createObjectURL(blob), a = document.createElement('a'); a.href = u; a.download = CONFIG.examId + '_' + state.fullName.replace(/[^\p{L}\p{N}]+/gu, '_') + '.txt'; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1500) }
+    function showDone(mode) { document.getElementById('examScreen').classList.add('hidden'); document.getElementById('startScreen').classList.add('hidden'); document.getElementById('doneScreen').classList.remove('hidden'); const box = document.getElementById('doneBox'); box.className = 'notice' + (mode === 'failed' ? ' fail' : ''); if (mode === 'sending') { box.innerHTML = '<h1>Submitting answers…</h1><p>Do not close this page.</p>'; return } if (mode === 'sent') { box.innerHTML = `<h1>Examination submitted</h1><p>Your responses were received. Results will be given by your teacher.</p><dl class="receipt"><dt>Student</dt><dd>${esc(state.fullName)}</dd><dt>Submission ID</dt><dd>${esc(state.submissionId)}</dd></dl><button class="btn secondary" id="backupBtn">Download a copy (.txt)</button>` } else if (mode === 'local') { box.innerHTML = '<h1>Saved on this device only</h1><p>The Google Apps Script URL has not been configured. Download the answer file and give it to the teacher.</p><button class="btn secondary" id="backupBtn">Download answers (.txt)</button>' } else { box.innerHTML = '<h1>Server submission failed</h1><p>Your answers are still saved on this device. Check the internet connection, try again, or download a backup file.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="retryBtn">Try again</button><button class="btn secondary" id="backupBtn">Download answers (.txt)</button></div>' } const b = document.getElementById('backupBtn'); if (b) b.onclick = downloadBackup; const r = document.getElementById('retryBtn'); if (r) r.onclick = () => submitExam(!!state.autoSubmitted) }
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])) }
+    function openSubmitDialog() { const incomplete = Object.keys(QUESTION_KEYS).filter(n => questionStatus(n) !== 'done').length; document.getElementById('submitMessage').textContent = incomplete ? `${incomplete} question(s) are incomplete or partially answered. After submission, answers cannot be changed.` : 'All questions contain responses. After submission, answers cannot be changed.'; document.getElementById('submitDialog').showModal() }
+    document.getElementById('startBtn').onclick = startExam; document.getElementById('submitBtn').onclick = openSubmitDialog; document.getElementById('cancelSubmit').onclick = () => document.getElementById('submitDialog').close(); document.getElementById('confirmSubmit').onclick = () => { document.getElementById('submitDialog').close(); submitExam(false) };
+    document.addEventListener('visibilitychange', () => { if (document.hidden && examActive) { state.tabSwitches = (state.tabSwitches || 0) + 1; saveLocal(); syncDraft() } }); window.addEventListener('beforeunload', e => { if (examActive) { e.preventDefault(); e.returnValue = '' } });
+    if (state.submitted) { showDone('sent') } else if (state.startedAt) { if (Date.now() >= state.startedAt + CONFIG.durationMin * 60000) { state.autoSubmitted = true; submitExam(true) } else showExam() }
+  </script>
+</body>
+
+</html>
