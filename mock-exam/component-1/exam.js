@@ -7,6 +7,7 @@
   const byId = id => document.getElementById(id);
   const KEY = 'mockexam:' + C.examId;
   const DURATION_MS = C.durationMin * 60 * 1000;
+  const EXPECTED_SCHEMA = 3;
 
   const fields = [];
   const questionKeys = new Map();
@@ -49,6 +50,59 @@
 
   function configured() {
     return /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:[?#].*)?$/.test(String(C.submitUrl || ''));
+  }
+
+  async function checkBackendCompatibility() {
+    if (!configured()) {
+      return { ok: false, blocking: true, message: 'Google Apps Script URL is not configured.' };
+    }
+
+    try {
+      const joiner = String(C.submitUrl).includes('?') ? '&' : '?';
+      const url = C.submitUrl + joiner + 'health=' + Date.now();
+      const response = await fetch(url, {
+        method: 'GET',
+        cache: 'no-store',
+        redirect: 'follow'
+      });
+
+      const raw = await response.text();
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        throw new Error('The Apps Script URL did not return JSON. Check Web App access and deployment.');
+      }
+
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
+      }
+      if (!data || !data.ok) {
+        throw new Error((data && data.error) || 'Backend health check failed.');
+      }
+      if (Number(data.schema) !== EXPECTED_SCHEMA) {
+        return {
+          ok: false,
+          blocking: true,
+          message: `Backend version mismatch: website expects schema ${EXPECTED_SCHEMA}, but Apps Script reports schema ${data.schema ?? 'unknown'}. Redeploy the current Code.gs as a NEW VERSION.`
+        };
+      }
+      if (Array.isArray(data.exams) && !data.exams.includes(C.examId)) {
+        return {
+          ok: false,
+          blocking: true,
+          message: `This Apps Script does not contain examId "${C.examId}". Update Code.gs and redeploy it.`
+        };
+      }
+
+      return { ok: true, data };
+    } catch (err) {
+      return {
+        ok: false,
+        blocking: true,
+        message: 'Cannot verify the teacher server: ' + (err?.message || String(err))
+      };
+    }
   }
 
   function escapeText(s) {
@@ -251,7 +305,7 @@
     byId('saveStatus').textContent = text;
   }
 
-  function startExam() {
+  async function startExam() {
     const fullName = byId('fullName').value.trim().replace(/\s+/g, ' ');
     const group = byId('group').value.trim();
 
@@ -263,6 +317,20 @@
     if (group.length < 2) {
       byId('startError').textContent = 'Enter your class / group.';
       byId('group').focus();
+      return;
+    }
+
+    const startBtn = byId('startBtn');
+    const originalLabel = startBtn.textContent;
+    startBtn.disabled = true;
+    startBtn.textContent = 'Checking server…';
+    byId('startError').textContent = '';
+
+    const health = await checkBackendCompatibility();
+    if (!health.ok) {
+      byId('startError').textContent = health.message;
+      startBtn.disabled = false;
+      startBtn.textContent = originalLabel;
       return;
     }
 
@@ -280,9 +348,13 @@
       copyAttempts: 0,
       pasteAttempts: 0,
       contextMenuAttempts: 0,
-      dropAttempts: 0
+      dropAttempts: 0,
+      backendVersion: health.data?.version || '',
+      backendSchema: health.data?.schema || EXPECTED_SCHEMA
     };
     saveState();
+    startBtn.disabled = false;
+    startBtn.textContent = originalLabel;
     showExam();
   }
 
@@ -369,7 +441,11 @@
   }
 
   async function sendPayload(status, silent = false) {
-    if (!configured()) return false;
+    if (!configured()) {
+      state.lastServerError = 'Google Apps Script URL is not configured.';
+      saveState();
+      return false;
+    }
 
     const versionAtSend = Number(state.changeVersion || 0);
     try {
@@ -384,10 +460,29 @@
       });
 
       clearTimeout(timeout);
-      const data = await response.json();
-      if (!data || !data.ok) throw new Error(data?.error || 'Server error');
+
+      const raw = await response.text();
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        const preview = raw.replace(/\s+/g, ' ').slice(0, 180);
+        throw new Error(
+          'Server returned a non-JSON response' +
+          (preview ? ': ' + preview : '') +
+          '. Check Web App access and deployment.'
+        );
+      }
+
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status + (data?.error ? ': ' + data.error : ''));
+      }
+      if (!data || !data.ok) {
+        throw new Error(data?.error || 'Server returned ok=false.');
+      }
 
       state.lastServerSave = Date.now();
+      state.lastServerError = '';
       if (status === 'DRAFT' && versionAtSend === Number(state.changeVersion || 0)) {
         state.dirty = false;
       }
@@ -400,6 +495,11 @@
       }
       return true;
     } catch (err) {
+      state.lastServerError = err?.name === 'AbortError'
+        ? 'Server request timed out after 20 seconds.'
+        : (err?.message || String(err));
+      saveState();
+      console.error('Mock exam server error:', err);
       if (!silent) setSaveText('Saved locally · server sync failed');
       return false;
     }
@@ -560,9 +660,17 @@
     const actions = make('div', 'done-actions');
     actions.append(retry, addBackup());
 
+    const errorText = state.lastServerError || 'Unknown server error.';
+    const details = make('div', 'server-error-details');
+    details.append(
+      make('strong', '', 'Technical details:'),
+      make('code', '', errorText)
+    );
+
     box.append(
       make('h1', '', 'Server submission failed'),
-      make('p', '', 'Your answers are still saved on this device. Check the internet connection and try again.'),
+      make('p', '', 'Your answers are still saved on this device. Fix the server connection and then press Try again.'),
+      details,
       actions
     );
   }
