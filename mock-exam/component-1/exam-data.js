@@ -4,7 +4,7 @@ window.EXAM_CONFIG = {
   "subtitle": "Covered Topics Practice",
   "durationMin": 90,
   "maxMarks": 70,
-  "submitUrl": "https://script.google.com/macros/s/AKfycbzBj7KrWyVBRlqNffyMMXf4jNIk5yOFrpAqBO7yKCk76kxpzN6nre8pnS_o-kMBXiOy/exec",
+  "submitUrl": "https://script.google.com/macros/s/AKfycbyVGOCfEYTjl-KFE1hPZ4OcDuaMtKkM4Aa8BKDK0bcPmipUdzA0NTVqE7i9GET1we0N/exec",
   "draftEveryMs": 45000,
   "rules": [
     "Answer all questions in English.",
