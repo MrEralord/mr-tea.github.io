@@ -7,309 +7,1261 @@
     <title>PIL Image Basics — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="Python PIL/Pillow: Image.open, Image.new, size, save, resize, crop. NIS Grade 12 Programming.">
+        content="Python Pillow Image basics: open, create, size, save, resize, crop, rotate, convert and pixel access. NIS Grade 12 Programming.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        .pil-workflow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin-top: var(--space-md)
+        }
+
+        .workflow-step {
+            position: relative;
+            min-height: 120px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm)
+        }
+
+        .workflow-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+            z-index: 2
+        }
+
+        .workflow-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .10);
+            color: var(--clr-tea);
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .workflow-step code {
+            font-family: var(--font-code);
+            font-size: .72rem;
+            color: var(--text-primary)
+        }
+
+        .workflow-step span {
+            font-size: .75rem;
+            color: var(--text-muted);
+            line-height: 1.35
+        }
+
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-md)
+        }
+
+        .visual-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+            overflow: hidden
+        }
+
+        .visual-card h4 {
+            font-size: .9rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs)
+        }
+
+        .visual-card p {
+            font-size: .82rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin-bottom: var(--space-sm)
+        }
+
+        .coordinate-board {
+            position: relative;
+            height: 250px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: linear-gradient(to right, rgba(13, 148, 136, .08) 1px, transparent 1px), linear-gradient(to bottom, rgba(13, 148, 136, .08) 1px, transparent 1px), var(--bg-glass);
+            background-size: 32px 32px;
+            overflow: hidden
+        }
+
+        .axis-x,
+        .axis-y {
+            position: absolute;
+            background: var(--clr-tea);
+            opacity: .75
+        }
+
+        .axis-x {
+            left: 18px;
+            right: 12px;
+            top: 20px;
+            height: 2px
+        }
+
+        .axis-y {
+            top: 20px;
+            bottom: 12px;
+            left: 18px;
+            width: 2px
+        }
+
+        .axis-x::after {
+            content: "x →";
+            position: absolute;
+            right: 2px;
+            top: 6px;
+            font: 700 .75rem var(--font-code);
+            color: var(--clr-tea)
+        }
+
+        .axis-y::after {
+            content: "y ↓";
+            position: absolute;
+            left: 7px;
+            bottom: 2px;
+            font: 700 .75rem var(--font-code);
+            color: var(--clr-tea);
+            white-space: nowrap
+        }
+
+        .coord-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--clr-orange);
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, .16)
+        }
+
+        .coord-point span {
+            position: absolute;
+            left: 14px;
+            top: -7px;
+            font: 600 .7rem var(--font-code);
+            color: var(--text-primary);
+            white-space: nowrap;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border)
+        }
+
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md)
+        }
+
+        .mode-card {
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card)
+        }
+
+        .mode-preview {
+            height: 92px;
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-sm);
+            border: 1px solid var(--border);
+            overflow: hidden
+        }
+
+        .preview-rgb {
+            background: radial-gradient(circle at 68% 30%, #fde047 0 12%, transparent 13%), linear-gradient(155deg, transparent 0 52%, #15803d 53% 70%, #166534 71%), linear-gradient(#38bdf8 0 56%, #93c5fd 56%)
+        }
+
+        .preview-rgba {
+            background: linear-gradient(45deg, #cbd5e1 25%, transparent 25% 75%, #cbd5e1 75%), linear-gradient(45deg, #cbd5e1 25%, #fff 25% 75%, #cbd5e1 75%);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+            position: relative
+        }
+
+        .preview-rgba::after {
+            content: "";
+            position: absolute;
+            inset: 14px 20px;
+            border-radius: 50%;
+            background: rgba(13, 148, 136, .55)
+        }
+
+        .preview-l {
+            background: linear-gradient(135deg, #111827, #6b7280 46%, #f3f4f6)
+        }
+
+        .preview-1 {
+            background: linear-gradient(90deg, #111 50%, #fff 50%), linear-gradient(#fff 50%, #111 50%);
+            background-size: 32px 32px;
+            background-position: 0 0, 16px 16px
+        }
+
+        .mode-name {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            align-items: center
+        }
+
+        .mode-name strong {
+            font: 700 .86rem var(--font-code);
+            color: var(--text-primary)
+        }
+
+        .mode-name span {
+            font-size: .68rem;
+            color: var(--text-muted)
+        }
+
+        .operation-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md)
+        }
+
+        .operation-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md)
+        }
+
+        .operation-btn {
+            border: 1px solid var(--border);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            padding: .55rem .8rem;
+            font: 600 .78rem var(--font-body);
+            cursor: pointer;
+            transition: all var(--transition)
+        }
+
+        .operation-btn:hover,
+        .operation-btn.active {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .operation-stage {
+            min-height: 300px;
+            border: 1px dashed var(--border-hover);
+            border-radius: var(--radius-md);
+            background: linear-gradient(45deg, rgba(148, 163, 184, .08) 25%, transparent 25% 75%, rgba(148, 163, 184, .08) 75%), linear-gradient(45deg, rgba(148, 163, 184, .08) 25%, transparent 25% 75%, rgba(148, 163, 184, .08) 75%);
+            background-position: 0 0, 12px 12px;
+            background-size: 24px 24px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-md);
+            overflow: hidden
+        }
+
+        #pilDemoCanvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+            background: #fff
+        }
+
+        .operation-caption {
+            display: flex;
+            gap: var(--space-sm);
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: var(--space-sm);
+            font-size: .78rem;
+            color: var(--text-muted)
+        }
+
+        .operation-caption code {
+            font-family: var(--font-code);
+            color: var(--clr-tea)
+        }
+
+        .transform-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .transform-card {
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm);
+            background: var(--bg-card)
+        }
+
+        .transform-thumb {
+            height: 100px;
+            display: grid;
+            place-items: center;
+            margin-bottom: var(--space-xs);
+            overflow: hidden;
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass)
+        }
+
+        .mini-scene {
+            width: 120px;
+            height: 72px;
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            background: linear-gradient(#38bdf8 0 58%, #65a30d 58%);
+            box-shadow: var(--shadow-sm)
+        }
+
+        .mini-scene::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fde047;
+            right: 12px;
+            top: 10px
+        }
+
+        .mini-scene::after {
+            content: "";
+            position: absolute;
+            width: 34px;
+            height: 29px;
+            background: #f97316;
+            left: 36px;
+            bottom: 8px;
+            box-shadow: 0 -12px 0 -4px #7c2d12
+        }
+
+        .thumb-resize .mini-scene {
+            transform: scale(.68)
+        }
+
+        .thumb-crop .mini-scene {
+            width: 72px;
+            height: 72px
+        }
+
+        .thumb-rotate .mini-scene {
+            transform: rotate(-25deg) scale(.75)
+        }
+
+        .transform-card code {
+            font-size: .72rem;
+            font-family: var(--font-code);
+            color: var(--text-primary)
+        }
+
+        .transform-card p {
+            margin-top: 3px;
+            font-size: .7rem;
+            color: var(--text-muted)
+        }
+
+        .pixel-lab {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: var(--space-lg);
+            align-items: stretch
+        }
+
+        .pixel-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            aspect-ratio: 1/1;
+            width: min(100%, 340px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-glass)
+        }
+
+        .pixel-cell {
+            appearance: none;
+            border: 0;
+            min-width: 0;
+            cursor: crosshair;
+            transition: transform .12s ease, outline .12s ease
+        }
+
+        .pixel-cell:hover,
+        .pixel-cell:focus-visible {
+            transform: scale(1.08);
+            outline: 2px solid var(--text-primary);
+            z-index: 2
+        }
+
+        .pixel-readout {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            padding: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: center
+        }
+
+        .pixel-swatch {
+            height: 90px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            margin: var(--space-sm) 0
+        }
+
+        .pixel-readout dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: .35rem .8rem;
+            font-size: .8rem
+        }
+
+        .pixel-readout dt {
+            color: var(--text-muted)
+        }
+
+        .pixel-readout dd {
+            font-family: var(--font-code);
+            color: var(--text-primary);
+            margin: 0
+        }
+
+        .code-result-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(200px, .65fr);
+            gap: var(--space-md);
+            align-items: stretch
+        }
+
+        .result-panel {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            padding: var(--space-md);
+            display: grid;
+            place-items: center;
+            min-height: 160px
+        }
+
+        .result-canvas-red {
+            width: min(100%, 260px);
+            aspect-ratio: 4/3;
+            border-radius: var(--radius-sm);
+            background: rgb(255, 0, 0);
+            box-shadow: var(--shadow-sm)
+        }
+
+        .result-gradient {
+            width: min(100%, 260px);
+            aspect-ratio: 1/1;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 128, .45)), linear-gradient(to right, #000080, #ff0080);
+            box-shadow: var(--shadow-sm)
+        }
+
+        .result-invert {
+            width: min(100%, 260px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px
+        }
+
+        .result-invert div {
+            aspect-ratio: 1/1;
+            border-radius: var(--radius-sm);
+            display: grid;
+            place-items: center;
+            font: 700 .68rem var(--font-code);
+            border: 1px solid var(--border)
+        }
+
+        .original-pixel {
+            background: rgb(142, 87, 201);
+            color: #fff
+        }
+
+        .inverted-pixel {
+            background: rgb(113, 168, 54);
+            color: #111827
+        }
+
+        .command-flow {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: .45rem .8rem;
+            margin-top: var(--space-sm);
+            font-size: .82rem
+        }
+
+        .command-flow span {
+            color: var(--text-muted)
+        }
+
+        .command-flow code {
+            font-family: var(--font-code);
+            color: var(--text-primary)
+        }
+
+        @media(max-width:820px) {
+            .pil-workflow {
+                grid-template-columns: 1fr
+            }
+
+            .workflow-step {
+                min-height: 90px
+            }
+
+            .workflow-step:not(:last-child)::after {
+                content: "↓";
+                right: 50%;
+                top: auto;
+                bottom: -15px;
+                transform: translateX(50%)
+            }
+
+            .mode-grid,
+            .transform-strip {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .pixel-lab,
+            .code-result-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:576px) {
+
+            .visual-grid,
+            .mode-grid,
+            .transform-strip {
+                grid-template-columns: 1fr
+            }
+
+            .operation-lab {
+                padding: var(--space-md)
+            }
+
+            .operation-stage {
+                min-height: 230px
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments) }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
-
-<div class="layout-wrapper">
-    <main class="main-content">
-
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
-                <span>12.1A — PIL Image Basics</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
-                <h1 class="lesson-title">PIL Image Basics</h1>
-                <p class="lesson-intro">The <strong>PIL</strong> (Python Imaging Library) — now maintained as
-                    <strong>Pillow</strong> — lets you load, create, resize, crop, and save images directly in Python.
-                </p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.6.2.2</span> Use commands of module Image in PIL library (load, create,
-                        size, save) to manipulate images</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.1A-pil-image-basics.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+    <div class="layout-wrapper">
+        <main class="main-content">
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i
+                            class="fas fa-bars"></i></button>
+                    <a href="/" class="logo" style="margin-left:15px"><i class="fas fa-mug-hot logo-icon"></i><span
+                            class="logo-text">mr. TEA</span></a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a><span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 12 PROG</a><span class="sep">/</span>
+                        <span>12.1A — PIL Image Basics</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-image"></i> The Photo Lab Analogy</h4>
-                    <p>PIL is your <strong>digital photo lab</strong>. <code>Image.open()</code> = taking a photo from
-                        the drawer. <code>Image.new()</code> = getting a blank canvas. <code>.size</code> = measuring
-                        the print. <code>.save()</code> = printing and filing the photo. <code>.crop()</code> = cutting
-                        out a section.</p>
-                </div>
-            </section>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
+                        <h1 class="lesson-title">PIL Image Basics</h1>
+                        <p class="lesson-intro">Learn how Python treats an image as both a <strong>file</strong> and a
+                            <strong>grid of pixels</strong>. With Pillow you can load, create, inspect, resize, crop,
+                            rotate, convert, edit and save images.</p>
+                    </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">12.6.2.2</span> Use commands of module Image in PIL library (load,
+                                create, size, save) to manipulate images</li>
+                        </ul>
+                    </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Installing Pillow
-                </h3>
-                <div class="code-block"><code># Install via pip (only needed once)
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>12.1A-pil-image-basics.pdf · Slides for classroom use</p>
+                        </div>
+                        <div class="lesson-pdf-actions">
+                            <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                            <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                        </div>
+                    </div>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-image"></i> The Digital Photo Lab</h4>
+                            <p>Pillow is your <strong>digital photo lab</strong>. <code>Image.open()</code> takes a
+                                photo from storage, <code>Image.new()</code> prepares a blank canvas, <code>.size</code>
+                                measures it, image methods transform it, and <code>.save()</code> writes the result back
+                                to a file.</p>
+                        </div>
+                        <div class="pil-workflow">
+                            <div class="workflow-step">
+                                <div class="workflow-icon"><i class="fas fa-folder-open"></i></div>
+                                <code>Image.open()</code><span>Load an existing image</span>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="workflow-icon"><i class="fas fa-ruler-combined"></i></div>
+                                <code>img.size</code><span>Inspect width and height</span>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="workflow-icon"><i class="fas fa-crop-simple"></i></div>
+                                <code>resize / crop</code><span>Transform the image</span>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="workflow-icon"><i class="fas fa-eye-dropper"></i></div>
+                                <code>getpixel()</code><span>Read or change pixels</span>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="workflow-icon"><i class="fas fa-floppy-disk"></i></div>
+                                <code>img.save()</code><span>Save the final result</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-border-all"></i> Images Are Pixel Grids</h2>
+                        <p class="concept-text">Every pixel has a coordinate <code>(x, y)</code>. In Pillow,
+                            <code>(0, 0)</code> is at the <strong>top-left</strong>. x increases to the right and y
+                            increases downward.</p>
+                        <div class="visual-grid">
+                            <div class="visual-card">
+                                <h4>Coordinate System</h4>
+                                <p>The coordinate order is always <strong>(x, y)</strong>.</p>
+                                <div class="coordinate-board">
+                                    <div class="axis-x"></div>
+                                    <div class="axis-y"></div>
+                                    <div class="coord-point" style="left:14px;top:16px"><span>(0, 0)</span></div>
+                                    <div class="coord-point" style="left:112px;top:80px"><span>(3, 2)</span></div>
+                                    <div class="coord-point" style="left:208px;top:176px"><span>(6, 5)</span></div>
+                                </div>
+                            </div>
+                            <div class="visual-card">
+                                <h4>Width × Height</h4>
+                                <p><code>img.size</code> returns <code>(width, height)</code>.</p>
+                                <div class="coordinate-board" style="display:grid;place-items:center">
+                                    <div
+                                        style="width:76%;aspect-ratio:16/9;border:2px solid var(--clr-tea);border-radius:var(--radius-md);position:relative;background:linear-gradient(160deg,#38bdf8 0 56%,#65a30d 57%)">
+                                        <span
+                                            style="position:absolute;left:50%;top:-29px;transform:translateX(-50%);font:700 .75rem var(--font-code);color:var(--text-primary)">width
+                                            = 640 px</span>
+                                        <span
+                                            style="position:absolute;right:-71px;top:50%;transform:rotate(90deg) translateY(-50%);font:700 .75rem var(--font-code);color:var(--text-primary)">height
+                                            = 360 px</span>
+                                    </div>
+                                </div>
+                                <div class="command-flow">
+                                    <span>Python</span><code>w, h = img.size</code><span>Result</span><code>w = 640, h = 360</code>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Important</h4>
+                            <p>For an image of size <code>(640, 360)</code>, valid pixel coordinates run from
+                                <code>x = 0...639</code> and <code>y = 0...359</code>.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-palette"></i> Image Modes</h2>
+                        <p class="concept-text">The image <strong>mode</strong> tells Pillow how pixel values are
+                            stored. RGB uses the same Red, Green and Blue channel values from the previous lesson.</p>
+                        <div class="mode-grid">
+                            <div class="mode-card">
+                                <div class="mode-preview preview-rgb"></div>
+                                <div class="mode-name"><strong>RGB</strong><span>3 channels</span></div>
+                            </div>
+                            <div class="mode-card">
+                                <div class="mode-preview preview-rgba"></div>
+                                <div class="mode-name"><strong>RGBA</strong><span>4 channels</span></div>
+                            </div>
+                            <div class="mode-card">
+                                <div class="mode-preview preview-l"></div>
+                                <div class="mode-name"><strong>L</strong><span>grayscale</span></div>
+                            </div>
+                            <div class="mode-card">
+                                <div class="mode-preview preview-1"></div>
+                                <div class="mode-name"><strong>1</strong><span>black / white</span></div>
+                            </div>
+                        </div>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Mode</th>
+                                    <th>Meaning</th>
+                                    <th>Typical pixel value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>"RGB"</code></td>
+                                    <td>Red, Green and Blue</td>
+                                    <td><code>(142, 87, 201)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>"RGBA"</code></td>
+                                    <td>RGB + Alpha transparency</td>
+                                    <td><code>(142, 87, 201, 128)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>"L"</code></td>
+                                    <td>8-bit grayscale</td>
+                                    <td><code>0...255</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>"1"</code></td>
+                                    <td>Binary black and white</td>
+                                    <td>black / white</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-book"></i> Core Image Commands</h2>
+                        <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary)">Installing
+                            Pillow</h3>
+                        <div class="code-block"><code># Install once in your terminal
 pip install Pillow
 
 # Import in Python
 from PIL import Image</code></div>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Command</th>
+                                    <th>Purpose</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>Image.open(path)</code></td>
+                                    <td>Open an image file</td>
+                                    <td><code>img = Image.open("photo.jpg")</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>Image.new(mode, size, color)</code></td>
+                                    <td>Create a new image</td>
+                                    <td><code>Image.new("RGB", (400,300), (255,0,0))</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>img.size</code></td>
+                                    <td>Read (width, height)</td>
+                                    <td><code>w, h = img.size</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>img.mode</code></td>
+                                    <td>Read the image mode</td>
+                                    <td><code>print(img.mode)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>img.save(path)</code></td>
+                                    <td>Save to a file</td>
+                                    <td><code>img.save("output.png")</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>img.show()</code></td>
+                                    <td>Open a preview</td>
+                                    <td><code>img.show()</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>img.resize((w, h))</code></td>
+                                    <td>Return a resized copy</td>
+                                    <td><code>small = img.resize((320,180))</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>img.crop(box)</code></td>
+                                    <td>Return a selected rectangle</td>
+                                    <td><code>part = img.crop((50,40,250,180))</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>img.rotate(angle)</code></td>
+                                    <td>Return a rotated copy</td>
+                                    <td><code>turned = img.rotate(45, expand=True)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>img.convert(mode)</code></td>
+                                    <td>Convert image mode</td>
+                                    <td><code>gray = img.convert("L")</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Core
-                    Image Commands</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Command</th>
-                            <th>Description</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>Image.open(path)</code></td>
-                            <td>Load an existing image from file</td>
-                            <td><code>img = Image.open("photo.jpg")</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>Image.new(mode, size, color)</code></td>
-                            <td>Create a new blank image</td>
-                            <td><code>img = Image.new("RGB", (400,300), (255,0,0))</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>img.size</code></td>
-                            <td>Get image dimensions as (width, height)</td>
-                            <td><code>w, h = img.size</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>img.save(path)</code></td>
-                            <td>Save image to file</td>
-                            <td><code>img.save("output.png")</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>img.show()</code></td>
-                            <td>Display image in default viewer</td>
-                            <td><code>img.show()</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>img.resize((w, h))</code></td>
-                            <td>Resize image (returns new image)</td>
-                            <td><code>small = img.resize((200, 150))</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>img.crop((left, top, right, bottom))</code></td>
-                            <td>Cut out a rectangular region</td>
-                            <td><code>face = img.crop((50,50,200,200))</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>img.rotate(angle)</code></td>
-                            <td>Rotate image by degrees</td>
-                            <td><code>rotated = img.rotate(90)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>img.convert(mode)</code></td>
-                            <td>Convert color mode</td>
-                            <td><code>gray = img.convert("L")</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-wand-magic-sparkles"></i> Interactive Image
+                            Lab</h2>
+                        <p class="concept-text">Use the buttons to preview common Pillow operations. The browser
+                            animation is only a visual model; the Python command below is what you would write with
+                            Pillow.</p>
+                        <div class="operation-lab">
+                            <div class="operation-toolbar">
+                                <button class="operation-btn active" data-op="original">Original</button>
+                                <button class="operation-btn" data-op="resize">Resize</button>
+                                <button class="operation-btn" data-op="crop">Crop</button>
+                                <button class="operation-btn" data-op="rotate">Rotate 45°</button>
+                                <button class="operation-btn" data-op="gray">Grayscale</button>
+                                <button class="operation-btn" data-op="invert">Invert</button>
+                            </div>
+                            <div class="operation-stage"><canvas id="pilDemoCanvas" width="480" height="300"></canvas>
+                            </div>
+                            <div class="operation-caption"><span id="operationDescription">Original image: 480 × 300
+                                    pixels</span><code id="operationCode">img = Image.open("scene.png")</code></div>
+                        </div>
+                        <div class="transform-strip">
+                            <div class="transform-card">
+                                <div class="transform-thumb">
+                                    <div class="mini-scene"></div>
+                                </div><code>original</code>
+                                <p>480 × 300</p>
+                            </div>
+                            <div class="transform-card thumb-resize">
+                                <div class="transform-thumb">
+                                    <div class="mini-scene"></div>
+                                </div><code>resize()</code>
+                                <p>new dimensions</p>
+                            </div>
+                            <div class="transform-card thumb-crop">
+                                <div class="transform-thumb">
+                                    <div class="mini-scene"></div>
+                                </div><code>crop()</code>
+                                <p>selected region</p>
+                            </div>
+                            <div class="transform-card thumb-rotate">
+                                <div class="transform-thumb">
+                                    <div class="mini-scene"></div>
+                                </div><code>rotate()</code>
+                                <p>turned copy</p>
+                            </div>
+                        </div>
+                    </section>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Image
-                    Modes</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Mode</th>
-                            <th>Description</th>
-                            <th>Channels</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>"RGB"</code></td>
-                            <td>Full color (Red, Green, Blue)</td>
-                            <td>3 channels, 0–255 each</td>
-                        </tr>
-                        <tr>
-                            <td><code>"RGBA"</code></td>
-                            <td>Color + transparency (Alpha)</td>
-                            <td>4 channels</td>
-                        </tr>
-                        <tr>
-                            <td><code>"L"</code></td>
-                            <td>Grayscale</td>
-                            <td>1 channel, 0 (black) – 255 (white)</td>
-                        </tr>
-                        <tr>
-                            <td><code>"1"</code></td>
-                            <td>Black and white (binary)</td>
-                            <td>1 channel, 0 or 255</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-up-right-and-down-left-from-center"></i>
+                            Resize, Crop & Rotate</h2>
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Resize</h4>
+                            <p><code>resize()</code> expects a new <code>(width, height)</code> tuple and returns a
+                                <strong>new image object</strong>.</p>
+                            <div class="code-block"><code>from PIL import Image
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Load, Resize, and Save</h4>
-                    <div class="code-block"><code>from PIL import Image
-
-# Load an image
 img = Image.open("landscape.jpg")
-print(f"Original size: {img.size}")  # e.g., (1920, 1080)
+small = img.resize((320, 180))
+small.save("landscape_small.png")</code></div>
+                        </div>
 
-# Resize to thumbnail
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Crop</h4>
+                            <p>The crop box is <code>(left, upper, right, lower)</code>.</p>
+                            <div class="visual-grid">
+                                <div class="visual-card">
+                                    <h4>Crop Box</h4>
+                                    <div
+                                        style="position:relative;height:220px;border-radius:var(--radius-md);overflow:hidden;background:linear-gradient(#38bdf8 0 58%,#65a30d 58%);border:1px solid var(--border)">
+                                        <div
+                                            style="position:absolute;left:22%;top:22%;width:55%;height:54%;border:3px solid #f97316;background:rgba(249,115,22,.10);box-shadow:0 0 0 999px rgba(0,0,0,.28)">
+                                        </div>
+                                        <span
+                                            style="position:absolute;left:22%;top:14%;font:700 .72rem var(--font-code);background:var(--bg-secondary);padding:2px 5px;border-radius:4px">(left,
+                                            upper)</span>
+                                        <span
+                                            style="position:absolute;right:22%;bottom:15%;font:700 .72rem var(--font-code);background:var(--bg-secondary);padding:2px 5px;border-radius:4px">(right,
+                                            lower)</span>
+                                    </div>
+                                </div>
+                                <div class="visual-card">
+                                    <h4>Python</h4>
+                                    <div class="code-block"><code>img = Image.open("photo.jpg")
+
+box = (100, 60, 420, 260)
+cropped = img.crop(box)
+cropped.save("cropped.png")</code></div>
+                                    <p>Crop width = <code>right - left</code><br>Crop height =
+                                        <code>lower - upper</code></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Rotate</h4>
+                            <div class="code-block"><code>img = Image.open("photo.jpg")
+rotated = img.rotate(45, expand=True)
+rotated.save("rotated.png")</code></div>
+                            <div class="note-box">
+                                <h4><i class="fas fa-expand"></i> Why expand=True?</h4>
+                                <p>At angles such as 45°, corners may fall outside the original canvas.
+                                    <code>expand=True</code> enlarges the output canvas so the full rotated image can
+                                    fit.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-code"></i> Worked Examples</h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Open → Inspect → Resize → Save</h4>
+                            <div class="code-block"><code>from PIL import Image
+
+img = Image.open("landscape.jpg")
+print("Mode:", img.mode)
+print("Size:", img.size)
+
 thumbnail = img.resize((320, 180))
-print(f"Thumbnail size: {thumbnail.size}")
-
-# Save as PNG
 thumbnail.save("landscape_thumb.png")</code></div>
-                </div>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Create a New Image</h4>
-                    <div class="code-block"><code>from PIL import Image
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Create a New Image</h4>
+                            <div class="code-result-grid">
+                                <div>
+                                    <div class="code-block"><code>from PIL import Image
 
-# Create a 400×300 red image
-red_img = Image.new("RGB", (400, 300), (255, 0, 0))
-red_img.save("red_canvas.png")
+red_img = Image.new(
+    "RGB",
+    (400, 300),
+    (255, 0, 0)
+)
 
-# Create with gradient (pixel-by-pixel)
+red_img.save("red_canvas.png")</code></div>
+                                </div>
+                                <div class="result-panel">
+                                    <div>
+                                        <div class="result-canvas-red"></div>
+                                        <p
+                                            style="font-size:.72rem;color:var(--text-muted);text-align:center;margin-top:var(--space-xs)">
+                                            output: red_canvas.png</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Create a Gradient Pixel by Pixel</h4>
+                            <div class="code-result-grid">
+                                <div>
+                                    <div class="code-block"><code>from PIL import Image
+
 img = Image.new("RGB", (256, 256))
+
 for x in range(256):
     for y in range(256):
         img.putpixel((x, y), (x, y, 128))
-img.save("gradient.png")</code></div>
-                </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Pixel Manipulation</h4>
-                    <div class="code-block"><code>from PIL import Image
+img.save("gradient.png")</code></div>
+                                </div>
+                                <div class="result-panel">
+                                    <div>
+                                        <div class="result-gradient"></div>
+                                        <p
+                                            style="font-size:.72rem;color:var(--text-muted);text-align:center;margin-top:var(--space-xs)">
+                                            R changes with x · G changes with y</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">4</span> Convert to Grayscale</h4>
+                            <div class="code-block"><code>from PIL import Image
 
 img = Image.open("photo.jpg")
+gray = img.convert("L")
+gray.save("photo_gray.png")
+
+print(gray.mode)  # L</code></div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-magnifying-glass-plus"></i> Pixel Explorer
+                        </h2>
+                        <p class="concept-text">Hover over or tap a pixel. The readout shows what
+                            <code>img.getpixel((x, y))</code> would return.</p>
+                        <div class="pixel-lab">
+                            <div>
+                                <div id="pixelGrid" class="pixel-grid"></div>
+                            </div>
+                            <div class="pixel-readout">
+                                <strong style="font-size:.9rem;color:var(--text-primary)">Selected Pixel</strong>
+                                <div id="pixelSwatch" class="pixel-swatch"></div>
+                                <dl>
+                                    <dt>Coordinate</dt>
+                                    <dd id="pixelCoord">(3, 4)</dd>
+                                    <dt>RGB</dt>
+                                    <dd id="pixelRgb">(109, 158, 197)</dd>
+                                    <dt>Python</dt>
+                                    <dd id="pixelPython">img.getpixel((3, 4))</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="worked-example" style="margin-top:var(--space-md)">
+                            <h4><span class="step-num">5</span> Read and Change a Pixel</h4>
+                            <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg").convert("RGB")
+
+pixel = img.getpixel((10, 20))
+print(pixel)
+
+img.putpixel((10, 20), (255, 255, 255))
+img.save("edited.png")</code></div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-arrows-rotate"></i> From One Pixel to a Whole
+                            Image</h2>
+                        <p class="concept-text">Once you can read and write one pixel, nested loops can process every
+                            <code>(x, y)</code> position.</p>
+                        <div class="worked-example">
+                            <h4><span class="step-num">6</span> Invert Every RGB Pixel</h4>
+                            <div class="code-result-grid">
+                                <div>
+                                    <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg").convert("RGB")
 w, h = img.size
 
-# Get pixel at (10, 20)
-pixel = img.getpixel((10, 20))
-print(pixel)  # e.g., (142, 87, 201)
-
-# Set pixel to white
-img.putpixel((10, 20), (255, 255, 255))
-
-# Invert all pixels
 for x in range(w):
     for y in range(h):
         r, g, b = img.getpixel((x, y))
         img.putpixel((x, y), (255-r, 255-g, 255-b))
+
 img.save("inverted.png")</code></div>
-                </div>
-            </section>
+                                </div>
+                                <div class="result-panel">
+                                    <div style="width:100%">
+                                        <div class="result-invert">
+                                            <div class="original-pixel">(142, 87, 201)</div>
+                                            <div class="inverted-pixel">(113, 168, 54)</div>
+                                        </div>
+                                        <p
+                                            style="font-size:.72rem;color:var(--text-muted);text-align:center;margin-top:var(--space-sm)">
+                                            Each channel becomes <code>255 - value</code></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-lightbulb"></i> Why convert to RGB first?</h4>
+                            <p>An input file may use another mode. <code>.convert("RGB")</code> makes each pixel
+                                predictable so it can be unpacked as <code>r, g, b</code>.</p>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> resize() Creates a NEW Image</h4>
-                    <p><code>img.resize()</code> returns a <strong>new</strong> image — it doesn't modify the original.
-                        Always assign the result: <code>small = img.resize((200, 100))</code>.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Coordinate System</h4>
-                    <p>PIL uses (x, y) with the <strong>origin at top-left</strong>. x increases right, y increases
-                        downward. This is opposite to math convention!</p>
-                </div>
-            </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fab fa-youtube"></i> Video Demonstration</h2>
+                        <div class="lesson-video-block">
+                            <div class="lesson-video-header">
+                                <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                                <div class="lesson-video-info">
+                                    <h4>Working with Images Using Pillow</h4>
+                                    <p>Practical demonstration of loading, resizing, rotating, cropping and processing
+                                        images in Python.</p>
+                                </div>
+                            </div>
+                            <div class="lesson-video-wrapper"><iframe
+                                    src="https://www.youtube-nocookie.com/embed/k3-0pHqFOBo"
+                                    title="Python Working with Images using Pillow" loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe></div>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that creates a 500×500 image with a blue background and saves it as
-                            "canvas.png".</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that loads any image, converts it to grayscale, resizes it to 200×200, and
-                            saves the result.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Write a program that swaps the red and blue channels of every pixel in an image.</p>
-                    </div>
-                </div>
-            </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+                        </h2>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> resize(), crop(), rotate() and convert() return new images
+                            </h4>
+                            <p>Store the result: <code>small = img.resize((200, 100))</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Width/height vs x/y</h4>
+                            <p><code>img.size</code> is <code>(width, height)</code>; pixel coordinates are
+                                <code>(x, y)</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Wrong crop-box order</h4>
+                            <p>Use <code>(left, upper, right, lower)</code>, not <code>(x, y, width, height)</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Pixel mode mismatch</h4>
+                            <p><code>r, g, b = img.getpixel(...)</code> assumes RGB-like pixels. Convert when necessary:
+                                <code>img = img.convert("RGB")</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Distorted aspect ratio</h4>
+                            <p>Changing a 16:9 image directly to a square changes its proportions. Decide whether
+                                stretching is acceptable before resizing.</p>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: How do you create a new 800×600 green image?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
-                        <code>img = Image.new("RGB", (800, 600), (0, 255, 0))</code></div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What does <code>img.size</code> return?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A tuple (width, height) in
-                        pixels, e.g., (1920, 1080).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What mode would you use for a transparent image?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">"RGBA" — includes an Alpha
-                        (transparency) channel in addition to Red, Green, Blue.</div>
-                </div>
-            </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Practice Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>Create an 800×500 RGB image with colour <code>(30, 144, 255)</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>An image is <code>(1200, 800)</code>. State the largest valid x-coordinate and
+                                    y-coordinate.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Load an image, print its mode and size, resize it to <code>400×300</code>, and save
+                                    it as <code>small.png</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Crop the rectangle from <code>(100, 50)</code> to <code>(500, 350)</code> and save it
+                                    as <code>crop.png</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Explain why <code>(100, 50, 400, 300)</code> does not mean x=100, y=50, width=400,
+                                    height=300 in <code>crop()</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Swap the red and blue values of every pixel: <code>(r, g, b) → (b, g, r)</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Build a pipeline: open → crop → resize → grayscale → rotate → save.</p>
+                            </div>
+                        </div>
+                    </section>
 
-            <nav class="lesson-nav">
-                <a href="rgb-colors.html"><span class="nav-label">← Previous</span><span class="nav-title">RGB
-                        Colors</span></a>
-                <a href="pil-drawing.html"><span class="nav-label">Next →</span><span class="nav-title">PIL Drawing
-                        Primitives</span></a>
-            </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: What does <code>Image.open("photo.jpg")</code> do?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It opens and identifies
+                                the image file and returns a Pillow image object.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: What does <code>img.size</code> return?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A tuple
+                                <code>(width, height)</code> in pixels.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: Where is coordinate <code>(0, 0)</code>?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">At the top-left corner
+                                of the image.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: What does <code>img.crop((10, 20, 110, 80))</code> select?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">left=10, upper=20,
+                                right=110, lower=80; the result is 100×60 pixels.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q5: Why might you use <code>img.convert("RGB")</code> before pixel
+                                processing?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To make each pixel
+                                predictable as Red, Green and Blue channel values that can be unpacked as
+                                <code>r, g, b</code>.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q6: Does <code>img.resize((200, 100))</code> change
+                                <code>img</code> itself?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">No. Assign the returned
+                                copy: <code>small = img.resize((200, 100))</code>.</div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="rgb-colors.html"><span><span class="nav-label">← Previous</span><span
+                                    class="nav-title">RGB Colors</span></span></a>
+                        <a href="pil-drawing.html"><span><span class="nav-label">Next →</span><span
+                                    class="nav-title">PIL Drawing Primitives</span></span></a>
+                    </nav>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+        <p>mr. TEA © 2026 — NIS Grade 12 Programming</p>
     </footer>
 
+    <script>
+        const canvas = document.getElementById('pilDemoCanvas'), ctx = canvas.getContext('2d');
+        const src = document.createElement('canvas'); src.width = 480; src.height = 300; const s = src.getContext('2d');
+
+        function drawScene(c, w, h) {
+            const sky = c.createLinearGradient(0, 0, 0, h); sky.addColorStop(0, '#38bdf8'); sky.addColorStop(.60, '#bae6fd'); sky.addColorStop(.61, '#65a30d'); sky.addColorStop(1, '#3f6212'); c.fillStyle = sky; c.fillRect(0, 0, w, h);
+            c.beginPath(); c.arc(w * .80, h * .20, h * .09, 0, Math.PI * 2); c.fillStyle = '#fde047'; c.fill();
+            c.beginPath(); c.moveTo(0, h * .62); c.lineTo(w * .20, h * .36); c.lineTo(w * .42, h * .62); c.lineTo(w * .60, h * .40); c.lineTo(w * .82, h * .62); c.lineTo(w, h * .46); c.lineTo(w, h * .72); c.lineTo(0, h * .72); c.closePath(); c.fillStyle = '#15803d'; c.fill();
+            const x = w * .34, y = h * .58, hw = w * .26, hh = h * .25; c.fillStyle = '#f97316'; c.fillRect(x, y, hw, hh); c.beginPath(); c.moveTo(x - 8, y); c.lineTo(x + hw / 2, y - hh * .65); c.lineTo(x + hw + 8, y); c.closePath(); c.fillStyle = '#7c2d12'; c.fill();
+            c.fillStyle = '#78350f'; c.fillRect(x + hw * .42, y + hh * .42, hw * .18, hh * .58); c.fillStyle = '#dbeafe'; c.fillRect(x + hw * .10, y + hh * .25, hw * .18, hh * .22); c.fillRect(x + hw * .72, y + hh * .25, hw * .18, hh * .22);
+            c.fillStyle = '#713f12'; c.fillRect(w * .18, h * .60, w * .025, h * .25); c.beginPath(); c.arc(w * .192, h * .56, h * .12, 0, Math.PI * 2); c.fillStyle = '#166534'; c.fill();
+            c.font = '15px Inter,Arial'; c.fillStyle = 'rgba(15,23,42,.78)'; c.fillText('Sample image', 17, 30);
+        }
+        drawScene(s, 480, 300);
+
+        const d = document.getElementById('operationDescription'), code = document.getElementById('operationCode');
+        function original() { canvas.width = 480; canvas.height = 300; ctx.drawImage(src, 0, 0); d.textContent = 'Original image: 480 × 300 pixels'; code.textContent = 'img = Image.open("scene.png")' }
+        function resize() { canvas.width = 300; canvas.height = 188; ctx.drawImage(src, 0, 0, 300, 188); d.textContent = 'Resized copy: 300 × 188 pixels'; code.textContent = 'small = img.resize((300, 188))' }
+        function crop() { canvas.width = 250; canvas.height = 200; ctx.drawImage(src, 115, 55, 250, 200, 0, 0, 250, 200); d.textContent = 'Cropped region: 250 × 200 pixels'; code.textContent = 'part = img.crop((115, 55, 365, 255))' }
+        function rotate() { const a = -Math.PI / 4, w = 480, h = 300, nw = Math.ceil(w * Math.abs(Math.cos(a)) + h * Math.abs(Math.sin(a))), nh = Math.ceil(w * Math.abs(Math.sin(a)) + h * Math.abs(Math.cos(a))); canvas.width = nw; canvas.height = nh; ctx.save(); ctx.translate(nw / 2, nh / 2); ctx.rotate(a); ctx.drawImage(src, -w / 2, -h / 2); ctx.restore(); d.textContent = 'Rotated copy with expanded canvas'; code.textContent = 'turned = img.rotate(45, expand=True)' }
+        function gray() { canvas.width = 480; canvas.height = 300; ctx.drawImage(src, 0, 0); const im = ctx.getImageData(0, 0, 480, 300), p = im.data; for (let i = 0; i < p.length; i += 4) { const g = Math.round(.299 * p[i] + .587 * p[i + 1] + .114 * p[i + 2]); p[i] = p[i + 1] = p[i + 2] = g } ctx.putImageData(im, 0, 0); d.textContent = 'Grayscale image: mode "L" in Pillow'; code.textContent = 'gray = img.convert("L")' }
+        function invert() { canvas.width = 480; canvas.height = 300; ctx.drawImage(src, 0, 0); const im = ctx.getImageData(0, 0, 480, 300), p = im.data; for (let i = 0; i < p.length; i += 4) { p[i] = 255 - p[i]; p[i + 1] = 255 - p[i + 1]; p[i + 2] = 255 - p[i + 2] } ctx.putImageData(im, 0, 0); d.textContent = 'Each RGB channel is replaced by 255 − value'; code.textContent = 'new_color = (255-r, 255-g, 255-b)' }
+        const ops = { original, resize, crop, rotate, gray, invert };
+        document.querySelectorAll('.operation-btn').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('.operation-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); ops[b.dataset.op]() }));
+        original();
+
+        const grid = document.getElementById('pixelGrid'), sw = document.getElementById('pixelSwatch'), co = document.getElementById('pixelCoord'), rgb = document.getElementById('pixelRgb'), py = document.getElementById('pixelPython');
+        function pc(x, y) { return [Math.round(35 + x / 7 * 190), Math.round(55 + y / 7 * 175), Math.round(215 - (x + y) / 14 * 125)] }
+        function show(x, y) { const [r, g, b] = pc(x, y); sw.style.background = `rgb(${r},${g},${b})`; co.textContent = `(${x}, ${y})`; rgb.textContent = `(${r}, ${g}, ${b})`; py.textContent = `img.getpixel((${x}, ${y}))` }
+        for (let y = 0; y < 8; y++)for (let x = 0; x < 8; x++) { const [r, g, b] = pc(x, y), cell = document.createElement('button'); cell.type = 'button'; cell.className = 'pixel-cell'; cell.style.background = `rgb(${r},${g},${b})`; cell.setAttribute('aria-label', `Pixel ${x}, ${y}`); cell.addEventListener('mouseenter', () => show(x, y)); cell.addEventListener('focus', () => show(x, y)); cell.addEventListener('click', () => show(x, y)); grid.appendChild(cell) }
+        show(3, 4);
+    </script>
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
 </body>
