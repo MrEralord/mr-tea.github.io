@@ -7,344 +7,2209 @@
     <title>PIL Image Filters — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="PIL ImageFilter: blur, sharpen, edge detection, brightness, contrast. Creating custom filters. NIS Grade 12.">
+        content="Python Pillow image filters: blur, sharpen, edge detection, image enhancement and custom RGB pixel filters. NIS Grade 12 Programming.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* ============================================================
+           PIL IMAGE FILTERS — page-specific visual components
+           Uses the shared mr-tea.net design tokens
+           ============================================================ */
+
+        .filter-flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .filter-flow-step {
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-sm);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .filter-flow-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            top: 50%;
+            right: -12px;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+            z-index: 3;
+        }
+
+        .filter-flow-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .10);
+            color: var(--clr-tea);
+        }
+
+        .filter-flow-step code {
+            font-family: var(--font-code);
+            font-size: .73rem;
+            color: var(--text-primary);
+        }
+
+        .filter-flow-step span {
+            font-size: .76rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .filter-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .filter-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .filter-card canvas {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            display: block;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: #fff;
+            margin-bottom: var(--space-sm);
+        }
+
+        .filter-card h4 {
+            font-size: .88rem;
+            color: var(--text-primary);
+            margin-bottom: .2rem;
+        }
+
+        .filter-card p {
+            font-size: .74rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin-bottom: .3rem;
+        }
+
+        .filter-card code {
+            font-family: var(--font-code);
+            font-size: .68rem;
+            color: var(--clr-tea);
+            word-break: break-word;
+        }
+
+        .interactive-filter {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+        }
+
+        .filter-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        .filter-btn,
+        .custom-filter-btn,
+        .reset-btn {
+            border: 1px solid var(--border);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            padding: .55rem .75rem;
+            font: 600 .76rem var(--font-body);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active,
+        .custom-filter-btn:hover,
+        .custom-filter-btn.active,
+        .reset-btn:hover {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .filter-stage {
+            min-height: 340px;
+            display: grid;
+            place-items: center;
+            border: 1px dashed var(--border-hover);
+            border-radius: var(--radius-md);
+            background:
+                linear-gradient(45deg, rgba(148, 163, 184, .06) 25%, transparent 25% 75%, rgba(148, 163, 184, .06) 75%),
+                linear-gradient(45deg, rgba(148, 163, 184, .06) 25%, transparent 25% 75%, rgba(148, 163, 184, .06) 75%);
+            background-position: 0 0, 12px 12px;
+            background-size: 24px 24px;
+            padding: var(--space-md);
+            overflow: hidden;
+        }
+
+        #filterCanvas,
+        #enhanceCanvas {
+            max-width: 100%;
+            height: auto;
+            background: #fff;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+        }
+
+        .filter-caption {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: .35rem .75rem;
+            margin-top: var(--space-sm);
+            font-size: .78rem;
+        }
+
+        .filter-caption span {
+            color: var(--text-muted);
+        }
+
+        .filter-caption code {
+            font-family: var(--font-code);
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+
+        .comparison-panel {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .comparison-panel h4 {
+            font-size: .86rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .comparison-panel canvas {
+            width: 100%;
+            display: block;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: white;
+        }
+
+        .enhance-layout {
+            display: grid;
+            grid-template-columns: 1.25fr .75fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .enhance-controls {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .enhance-controls h4 {
+            font-size: .9rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-md);
+        }
+
+        .enhance-row {
+            margin-bottom: var(--space-md);
+        }
+
+        .enhance-row:last-of-type {
+            margin-bottom: var(--space-sm);
+        }
+
+        .enhance-label {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            font-size: .76rem;
+            color: var(--text-secondary);
+            margin-bottom: .25rem;
+        }
+
+        .enhance-label code {
+            font-family: var(--font-code);
+            color: var(--clr-tea);
+        }
+
+        .enhance-row input[type="range"] {
+            width: 100%;
+            accent-color: var(--clr-tea);
+        }
+
+        .enhance-code {
+            margin-top: var(--space-md);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            font: 600 .7rem/1.6 var(--font-code);
+            color: var(--text-primary);
+            white-space: pre-wrap;
+        }
+
+        .pixel-filter-lab {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .pixel-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .pixel-card h4 {
+            font-size: .88rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .pixel-inputs {
+            display: grid;
+            gap: var(--space-sm);
+        }
+
+        .channel-input {
+            display: grid;
+            grid-template-columns: 18px 1fr 48px;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: .78rem;
+        }
+
+        .channel-input strong {
+            color: var(--text-primary);
+        }
+
+        .channel-input input[type="range"] {
+            width: 100%;
+            accent-color: var(--clr-tea);
+        }
+
+        .channel-input output {
+            font: 600 .72rem var(--font-code);
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        .pixel-swatches {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .pixel-swatch-block {
+            text-align: center;
+        }
+
+        .pixel-swatch {
+            height: 95px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: .3rem;
+        }
+
+        .pixel-swatch-block span {
+            font-size: .7rem;
+            color: var(--text-muted);
+        }
+
+        .pixel-swatch-block code {
+            display: block;
+            margin-top: .15rem;
+            font: 600 .68rem var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .pixel-math {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            padding: var(--space-md);
+            font: 600 .72rem/1.7 var(--font-code);
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            min-height: 140px;
+        }
+
+        .custom-filter-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        .threshold-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .threshold-box {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            padding: var(--space-sm);
+            text-align: center;
+        }
+
+        .threshold-sample {
+            height: 88px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            margin-bottom: var(--space-xs);
+        }
+
+        .threshold-box code {
+            font: 600 .68rem var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .kernel-grid {
+            display: inline-grid;
+            grid-template-columns: repeat(3, 52px);
+            gap: 4px;
+            margin: var(--space-sm) 0;
+        }
+
+        .kernel-cell {
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            font: 700 .76rem var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .kernel-cell.center {
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .1);
+            color: var(--clr-tea);
+        }
+
+        .code-result-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(220px, .75fr);
+            gap: var(--space-md);
+            align-items: stretch;
+        }
+
+        .result-panel {
+            min-height: 220px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            padding: var(--space-md);
+        }
+
+        .result-note {
+            font-size: .72rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: var(--space-xs);
+        }
+
+        .resource-card {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+        }
+
+        .resource-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: rgba(59, 130, 246, .10);
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        .resource-copy {
+            flex: 1;
+        }
+
+        .resource-copy h4 {
+            font-size: .9rem;
+            color: var(--text-primary);
+            margin-bottom: .2rem;
+        }
+
+        .resource-copy p {
+            font-size: .78rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .resource-link {
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            padding: .55rem .8rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: .76rem;
+            font-weight: 700;
+            color: var(--clr-tea);
+            text-decoration: none;
+        }
+
+        .resource-link:hover {
+            border-color: var(--clr-tea);
+        }
+
+        @media (max-width: 880px) {
+            .filter-flow {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-flow-step::after {
+                display: none;
+            }
+
+            .filter-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .enhance-layout,
+            .pixel-filter-lab,
+            .code-result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .filter-flow,
+            .filter-gallery,
+            .comparison-grid,
+            .threshold-demo {
+                grid-template-columns: 1fr;
+            }
+
+            .interactive-filter {
+                padding: var(--space-md);
+            }
+
+            .filter-stage {
+                min-height: 250px;
+            }
+
+            .resource-card {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .resource-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
-                <span>12.1A — PIL Image Filters</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
-                <h1 class="lesson-title">PIL Image Filters</h1>
-                <p class="lesson-intro">Filters transform images by modifying pixel values based on their neighbors. PIL
-                    provides <strong>built-in filters</strong> (blur, sharpen, edge detect) and tools to build
-                    <strong>custom filters</strong> pixel by pixel.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.6.2.4</span> Create filters for image processing</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.1A-pil-filters.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-filter"></i> The Instagram Filter Analogy</h4>
-                    <p>Every photo filter on your phone is code that reads pixel values, applies a mathematical formula,
-                        and writes new pixel values. PIL gives you the <strong>same power</strong> — blur, sharpen, edge
-                        detection, color adjustments — all from Python.</p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 12 PROG</a>
+                        <span class="sep">/</span>
+                        <span>12.1A — PIL Image Filters</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fab fa-python"></i> Unit 12.1A · Term 1
+                        </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Built-in Filters
-                    (ImageFilter)</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Filter</th>
-                            <th>Effect</th>
-                            <th>Usage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>BLUR</code></td>
-                            <td>Smooths image, reduces noise</td>
-                            <td><code>img.filter(ImageFilter.BLUR)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>GaussianBlur(r)</code></td>
-                            <td>Gaussian blur with radius r</td>
-                            <td><code>img.filter(ImageFilter.GaussianBlur(5))</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>SHARPEN</code></td>
-                            <td>Enhances edges, makes image crisp</td>
-                            <td><code>img.filter(ImageFilter.SHARPEN)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>CONTOUR</code></td>
-                            <td>Extracts contour lines</td>
-                            <td><code>img.filter(ImageFilter.CONTOUR)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>DETAIL</code></td>
-                            <td>Enhances fine details</td>
-                            <td><code>img.filter(ImageFilter.DETAIL)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>EDGE_ENHANCE</code></td>
-                            <td>Subtly enhances edges</td>
-                            <td><code>img.filter(ImageFilter.EDGE_ENHANCE)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>FIND_EDGES</code></td>
-                            <td>Finds all edges (like a sketch)</td>
-                            <td><code>img.filter(ImageFilter.FIND_EDGES)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>EMBOSS</code></td>
-                            <td>3D embossed effect</td>
-                            <td><code>img.filter(ImageFilter.EMBOSS)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>SMOOTH</code></td>
-                            <td>Light smoothing</td>
-                            <td><code>img.filter(ImageFilter.SMOOTH)</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <h1 class="lesson-title">PIL Image Filters</h1>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
-                    Pixel-Level Adjustments (ImageEnhance)</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Enhancer</th>
-                            <th>What It Adjusts</th>
-                            <th>Factor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>ImageEnhance.Brightness</code></td>
-                            <td>Light/dark</td>
-                            <td>0.0 = black, 1.0 = original, 2.0 = 2× bright</td>
-                        </tr>
-                        <tr>
-                            <td><code>ImageEnhance.Contrast</code></td>
-                            <td>Difference between darks and lights</td>
-                            <td>0.0 = gray, 1.0 = original, 2.0 = 2× contrast</td>
-                        </tr>
-                        <tr>
-                            <td><code>ImageEnhance.Color</code></td>
-                            <td>Color saturation</td>
-                            <td>0.0 = grayscale, 1.0 = original</td>
-                        </tr>
-                        <tr>
-                            <td><code>ImageEnhance.Sharpness</code></td>
-                            <td>Edge definition</td>
-                            <td>0.0 = blurred, 2.0 = extra sharp</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <p class="lesson-intro">
+                            Image filters transform a picture by changing its pixels.
+                            Pillow provides ready-made <strong>ImageFilter</strong> effects,
+                            whole-image <strong>ImageEnhance</strong> controls, and everything you
+                            need to design your own pixel-by-pixel filters.
+                        </p>
+                    </div>
 
-                <div class="code-block"><code>from PIL import Image, ImageFilter, ImageEnhance
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li>
+                                <span class="lo-code">12.6.2.4</span>
+                                Create filters for image processing
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon">
+                            <i class="fas fa-file-powerpoint"></i>
+                        </div>
+
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>12.1A-pil-filters.pdf · Slides for classroom use</p>
+                        </div>
+
+                        <div class="lesson-pdf-actions">
+                            <a href="#" class="lesson-pdf-btn view-btn">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="#" class="lesson-pdf-btn download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-filter"></i> A Filter Is a Transformation</h4>
+                            <p>
+                                Think about a photo-editing app. A filter takes an
+                                <strong>input image</strong>, applies a rule, and produces a
+                                <strong>new output image</strong>. Some rules look at neighbouring pixels
+                                (blur, sharpen, edges); others modify each pixel directly
+                                (negative, grayscale, sepia, warm tone).
+                            </p>
+                        </div>
+
+                        <div class="filter-flow">
+                            <div class="filter-flow-step">
+                                <div class="filter-flow-icon"><i class="far fa-image"></i></div>
+                                <code>Image.open()</code>
+                                <span>Load the source image</span>
+                            </div>
+
+                            <div class="filter-flow-step">
+                                <div class="filter-flow-icon"><i class="fas fa-sliders"></i></div>
+                                <code>filter / enhance</code>
+                                <span>Apply a transformation</span>
+                            </div>
+
+                            <div class="filter-flow-step">
+                                <div class="filter-flow-icon"><i class="fas fa-eye"></i></div>
+                                <code>compare</code>
+                                <span>Inspect the result</span>
+                            </div>
+
+                            <div class="filter-flow-step">
+                                <div class="filter-flow-icon"><i class="fas fa-floppy-disk"></i></div>
+                                <code>save()</code>
+                                <span>Write a new image file</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     BUILT-IN FILTER GALLERY
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-images"></i> Built-in Filters — Visual Reference
+                        </h2>
+
+                        <p class="concept-text">
+                            The easiest way to understand an image filter is to compare the same
+                            source image after different transformations. All examples below use the
+                            same generated scene.
+                        </p>
+
+                        <div class="filter-gallery">
+                            <div class="filter-card">
+                                <canvas id="galleryOriginal" width="360" height="225"></canvas>
+                                <h4>Original</h4>
+                                <p>No filter applied.</p>
+                                <code>img</code>
+                            </div>
+
+                            <div class="filter-card">
+                                <canvas id="galleryBlur" width="360" height="225"></canvas>
+                                <h4>Gaussian Blur</h4>
+                                <p>Smooths local detail.</p>
+                                <code>ImageFilter.GaussianBlur(4)</code>
+                            </div>
+
+                            <div class="filter-card">
+                                <canvas id="gallerySharpen" width="360" height="225"></canvas>
+                                <h4>Sharpen</h4>
+                                <p>Emphasises local edges.</p>
+                                <code>ImageFilter.SHARPEN</code>
+                            </div>
+
+                            <div class="filter-card">
+                                <canvas id="galleryEdges" width="360" height="225"></canvas>
+                                <h4>Find Edges</h4>
+                                <p>Highlights strong intensity changes.</p>
+                                <code>ImageFilter.FIND_EDGES</code>
+                            </div>
+
+                            <div class="filter-card">
+                                <canvas id="galleryEmboss" width="360" height="225"></canvas>
+                                <h4>Emboss</h4>
+                                <p>Produces a raised relief-like effect.</p>
+                                <code>ImageFilter.EMBOSS</code>
+                            </div>
+
+                            <div class="filter-card">
+                                <canvas id="gallerySmooth" width="360" height="225"></canvas>
+                                <h4>Smooth</h4>
+                                <p>Reduces small variations more gently.</p>
+                                <code>ImageFilter.SMOOTH</code>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Filter</th>
+                                    <th>Typical purpose</th>
+                                    <th>Python</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>BLUR</code></td>
+                                    <td>General blur / smoothing</td>
+                                    <td><code>img.filter(ImageFilter.BLUR)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>GaussianBlur(radius)</code></td>
+                                    <td>Adjustable blur strength</td>
+                                    <td><code>img.filter(ImageFilter.GaussianBlur(5))</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>SHARPEN</code></td>
+                                    <td>Make edges more pronounced</td>
+                                    <td><code>img.filter(ImageFilter.SHARPEN)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>CONTOUR</code></td>
+                                    <td>Extract contour-like lines</td>
+                                    <td><code>img.filter(ImageFilter.CONTOUR)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>DETAIL</code></td>
+                                    <td>Enhance fine detail</td>
+                                    <td><code>img.filter(ImageFilter.DETAIL)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>EDGE_ENHANCE</code></td>
+                                    <td>Strengthen edges</td>
+                                    <td><code>img.filter(ImageFilter.EDGE_ENHANCE)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>FIND_EDGES</code></td>
+                                    <td>Detect edge-like intensity changes</td>
+                                    <td><code>img.filter(ImageFilter.FIND_EDGES)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>EMBOSS</code></td>
+                                    <td>Create a relief / emboss effect</td>
+                                    <td><code>img.filter(ImageFilter.EMBOSS)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>SMOOTH</code></td>
+                                    <td>Light smoothing</td>
+                                    <td><code>img.filter(ImageFilter.SMOOTH)</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =====================================================
+                     INTERACTIVE FILTER LAB
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-flask"></i> Interactive Filter Lab
+                        </h2>
+
+                        <p class="concept-text">
+                            Choose a filter to see the same image transformed immediately.
+                            The browser preview approximates the visual idea; the code shown below is
+                            the Pillow command you would use in Python.
+                        </p>
+
+                        <div class="interactive-filter">
+                            <div class="filter-toolbar" role="group" aria-label="Image filter selector">
+                                <button class="filter-btn active" data-filter="original">Original</button>
+                                <button class="filter-btn" data-filter="blur">Gaussian Blur</button>
+                                <button class="filter-btn" data-filter="sharpen">Sharpen</button>
+                                <button class="filter-btn" data-filter="edges">Find Edges</button>
+                                <button class="filter-btn" data-filter="emboss">Emboss</button>
+                                <button class="filter-btn" data-filter="smooth">Smooth</button>
+                                <button class="filter-btn" data-filter="grayscale">Grayscale</button>
+                                <button class="filter-btn" data-filter="negative">Negative</button>
+                            </div>
+
+                            <div class="filter-stage">
+                                <canvas id="filterCanvas" width="560" height="350"
+                                    aria-label="Interactive Pillow filter preview"></canvas>
+                            </div>
+
+                            <div class="filter-caption">
+                                <span>Effect</span>
+                                <code id="filterName">Original image</code>
+
+                                <span>Python</span>
+                                <code id="filterCode">img = Image.open("photo.jpg")</code>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     BUILT-IN WORKED EXAMPLE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code"></i> Using ImageFilter
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Apply and Save a Built-in Filter</h4>
+
+                            <div class="code-block"><code>from PIL import Image, ImageFilter
 
 img = Image.open("photo.jpg")
 
-# Apply built-in filter
-blurred = img.filter(ImageFilter.GaussianBlur(3))
+blurred = img.filter(
+    ImageFilter.GaussianBlur(4)
+)
 
-# Adjust brightness
-enhancer = ImageEnhance.Brightness(img)
-bright = enhancer.enhance(1.5)  # 50% brighter</code></div>
-            </section>
+blurred.save("photo_blurred.png")</code></div>
+                        </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Chain Filters</h4>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Applying Multiple Filters</h4>
-                    <div class="code-block"><code>from PIL import Image, ImageFilter
+                            <div class="code-block"><code>from PIL import Image, ImageFilter
 
 img = Image.open("photo.jpg")
 
-# Chain filters: sharpen then find edges
 result = img.filter(ImageFilter.SHARPEN)
 result = result.filter(ImageFilter.FIND_EDGES)
-result.save("sketch_effect.png")</code></div>
-                </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Custom Grayscale Filter (Pixel by Pixel)</h4>
-                    <div class="code-block"><code>from PIL import Image
+result.save("sketch_effect.png")</code></div>
+
+                            <div class="note-box" style="margin-top:var(--space-sm);">
+                                <h4><i class="fas fa-layer-group"></i> Order Matters</h4>
+                                <p>
+                                    A filter changes the input for the next filter.
+                                    <code>SHARPEN → FIND_EDGES</code> does not necessarily produce the same
+                                    result as <code>FIND_EDGES → SHARPEN</code>.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     IMAGE ENHANCE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-sliders"></i> Image Enhancement
+                        </h2>
+
+                        <p class="concept-text">
+                            <code>ImageEnhance</code> adjusts the appearance of the whole image.
+                            A factor of <code>1.0</code> keeps the original. Lower and higher factors
+                            decrease or increase the selected property.
+                        </p>
+
+                        <div class="enhance-layout">
+                            <div class="filter-stage">
+                                <canvas id="enhanceCanvas" width="560" height="350"
+                                    aria-label="Interactive image enhancement preview"></canvas>
+                            </div>
+
+                            <div class="enhance-controls">
+                                <h4>Try the factors</h4>
+
+                                <div class="enhance-row">
+                                    <div class="enhance-label">
+                                        <span>Brightness</span>
+                                        <code id="brightnessValue">1.00</code>
+                                    </div>
+                                    <input id="brightnessRange" type="range" min="0" max="2" value="1" step="0.05">
+                                </div>
+
+                                <div class="enhance-row">
+                                    <div class="enhance-label">
+                                        <span>Contrast</span>
+                                        <code id="contrastValue">1.00</code>
+                                    </div>
+                                    <input id="contrastRange" type="range" min="0" max="2" value="1" step="0.05">
+                                </div>
+
+                                <div class="enhance-row">
+                                    <div class="enhance-label">
+                                        <span>Color</span>
+                                        <code id="colorValue">1.00</code>
+                                    </div>
+                                    <input id="colorRange" type="range" min="0" max="2" value="1" step="0.05">
+                                </div>
+
+                                <div class="enhance-row">
+                                    <div class="enhance-label">
+                                        <span>Sharpness</span>
+                                        <code id="sharpValue">1.00</code>
+                                    </div>
+                                    <input id="sharpRange" type="range" min="0" max="2" value="1" step="0.05">
+                                </div>
+
+                                <button id="resetEnhance" class="reset-btn" type="button">
+                                    <i class="fas fa-rotate-left"></i> Reset
+                                </button>
+
+                                <div id="enhanceCode" class="enhance-code">brightness =
+                                    ImageEnhance.Brightness(img).enhance(1.00)
+                                    contrast = ImageEnhance.Contrast(brightness).enhance(1.00)
+                                    color = ImageEnhance.Color(contrast).enhance(1.00)
+                                    result = ImageEnhance.Sharpness(color).enhance(1.00)</div>
+                            </div>
+                        </div>
+
+                        <table class="theory-table" style="margin-top:var(--space-md);">
+                            <thead>
+                                <tr>
+                                    <th>Enhancer</th>
+                                    <th>0.0</th>
+                                    <th>1.0</th>
+                                    <th>&gt; 1.0</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>Brightness</code></td>
+                                    <td>Black</td>
+                                    <td>Original</td>
+                                    <td>Brighter</td>
+                                </tr>
+                                <tr>
+                                    <td><code>Contrast</code></td>
+                                    <td>Flat gray-like result</td>
+                                    <td>Original</td>
+                                    <td>More contrast</td>
+                                </tr>
+                                <tr>
+                                    <td><code>Color</code></td>
+                                    <td>Grayscale</td>
+                                    <td>Original</td>
+                                    <td>More colour saturation</td>
+                                </tr>
+                                <tr>
+                                    <td><code>Sharpness</code></td>
+                                    <td>Blurred</td>
+                                    <td>Original</td>
+                                    <td>Sharper</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Increase Brightness</h4>
+
+                            <div class="code-block"><code>from PIL import Image, ImageEnhance
 
 img = Image.open("photo.jpg")
+
+enhancer = ImageEnhance.Brightness(img)
+bright = enhancer.enhance(1.5)
+
+bright.save("bright.png")</code></div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     NEIGHBOURHOOD / KERNEL IDEA
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-border-all"></i> Why Do Blur and Edge Filters Look at Neighbours?
+                        </h2>
+
+                        <p class="concept-text">
+                            Many built-in filters do not change a pixel independently. They examine a
+                            small neighbourhood around the pixel and combine those values.
+                            This small matrix is commonly called a <strong>kernel</strong>.
+                        </p>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-panel">
+                                <h4>3 × 3 Neighbourhood</h4>
+                                <div class="kernel-grid" aria-label="3 by 3 pixel neighbourhood">
+                                    <div class="kernel-cell">P</div>
+                                    <div class="kernel-cell">P</div>
+                                    <div class="kernel-cell">P</div>
+                                    <div class="kernel-cell">P</div>
+                                    <div class="kernel-cell center">X</div>
+                                    <div class="kernel-cell">P</div>
+                                    <div class="kernel-cell">P</div>
+                                    <div class="kernel-cell">P</div>
+                                    <div class="kernel-cell">P</div>
+                                </div>
+                                <p style="font-size:.76rem;color:var(--text-muted);line-height:1.5;">
+                                    The new value of centre pixel <strong>X</strong> can depend on the
+                                    surrounding pixels <strong>P</strong>.
+                                </p>
+                            </div>
+
+                            <div class="comparison-panel">
+                                <h4>Conceptual difference</h4>
+                                <table class="theory-table" style="margin-bottom:0;">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Blur</strong></td>
+                                            <td>makes nearby values more similar</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Sharpen</strong></td>
+                                            <td>emphasises differences</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Edge detection</strong></td>
+                                            <td>looks for strong local changes</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     CUSTOM PIXEL FILTER LAB
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-calculator"></i> Custom Filters — Pixel Mathematics
+                        </h2>
+
+                        <p class="concept-text">
+                            A custom filter can read a pixel <code>(r, g, b)</code>, calculate new channel
+                            values and write the result back. Use the controls below to see exactly what
+                            happens to one pixel.
+                        </p>
+
+                        <div class="pixel-filter-lab">
+                            <div class="pixel-card">
+                                <h4>Input Pixel</h4>
+
+                                <div class="pixel-inputs">
+                                    <div class="channel-input">
+                                        <strong>R</strong>
+                                        <input id="rRange" type="range" min="0" max="255" value="142">
+                                        <output id="rValue">142</output>
+                                    </div>
+
+                                    <div class="channel-input">
+                                        <strong>G</strong>
+                                        <input id="gRange" type="range" min="0" max="255" value="87">
+                                        <output id="gValue">87</output>
+                                    </div>
+
+                                    <div class="channel-input">
+                                        <strong>B</strong>
+                                        <input id="bRange" type="range" min="0" max="255" value="201">
+                                        <output id="bValue">201</output>
+                                    </div>
+                                </div>
+
+                                <div class="custom-filter-toolbar">
+                                    <button class="custom-filter-btn active" data-custom="negative">Negative</button>
+                                    <button class="custom-filter-btn" data-custom="gray">Grayscale</button>
+                                    <button class="custom-filter-btn" data-custom="sepia">Sepia</button>
+                                    <button class="custom-filter-btn" data-custom="warm">Warm</button>
+                                    <button class="custom-filter-btn" data-custom="red">Red Only</button>
+                                    <button class="custom-filter-btn" data-custom="threshold">Threshold</button>
+                                </div>
+
+                                <div class="pixel-swatches">
+                                    <div class="pixel-swatch-block">
+                                        <div id="inputSwatch" class="pixel-swatch"></div>
+                                        <span>Input</span>
+                                        <code id="inputPixel">(142, 87, 201)</code>
+                                    </div>
+
+                                    <div class="pixel-swatch-block">
+                                        <div id="outputSwatch" class="pixel-swatch"></div>
+                                        <span>Output</span>
+                                        <code id="outputPixel">(113, 168, 54)</code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pixel-card">
+                                <h4>Formula</h4>
+                                <div id="pixelMath" class="pixel-math"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     CUSTOM FILTER EXAMPLES
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-branch"></i> Worked Custom Filters
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">4</span> Manual Grayscale</h4>
+
+                            <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg").convert("RGB")
 w, h = img.size
 
-# Convert to grayscale manually
 for x in range(w):
     for y in range(h):
         r, g, b = img.getpixel((x, y))
-        # Weighted average (human eye sensitivity)
-        gray = int(0.299 * r + 0.587 * g + 0.114 * b)
-        img.putpixel((x, y), (gray, gray, gray))
+
+        gray = int(
+            0.299 * r +
+            0.587 * g +
+            0.114 * b
+        )
+
+        img.putpixel(
+            (x, y),
+            (gray, gray, gray)
+        )
 
 img.save("manual_gray.png")</code></div>
-                </div>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Custom Sepia Tone Filter</h4>
-                    <div class="code-block"><code>from PIL import Image
+                        <div class="worked-example">
+                            <h4><span class="step-num">5</span> Negative</h4>
 
-img = Image.open("photo.jpg")
+                            <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg").convert("RGB")
 w, h = img.size
 
 for x in range(w):
     for y in range(h):
         r, g, b = img.getpixel((x, y))
-        # Sepia formula
+
+        img.putpixel(
+            (x, y),
+            (255 - r, 255 - g, 255 - b)
+        )
+
+img.save("negative.png")</code></div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">6</span> Sepia</h4>
+
+                            <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg").convert("RGB")
+w, h = img.size
+
+for x in range(w):
+    for y in range(h):
+        r, g, b = img.getpixel((x, y))
+
         tr = min(255, int(0.393*r + 0.769*g + 0.189*b))
         tg = min(255, int(0.349*r + 0.686*g + 0.168*b))
         tb = min(255, int(0.272*r + 0.534*g + 0.131*b))
+
         img.putpixel((x, y), (tr, tg, tb))
 
 img.save("sepia.png")</code></div>
-                </div>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Threshold (Black &amp; White) Filter</h4>
-                    <div class="code-block"><code>from PIL import Image
+                        <div class="worked-example">
+                            <h4><span class="step-num">7</span> Threshold</h4>
 
-img = Image.open("photo.jpg")
+                            <p>
+                                Convert the pixel to an intensity. If that intensity is above the threshold,
+                                make it white; otherwise make it black.
+                            </p>
+
+                            <div class="threshold-demo">
+                                <div class="threshold-box">
+                                    <div class="threshold-sample" style="background:rgb(65,65,65);"></div>
+                                    <code>65 &lt; 128 → BLACK</code>
+                                </div>
+
+                                <div class="threshold-box">
+                                    <div class="threshold-sample" style="background:rgb(128,128,128);"></div>
+                                    <code>threshold = 128</code>
+                                </div>
+
+                                <div class="threshold-box">
+                                    <div class="threshold-sample" style="background:rgb(205,205,205);"></div>
+                                    <code>205 &gt; 128 → WHITE</code>
+                                </div>
+                            </div>
+
+                            <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg").convert("RGB")
 w, h = img.size
+
 threshold = 128
 
 for x in range(w):
     for y in range(h):
         r, g, b = img.getpixel((x, y))
-        avg = (r + g + b) // 3
-        if avg > threshold:
-            img.putpixel((x, y), (255, 255, 255))  # white
+
+        average = (r + g + b) // 3
+
+        if average > threshold:
+            new_color = (255, 255, 255)
         else:
-            img.putpixel((x, y), (0, 0, 0))        # black
+            new_color = (0, 0, 0)
 
-img.save("bw_threshold.png")</code></div>
-                </div>
+        img.putpixel((x, y), new_color)
 
-                <div class="worked-example">
-                    <h4><span class="step-num">5</span> Custom Color Channel Filter</h4>
-                    <div class="code-block"><code>from PIL import Image
+img.save("threshold.png")</code></div>
+                        </div>
 
-img = Image.open("photo.jpg")
+                        <div class="worked-example">
+                            <h4><span class="step-num">8</span> Warm Filter</h4>
+
+                            <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg").convert("RGB")
 w, h = img.size
 
-# Keep only the red channel
 for x in range(w):
     for y in range(h):
         r, g, b = img.getpixel((x, y))
-        img.putpixel((x, y), (r, 0, 0))
+
+        new_r = min(255, r + 20)
+        new_g = g
+        new_b = max(0, b - 20)
+
+        img.putpixel(
+            (x, y),
+            (new_r, new_g, new_b)
+        )
+
+img.save("warm.png")</code></div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">9</span> Keep Only the Red Channel</h4>
+
+                            <div class="code-block"><code>from PIL import Image
+
+img = Image.open("photo.jpg").convert("RGB")
+w, h = img.size
+
+for x in range(w):
+    for y in range(h):
+        r, g, b = img.getpixel((x, y))
+
+        img.putpixel(
+            (x, y),
+            (r, 0, 0)
+        )
 
 img.save("red_only.png")</code></div>
-                </div>
-            </section>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> filter() Returns a New Image</h4>
-                    <p><code>img.filter()</code> does NOT modify the original. Always assign the result:
-                        <code>blurred = img.filter(ImageFilter.BLUR)</code>.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Pixel Values Must Be 0–255</h4>
-                    <p>When computing new pixel values, always clamp them: <code>min(255, max(0, value))</code>. Going
-                        above 255 or below 0 causes errors.</p>
-                </div>
-            </section>
+                    <!-- =====================================================
+                     CLAMPING
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-shield-halved"></i> Keep RGB Values in Range
+                        </h2>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that applies Gaussian Blur, then saves the blurred version of any image.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a custom "negative" filter that inverts all pixel colors (255 – value).</p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Create your own "warm" filter: increase red by 20, decrease blue by 20, keep green the same.
-                            Apply it pixel-by-pixel.</p>
-                    </div>
-                </div>
-            </section>
+                        <p class="concept-text">
+                            Standard 8-bit RGB channels use values from <code>0</code> to <code>255</code>.
+                            Custom formulas may produce values outside this range, so clamp values before
+                            writing them back.
+                        </p>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What module provides BLUR, SHARPEN, FIND_EDGES?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>ImageFilter</code> from
-                        PIL — used with <code>img.filter(ImageFilter.BLUR)</code>.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: How would you make an image 50% brighter?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
-                        <code>enhancer = ImageEnhance.Brightness(img)</code><br><code>bright = enhancer.enhance(1.5)</code>
-                    </div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What does a threshold filter do?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Converts each pixel to black or
-                        white based on whether its average intensity is above or below a threshold value (e.g., 128).
-                    </div>
-                </div>
-            </section>
+                        <div class="worked-example">
+                            <h4><span class="step-num">10</span> Clamp a Calculated Value</h4>
 
-            <nav class="lesson-nav">
-                <a href="pil-drawing.html"><span class="nav-label">← Previous</span><span class="nav-title">PIL Drawing
-                        Primitives</span></a>
-                <a href="wave-library.html"><span class="nav-label">Next →</span><span class="nav-title">Wave
-                        Library</span></a>
-            </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+                            <div class="code-block"><code># Keep a number between 0 and 255
+new_r = min(255, max(0, calculated_r))
+new_g = min(255, max(0, calculated_g))
+new_b = min(255, max(0, calculated_b))</code></div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-lightbulb"></i> A Small Helper Function</h4>
+                            <p>
+                                For larger projects you can write
+                                <code>def clamp(v): return min(255, max(0, v))</code>
+                                and reuse it for every channel.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     RESOURCE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-circle-play"></i> Further Viewing
+                        </h2>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+
+                            <div class="resource-copy">
+                                <h4>Blurring, Sharpening and Smoothing with Pillow</h4>
+                                <p>
+                                    A short visual walkthrough from Real Python showing built-in
+                                    ImageFilter operations and comparisons.
+                                </p>
+                            </div>
+
+                            <a class="resource-link"
+                                href="https://realpython.com/lessons/python-pillow-blur-sharpen-smooth/" target="_blank"
+                                rel="noopener noreferrer">
+                                Watch <i class="fas fa-arrow-up-right-from-square"></i>
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PITFALLS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 1. filter() Returns a New Image</h4>
+                            <p>
+                                <code>img.filter(...)</code> does not replace <code>img</code>.
+                                Store the result:
+                                <code>blurred = img.filter(ImageFilter.BLUR)</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 2. Unexpected Image Mode</h4>
+                            <p>
+                                If your custom filter expects <code>r, g, b</code>, first use
+                                <code>img = img.convert("RGB")</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 3. Values Outside 0–255</h4>
+                            <p>
+                                A custom formula can produce negative values or values above 255.
+                                Clamp channel values before calling <code>putpixel()</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 4. Slow Pixel-by-Pixel Code</h4>
+                            <p>
+                                Nested <code>for</code> loops are excellent for learning how filters work,
+                                but large images may process slowly. Resize a test image while developing.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 5. Overwriting Your Original File</h4>
+                            <p>
+                                During practice, save results under a new filename such as
+                                <code>photo_blur.png</code> instead of replacing the source file.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TASKS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Practice Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    Which Pillow module contains <code>BLUR</code>,
+                                    <code>SHARPEN</code> and <code>FIND_EDGES</code>?
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain the difference between a neighbour-based filter such as blur
+                                    and a custom negative filter that changes each pixel independently.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Load an image, apply <code>GaussianBlur(5)</code>,
+                                    and save the result as <code>blurred.png</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Use <code>ImageEnhance.Brightness</code> to create one version at
+                                    factor <code>0.6</code> and another at <code>1.6</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    A pixel is <code>(220, 80, 30)</code>. Calculate the result of the
+                                    negative filter <code>(255-r, 255-g, 255-b)</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    A warm filter adds 50 to red. Explain why
+                                    <code>min(255, r + 50)</code> is safer than simply using
+                                    <code>r + 50</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Design your own custom filter using a clear mathematical rule.
+                                    Explain what happens to R, G and B, then apply it to every pixel.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Build a mini filter pipeline that produces three files from one source:
+                                    a blurred image, an edge image and your own custom colour effect.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-question-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: Which module provides <code>BLUR</code>, <code>SHARPEN</code> and
+                                <code>FIND_EDGES</code>?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>ImageFilter</code> from Pillow.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: What does enhancement factor <code>1.0</code> mean?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                It returns the original appearance for that enhancement property.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: What does <code>ImageEnhance.Color(...).enhance(0)</code> produce?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                A grayscale / black-and-white appearance because colour saturation is removed.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: Why might a custom filter begin with <code>convert("RGB")</code>?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                So every pixel can be handled consistently as three values:
+                                <code>r, g, b</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q5: What does a threshold filter do?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                It compares pixel intensity with a threshold and assigns one result
+                                below the threshold and another result above it — commonly black or white.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q6: What is the negative of <code>(100, 150, 200)</code>?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>(155, 105, 55)</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q7: Why is clamping necessary in custom colour filters?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Because standard RGB channel values must remain between
+                                <code>0</code> and <code>255</code>.
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="pil-drawing.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">PIL Drawing Primitives</span>
+                            </span>
+                        </a>
+
+                        <a href="wave-library.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">Wave Library</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+        <p>mr. TEA © 2026 — NIS Grade 12 Programming</p>
     </footer>
+
+    <script>
+        // ============================================================
+        // Shared source scene
+        // ============================================================
+        const sourceCanvas = document.createElement("canvas");
+        sourceCanvas.width = 560;
+        sourceCanvas.height = 350;
+        const sctx = sourceCanvas.getContext("2d");
+
+        function drawSourceScene(ctx, w, h) {
+            ctx.clearRect(0, 0, w, h);
+
+            // Sky and ground
+            const sky = ctx.createLinearGradient(0, 0, 0, h);
+            sky.addColorStop(0, "#38bdf8");
+            sky.addColorStop(0.57, "#bae6fd");
+            sky.addColorStop(0.58, "#65a30d");
+            sky.addColorStop(1, "#365314");
+            ctx.fillStyle = sky;
+            ctx.fillRect(0, 0, w, h);
+
+            // Sun
+            ctx.fillStyle = "#fde047";
+            ctx.beginPath();
+            ctx.arc(w * .80, h * .18, h * .085, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Mountain
+            ctx.fillStyle = "#15803d";
+            ctx.beginPath();
+            ctx.moveTo(0, h * .60);
+            ctx.lineTo(w * .18, h * .35);
+            ctx.lineTo(w * .38, h * .60);
+            ctx.lineTo(w * .58, h * .38);
+            ctx.lineTo(w * .78, h * .60);
+            ctx.lineTo(w, h * .42);
+            ctx.lineTo(w, h * .72);
+            ctx.lineTo(0, h * .72);
+            ctx.closePath();
+            ctx.fill();
+
+            // Road
+            ctx.fillStyle = "#64748b";
+            ctx.beginPath();
+            ctx.moveTo(w * .42, h);
+            ctx.lineTo(w * .55, h * .62);
+            ctx.lineTo(w * .66, h * .62);
+            ctx.lineTo(w * .86, h);
+            ctx.closePath();
+            ctx.fill();
+
+            // House
+            const hx = w * .26;
+            const hy = h * .54;
+            const hw = w * .28;
+            const hh = h * .28;
+
+            ctx.fillStyle = "#f97316";
+            ctx.strokeStyle = "#422006";
+            ctx.lineWidth = 4;
+            ctx.fillRect(hx, hy, hw, hh);
+            ctx.strokeRect(hx, hy, hw, hh);
+
+            ctx.fillStyle = "#7c2d12";
+            ctx.beginPath();
+            ctx.moveTo(hx - 15, hy);
+            ctx.lineTo(hx + hw / 2, hy - hh * .62);
+            ctx.lineTo(hx + hw + 15, hy);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Windows
+            ctx.fillStyle = "#dbeafe";
+            ctx.fillRect(hx + hw * .12, hy + hh * .25, hw * .18, hh * .22);
+            ctx.fillRect(hx + hw * .70, hy + hh * .25, hw * .18, hh * .22);
+
+            // Door
+            ctx.fillStyle = "#78350f";
+            ctx.fillRect(hx + hw * .43, hy + hh * .45, hw * .16, hh * .55);
+
+            // Tree
+            ctx.fillStyle = "#713f12";
+            ctx.fillRect(w * .12, h * .61, w * .025, h * .22);
+
+            ctx.fillStyle = "#166534";
+            ctx.beginPath();
+            ctx.arc(w * .132, h * .57, h * .115, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Small flower-like points for detail
+            const dots = [
+                [0.72, 0.74, "#ef4444"],
+                [0.76, 0.79, "#f43f5e"],
+                [0.82, 0.71, "#eab308"],
+                [0.90, 0.78, "#8b5cf6"]
+            ];
+            dots.forEach(([x, y, color]) => {
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(w * x, h * y, 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Label
+            ctx.fillStyle = "rgba(15,23,42,.8)";
+            ctx.font = `700 ${Math.max(14, w * .027)}px Inter, Arial, sans-serif`;
+            ctx.fillText("Pillow Filter Lab", w * .04, h * .10);
+        }
+
+        drawSourceScene(sctx, sourceCanvas.width, sourceCanvas.height);
+
+        function sourceImageData(width = sourceCanvas.width, height = sourceCanvas.height) {
+            const temp = document.createElement("canvas");
+            temp.width = width;
+            temp.height = height;
+            const tctx = temp.getContext("2d");
+            tctx.drawImage(sourceCanvas, 0, 0, width, height);
+            return tctx.getImageData(0, 0, width, height);
+        }
+
+        function putSource(canvas) {
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(sourceCanvas, 0, 0, canvas.width, canvas.height);
+        }
+
+        function clamp(v) {
+            return Math.max(0, Math.min(255, Math.round(v)));
+        }
+
+        function grayscaleImageData(imageData) {
+            const d = imageData.data;
+            for (let i = 0; i < d.length; i += 4) {
+                const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+                d[i] = d[i + 1] = d[i + 2] = gray;
+            }
+            return imageData;
+        }
+
+        function invertImageData(imageData) {
+            const d = imageData.data;
+            for (let i = 0; i < d.length; i += 4) {
+                d[i] = 255 - d[i];
+                d[i + 1] = 255 - d[i + 1];
+                d[i + 2] = 255 - d[i + 2];
+            }
+            return imageData;
+        }
+
+        function convolve(imageData, kernel, divisor = 1, offset = 0) {
+            const { width, height, data } = imageData;
+            const out = new ImageData(width, height);
+            const dst = out.data;
+            const side = Math.sqrt(kernel.length);
+            const half = Math.floor(side / 2);
+
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    let r = 0, g = 0, b = 0;
+
+                    for (let ky = 0; ky < side; ky++) {
+                        for (let kx = 0; kx < side; kx++) {
+                            const px = Math.min(width - 1, Math.max(0, x + kx - half));
+                            const py = Math.min(height - 1, Math.max(0, y + ky - half));
+                            const srcIndex = (py * width + px) * 4;
+                            const weight = kernel[ky * side + kx];
+
+                            r += data[srcIndex] * weight;
+                            g += data[srcIndex + 1] * weight;
+                            b += data[srcIndex + 2] * weight;
+                        }
+                    }
+
+                    const i = (y * width + x) * 4;
+                    dst[i] = clamp(r / divisor + offset);
+                    dst[i + 1] = clamp(g / divisor + offset);
+                    dst[i + 2] = clamp(b / divisor + offset);
+                    dst[i + 3] = data[i + 3];
+                }
+            }
+
+            return out;
+        }
+
+        function gaussianBlur(imageData) {
+            // Small approximation for the browser demo
+            return convolve(
+                imageData,
+                [1, 2, 1,
+                    2, 4, 2,
+                    1, 2, 1],
+                16,
+                0
+            );
+        }
+
+        function smooth(imageData) {
+            return convolve(
+                imageData,
+                [1, 1, 1,
+                    1, 5, 1,
+                    1, 1, 1],
+                13,
+                0
+            );
+        }
+
+        function sharpen(imageData) {
+            return convolve(
+                imageData,
+                [0, -1, 0,
+                    -1, 5, -1,
+                    0, -1, 0],
+                1,
+                0
+            );
+        }
+
+        function findEdges(imageData) {
+            const gray = grayscaleImageData(
+                new ImageData(
+                    new Uint8ClampedArray(imageData.data),
+                    imageData.width,
+                    imageData.height
+                )
+            );
+
+            return convolve(
+                gray,
+                [-1, -1, -1,
+                -1, 8, -1,
+                -1, -1, -1],
+                1,
+                0
+            );
+        }
+
+        function emboss(imageData) {
+            return convolve(
+                imageData,
+                [-2, -1, 0,
+                -1, 1, 1,
+                    0, 1, 2],
+                1,
+                128
+            );
+        }
+
+        // ============================================================
+        // Gallery canvases
+        // ============================================================
+        const galleryMap = {
+            galleryOriginal: data => data,
+            galleryBlur: data => gaussianBlur(gaussianBlur(data)),
+            gallerySharpen: data => sharpen(data),
+            galleryEdges: data => findEdges(data),
+            galleryEmboss: data => emboss(data),
+            gallerySmooth: data => smooth(data)
+        };
+
+        Object.entries(galleryMap).forEach(([id, transform]) => {
+            const canvas = document.getElementById(id);
+            const ctx = canvas.getContext("2d");
+            const data = sourceImageData(canvas.width, canvas.height);
+            ctx.putImageData(transform(data), 0, 0);
+        });
+
+        // ============================================================
+        // Interactive filter lab
+        // ============================================================
+        const filterCanvas = document.getElementById("filterCanvas");
+        const filterCtx = filterCanvas.getContext("2d");
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const filterName = document.getElementById("filterName");
+        const filterCode = document.getElementById("filterCode");
+
+        const filterMeta = {
+            original: {
+                name: "Original image",
+                code: 'img = Image.open("photo.jpg")'
+            },
+            blur: {
+                name: "Gaussian blur",
+                code: "result = img.filter(ImageFilter.GaussianBlur(4))"
+            },
+            sharpen: {
+                name: "Sharpen",
+                code: "result = img.filter(ImageFilter.SHARPEN)"
+            },
+            edges: {
+                name: "Find edges",
+                code: "result = img.filter(ImageFilter.FIND_EDGES)"
+            },
+            emboss: {
+                name: "Emboss",
+                code: "result = img.filter(ImageFilter.EMBOSS)"
+            },
+            smooth: {
+                name: "Smooth",
+                code: "result = img.filter(ImageFilter.SMOOTH)"
+            },
+            grayscale: {
+                name: "Grayscale",
+                code: 'result = img.convert("L")'
+            },
+            negative: {
+                name: "Custom negative",
+                code: "new_color = (255-r, 255-g, 255-b)"
+            }
+        };
+
+        function renderFilter(type) {
+            let data = sourceImageData(filterCanvas.width, filterCanvas.height);
+
+            if (type === "blur") {
+                data = gaussianBlur(gaussianBlur(data));
+            } else if (type === "sharpen") {
+                data = sharpen(data);
+            } else if (type === "edges") {
+                data = findEdges(data);
+            } else if (type === "emboss") {
+                data = emboss(data);
+            } else if (type === "smooth") {
+                data = smooth(data);
+            } else if (type === "grayscale") {
+                data = grayscaleImageData(data);
+            } else if (type === "negative") {
+                data = invertImageData(data);
+            }
+
+            filterCtx.putImageData(data, 0, 0);
+            filterName.textContent = filterMeta[type].name;
+            filterCode.textContent = filterMeta[type].code;
+        }
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                renderFilter(button.dataset.filter);
+            });
+        });
+
+        renderFilter("original");
+
+        // ============================================================
+        // Image enhancement lab
+        // ============================================================
+        const enhanceCanvas = document.getElementById("enhanceCanvas");
+        const enhanceCtx = enhanceCanvas.getContext("2d");
+
+        const brightnessRange = document.getElementById("brightnessRange");
+        const contrastRange = document.getElementById("contrastRange");
+        const colorRange = document.getElementById("colorRange");
+        const sharpRange = document.getElementById("sharpRange");
+
+        const brightnessValue = document.getElementById("brightnessValue");
+        const contrastValue = document.getElementById("contrastValue");
+        const colorValue = document.getElementById("colorValue");
+        const sharpValue = document.getElementById("sharpValue");
+        const enhanceCode = document.getElementById("enhanceCode");
+        const resetEnhance = document.getElementById("resetEnhance");
+
+        function applyBrightness(data, factor) {
+            const d = data.data;
+            for (let i = 0; i < d.length; i += 4) {
+                d[i] = clamp(d[i] * factor);
+                d[i + 1] = clamp(d[i + 1] * factor);
+                d[i + 2] = clamp(d[i + 2] * factor);
+            }
+            return data;
+        }
+
+        function applyContrast(data, factor) {
+            const d = data.data;
+            for (let i = 0; i < d.length; i += 4) {
+                d[i] = clamp((d[i] - 128) * factor + 128);
+                d[i + 1] = clamp((d[i + 1] - 128) * factor + 128);
+                d[i + 2] = clamp((d[i + 2] - 128) * factor + 128);
+            }
+            return data;
+        }
+
+        function applyColor(data, factor) {
+            const d = data.data;
+            for (let i = 0; i < d.length; i += 4) {
+                const gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+                d[i] = clamp(gray + (d[i] - gray) * factor);
+                d[i + 1] = clamp(gray + (d[i + 1] - gray) * factor);
+                d[i + 2] = clamp(gray + (d[i + 2] - gray) * factor);
+            }
+            return data;
+        }
+
+        function blendImageData(a, b, factor) {
+            const out = new ImageData(a.width, a.height);
+            for (let i = 0; i < a.data.length; i += 4) {
+                out.data[i] = clamp(a.data[i] * (1 - factor) + b.data[i] * factor);
+                out.data[i + 1] = clamp(a.data[i + 1] * (1 - factor) + b.data[i + 1] * factor);
+                out.data[i + 2] = clamp(a.data[i + 2] * (1 - factor) + b.data[i + 2] * factor);
+                out.data[i + 3] = a.data[i + 3];
+            }
+            return out;
+        }
+
+        function applySharpness(data, factor) {
+            if (factor === 1) return data;
+
+            if (factor < 1) {
+                const smoothData = smooth(
+                    new ImageData(
+                        new Uint8ClampedArray(data.data),
+                        data.width,
+                        data.height
+                    )
+                );
+                return blendImageData(smoothData, data, factor);
+            }
+
+            const sharpData = sharpen(
+                new ImageData(
+                    new Uint8ClampedArray(data.data),
+                    data.width,
+                    data.height
+                )
+            );
+
+            return blendImageData(data, sharpData, Math.min(1, factor - 1));
+        }
+
+        function renderEnhance() {
+            const brightness = Number(brightnessRange.value);
+            const contrast = Number(contrastRange.value);
+            const color = Number(colorRange.value);
+            const sharpness = Number(sharpRange.value);
+
+            brightnessValue.textContent = brightness.toFixed(2);
+            contrastValue.textContent = contrast.toFixed(2);
+            colorValue.textContent = color.toFixed(2);
+            sharpValue.textContent = sharpness.toFixed(2);
+
+            let data = sourceImageData(enhanceCanvas.width, enhanceCanvas.height);
+            data = applyBrightness(data, brightness);
+            data = applyContrast(data, contrast);
+            data = applyColor(data, color);
+            data = applySharpness(data, sharpness);
+
+            enhanceCtx.putImageData(data, 0, 0);
+
+            enhanceCode.textContent =
+                `brightness = ImageEnhance.Brightness(img).enhance(${brightness.toFixed(2)})
+contrast   = ImageEnhance.Contrast(brightness).enhance(${contrast.toFixed(2)})
+color      = ImageEnhance.Color(contrast).enhance(${color.toFixed(2)})
+result     = ImageEnhance.Sharpness(color).enhance(${sharpness.toFixed(2)})`;
+        }
+
+        [brightnessRange, contrastRange, colorRange, sharpRange].forEach(input => {
+            input.addEventListener("input", renderEnhance);
+        });
+
+        resetEnhance.addEventListener("click", () => {
+            brightnessRange.value = 1;
+            contrastRange.value = 1;
+            colorRange.value = 1;
+            sharpRange.value = 1;
+            renderEnhance();
+        });
+
+        renderEnhance();
+
+        // ============================================================
+        // Custom pixel mathematics
+        // ============================================================
+        const rRange = document.getElementById("rRange");
+        const gRange = document.getElementById("gRange");
+        const bRange = document.getElementById("bRange");
+
+        const rValue = document.getElementById("rValue");
+        const gValue = document.getElementById("gValue");
+        const bValue = document.getElementById("bValue");
+
+        const inputSwatch = document.getElementById("inputSwatch");
+        const outputSwatch = document.getElementById("outputSwatch");
+        const inputPixel = document.getElementById("inputPixel");
+        const outputPixel = document.getElementById("outputPixel");
+        const pixelMath = document.getElementById("pixelMath");
+        const customButtons = document.querySelectorAll(".custom-filter-btn");
+
+        let selectedCustom = "negative";
+
+        function customResult(type, r, g, b) {
+            if (type === "negative") {
+                const out = [255 - r, 255 - g, 255 - b];
+                return {
+                    rgb: out,
+                    math:
+                        `Negative:
+R' = 255 - ${r} = ${out[0]}
+G' = 255 - ${g} = ${out[1]}
+B' = 255 - ${b} = ${out[2]}
+
+Result = (${out.join(", ")})`
+                };
+            }
+
+            if (type === "gray") {
+                const gray = clamp(0.299 * r + 0.587 * g + 0.114 * b);
+                return {
+                    rgb: [gray, gray, gray],
+                    math:
+                        `Weighted grayscale:
+gray = 0.299×${r} + 0.587×${g} + 0.114×${b}
+gray = ${gray}
+
+Result = (${gray}, ${gray}, ${gray})`
+                };
+            }
+
+            if (type === "sepia") {
+                const tr = clamp(0.393 * r + 0.769 * g + 0.189 * b);
+                const tg = clamp(0.349 * r + 0.686 * g + 0.168 * b);
+                const tb = clamp(0.272 * r + 0.534 * g + 0.131 * b);
+
+                return {
+                    rgb: [tr, tg, tb],
+                    math:
+                        `Sepia:
+R' = clamp(0.393R + 0.769G + 0.189B) = ${tr}
+G' = clamp(0.349R + 0.686G + 0.168B) = ${tg}
+B' = clamp(0.272R + 0.534G + 0.131B) = ${tb}
+
+Result = (${tr}, ${tg}, ${tb})`
+                };
+            }
+
+            if (type === "warm") {
+                const out = [
+                    Math.min(255, r + 20),
+                    g,
+                    Math.max(0, b - 20)
+                ];
+
+                return {
+                    rgb: out,
+                    math:
+                        `Warm filter:
+R' = min(255, ${r} + 20) = ${out[0]}
+G' = ${g}
+B' = max(0, ${b} - 20) = ${out[2]}
+
+Result = (${out.join(", ")})`
+                };
+            }
+
+            if (type === "red") {
+                return {
+                    rgb: [r, 0, 0],
+                    math:
+                        `Red channel only:
+R' = ${r}
+G' = 0
+B' = 0
+
+Result = (${r}, 0, 0)`
+                };
+            }
+
+            if (type === "threshold") {
+                const avg = Math.floor((r + g + b) / 3);
+                const value = avg > 128 ? 255 : 0;
+                return {
+                    rgb: [value, value, value],
+                    math:
+                        `Threshold = 128
+average = (${r} + ${g} + ${b}) // 3
+average = ${avg}
+
+${avg} ${avg > 128 ? ">" : "≤"} 128
+Result = (${value}, ${value}, ${value})`
+                };
+            }
+        }
+
+        function renderCustomPixel() {
+            const r = Number(rRange.value);
+            const g = Number(gRange.value);
+            const b = Number(bRange.value);
+
+            rValue.textContent = r;
+            gValue.textContent = g;
+            bValue.textContent = b;
+
+            inputSwatch.style.background = `rgb(${r}, ${g}, ${b})`;
+            inputPixel.textContent = `(${r}, ${g}, ${b})`;
+
+            const result = customResult(selectedCustom, r, g, b);
+            const [nr, ng, nb] = result.rgb;
+
+            outputSwatch.style.background = `rgb(${nr}, ${ng}, ${nb})`;
+            outputPixel.textContent = `(${nr}, ${ng}, ${nb})`;
+            pixelMath.textContent = result.math;
+        }
+
+        [rRange, gRange, bRange].forEach(input => {
+            input.addEventListener("input", renderCustomPixel);
+        });
+
+        customButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                customButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                selectedCustom = button.dataset.custom;
+                renderCustomPixel();
+            });
+        });
+
+        renderCustomPixel();
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+
 </body>
 
 </html>
