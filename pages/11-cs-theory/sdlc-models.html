@@ -7,255 +7,428 @@
     <title>SDLC Models — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="Software Development Life Cycle stages, waterfall, spiral, cyclical models. NIS Grade 11 CS.">
+        content="Software Development Life Cycle stages, Waterfall, V-Model, Spiral, Incremental, and Agile models. NIS Grade 11 CS.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+    <style>
+        /* Placeholder style for easy identification by the user */
+        .media-placeholder {
+            background: #f8fafc;
+            border: 2px dashed #94a3b8;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-weight: 600;
+            color: #475569;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-placeholder i {
+            font-size: 2rem;
+            color: #64748b;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="/" class="logo" style="margin-left: 15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lesson-page">
+                <div class="lesson-container">
+                    <nav class="lesson-breadcrumb">
+                        <a href="/index.html">Home</a><span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+                        <span>11.1C — SDLC Models</span>
+                    </nav>
+
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fas fa-project-diagram"></i> Unit 11.1C · Term 1</div>
+                        <h1 class="lesson-title">Software Development Life Cycle (SDLC)</h1>
+                        <p class="lesson-intro">The <strong>Software Development Life Cycle (SDLC)</strong> is a
+                            structure that determines the sequence of execution and interrelationships of processes,
+                            actions, and tasks throughout the creation of software[cite: 3]. Different
+                            <strong>models</strong> (like Waterfall, Spiral, or Agile) organise these stages depending
+                            on the specific conditions, scale, and complexity of the project[cite: 3].</p>
+                    </div>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.2.1.1</span> Describe the stages of the SDLC</li>
+                            <li><span class="lo-code">11.2.1.2</span> Compare cyclical, waterfall, and spiral models
+                            </li>
+                        </ul>
+                    </div>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-hard-hat"></i> The House-Building Analogy</h4>
+                            <p>Building software is like building a house. You need to: define the problem (Definition),
+                                understand what the client wants (Analysis), draw blueprints (Design), build it
+                                (Implementation), check for faults (Testing), move the client in (Installation), and fix
+                                problems over time (Maintenance)[cite: 2]. The SDLC is the overarching blueprint for
+                                this entire process.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-sync-alt"></i> The Core Stages of SDLC</h2>
+
+                        <div class="media-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>[ВСТАВИТЬ КАРТИНКУ: Круговая диаграмма SDLC (Requirement Analysis, Design,
+                                Implementation, Testing, Evolution). Взять со 2 слайда презентации "System lifecycle
+                                stages.pptx"]</span>
+                        </div>
+
+                        <p class="concept-text">While different models arrange the flow differently, almost all software
+                            development goes through these fundamental stages[cite: 2]:</p>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Stage</th>
+                                    <th>Key Activities[cite: 2]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1. Definition</strong></td>
+                                    <td>Interviews with management and staff to define the core problem and understand
+                                        limitations of the current system.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. Investigation & Analysis</strong></td>
+                                    <td>Detailed studies and questionnaires to fully understand requirements and create
+                                        a Requirements Specification.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. Design</strong></td>
+                                    <td>Planning how the project will be carried out and defining system architecture
+                                        based on agreed requirements.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. Implementation</strong></td>
+                                    <td>Software developers begin writing the code and physically developing the new
+                                        system.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>5. Testing</strong></td>
+                                    <td>Ensuring the system works as expected using methodologies like Black Box, White
+                                        Box, and Dry Run Testing.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>6. Evaluation</strong></td>
+                                    <td>Reviewing the overall project to check if the finished solution meets
+                                        requirements and actually solves the problem.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>7. Maintenance</strong></td>
+                                    <td>Updating the system, fixing late bugs, and ensuring long-term operation.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-sitemap"></i> Comparison of SDLC Models</h2>
+
+                        <h3 style="font-size:1.1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1.
+                            Waterfall Model</h3>
+                        <p>One of the oldest models involving the sequential passage of stages. Each stage must be
+                            completed completely before the beginning of the next[cite: 3].</p>
+
+                        <div class="media-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>[ВСТАВИТЬ КАРТИНКУ: Схема Waterfall Model со ступеньками (Requirements -> Design ->
+                                Implementation -> Verification -> Maintenance). Взять со слайда 7 "Life cycle
+                                models.pptx"]</span>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-plus-circle" style="color: #27ae60;"></i> Advantages[cite: 3]
+                                    </th>
+                                    <th><i class="fas fa-minus-circle" style="color: #e74c3c;"></i> Disadvantages[cite:
+                                        3]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Stages and activities are well defined; structured approach.</td>
+                                    <td>Assumes requirements can be frozen early on.</td>
+                                </tr>
+                                <tr>
+                                    <td>Easy to manage, plan, and schedule because each phase has specific deliverables.
+                                    </td>
+                                    <td>Very difficult to go back to any stage after it has finished.</td>
+                                </tr>
+                                <tr>
+                                    <td>Excellent for projects with clearly defined requirements[cite: 3].</td>
+                                    <td>Adjusting scope is difficult and expensive.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3
+                            style="font-size:1.1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            2. V-Shaped Model</h3>
+                        <p>An improved version of the waterfall model focused heavily on quality. For each development
+                            stage, it provides its own corresponding testing stage[cite: 3]. Applicable to systems
+                            crucial for smooth operation[cite: 3].</p>
+
+                        <div class="media-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>[ВСТАВИТЬ КАРТИНКУ: Схема V-Model (Planning -> Requirements... -> Unit Testing ->
+                                Implementation). Взять со слайда 19 "Life cycle models.pptx"]</span>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-plus-circle" style="color: #27ae60;"></i> Advantages[cite: 3]
+                                    </th>
+                                    <th><i class="fas fa-minus-circle" style="color: #e74c3c;"></i> Disadvantages[cite:
+                                        3]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Higher chance of success over waterfall due to early test plan development.</td>
+                                    <td>Very inflexible; does not provide a clear path for problems found during
+                                        testing.</td>
+                                </tr>
+                                <tr>
+                                    <td>Verification and validation happen in early stages.</td>
+                                    <td>No early prototypes of the software are produced.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3
+                            style="font-size:1.1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            3. Spiral Model</h3>
+                        <p>Combines waterfall and incremental approaches with a major emphasis on <strong>risk
+                                analysis</strong>[cite: 3]. It works well for mission-critical business tasks where
+                            failure is incompatible with company activities[cite: 3].</p>
+
+                        <div class="media-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>[ВСТАВИТЬ КАРТИНКУ: Спиральная диаграмма (Determine Objectives, Risk Analysis,
+                                Development, Review). Взять со слайда 12 "Life cycle models.pptx"]</span>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-plus-circle" style="color: #27ae60;"></i> Advantages[cite: 3]
+                                    </th>
+                                    <th><i class="fas fa-minus-circle" style="color: #e74c3c;"></i> Disadvantages[cite:
+                                        3]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Estimates (budget, schedule) become more realistic as work progresses.</td>
+                                    <td>High cost and time to reach the final product.</td>
+                                </tr>
+                                <tr>
+                                    <td>Manages risks effectively by developing the system in phases.</td>
+                                    <td>Needs special skills to evaluate risks and assumptions.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3
+                            style="font-size:1.1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            4. Incremental & Iterative (Agile/Scrum)</h3>
+                        <p>In the incremental model, total requirements are divided into modules, forming a
+                            "multi-waterfall" lifecycle[cite: 3]. Agile is a flexible development methodology where the
+                            customer observes the result after each iteration (sprint)[cite: 3].</p>
+
+                        <div class="media-placeholder">
+                            <i class="fas fa-image"></i>
+                            <span>[ВСТАВИТЬ КАРТИНКУ: Scrum Process (Product Backlog -> Sprint -> Finished Work). Взять
+                                со слайда 9 "Life cycle models.pptx"]</span>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-plus-circle" style="color: #27ae60;"></i> Advantages[cite: 3]
+                                    </th>
+                                    <th><i class="fas fa-minus-circle" style="color: #e74c3c;"></i> Disadvantages[cite:
+                                        3]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Produces business value early; project issues are detected earlier.</td>
+                                    <td>Lack of specific wording of results makes it difficult to estimate final cost
+                                        and effort.</td>
+                                </tr>
+                                <tr>
+                                    <td>Face-to-face communication and continuous customer input leaves no space for
+                                        guesswork.</td>
+                                    <td>Requires heavy documentation and more customer involvement.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-play-circle"></i> Video Explanations</h2>
+                        <p class="concept-text">Deepen your understanding by watching these visual breakdowns of the
+                            different SDLC methodologies.</p>
+
+                        <div class="media-placeholder">
+                            <i class="fab fa-youtube" style="color: #e21a2c;"></i>
+                            <span>[ВСТАВИТЬ ВИДЕО: YouTube iframe - Waterfall Model. Ссылка из презентации:
+                                https://www.youtube.com/watch?v=8Of-iqwVUFE]</span>
+                        </div>
+
+                        <div class="media-placeholder">
+                            <i class="fab fa-youtube" style="color: #e21a2c;"></i>
+                            <span>[ВСТАВИТЬ ВИДЕО: YouTube iframe - Spiral & Incremental Models. Ссылка из презентации:
+                                https://www.youtube.com/watch?v=z6SEhPQquV0]</span>
+                        </div>
+
+                        <div class="media-placeholder">
+                            <i class="fab fa-youtube" style="color: #e21a2c;"></i>
+                            <span>[ВСТАВИТЬ ВИДЕО: YouTube iframe - V-Model. Ссылка из презентации:
+                                https://www.youtube.com/watch?v=kCvSSWecg20]</span>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp;
+                            Common Errors</h2>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Misunderstanding the Iterative Process</h4>
+                            <p>It is a common mistake to think the final product is delivered at the end of an iterative
+                                cycle. In reality, each iteration produces a working, albeit incomplete, version of the
+                                software that is reviewed and expanded upon in the next cycle[cite: 3].</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Assuming Waterfall is "Bad"</h4>
+                            <p>While Agile is popular, Waterfall is not inherently bad. It remains highly effective for
+                                projects where the requirements are easily understood, strictly defined, and will not
+                                change (e.g., medical devices, construction software)[cite: 3].</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Independent Study Tasks</h2>
+                        <div class="assessment-tasks">
+
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p><strong>Case Study: School Guest Registration</strong><br>
+                                    The school has a problem with the registration of guests. Currently, security writes
+                                    guest data manually in a notebook, which takes a lot of time and lacks control
+                                    (e.g., they cannot verify names properly). The client wants to change this manual
+                                    system to an electronic one. When a guest arrives, security should take a picture
+                                    and record their Name, IIN, and time of arrival/departure into a database[cite: 1].
+                                </p>
+                                <p><em>Task:</em> Analyze how the development of this system would differ if you used
+                                    the <strong>Waterfall model</strong> versus the <strong>Iteration model</strong>.
+                                    Which model would you recommend to the school administration and why?</p>
+                            </div>
+
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Dave is a senior manager with Facebook. He has an idea for a new product but is
+                                    currently unsure of how the application will look. The budget for this project is
+                                    endless[cite: 3].<br>
+                                    <em>Task:</em> Why are the Waterfall and V-Models completely unsuitable for Dave's
+                                    project? Which model (Prototyping, Spiral, or Agile) would you select to handle the
+                                    high risk and changing requirements[cite: 3]?
+                                </p>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. In which SDLC stage do developers begin to actually write the
+                                code?</div>
+                            <div class="quiz-answer">Click to reveal: The Implementation stage[cite: 2].</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. Which methodology is described as a cascading format where one
+                                stage must completely finish before the next begins?</div>
+                            <div class="quiz-answer">Click to reveal: The Waterfall Model[cite: 3].</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What is the main difference between the Spiral and Incremental
+                                models?</div>
+                            <div class="quiz-answer">Click to reveal: Incremental is broken into separate functional
+                                units completed individually. The Spiral model works in cycles with heavy emphasis on
+                                evaluating and resolving risks before generating new requirements[cite: 3].</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. Why might the feedback stage lead to a new cycle in iterative
+                                development?</div>
+                            <div class="quiz-answer">Click to reveal: If feedback contains negative comments or new
+                                requirements, it drives a new development and testing phase to improve the
+                                prototype[cite: 3].</div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="#"><i class="fas fa-arrow-left"></i>
+                            <div><span class="nav-label">Previous</span><span class="nav-title">11.1B — Data
+                                    Analysis</span></div>
+                        </a>
+                        <a href="#">
+                            <div><span class="nav-label">Next Lesson</span><span class="nav-title">11.2A — Algorithm
+                                    Efficiency</span></div><i class="fas fa-arrow-right"></i>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
-                <span>11.1C — SDLC Models</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-project-diagram"></i> Unit 11.1C · Term 1</div>
-                <h1 class="lesson-title">SDLC Models</h1>
-                <p class="lesson-intro">The <strong>Software Development Life Cycle (SDLC)</strong> describes the stages
-                    a software project goes through from idea to deployment. Different <strong>models</strong> organise
-                    these stages in different ways depending on project needs.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.2.1.1</span> Describe the stages of the SDLC</li>
-                    <li><span class="lo-code">11.2.1.2</span> Compare cyclical, waterfall, and spiral models</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1C-sdlc-models.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-hard-hat"></i> The House-Building Analogy</h4>
-                    <p>Building software is like building a house. You need to: understand what the client wants
-                        (analysis), draw blueprints (design), build it (implementation), check for faults (testing),
-                        move the client in (deployment), and fix problems over time (maintenance). The SDLC is the
-                        blueprint for this entire process.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">SDLC Stages</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Stage</th>
-                            <th>Purpose</th>
-                            <th>Key Activities</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>1. Analysis</strong></td>
-                            <td>Understand the problem</td>
-                            <td>Gather requirements, interview users, feasibility study</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2. Design</strong></td>
-                            <td>Plan the solution</td>
-                            <td>System architecture, UI mockups, data structures, DFDs</td>
-                        </tr>
-                        <tr>
-                            <td><strong>3. Implementation</strong></td>
-                            <td>Build the system</td>
-                            <td>Write code, create database, build interfaces</td>
-                        </tr>
-                        <tr>
-                            <td><strong>4. Testing</strong></td>
-                            <td>Verify correctness</td>
-                            <td>Unit tests, integration tests, user acceptance testing</td>
-                        </tr>
-                        <tr>
-                            <td><strong>5. Deployment</strong></td>
-                            <td>Release to users</td>
-                            <td>Install, train users, migrate data</td>
-                        </tr>
-                        <tr>
-                            <td><strong>6. Maintenance</strong></td>
-                            <td>Keep it running</td>
-                            <td>Fix bugs, add features, update for new OS</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">SDLC
-                    Models Compared</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>Waterfall</th>
-                            <th>Spiral</th>
-                            <th>Iterative (Cyclical)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Flow</strong></td>
-                            <td>Linear, top-down</td>
-                            <td>Loops with risk analysis</td>
-                            <td>Repeated cycles</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Going back</strong></td>
-                            <td>Cannot go back easily</td>
-                            <td>Each loop revisits stages</td>
-                            <td>Each cycle improves the product</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Risk handling</strong></td>
-                            <td>Risks found late</td>
-                            <td>Risk analysis each cycle</td>
-                            <td>Risks reduced each iteration</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Client involvement</strong></td>
-                            <td>Beginning and end only</td>
-                            <td>Each spiral reviewed</td>
-                            <td>Feedback every cycle</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Best for</strong></td>
-                            <td>Small, well-defined projects</td>
-                            <td>Large, high-risk projects</td>
-                            <td>Projects with changing requirements</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Disadvantage</strong></td>
-                            <td>Inflexible, no backtracking</td>
-                            <td>Complex, expensive</td>
-                            <td>Scope creep risk</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Visual
-                    Models</h3>
-                <div class="code-block"><code>WATERFALL:                 SPIRAL:                    ITERATIVE:
-  Analysis                  ┌─ Plan ──┐                 ┌─ Cycle 1 ─┐
-    ↓                       │         │                 │ Analyze    │
-  Design                    ↓         ↓                 │ Design     │
-    ↓                     Risk ←── Develop               │ Build      │
-  Implementation          Analysis    ↓                 │ Test       │
-    ↓                       │      Evaluate              └───┬───────┘
-  Testing                   └──────────┘                     ↓
-    ↓                     (repeats, getting               ┌─ Cycle 2 ─┐
-  Deployment              larger each loop)              │ Improve    │
-    ↓                                                    │ Add features│
-  Maintenance                                            └───┬───────┘
-                                                             ↓ ...</code></div>
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Agile ≈ Modern Iterative</h4>
-                    <p>Modern software companies use <strong>Agile</strong> methodologies (Scrum, Kanban) which are
-                        iterative. They work in 2-week "sprints", delivering working software each cycle and adapting to
-                        changing requirements.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Waterfall is Outdated/Bad</h4>
-                    <p>Waterfall is still used successfully for projects with <strong>fixed, well-understood
-                            requirements</strong> (e.g. building a bridge, military systems). It's only "bad" when
-                        requirements change frequently.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>List the 6 stages of the SDLC in order.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain why the waterfall model is unsuitable for a startup building a new social media app.
-                        </p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>A hospital needs a patient management system. Which SDLC model would you recommend and why?
-                        </p>
-                    </div>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What are the 6 stages of the SDLC?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Analysis, Design,
-                        Implementation, Testing, Deployment, Maintenance.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is the key feature of the spiral model?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Risk analysis at each iteration
-                        — the project loops through planning, risk analysis, development, and evaluation.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: When is the waterfall model most appropriate?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">When requirements are
-                        well-defined and unlikely to change (e.g., small, fixed-scope projects).</div>
-                </div>
-            </section>
-            <nav class="lesson-nav">
-                <a href="/index.html#syllabus"><span class="nav-label">← Back to</span><span
-                        class="nav-title">Syllabus</span></a>
-                <a href="data-analysis.html"><span class="nav-label">Next →</span><span class="nav-title">Data
-                        Analysis</span></a>
-            </nav>
-        </div>
-        </div>
-    </main>
-  </div>
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
     </footer>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
 </body>
 
 </html>
