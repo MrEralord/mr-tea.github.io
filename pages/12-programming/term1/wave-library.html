@@ -1021,6 +1021,60 @@ with wave.open("song.wav", "rb") as wav:
                     </section>
 
                     <!-- =====================================================
+     READING PART OF AUDIO
+     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-scissors"></i> Reading Only Part of a Sound
+                        </h2>
+
+                        <p class="concept-text">
+                            You do not always need to read the entire WAV file.
+                            <code>readframes(n)</code> reads only the specified number of
+                            <strong>audio frames</strong>.
+                        </p>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-forward-step"></i> Example: First Half of a WAV File</h4>
+                            <p>
+                                First find the total number of frames, then divide it by two:
+                                <br><br>
+                                <code>half = wav.getnframes() // 2</code>
+                                <br><br>
+                                Reading <code>half</code> frames gives the
+                                <strong>first half of the sound</strong>.
+                            </p>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Save the First Half</h4>
+
+                            <div class="code-block"><code>import wave
+
+with wave.open("in.wav", "rb") as wav_in:
+    params = wav_in.getparams()
+
+    total_frames = wav_in.getnframes()
+    half = total_frames // 2
+
+    first_half = wav_in.readframes(half)
+
+with wave.open("out.wav", "wb") as wav_out:
+    wav_out.setparams(params)
+    wav_out.writeframes(first_half)</code></div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-lightbulb"></i> Key Idea</h4>
+                            <p>
+                                <code>readframes(n)</code> starts reading from the current position.
+                                Immediately after opening the file, the current position is the
+                                beginning of the audio.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
                      TONE LAB
                      ===================================================== -->
                     <section class="lesson-section">
@@ -1223,6 +1277,106 @@ output = struct.pack(fmt, *changed)
 with wave.open("quiet.wav", "wb") as wav_out:
     wav_out.setparams(params)
     wav_out.writeframes(output)</code></div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+     PLAYBACK SPEED
+     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-gauge-high"></i> Changing Playback Speed
+                        </h2>
+
+                        <p class="concept-text">
+                            The frame rate tells the audio player how many frames should be played
+                            every second. If we keep the same audio frames but change the frame rate,
+                            the playback speed changes.
+                        </p>
+
+                        <div class="wave-card-grid">
+                            <div class="wave-card">
+                                <h4>2× Slower</h4>
+                                <p>
+                                    Divide the original frame rate by 2.
+                                </p>
+                                <code>new_rate = old_rate // 2</code>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4>Original</h4>
+                                <p>
+                                    Example original frame rate.
+                                </p>
+                                <code>44100 Hz</code>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4>2× Faster</h4>
+                                <p>
+                                    Multiply the original frame rate by 2.
+                                </p>
+                                <code>new_rate = old_rate * 2</code>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-calculator"></i> Speed Formula</h4>
+                            <p>
+                                <strong>New frame rate = original frame rate × speed factor</strong>
+                                <br><br>
+                                2× faster → <code>frame_rate × 2</code><br>
+                                2× slower → <code>frame_rate ÷ 2</code>
+                            </p>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">4</span> Speed Up Audio 2×</h4>
+
+                            <div class="code-block"><code>import wave
+
+with wave.open("in.wav", "rb") as wav_in:
+    params = wav_in.getparams()
+    frames = wav_in.readframes(wav_in.getnframes())
+
+with wave.open("out.wav", "wb") as wav_out:
+    wav_out.setnchannels(params.nchannels)
+    wav_out.setsampwidth(params.sampwidth)
+
+    # Play the same frames twice as fast
+    wav_out.setframerate(params.framerate * 2)
+
+    wav_out.writeframes(frames)</code></div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">5</span> Slow Down Audio 2×</h4>
+
+                            <div class="code-block"><code>import wave
+
+with wave.open("in.wav", "rb") as wav_in:
+    params = wav_in.getparams()
+    frames = wav_in.readframes(wav_in.getnframes())
+
+with wave.open("out.wav", "wb") as wav_out:
+    wav_out.setnchannels(params.nchannels)
+    wav_out.setsampwidth(params.sampwidth)
+
+    # Play the same frames twice as slowly
+    wav_out.setframerate(params.framerate // 2)
+
+    wav_out.writeframes(frames)</code></div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-music"></i> Important: Speed Also Changes Pitch</h4>
+                            <p>
+                                Changing the frame rate changes both <strong>playback speed</strong>
+                                and <strong>pitch</strong>.
+                                Faster playback sounds higher; slower playback sounds lower.
+                                This is different from advanced time-stretching algorithms that can
+                                change speed while preserving pitch.
+                            </p>
                         </div>
                     </section>
 
