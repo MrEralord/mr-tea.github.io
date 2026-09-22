@@ -2598,81 +2598,7 @@ MOV result, R1`
             tab.addEventListener("click", () => showRunningStage(index));
         });
 
-        // ============================================================
-        // Simplified classroom tokeniser
-        // ============================================================
-        const tokenizerInput = document.getElementById("tokenizerInput");
-        const tokenOutput = document.getElementById("tokenOutput");
-        const tokenizeBtn = document.getElementById("tokenizeBtn");
-        const tokenizerReset = document.getElementById("tokenizerReset");
 
-        const keywordSet = new Set([
-            "if", "else", "while", "for", "return", "int", "float",
-            "double", "char", "bool", "class", "void"
-        ]);
-
-        const tokenRegex = /\s+|\/\/.*|\/\*[\s\S]*?\*\/|>=|<=|==|!=|\+\+|--|\+=|-=|\*=|\/=|&&|\|\||[A-Za-z_][A-Za-z0-9_]*|\d+(?:\.\d+)?|[+\-*/%=<>]|[(){}\[\],;]|./g;
-
-        function classifyLexeme(lexeme) {
-            if (keywordSet.has(lexeme)) return "KEYWORD";
-            if (/^[A-Za-z_][A-Za-z0-9_]*$/.test(lexeme)) return "IDENTIFIER";
-            if (/^\d+(?:\.\d+)?$/.test(lexeme)) return lexeme.includes(".") ? "REAL_LITERAL" : "INTEGER_LITERAL";
-            if (/^(>=|<=|==|!=|>|<)$/.test(lexeme)) return "COMPARISON";
-            if (/^(=|\+=|-=|\*=|\/=)$/.test(lexeme)) return "ASSIGNMENT";
-            if (/^(\+|-|\*|\/|%)$/.test(lexeme)) return "ARITHMETIC";
-            if (/^(&&|\|\|)$/.test(lexeme)) return "LOGICAL";
-            if (lexeme === "(") return "LPAREN";
-            if (lexeme === ")") return "RPAREN";
-            if (lexeme === "{") return "LBRACE";
-            if (lexeme === "}") return "RBRACE";
-            if (lexeme === "[") return "LBRACKET";
-            if (lexeme === "]") return "RBRACKET";
-            if (lexeme === ";") return "SEMICOLON";
-            if (lexeme === ",") return "COMMA";
-            return "INVALID / OTHER";
-        }
-
-        function tokenize() {
-            const source = tokenizerInput.value;
-            const matches = source.match(tokenRegex) || [];
-
-            tokenOutput.innerHTML = "";
-
-            matches
-                .filter(item => !/^\s+$/.test(item) && !item.startsWith("//") && !item.startsWith("/*"))
-                .forEach(lexeme => {
-                    const category = classifyLexeme(lexeme);
-                    const chip = document.createElement("div");
-
-                    chip.className = "token-chip";
-                    if (category === "INVALID / OTHER") {
-                        chip.classList.add("invalid");
-                    }
-
-                    const actual = document.createElement("strong");
-                    actual.textContent = lexeme;
-
-                    const type = document.createElement("small");
-                    type.textContent = category;
-
-                    chip.appendChild(actual);
-                    chip.appendChild(type);
-                    tokenOutput.appendChild(chip);
-                });
-
-            if (!tokenOutput.children.length) {
-                tokenOutput.textContent = "No tokens recognised.";
-            }
-        }
-
-        tokenizeBtn.addEventListener("click", tokenize);
-
-        tokenizerReset.addEventListener("click", () => {
-            tokenizerInput.value = "while (y >= t) y = y - 3;";
-            tokenize();
-        });
-
-        tokenize();
 
         // ============================================================
         // Parse Tree / AST switch
@@ -2801,7 +2727,119 @@ MOV result, R1`
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
+            const tokenizerInput = document.getElementById("tokenizerInput");
+            const tokenOutput = document.getElementById("tokenOutput");
+            const tokenizeBtn = document.getElementById("tokenizeBtn");
+            const tokenizerReset = document.getElementById("tokenizerReset");
+
+            const keywords = new Set([
+                "if", "else", "while", "for", "return",
+                "int", "float", "double", "char", "bool",
+                "class", "void"
+            ]);
+
+            function classifyToken(value) {
+
+                if (keywords.has(value)) {
+                    return "KEYWORD";
+                }
+
+                if (/^[A-Za-z_][A-Za-z0-9_]*$/.test(value)) {
+                    return "IDENTIFIER";
+                }
+
+                if (/^\d+$/.test(value)) {
+                    return "INTEGER_LITERAL";
+                }
+
+                if (/^\d+\.\d+$/.test(value)) {
+                    return "REAL_LITERAL";
+                }
+
+                if (/^(>=|<=|==|!=|>|<)$/.test(value)) {
+                    return "COMPARISON";
+                }
+
+                if (/^(=|\+=|-=|\*=|\/=)$/.test(value)) {
+                    return "ASSIGNMENT";
+                }
+
+                if (/^(\+|-|\*|\/|%)$/.test(value)) {
+                    return "ARITHMETIC";
+                }
+
+                if (value === "(") return "LPAREN";
+                if (value === ")") return "RPAREN";
+                if (value === "{") return "LBRACE";
+                if (value === "}") return "RBRACE";
+                if (value === ";") return "SEMICOLON";
+                if (value === ",") return "COMMA";
+
+                return "INVALID";
+            }
+
+
+            function tokenize() {
+
+                const source = tokenizerInput.value;
+
+                const regex =
+                    />=|<=|==|!=|\+=|-=|\*=|\/=|[A-Za-z_][A-Za-z0-9_]*|\d+\.\d+|\d+|[+\-*\/%=<>]|[(){};,]|[^\s]/g;
+
+                const tokens = source.match(regex) || [];
+
+                tokenOutput.innerHTML = "";
+
+                tokens.forEach(function (value) {
+
+                    const type = classifyToken(value);
+
+                    const chip = document.createElement("div");
+                    chip.className = "token-chip";
+
+                    if (type === "INVALID") {
+                        chip.classList.add("invalid");
+                    }
+
+                    const lexeme = document.createElement("strong");
+                    lexeme.textContent = value;
+
+                    const category = document.createElement("small");
+                    category.textContent = type;
+
+                    chip.appendChild(lexeme);
+                    chip.appendChild(category);
+
+                    tokenOutput.appendChild(chip);
+                });
+
+                if (tokens.length === 0) {
+                    tokenOutput.innerHTML =
+                        '<span style="color:var(--text-muted)">No tokens found.</span>';
+                }
+            }
+
+
+            tokenizeBtn.addEventListener("click", tokenize);
+
+
+            tokenizerReset.addEventListener("click", function () {
+
+                tokenizerInput.value =
+                    "while (y >= t) y = y - 3;";
+
+                tokenize();
+            });
+
+
+            // Show result immediately when page opens
+            tokenize();
+
+        });
+    </script>
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
 
