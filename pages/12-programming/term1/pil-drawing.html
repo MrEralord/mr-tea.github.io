@@ -7,315 +7,1955 @@
     <title>PIL Drawing Primitives — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="PIL ImageDraw: lines, rectangles, ellipses, polygons, text. Creating drawings in Python. NIS Grade 12.">
+        content="Python Pillow ImageDraw: lines, rectangles, ellipses, polygons, arcs and text with visual examples and interactive practice. NIS Grade 12 Programming.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* ============================================================
+           PIL DRAWING PRIMITIVES — page-specific visual components
+           Shared design tokens come from /css/style.css
+           ============================================================ */
+
+        .drawing-flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .drawing-flow-step {
+            position: relative;
+            padding: var(--space-md);
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .drawing-flow-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            top: 50%;
+            right: -12px;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+            z-index: 3;
+        }
+
+        .drawing-flow-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            display: grid;
+            place-items: center;
+            background: rgba(13, 148, 136, .10);
+            color: var(--clr-tea);
+        }
+
+        .drawing-flow-step code {
+            font-family: var(--font-code);
+            font-size: .73rem;
+            color: var(--text-primary);
+        }
+
+        .drawing-flow-step span {
+            font-size: .76rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .primitive-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .primitive-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+            overflow: hidden;
+        }
+
+        .primitive-preview {
+            height: 150px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background:
+                linear-gradient(to right, rgba(13, 148, 136, .05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(13, 148, 136, .05) 1px, transparent 1px),
+                var(--bg-glass);
+            background-size: 20px 20px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .primitive-card h4 {
+            font-size: .9rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .primitive-card p {
+            font-size: .78rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: var(--space-xs);
+        }
+
+        .primitive-card code {
+            font-family: var(--font-code);
+            font-size: .7rem;
+            color: var(--clr-tea);
+            word-break: break-word;
+        }
+
+        .shape-line {
+            width: 105px;
+            height: 4px;
+            background: #16a34a;
+            transform: rotate(-18deg);
+            border-radius: 999px;
+        }
+
+        .shape-rectangle {
+            width: 105px;
+            height: 68px;
+            background: #ef4444;
+            border: 4px solid #111827;
+        }
+
+        .shape-ellipse {
+            width: 105px;
+            height: 70px;
+            border-radius: 50%;
+            background: #3b82f6;
+            border: 4px solid #111827;
+        }
+
+        .shape-polygon {
+            width: 112px;
+            height: 92px;
+            background: #8b5cf6;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+        }
+
+        .shape-arc {
+            width: 105px;
+            height: 72px;
+            border: 6px solid #f97316;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            border-radius: 50%;
+            transform: rotate(-18deg);
+        }
+
+        .shape-point {
+            width: 10px;
+            height: 10px;
+            background: #0d9488;
+            border-radius: 50%;
+            box-shadow:
+                20px -20px 0 #0d9488,
+                -28px 18px 0 #0d9488,
+                37px 24px 0 #0d9488,
+                -40px -25px 0 #0d9488;
+        }
+
+        .shape-text {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -.03em;
+        }
+
+        .shape-rounded {
+            width: 108px;
+            height: 68px;
+            background: #14b8a6;
+            border: 4px solid #0f766e;
+            border-radius: 22px;
+        }
+
+        .bbox-layout {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .bbox-stage {
+            position: relative;
+            min-height: 340px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background:
+                linear-gradient(to right, rgba(13, 148, 136, .07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(13, 148, 136, .07) 1px, transparent 1px),
+                var(--bg-glass);
+            background-size: 25px 25px;
+        }
+
+        #bboxCanvas {
+            width: 100%;
+            height: 100%;
+            min-height: 340px;
+            display: block;
+        }
+
+        .bbox-controls {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .bbox-controls h4 {
+            font-size: .9rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .range-row {
+            margin-bottom: var(--space-md);
+        }
+
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            font-size: .77rem;
+            color: var(--text-secondary);
+            margin-bottom: .3rem;
+        }
+
+        .range-label code {
+            font-family: var(--font-code);
+            color: var(--clr-tea);
+        }
+
+        .range-row input[type="range"] {
+            width: 100%;
+            accent-color: var(--clr-tea);
+        }
+
+        .bbox-code {
+            margin-top: var(--space-sm);
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            font: 600 .72rem/1.6 var(--font-code);
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .interactive-draw {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+        }
+
+        .draw-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        .draw-btn {
+            border: 1px solid var(--border);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            padding: .55rem .78rem;
+            font: 600 .76rem var(--font-body);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .draw-btn:hover,
+        .draw-btn.active {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .draw-stage {
+            min-height: 330px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-md);
+            border: 1px dashed var(--border-hover);
+            border-radius: var(--radius-md);
+            background:
+                linear-gradient(45deg, rgba(148, 163, 184, .06) 25%, transparent 25% 75%, rgba(148, 163, 184, .06) 75%),
+                linear-gradient(45deg, rgba(148, 163, 184, .06) 25%, transparent 25% 75%, rgba(148, 163, 184, .06) 75%);
+            background-position: 0 0, 12px 12px;
+            background-size: 24px 24px;
+            overflow: hidden;
+        }
+
+        #primitiveCanvas,
+        #sceneCanvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+            background: white;
+        }
+
+        .draw-caption {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: .35rem .75rem;
+            margin-top: var(--space-sm);
+            font-size: .78rem;
+        }
+
+        .draw-caption span {
+            color: var(--text-muted);
+        }
+
+        .draw-caption code {
+            color: var(--text-primary);
+            font-family: var(--font-code);
+            word-break: break-word;
+        }
+
+        .code-result-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(220px, .75fr);
+            gap: var(--space-md);
+            align-items: stretch;
+        }
+
+        .result-panel {
+            min-height: 230px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            padding: var(--space-md);
+        }
+
+        .build-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        .build-btn {
+            border: 1px solid var(--border);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .5rem .72rem;
+            border-radius: var(--radius-md);
+            font: 600 .74rem var(--font-body);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .build-btn:hover,
+        .build-btn.active {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .scene-legend {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .scene-legend div {
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            font-size: .73rem;
+            color: var(--text-secondary);
+        }
+
+        .scene-legend code {
+            display: block;
+            margin-top: 3px;
+            font-family: var(--font-code);
+            color: var(--clr-tea);
+            font-size: .68rem;
+        }
+
+        .coordinate-cheat {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .coordinate-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+        }
+
+        .coordinate-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .84rem;
+            margin-bottom: .2rem;
+        }
+
+        .coordinate-card code {
+            display: block;
+            color: var(--clr-tea);
+            font-family: var(--font-code);
+            font-size: .72rem;
+            margin-bottom: .3rem;
+        }
+
+        .coordinate-card p {
+            font-size: .74rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        .video-note {
+            font-size: .8rem;
+            color: var(--text-muted);
+            margin-top: var(--space-sm);
+        }
+
+        @media (max-width: 860px) {
+            .drawing-flow {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .drawing-flow-step::after {
+                display: none;
+            }
+
+            .primitive-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bbox-layout,
+            .code-result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scene-legend,
+            .coordinate-cheat {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .drawing-flow,
+            .primitive-gallery,
+            .scene-legend,
+            .coordinate-cheat {
+                grid-template-columns: 1fr;
+            }
+
+            .interactive-draw {
+                padding: var(--space-md);
+            }
+
+            .draw-stage {
+                min-height: 250px;
+            }
+
+            .bbox-stage,
+            #bboxCanvas {
+                min-height: 280px;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
-                <span>12.1A — PIL Drawing Primitives</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
-                <h1 class="lesson-title">PIL Drawing Primitives</h1>
-                <p class="lesson-intro">The <code>ImageDraw</code> module from PIL lets you draw <strong>graphic
-                        primitives</strong> — lines, rectangles, ellipses, polygons, and text — directly onto images
-                    using Python code.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.6.2.3</span> Apply graphic primitives to create drawings</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.1A-pil-drawing.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-drafting-compass"></i> The Canvas &amp; Brush Analogy</h4>
-                    <p><code>Image.new()</code> creates the <strong>canvas</strong>. <code>ImageDraw.Draw(img)</code>
-                        gives you a <strong>brush</strong>. You then call methods like <code>draw.rectangle()</code> or
-                        <code>draw.ellipse()</code> to paint shapes on the canvas — just like a graphics editor, but in
-                        code.</p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 12 PROG</a>
+                        <span class="sep">/</span>
+                        <span>12.1A — PIL Drawing Primitives</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fab fa-python"></i> Unit 12.1A · Term 1
+                        </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Setting Up a Drawing
-                </h3>
-                <div class="code-block"><code>from PIL import Image, ImageDraw
+                        <h1 class="lesson-title">PIL Drawing Primitives</h1>
 
-# Create canvas and draw object
-img = Image.new("RGB", (400, 300), (255, 255, 255))  # white bg
-draw = ImageDraw.Draw(img)</code></div>
+                        <p class="lesson-intro">
+                            The <code>ImageDraw</code> module turns a Pillow image into a programmable
+                            <strong>drawing canvas</strong>. Build graphics from coordinates using lines,
+                            rectangles, ellipses, polygons, arcs, points and text.
+                        </p>
+                    </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Drawing
-                    Primitives</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Parameters</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>draw.line()</code></td>
-                            <td><code>[(x1,y1), (x2,y2)], fill, width</code></td>
-                            <td>Draw a straight line</td>
-                        </tr>
-                        <tr>
-                            <td><code>draw.rectangle()</code></td>
-                            <td><code>[(x1,y1), (x2,y2)], fill, outline</code></td>
-                            <td>Draw a rectangle (top-left, bottom-right)</td>
-                        </tr>
-                        <tr>
-                            <td><code>draw.ellipse()</code></td>
-                            <td><code>[(x1,y1), (x2,y2)], fill, outline</code></td>
-                            <td>Draw an ellipse within bounding box</td>
-                        </tr>
-                        <tr>
-                            <td><code>draw.polygon()</code></td>
-                            <td><code>[(x1,y1), (x2,y2), ...], fill, outline</code></td>
-                            <td>Draw a polygon with any number of vertices</td>
-                        </tr>
-                        <tr>
-                            <td><code>draw.arc()</code></td>
-                            <td><code>[(x1,y1), (x2,y2)], start, end, fill</code></td>
-                            <td>Draw an arc (part of ellipse outline)</td>
-                        </tr>
-                        <tr>
-                            <td><code>draw.point()</code></td>
-                            <td><code>(x, y), fill</code></td>
-                            <td>Draw a single pixel</td>
-                        </tr>
-                        <tr>
-                            <td><code>draw.text()</code></td>
-                            <td><code>(x, y), "text", fill, font</code></td>
-                            <td>Draw text on the image</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li>
+                                <span class="lo-code">12.6.2.3</span>
+                                Apply graphic primitives to create drawings
+                            </li>
+                        </ul>
+                    </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Parameter
-                    Reference</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Parameter</th>
-                            <th>Meaning</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>fill</code></td>
-                            <td>Interior color as RGB tuple, e.g. <code>(255, 0, 0)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>outline</code></td>
-                            <td>Border color as RGB tuple</td>
-                        </tr>
-                        <tr>
-                            <td><code>width</code></td>
-                            <td>Line/border thickness in pixels</td>
-                        </tr>
-                        <tr>
-                            <td><code>(x1, y1)</code></td>
-                            <td>Top-left corner of bounding box</td>
-                        </tr>
-                        <tr>
-                            <td><code>(x2, y2)</code></td>
-                            <td>Bottom-right corner of bounding box</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon">
+                            <i class="fas fa-file-powerpoint"></i>
+                        </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>12.1A-pil-drawing.pdf · Slides for classroom use</p>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Drawing Basic Shapes</h4>
-                    <div class="code-block"><code>from PIL import Image, ImageDraw
+                        <div class="lesson-pdf-actions">
+                            <a href="#" class="lesson-pdf-btn view-btn">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="#" class="lesson-pdf-btn download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
 
-img = Image.new("RGB", (400, 300), (255, 255, 255))
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-paintbrush"></i> Canvas + Brush + Coordinates</h4>
+                            <p>
+                                <code>Image.new()</code> creates the <strong>canvas</strong>.
+                                <code>ImageDraw.Draw(img)</code> gives Python a <strong>drawing tool</strong>.
+                                Every shape is then positioned with coordinates, coloured with RGB values,
+                                and finally written to a file with <code>img.save()</code>.
+                            </p>
+                        </div>
+
+                        <div class="drawing-flow">
+                            <div class="drawing-flow-step">
+                                <div class="drawing-flow-icon"><i class="far fa-image"></i></div>
+                                <code>Image.new()</code>
+                                <span>Create the canvas</span>
+                            </div>
+
+                            <div class="drawing-flow-step">
+                                <div class="drawing-flow-icon"><i class="fas fa-paintbrush"></i></div>
+                                <code>ImageDraw.Draw(img)</code>
+                                <span>Create the drawing context</span>
+                            </div>
+
+                            <div class="drawing-flow-step">
+                                <div class="drawing-flow-icon"><i class="fas fa-shapes"></i></div>
+                                <code>draw.rectangle(...)</code>
+                                <span>Add primitives in order</span>
+                            </div>
+
+                            <div class="drawing-flow-step">
+                                <div class="drawing-flow-icon"><i class="fas fa-floppy-disk"></i></div>
+                                <code>img.save()</code>
+                                <span>Save the finished drawing</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SETUP
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code"></i> Setting Up a Drawing
+                        </h2>
+
+                        <p class="concept-text">
+                            Every Pillow drawing begins with the same three ideas:
+                            create an image, create a drawing object for that image,
+                            then call drawing methods.
+                        </p>
+
+                        <div class="code-block"><code>from PIL import Image, ImageDraw
+
+# 1. Create a canvas
+img = Image.new("RGB", (500, 350), (255, 255, 255))
+
+# 2. Create a drawing object connected to the image
+draw = ImageDraw.Draw(img)
+
+# 3. Draw something
+draw.rectangle(
+    [(50, 50), (200, 150)],
+    fill=(255, 0, 0),
+    outline=(0, 0, 0),
+    width=3
+)
+
+# 4. Save the image
+img.save("drawing.png")</code></div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Connection to the Previous Lessons</h4>
+                            <p>
+                                Coordinates use the same top-left origin as <strong>PIL Image Basics</strong>,
+                                while colours use the same <code>(R, G, B)</code> tuples from
+                                <strong>RGB Colors</strong>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PRIMITIVE GALLERY
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-shapes"></i> Visual Primitive Reference
+                        </h2>
+
+                        <p class="concept-text">
+                            A graphic primitive is a simple shape used as a building block.
+                            Complex drawings are produced by combining many simple primitives.
+                        </p>
+
+                        <div class="primitive-gallery">
+                            <div class="primitive-card">
+                                <div class="primitive-preview">
+                                    <div class="shape-line"></div>
+                                </div>
+                                <h4>Line</h4>
+                                <p>Connect two or more coordinates.</p>
+                                <code>draw.line(points, fill=..., width=...)</code>
+                            </div>
+
+                            <div class="primitive-card">
+                                <div class="primitive-preview">
+                                    <div class="shape-rectangle"></div>
+                                </div>
+                                <h4>Rectangle</h4>
+                                <p>Defined by opposite corners of a bounding box.</p>
+                                <code>draw.rectangle(box, fill=..., outline=...)</code>
+                            </div>
+
+                            <div class="primitive-card">
+                                <div class="primitive-preview">
+                                    <div class="shape-ellipse"></div>
+                                </div>
+                                <h4>Ellipse</h4>
+                                <p>Fills an invisible rectangular bounding box.</p>
+                                <code>draw.ellipse(box, fill=..., outline=...)</code>
+                            </div>
+
+                            <div class="primitive-card">
+                                <div class="primitive-preview">
+                                    <div class="shape-polygon"></div>
+                                </div>
+                                <h4>Polygon</h4>
+                                <p>Connect several vertices and close the shape.</p>
+                                <code>draw.polygon(points, fill=..., outline=...)</code>
+                            </div>
+
+                            <div class="primitive-card">
+                                <div class="primitive-preview">
+                                    <div class="shape-arc"></div>
+                                </div>
+                                <h4>Arc</h4>
+                                <p>Draw only part of an ellipse outline.</p>
+                                <code>draw.arc(box, start=..., end=..., fill=...)</code>
+                            </div>
+
+                            <div class="primitive-card">
+                                <div class="primitive-preview">
+                                    <div class="shape-point"></div>
+                                </div>
+                                <h4>Point</h4>
+                                <p>Colour one pixel or a list of pixels.</p>
+                                <code>draw.point((x, y), fill=...)</code>
+                            </div>
+
+                            <div class="primitive-card">
+                                <div class="primitive-preview">
+                                    <div class="shape-text">mr. TEA</div>
+                                </div>
+                                <h4>Text</h4>
+                                <p>Place text at a coordinate.</p>
+                                <code>draw.text((x, y), "Text", fill=...)</code>
+                            </div>
+
+                            <div class="primitive-card">
+                                <div class="primitive-preview">
+                                    <div class="shape-rounded"></div>
+                                </div>
+                                <h4>Rounded Rectangle</h4>
+                                <p>A rectangle with rounded corners.</p>
+                                <code>draw.rounded_rectangle(box, radius=...)</code>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     COMMAND TABLE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-book"></i> Drawing Commands
+                        </h2>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Main coordinates</th>
+                                    <th>Useful parameters</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>draw.line()</code></td>
+                                    <td>list of points</td>
+                                    <td><code>fill</code>, <code>width</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>draw.rectangle()</code></td>
+                                    <td>bounding box</td>
+                                    <td><code>fill</code>, <code>outline</code>, <code>width</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>draw.rounded_rectangle()</code></td>
+                                    <td>bounding box</td>
+                                    <td><code>radius</code>, <code>fill</code>, <code>outline</code>, <code>width</code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><code>draw.ellipse()</code></td>
+                                    <td>bounding box</td>
+                                    <td><code>fill</code>, <code>outline</code>, <code>width</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>draw.polygon()</code></td>
+                                    <td>list of vertices</td>
+                                    <td><code>fill</code>, <code>outline</code>, <code>width</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>draw.arc()</code></td>
+                                    <td>bounding box</td>
+                                    <td><code>start</code>, <code>end</code>, <code>fill</code>, <code>width</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>draw.point()</code></td>
+                                    <td>point or points</td>
+                                    <td><code>fill</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>draw.text()</code></td>
+                                    <td>anchor coordinate</td>
+                                    <td><code>fill</code>, <code>font</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Parameter Reference
+                        </h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Meaning</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>fill</code></td>
+                                    <td>Colour inside the shape</td>
+                                    <td><code>fill=(255, 0, 0)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>outline</code></td>
+                                    <td>Colour of the border</td>
+                                    <td><code>outline=(0, 0, 0)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>width</code></td>
+                                    <td>Thickness of a line or outline in pixels</td>
+                                    <td><code>width=4</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>radius</code></td>
+                                    <td>Corner radius for a rounded rectangle</td>
+                                    <td><code>radius=20</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>start / end</code></td>
+                                    <td>Start and end angles for an arc</td>
+                                    <td><code>start=20, end=160</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =====================================================
+                     INTERACTIVE PRIMITIVES
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-wand-magic-sparkles"></i> Interactive Primitive Lab
+                        </h2>
+
+                        <p class="concept-text">
+                            Select a primitive. The preview changes immediately and shows the matching
+                            Pillow command. This browser canvas models what the Python program will draw.
+                        </p>
+
+                        <div class="interactive-draw">
+                            <div class="draw-toolbar" role="group" aria-label="Primitive selector">
+                                <button class="draw-btn active" data-shape="line">Line</button>
+                                <button class="draw-btn" data-shape="rectangle">Rectangle</button>
+                                <button class="draw-btn" data-shape="ellipse">Ellipse</button>
+                                <button class="draw-btn" data-shape="polygon">Polygon</button>
+                                <button class="draw-btn" data-shape="arc">Arc</button>
+                                <button class="draw-btn" data-shape="point">Points</button>
+                                <button class="draw-btn" data-shape="text">Text</button>
+                                <button class="draw-btn" data-shape="rounded">Rounded</button>
+                            </div>
+
+                            <div class="draw-stage">
+                                <canvas id="primitiveCanvas" width="520" height="300"
+                                    aria-label="Interactive drawing primitive preview"></canvas>
+                            </div>
+
+                            <div class="draw-caption">
+                                <span>Primitive</span>
+                                <code id="primitiveName">draw.line()</code>
+
+                                <span>Python</span>
+                                <code
+                                    id="primitiveCode">draw.line([(60, 220), (460, 80)], fill=(13, 148, 136), width=6)</code>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     BOUNDING BOX
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-vector-square"></i> Understanding the Bounding Box
+                        </h2>
+
+                        <p class="concept-text">
+                            Rectangles, ellipses and arcs are positioned inside a
+                            <strong>bounding box</strong>. The box is defined by two opposite corners:
+                            <code>(x1, y1)</code> and <code>(x2, y2)</code>.
+                        </p>
+
+                        <div class="bbox-layout">
+                            <div class="bbox-stage">
+                                <canvas id="bboxCanvas" width="520" height="340"
+                                    aria-label="Interactive ellipse bounding box"></canvas>
+                            </div>
+
+                            <div class="bbox-controls">
+                                <h4>Move the Bounding Box</h4>
+
+                                <div class="range-row">
+                                    <div class="range-label">
+                                        <span>x1</span>
+                                        <code id="x1Value">90</code>
+                                    </div>
+                                    <input id="x1Range" type="range" min="20" max="210" value="90">
+                                </div>
+
+                                <div class="range-row">
+                                    <div class="range-label">
+                                        <span>y1</span>
+                                        <code id="y1Value">65</code>
+                                    </div>
+                                    <input id="y1Range" type="range" min="20" max="140" value="65">
+                                </div>
+
+                                <div class="range-row">
+                                    <div class="range-label">
+                                        <span>x2</span>
+                                        <code id="x2Value">400</code>
+                                    </div>
+                                    <input id="x2Range" type="range" min="280" max="500" value="400">
+                                </div>
+
+                                <div class="range-row">
+                                    <div class="range-label">
+                                        <span>y2</span>
+                                        <code id="y2Value">275</code>
+                                    </div>
+                                    <input id="y2Range" type="range" min="190" max="320" value="275">
+                                </div>
+
+                                <div id="bboxCode" class="bbox-code">
+                                    draw.ellipse([(90, 65), (400, 275)], fill=(59, 130, 246), outline=(0, 0, 0),
+                                    width=4)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="coordinate-cheat">
+                            <div class="coordinate-card">
+                                <strong>Rectangle</strong>
+                                <code>[(x1,y1), (x2,y2)]</code>
+                                <p>The box itself becomes the rectangle.</p>
+                            </div>
+
+                            <div class="coordinate-card">
+                                <strong>Ellipse</strong>
+                                <code>[(x1,y1), (x2,y2)]</code>
+                                <p>The ellipse touches the four sides of the invisible box.</p>
+                            </div>
+
+                            <div class="coordinate-card">
+                                <strong>Circle</strong>
+                                <code>square bounding box</code>
+                                <p>If box width = box height, the ellipse becomes a circle.</p>
+                            </div>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Bounding Box ≠ Centre + Radius</h4>
+                            <p>
+                                With <code>draw.ellipse()</code>, you usually supply the two corners of
+                                the box. For a circle centred at <code>(200, 150)</code> with radius
+                                <code>50</code>, the box is
+                                <code>[(150, 100), (250, 200)]</code>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     WORKED BASIC SHAPES
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-pencil-alt"></i> Worked Examples
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Basic Shapes</h4>
+
+                            <div class="code-block"><code>from PIL import Image, ImageDraw
+
+img = Image.new("RGB", (500, 320), (255, 255, 255))
 draw = ImageDraw.Draw(img)
 
 # Red rectangle
-draw.rectangle([(50, 50), (150, 120)],
-               fill=(255, 0, 0), outline=(0, 0, 0))
+draw.rectangle(
+    [(50, 50), (180, 140)],
+    fill=(255, 0, 0),
+    outline=(0, 0, 0),
+    width=3
+)
 
-# Blue circle (ellipse in square bounding box)
-draw.ellipse([(200, 50), (300, 150)],
-             fill=(0, 0, 255), outline=(0, 0, 0))
+# Blue ellipse
+draw.ellipse(
+    [(250, 50), (390, 150)],
+    fill=(0, 100, 255),
+    outline=(0, 0, 0),
+    width=3
+)
 
 # Green line
-draw.line([(50, 200), (350, 200)],
-          fill=(0, 128, 0), width=3)
+draw.line(
+    [(60, 230), (440, 230)],
+    fill=(0, 150, 80),
+    width=6
+)
 
 img.save("shapes.png")</code></div>
-                </div>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Drawing a Simple House</h4>
-                    <div class="code-block"><code>from PIL import Image, ImageDraw
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Polygon from Vertices</h4>
 
-img = Image.new("RGB", (400, 400), (135, 206, 235))  # sky blue bg
+                            <p>
+                                A polygon uses a sequence of coordinates. Pillow joins each point to the
+                                next and automatically closes the shape from the last point to the first.
+                            </p>
+
+                            <div class="code-block"><code>points = [
+    (200, 50),
+    (300, 120),
+    (260, 240),
+    (140, 240),
+    (100, 120)
+]
+
+draw.polygon(
+    points,
+    fill=(139, 92, 246),
+    outline=(0, 0, 0),
+    width=4
+)</code></div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Arc</h4>
+
+                            <div class="code-block"><code># Bounding box of the full ellipse
+box = [(100, 70), (400, 260)]
+
+draw.arc(
+    box,
+    start=20,
+    end=160,
+    fill=(249, 115, 22),
+    width=8
+)</code></div>
+
+                            <div class="note-box" style="margin-top:var(--space-sm);">
+                                <h4><i class="fas fa-compass"></i> Arc Angles</h4>
+                                <p>
+                                    Pillow measures arc angles in degrees from the 3 o'clock direction,
+                                    increasing clockwise.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">4</span> Adding Text</h4>
+
+                            <div class="code-block"><code>from PIL import Image, ImageDraw, ImageFont
+
+img = Image.new("RGB", (500, 220), (25, 30, 40))
 draw = ImageDraw.Draw(img)
 
-# Ground
-draw.rectangle([(0, 300), (400, 400)], fill=(34, 139, 34))
+draw.text(
+    (30, 100),
+    "Hello, PIL!",
+    fill=(255, 255, 255)
+)
 
-# House body
-draw.rectangle([(100, 180), (300, 300)], fill=(210, 180, 140),
-               outline=(0, 0, 0))
-
-# Roof (triangle)
-draw.polygon([(90, 180), (200, 100), (310, 180)],
-             fill=(139, 69, 19), outline=(0, 0, 0))
-
-# Door
-draw.rectangle([(175, 230), (225, 300)], fill=(101, 67, 33),
-               outline=(0, 0, 0))
-
-# Window
-draw.rectangle([(120, 210), (160, 250)], fill=(173, 216, 230),
-               outline=(0, 0, 0))
-
-# Sun
-draw.ellipse([(320, 30), (380, 90)], fill=(255, 255, 0))
-
-img.save("house.png")</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Adding Text</h4>
-                    <div class="code-block"><code>from PIL import Image, ImageDraw, ImageFont
-
-img = Image.new("RGB", (400, 200), (0, 0, 0))
-draw = ImageDraw.Draw(img)
-
-# Default font (basic)
-draw.text((20, 80), "Hello, PIL!", fill=(255, 255, 255))
-
-# Custom font (if available)
+# Optional custom TrueType font
 try:
-    font = ImageFont.truetype("arial.ttf", 36)
-    draw.text((20, 30), "Big Text", fill=(255, 200, 0),
-              font=font)
-except:
+    font = ImageFont.truetype("arial.ttf", 42)
+    draw.text(
+        (30, 35),
+        "Big Text",
+        fill=(255, 200, 0),
+        font=font
+    )
+except OSError:
     pass
 
 img.save("text_demo.png")</code></div>
-                </div>
-            </section>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Bounding Box — Not Center + Radius</h4>
-                    <p>Circles/ellipses use a <strong>bounding box</strong> [(x1,y1), (x2,y2)], NOT center + radius. For
-                        a circle at center (200, 150) with radius 50, use: <code>[(150, 100), (250, 200)]</code>.</p>
-                </div>
-            </section>
+                    <!-- =====================================================
+                     BUILD A HOUSE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-house"></i> Build a Scene Step by Step
+                        </h2>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Draw a traffic light: black rectangle with three circles (red, yellow, green) inside.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Draw a smiley face using ellipses and arcs. Save it as "smiley.png".</p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Create a landscape scene (sky, ground, sun, trees) using at least 5 different drawing
-                            primitives.</p>
-                    </div>
-                </div>
-            </section>
+                        <p class="concept-text">
+                            A complete drawing is simply a sequence of primitives.
+                            Click through the stages and notice that later shapes are drawn
+                            <strong>on top of earlier shapes</strong>.
+                        </p>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: How do you create a draw object?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
-                        <code>draw = ImageDraw.Draw(img)</code> — pass the image you want to draw on.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: How do you draw a circle with PIL?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Use <code>draw.ellipse()</code>
-                        with a square bounding box, e.g. <code>draw.ellipse([(50,50),(150,150)], fill="red")</code>.
-                    </div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What's the difference between fill and outline?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>fill</code> is the
-                        interior color of the shape. <code>outline</code> is the border color.</div>
-                </div>
-            </section>
+                        <div class="interactive-draw">
+                            <div class="build-controls">
+                                <button class="build-btn active" data-step="1">1 · Canvas</button>
+                                <button class="build-btn" data-step="2">2 · Ground</button>
+                                <button class="build-btn" data-step="3">3 · House</button>
+                                <button class="build-btn" data-step="4">4 · Roof</button>
+                                <button class="build-btn" data-step="5">5 · Details</button>
+                                <button class="build-btn" data-step="6">6 · Landscape</button>
+                            </div>
 
-            <nav class="lesson-nav">
-                <a href="pil-image-basics.html"><span class="nav-label">← Previous</span><span class="nav-title">PIL
-                        Image Basics</span></a>
-                <a href="pil-filters.html"><span class="nav-label">Next →</span><span class="nav-title">PIL Image
-                        Filters</span></a>
-            </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+                            <div class="draw-stage">
+                                <canvas id="sceneCanvas" width="520" height="360"
+                                    aria-label="Step by step Pillow scene"></canvas>
+                            </div>
+
+                            <div class="draw-caption">
+                                <span>Current step</span>
+                                <code id="sceneStepName">Image.new() — create sky canvas</code>
+
+                                <span>Added code</span>
+                                <code id="sceneStepCode">img = Image.new("RGB", (520, 360), (135, 206, 235))</code>
+                            </div>
+                        </div>
+
+                        <div class="scene-legend">
+                            <div>
+                                Ground
+                                <code>rectangle()</code>
+                            </div>
+                            <div>
+                                House + door
+                                <code>rectangle()</code>
+                            </div>
+                            <div>
+                                Roof
+                                <code>polygon()</code>
+                            </div>
+                            <div>
+                                Sun
+                                <code>ellipse()</code>
+                            </div>
+                            <div>
+                                Tree trunk
+                                <code>rectangle()</code>
+                            </div>
+                            <div>
+                                Tree crown
+                                <code>ellipse()</code>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     COMPLETE SCENE CODE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-branch"></i> Complete Scene Program
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">5</span> Simple House and Landscape</h4>
+
+                            <div class="code-block"><code>from PIL import Image, ImageDraw
+
+img = Image.new("RGB", (520, 360), (135, 206, 235))
+draw = ImageDraw.Draw(img)
+
+# Ground
+draw.rectangle(
+    [(0, 270), (520, 360)],
+    fill=(60, 150, 70)
+)
+
+# House
+draw.rectangle(
+    [(150, 160), (370, 285)],
+    fill=(220, 185, 135),
+    outline=(50, 40, 30),
+    width=3
+)
+
+# Roof
+draw.polygon(
+    [(130, 165), (260, 75), (390, 165)],
+    fill=(140, 70, 35),
+    outline=(50, 40, 30)
+)
+
+# Door
+draw.rectangle(
+    [(245, 220), (290, 285)],
+    fill=(100, 65, 35),
+    outline=(40, 30, 20)
+)
+
+# Windows
+draw.rectangle(
+    [(180, 195), (220, 235)],
+    fill=(180, 225, 245),
+    outline=(40, 40, 40)
+)
+
+draw.rectangle(
+    [(310, 195), (350, 235)],
+    fill=(180, 225, 245),
+    outline=(40, 40, 40)
+)
+
+# Sun
+draw.ellipse(
+    [(420, 35), (485, 100)],
+    fill=(255, 220, 40)
+)
+
+# Tree
+draw.rectangle(
+    [(75, 210), (95, 285)],
+    fill=(105, 65, 35)
+)
+
+draw.ellipse(
+    [(35, 145), (135, 235)],
+    fill=(30, 130, 60)
+)
+
+img.save("house_scene.png")</code></div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-layer-group"></i> Drawing Order = Layer Order</h4>
+                            <p>
+                                ImageDraw paints directly onto the image. If a new shape overlaps an older
+                                one, the newer shape appears on top. Plan the order from
+                                <strong>background → large objects → details</strong>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     FUNCTIONS / CITYSCAPE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-city"></i> From Shapes to Reusable Functions
+                        </h2>
+
+                        <p class="concept-text">
+                            Repeating many drawing commands quickly becomes difficult to maintain.
+                            Functions let you package a group of primitives into one reusable object.
+                        </p>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">6</span> A Building Function</h4>
+
+                            <div class="code-block"><code>def draw_building(draw, x, y, width, height, color):
+    # Main building
+    draw.rectangle(
+        [(x, y), (x + width, y + height)],
+        fill=color,
+        outline=(30, 30, 30),
+        width=2
+    )
+
+    # Windows
+    for row in range(3):
+        for col in range(2):
+            wx = x + 15 + col * 40
+            wy = y + 20 + row * 45
+
+            draw.rectangle(
+                [(wx, wy), (wx + 22, wy + 28)],
+                fill=(180, 225, 255)
+            )</code></div>
+
+                            <p style="font-size:.86rem;color:var(--text-secondary);line-height:1.6;">
+                                Later you can call the same function several times with different
+                                positions, sizes and colours to build a full cityscape.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     VIDEO
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fab fa-youtube"></i> Video Demonstration
+                        </h2>
+
+                        <div class="lesson-video-block">
+                            <div class="lesson-video-header">
+                                <div class="lesson-video-icon">
+                                    <i class="fab fa-youtube"></i>
+                                </div>
+
+                                <div class="lesson-video-info">
+                                    <h4>Using Image and ImageDraw to Draw Shapes</h4>
+                                    <p>
+                                        A practical coding demonstration of drawing shapes with
+                                        Python Pillow and ImageDraw.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="lesson-video-wrapper">
+                                <iframe src="https://www.youtube-nocookie.com/embed/duc_VZnxQxY"
+                                    title="Using Image and ImageDraw from the Pillow Library to Draw Shapes"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+
+                            <p class="video-note">
+                                Watch after the primitive reference, then reproduce one of the shapes
+                                using your own coordinates and colours.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PITFALLS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 1. Forgetting ImageDraw.Draw(img)</h4>
+                            <p>
+                                <code>Image.new()</code> creates the image, but drawing methods belong
+                                to the draw object:
+                                <code>draw = ImageDraw.Draw(img)</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 2. Reversing the Bounding Box</h4>
+                            <p>
+                                Keep the first corner above/left of the second:
+                                <code>x2 ≥ x1</code> and <code>y2 ≥ y1</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 3. Circle vs Ellipse</h4>
+                            <p>
+                                <code>draw.ellipse()</code> creates a circle only when the bounding box
+                                has equal width and height.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 4. Wrong Drawing Order</h4>
+                            <p>
+                                A large rectangle drawn last may hide earlier details.
+                                Draw background elements first and details later.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 5. Font File Not Found</h4>
+                            <p>
+                                A custom <code>.ttf</code> font may not exist on another computer.
+                                Use a valid font path or fall back to Pillow's default font.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TASKS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Practice Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    Write one line that draws a red line from
+                                    <code>(20, 40)</code> to <code>(300, 200)</code>
+                                    with width <code>5</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain why <code>[(100, 50), (220, 170)]</code> creates a circle
+                                    when used with <code>draw.ellipse()</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Draw a traffic light: a dark rectangular body containing three
+                                    circles — red, yellow and green.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Draw a smiley face using an ellipse for the head and eyes,
+                                    and an arc for the mouth. Save it as <code>smiley.png</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    A student draws a roof before the large house-body rectangle and the
+                                    lower part of the roof disappears. Explain why and fix the drawing order.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Create a landscape using at least five different primitives:
+                                    sky, ground, sun, trees, a building and text.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Write either <code>draw_tree(...)</code> or
+                                    <code>draw_building(...)</code> as a reusable function,
+                                    then call it at least three times with different arguments.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-question-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: How do you create a drawing object for <code>img</code>?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>draw = ImageDraw.Draw(img)</code>
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: What is the difference between <code>fill</code> and <code>outline</code>?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>fill</code> colours the interior; <code>outline</code> colours the border.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: What coordinates does an ellipse normally use?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Two opposite corners of its bounding box:
+                                <code>[(x1, y1), (x2, y2)]</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: When does <code>draw.ellipse()</code> produce a circle?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                When the bounding box is square — its width and height are equal.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q5: How is a polygon different from a rectangle?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                A polygon can use any number of vertices, while a rectangle is described
+                                by a rectangular bounding box.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q6: Why does drawing order matter?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                New primitives are painted onto the existing image, so later shapes can
+                                cover shapes drawn earlier.
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="pil-image-basics.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">PIL Image Basics</span>
+                            </span>
+                        </a>
+
+                        <a href="pil-filters.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">PIL Image Filters</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+        <p>mr. TEA © 2026 — NIS Grade 12 Programming</p>
     </footer>
+
+    <script>
+        // ============================================================
+        // Interactive primitive preview
+        // ============================================================
+        const primitiveCanvas = document.getElementById("primitiveCanvas");
+        const pctx = primitiveCanvas.getContext("2d");
+        const primitiveButtons = document.querySelectorAll(".draw-btn");
+        const primitiveName = document.getElementById("primitiveName");
+        const primitiveCode = document.getElementById("primitiveCode");
+
+        function clearPrimitiveCanvas() {
+            pctx.clearRect(0, 0, primitiveCanvas.width, primitiveCanvas.height);
+            pctx.fillStyle = "#ffffff";
+            pctx.fillRect(0, 0, primitiveCanvas.width, primitiveCanvas.height);
+
+            // light coordinate grid
+            pctx.strokeStyle = "#e5e7eb";
+            pctx.lineWidth = 1;
+
+            for (let x = 20; x < primitiveCanvas.width; x += 20) {
+                pctx.beginPath();
+                pctx.moveTo(x, 0);
+                pctx.lineTo(x, primitiveCanvas.height);
+                pctx.stroke();
+            }
+
+            for (let y = 20; y < primitiveCanvas.height; y += 20) {
+                pctx.beginPath();
+                pctx.moveTo(0, y);
+                pctx.lineTo(primitiveCanvas.width, y);
+                pctx.stroke();
+            }
+        }
+
+        function renderPrimitive(shape) {
+            clearPrimitiveCanvas();
+
+            pctx.lineCap = "round";
+            pctx.lineJoin = "round";
+
+            if (shape === "line") {
+                pctx.strokeStyle = "#0d9488";
+                pctx.lineWidth = 6;
+                pctx.beginPath();
+                pctx.moveTo(60, 220);
+                pctx.lineTo(460, 80);
+                pctx.stroke();
+
+                primitiveName.textContent = "draw.line()";
+                primitiveCode.textContent =
+                    "draw.line([(60, 220), (460, 80)], fill=(13, 148, 136), width=6)";
+            }
+
+            if (shape === "rectangle") {
+                pctx.fillStyle = "#ef4444";
+                pctx.strokeStyle = "#111827";
+                pctx.lineWidth = 4;
+                pctx.fillRect(110, 70, 300, 160);
+                pctx.strokeRect(110, 70, 300, 160);
+
+                primitiveName.textContent = "draw.rectangle()";
+                primitiveCode.textContent =
+                    "draw.rectangle([(110, 70), (410, 230)], fill=(239, 68, 68), outline=(17, 24, 39), width=4)";
+            }
+
+            if (shape === "ellipse") {
+                pctx.fillStyle = "#3b82f6";
+                pctx.strokeStyle = "#111827";
+                pctx.lineWidth = 4;
+                pctx.beginPath();
+                pctx.ellipse(260, 150, 150, 85, 0, 0, Math.PI * 2);
+                pctx.fill();
+                pctx.stroke();
+
+                primitiveName.textContent = "draw.ellipse()";
+                primitiveCode.textContent =
+                    "draw.ellipse([(110, 65), (410, 235)], fill=(59, 130, 246), outline=(17, 24, 39), width=4)";
+            }
+
+            if (shape === "polygon") {
+                const points = [
+                    [260, 45],
+                    [425, 125],
+                    [365, 255],
+                    [155, 255],
+                    [95, 125]
+                ];
+
+                pctx.fillStyle = "#8b5cf6";
+                pctx.strokeStyle = "#111827";
+                pctx.lineWidth = 4;
+                pctx.beginPath();
+                pctx.moveTo(points[0][0], points[0][1]);
+
+                for (let i = 1; i < points.length; i++) {
+                    pctx.lineTo(points[i][0], points[i][1]);
+                }
+
+                pctx.closePath();
+                pctx.fill();
+                pctx.stroke();
+
+                primitiveName.textContent = "draw.polygon()";
+                primitiveCode.textContent =
+                    "draw.polygon([(260,45),(425,125),(365,255),(155,255),(95,125)], fill=(139,92,246), outline=(17,24,39), width=4)";
+            }
+
+            if (shape === "arc") {
+                pctx.strokeStyle = "#f97316";
+                pctx.lineWidth = 9;
+                pctx.beginPath();
+                pctx.ellipse(260, 155, 155, 95, 0, Math.PI * 0.1, Math.PI * 0.9);
+                pctx.stroke();
+
+                pctx.strokeStyle = "#94a3b8";
+                pctx.lineWidth = 2;
+                pctx.setLineDash([6, 5]);
+                pctx.strokeRect(105, 60, 310, 190);
+                pctx.setLineDash([]);
+
+                primitiveName.textContent = "draw.arc()";
+                primitiveCode.textContent =
+                    "draw.arc([(105, 60), (415, 250)], start=20, end=160, fill=(249, 115, 22), width=9)";
+            }
+
+            if (shape === "point") {
+                const points = [
+                    [90, 80], [180, 120], [270, 75], [360, 160],
+                    [430, 95], [130, 220], [245, 205], [390, 235]
+                ];
+
+                pctx.fillStyle = "#0d9488";
+                points.forEach(([x, y]) => {
+                    pctx.fillRect(x - 4, y - 4, 8, 8);
+                });
+
+                primitiveName.textContent = "draw.point()";
+                primitiveCode.textContent =
+                    "draw.point([(90,80),(180,120),(270,75),(360,160),...], fill=(13, 148, 136))";
+            }
+
+            if (shape === "text") {
+                pctx.fillStyle = "#111827";
+                pctx.font = "800 46px Inter, Arial, sans-serif";
+                pctx.fillText("Hello, PIL!", 135, 165);
+
+                pctx.fillStyle = "#0d9488";
+                pctx.beginPath();
+                pctx.arc(135, 165, 5, 0, Math.PI * 2);
+                pctx.fill();
+
+                primitiveName.textContent = "draw.text()";
+                primitiveCode.textContent =
+                    'draw.text((135, 165), "Hello, PIL!", fill=(17, 24, 39))';
+            }
+
+            if (shape === "rounded") {
+                pctx.fillStyle = "#14b8a6";
+                pctx.strokeStyle = "#0f766e";
+                pctx.lineWidth = 4;
+
+                if (typeof pctx.roundRect === "function") {
+                    pctx.beginPath();
+                    pctx.roundRect(110, 75, 300, 150, 28);
+                    pctx.fill();
+                    pctx.stroke();
+                } else {
+                    pctx.fillRect(110, 75, 300, 150);
+                    pctx.strokeRect(110, 75, 300, 150);
+                }
+
+                primitiveName.textContent = "draw.rounded_rectangle()";
+                primitiveCode.textContent =
+                    "draw.rounded_rectangle([(110,75),(410,225)], radius=28, fill=(20,184,166), outline=(15,118,110), width=4)";
+            }
+        }
+
+        primitiveButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                primitiveButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                renderPrimitive(button.dataset.shape);
+            });
+        });
+
+        renderPrimitive("line");
+
+        // ============================================================
+        // Interactive bounding box
+        // ============================================================
+        const bboxCanvas = document.getElementById("bboxCanvas");
+        const bctx = bboxCanvas.getContext("2d");
+
+        const x1Range = document.getElementById("x1Range");
+        const y1Range = document.getElementById("y1Range");
+        const x2Range = document.getElementById("x2Range");
+        const y2Range = document.getElementById("y2Range");
+
+        const x1Value = document.getElementById("x1Value");
+        const y1Value = document.getElementById("y1Value");
+        const x2Value = document.getElementById("x2Value");
+        const y2Value = document.getElementById("y2Value");
+        const bboxCode = document.getElementById("bboxCode");
+
+        function drawBoundingBox() {
+            const x1 = Number(x1Range.value);
+            const y1 = Number(y1Range.value);
+            const x2 = Number(x2Range.value);
+            const y2 = Number(y2Range.value);
+
+            x1Value.textContent = x1;
+            y1Value.textContent = y1;
+            x2Value.textContent = x2;
+            y2Value.textContent = y2;
+
+            bctx.clearRect(0, 0, bboxCanvas.width, bboxCanvas.height);
+            bctx.fillStyle = "#ffffff";
+            bctx.fillRect(0, 0, bboxCanvas.width, bboxCanvas.height);
+
+            // grid
+            bctx.strokeStyle = "#eef2f7";
+            bctx.lineWidth = 1;
+
+            for (let x = 20; x < bboxCanvas.width; x += 20) {
+                bctx.beginPath();
+                bctx.moveTo(x, 0);
+                bctx.lineTo(x, bboxCanvas.height);
+                bctx.stroke();
+            }
+
+            for (let y = 20; y < bboxCanvas.height; y += 20) {
+                bctx.beginPath();
+                bctx.moveTo(0, y);
+                bctx.lineTo(bboxCanvas.width, y);
+                bctx.stroke();
+            }
+
+            // bounding box
+            bctx.strokeStyle = "#f97316";
+            bctx.lineWidth = 3;
+            bctx.setLineDash([8, 6]);
+            bctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+            bctx.setLineDash([]);
+
+            // ellipse
+            const cx = (x1 + x2) / 2;
+            const cy = (y1 + y2) / 2;
+            const rx = (x2 - x1) / 2;
+            const ry = (y2 - y1) / 2;
+
+            bctx.fillStyle = "rgba(59, 130, 246, .75)";
+            bctx.strokeStyle = "#111827";
+            bctx.lineWidth = 4;
+            bctx.beginPath();
+            bctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+            bctx.fill();
+            bctx.stroke();
+
+            // corner points
+            [[x1, y1], [x2, y2]].forEach(([x, y]) => {
+                bctx.fillStyle = "#ef4444";
+                bctx.beginPath();
+                bctx.arc(x, y, 6, 0, Math.PI * 2);
+                bctx.fill();
+            });
+
+            bctx.font = "600 13px JetBrains Mono, monospace";
+            bctx.fillStyle = "#111827";
+            bctx.fillText(`(${x1}, ${y1})`, x1 + 9, Math.max(18, y1 - 8));
+            bctx.fillText(`(${x2}, ${y2})`, Math.max(8, x2 - 88), Math.min(330, y2 + 22));
+
+            bboxCode.textContent =
+                `draw.ellipse([(${x1}, ${y1}), (${x2}, ${y2})], fill=(59, 130, 246), outline=(0, 0, 0), width=4)`;
+        }
+
+        [x1Range, y1Range, x2Range, y2Range].forEach(input => {
+            input.addEventListener("input", drawBoundingBox);
+        });
+
+        drawBoundingBox();
+
+        // ============================================================
+        // Step-by-step scene builder
+        // ============================================================
+        const sceneCanvas = document.getElementById("sceneCanvas");
+        const sctx = sceneCanvas.getContext("2d");
+        const buildButtons = document.querySelectorAll(".build-btn");
+        const sceneStepName = document.getElementById("sceneStepName");
+        const sceneStepCode = document.getElementById("sceneStepCode");
+
+        const sceneMeta = {
+            1: {
+                name: "Image.new() — create sky canvas",
+                code: 'img = Image.new("RGB", (520, 360), (135, 206, 235))'
+            },
+            2: {
+                name: "rectangle() — add the ground",
+                code: "draw.rectangle([(0,270),(520,360)], fill=(60,150,70))"
+            },
+            3: {
+                name: "rectangle() — add the house body",
+                code: "draw.rectangle([(150,160),(370,285)], fill=(220,185,135), outline=(50,40,30), width=3)"
+            },
+            4: {
+                name: "polygon() — add the roof",
+                code: "draw.polygon([(130,165),(260,75),(390,165)], fill=(140,70,35), outline=(50,40,30))"
+            },
+            5: {
+                name: "rectangles — add door and windows",
+                code: "draw.rectangle(...)  # door and windows"
+            },
+            6: {
+                name: "ellipse() + rectangle() — add sun and tree",
+                code: "draw.ellipse(...)  # sun / crown     draw.rectangle(...)  # trunk"
+            }
+        };
+
+        function drawSceneStep(step) {
+            sctx.clearRect(0, 0, sceneCanvas.width, sceneCanvas.height);
+
+            // 1. Sky
+            sctx.fillStyle = "#87ceeb";
+            sctx.fillRect(0, 0, sceneCanvas.width, sceneCanvas.height);
+
+            if (step >= 2) {
+                // ground
+                sctx.fillStyle = "#3c9646";
+                sctx.fillRect(0, 270, 520, 90);
+            }
+
+            if (step >= 3) {
+                // house body
+                sctx.fillStyle = "#dcb987";
+                sctx.strokeStyle = "#32281e";
+                sctx.lineWidth = 3;
+                sctx.fillRect(150, 160, 220, 125);
+                sctx.strokeRect(150, 160, 220, 125);
+            }
+
+            if (step >= 4) {
+                // roof
+                sctx.fillStyle = "#8c4623";
+                sctx.strokeStyle = "#32281e";
+                sctx.lineWidth = 3;
+                sctx.beginPath();
+                sctx.moveTo(130, 165);
+                sctx.lineTo(260, 75);
+                sctx.lineTo(390, 165);
+                sctx.closePath();
+                sctx.fill();
+                sctx.stroke();
+            }
+
+            if (step >= 5) {
+                // door
+                sctx.fillStyle = "#644123";
+                sctx.strokeStyle = "#281e14";
+                sctx.lineWidth = 2;
+                sctx.fillRect(245, 220, 45, 65);
+                sctx.strokeRect(245, 220, 45, 65);
+
+                // windows
+                sctx.fillStyle = "#b4e1f5";
+                sctx.fillRect(180, 195, 40, 40);
+                sctx.strokeRect(180, 195, 40, 40);
+
+                sctx.fillRect(310, 195, 40, 40);
+                sctx.strokeRect(310, 195, 40, 40);
+            }
+
+            if (step >= 6) {
+                // sun
+                sctx.fillStyle = "#ffdc28";
+                sctx.beginPath();
+                sctx.arc(452.5, 67.5, 32.5, 0, Math.PI * 2);
+                sctx.fill();
+
+                // tree trunk
+                sctx.fillStyle = "#694123";
+                sctx.fillRect(75, 210, 20, 75);
+
+                // crown
+                sctx.fillStyle = "#1e823c";
+                sctx.beginPath();
+                sctx.ellipse(85, 190, 50, 45, 0, 0, Math.PI * 2);
+                sctx.fill();
+            }
+
+            sceneStepName.textContent = sceneMeta[step].name;
+            sceneStepCode.textContent = sceneMeta[step].code;
+        }
+
+        buildButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                buildButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                drawSceneStep(Number(button.dataset.step));
+            });
+        });
+
+        drawSceneStep(1);
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+
 </body>
 
 </html>
