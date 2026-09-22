@@ -114,7 +114,11 @@
 
     if (!dataLoaded) {
       container.innerHTML = '<div class="syllabus-loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
-      loadSyllabusData().then(() => {
+      loadSyllabusData().then((data) => {
+        if (!data) {
+          container.innerHTML = '<div class="syllabus-loading" style="color: #e74c3c;"><i class="fas fa-exclamation-triangle"></i> Failed to load syllabus data. <br><small>Note: If you opened this file directly from your computer (file://), modern browsers block data loading for security. Please use a local server (e.g. <code>python3 -m http.server 8765</code>).</small></div>';
+          return;
+        }
         if (currentGrade === gradeId) {
           renderGrade(gradeId);
         }
