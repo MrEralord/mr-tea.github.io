@@ -7,370 +7,1960 @@
     <title>Wave Library — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="Python wave module: reading, writing, and analysing WAV audio files. Sound processing basics. NIS Grade 12.">
+        content="Python wave module: WAV audio frames, samples, sample rate, channels, reading, writing, reversing, volume and tone generation. NIS Grade 12 Programming.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* ============================================================
+           WAVE LIBRARY — page-specific visual components
+           Shared design tokens come from /css/style.css
+           ============================================================ */
+
+        .wave-flow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .wave-flow-step {
+            position: relative;
+            min-height: 118px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .wave-flow-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            top: 50%;
+            right: -12px;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+            z-index: 3;
+        }
+
+        .wave-flow-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .10);
+            color: var(--clr-tea);
+        }
+
+        .wave-flow-step code {
+            font: 600 .72rem var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .wave-flow-step span {
+            font-size: .73rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .wave-card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .wave-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .wave-card h4 {
+            font-size: .88rem;
+            color: var(--text-primary);
+            margin-bottom: .25rem;
+        }
+
+        .wave-card p {
+            font-size: .76rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .wave-card code {
+            font-family: var(--font-code);
+            color: var(--clr-tea);
+            font-size: .72rem;
+        }
+
+        .sound-visual {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+        }
+
+        .sound-visual canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+        }
+
+        .wave-axis-note {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            margin-top: var(--space-xs);
+            font-size: .72rem;
+            color: var(--text-muted);
+        }
+
+        .sample-rate-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .sample-rate-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .sample-rate-card canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .sample-rate-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .83rem;
+            margin-bottom: .15rem;
+        }
+
+        .sample-rate-card span {
+            font-size: .72rem;
+            color: var(--text-muted);
+        }
+
+        .frame-diagram {
+            display: grid;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .frame-row {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+
+        .frame-label {
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .frame-track {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .frame-box {
+            min-width: 64px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            padding: .5rem .35rem;
+            text-align: center;
+            font: 600 .68rem var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .frame-box.stereo {
+            min-width: 88px;
+        }
+
+        .frame-box small {
+            display: block;
+            margin-top: 2px;
+            font: 500 .62rem var(--font-code);
+            color: var(--text-muted);
+        }
+
+        .tone-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+        }
+
+        .tone-layout {
+            display: grid;
+            grid-template-columns: 1.25fr .75fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .tone-canvas-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        #toneCanvas,
+        #volumeCanvas,
+        #reverseCanvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+        }
+
+        .tone-controls {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+            padding: var(--space-md);
+        }
+
+        .tone-controls h4 {
+            font-size: .9rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-md);
+        }
+
+        .tone-row {
+            margin-bottom: var(--space-md);
+        }
+
+        .tone-row:last-of-type {
+            margin-bottom: var(--space-sm);
+        }
+
+        .tone-label {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            margin-bottom: .3rem;
+            font-size: .76rem;
+            color: var(--text-secondary);
+        }
+
+        .tone-label code {
+            font-family: var(--font-code);
+            color: var(--clr-tea);
+        }
+
+        .tone-row input[type="range"] {
+            width: 100%;
+            accent-color: var(--clr-tea);
+        }
+
+        .tone-code {
+            margin-top: var(--space-md);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            white-space: pre-wrap;
+            font: 600 .69rem/1.55 var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .audio-player-card {
+            margin-top: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .audio-player-card h4 {
+            font-size: .83rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .audio-player-card p {
+            font-size: .72rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-sm);
+        }
+
+        .audio-player-card audio {
+            width: 100%;
+            height: 38px;
+        }
+
+        .audio-examples {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .audio-example {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .audio-example h4 {
+            font-size: .85rem;
+            color: var(--text-primary);
+            margin-bottom: .2rem;
+        }
+
+        .audio-example p {
+            font-size: .73rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin-bottom: var(--space-sm);
+        }
+
+        .audio-example audio {
+            width: 100%;
+        }
+
+        .audio-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            padding: .2rem .5rem;
+            margin-bottom: var(--space-xs);
+            border-radius: var(--radius-full);
+            background: rgba(13, 148, 136, .09);
+            color: var(--clr-tea);
+            font-size: .65rem;
+            font-weight: 700;
+        }
+
+        .volume-layout,
+        .reverse-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .wave-compare-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .wave-compare-card h4 {
+            font-size: .84rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .amplitude-bars {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            gap: 4px;
+            height: 130px;
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .amp-bar {
+            width: 9px;
+            border-radius: 999px;
+            background: var(--clr-tea);
+            opacity: .75;
+        }
+
+        .byte-map {
+            display: grid;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0;
+        }
+
+        .byte-row {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: var(--space-sm);
+            align-items: center;
+            font-size: .75rem;
+        }
+
+        .byte-row strong {
+            color: var(--text-primary);
+        }
+
+        .byte-cells {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .byte-cell {
+            min-width: 34px;
+            padding: .35rem .25rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--bg-glass);
+            font: 600 .63rem var(--font-code);
+            color: var(--text-secondary);
+        }
+
+        .code-result-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
+            gap: var(--space-md);
+            align-items: stretch;
+        }
+
+        .result-panel {
+            min-height: 220px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            padding: var(--space-md);
+        }
+
+        .resource-card {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .resource-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: rgba(59, 130, 246, .10);
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        .resource-copy {
+            flex: 1;
+        }
+
+        .resource-copy h4 {
+            font-size: .9rem;
+            color: var(--text-primary);
+            margin-bottom: .2rem;
+        }
+
+        .resource-copy p {
+            font-size: .76rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            white-space: nowrap;
+            padding: .55rem .8rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--clr-tea);
+            font-size: .76rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .resource-link:hover {
+            border-color: var(--clr-tea);
+        }
+
+        @media (max-width: 900px) {
+            .wave-flow {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .wave-flow-step::after {
+                display: none;
+            }
+
+            .wave-card-grid,
+            .sample-rate-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tone-layout,
+            .code-result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .wave-flow,
+            .wave-card-grid,
+            .sample-rate-grid,
+            .audio-examples,
+            .volume-layout,
+            .reverse-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .tone-lab {
+                padding: var(--space-md);
+            }
+
+            .frame-row,
+            .byte-row {
+                grid-template-columns: 1fr;
+            }
+
+            .resource-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .resource-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
-                <span>12.1A — Wave Library</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.1A · Term 1</div>
-                <h1 class="lesson-title">Wave Library</h1>
-                <p class="lesson-intro">Python's built-in <code>wave</code> module reads and writes <strong>WAV audio
-                        files</strong>. Combined with the <code>struct</code> module, you can analyze sound data, modify
-                    volume, reverse audio, and even generate tones from scratch.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.6.3.1</span> Use commands of the Wave library to process sound files
-                    </li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.1A-wave-library.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-music"></i> The Sound Wave Analogy</h4>
-                    <p>Sound is a <strong>pressure wave</strong> in the air. A WAV file stores this wave as a long list
-                        of numbers (<strong>samples</strong>). Each sample is the "height" of the wave at one moment in
-                        time. More samples per second (<strong>sample rate</strong>) = higher quality. <code>wave</code>
-                        gives you access to this raw data.</p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 12 PROG</a>
+                        <span class="sep">/</span>
+                        <span>12.1A — Wave Library</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fab fa-python"></i> Unit 12.1A · Term 1
+                        </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">WAV File Properties
-                </h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Property</th>
-                            <th>Description</th>
-                            <th>Typical Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Channels</strong></td>
-                            <td>1 = mono, 2 = stereo</td>
-                            <td>1 or 2</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Sample Width</strong></td>
-                            <td>Bytes per sample</td>
-                            <td>2 (16-bit audio)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Frame Rate</strong></td>
-                            <td>Samples per second (Hz)</td>
-                            <td>44100 (CD quality)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Frames</strong></td>
-                            <td>Total number of samples</td>
-                            <td>Varies by duration</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Duration</strong></td>
-                            <td>Frames ÷ Frame Rate</td>
-                            <td>Calculated</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <h1 class="lesson-title">Wave Library</h1>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Reading a
-                    WAV File</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>wave.open(file, "rb")</code></td>
-                            <td>Open WAV file for reading</td>
-                        </tr>
-                        <tr>
-                            <td><code>.getnchannels()</code></td>
-                            <td>Number of channels (1 or 2)</td>
-                        </tr>
-                        <tr>
-                            <td><code>.getsampwidth()</code></td>
-                            <td>Sample width in bytes</td>
-                        </tr>
-                        <tr>
-                            <td><code>.getframerate()</code></td>
-                            <td>Sample rate (e.g., 44100)</td>
-                        </tr>
-                        <tr>
-                            <td><code>.getnframes()</code></td>
-                            <td>Total number of frames</td>
-                        </tr>
-                        <tr>
-                            <td><code>.readframes(n)</code></td>
-                            <td>Read n frames as bytes</td>
-                        </tr>
-                        <tr>
-                            <td><code>.close()</code></td>
-                            <td>Close the file</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <p class="lesson-intro">
+                            Python's built-in <code>wave</code> module reads and writes
+                            <strong>uncompressed PCM WAV audio</strong>. Learn how sound becomes samples,
+                            how samples are grouped into frames, and how Python can inspect, generate,
+                            reverse and change the volume of audio.
+                        </p>
+                    </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Writing a
-                    WAV File</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>wave.open(file, "wb")</code></td>
-                            <td>Open WAV file for writing</td>
-                        </tr>
-                        <tr>
-                            <td><code>.setnchannels(n)</code></td>
-                            <td>Set number of channels</td>
-                        </tr>
-                        <tr>
-                            <td><code>.setsampwidth(n)</code></td>
-                            <td>Set sample width in bytes</td>
-                        </tr>
-                        <tr>
-                            <td><code>.setframerate(n)</code></td>
-                            <td>Set sample rate</td>
-                        </tr>
-                        <tr>
-                            <td><code>.writeframes(data)</code></td>
-                            <td>Write audio data (bytes)</td>
-                        </tr>
-                        <tr>
-                            <td><code>.close()</code></td>
-                            <td>Close the file</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li>
+                                <span class="lo-code">12.6.3.1</span>
+                                Use commands of the Wave library to process sound files
+                            </li>
+                        </ul>
+                    </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon">
+                            <i class="fas fa-file-powerpoint"></i>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Reading WAV File Info</h4>
-                    <div class="code-block"><code>import wave
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>12.1A-wave-library.pdf · Slides for classroom use</p>
+                        </div>
+
+                        <div class="lesson-pdf-actions">
+                            <a href="#" class="lesson-pdf-btn view-btn">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="#" class="lesson-pdf-btn download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-wave-square"></i> From Air Pressure to Numbers</h4>
+                            <p>
+                                Real sound is a continuously changing pressure wave.
+                                Digital audio measures that wave at regular moments.
+                                Each measurement becomes a <strong>sample value</strong>.
+                                A WAV file stores the audio parameters plus these measurements as binary data.
+                            </p>
+                        </div>
+
+                        <div class="wave-flow">
+                            <div class="wave-flow-step">
+                                <div class="wave-flow-icon"><i class="fas fa-microphone-lines"></i></div>
+                                <code>sound wave</code>
+                                <span>Continuous pressure changes</span>
+                            </div>
+
+                            <div class="wave-flow-step">
+                                <div class="wave-flow-icon"><i class="fas fa-stopwatch"></i></div>
+                                <code>sample</code>
+                                <span>Measure the wave repeatedly</span>
+                            </div>
+
+                            <div class="wave-flow-step">
+                                <div class="wave-flow-icon"><i class="fas fa-layer-group"></i></div>
+                                <code>frame</code>
+                                <span>One moment across all channels</span>
+                            </div>
+
+                            <div class="wave-flow-step">
+                                <div class="wave-flow-icon"><i class="fas fa-file-audio"></i></div>
+                                <code>WAV</code>
+                                <span>Header + PCM frame data</span>
+                            </div>
+
+                            <div class="wave-flow-step">
+                                <div class="wave-flow-icon"><i class="fab fa-python"></i></div>
+                                <code>wave.open()</code>
+                                <span>Read or write in Python</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     WAVEFORM
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-chart-line"></i> What Does Digital Sound Look Like?
+                        </h2>
+
+                        <p class="concept-text">
+                            A waveform graph places <strong>time</strong> on the horizontal axis and
+                            <strong>sample amplitude</strong> on the vertical axis. Larger positive or
+                            negative sample values mean a larger displacement from the centre line.
+                        </p>
+
+                        <div class="sound-visual">
+                            <canvas id="conceptWaveCanvas" width="760" height="260"
+                                aria-label="Digital audio waveform with sample points"></canvas>
+
+                            <div class="wave-axis-note">
+                                <span>← time →</span>
+                                <span>vertical position = amplitude</span>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-volume-high"></i> Amplitude and Loudness</h4>
+                            <p>
+                                Multiplying sample values by a factor changes the waveform amplitude.
+                                A factor such as <code>0.5</code> makes the stored waveform smaller;
+                                a factor above <code>1.0</code> can make it larger, but values must remain
+                                inside the valid sample range.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SAMPLE RATE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-stopwatch"></i> Sample Rate
+                        </h2>
+
+                        <p class="concept-text">
+                            Sample rate tells us how many audio frames are stored each second.
+                            For example, <code>44100 Hz</code> means 44,100 frames per second.
+                            More measurements give a more detailed digital representation of the waveform.
+                        </p>
+
+                        <div class="sample-rate-grid">
+                            <div class="sample-rate-card">
+                                <canvas id="rateLow" width="300" height="170"></canvas>
+                                <strong>Low sampling density</strong>
+                                <span>Few measurements of the wave</span>
+                            </div>
+
+                            <div class="sample-rate-card">
+                                <canvas id="rateMedium" width="300" height="170"></canvas>
+                                <strong>Medium sampling density</strong>
+                                <span>More points describe the wave</span>
+                            </div>
+
+                            <div class="sample-rate-card">
+                                <canvas id="rateHigh" width="300" height="170"></canvas>
+                                <strong>High sampling density</strong>
+                                <span>Much finer time resolution</span>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-calculator"></i> Duration</h4>
+                            <p>
+                                <code>duration = number_of_frames / frame_rate</code><br>
+                                Example: <code>88,200 / 44,100 = 2 seconds</code>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SAMPLE VS FRAME
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-layer-group"></i> Sample Values vs Audio Frames
+                        </h2>
+
+                        <p class="concept-text">
+                            This distinction is important. A <strong>frame</strong> represents one instant
+                            in time for <strong>all channels</strong>. A mono frame contains one sample value.
+                            A stereo frame contains two sample values: Left and Right.
+                        </p>
+
+                        <div class="frame-diagram">
+                            <div class="frame-row">
+                                <div class="frame-label">Mono</div>
+                                <div class="frame-track">
+                                    <div class="frame-box">Frame 0<small>M0</small></div>
+                                    <div class="frame-box">Frame 1<small>M1</small></div>
+                                    <div class="frame-box">Frame 2<small>M2</small></div>
+                                    <div class="frame-box">Frame 3<small>M3</small></div>
+                                </div>
+                            </div>
+
+                            <div class="frame-row">
+                                <div class="frame-label">Stereo</div>
+                                <div class="frame-track">
+                                    <div class="frame-box stereo">Frame 0<small>L0 · R0</small></div>
+                                    <div class="frame-box stereo">Frame 1<small>L1 · R1</small></div>
+                                    <div class="frame-box stereo">Frame 2<small>L2 · R2</small></div>
+                                    <div class="frame-box stereo">Frame 3<small>L3 · R3</small></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wave-card-grid">
+                            <div class="wave-card">
+                                <h4>Channels</h4>
+                                <p><code>1</code> = mono, <code>2</code> = stereo.</p>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4>Sample Width</h4>
+                                <p>Bytes used for <strong>one channel's sample value</strong>. Two bytes means 16-bit
+                                    PCM.</p>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4>Frame Rate</h4>
+                                <p>Number of audio <strong>frames per second</strong>.</p>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4>Number of Frames</h4>
+                                <p>Total time positions stored in the file.</p>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4>Frame Size</h4>
+                                <p><code>channels × sample_width</code> bytes per frame.</p>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4>Duration</h4>
+                                <p><code>nframes / framerate</code> seconds.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PROPERTIES
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-book"></i> WAV Properties and Commands
+                        </h2>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Meaning</th>
+                                    <th>Typical value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Channels</strong></td>
+                                    <td>Number of audio channels</td>
+                                    <td>1 mono / 2 stereo</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Sample width</strong></td>
+                                    <td>Bytes per channel sample value</td>
+                                    <td>2 bytes = 16-bit</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Frame rate</strong></td>
+                                    <td>Audio frames per second</td>
+                                    <td>44,100 Hz</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Frames</strong></td>
+                                    <td>Total number of audio frames</td>
+                                    <td>Depends on duration</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Frame size</strong></td>
+                                    <td>Channels × sample width</td>
+                                    <td>4 bytes for stereo 16-bit</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Duration</strong></td>
+                                    <td>Frames ÷ frame rate</td>
+                                    <td>Calculated</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Reading
+                        </h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>wave.open(file, "rb")</code></td>
+                                    <td>Open a WAV file for reading</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.getnchannels()</code></td>
+                                    <td>Read number of channels</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.getsampwidth()</code></td>
+                                    <td>Read sample width in bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.getframerate()</code></td>
+                                    <td>Read frame rate / sampling frequency</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.getnframes()</code></td>
+                                    <td>Read total number of audio frames</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.readframes(n)</code></td>
+                                    <td>Read up to <code>n</code> audio frames as bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.getparams()</code></td>
+                                    <td>Read all main WAV parameters as one named tuple</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Writing
+                        </h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>wave.open(file, "wb")</code></td>
+                                    <td>Open a WAV file for writing</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.setnchannels(n)</code></td>
+                                    <td>Set mono/stereo channel count</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.setsampwidth(n)</code></td>
+                                    <td>Set sample width in bytes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.setframerate(n)</code></td>
+                                    <td>Set frame rate</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.setparams(params)</code></td>
+                                    <td>Set all main parameters at once</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.writeframes(data)</code></td>
+                                    <td>Write PCM frame bytes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =====================================================
+                     READ FILE INFO
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-circle-info"></i> Reading WAV File Information
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Inspect a WAV File</h4>
+
+                            <div class="code-block"><code>import wave
 
 with wave.open("song.wav", "rb") as wav:
     channels = wav.getnchannels()
     sample_width = wav.getsampwidth()
     frame_rate = wav.getframerate()
     n_frames = wav.getnframes()
+
     duration = n_frames / frame_rate
+    frame_size = channels * sample_width
 
-    print(f"Channels:    {channels}")
+    print(f"Channels:     {channels}")
     print(f"Sample width: {sample_width} bytes")
-    print(f"Frame rate:  {frame_rate} Hz")
-    print(f"Frames:      {n_frames}")
-    print(f"Duration:    {duration:.2f} seconds")</code></div>
-                </div>
+    print(f"Frame rate:   {frame_rate} Hz")
+    print(f"Frames:       {n_frames}")
+    print(f"Frame size:   {frame_size} bytes")
+    print(f"Duration:     {duration:.2f} seconds")</code></div>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Generating a Pure Tone (Sine Wave)</h4>
-                    <div class="code-block"><code>import wave
+                        <div class="note-box">
+                            <h4><i class="fas fa-door-closed"></i> Why use with?</h4>
+                            <p>
+                                <code>with wave.open(...)</code> automatically closes the WAV stream
+                                when the block finishes, so a separate <code>.close()</code> call is usually
+                                unnecessary.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TONE LAB
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-music"></i> Interactive Tone Generator
+                        </h2>
+
+                        <p class="concept-text">
+                            A pure tone can be generated with a sine function.
+                            Change the frequency and amplitude below. The waveform and the playable
+                            WAV example are rebuilt in your browser.
+                        </p>
+
+                        <div class="tone-lab">
+                            <div class="tone-layout">
+                                <div class="tone-canvas-wrap">
+                                    <canvas id="toneCanvas" width="600" height="280"
+                                        aria-label="Sine wave tone preview"></canvas>
+
+                                    <div class="audio-player-card">
+                                        <h4>Generated PCM WAV</h4>
+                                        <p>
+                                            1 second · mono · 16-bit · 44,100 Hz.
+                                            The audio is generated locally in your browser.
+                                        </p>
+                                        <audio id="toneAudio" controls preload="metadata"></audio>
+                                    </div>
+                                </div>
+
+                                <div class="tone-controls">
+                                    <h4>Tone Parameters</h4>
+
+                                    <div class="tone-row">
+                                        <div class="tone-label">
+                                            <span>Frequency</span>
+                                            <code id="frequencyValue">440 Hz</code>
+                                        </div>
+                                        <input id="frequencyRange" type="range" min="110" max="880" value="440"
+                                            step="1">
+                                    </div>
+
+                                    <div class="tone-row">
+                                        <div class="tone-label">
+                                            <span>Amplitude</span>
+                                            <code id="amplitudeValue">16000</code>
+                                        </div>
+                                        <input id="amplitudeRange" type="range" min="1000" max="30000" value="16000"
+                                            step="500">
+                                    </div>
+
+                                    <div class="tone-code" id="toneCode">frequency = 440
+                                        amplitude = 16000
+                                        value = int(
+                                        amplitude *
+                                        math.sin(2 * math.pi * frequency * t)
+                                        )</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     GENERATING TONE PYTHON
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fab fa-python"></i> Generate a Tone in Python
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Create A4 = 440 Hz</h4>
+
+                            <div class="code-block"><code>import wave
 import struct
 import math
 
-# Parameters
-frequency = 440       # A4 note (Hz)
-duration = 2          # seconds
-sample_rate = 44100   # CD quality
-amplitude = 16000     # volume (max ~32767 for 16-bit)
+frequency = 440
+duration = 2
+sample_rate = 44100
+amplitude = 16000
 
-# Generate samples
-samples = []
+audio = bytearray()
+
 for i in range(int(sample_rate * duration)):
     t = i / sample_rate
-    value = int(amplitude * math.sin(2 * math.pi * frequency * t))
-    samples.append(struct.pack('&lt;h', value))  # little-endian short
 
-# Write WAV file
+    value = int(
+        amplitude *
+        math.sin(2 * math.pi * frequency * t)
+    )
+
+    # 16-bit signed little-endian integer
+    audio.extend(struct.pack("&lt;h", value))
+
 with wave.open("tone_440hz.wav", "wb") as wav:
-    wav.setnchannels(1)       # mono
-    wav.setsampwidth(2)       # 16-bit
+    wav.setnchannels(1)
+    wav.setsampwidth(2)
     wav.setframerate(sample_rate)
-    wav.writeframes(b''.join(samples))
+    wav.writeframes(audio)
 
 print("Created tone_440hz.wav")</code></div>
-                </div>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Reversing Audio</h4>
-                    <div class="code-block"><code>import wave
+                        <div class="byte-map">
+                            <div class="byte-row">
+                                <strong><code>&lt;</code></strong>
+                                <div class="byte-cells">
+                                    <div class="byte-cell">little</div>
+                                    <div class="byte-cell">endian</div>
+                                </div>
+                            </div>
+
+                            <div class="byte-row">
+                                <strong><code>h</code></strong>
+                                <div class="byte-cells">
+                                    <div class="byte-cell">signed</div>
+                                    <div class="byte-cell">short</div>
+                                    <div class="byte-cell">2 bytes</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     VOLUME
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-volume-low"></i> Changing Volume
+                        </h2>
+
+                        <p class="concept-text">
+                            For 16-bit PCM audio, sample values lie between
+                            <code>-32768</code> and <code>32767</code>. Multiplying every sample by
+                            <code>0.5</code> reduces the waveform amplitude to half.
+                        </p>
+
+                        <div class="volume-layout">
+                            <div class="wave-compare-card">
+                                <h4>Original amplitude</h4>
+                                <div class="amplitude-bars" id="volumeBarsOriginal"></div>
+                            </div>
+
+                            <div class="wave-compare-card">
+                                <h4>× 0.5 amplitude</h4>
+                                <div class="amplitude-bars" id="volumeBarsQuiet"></div>
+                            </div>
+                        </div>
+
+                        <div class="audio-examples">
+                            <div class="audio-example">
+                                <div class="audio-badge">
+                                    <i class="fas fa-volume-high"></i> Original
+                                </div>
+                                <h4>440 Hz tone</h4>
+                                <p>Generated at amplitude 20,000.</p>
+                                <audio id="originalVolumeAudio" controls preload="metadata"></audio>
+                            </div>
+
+                            <div class="audio-example">
+                                <div class="audio-badge">
+                                    <i class="fas fa-volume-low"></i> 50%
+                                </div>
+                                <h4>Same samples × 0.5</h4>
+                                <p>Same frequency and duration, smaller sample values.</p>
+                                <audio id="quietVolumeAudio" controls preload="metadata"></audio>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Reduce Volume of 16-bit PCM Audio</h4>
+
+                            <div class="code-block"><code>import wave
 import struct
 
-# Read original
+factor = 0.5
+
 with wave.open("song.wav", "rb") as wav_in:
     params = wav_in.getparams()
     frames = wav_in.readframes(wav_in.getnframes())
 
-# Unpack samples, reverse, repack
-sample_width = params.sampwidth
-fmt = '&lt;' + 'h' * (len(frames) // sample_width)
-samples = list(struct.unpack(fmt, frames))
-samples.reverse()
-reversed_data = struct.pack(fmt, *samples)
+if params.sampwidth != 2:
+    raise ValueError("This example expects 16-bit PCM audio")
 
-# Write reversed WAV
+count = len(frames) // 2
+fmt = "&lt;" + "h" * count
+
+samples = struct.unpack(fmt, frames)
+
+changed = []
+for sample in samples:
+    value = int(sample * factor)
+
+    # Clamp to signed 16-bit range
+    value = max(-32768, min(32767, value))
+    changed.append(value)
+
+output = struct.pack(fmt, *changed)
+
+with wave.open("quiet.wav", "wb") as wav_out:
+    wav_out.setparams(params)
+    wav_out.writeframes(output)</code></div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     REVERSE AUDIO
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-backward"></i> Reversing Audio Correctly
+                        </h2>
+
+                        <p class="concept-text">
+                            To reverse stereo audio safely, reverse the order of
+                            <strong>frames</strong>, not the order of individual channel samples.
+                            This keeps Left and Right values together.
+                        </p>
+
+                        <div class="reverse-layout">
+                            <div class="wave-compare-card">
+                                <h4>Original stereo frame order</h4>
+                                <div class="frame-track">
+                                    <div class="frame-box stereo">F0<small>L0 · R0</small></div>
+                                    <div class="frame-box stereo">F1<small>L1 · R1</small></div>
+                                    <div class="frame-box stereo">F2<small>L2 · R2</small></div>
+                                    <div class="frame-box stereo">F3<small>L3 · R3</small></div>
+                                </div>
+                            </div>
+
+                            <div class="wave-compare-card">
+                                <h4>Correct reversed frame order</h4>
+                                <div class="frame-track">
+                                    <div class="frame-box stereo">F3<small>L3 · R3</small></div>
+                                    <div class="frame-box stereo">F2<small>L2 · R2</small></div>
+                                    <div class="frame-box stereo">F1<small>L1 · R1</small></div>
+                                    <div class="frame-box stereo">F0<small>L0 · R0</small></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="audio-examples">
+                            <div class="audio-example">
+                                <div class="audio-badge">
+                                    <i class="fas fa-arrow-trend-up"></i> Original
+                                </div>
+                                <h4>Rising chirp</h4>
+                                <p>Frequency rises during the sound.</p>
+                                <audio id="chirpAudio" controls preload="metadata"></audio>
+                            </div>
+
+                            <div class="audio-example">
+                                <div class="audio-badge">
+                                    <i class="fas fa-backward"></i> Reversed
+                                </div>
+                                <h4>Same PCM frames reversed</h4>
+                                <p>The rising chirp becomes a falling chirp.</p>
+                                <audio id="reverseChirpAudio" controls preload="metadata"></audio>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">4</span> Reverse WAV Frame-by-Frame</h4>
+
+                            <div class="code-block"><code>import wave
+
+with wave.open("song.wav", "rb") as wav_in:
+    params = wav_in.getparams()
+    audio = wav_in.readframes(wav_in.getnframes())
+
+# One frame contains one sample value per channel
+frame_size = params.nchannels * params.sampwidth
+
+frames = [
+    audio[i:i + frame_size]
+    for i in range(0, len(audio), frame_size)
+]
+
+reversed_data = b"".join(reversed(frames))
+
 with wave.open("reversed.wav", "wb") as wav_out:
     wav_out.setparams(params)
     wav_out.writeframes(reversed_data)
 
-print("Audio reversed!")</code></div>
+print("Audio reversed frame-by-frame")</code></div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PLAYABLE EXAMPLES
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-headphones"></i> Listen and Compare
+                        </h2>
+
+                        <p class="concept-text">
+                            These examples are generated locally as mono 16-bit PCM WAV data.
+                            Listen for the relationship between waveform properties and what you hear.
+                        </p>
+
+                        <div class="audio-examples">
+                            <div class="audio-example">
+                                <div class="audio-badge">
+                                    <i class="fas fa-music"></i> 220 Hz
+                                </div>
+                                <h4>Lower frequency</h4>
+                                <p>A lower pitch.</p>
+                                <audio id="tone220Audio" controls preload="metadata"></audio>
+                            </div>
+
+                            <div class="audio-example">
+                                <div class="audio-badge">
+                                    <i class="fas fa-music"></i> 440 Hz
+                                </div>
+                                <h4>A4 reference tone</h4>
+                                <p>Twice the frequency of 220 Hz.</p>
+                                <audio id="tone440Audio" controls preload="metadata"></audio>
+                            </div>
+
+                            <div class="audio-example">
+                                <div class="audio-badge">
+                                    <i class="fas fa-music"></i> 880 Hz
+                                </div>
+                                <h4>Higher frequency</h4>
+                                <p>A higher pitch.</p>
+                                <audio id="tone880Audio" controls preload="metadata"></audio>
+                            </div>
+
+                            <div class="audio-example">
+                                <div class="audio-badge">
+                                    <i class="fas fa-volume-low"></i> Same pitch
+                                </div>
+                                <h4>Smaller amplitude</h4>
+                                <p>Frequency remains 440 Hz; only sample amplitude is reduced.</p>
+                                <audio id="toneQuietAudio" controls preload="metadata"></audio>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     STRUCT
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-boxes-stacked"></i> Why Do We Need struct?
+                        </h2>
+
+                        <p class="concept-text">
+                            <code>wave.readframes()</code> gives you <strong>bytes</strong>.
+                            Mathematical operations need numbers. The <code>struct</code> module helps
+                            convert between binary byte sequences and Python integer sample values.
+                        </p>
+
+                        <div class="wave-card-grid">
+                            <div class="wave-card">
+                                <h4>Bytes → integers</h4>
+                                <p><code>struct.unpack()</code> interprets binary audio data as numeric values.</p>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4>Integers → bytes</h4>
+                                <p><code>struct.pack()</code> converts calculated sample values back to binary data.</p>
+                            </div>
+
+                            <div class="wave-card">
+                                <h4><code>&lt;h</code></h4>
+                                <p><code>&lt;</code> = little-endian, <code>h</code> = signed 16-bit short integer.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-block"><code>import struct
+
+value = 1023
+
+# integer → two bytes
+packed = struct.pack("&lt;h", value)
+
+# two bytes → integer
+unpacked = struct.unpack("&lt;h", packed)[0]
+
+print(unpacked)  # 1023</code></div>
+                    </section>
+
+                    <!-- =====================================================
+                     LIMITATIONS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-triangle-exclamation"></i> Important Limits
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 1. Not Every .wav File Is Supported</h4>
+                            <p>
+                                Python's <code>wave</code> module is designed for
+                                <strong>uncompressed PCM WAV</strong>. A file can have the
+                                <code>.wav</code> extension and still use an unsupported encoding.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 2. Frame ≠ Individual Sample Value</h4>
+                            <p>
+                                In stereo, one frame contains two channel sample values.
+                                <code>getnframes()</code> reports frames, not
+                                <code>left_samples + right_samples</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 3. Do Not Reverse Stereo Sample Values Individually</h4>
+                            <p>
+                                Reversing the flat sequence <code>L0, R0, L1, R1...</code> produces
+                                <code>...R1, L1, R0, L0</code>, swapping channel order inside frames.
+                                Reverse complete frames instead.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 4. The 16-bit Range Is Signed</h4>
+                            <p>
+                                For 16-bit signed PCM used in these examples, values must remain within
+                                <code>-32768 ... 32767</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 5. Sample Width Matters</h4>
+                            <p>
+                                Code using <code>struct.pack("&lt;h", ...)</code> or
+                                <code>struct.unpack(... "h" ...)</code> assumes 2-byte / 16-bit sample values.
+                                Check <code>getsampwidth()</code> before applying such code to unknown files.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TASKS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Practice Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    Name the four methods used to read channels, sample width,
+                                    frame rate and number of frames from a WAV file.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain the difference between an audio <strong>frame</strong>
+                                    and an individual channel <strong>sample value</strong>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Write a program that reads a WAV file and prints channels,
+                                    sample width, frame rate, frame count and duration.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Generate a 3-second mono, 16-bit tone at
+                                    <code>261 Hz</code> and save it as <code>middle_c.wav</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    A stereo 16-bit WAV has <code>sample_width = 2</code>.
+                                    How many bytes are in one frame? Explain your calculation.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    Explain why reversing individual values in the sequence
+                                    <code>L0, R0, L1, R1</code> is not a correct stereo reverse.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Create two versions of a 16-bit WAV:
+                                    one at <code>50%</code> volume and one at <code>150%</code>.
+                                    Clamp the louder version to the valid signed 16-bit range.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Generate a short sequence of three notes by producing one sine-wave
+                                    section after another and writing them into a single WAV file.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-question-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: What does <code>getframerate()</code> return?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                The audio frame rate / sampling frequency in frames per second,
+                                for example <code>44100</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: What does <code>getnframes()</code> return?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                The number of audio frames in the WAV stream.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: How do you calculate duration?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>duration = n_frames / frame_rate</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: What is one stereo frame made from?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                One sample value for each channel — normally one Left value and one Right value.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q5: What is the frame size of stereo 16-bit PCM?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>2 channels × 2 bytes = 4 bytes per frame</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q6: What does <code>struct.pack("&lt;h", value)</code> mean?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Pack the integer as a little-endian signed 16-bit short value.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q7: Why do we clamp volume-adjusted 16-bit samples?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Because the valid signed 16-bit range is
+                                <code>-32768 ... 32767</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q8: Why should stereo audio be reversed frame-by-frame?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                So the Left and Right values belonging to the same moment stay together
+                                while the time order of frames is reversed.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     RESOURCE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-book-open"></i> Official Reference
+                        </h2>
+
+                        <div class="resource-card">
+                            <div class="resource-icon">
+                                <i class="fab fa-python"></i>
+                            </div>
+
+                            <div class="resource-copy">
+                                <h4>Python wave module documentation</h4>
+                                <p>
+                                    Official reference for <code>wave.open()</code>, Wave_read,
+                                    Wave_write, frames, parameters and PCM WAV support.
+                                </p>
+                            </div>
+
+                            <a class="resource-link" href="https://docs.python.org/3/library/wave.html" target="_blank"
+                                rel="noopener noreferrer">
+                                Open docs <i class="fas fa-arrow-up-right-from-square"></i>
+                            </a>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="pil-filters.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">PIL Image Filters</span>
+                            </span>
+                        </a>
+
+                        <a href="/index.html#syllabus">
+                            <span>
+                                <span class="nav-label">Back to →</span>
+                                <span class="nav-title">Syllabus</span>
+                            </span>
+                        </a>
+                    </nav>
+
                 </div>
+            </div>
+        </main>
+    </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Adjusting Volume</h4>
-                    <div class="code-block"><code>import wave
-import struct
-
-factor = 0.5  # 50% volume
-
-with wave.open("song.wav", "rb") as wav_in:
-    params = wav_in.getparams()
-    frames = wav_in.readframes(wav_in.getnframes())
-
-# Reduce each sample amplitude
-fmt = '&lt;' + 'h' * (len(frames) // params.sampwidth)
-samples = struct.unpack(fmt, frames)
-quieter = [max(-32768, min(32767, int(s * factor))) for s in samples]
-output = struct.pack(fmt, *quieter)
-
-with wave.open("quiet.wav", "wb") as wav_out:
-    wav_out.setparams(params)
-    wav_out.writeframes(output)
-
-print("Volume reduced to 50%")</code></div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> WAV Only!</h4>
-                    <p>The <code>wave</code> module ONLY works with <strong>.wav</strong> files. It cannot read MP3,
-                        FLAC, or other formats. Use <code>pydub</code> or <code>ffmpeg</code> to convert other formats
-                        first.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> 16-bit Range: –32768 to 32767</h4>
-                    <p>When modifying samples, always clamp values to the valid range. Values outside this range will
-                        cause distortion or errors.</p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that reads a WAV file and prints its properties (channels, sample rate,
-                            duration).</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Generate a 3-second tone at 261 Hz (middle C) and save it as "middle_c.wav".</p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Write a program that doubles the volume of a WAV file and saves it as "loud.wav".</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What does <code>getframerate()</code> return?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The sample rate in Hz — how
-                        many samples are recorded per second (e.g., 44100 for CD quality).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: How do you calculate the duration of a WAV file?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Duration = number of frames ÷
-                        frame rate. For example: 88200 frames ÷ 44100 Hz = 2 seconds.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What module helps convert between bytes and integer sample values?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The <code>struct</code> module
-                        — use <code>struct.pack('&lt;h', value)</code> to convert int → bytes, and
-                        <code>struct.unpack()</code> for bytes → int.</div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                <a href="pil-filters.html"><span class="nav-label">← Previous</span><span class="nav-title">PIL Image
-                        Filters</span></a>
-                <a href="/index.html#syllabus"><span class="nav-label">Back to →</span><span
-                        class="nav-title">Syllabus</span></a>
-            </nav>
-        </div>
-        </div>
-    </main>
-  </div>
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+        <p>mr. TEA © 2026 — NIS Grade 12 Programming</p>
     </footer>
+
+    <script>
+        // ============================================================
+        // General drawing helpers
+        // ============================================================
+        function getCssVar(name, fallback) {
+            const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+            return value || fallback;
+        }
+
+        function drawWave(canvas, options = {}) {
+            const ctx = canvas.getContext("2d");
+            const w = canvas.width;
+            const h = canvas.height;
+
+            const frequency = options.frequency ?? 3;
+            const amplitude = options.amplitude ?? 0.72;
+            const phase = options.phase ?? 0;
+            const samples = options.samples ?? 48;
+            const showDots = options.showDots ?? true;
+
+            const tea = getCssVar("--clr-tea", "#0d9488");
+            const text = getCssVar("--text-secondary", "#4b5563");
+            const border = getCssVar("--border", "rgba(0,0,0,.08)");
+
+            ctx.clearRect(0, 0, w, h);
+
+            // grid
+            ctx.strokeStyle = border;
+            ctx.lineWidth = 1;
+            for (let x = 0; x <= w; x += w / 10) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+                ctx.stroke();
+            }
+            for (let y = 0; y <= h; y += h / 6) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+                ctx.stroke();
+            }
+
+            // centre axis
+            ctx.strokeStyle = text;
+            ctx.globalAlpha = .45;
+            ctx.beginPath();
+            ctx.moveTo(0, h / 2);
+            ctx.lineTo(w, h / 2);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+
+            // continuous wave
+            ctx.strokeStyle = tea;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let x = 0; x <= w; x++) {
+                const t = x / w;
+                const y = h / 2 - Math.sin(t * Math.PI * 2 * frequency + phase) * (h * .38 * amplitude);
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            if (showDots) {
+                ctx.fillStyle = "#f97316";
+                for (let i = 0; i < samples; i++) {
+                    const t = i / (samples - 1);
+                    const x = t * w;
+                    const y = h / 2 - Math.sin(t * Math.PI * 2 * frequency + phase) * (h * .38 * amplitude);
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        // Main conceptual waveform
+        drawWave(
+            document.getElementById("conceptWaveCanvas"),
+            { frequency: 3.2, amplitude: .8, samples: 42 }
+        );
+
+        // Sample-rate cards
+        drawWave(document.getElementById("rateLow"), {
+            frequency: 2, amplitude: .72, samples: 9
+        });
+
+        drawWave(document.getElementById("rateMedium"), {
+            frequency: 2, amplitude: .72, samples: 19
+        });
+
+        drawWave(document.getElementById("rateHigh"), {
+            frequency: 2, amplitude: .72, samples: 43
+        });
+
+        // ============================================================
+        // WAV PCM encoder — mono 16-bit little-endian
+        // ============================================================
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        function encodeWav16Mono(samples, sampleRate = 44100) {
+            const bytesPerSample = 2;
+            const dataSize = samples.length * bytesPerSample;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+
+            writeString(view, 0, "RIFF");
+            view.setUint32(4, 36 + dataSize, true);
+            writeString(view, 8, "WAVE");
+
+            writeString(view, 12, "fmt ");
+            view.setUint32(16, 16, true);       // PCM fmt chunk size
+            view.setUint16(20, 1, true);        // PCM format
+            view.setUint16(22, 1, true);        // mono
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true); // byte rate
+            view.setUint16(32, 2, true);        // block align
+            view.setUint16(34, 16, true);       // bits per sample
+
+            writeString(view, 36, "data");
+            view.setUint32(40, dataSize, true);
+
+            let offset = 44;
+            for (const sample of samples) {
+                const s = Math.max(-32768, Math.min(32767, Math.round(sample)));
+                view.setInt16(offset, s, true);
+                offset += 2;
+            }
+
+            return new Blob([buffer], { type: "audio/wav" });
+        }
+
+        function sineSamples(frequency, duration, amplitude, sampleRate = 44100) {
+            const count = Math.floor(duration * sampleRate);
+            const samples = new Int16Array(count);
+
+            for (let i = 0; i < count; i++) {
+                const t = i / sampleRate;
+                samples[i] = Math.round(
+                    amplitude * Math.sin(2 * Math.PI * frequency * t)
+                );
+            }
+
+            return samples;
+        }
+
+        function chirpSamples(startFreq, endFreq, duration, amplitude, sampleRate = 44100) {
+            const count = Math.floor(duration * sampleRate);
+            const samples = new Int16Array(count);
+            let phase = 0;
+
+            for (let i = 0; i < count; i++) {
+                const t = i / (count - 1);
+                const frequency = startFreq + (endFreq - startFreq) * t;
+                phase += 2 * Math.PI * frequency / sampleRate;
+                samples[i] = Math.round(amplitude * Math.sin(phase));
+            }
+
+            return samples;
+        }
+
+        function setAudioFromSamples(audioElement, samples, sampleRate = 44100) {
+            if (audioElement.dataset.objectUrl) {
+                URL.revokeObjectURL(audioElement.dataset.objectUrl);
+            }
+
+            const blob = encodeWav16Mono(samples, sampleRate);
+            const url = URL.createObjectURL(blob);
+
+            audioElement.src = url;
+            audioElement.dataset.objectUrl = url;
+        }
+
+        // ============================================================
+        // Interactive tone generator
+        // ============================================================
+        const toneCanvas = document.getElementById("toneCanvas");
+        const frequencyRange = document.getElementById("frequencyRange");
+        const amplitudeRange = document.getElementById("amplitudeRange");
+        const frequencyValue = document.getElementById("frequencyValue");
+        const amplitudeValue = document.getElementById("amplitudeValue");
+        const toneCode = document.getElementById("toneCode");
+        const toneAudio = document.getElementById("toneAudio");
+
+        function renderToneLab() {
+            const frequency = Number(frequencyRange.value);
+            const amplitude = Number(amplitudeRange.value);
+
+            frequencyValue.textContent = `${frequency} Hz`;
+            amplitudeValue.textContent = amplitude;
+
+            // Visual cycles are compressed to keep the waveform readable
+            const visualFrequency = Math.max(1, Math.min(8, frequency / 110));
+
+            drawWave(toneCanvas, {
+                frequency: visualFrequency,
+                amplitude: amplitude / 30000,
+                samples: 52
+            });
+
+            toneCode.textContent =
+                `frequency = ${frequency}
+amplitude = ${amplitude}
+value = int(
+    amplitude *
+    math.sin(2 * math.pi * frequency * t)
+)`;
+
+            const samples = sineSamples(frequency, 1, amplitude);
+            setAudioFromSamples(toneAudio, samples);
+        }
+
+        frequencyRange.addEventListener("input", renderToneLab);
+        amplitudeRange.addEventListener("input", renderToneLab);
+        renderToneLab();
+
+        // ============================================================
+        // Fixed audio examples
+        // ============================================================
+        setAudioFromSamples(
+            document.getElementById("tone220Audio"),
+            sineSamples(220, 1, 16000)
+        );
+
+        setAudioFromSamples(
+            document.getElementById("tone440Audio"),
+            sineSamples(440, 1, 16000)
+        );
+
+        setAudioFromSamples(
+            document.getElementById("tone880Audio"),
+            sineSamples(880, 1, 16000)
+        );
+
+        setAudioFromSamples(
+            document.getElementById("toneQuietAudio"),
+            sineSamples(440, 1, 7000)
+        );
+
+        // Volume comparison players
+        const volOriginal = sineSamples(440, 1, 20000);
+        const volQuiet = Int16Array.from(volOriginal, x => Math.round(x * .5));
+
+        setAudioFromSamples(
+            document.getElementById("originalVolumeAudio"),
+            volOriginal
+        );
+
+        setAudioFromSamples(
+            document.getElementById("quietVolumeAudio"),
+            volQuiet
+        );
+
+        // Amplitude bar diagrams
+        function buildAmplitudeBars(container, scale) {
+            const heights = [25, 52, 82, 105, 126, 112, 86, 52, 25, 48, 82, 118, 126, 96, 60, 30];
+
+            heights.forEach(height => {
+                const bar = document.createElement("div");
+                bar.className = "amp-bar";
+                bar.style.height = `${Math.max(5, height * scale)}px`;
+                container.appendChild(bar);
+            });
+        }
+
+        buildAmplitudeBars(document.getElementById("volumeBarsOriginal"), 1);
+        buildAmplitudeBars(document.getElementById("volumeBarsQuiet"), .5);
+
+        // Chirp and reversed chirp
+        const chirp = chirpSamples(220, 880, 1.4, 15000);
+        const reverseChirp = Int16Array.from(Array.from(chirp).reverse());
+
+        setAudioFromSamples(
+            document.getElementById("chirpAudio"),
+            chirp
+        );
+
+        setAudioFromSamples(
+            document.getElementById("reverseChirpAudio"),
+            reverseChirp
+        );
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+
 </body>
 
 </html>
