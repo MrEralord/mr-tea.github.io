@@ -517,6 +517,129 @@
   <script src="js/i18n.js"></script>
   <script src="js/syllabus-renderer.js"></script>
   <script src="js/app.js"></script>
+  <!-- Уведомление об обновлении сайта -->
+  <style>
+    .site-update-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .site-update-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .site-update-box {
+      /* Используем CSS переменные твоего сайта, если они есть, или базовые цвета */
+      background: var(--bg-color, #ffffff);
+      color: var(--text-color, #2d3748);
+      padding: 30px 25px;
+      border-radius: 12px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      text-align: center;
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+
+    html[data-theme="dark"] .site-update-box {
+      background: #1e293b;
+      /* Темный фон для ночной темы, если переменные не сработают */
+      color: #f8fafc;
+    }
+
+    .site-update-modal.active .site-update-box {
+      transform: translateY(0);
+    }
+
+    .site-update-box i.fa-info-circle {
+      font-size: 2.5rem;
+      color: #3b82f6;
+      margin-bottom: 15px;
+    }
+
+    .site-update-box h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.25rem;
+    }
+
+    .site-update-box p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      color: inherit;
+      opacity: 0.9;
+    }
+
+    .site-update-box p.highlight {
+      font-weight: 600;
+      color: #eab308;
+      /* Желтый акцент для внимания */
+    }
+
+    .site-update-btn {
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+
+    .site-update-btn:hover {
+      background: #2563eb;
+    }
+  </style>
+
+  <div id="siteUpdateModal" class="site-update-modal">
+    <div class="site-update-box">
+      <i class="fas fa-info-circle"></i>
+      <h3>Site Update Notice</h3>
+      <p>Changes have been made and some pages have been updated. Please note that the website is still under
+        construction, and the information on the pages is subject to change.</p>
+      <p class="highlight">Currently, Term 1 lessons are being revised.</p>
+      <button id="closeUpdateModal" class="site-update-btn">I Understand</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Проверяем, показывалось ли уведомление в текущей сессии
+      if (!sessionStorage.getItem('updateNoticeShown')) {
+        const modal = document.getElementById('siteUpdateModal');
+        const closeBtn = document.getElementById('closeUpdateModal');
+
+        // Показываем с небольшой задержкой для плавности
+        setTimeout(() => {
+          modal.classList.add('active');
+        }, 500);
+
+        closeBtn.addEventListener('click', () => {
+          modal.classList.remove('active');
+          // Записываем в сессию, чтобы не показывать снова до закрытия вкладки
+          sessionStorage.setItem('updateNoticeShown', 'true');
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>
