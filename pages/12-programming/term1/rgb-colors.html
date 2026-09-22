@@ -1,1455 +1,1119 @@
-https://mr-tea.net/pages/12-programming/term1/pil-image-basics.html здесь маловато графических примеров кода то есть
-представления, видео. https://mr-tea.net/pages/12-programming/term1/pil-drawing.html и
-https://mr-tea.net/pages/12-programming/term1/pil-filters.html и
-https://mr-tea.net/pages/12-programming/term1/wave-library.html, проанализируй страницы и выдай план работы.
-
-Я просмотрел все четыре страницы. Основа у них хорошая: одинаковая структура Learning Objectives → Conceptual Anchor →
-Theory → Worked Examples → Common Pitfalls → Tasks → Self-Check, поэтому студент быстро понимает логику сайта.
-
-Но сейчас действительно есть перекос: код есть, а результата этого кода глазами почти не видно. Для тем Image Processing
-это особенно критично.
-Что сейчас по страницам
-Страница Что уже хорошо Чего не хватает
-PIL Image Basics open, new, size, save, resize, crop, rotate, convert, pixel manipulation; 3 worked examples. Самая
-большая проблема: студент видит код, но практически не видит input → operation → output. Нет визуального объяснения
-координат, RGB/RGBA/L, crop box, resize, rotate, pixels.
-PIL Drawing Хороший набор line, rectangle, ellipse, polygon, arc, point, text; есть домик как комплексный пример. Здесь
-прямо напрашивается отображение код слева → получившаяся фигура справа. Bounding box сейчас объясняется текстом, хотя
-это лучше объяснять картинкой.
-PIL Filters Содержание сильнее остальных: built-in filters + brightness/contrast + grayscale/sepia/threshold/channel
-manipulation, 5 примеров. Нужны сравнительные изображения. BLUR, CONTOUR, FIND_EDGES, EMBOSS бессмысленно изучать только
-по названию. Также custom formulas надо связать с изменением конкретного RGB-пикселя.
-Wave Library Хорошо раскрыты свойства WAV, reading/writing, tone generation, reverse, volume. Нужны waveform + реальные
-audio players. Сейчас ученик читает про звук, но не слышит результат. Это главный недостаток страницы.
-
-Я также не обнаружил на этих страницах отдельных блоков Figure или встроенного video, то есть медиа пока не является
-полноценной частью учебного материала.
-Как я бы перестроил эти четыре страницы
-
-Главная идея:
-
-Theory → Visual explanation → Code → Result → Try it → Task
-
-а не просто:
-
-Theory → Code → Task.
-
-Причём не надо превращать страницу в презентацию. Текстовую структуру я бы сохранил, но между теорией и заданиями
-добавил небольшие визуальные учебные блоки.
-1. PIL Image Basics — переделать первой
-
-Это фундамент всей темы, поэтому здесь я бы сделал самую серьёзную доработку.
-Место Что добавить
-После Photo Lab Analogy схема Pillow workflow: Image.open() → manipulate → Image.save()
-Image Modes изображение одного объекта в RGB / RGBA / L / 1
-Coordinates картинка 400×300 с (0,0), (400,0), (0,300), (400,300) и стрелками X/Y
-Image.new() код + получившийся цветной canvas
-resize() Original 800×600 → 400×300 → 200×150
-crop() исходное фото с crop rectangle → cropped result
-rotate() 0° → 45° → 90°
-convert("L") colour → grayscale
-Pixel manipulation увеличенная pixel grid 8×8 с RGB values
-Gradient example сам gradient, который сейчас создаётся кодом
-Invert example Original / Negative side-by-side
-
-То есть Worked Example должен выглядеть примерно концептуально:
-
-CODE RESULT
---------------------- ------------------
-img.resize((300,200)) [ resized image ]
-
-Это будет намного полезнее, чем ещё два абзаца теории.
-2. PIL Drawing — сделать страницу максимально визуальной
-
-Здесь почти каждый метод должен иметь миниатюру результата.
-
-Например:
-Command Coordinates Result
-draw.line() (50,50) → (250,150) изображение линии
-draw.rectangle() (50,50,200,150) прямоугольник
-draw.ellipse() bounding box круг/эллипс
-draw.polygon() 3–5 points polygon
-draw.arc() box + angles arc
-
-Особенно нужна одна хорошая схема:
-
-How bounding boxes work
-
-(x1,y1) ┌──────────────┐
-│ ● │
-│ circle │
-│ │
-└──────────────┘ (x2,y2)
-
-Потому что именно bounding box обычно вызывает у учеников больше вопросов, чем сам draw.ellipse().
-
-Ваш текущий пример с домом хороший. Я бы превратил его в Build it step-by-step:
-
-Canvas → ground → house → roof → door → windows → sun → final image
-
-И показать 5–6 маленьких кадров.
-
-Это одновременно даст понимание последовательности выполнения Python-кода.
-3. PIL Filters — сделать Before / After Laboratory
-
-Этой странице теория практически не нужна дополнительно. Контента уже достаточно.
-
-Нужно визуализировать имеющийся материал.
-
-Я бы взял одно эталонное изображение, например яркий городской пейзаж, и использовал его на всей странице:
-Original BLUR SHARPEN CONTOUR
-image image image image
-
-И второй ряд:
-FIND_EDGES EMBOSS DETAIL SMOOTH
-
-Это очень сильно улучшит страницу практически без дополнительной теории.
-
-Отдельный важный блок:
-Pixel Mathematics
-
-Например исходный пиксель:
-
-RGB(100, 150, 200)
-
-Negative:
-
-(255-100, 255-150, 255-200)
-
-↓
-
-RGB(155, 105, 55)
-
-И рядом два увеличенных квадрата соответствующих цветов.
-
-То же самое для:
-
-grayscale;
-
-threshold;
-
-red channel;
-
-warm filter;
-
-sepia.
-
-Тогда формулы перестанут быть абстрактными.
-
-Кстати, заголовок Pixel-Level Adjustments (ImageEnhance) я бы переименовал в Image Enhancement, потому что ImageEnhance
-используется как операция над изображением в целом, тогда как настоящий pixel-level processing у вас начинается ниже
-через getpixel() / putpixel().
-4. Wave Library — здесь нужен совершенно другой тип визуализации
-
-Страница сейчас содержательно нормальная, но WAV без звука объяснять тяжело.
-
-В начале:
-
-Sound → Samples → WAV file
-
-с waveform:
-
-Amplitude
-│ /\ /\
-│ /\ / \ /\ / \
-0 ┼──/──\/────\/──\/─────→ time
-│
-
-Дальше визуально объяснить:
-
-Sample rate
-
-8 samples/sec против 32 samples/sec.
-
-И:
-
-Amplitude = volume
-
-маленькая waveform → обычная → большая.
-
-Самое важное — добавить HTML audio player прямо после примеров:
-
-Original
-
-▶ song.wav
-
-50% volume
-
-▶ quiet.wav
-
-Reversed
-
-▶ reversed.wav
-
-Generated 440 Hz
-
-▶ tone_440hz.wav
-
-Тогда ученик одновременно читает код → видит waveform → слышит результат.
-
-Ещё я бы поправил пример с Reverse: текущий код разворачивает последовательность samples. Для учебного mono WAV это
-нормально, но если оставлять поддержку stereo, лучше объяснить, что необходимо учитывать frames/channels, иначе ученики
-могут сделать неправильный вывод о структуре stereo WAV.
-План работы
-
-Я бы делал обновление в таком порядке:
-
-Создать единый визуальный компонент для всех уроков. Например блок Code → Visual Result, блок Before → After, <figure> с
-    caption, видео-блок и audio-блок. Это делается один раз в lesson.css, а дальше используется на всех страницах.
-
-    Полностью обновить pil-image-basics.html. Добавить примерно 7–9 учебных иллюстраций: PIL workflow, coordinate
-    system, image modes, resize, crop, rotate, pixel grid, gradient, negative. Добавить одно короткое видео уровня
-    “Pillow Image Basics in 3–5 minutes”.
-
-    Обновить pil-drawing.html. Сделать visual reference для primitives, bounding-box diagram и пошаговую сборку рисунка.
-    Здесь можно добавить мини-проект Cityscape with Functions, который очень хорошо логически продолжает ImageDraw.
-
-    Обновить pil-filters.html. Не увеличивать объём текста. Вместо этого сделать одну большую before/after gallery,
-    RGB-math visualizations и небольшой блок Build your own filter с interactive-like slider examples brightness 0.5 / 1
-    / 1.5 / 2.
-
-    Обновить wave-library.html. Добавить waveform diagrams, sample-rate visualization, amplitude visualization и 4
-    настоящих <audio controls> примера: original / reverse / volume / generated tone. Видеоролик здесь может быть “How
-        digital audio is stored as samples”, а не просто tutorial по Python.
-
-        После этого унифицировать Tasks. Для каждой страницы сделать три уровня: Apply → Analyze → Create. У вас это уже
-        частично есть, поэтому менять структуру не придётся — только сделать задания более связанными с визуальными
-        примерами.
-
-        Последним этапом — mobile check. Все пары code/result на компьютере показывать в 2 колонки, а на телефоне
-        автоматически перестраивать в code → image. Картинки — max-width:100%, видео/iframe — responsive, audio —
-        width:100%.
-
-        В итоге я бы целился примерно в такой объём
-        Page Images / diagrams Interactive/media
-        PIL Image Basics 8–10 1 video
-        PIL Drawing 7–8 1 video или animated example
-        PIL Filters 10–12 before/after 1 video
-        Wave Library 4–6 diagrams 4 audio examples + 1 video
-
-        Это не сделает страницы перегруженными. Наоборот, сейчас у вас примерно 70% text/code и 30% visual, а я бы для
-        этих четырёх тем стремился примерно к 50% explanation/code и 50% visual demonstration.
-
-        Я бы начал именно с pil-image-basics.html. Для неё могу следующим шагом составить буквально структуру
-        обновлённой страницы сверху вниз: какой блок оставить, куда вставить рисунок, точное описание каждого рисунка
-        для генерации, какой код поставить рядом и какие 1–2 видео искать. После этого уже можно будет написать
-        полностью обновлённый HTML под ваш текущий style.css + lesson.css.
-
-        lesson(2).css
-        File
-        style(2).css
-        File
-        вот еще css коды моего сайта на всякий. и напиши код для
-        https://mr-tea.net/pages/12-programming/term1/rgb-colors.html
-
-        Да. Я взял за основу текущую rgb-colors.html: сейчас там в основном таблицы RGB, краткое объяснение additive
-        mixing, один Python-блок, 3 задания и 3 self-check вопроса. При этом сохранил вашу систему оформления:
-        lesson-container, lesson-section, worked-example, code-block, pitfall-box, task-item, quiz-answer и адаптивность
-        уже есть в lesson.css.
-
-        Я сделал полноценную новую страницу:
-
-        Interactive RGB Mixer с тремя sliders R/G/B;
-
-        live preview цвета;
-
-        одновременно показывает rgb(...), Python tuple и #HEX;
-
-        кнопки Black / White / Red / Green / Blue / Yellow / Cyan / Magenta;
-
-        визуализацию трёх RGB-каналов;
-
-        настоящую CSS-схему additive color mixing;
-
-        карточки стандартных цветов;
-
-        объяснение 0–255 и 8-bit channels;
-
-        понятный алгоритм, как определить цвет по RGB;
-
-        RGB ↔ HEX;
-
-        больше Python examples;
-
-        copy-кнопки для Python-кода;
-
-        связь со следующим уроком PIL Image Basics;
-
-        Common Pitfalls;
-
-        5 заданий от Remember до Create;
-
-        5 интерактивных Self-Check вопросов;
-
-        mobile responsive;
-
-        автоматически использует вашу dark/light палитру из style.css. В вашем основном CSS уже определены цвета,
-        spacing, typography и обе темы, поэтому новая страница не дублирует всю дизайн-систему.
-
-        Полный готовый HTML
-
-        Скачать rgb-colors-updated.html
-
-        Файл уже проверен на синтаксический разбор HTML.
-
-        Особенно мне нравится, что теперь последовательность уроков будет логичной:
-
-        RGB Colors
-        → понять (R,G,B) визуально
-        → PIL Image Basics
-        → применить эти tuples к изображениям и пикселям
-        → PIL Drawing
-        → использовать RGB при рисовании
-        → PIL Filters
-        → математически изменять RGB каждого пикселя.
-
-        То есть RGB Colors теперь действительно становится вводным визуальным уроком ко всему блоку PIL, а не просто
-        страницей с таблицей цветов.
-
-        <!DOCTYPE html>
-        <html lang="en">
-
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta name="description"
-                content="Interactive Grade 12 Computer Science lesson on RGB colours: standard RGB codes, additive mixing, hexadecimal colours and Python tuples.">
-            <meta name="theme-color" content="#0d9488">
-            <title>RGB Colors — mr. TEA</title>
-
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-            <link rel="stylesheet" href="/css/style.css">
-            <link rel="stylesheet" href="/css/lesson.css">
-
-            <!-- Page-specific styles only. The main visual system comes from style.css + lesson.css. -->
-            <style>
-                /* ============================================================
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Interactive Grade 12 Computer Science lesson on RGB colours: standard RGB codes, additive mixing, hexadecimal colours and Python tuples.">
+    <meta name="theme-color" content="#0d9488">
+    <title>RGB Colors — mr. TEA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+
+    <!-- Page-specific styles only. The main visual system comes from style.css + lesson.css. -->
+    <style>
+        /* ============================================================
            RGB COLORS — PAGE-SPECIFIC VISUALS
            ============================================================ */
 
-                .rgb-hero-visual {
-                    position: relative;
-                    min-height: 260px;
-                    border: 1px solid var(--border);
-                    border-radius: var(--radius-lg);
-                    background:
-                        radial-gradient(circle at 30% 48%, rgba(255, 0, 0, .78) 0 18%, rgba(255, 0, 0, .22) 34%, transparent 52%),
-                        radial-gradient(circle at 50% 48%, rgba(0, 255, 0, .72) 0 18%, rgba(0, 255, 0, .20) 34%, transparent 52%),
-                        radial-gradient(circle at 70% 48%, rgba(0, 90, 255, .82) 0 18%, rgba(0, 90, 255, .22) 34%, transparent 52%),
-                        #080b12;
-                    display: grid;
-                    place-items: center;
-                    overflow: hidden;
-                    margin-bottom: var(--space-xl);
-                }
-
-                .rgb-hero-visual::after {
-                    content: "RGB = additive light";
-                    color: rgba(255, 255, 255, .92);
-                    font-family: var(--font-code);
-                    font-size: clamp(.78rem, 2vw, 1rem);
-                    letter-spacing: .08em;
-                    text-transform: uppercase;
-                    background: rgba(0, 0, 0, .34);
-                    border: 1px solid rgba(255, 255, 255, .14);
-                    padding: .55rem .9rem;
-                    border-radius: var(--radius-full);
-                    backdrop-filter: blur(8px);
-                }
-
-                .channel-explainer {
-                    display: grid;
-                    grid-template-columns: repeat(3, minmax(0, 1fr));
-                    gap: var(--space-sm);
-                    margin: var(--space-md) 0;
-                }
-
-                .channel-card {
-                    border: 1px solid var(--border);
-                    border-radius: var(--radius-md);
-                    padding: var(--space-md);
-                    background: var(--bg-card);
-                    text-align: center;
-                }
-
-                .channel-card .channel-letter {
-                    width: 46px;
-                    height: 46px;
-                    border-radius: 50%;
-                    display: grid;
-                    place-items: center;
-                    margin: 0 auto var(--space-sm);
-                    color: white;
-                    font-family: var(--font-code);
-                    font-weight: 800;
-                    font-size: 1.25rem;
-                    box-shadow: var(--shadow-sm);
-                }
-
-                .channel-card.red .channel-letter {
-                    background: #ef4444;
-                }
-
-                .channel-card.green .channel-letter {
-                    background: #22c55e;
-                }
-
-                .channel-card.blue .channel-letter {
-                    background: #3b82f6;
-                }
-
-                .channel-card strong {
-                    display: block;
-                    color: var(--text-primary);
-                    margin-bottom: .2rem;
-                }
-
-                .channel-card span {
-                    color: var(--text-muted);
-                    font-size: .8rem;
-                }
-
-                /* ---------- Interactive RGB Mixer ---------- */
-                .rgb-lab {
-                    background: var(--bg-card);
-                    border: 1px solid var(--border);
-                    border-radius: var(--radius-lg);
-                    padding: var(--space-lg);
-                    margin-bottom: var(--space-xl);
-                    box-shadow: var(--shadow-sm);
-                }
-
-                .rgb-lab-grid {
-                    display: grid;
-                    grid-template-columns: 1.1fr .9fr;
-                    gap: var(--space-lg);
-                    align-items: stretch;
-                }
-
-                .rgb-controls {
-                    display: grid;
-                    gap: var(--space-md);
-                }
-
-                .rgb-control {
-                    display: grid;
-                    grid-template-columns: 32px 1fr 58px;
-                    gap: var(--space-sm);
-                    align-items: center;
-                }
-
-                .rgb-control label {
-                    font-family: var(--font-code);
-                    font-weight: 800;
-                    text-align: center;
-                }
-
-                .rgb-control[data-channel="r"] label {
-                    color: #ef4444;
-                }
-
-                .rgb-control[data-channel="g"] label {
-                    color: #22c55e;
-                }
-
-                .rgb-control[data-channel="b"] label {
-                    color: #3b82f6;
-                }
-
-                .rgb-control input[type="range"] {
-                    width: 100%;
-                    accent-color: var(--clr-tea);
-                    cursor: pointer;
-                }
-
-                .rgb-value {
-                    font-family: var(--font-code);
-                    font-size: .8rem;
-                    font-weight: 700;
-                    text-align: center;
-                    padding: .35rem .4rem;
-                    border: 1px solid var(--border);
-                    border-radius: var(--radius-sm);
-                    background: var(--bg-code);
-                    color: var(--text-primary);
-                }
-
-                .rgb-preview-wrap {
-                    min-height: 245px;
-                    display: grid;
-                    grid-template-rows: 1fr auto;
-                    border: 1px solid var(--border);
-                    border-radius: var(--radius-lg);
-                    overflow: hidden;
-                    background: var(--bg-primary);
-                }
-
-                .rgb-preview {
-                    display: grid;
-                    place-items: center;
-                    min-height: 175px;
-                    background: rgb(13, 148, 136);
-                    transition: background-color .15s ease;
-                }
-
-                .preview-label {
-                    padding: .65rem .85rem;
-                    border-radius: var(--radius-md);
-                    background: rgba(0, 0, 0, .40);
-                    color: #fff;
-                    font-family: var(--font-code);
-                    font-size: .8rem;
-                    backdrop-filter: blur(8px);
-                }
-
-                .rgb-readout {
-                    display: grid;
-                    grid-template-columns: repeat(2, minmax(0, 1fr));
-                    gap: 1px;
-                    background: var(--border);
-                }
-
-                .readout-cell {
-                    background: var(--bg-card);
-                    padding: var(--space-sm) var(--space-md);
-                }
-
-                .readout-cell small {
-                    display: block;
-                    color: var(--text-muted);
-                    font-size: .67rem;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    letter-spacing: .07em;
-                }
-
-                .readout-cell code {
-                    color: var(--text-primary);
-                    font-family: var(--font-code);
-                    font-size: .8rem;
-                }
-
-                .preset-row {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: .4rem;
-                    margin-top: var(--space-md);
-                }
-
-                .preset-btn {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: .45rem;
-                    border: 1px solid var(--border);
-                    background: var(--bg-glass);
-                    color: var(--text-secondary);
-                    border-radius: var(--radius-full);
-                    padding: .4rem .7rem;
-                    font: inherit;
-                    font-size: .76rem;
-                    cursor: pointer;
-                    transition: all var(--transition);
-                }
-
-                .preset-btn:hover,
-                .preset-btn:focus-visible {
-                    border-color: var(--clr-tea);
-                    color: var(--text-primary);
-                    transform: translateY(-1px);
-                    outline: none;
-                }
-
-                .preset-dot {
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    border: 1px solid rgba(127, 127, 127, .35);
-                    flex-shrink: 0;
-                }
-
-                /* ---------- Standard colour swatches ---------- */
-                .swatch-grid {
-                    display: grid;
-                    grid-template-columns: repeat(5, minmax(0, 1fr));
-                    gap: var(--space-sm);
-                    margin: var(--space-md) 0 var(--space-lg);
-                }
-
-                .color-swatch {
-                    border: 1px solid var(--border);
-                    border-radius: var(--radius-md);
-                    overflow: hidden;
-                    background: var(--bg-card);
-                    min-width: 0;
-                }
-
-                .swatch-color {
-                    height: 78px;
-                    border-bottom: 1px solid var(--border);
-                }
-
-                .swatch-info {
-                    padding: .55rem .65rem;
-                }
-
-                .swatch-info strong {
-                    display: block;
-                    font-size: .78rem;
-                    color: var(--text-primary);
-                }
-
-                .swatch-info code {
-                    display: block;
-                    font-family: var(--font-code);
-                    font-size: .66rem;
-                    color: var(--text-muted);
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-
-                /* ---------- Additive mixing visual ---------- */
-                .mixing-stage {
-                    position: relative;
-                    height: 330px;
-                    border-radius: var(--radius-lg);
-                    border: 1px solid var(--border);
-                    background: #05070b;
-                    overflow: hidden;
-                    margin: var(--space-md) 0;
-                    isolation: isolate;
-                }
-
-                .mix-circle {
-                    position: absolute;
-                    width: 190px;
-                    aspect-ratio: 1;
-                    border-radius: 50%;
-                    mix-blend-mode: screen;
-                    opacity: .95;
-                    filter: saturate(1.15);
-                }
-
-                .mix-circle.red {
-                    background: #ff0000;
-                    left: calc(50% - 145px);
-                    top: 38px;
-                }
-
-                .mix-circle.green {
-                    background: #00ff00;
-                    left: calc(50% - 45px);
-                    top: 38px;
-                }
-
-                .mix-circle.blue {
-                    background: #0000ff;
-                    left: calc(50% - 95px);
-                    top: 120px;
-                }
-
-                .mix-label {
-                    position: absolute;
-                    z-index: 2;
-                    font-family: var(--font-code);
-                    font-size: .72rem;
-                    font-weight: 800;
-                    color: white;
-                    text-shadow: 0 2px 6px rgba(0, 0, 0, .8);
-                    pointer-events: none;
-                }
-
-                .mix-label.r {
-                    left: calc(50% - 130px);
-                    top: 20px;
-                }
-
-                .mix-label.g {
-                    left: calc(50% + 80px);
-                    top: 20px;
-                }
-
-                .mix-label.b {
-                    left: 50%;
-                    transform: translateX(-50%);
-                    bottom: 18px;
-                }
-
-                /* ---------- Channel intensity bars ---------- */
-                .intensity-demo {
-                    display: grid;
-                    gap: var(--space-sm);
-                    margin: var(--space-md) 0;
-                }
-
-                .intensity-row {
-                    display: grid;
-                    grid-template-columns: 95px 1fr 55px;
-                    align-items: center;
-                    gap: var(--space-sm);
-                }
-
-                .intensity-row span,
-                .intensity-row code {
-                    font-size: .78rem;
-                }
-
-                .intensity-bar {
-                    height: 20px;
-                    border-radius: var(--radius-full);
-                    border: 1px solid var(--border);
-                    overflow: hidden;
-                    background: var(--bg-glass);
-                }
-
-                .intensity-fill {
-                    height: 100%;
-                }
-
-                .intensity-fill.red {
-                    background: linear-gradient(90deg, #000, #ff0000);
-                }
-
-                .intensity-fill.green {
-                    background: linear-gradient(90deg, #000, #00ff00);
-                }
-
-                .intensity-fill.blue {
-                    background: linear-gradient(90deg, #000, #0000ff);
-                }
-
-                .intensity-fill.gray {
-                    background: linear-gradient(90deg, #000, #fff);
-                }
-
-                /* ---------- RGB ↔ HEX explainer ---------- */
-                .hex-split {
-                    display: grid;
-                    grid-template-columns: repeat(3, minmax(0, 1fr));
-                    gap: var(--space-sm);
-                    margin: var(--space-md) 0;
-                }
-
-                .hex-part {
-                    border: 1px solid var(--border);
-                    border-radius: var(--radius-md);
-                    padding: var(--space-md);
-                    background: var(--bg-card);
-                    text-align: center;
-                }
-
-                .hex-pair {
-                    display: inline-grid;
-                    place-items: center;
-                    min-width: 54px;
-                    height: 42px;
-                    border-radius: var(--radius-sm);
-                    color: white;
-                    font-family: var(--font-code);
-                    font-weight: 800;
-                    margin-bottom: .4rem;
-                }
-
-                .hex-part.red .hex-pair {
-                    background: #dc2626;
-                }
-
-                .hex-part.green .hex-pair {
-                    background: #16a34a;
-                }
-
-                .hex-part.blue .hex-pair {
-                    background: #2563eb;
-                }
-
-                .hex-part strong,
-                .hex-part small {
-                    display: block;
-                }
-
-                .hex-part strong {
-                    color: var(--text-primary);
-                    font-size: .82rem;
-                }
-
-                .hex-part small {
-                    color: var(--text-muted);
-                    font-size: .74rem;
-                }
-
-                /* ---------- Mini prediction cards ---------- */
-                .prediction-grid {
-                    display: grid;
-                    grid-template-columns: repeat(3, minmax(0, 1fr));
-                    gap: var(--space-sm);
-                    margin: var(--space-md) 0;
-                }
-
-                .prediction-card {
-                    border: 1px solid var(--border);
-                    border-radius: var(--radius-md);
-                    overflow: hidden;
-                    background: var(--bg-card);
-                }
-
-                .prediction-color {
-                    height: 105px;
-                    display: grid;
-                    place-items: center;
-                }
-
-                .prediction-color code {
-                    background: rgba(0, 0, 0, .45);
-                    color: white;
-                    padding: .32rem .5rem;
-                    border-radius: var(--radius-sm);
-                    font-size: .73rem;
-                }
-
-                .prediction-card p {
-                    margin: 0;
-                    padding: var(--space-sm) var(--space-md);
-                    color: var(--text-secondary);
-                    font-size: .82rem;
-                    line-height: 1.45;
-                }
-
-                .inline-code {
-                    font-family: var(--font-code);
-                    background: var(--bg-code);
-                    border: 1px solid var(--border);
-                    border-radius: 4px;
-                    padding: .08em .35em;
-                    font-size: .88em;
-                }
-
-                .mini-heading {
-                    margin: var(--space-lg) 0 var(--space-sm);
-                    color: var(--text-primary);
-                    font-size: 1rem;
-                    font-weight: 700;
-                }
-
-                .copy-code-btn {
-                    float: right;
-                    margin-top: -2px;
-                    border: 1px solid var(--border);
-                    background: var(--bg-glass);
-                    color: var(--text-secondary);
-                    padding: .3rem .55rem;
-                    border-radius: var(--radius-sm);
-                    font-size: .7rem;
-                    cursor: pointer;
-                }
-
-                .copy-code-btn:hover {
-                    color: var(--clr-tea);
-                    border-color: var(--clr-tea);
-                }
-
-                /* ---------- Responsive ---------- */
-                @media (max-width: 760px) {
-                    .rgb-lab-grid {
-                        grid-template-columns: 1fr;
-                    }
-
-                    .swatch-grid {
-                        grid-template-columns: repeat(2, minmax(0, 1fr));
-                    }
-
-                    .prediction-grid {
-                        grid-template-columns: 1fr;
-                    }
-
-                    .hex-split {
-                        grid-template-columns: 1fr;
-                    }
-
-                    .channel-explainer {
-                        grid-template-columns: 1fr;
-                    }
-
-                    .mixing-stage {
-                        height: 300px;
-                    }
-
-                    .mix-circle {
-                        width: 165px;
-                    }
-
-                    .mix-circle.red {
-                        left: calc(50% - 128px);
-                        top: 38px;
-                    }
-
-                    .mix-circle.green {
-                        left: calc(50% - 38px);
-                        top: 38px;
-                    }
-
-                    .mix-circle.blue {
-                        left: calc(50% - 83px);
-                        top: 111px;
-                    }
-                }
-
-                @media (max-width: 420px) {
-                    .rgb-control {
-                        grid-template-columns: 26px 1fr 50px;
-                    }
-
-                    .rgb-readout {
-                        grid-template-columns: 1fr;
-                    }
-
-                    .swatch-grid {
-                        grid-template-columns: 1fr 1fr;
-                    }
-
-                    .rgb-lab {
-                        padding: var(--space-md);
-                    }
-                }
-            </style>
-        </head>
-
-        <body>
-            <div class="layout-wrapper">
-                <!-- Optional overlay / sidebar hook. Keep your normal shared sidebar if your project injects one. -->
-                <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
-
-                <main class="main-content">
-                    <header class="mobile-header">
-                        <div class="header-left">
-                            <a class="logo" href="/" aria-label="mr. TEA home">
-                                <i class="fa-solid fa-mug-hot logo-icon"></i>
-                                <span class="logo-text">mr. TEA</span>
-                            </a>
+        .rgb-hero-visual {
+            position: relative;
+            min-height: 260px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background:
+                radial-gradient(circle at 30% 48%, rgba(255, 0, 0, .78) 0 18%, rgba(255, 0, 0, .22) 34%, transparent 52%),
+                radial-gradient(circle at 50% 48%, rgba(0, 255, 0, .72) 0 18%, rgba(0, 255, 0, .20) 34%, transparent 52%),
+                radial-gradient(circle at 70% 48%, rgba(0, 90, 255, .82) 0 18%, rgba(0, 90, 255, .22) 34%, transparent 52%),
+                #080b12;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            margin-bottom: var(--space-xl);
+        }
+
+        .rgb-hero-visual::after {
+            content: "RGB = additive light";
+            color: rgba(255, 255, 255, .92);
+            font-family: var(--font-code);
+            font-size: clamp(.78rem, 2vw, 1rem);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            background: rgba(0, 0, 0, .34);
+            border: 1px solid rgba(255, 255, 255, .14);
+            padding: .55rem .9rem;
+            border-radius: var(--radius-full);
+            backdrop-filter: blur(8px);
+        }
+
+        .channel-explainer {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .channel-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            background: var(--bg-card);
+            text-align: center;
+        }
+
+        .channel-card .channel-letter {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin: 0 auto var(--space-sm);
+            color: white;
+            font-family: var(--font-code);
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .channel-card.red .channel-letter {
+            background: #ef4444;
+        }
+
+        .channel-card.green .channel-letter {
+            background: #22c55e;
+        }
+
+        .channel-card.blue .channel-letter {
+            background: #3b82f6;
+        }
+
+        .channel-card strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: .2rem;
+        }
+
+        .channel-card span {
+            color: var(--text-muted);
+            font-size: .8rem;
+        }
+
+        /* ---------- Interactive RGB Mixer ---------- */
+        .rgb-lab {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .rgb-lab-grid {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .rgb-controls {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .rgb-control {
+            display: grid;
+            grid-template-columns: 32px 1fr 58px;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+
+        .rgb-control label {
+            font-family: var(--font-code);
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .rgb-control[data-channel="r"] label {
+            color: #ef4444;
+        }
+
+        .rgb-control[data-channel="g"] label {
+            color: #22c55e;
+        }
+
+        .rgb-control[data-channel="b"] label {
+            color: #3b82f6;
+        }
+
+        .rgb-control input[type="range"] {
+            width: 100%;
+            accent-color: var(--clr-tea);
+            cursor: pointer;
+        }
+
+        .rgb-value {
+            font-family: var(--font-code);
+            font-size: .8rem;
+            font-weight: 700;
+            text-align: center;
+            padding: .35rem .4rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-code);
+            color: var(--text-primary);
+        }
+
+        .rgb-preview-wrap {
+            min-height: 245px;
+            display: grid;
+            grid-template-rows: 1fr auto;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--bg-primary);
+        }
+
+        .rgb-preview {
+            display: grid;
+            place-items: center;
+            min-height: 175px;
+            background: rgb(13, 148, 136);
+            transition: background-color .15s ease;
+        }
+
+        .preview-label {
+            padding: .65rem .85rem;
+            border-radius: var(--radius-md);
+            background: rgba(0, 0, 0, .40);
+            color: #fff;
+            font-family: var(--font-code);
+            font-size: .8rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .rgb-readout {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1px;
+            background: var(--border);
+        }
+
+        .readout-cell {
+            background: var(--bg-card);
+            padding: var(--space-sm) var(--space-md);
+        }
+
+        .readout-cell small {
+            display: block;
+            color: var(--text-muted);
+            font-size: .67rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+        }
+
+        .readout-cell code {
+            color: var(--text-primary);
+            font-family: var(--font-code);
+            font-size: .8rem;
+        }
+
+        .preset-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+            margin-top: var(--space-md);
+        }
+
+        .preset-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            border: 1px solid var(--border);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            border-radius: var(--radius-full);
+            padding: .4rem .7rem;
+            font: inherit;
+            font-size: .76rem;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .preset-btn:hover,
+        .preset-btn:focus-visible {
+            border-color: var(--clr-tea);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .preset-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(127, 127, 127, .35);
+            flex-shrink: 0;
+        }
+
+        /* ---------- Standard colour swatches ---------- */
+        .swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: var(--space-sm);
+            margin: var(--space-md) 0 var(--space-lg);
+        }
+
+        .color-swatch {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-card);
+            min-width: 0;
+        }
+
+        .swatch-color {
+            height: 78px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .swatch-info {
+            padding: .55rem .65rem;
+        }
+
+        .swatch-info strong {
+            display: block;
+            font-size: .78rem;
+            color: var(--text-primary);
+        }
+
+        .swatch-info code {
+            display: block;
+            font-family: var(--font-code);
+            font-size: .66rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ---------- Additive mixing visual ---------- */
+        .mixing-stage {
+            position: relative;
+            height: 330px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            background: #05070b;
+            overflow: hidden;
+            margin: var(--space-md) 0;
+            isolation: isolate;
+        }
+
+        .mix-circle {
+            position: absolute;
+            width: 190px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            mix-blend-mode: screen;
+            opacity: .95;
+            filter: saturate(1.15);
+        }
+
+        .mix-circle.red {
+            background: #ff0000;
+            left: calc(50% - 145px);
+            top: 38px;
+        }
+
+        .mix-circle.green {
+            background: #00ff00;
+            left: calc(50% - 45px);
+            top: 38px;
+        }
+
+        .mix-circle.blue {
+            background: #0000ff;
+            left: calc(50% - 95px);
+            top: 120px;
+        }
+
+        .mix-label {
+            position: absolute;
+            z-index: 2;
+            font-family: var(--font-code);
+            font-size: .72rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, .8);
+            pointer-events: none;
+        }
+
+        .mix-label.r {
+            left: calc(50% - 130px);
+            top: 20px;
+        }
+
+        .mix-label.g {
+            left: calc(50% + 80px);
+            top: 20px;
+        }
+
+        .mix-label.b {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 18px;
+        }
+
+        /* ---------- Channel intensity bars ---------- */
+        .intensity-demo {
+            display: grid;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .intensity-row {
+            display: grid;
+            grid-template-columns: 95px 1fr 55px;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .intensity-row span,
+        .intensity-row code {
+            font-size: .78rem;
+        }
+
+        .intensity-bar {
+            height: 20px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            background: var(--bg-glass);
+        }
+
+        .intensity-fill {
+            height: 100%;
+        }
+
+        .intensity-fill.red {
+            background: linear-gradient(90deg, #000, #ff0000);
+        }
+
+        .intensity-fill.green {
+            background: linear-gradient(90deg, #000, #00ff00);
+        }
+
+        .intensity-fill.blue {
+            background: linear-gradient(90deg, #000, #0000ff);
+        }
+
+        .intensity-fill.gray {
+            background: linear-gradient(90deg, #000, #fff);
+        }
+
+        /* ---------- RGB ↔ HEX explainer ---------- */
+        .hex-split {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .hex-part {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            background: var(--bg-card);
+            text-align: center;
+        }
+
+        .hex-pair {
+            display: inline-grid;
+            place-items: center;
+            min-width: 54px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-family: var(--font-code);
+            font-weight: 800;
+            margin-bottom: .4rem;
+        }
+
+        .hex-part.red .hex-pair {
+            background: #dc2626;
+        }
+
+        .hex-part.green .hex-pair {
+            background: #16a34a;
+        }
+
+        .hex-part.blue .hex-pair {
+            background: #2563eb;
+        }
+
+        .hex-part strong,
+        .hex-part small {
+            display: block;
+        }
+
+        .hex-part strong {
+            color: var(--text-primary);
+            font-size: .82rem;
+        }
+
+        .hex-part small {
+            color: var(--text-muted);
+            font-size: .74rem;
+        }
+
+        /* ---------- Mini prediction cards ---------- */
+        .prediction-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .prediction-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-card);
+        }
+
+        .prediction-color {
+            height: 105px;
+            display: grid;
+            place-items: center;
+        }
+
+        .prediction-color code {
+            background: rgba(0, 0, 0, .45);
+            color: white;
+            padding: .32rem .5rem;
+            border-radius: var(--radius-sm);
+            font-size: .73rem;
+        }
+
+        .prediction-card p {
+            margin: 0;
+            padding: var(--space-sm) var(--space-md);
+            color: var(--text-secondary);
+            font-size: .82rem;
+            line-height: 1.45;
+        }
+
+        .inline-code {
+            font-family: var(--font-code);
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: .08em .35em;
+            font-size: .88em;
+        }
+
+        .mini-heading {
+            margin: var(--space-lg) 0 var(--space-sm);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .copy-code-btn {
+            float: right;
+            margin-top: -2px;
+            border: 1px solid var(--border);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .3rem .55rem;
+            border-radius: var(--radius-sm);
+            font-size: .7rem;
+            cursor: pointer;
+        }
+
+        .copy-code-btn:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 760px) {
+            .rgb-lab-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .swatch-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .prediction-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hex-split {
+                grid-template-columns: 1fr;
+            }
+
+            .channel-explainer {
+                grid-template-columns: 1fr;
+            }
+
+            .mixing-stage {
+                height: 300px;
+            }
+
+            .mix-circle {
+                width: 165px;
+            }
+
+            .mix-circle.red {
+                left: calc(50% - 128px);
+                top: 38px;
+            }
+
+            .mix-circle.green {
+                left: calc(50% - 38px);
+                top: 38px;
+            }
+
+            .mix-circle.blue {
+                left: calc(50% - 83px);
+                top: 111px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .rgb-control {
+                grid-template-columns: 26px 1fr 50px;
+            }
+
+            .rgb-readout {
+                grid-template-columns: 1fr;
+            }
+
+            .swatch-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .rgb-lab {
+                padding: var(--space-md);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout-wrapper">
+        <!-- Optional overlay / sidebar hook. Keep your normal shared sidebar if your project injects one. -->
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+        <main class="main-content">
+            <header class="mobile-header">
+                <div class="header-left">
+                    <a class="logo" href="/" aria-label="mr. TEA home">
+                        <i class="fa-solid fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
+                </div>
+            </header>
+
+            <article class="lesson-page">
+                <div class="lesson-container">
+                    <!-- Breadcrumb -->
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/pages/12-programming/">Grade 12 Programming</a>
+                        <span class="sep">/</span>
+                        <span>Term 1</span>
+                        <span class="sep">/</span>
+                        <span>RGB Colors</span>
+                    </nav>
+
+                    <!-- Header -->
+                    <header class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fa-solid fa-code"></i>
+                            Unit 12.1A · Term 1
                         </div>
+                        <h1 class="lesson-title">RGB Colors</h1>
+                        <p class="lesson-intro">
+                            Computers build screen colours from three channels — <strong>Red</strong>,
+                            <strong>Green</strong>, and <strong>Blue</strong>. Each channel stores an intensity
+                            from <code>0</code> to <code>255</code>. By changing these three numbers, we can create
+                            <strong>16,777,216</strong> different RGB colours.
+                        </p>
                     </header>
 
-                    <article class="lesson-page">
-                        <div class="lesson-container">
-                            <!-- Breadcrumb -->
-                            <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
-                                <a href="/">Home</a>
-                                <span class="sep">/</span>
-                                <a href="/pages/12-programming/">Grade 12 Programming</a>
-                                <span class="sep">/</span>
-                                <span>Term 1</span>
-                                <span class="sep">/</span>
-                                <span>RGB Colors</span>
-                            </nav>
+                    <!-- Learning Objective -->
+                    <section class="lesson-lo-card" aria-labelledby="lo-title">
+                        <h3 id="lo-title"><i class="fa-solid fa-bullseye"></i> Learning Objective</h3>
+                        <ul class="lesson-lo-list">
+                            <li>
+                                <span class="lo-code">12.6.2.1</span>
+                                <span>Determine standard colors by RGB code.</span>
+                            </li>
+                        </ul>
+                    </section>
 
-                            <!-- Header -->
-                            <header class="lesson-header">
-                                <div class="lesson-unit-badge">
-                                    <i class="fa-solid fa-code"></i>
-                                    Unit 12.1A · Term 1
-                                </div>
-                                <h1 class="lesson-title">RGB Colors</h1>
-                                <p class="lesson-intro">
-                                    Computers build screen colours from three channels — <strong>Red</strong>,
-                                    <strong>Green</strong>, and <strong>Blue</strong>. Each channel stores an intensity
-                                    from <code>0</code> to <code>255</code>. By changing these three numbers, we can
-                                    create
-                                    <strong>16,777,216</strong> different RGB colours.
-                                </p>
-                            </header>
+                    <!-- Visual anchor -->
+                    <div class="rgb-hero-visual" role="img"
+                        aria-label="Red, green and blue light mixing additively on a dark background"></div>
 
-                            <!-- Learning Objective -->
-                            <section class="lesson-lo-card" aria-labelledby="lo-title">
-                                <h3 id="lo-title"><i class="fa-solid fa-bullseye"></i> Learning Objective</h3>
-                                <ul class="lesson-lo-list">
-                                    <li>
-                                        <span class="lo-code">12.6.2.1</span>
-                                        <span>Determine standard colors by RGB code.</span>
-                                    </li>
-                                </ul>
-                            </section>
+                    <!-- Conceptual Anchor -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            Conceptual Anchor
+                        </h2>
 
-                            <!-- Visual anchor -->
-                            <div class="rgb-hero-visual" role="img"
-                                aria-label="Red, green and blue light mixing additively on a dark background"></div>
+                        <div class="analogy-box">
+                            <h4><i class="fa-solid fa-bullseye"></i> The Three Spotlights Analogy</h4>
+                            <p>
+                                Imagine three spotlights aimed at the same wall: one red, one green and one blue.
+                                Each spotlight has a dimmer from <strong>0</strong> (off) to <strong>255</strong>
+                                (maximum intensity). Where the light overlaps, the colours combine. All three at
+                                maximum intensity create white light; all three switched off create black.
+                            </p>
+                        </div>
 
-                            <!-- Conceptual Anchor -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-lightbulb"></i>
-                                    Conceptual Anchor
-                                </h2>
+                        <div class="channel-explainer">
+                            <div class="channel-card red">
+                                <div class="channel-letter">R</div>
+                                <strong>Red channel</strong>
+                                <span>0 → 255</span>
+                            </div>
+                            <div class="channel-card green">
+                                <div class="channel-letter">G</div>
+                                <strong>Green channel</strong>
+                                <span>0 → 255</span>
+                            </div>
+                            <div class="channel-card blue">
+                                <div class="channel-letter">B</div>
+                                <strong>Blue channel</strong>
+                                <span>0 → 255</span>
+                            </div>
+                        </div>
+                    </section>
 
-                                <div class="analogy-box">
-                                    <h4><i class="fa-solid fa-bullseye"></i> The Three Spotlights Analogy</h4>
-                                    <p>
-                                        Imagine three spotlights aimed at the same wall: one red, one green and one
-                                        blue.
-                                        Each spotlight has a dimmer from <strong>0</strong> (off) to
-                                        <strong>255</strong>
-                                        (maximum intensity). Where the light overlaps, the colours combine. All three at
-                                        maximum intensity create white light; all three switched off create black.
-                                    </p>
-                                </div>
+                    <!-- Interactive lab -->
+                    <section class="lesson-section" id="rgb-mixer">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-sliders"></i>
+                            Interactive RGB Mixer
+                        </h2>
+                        <p class="concept-text">
+                            Move the three sliders. Predict the colour first, then compare your prediction with the
+                            preview.
+                            Notice how changing a single channel changes the final colour.
+                        </p>
 
-                                <div class="channel-explainer">
-                                    <div class="channel-card red">
-                                        <div class="channel-letter">R</div>
-                                        <strong>Red channel</strong>
-                                        <span>0 → 255</span>
-                                    </div>
-                                    <div class="channel-card green">
-                                        <div class="channel-letter">G</div>
-                                        <strong>Green channel</strong>
-                                        <span>0 → 255</span>
-                                    </div>
-                                    <div class="channel-card blue">
-                                        <div class="channel-letter">B</div>
-                                        <strong>Blue channel</strong>
-                                        <span>0 → 255</span>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <!-- Interactive lab -->
-                            <section class="lesson-section" id="rgb-mixer">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-sliders"></i>
-                                    Interactive RGB Mixer
-                                </h2>
-                                <p class="concept-text">
-                                    Move the three sliders. Predict the colour first, then compare your prediction with
-                                    the preview.
-                                    Notice how changing a single channel changes the final colour.
-                                </p>
-
-                                <div class="rgb-lab">
-                                    <div class="rgb-lab-grid">
-                                        <div>
-                                            <div class="rgb-controls">
-                                                <div class="rgb-control" data-channel="r">
-                                                    <label for="redRange">R</label>
-                                                    <input id="redRange" type="range" min="0" max="255" value="13"
-                                                        aria-label="Red channel">
-                                                    <output class="rgb-value" id="redValue">13</output>
-                                                </div>
-                                                <div class="rgb-control" data-channel="g">
-                                                    <label for="greenRange">G</label>
-                                                    <input id="greenRange" type="range" min="0" max="255" value="148"
-                                                        aria-label="Green channel">
-                                                    <output class="rgb-value" id="greenValue">148</output>
-                                                </div>
-                                                <div class="rgb-control" data-channel="b">
-                                                    <label for="blueRange">B</label>
-                                                    <input id="blueRange" type="range" min="0" max="255" value="136"
-                                                        aria-label="Blue channel">
-                                                    <output class="rgb-value" id="blueValue">136</output>
-                                                </div>
-                                            </div>
-
-                                            <div class="preset-row" aria-label="Standard colour presets">
-                                                <button class="preset-btn" type="button" data-r="0" data-g="0"
-                                                    data-b="0">
-                                                    <span class="preset-dot" style="background:#000"></span>Black
-                                                </button>
-                                                <button class="preset-btn" type="button" data-r="255" data-g="255"
-                                                    data-b="255">
-                                                    <span class="preset-dot" style="background:#fff"></span>White
-                                                </button>
-                                                <button class="preset-btn" type="button" data-r="255" data-g="0"
-                                                    data-b="0">
-                                                    <span class="preset-dot" style="background:#f00"></span>Red
-                                                </button>
-                                                <button class="preset-btn" type="button" data-r="0" data-g="255"
-                                                    data-b="0">
-                                                    <span class="preset-dot" style="background:#0f0"></span>Green
-                                                </button>
-                                                <button class="preset-btn" type="button" data-r="0" data-g="0"
-                                                    data-b="255">
-                                                    <span class="preset-dot" style="background:#00f"></span>Blue
-                                                </button>
-                                                <button class="preset-btn" type="button" data-r="255" data-g="255"
-                                                    data-b="0">
-                                                    <span class="preset-dot" style="background:#ff0"></span>Yellow
-                                                </button>
-                                                <button class="preset-btn" type="button" data-r="0" data-g="255"
-                                                    data-b="255">
-                                                    <span class="preset-dot" style="background:#0ff"></span>Cyan
-                                                </button>
-                                                <button class="preset-btn" type="button" data-r="255" data-g="0"
-                                                    data-b="255">
-                                                    <span class="preset-dot" style="background:#f0f"></span>Magenta
-                                                </button>
-                                            </div>
+                        <div class="rgb-lab">
+                            <div class="rgb-lab-grid">
+                                <div>
+                                    <div class="rgb-controls">
+                                        <div class="rgb-control" data-channel="r">
+                                            <label for="redRange">R</label>
+                                            <input id="redRange" type="range" min="0" max="255" value="13"
+                                                aria-label="Red channel">
+                                            <output class="rgb-value" id="redValue">13</output>
                                         </div>
+                                        <div class="rgb-control" data-channel="g">
+                                            <label for="greenRange">G</label>
+                                            <input id="greenRange" type="range" min="0" max="255" value="148"
+                                                aria-label="Green channel">
+                                            <output class="rgb-value" id="greenValue">148</output>
+                                        </div>
+                                        <div class="rgb-control" data-channel="b">
+                                            <label for="blueRange">B</label>
+                                            <input id="blueRange" type="range" min="0" max="255" value="136"
+                                                aria-label="Blue channel">
+                                            <output class="rgb-value" id="blueValue">136</output>
+                                        </div>
+                                    </div>
 
-                                        <div class="rgb-preview-wrap">
-                                            <div class="rgb-preview" id="rgbPreview">
-                                                <span class="preview-label" id="previewLabel">Try changing the
-                                                    sliders</span>
-                                            </div>
-                                            <div class="rgb-readout">
-                                                <div class="readout-cell">
-                                                    <small>RGB</small>
-                                                    <code id="rgbReadout">rgb(13, 148, 136)</code>
-                                                </div>
-                                                <div class="readout-cell">
-                                                    <small>Python tuple</small>
-                                                    <code id="tupleReadout">(13, 148, 136)</code>
-                                                </div>
-                                                <div class="readout-cell">
-                                                    <small>HEX</small>
-                                                    <code id="hexReadout">#0D9488</code>
-                                                </div>
-                                                <div class="readout-cell">
-                                                    <small>Brightness</small>
-                                                    <code id="brightnessReadout">medium</code>
-                                                </div>
-                                            </div>
+                                    <div class="preset-row" aria-label="Standard colour presets">
+                                        <button class="preset-btn" type="button" data-r="0" data-g="0" data-b="0">
+                                            <span class="preset-dot" style="background:#000"></span>Black
+                                        </button>
+                                        <button class="preset-btn" type="button" data-r="255" data-g="255" data-b="255">
+                                            <span class="preset-dot" style="background:#fff"></span>White
+                                        </button>
+                                        <button class="preset-btn" type="button" data-r="255" data-g="0" data-b="0">
+                                            <span class="preset-dot" style="background:#f00"></span>Red
+                                        </button>
+                                        <button class="preset-btn" type="button" data-r="0" data-g="255" data-b="0">
+                                            <span class="preset-dot" style="background:#0f0"></span>Green
+                                        </button>
+                                        <button class="preset-btn" type="button" data-r="0" data-g="0" data-b="255">
+                                            <span class="preset-dot" style="background:#00f"></span>Blue
+                                        </button>
+                                        <button class="preset-btn" type="button" data-r="255" data-g="255" data-b="0">
+                                            <span class="preset-dot" style="background:#ff0"></span>Yellow
+                                        </button>
+                                        <button class="preset-btn" type="button" data-r="0" data-g="255" data-b="255">
+                                            <span class="preset-dot" style="background:#0ff"></span>Cyan
+                                        </button>
+                                        <button class="preset-btn" type="button" data-r="255" data-g="0" data-b="255">
+                                            <span class="preset-dot" style="background:#f0f"></span>Magenta
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="rgb-preview-wrap">
+                                    <div class="rgb-preview" id="rgbPreview">
+                                        <span class="preview-label" id="previewLabel">Try changing the sliders</span>
+                                    </div>
+                                    <div class="rgb-readout">
+                                        <div class="readout-cell">
+                                            <small>RGB</small>
+                                            <code id="rgbReadout">rgb(13, 148, 136)</code>
+                                        </div>
+                                        <div class="readout-cell">
+                                            <small>Python tuple</small>
+                                            <code id="tupleReadout">(13, 148, 136)</code>
+                                        </div>
+                                        <div class="readout-cell">
+                                            <small>HEX</small>
+                                            <code id="hexReadout">#0D9488</code>
+                                        </div>
+                                        <div class="readout-cell">
+                                            <small>Brightness</small>
+                                            <code id="brightnessReadout">medium</code>
                                         </div>
                                     </div>
                                 </div>
-                            </section>
+                            </div>
+                        </div>
+                    </section>
 
-                            <!-- Theory -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-book-open"></i>
-                                    Rules & Theory
-                                </h2>
+                    <!-- Theory -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-book-open"></i>
+                            Rules & Theory
+                        </h2>
 
-                                <h3 class="mini-heading">1. How an RGB value is written</h3>
-                                <p class="concept-text">
-                                    An RGB colour is normally written as <span class="inline-code">(R, G, B)</span>.
-                                    The <strong>first</strong> number controls red, the <strong>second</strong> controls
-                                    green,
-                                    and the <strong>third</strong> controls blue.
-                                </p>
+                        <h3 class="mini-heading">1. How an RGB value is written</h3>
+                        <p class="concept-text">
+                            An RGB colour is normally written as <span class="inline-code">(R, G, B)</span>.
+                            The <strong>first</strong> number controls red, the <strong>second</strong> controls green,
+                            and the <strong>third</strong> controls blue.
+                        </p>
 
-                                <div class="worked-example">
-                                    <h4><span class="step-num">1</span> Read the tuple <code>(255, 128, 0)</code></h4>
-                                    <p>
-                                        Red is at maximum intensity (<strong>255</strong>), green is at half intensity
-                                        (<strong>128</strong>), and blue is off (<strong>0</strong>). The result is
-                                        orange.
-                                    </p>
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Read the tuple <code>(255, 128, 0)</code></h4>
+                            <p>
+                                Red is at maximum intensity (<strong>255</strong>), green is at half intensity
+                                (<strong>128</strong>), and blue is off (<strong>0</strong>). The result is orange.
+                            </p>
+                        </div>
+
+                        <h3 class="mini-heading">2. Channel intensity</h3>
+                        <div class="intensity-demo">
+                            <div class="intensity-row">
+                                <span>Red channel</span>
+                                <div class="intensity-bar">
+                                    <div class="intensity-fill red"></div>
                                 </div>
-
-                                <h3 class="mini-heading">2. Channel intensity</h3>
-                                <div class="intensity-demo">
-                                    <div class="intensity-row">
-                                        <span>Red channel</span>
-                                        <div class="intensity-bar">
-                                            <div class="intensity-fill red"></div>
-                                        </div>
-                                        <code>0–255</code>
-                                    </div>
-                                    <div class="intensity-row">
-                                        <span>Green channel</span>
-                                        <div class="intensity-bar">
-                                            <div class="intensity-fill green"></div>
-                                        </div>
-                                        <code>0–255</code>
-                                    </div>
-                                    <div class="intensity-row">
-                                        <span>Blue channel</span>
-                                        <div class="intensity-bar">
-                                            <div class="intensity-fill blue"></div>
-                                        </div>
-                                        <code>0–255</code>
-                                    </div>
+                                <code>0–255</code>
+                            </div>
+                            <div class="intensity-row">
+                                <span>Green channel</span>
+                                <div class="intensity-bar">
+                                    <div class="intensity-fill green"></div>
                                 </div>
-
-                                <div class="note-box">
-                                    <h4><i class="fa-solid fa-circle-info"></i> Why 0–255?</h4>
-                                    <p>
-                                        Each channel is commonly stored using <strong>8 bits</strong>. Eight bits can
-                                        represent
-                                        256 values: 0 to 255. Therefore RGB gives
-                                        <strong>256 × 256 × 256 = 16,777,216</strong> possible colours.
-                                    </p>
+                                <code>0–255</code>
+                            </div>
+                            <div class="intensity-row">
+                                <span>Blue channel</span>
+                                <div class="intensity-bar">
+                                    <div class="intensity-fill blue"></div>
                                 </div>
+                                <code>0–255</code>
+                            </div>
+                        </div>
 
-                                <h3 class="mini-heading">3. Standard RGB Colors</h3>
-                                <p class="concept-text">
-                                    Learn the primary and secondary colours first. They make it much easier to reason
-                                    about
-                                    unfamiliar RGB values in programming tasks.
-                                </p>
+                        <div class="note-box">
+                            <h4><i class="fa-solid fa-circle-info"></i> Why 0–255?</h4>
+                            <p>
+                                Each channel is commonly stored using <strong>8 bits</strong>. Eight bits can represent
+                                256 values: 0 to 255. Therefore RGB gives
+                                <strong>256 × 256 × 256 = 16,777,216</strong> possible colours.
+                            </p>
+                        </div>
 
-                                <div class="swatch-grid" aria-label="Standard RGB colour swatches">
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#000000"></div>
-                                        <div class="swatch-info"><strong>Black</strong><code>(0, 0, 0)</code></div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#ffffff"></div>
-                                        <div class="swatch-info"><strong>White</strong><code>(255, 255, 255)</code>
-                                        </div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#ff0000"></div>
-                                        <div class="swatch-info"><strong>Red</strong><code>(255, 0, 0)</code></div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#00ff00"></div>
-                                        <div class="swatch-info"><strong>Green</strong><code>(0, 255, 0)</code></div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#0000ff"></div>
-                                        <div class="swatch-info"><strong>Blue</strong><code>(0, 0, 255)</code></div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#ffff00"></div>
-                                        <div class="swatch-info"><strong>Yellow</strong><code>(255, 255, 0)</code></div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#00ffff"></div>
-                                        <div class="swatch-info"><strong>Cyan</strong><code>(0, 255, 255)</code></div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#ff00ff"></div>
-                                        <div class="swatch-info"><strong>Magenta</strong><code>(255, 0, 255)</code>
-                                        </div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#808080"></div>
-                                        <div class="swatch-info"><strong>Gray</strong><code>(128, 128, 128)</code></div>
-                                    </div>
-                                    <div class="color-swatch">
-                                        <div class="swatch-color" style="background:#ffa500"></div>
-                                        <div class="swatch-info"><strong>Orange</strong><code>(255, 165, 0)</code></div>
-                                    </div>
-                                </div>
+                        <h3 class="mini-heading">3. Standard RGB Colors</h3>
+                        <p class="concept-text">
+                            Learn the primary and secondary colours first. They make it much easier to reason about
+                            unfamiliar RGB values in programming tasks.
+                        </p>
 
-                                <table class="theory-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Color</th>
-                                            <th>RGB code</th>
-                                            <th>Reason</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Black</td>
-                                            <td><code>(0, 0, 0)</code></td>
-                                            <td>No light from any channel</td>
-                                        </tr>
-                                        <tr>
-                                            <td>White</td>
-                                            <td><code>(255, 255, 255)</code></td>
-                                            <td>All channels at maximum</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Red</td>
-                                            <td><code>(255, 0, 0)</code></td>
-                                            <td>Only red is on</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Green</td>
-                                            <td><code>(0, 255, 0)</code></td>
-                                            <td>Only green is on</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Blue</td>
-                                            <td><code>(0, 0, 255)</code></td>
-                                            <td>Only blue is on</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Yellow</td>
-                                            <td><code>(255, 255, 0)</code></td>
-                                            <td>Red + Green</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Cyan</td>
-                                            <td><code>(0, 255, 255)</code></td>
-                                            <td>Green + Blue</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Magenta</td>
-                                            <td><code>(255, 0, 255)</code></td>
-                                            <td>Red + Blue</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </section>
+                        <div class="swatch-grid" aria-label="Standard RGB colour swatches">
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#000000"></div>
+                                <div class="swatch-info"><strong>Black</strong><code>(0, 0, 0)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#ffffff"></div>
+                                <div class="swatch-info"><strong>White</strong><code>(255, 255, 255)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#ff0000"></div>
+                                <div class="swatch-info"><strong>Red</strong><code>(255, 0, 0)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#00ff00"></div>
+                                <div class="swatch-info"><strong>Green</strong><code>(0, 255, 0)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#0000ff"></div>
+                                <div class="swatch-info"><strong>Blue</strong><code>(0, 0, 255)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#ffff00"></div>
+                                <div class="swatch-info"><strong>Yellow</strong><code>(255, 255, 0)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#00ffff"></div>
+                                <div class="swatch-info"><strong>Cyan</strong><code>(0, 255, 255)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#ff00ff"></div>
+                                <div class="swatch-info"><strong>Magenta</strong><code>(255, 0, 255)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#808080"></div>
+                                <div class="swatch-info"><strong>Gray</strong><code>(128, 128, 128)</code></div>
+                            </div>
+                            <div class="color-swatch">
+                                <div class="swatch-color" style="background:#ffa500"></div>
+                                <div class="swatch-info"><strong>Orange</strong><code>(255, 165, 0)</code></div>
+                            </div>
+                        </div>
 
-                            <!-- Additive mixing -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-circle-nodes"></i>
-                                    Additive Color Mixing
-                                </h2>
-                                <p class="concept-text">
-                                    RGB is an <strong>additive</strong> colour model because we add light. Combining two
-                                    primary
-                                    channels creates a secondary colour. Combining all three at full intensity creates
-                                    white.
-                                </p>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Color</th>
+                                    <th>RGB code</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Black</td>
+                                    <td><code>(0, 0, 0)</code></td>
+                                    <td>No light from any channel</td>
+                                </tr>
+                                <tr>
+                                    <td>White</td>
+                                    <td><code>(255, 255, 255)</code></td>
+                                    <td>All channels at maximum</td>
+                                </tr>
+                                <tr>
+                                    <td>Red</td>
+                                    <td><code>(255, 0, 0)</code></td>
+                                    <td>Only red is on</td>
+                                </tr>
+                                <tr>
+                                    <td>Green</td>
+                                    <td><code>(0, 255, 0)</code></td>
+                                    <td>Only green is on</td>
+                                </tr>
+                                <tr>
+                                    <td>Blue</td>
+                                    <td><code>(0, 0, 255)</code></td>
+                                    <td>Only blue is on</td>
+                                </tr>
+                                <tr>
+                                    <td>Yellow</td>
+                                    <td><code>(255, 255, 0)</code></td>
+                                    <td>Red + Green</td>
+                                </tr>
+                                <tr>
+                                    <td>Cyan</td>
+                                    <td><code>(0, 255, 255)</code></td>
+                                    <td>Green + Blue</td>
+                                </tr>
+                                <tr>
+                                    <td>Magenta</td>
+                                    <td><code>(255, 0, 255)</code></td>
+                                    <td>Red + Blue</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
 
-                                <div class="mixing-stage" role="img"
-                                    aria-label="Additive RGB diagram showing red and green make yellow, green and blue make cyan, red and blue make magenta, and all three make white">
-                                    <div class="mix-circle red"></div>
-                                    <div class="mix-circle green"></div>
-                                    <div class="mix-circle blue"></div>
-                                    <span class="mix-label r">RED</span>
-                                    <span class="mix-label g">GREEN</span>
-                                    <span class="mix-label b">BLUE</span>
-                                </div>
+                    <!-- Additive mixing -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-circle-nodes"></i>
+                            Additive Color Mixing
+                        </h2>
+                        <p class="concept-text">
+                            RGB is an <strong>additive</strong> colour model because we add light. Combining two primary
+                            channels creates a secondary colour. Combining all three at full intensity creates white.
+                        </p>
 
-                                <table class="theory-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Mix</th>
-                                            <th>Result</th>
-                                            <th>RGB</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Red + Green</td>
-                                            <td>Yellow</td>
-                                            <td><code>(255, 255, 0)</code></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Red + Blue</td>
-                                            <td>Magenta</td>
-                                            <td><code>(255, 0, 255)</code></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Green + Blue</td>
-                                            <td>Cyan</td>
-                                            <td><code>(0, 255, 255)</code></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Red + Green + Blue</td>
-                                            <td>White</td>
-                                            <td><code>(255, 255, 255)</code></td>
-                                        </tr>
-                                        <tr>
-                                            <td>No channels</td>
-                                            <td>Black</td>
-                                            <td><code>(0, 0, 0)</code></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <div class="mixing-stage" role="img"
+                            aria-label="Additive RGB diagram showing red and green make yellow, green and blue make cyan, red and blue make magenta, and all three make white">
+                            <div class="mix-circle red"></div>
+                            <div class="mix-circle green"></div>
+                            <div class="mix-circle blue"></div>
+                            <span class="mix-label r">RED</span>
+                            <span class="mix-label g">GREEN</span>
+                            <span class="mix-label b">BLUE</span>
+                        </div>
 
-                                <div class="pitfall-box">
-                                    <h4><i class="fa-solid fa-triangle-exclamation"></i> RGB light is not the same as
-                                        mixing paint</h4>
-                                    <p>
-                                        RGB uses <strong>light</strong>. Adding more RGB light makes the result brighter
-                                        and can
-                                        reach white. Paint and printer inks use subtractive colour mixing, so the
-                                        behaviour is different.
-                                    </p>
-                                </div>
-                            </section>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Mix</th>
+                                    <th>Result</th>
+                                    <th>RGB</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Red + Green</td>
+                                    <td>Yellow</td>
+                                    <td><code>(255, 255, 0)</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Red + Blue</td>
+                                    <td>Magenta</td>
+                                    <td><code>(255, 0, 255)</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Green + Blue</td>
+                                    <td>Cyan</td>
+                                    <td><code>(0, 255, 255)</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Red + Green + Blue</td>
+                                    <td>White</td>
+                                    <td><code>(255, 255, 255)</code></td>
+                                </tr>
+                                <tr>
+                                    <td>No channels</td>
+                                    <td>Black</td>
+                                    <td><code>(0, 0, 0)</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <!-- Reasoning with RGB -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-brain"></i>
-                                    How to Predict a Color from RGB
-                                </h2>
-                                <p class="concept-text">
-                                    You do not have to memorise millions of RGB values. Compare the three channel
-                                    intensities.
-                                    The largest values tell you which colours dominate.
-                                </p>
+                        <div class="pitfall-box">
+                            <h4><i class="fa-solid fa-triangle-exclamation"></i> RGB light is not the same as mixing
+                                paint</h4>
+                            <p>
+                                RGB uses <strong>light</strong>. Adding more RGB light makes the result brighter and can
+                                reach white. Paint and printer inks use subtractive colour mixing, so the behaviour is
+                                different.
+                            </p>
+                        </div>
+                    </section>
 
-                                <div class="prediction-grid">
-                                    <div class="prediction-card">
-                                        <div class="prediction-color" style="background:rgb(0,128,128)">
-                                            <code>(0, 128, 128)</code>
-                                        </div>
-                                        <p><strong>Green + Blue</strong>, both medium, no red → a darker cyan / teal.
-                                        </p>
-                                    </div>
-                                    <div class="prediction-card">
-                                        <div class="prediction-color" style="background:rgb(255,128,0)">
-                                            <code>(255, 128, 0)</code>
-                                        </div>
-                                        <p><strong>Strong red + some green</strong>, no blue → orange.</p>
-                                    </div>
-                                    <div class="prediction-card">
-                                        <div class="prediction-color" style="background:rgb(180,180,180)">
-                                            <code>(180, 180, 180)</code>
-                                        </div>
-                                        <p><strong>R = G = B</strong> → always a shade of gray.</p>
-                                    </div>
-                                </div>
+                    <!-- Reasoning with RGB -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-brain"></i>
+                            How to Predict a Color from RGB
+                        </h2>
+                        <p class="concept-text">
+                            You do not have to memorise millions of RGB values. Compare the three channel intensities.
+                            The largest values tell you which colours dominate.
+                        </p>
 
-                                <div class="pro-tip-box">
-                                    <h4><i class="fa-solid fa-wand-magic-sparkles"></i> Fast exam rule</h4>
-                                    <p>
-                                        If two channels are high and one is low, start from the two-colour mixing rule.
-                                        If all three are equal, the result is grayscale. If all are low, the colour is
-                                        dark;
-                                        if all are high, it is bright.
-                                    </p>
-                                </div>
-                            </section>
+                        <div class="prediction-grid">
+                            <div class="prediction-card">
+                                <div class="prediction-color" style="background:rgb(0,128,128)">
+                                    <code>(0, 128, 128)</code></div>
+                                <p><strong>Green + Blue</strong>, both medium, no red → a darker cyan / teal.</p>
+                            </div>
+                            <div class="prediction-card">
+                                <div class="prediction-color" style="background:rgb(255,128,0)">
+                                    <code>(255, 128, 0)</code></div>
+                                <p><strong>Strong red + some green</strong>, no blue → orange.</p>
+                            </div>
+                            <div class="prediction-card">
+                                <div class="prediction-color" style="background:rgb(180,180,180)">
+                                    <code>(180, 180, 180)</code></div>
+                                <p><strong>R = G = B</strong> → always a shade of gray.</p>
+                            </div>
+                        </div>
 
-                            <!-- Hex -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-hashtag"></i>
-                                    RGB and Hexadecimal Colors
-                                </h2>
-                                <p class="concept-text">
-                                    Websites often write the same RGB information in hexadecimal. A six-digit HEX colour
-                                    has
-                                    three pairs: <strong>RR GG BB</strong>. Each pair represents one 0–255 channel using
-                                    hexadecimal <code>00</code> to <code>FF</code>.
-                                </p>
+                        <div class="pro-tip-box">
+                            <h4><i class="fa-solid fa-wand-magic-sparkles"></i> Fast exam rule</h4>
+                            <p>
+                                If two channels are high and one is low, start from the two-colour mixing rule.
+                                If all three are equal, the result is grayscale. If all are low, the colour is dark;
+                                if all are high, it is bright.
+                            </p>
+                        </div>
+                    </section>
 
-                                <div class="hex-split">
-                                    <div class="hex-part red">
-                                        <span class="hex-pair">FF</span>
-                                        <strong>Red</strong>
-                                        <small>FF<sub>16</sub> = 255<sub>10</sub></small>
-                                    </div>
-                                    <div class="hex-part green">
-                                        <span class="hex-pair">A5</span>
-                                        <strong>Green</strong>
-                                        <small>A5<sub>16</sub> = 165<sub>10</sub></small>
-                                    </div>
-                                    <div class="hex-part blue">
-                                        <span class="hex-pair">00</span>
-                                        <strong>Blue</strong>
-                                        <small>00<sub>16</sub> = 0<sub>10</sub></small>
-                                    </div>
-                                </div>
+                    <!-- Hex -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-hashtag"></i>
+                            RGB and Hexadecimal Colors
+                        </h2>
+                        <p class="concept-text">
+                            Websites often write the same RGB information in hexadecimal. A six-digit HEX colour has
+                            three pairs: <strong>RR GG BB</strong>. Each pair represents one 0–255 channel using
+                            hexadecimal <code>00</code> to <code>FF</code>.
+                        </p>
 
-                                <div class="worked-example">
-                                    <h4><span class="step-num">2</span> Example: orange</h4>
-                                    <p>
-                                        RGB <code>(255, 165, 0)</code> corresponds to HEX <code>#FFA500</code>:
-                                        <code>FF = 255</code>, <code>A5 = 165</code>, <code>00 = 0</code>.
-                                    </p>
-                                </div>
-                            </section>
+                        <div class="hex-split">
+                            <div class="hex-part red">
+                                <span class="hex-pair">FF</span>
+                                <strong>Red</strong>
+                                <small>FF<sub>16</sub> = 255<sub>10</sub></small>
+                            </div>
+                            <div class="hex-part green">
+                                <span class="hex-pair">A5</span>
+                                <strong>Green</strong>
+                                <small>A5<sub>16</sub> = 165<sub>10</sub></small>
+                            </div>
+                            <div class="hex-part blue">
+                                <span class="hex-pair">00</span>
+                                <strong>Blue</strong>
+                                <small>00<sub>16</sub> = 0<sub>10</sub></small>
+                            </div>
+                        </div>
 
-                            <!-- Python -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-brands fa-python"></i>
-                                    Using RGB in Python
-                                </h2>
-                                <p class="concept-text">
-                                    In Python, colours are commonly stored as <strong>tuples</strong>. The order must be
-                                    <code>(red, green, blue)</code>.
-                                </p>
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Example: orange</h4>
+                            <p>
+                                RGB <code>(255, 165, 0)</code> corresponds to HEX <code>#FFA500</code>:
+                                <code>FF = 255</code>, <code>A5 = 165</code>, <code>00 = 0</code>.
+                            </p>
+                        </div>
+                    </section>
 
-                                <div class="worked-example">
-                                    <h4><span class="step-num">3</span> Store standard colours</h4>
-                                    <button class="copy-code-btn" type="button" data-copy-target="code-standard">
-                                        <i class="fa-regular fa-copy"></i> Copy
-                                    </button>
-                                    <pre class="code-block"><code id="code-standard">RED = (255, 0, 0)
+                    <!-- Python -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-brands fa-python"></i>
+                            Using RGB in Python
+                        </h2>
+                        <p class="concept-text">
+                            In Python, colours are commonly stored as <strong>tuples</strong>. The order must be
+                            <code>(red, green, blue)</code>.
+                        </p>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Store standard colours</h4>
+                            <button class="copy-code-btn" type="button" data-copy-target="code-standard">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                            <pre class="code-block"><code id="code-standard">RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
@@ -1459,14 +1123,14 @@ MAGENTA = (255, 0, 255)
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)</code></pre>
-                                </div>
+                        </div>
 
-                                <div class="worked-example">
-                                    <h4><span class="step-num">4</span> Access individual channels</h4>
-                                    <button class="copy-code-btn" type="button" data-copy-target="code-channels">
-                                        <i class="fa-regular fa-copy"></i> Copy
-                                    </button>
-                                    <pre class="code-block"><code id="code-channels">color = (100, 200, 50)
+                        <div class="worked-example">
+                            <h4><span class="step-num">4</span> Access individual channels</h4>
+                            <button class="copy-code-btn" type="button" data-copy-target="code-channels">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                            <pre class="code-block"><code id="code-channels">color = (100, 200, 50)
 
 r = color[0]   # 100
 g = color[1]   # 200
@@ -1475,14 +1139,14 @@ b = color[2]   # 50
 print("Red:", r)
 print("Green:", g)
 print("Blue:", b)</code></pre>
-                                </div>
+                        </div>
 
-                                <div class="worked-example">
-                                    <h4><span class="step-num">5</span> Generate a random RGB colour</h4>
-                                    <button class="copy-code-btn" type="button" data-copy-target="code-random">
-                                        <i class="fa-regular fa-copy"></i> Copy
-                                    </button>
-                                    <pre class="code-block"><code id="code-random">import random
+                        <div class="worked-example">
+                            <h4><span class="step-num">5</span> Generate a random RGB colour</h4>
+                            <button class="copy-code-btn" type="button" data-copy-target="code-random">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                            <pre class="code-block"><code id="code-random">import random
 
 r = random.randint(0, 255)
 g = random.randint(0, 255)
@@ -1490,296 +1154,292 @@ b = random.randint(0, 255)
 
 color = (r, g, b)
 print(color)</code></pre>
-                                </div>
-
-                                <div class="note-box">
-                                    <h4><i class="fa-solid fa-arrow-right"></i> Bridge to the next lesson: Pillow</h4>
-                                    <p>
-                                        In Pillow, the same RGB tuples are used when creating images and setting pixel
-                                        colours.
-                                        For example: <code>Image.new("RGB", (400, 300), (255, 165, 0))</code> creates an
-                                        orange image.
-                                    </p>
-                                </div>
-                            </section>
-
-                            <!-- Common pitfalls -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                    Common Pitfalls
-                                </h2>
-
-                                <div class="pitfall-box">
-                                    <h4><i class="fa-solid fa-shuffle"></i> Wrong channel order</h4>
-                                    <p>
-                                        RGB always means <strong>Red, Green, Blue</strong>. For example,
-                                        <code>(255, 0, 0)</code> is red, but <code>(0, 0, 255)</code> is blue.
-                                    </p>
-                                </div>
-
-                                <div class="pitfall-box">
-                                    <h4><i class="fa-solid fa-arrow-up-9-1"></i> Values outside 0–255</h4>
-                                    <p>
-                                        Standard 8-bit RGB channels must stay between <code>0</code> and
-                                        <code>255</code>.
-                                        A value such as <code>(300, 20, -5)</code> is invalid in normal 8-bit RGB.
-                                    </p>
-                                </div>
-
-                                <div class="pitfall-box">
-                                    <h4><i class="fa-solid fa-palette"></i> Additive vs subtractive mixing</h4>
-                                    <p>
-                                        RGB is for emitted light from screens. Do not apply the same rules you use when
-                                        mixing paints.
-                                    </p>
-                                </div>
-                            </section>
-
-                            <!-- Tasks -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-list-check"></i>
-                                    Tasks
-                                </h2>
-
-                                <div class="assessment-tasks">
-                                    <div class="task-item">
-                                        <span class="task-level remember">Remember</span>
-                                        <p>Write the RGB tuples for <strong>red, green, blue, white, black, yellow,
-                                                cyan</strong> and <strong>magenta</strong>.</p>
-                                    </div>
-
-                                    <div class="task-item">
-                                        <span class="task-level understand">Understand</span>
-                                        <p>Without using the mixer first, predict the colours of
-                                            <code>(0, 128, 128)</code>, <code>(255, 128, 0)</code> and
-                                            <code>(160, 160, 160)</code>. Then verify your answers using the sliders.
-                                        </p>
-                                    </div>
-
-                                    <div class="task-item">
-                                        <span class="task-level apply">Apply</span>
-                                        <p>Use the RGB mixer to create a dark purple colour. Record the tuple you
-                                            produced and explain which channels are dominant.</p>
-                                    </div>
-
-                                    <div class="task-item">
-                                        <span class="task-level analyze">Analyze</span>
-                                        <p>Compare <code>(200, 50, 50)</code> and <code>(50, 200, 50)</code>. Explain
-                                            why they look different even though they contain the same three numbers.</p>
-                                    </div>
-
-                                    <div class="task-item">
-                                        <span class="task-level create">Create</span>
-                                        <p>Write a Python program that creates a list containing five RGB colour tuples
-                                            of your own palette. Print each colour and its individual R, G and B channel
-                                            values.</p>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <!-- Self-check -->
-                            <section class="lesson-section">
-                                <h2 class="lesson-section-title">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Self-Check Quiz
-                                </h2>
-
-                                <div class="quiz-item">
-                                    <p class="quiz-question">Q1. What RGB tuple represents pure green?</p>
-                                    <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
-                                        <strong>(0, 255, 0)</strong> — only the green channel is at maximum intensity.
-                                    </div>
-                                </div>
-
-                                <div class="quiz-item">
-                                    <p class="quiz-question">Q2. What colour is produced by (255, 255, 0)?</p>
-                                    <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
-                                        <strong>Yellow</strong> — maximum red + maximum green, with no blue.
-                                    </div>
-                                </div>
-
-                                <div class="quiz-item">
-                                    <p class="quiz-question">Q3. What happens when R = G = B?</p>
-                                    <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
-                                        The result is a <strong>shade of gray</strong>. Low equal values are dark; high
-                                        equal values are light.
-                                    </div>
-                                </div>
-
-                                <div class="quiz-item">
-                                    <p class="quiz-question">Q4. Why can one RGB channel store 256 intensity levels?</p>
-                                    <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
-                                        A standard channel uses <strong>8 bits</strong>, so it has 2<sup>8</sup> = 256
-                                        possible values: 0–255.
-                                    </div>
-                                </div>
-
-                                <div class="quiz-item">
-                                    <p class="quiz-question">Q5. What is the HEX form of pure blue?</p>
-                                    <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
-                                        <strong>#0000FF</strong> — red = 00, green = 00, blue = FF.
-                                    </div>
-                                </div>
-                            </section>
-
-                            <!-- Lesson navigation -->
-                            <nav class="lesson-nav" aria-label="Lesson navigation">
-                                <a href="/pages/12-programming/term1/random-library.html">
-                                    <i class="fa-solid fa-arrow-left"></i>
-                                    <span>
-                                        <span class="nav-label">Previous</span>
-                                        <span class="nav-title">Random Library</span>
-                                    </span>
-                                </a>
-
-                                <a href="/pages/12-programming/term1/pil-image-basics.html">
-                                    <span>
-                                        <span class="nav-label">Next</span>
-                                        <span class="nav-title">PIL Image Basics</span>
-                                    </span>
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </a>
-                            </nav>
                         </div>
-                    </article>
 
-                    <footer class="site-footer">
-                        <div class="footer-inner">
-                            <div class="footer-brand">
-                                <i class="fa-solid fa-mug-hot"></i>
-                                mr. TEA
+                        <div class="note-box">
+                            <h4><i class="fa-solid fa-arrow-right"></i> Bridge to the next lesson: Pillow</h4>
+                            <p>
+                                In Pillow, the same RGB tuples are used when creating images and setting pixel colours.
+                                For example: <code>Image.new("RGB", (400, 300), (255, 165, 0))</code> creates an orange
+                                image.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Common pitfalls -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Common Pitfalls
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fa-solid fa-shuffle"></i> Wrong channel order</h4>
+                            <p>
+                                RGB always means <strong>Red, Green, Blue</strong>. For example,
+                                <code>(255, 0, 0)</code> is red, but <code>(0, 0, 255)</code> is blue.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fa-solid fa-arrow-up-9-1"></i> Values outside 0–255</h4>
+                            <p>
+                                Standard 8-bit RGB channels must stay between <code>0</code> and <code>255</code>.
+                                A value such as <code>(300, 20, -5)</code> is invalid in normal 8-bit RGB.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fa-solid fa-palette"></i> Additive vs subtractive mixing</h4>
+                            <p>
+                                RGB is for emitted light from screens. Do not apply the same rules you use when mixing
+                                paints.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Tasks -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-list-check"></i>
+                            Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>Write the RGB tuples for <strong>red, green, blue, white, black, yellow,
+                                        cyan</strong> and <strong>magenta</strong>.</p>
                             </div>
-                            <p>NIS Grade 12 · Computer Science · Programming</p>
-                            <div class="footer-copy">© 2026 mr. TEA</div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>Without using the mixer first, predict the colours of <code>(0, 128, 128)</code>,
+                                    <code>(255, 128, 0)</code> and <code>(160, 160, 160)</code>. Then verify your
+                                    answers using the sliders.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>Use the RGB mixer to create a dark purple colour. Record the tuple you produced and
+                                    explain which channels are dominant.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>Compare <code>(200, 50, 50)</code> and <code>(50, 200, 50)</code>. Explain why they
+                                    look different even though they contain the same three numbers.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>Write a Python program that creates a list containing five RGB colour tuples of your
+                                    own palette. Print each colour and its individual R, G and B channel values.</p>
+                            </div>
                         </div>
-                    </footer>
-                </main>
-            </div>
+                    </section>
 
-            <script>
-                (() => {
-                    'use strict';
+                    <!-- Self-check -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Self-Check Quiz
+                        </h2>
 
-                    /* ========================================================
-                       INTERACTIVE RGB MIXER
-                       ======================================================== */
-                    const redRange = document.getElementById('redRange');
-                    const greenRange = document.getElementById('greenRange');
-                    const blueRange = document.getElementById('blueRange');
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1. What RGB tuple represents pure green?</p>
+                            <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
+                                <strong>(0, 255, 0)</strong> — only the green channel is at maximum intensity.
+                            </div>
+                        </div>
 
-                    const redValue = document.getElementById('redValue');
-                    const greenValue = document.getElementById('greenValue');
-                    const blueValue = document.getElementById('blueValue');
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2. What colour is produced by (255, 255, 0)?</p>
+                            <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
+                                <strong>Yellow</strong> — maximum red + maximum green, with no blue.
+                            </div>
+                        </div>
 
-                    const preview = document.getElementById('rgbPreview');
-                    const previewLabel = document.getElementById('previewLabel');
-                    const rgbReadout = document.getElementById('rgbReadout');
-                    const tupleReadout = document.getElementById('tupleReadout');
-                    const hexReadout = document.getElementById('hexReadout');
-                    const brightnessReadout = document.getElementById('brightnessReadout');
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3. What happens when R = G = B?</p>
+                            <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
+                                The result is a <strong>shade of gray</strong>. Low equal values are dark; high equal
+                                values are light.
+                            </div>
+                        </div>
 
-                    function channelToHex(value) {
-                        return Number(value).toString(16).padStart(2, '0').toUpperCase();
-                    }
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4. Why can one RGB channel store 256 intensity levels?</p>
+                            <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
+                                A standard channel uses <strong>8 bits</strong>, so it has 2<sup>8</sup> = 256 possible
+                                values: 0–255.
+                            </div>
+                        </div>
 
-                    function perceivedBrightness(r, g, b) {
-                        return (0.299 * r) + (0.587 * g) + (0.114 * b);
-                    }
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q5. What is the HEX form of pure blue?</p>
+                            <div class="quiz-answer" tabindex="0" role="button" aria-expanded="false">
+                                <strong>#0000FF</strong> — red = 00, green = 00, blue = FF.
+                            </div>
+                        </div>
+                    </section>
 
-                    function brightnessName(value) {
-                        if (value < 70) return 'dark';
-                        if (value < 185) return 'medium';
-                        return 'light';
-                    }
+                    <!-- Lesson navigation -->
+                    <nav class="lesson-nav" aria-label="Lesson navigation">
+                        <a href="/pages/12-programming/term1/random-library.html">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>
+                                <span class="nav-label">Previous</span>
+                                <span class="nav-title">Random Library</span>
+                            </span>
+                        </a>
 
-                    function readableTextColor(brightness) {
-                        return brightness > 150 ? '#111827' : '#ffffff';
-                    }
+                        <a href="/pages/12-programming/term1/pil-image-basics.html">
+                            <span>
+                                <span class="nav-label">Next</span>
+                                <span class="nav-title">PIL Image Basics</span>
+                            </span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </nav>
+                </div>
+            </article>
 
-                    function updateMixer() {
-                        const r = Number(redRange.value);
-                        const g = Number(greenRange.value);
-                        const b = Number(blueRange.value);
+            <footer class="site-footer">
+                <div class="footer-inner">
+                    <div class="footer-brand">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        mr. TEA
+                    </div>
+                    <p>NIS Grade 12 · Computer Science · Programming</p>
+                    <div class="footer-copy">© 2026 mr. TEA</div>
+                </div>
+            </footer>
+        </main>
+    </div>
 
-                        const rgb = `rgb(${r}, ${g}, ${b})`;
-                        const tuple = `(${r}, ${g}, ${b})`;
-                        const hex = `#${channelToHex(r)}${channelToHex(g)}${channelToHex(b)}`;
-                        const brightness = perceivedBrightness(r, g, b);
+    <script>
+        (() => {
+            'use strict';
 
-                        redValue.value = r;
-                        greenValue.value = g;
-                        blueValue.value = b;
+            /* ========================================================
+               INTERACTIVE RGB MIXER
+               ======================================================== */
+            const redRange = document.getElementById('redRange');
+            const greenRange = document.getElementById('greenRange');
+            const blueRange = document.getElementById('blueRange');
 
-                        preview.style.backgroundColor = rgb;
-                        previewLabel.style.color = readableTextColor(brightness);
-                        previewLabel.style.background = brightness > 150
-                            ? 'rgba(255,255,255,.50)'
-                            : 'rgba(0,0,0,.40)';
+            const redValue = document.getElementById('redValue');
+            const greenValue = document.getElementById('greenValue');
+            const blueValue = document.getElementById('blueValue');
 
-                        rgbReadout.textContent = rgb;
-                        tupleReadout.textContent = tuple;
-                        hexReadout.textContent = hex;
-                        brightnessReadout.textContent = brightnessName(brightness);
-                    }
+            const preview = document.getElementById('rgbPreview');
+            const previewLabel = document.getElementById('previewLabel');
+            const rgbReadout = document.getElementById('rgbReadout');
+            const tupleReadout = document.getElementById('tupleReadout');
+            const hexReadout = document.getElementById('hexReadout');
+            const brightnessReadout = document.getElementById('brightnessReadout');
 
-                    [redRange, greenRange, blueRange].forEach(slider => {
-                        slider.addEventListener('input', updateMixer);
-                    });
+            function channelToHex(value) {
+                return Number(value).toString(16).padStart(2, '0').toUpperCase();
+            }
 
-                    document.querySelectorAll('.preset-btn').forEach(button => {
-                        button.addEventListener('click', () => {
-                            redRange.value = button.dataset.r;
-                            greenRange.value = button.dataset.g;
-                            blueRange.value = button.dataset.b;
-                            updateMixer();
-                        });
-                    });
+            function perceivedBrightness(r, g, b) {
+                return (0.299 * r) + (0.587 * g) + (0.114 * b);
+            }
 
+            function brightnessName(value) {
+                if (value < 70) return 'dark';
+                if (value < 185) return 'medium';
+                return 'light';
+            }
+
+            function readableTextColor(brightness) {
+                return brightness > 150 ? '#111827' : '#ffffff';
+            }
+
+            function updateMixer() {
+                const r = Number(redRange.value);
+                const g = Number(greenRange.value);
+                const b = Number(blueRange.value);
+
+                const rgb = `rgb(${r}, ${g}, ${b})`;
+                const tuple = `(${r}, ${g}, ${b})`;
+                const hex = `#${channelToHex(r)}${channelToHex(g)}${channelToHex(b)}`;
+                const brightness = perceivedBrightness(r, g, b);
+
+                redValue.value = r;
+                greenValue.value = g;
+                blueValue.value = b;
+
+                preview.style.backgroundColor = rgb;
+                previewLabel.style.color = readableTextColor(brightness);
+                previewLabel.style.background = brightness > 150
+                    ? 'rgba(255,255,255,.50)'
+                    : 'rgba(0,0,0,.40)';
+
+                rgbReadout.textContent = rgb;
+                tupleReadout.textContent = tuple;
+                hexReadout.textContent = hex;
+                brightnessReadout.textContent = brightnessName(brightness);
+            }
+
+            [redRange, greenRange, blueRange].forEach(slider => {
+                slider.addEventListener('input', updateMixer);
+            });
+
+            document.querySelectorAll('.preset-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    redRange.value = button.dataset.r;
+                    greenRange.value = button.dataset.g;
+                    blueRange.value = button.dataset.b;
                     updateMixer();
+                });
+            });
 
-                    /* ========================================================
-                       SELF-CHECK ANSWERS
-                       ======================================================== */
-                    function toggleQuizAnswer(answer) {
-                        const isOpen = answer.classList.toggle('revealed');
-                        answer.setAttribute('aria-expanded', String(isOpen));
+            updateMixer();
+
+            /* ========================================================
+               SELF-CHECK ANSWERS
+               ======================================================== */
+            function toggleQuizAnswer(answer) {
+                const isOpen = answer.classList.toggle('revealed');
+                answer.setAttribute('aria-expanded', String(isOpen));
+            }
+
+            document.querySelectorAll('.quiz-answer').forEach(answer => {
+                answer.addEventListener('click', () => toggleQuizAnswer(answer));
+                answer.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        toggleQuizAnswer(answer);
+                    }
+                });
+            });
+
+            /* ========================================================
+               COPY PYTHON EXAMPLES
+               ======================================================== */
+            document.querySelectorAll('.copy-code-btn').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const target = document.getElementById(button.dataset.copyTarget);
+                    if (!target) return;
+
+                    const original = button.innerHTML;
+                    try {
+                        await navigator.clipboard.writeText(target.textContent);
+                        button.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+                    } catch (error) {
+                        button.textContent = 'Select & copy';
                     }
 
-                    document.querySelectorAll('.quiz-answer').forEach(answer => {
-                        answer.addEventListener('click', () => toggleQuizAnswer(answer));
-                        answer.addEventListener('keydown', event => {
-                            if (event.key === 'Enter' || event.key === ' ') {
-                                event.preventDefault();
-                                toggleQuizAnswer(answer);
-                            }
-                        });
-                    });
+                    window.setTimeout(() => {
+                        button.innerHTML = original;
+                    }, 1400);
+                });
+            });
+        })();
+    </script>
+</body>
 
-                    /* ========================================================
-                       COPY PYTHON EXAMPLES
-                       ======================================================== */
-                    document.querySelectorAll('.copy-code-btn').forEach(button => {
-                        button.addEventListener('click', async () => {
-                            const target = document.getElementById(button.dataset.copyTarget);
-                            if (!target) return;
-
-                            const original = button.innerHTML;
-                            try {
-                                await navigator.clipboard.writeText(target.textContent);
-                                button.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
-                            } catch (error) {
-                                button.textContent = 'Select & copy';
-                            }
-
-                            window.setTimeout(() => {
-                                button.innerHTML = original;
-                            }, 1400);
-                        });
-                    });
-                })();
-            </script>
-        </body>
-
-        </html>
+</html>
