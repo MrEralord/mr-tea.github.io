@@ -4,352 +4,1788 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Declarative vs Imperative Programming — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
     <meta name="description"
-        content="Declarative vs imperative languages, expert systems, compilation stages. NIS Grade 12 CS.">
+        content="Grade 12 Computer Science: compare declarative and imperative programming, control flow, state, SQL, Prolog and Python examples.">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* ============================================================
+           DECLARATIVE VS IMPERATIVE — page-specific components
+           ============================================================ */
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .section-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0 var(--space-xl);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            position: sticky;
+            top: 64px;
+            z-index: 12;
+            backdrop-filter: blur(14px);
+        }
+
+        .section-jump a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: .42rem .7rem;
+            font-size: .72rem;
+            font-weight: 700;
+            background: var(--bg-glass);
+            transition: all var(--transition);
+        }
+
+        .section-jump a:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .how-what-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden;
+            margin: var(--space-md) 0;
+        }
+
+        .how-what-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .how-what-tab {
+            border: 0;
+            background: transparent;
+            color: var(--text-secondary);
+            padding: .9rem;
+            cursor: pointer;
+            font: 800 .82rem var(--font-body);
+            transition: all var(--transition);
+        }
+
+        .how-what-tab:first-child {
+            border-right: 1px solid var(--border);
+        }
+
+        .how-what-tab:hover,
+        .how-what-tab.active {
+            background: rgba(13, 148, 136, .08);
+            color: var(--clr-tea);
+        }
+
+        .how-what-content {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: var(--space-lg);
+            padding: var(--space-lg);
+        }
+
+        .how-what-summary {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            padding: var(--space-md);
+        }
+
+        .how-what-summary h3 {
+            margin: 0 0 .4rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .how-what-summary p {
+            color: var(--text-secondary);
+            font-size: .8rem;
+            line-height: 1.55;
+        }
+
+        .paradigm-badge {
+            display: inline-flex;
+            margin-top: var(--space-sm);
+            padding: .3rem .55rem;
+            border-radius: var(--radius-full);
+            background: rgba(13, 148, 136, .09);
+            color: var(--clr-tea);
+            font-size: .67rem;
+            font-weight: 800;
+        }
+
+        .how-what-example {
+            min-height: 260px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+        }
+
+        .how-what-example span {
+            display: block;
+            margin-bottom: .5rem;
+            color: var(--text-muted);
+            font-size: .64rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        .how-what-example pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font: 600 .77rem/1.65 var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .control-card {
+            min-height: 250px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md);
+        }
+
+        .control-card h4 {
+            margin: 0 0 .25rem;
+            color: var(--text-primary);
+            font-size: .9rem;
+        }
+
+        .control-card>p {
+            color: var(--text-muted);
+            font-size: .74rem;
+            line-height: 1.45;
+            margin-bottom: var(--space-md);
+        }
+
+        .control-visual {
+            height: 135px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            margin-bottom: var(--space-sm);
+            overflow: hidden;
+        }
+
+        .sequence-visual {
+            display: flex;
+            align-items: center;
+            gap: .35rem;
+        }
+
+        .mini-step {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font: 700 .68rem var(--font-code);
+        }
+
+        .mini-arrow {
+            color: var(--clr-tea);
+            font-weight: 800;
+        }
+
+        .selection-visual {
+            position: relative;
+            width: 180px;
+            height: 110px;
+        }
+
+        .decision {
+            position: absolute;
+            left: 60px;
+            top: 5px;
+            width: 60px;
+            height: 60px;
+            display: grid;
+            place-items: center;
+            transform: rotate(45deg);
+            border: 2px solid var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .decision span {
+            transform: rotate(-45deg);
+            font-size: .65rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .branch-yes,
+        .branch-no {
+            position: absolute;
+            bottom: 5px;
+            width: 55px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            font-size: .62rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .branch-yes {
+            left: 18px;
+        }
+
+        .branch-no {
+            right: 18px;
+        }
+
+        .iteration-visual {
+            position: relative;
+            width: 160px;
+            height: 100px;
+        }
+
+        .loop-box {
+            position: absolute;
+            left: 48px;
+            top: 30px;
+            width: 64px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border: 2px solid var(--clr-tea);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font: 700 .65rem var(--font-code);
+            background: var(--bg-card);
+        }
+
+        .loop-arrow {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 7px;
+            bottom: 7px;
+            border: 2px dashed var(--border-hover);
+            border-radius: 50%;
+        }
+
+        .control-card code {
+            display: block;
+            white-space: pre-wrap;
+            padding: .55rem;
+            background: var(--bg-code);
+            border-radius: var(--radius-sm);
+            font: 600 .68rem/1.5 var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .paradigm-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .paradigm-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .paradigm-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .82rem;
+        }
+
+        .paradigm-card code {
+            display: inline-block;
+            margin-bottom: .35rem;
+            color: var(--clr-tea);
+            font: 700 .7rem var(--font-code);
+        }
+
+        .paradigm-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .7rem;
+            line-height: 1.45;
+        }
+
+        .same-problem {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .problem-column {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .problem-header {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-glass);
+        }
+
+        .problem-header h4 {
+            margin: 0 0 .2rem;
+            color: var(--text-primary);
+            font-size: .9rem;
+        }
+
+        .problem-header p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .7rem;
+        }
+
+        .problem-column pre {
+            margin: 0;
+            padding: var(--space-md);
+            min-height: 220px;
+            white-space: pre-wrap;
+            font: 600 .72rem/1.6 var(--font-code);
+            color: var(--text-primary);
+            background: var(--bg-code);
+        }
+
+        .compare-points {
+            padding: var(--space-md);
+        }
+
+        .compare-points li {
+            margin-bottom: .35rem;
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.45;
+        }
+
+        .classifier {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .classifier-code {
+            min-height: 170px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            text-align: center;
+        }
+
+        .classifier-code pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font: 700 .82rem/1.6 var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .classifier-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .classify-btn {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .65rem;
+            cursor: pointer;
+            font: 800 .78rem var(--font-body);
+            transition: all var(--transition);
+        }
+
+        .classify-btn:hover,
+        .classify-btn.active {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .classifier-feedback {
+            min-height: 92px;
+            margin-top: var(--space-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        .classifier-feedback.correct {
+            border-color: #16a34a;
+            background: rgba(22, 163, 74, .08);
+        }
+
+        .classifier-feedback.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, .08);
+        }
+
+        .classifier-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .7rem;
+        }
+
+        .lab-btn {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .5rem .75rem;
+            font: 700 .74rem var(--font-body);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .lab-btn:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .scenario-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .scenario-card i {
+            color: var(--clr-tea);
+            font-size: 1.2rem;
+            margin-bottom: .5rem;
+        }
+
+        .scenario-card h4 {
+            margin: 0 0 .25rem;
+            color: var(--text-primary);
+            font-size: .86rem;
+        }
+
+        .scenario-card p {
+            color: var(--text-muted);
+            font-size: .72rem;
+            line-height: 1.45;
+            margin-bottom: .5rem;
+        }
+
+        .scenario-card strong {
+            font-size: .72rem;
+            color: var(--text-primary);
+        }
+
+        .bridge-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .bridge-card {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            text-decoration: none;
+        }
+
+        .bridge-card:hover {
+            border-color: var(--clr-tea);
+        }
+
+        .bridge-icon {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .09);
+            color: var(--clr-tea);
+            font-size: 1.1rem;
+        }
+
+        .bridge-card h4 {
+            margin: 0 0 .2rem;
+            color: var(--text-primary);
+            font-size: .84rem;
+        }
+
+        .bridge-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .71rem;
+            line-height: 1.4;
+        }
+
+        .exam-marking {
+            margin-top: var(--space-xs);
+        }
+
+        .exam-marking summary {
+            cursor: pointer;
+            color: var(--clr-tea);
+            font-size: .72rem;
+            font-weight: 800;
+        }
+
+        .exam-marking div {
+            margin-top: var(--space-xs);
+            padding: var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            font-size: .74rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        .exit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+        }
+
+        .exit-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            text-align: center;
+        }
+
+        .exit-card strong {
+            display: block;
+            color: var(--clr-tea);
+            font-size: 2rem;
+            margin-bottom: .25rem;
+        }
+
+        .exit-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .78rem;
+            line-height: 1.45;
+        }
+
+        @media (max-width: 900px) {
+            .section-jump {
+                position: static;
+            }
+
+            .how-what-content {
+                grid-template-columns: 1fr;
+            }
+
+            .control-grid,
+            .scenario-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .paradigm-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .same-problem,
+            .bridge-grid,
+            .classifier-options,
+            .exit-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .paradigm-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .how-what-content,
+            .classifier {
+                padding: var(--space-md);
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
-                <span>12.1B — Declarative vs Imperative</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-code"></i> Unit 12.1B · Term 1</div>
-                <h1 class="lesson-title">Declarative vs Imperative Programming</h1>
-                <p class="lesson-intro">Programming paradigms dictate <strong>how</strong> we solve
-                    problems with code. <strong>Imperative</strong> languages explicitly instruct the computer
-                    <em>how</em> to do something step
-                    by step. <strong>Declarative</strong> languages describe <em>what</em> the end result should be.
-                </p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.5.1.1</span> Compare declarative and imperative programming languages
-                    </li>
-                    <li><span class="lo-code">12.5.1.2</span> Create a simple expert system</li>
-                    <li><span class="lo-code">12.5.1.3</span> Describe program compilation stages: lexical and syntactic
-                        analysis, code generation, and optimization</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>Declarative vs Imperative · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="/assets/pdf/declarative&imperative.pdf" target="_blank"
-                        class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="/assets/pdf/declarative&imperative.pdf" download
-                        class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
-            <div class="lesson-video-block">
-                <div class="lesson-video-header">
-                    <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
-                    <div class="lesson-video-info">
-                        <h4>Video Explanation</h4>
-                        <p>Watch a visual walkthrough of this topic</p>
-                    </div>
-                </div>
-                <div class="lesson-video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/qFFWzUrWq0M" allowfullscreen></iframe>
-                </div>
-            </div>
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-utensils"></i> The Restaurant Analogy</h4>
-                    <p><strong>Imperative</strong> = giving the chef step-by-step cooking instructions: "Boil water, add
-                        pasta, cook 10 min, drain, add sauce."<br><strong>Declarative</strong> = just ordering from the
-                        menu: "I want pasta bolognese." You describe WHAT you want, not HOW to make it.</p>
-                </div>
-                <br>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 12 CS</a>
+                        <span class="sep">/</span>
+                        <span>12.1B — Declarative vs Imperative</span>
+                    </nav>
 
-            </section>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fas fa-code"></i> Unit 12.1B · Term 1
+                        </div>
 
-            <figure class="lesson-image-block">
-                <img src="/assets/images/lessons/declarative_imperative.jpeg" width="600" height="400"
-                    alt="Declarative vs Imperative">
-                <figcaption>Declarative vs Imperative.</figcaption>
-            </figure>
+                        <h1 class="lesson-title">Declarative vs Imperative Programming</h1>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Imperative
-                    Programming</h3>
-                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                    <li><strong>Definition:</strong> A paradigm that uses statements that change a program's state. It
-                        relies on explicit control flow using <em>sequence</em>, <em>selection</em> (if/else), and
-                        <em>iteration</em> (loops).
-                    </li>
-                    <li><strong>Where it is applied:</strong> System programming, game engine development, and
-                        general-purpose software (e.g., Python, C++, Java, Pascal).</li>
-                    <li><strong>Benefits:</strong>
-                        <ul style="padding-left: 20px; margin-top: 5px;">
-                            <li>Direct control over each step of execution.</li>
-                            <li>Programmers can optimize for specific hardware or constraints.</li>
-                            <li>Can handle a wide range of problems and domains.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Drawbacks:</strong>
-                        <ul style="padding-left: 20px; margin-top: 5px;">
-                            <li>Can become complex and hard to maintain, especially for large programs.</li>
-                            <li>Managing state and control flow explicitly can lead to errors.</li>
-                            <li>Focuses more on how things are done rather than what is achieved.</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Declarative
-                    Programming</h3>
-                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                    <li><strong>Definition:</strong> A paradigm that expresses the logic of a computation without
-                        describing its control flow. It relies on <em>facts</em>, <em>rules</em>, and <em>queries</em>
-                        rather than sequential steps.</li>
-                    <li><strong>Where it is applied:</strong> Database management (SQL), artificial intelligence and
-                        logic programming (Prolog), and web page structuring (HTML).</li>
-                    <li><strong>Benefits:</strong>
-                        <ul style="padding-left: 20px; margin-top: 5px;">
-                            <li>Code is often easier to read and understand.</li>
-                            <li>Often fewer lines of code are required for the same task.</li>
-                            <li>Easier to write programs that take advantage of multiple cores.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Drawbacks:</strong>
-                        <ul style="padding-left: 20px; margin-top: 5px;">
-                            <li>Abstracts away control flow, which may not allow for fine-grained optimization.</li>
-                            <li>Best suited for specific types of tasks (e.g., data querying, configuration).</li>
-                            <li>May not be as performant in low-level, resource-constrained environments like embedded
-                                systems.</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Comparison Matrix
-                </h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>Imperative</th>
-                            <th>Declarative</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Focus</strong></td>
-                            <td>HOW to achieve the result</td>
-                            <td>WHAT the result should be</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Control flow</strong></td>
-                            <td>Explicitly detailed by the programmer (loops, conditions, sequences)</td>
-                            <td>Handled automatically by the system or interpreter</td>
-                        </tr>
-                        <tr>
-                            <td><strong>State</strong></td>
-                            <td>Requires explicit control of variable updates and state changes</td>
-                            <td>Programmer does not manage low-level details like memory allocation or variable
-                                assignments</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Code
-                    Comparison</h3>
-                <div class="code-block"><code># IMPERATIVE (Python) — HOW to find even numbers
-numbers = [1, 2, 3, 4, 5, 6, 7, 8]
-evens = []
-for n in numbers:               # Iteration
-    if n % 2 == 0:              # Selection
-        evens.append(n)         # Sequence & State change
-print(evens)  # Output: [2, 4, 6, 8]</code></div>
-
-                <div class="code-block"><code>-- DECLARATIVE (SQL) — WHAT you want
-SELECT * FROM numbers WHERE value % 2 = 0;</code></div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Expert
-                    Systems</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Component</th>
-                            <th>Purpose</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Knowledge Base</strong></td>
-                            <td>A collection of facts and rules about a specific domain.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Inference Engine</strong></td>
-                            <td>Applies the rules to the known facts to derive new conclusions.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>User Interface</strong></td>
-                            <td>Allows users to input queries and receive answers.</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="code-block"><code>% Simple Expert System in Prolog (Declarative)
-
-% Knowledge Base — Facts:
-animal(dog).
-animal(cat).
-has_fur(dog).
-has_fur(cat).
-says(dog, woof).
-says(cat, meow).
-
-% Rules:
-pet(X) :- animal(X), has_fur(X).
-
-% Query (Asking the engine WHAT we want to know):
-?- pet(dog).     % Result: true
-?- says(cat, Y). % Result: Y = meow</code></div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
-                    Compilation Stages</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Stage</th>
-                            <th>What It Does</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>1. Lexical Analysis</strong></td>
-                            <td>Breaks source code into <strong>tokens</strong> (keywords, identifiers, operators).
-                                Removes whitespace and comments.</td>
-                            <td><code>x = 5 + 3</code> → tokens: [x] [=] [5] [+] [3]</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2. Syntax Analysis</strong></td>
-                            <td>Checks if tokens follow language grammar rules; builds a <strong>parse tree</strong>.
-                            </td>
-                            <td>Detects <code>x = 5 +</code> as a syntax error (missing operand).</td>
-                        </tr>
-                        <tr>
-                            <td><strong>3. Code Generation</strong></td>
-                            <td>Converts the validated parse tree into <strong>machine code</strong> (binary
-                                instructions) or intermediate object code.</td>
-                            <td>ADD R1, R2 → 00101001...</td>
-                        </tr>
-                        <tr>
-                            <td><strong>4. Optimization</strong></td>
-                            <td>Improves code efficiency (execution speed/memory usage) without changing the final
-                                results.</td>
-                            <td>Removes unused variables or redundant loops.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> SQL is NOT Imperative</h4>
-                    <p>SQL says <em>what</em> data you want, not <em>how</em> to find it.
-                        <code>SELECT * FROM students WHERE age > 16</code> doesn't specify searching algorithms (like
-                        linear or binary search) — the
-                        database engine decides the optimal path.
-                    </p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>List 3 imperative and 3 declarative programming languages.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain the difference between Sequence, Selection, and Iteration in an imperative language.
+                        <p class="lesson-intro">
+                            Programming paradigms describe different ways of expressing a solution.
+                            <strong>Imperative</strong> programming tells the computer
+                            <strong>how</strong> to perform a task through explicit steps and state changes.
+                            <strong>Declarative</strong> programming focuses on
+                            <strong>what</strong> result or relationship is required.
                         </p>
                     </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a simple expert system (facts + rules) in Prolog for diagnosing 3 common computer
-                            faults based on error symptoms.</p>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objective</h3>
+                        <ul class="lesson-lo-list">
+                            <li>
+                                <span class="lo-code">12.5.1.1</span>
+                                Compare declarative and imperative programming languages
+                            </li>
+                        </ul>
                     </div>
-                </div>
-            </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What is the main difference between imperative and declarative?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Imperative explicitly describes
-                        HOW to
-                        solve a problem step-by-step using control flows. Declarative describes WHAT the result should
-                        be using logic, facts, or queries.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What are the 3 main components of an Expert System?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">1. Knowledge Base (facts &
-                        rules). 2. Inference Engine (applies rules to derive answers). 3. User Interface (handles
-                        input/output).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: At which compilation stage are comments and whitespaces removed?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Lexical Analysis. This stage
-                        cleans the code and breaks it down into individual tokens.</div>
-                </div>
-            </section>
+                    <div class="note-box">
+                        <h4><i class="fas fa-check-circle"></i> Success Criteria</h4>
+                        <p>
+                            I can identify imperative and declarative characteristics ·
+                            explain HOW vs WHAT · identify sequence, selection and iteration ·
+                            classify code examples · compare two solutions to the same problem ·
+                            justify which characteristics are suitable for a given scenario.
+                        </p>
+                    </div>
 
-            <nav class="lesson-nav">
-                        <a href="ai-applications.html"><span class="nav-label">← Previous</span><span class="nav-title">AI Applications</span></a>
-                        <a href="expert-systems.html"><span class="nav-label">Next →</span><span class="nav-title">Expert Systems</span></a>
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon">
+                            <i class="fas fa-file-powerpoint"></i>
+                        </div>
+
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>Declarative vs Imperative · Slides for classroom use</p>
+                        </div>
+
+                        <div class="lesson-pdf-actions">
+                            <a href="/assets/pdf/declarative&imperative.pdf" target="_blank"
+                                class="lesson-pdf-btn view-btn">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+
+                            <a href="/assets/pdf/declarative&imperative.pdf" download
+                                class="lesson-pdf-btn download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </div>
+
+                    <nav class="section-jump" aria-label="Lesson sections">
+                        <a href="#concept">HOW vs WHAT</a>
+                        <a href="#imperative">Imperative</a>
+                        <a href="#declarative">Declarative</a>
+                        <a href="#comparison">Comparison</a>
+                        <a href="#classifier">Classifier</a>
+                        <a href="#practice">Practice</a>
                     </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section" id="concept">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-utensils"></i> The Restaurant Analogy</h4>
+                            <p>
+                                <strong>Imperative:</strong> give the chef explicit instructions:
+                                “Boil the water, add pasta, cook it, drain it, add sauce.”
+                                <br><br>
+                                <strong>Declarative:</strong> describe the desired result:
+                                “I want pasta bolognese.”
+                            </p>
+                        </div>
+
+                        <figure class="lesson-image-block">
+                            <img src="/assets/images/lessons/declarative_imperative.jpeg" width="600" height="400"
+                                loading="lazy" alt="Declarative versus imperative programming">
+
+                            <figcaption>
+                                Imperative focuses on HOW; declarative focuses on WHAT.
+                            </figcaption>
+                        </figure>
+
+                        <div class="how-what-lab">
+                            <div class="how-what-tabs">
+                                <button class="how-what-tab active" data-mode="imperative" type="button">
+                                    SHOW HOW — Imperative
+                                </button>
+
+                                <button class="how-what-tab" data-mode="declarative" type="button">
+                                    SHOW WHAT — Declarative
+                                </button>
+                            </div>
+
+                            <div class="how-what-content">
+                                <div class="how-what-summary">
+                                    <h3 id="howWhatTitle">Imperative — HOW?</h3>
+                                    <p id="howWhatDescription">
+                                        The programmer specifies the sequence of actions that should be executed.
+                                    </p>
+
+                                    <span id="howWhatBadge" class="paradigm-badge">
+                                        EXPLICIT STEPS + CONTROL FLOW
+                                    </span>
+                                </div>
+
+                                <div class="how-what-example">
+                                    <span id="howWhatLabel">Goal: find all students older than 16</span>
+                                    <pre id="howWhatExample">1. Start with an empty result list.
+2. Read the first student.
+3. Check the student's age.
+4. If age > 16, add the student.
+5. Move to the next student.
+6. Repeat until all students are checked.</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-location-arrow"></i> Another Analogy: Navigation</h4>
+                            <p>
+                                <strong>Imperative:</strong> “Turn right, drive 300 m, turn left, stop at the second
+                                building.”
+                                <br>
+                                <strong>Declarative:</strong> “Take me to the school.”
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     IMPERATIVE
+                     ===================================================== -->
+                    <section class="lesson-section" id="imperative">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-list-ol"></i> Imperative Programming
+                        </h2>
+
+                        <p class="concept-text">
+                            Imperative programming describes a computation as a sequence of commands
+                            that change the program's <strong>state</strong>. The programmer explicitly
+                            controls what happens and in what order.
+                        </p>
+
+                        <ul class="concept-list">
+                            <li>Explicit sequence of instructions.</li>
+                            <li>Variables commonly change value during execution.</li>
+                            <li>Uses control structures such as selection and iteration.</li>
+                            <li>The programmer describes the procedure used to obtain the result.</li>
+                        </ul>
+
+                        <h3>Three Core Control Structures</h3>
+
+                        <div class="control-grid">
+                            <div class="control-card">
+                                <h4>Sequence</h4>
+                                <p>Instructions are executed in order.</p>
+
+                                <div class="control-visual">
+                                    <div class="sequence-visual">
+                                        <div class="mini-step">1</div>
+                                        <div class="mini-arrow">→</div>
+                                        <div class="mini-step">2</div>
+                                        <div class="mini-arrow">→</div>
+                                        <div class="mini-step">3</div>
+                                    </div>
+                                </div>
+
+                                <code>x = 5
+y = x + 2
+print(y)</code>
+                            </div>
+
+                            <div class="control-card">
+                                <h4>Selection</h4>
+                                <p>A condition chooses which path is executed.</p>
+
+                                <div class="control-visual">
+                                    <div class="selection-visual">
+                                        <div class="decision"><span>x &gt; 0?</span></div>
+                                        <div class="branch-yes">YES</div>
+                                        <div class="branch-no">NO</div>
+                                    </div>
+                                </div>
+
+                                <code>if x &gt; 0:
+    print("positive")
+else:
+    print("not positive")</code>
+                            </div>
+
+                            <div class="control-card">
+                                <h4>Iteration</h4>
+                                <p>A block of instructions is repeated.</p>
+
+                                <div class="control-visual">
+                                    <div class="iteration-visual">
+                                        <div class="loop-arrow"></div>
+                                        <div class="loop-box">repeat</div>
+                                    </div>
+                                </div>
+
+                                <code>for i in range(5):
+    print(i)</code>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Imperative Example — Python</h4>
+
+                            <div class="code-block"><code>numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+
+evens = []
+
+for n in numbers:
+    if n % 2 == 0:
+        evens.append(n)
+
+print(evens)</code></div>
+
+                            <p class="concept-text">
+                                The programmer explicitly creates state (<code>evens</code>), loops through
+                                the data, tests each value and updates the list.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     DECLARATIVE
+                     ===================================================== -->
+                    <section class="lesson-section" id="declarative">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-bullseye"></i> Declarative Programming
+                        </h2>
+
+                        <p class="concept-text">
+                            Declarative programming expresses the desired result, relationship or rule
+                            without explicitly describing the complete sequence of control-flow steps
+                            used to obtain it.
+                        </p>
+
+                        <ul class="concept-list">
+                            <li>Focuses on the required result or logical relationship.</li>
+                            <li>The execution mechanism decides many procedural details.</li>
+                            <li>Commonly uses queries, expressions, facts or rules.</li>
+                            <li>The programmer usually specifies less explicit control flow.</li>
+                        </ul>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Declarative Example — SQL</h4>
+
+                            <div class="code-block"><code>SELECT value
+FROM numbers
+WHERE value % 2 = 0;</code></div>
+
+                            <p class="concept-text">
+                                The query states <strong>what</strong> rows are required.
+                                It does not specify the search algorithm, loop structure or exact execution plan.
+                                The database management system decides how to execute the query.
+                            </p>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Declarative Logic — Prolog</h4>
+
+                            <div class="code-block"><code>grandparent(X, Z) :-
+    parent(X, Y),
+    parent(Y, Z).</code></div>
+
+                            <p class="concept-text">
+                                The rule describes the logical relationship that makes
+                                <code>X</code> a grandparent of <code>Z</code>. It does not provide
+                                a step-by-step loop for searching the knowledge base.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PARADIGM != LANGUAGE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-shapes"></i> Paradigm ≠ Language
+                        </h2>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-lightbulb"></i> Important idea</h4>
+                            <p>
+                                A programming language does not always belong to exactly one paradigm.
+                                Many modern languages support several programming styles. It is more accurate
+                                to discuss how a language or piece of code is commonly used.
+                            </p>
+                        </div>
+
+                        <div class="paradigm-grid">
+                            <div class="paradigm-card">
+                                <strong>Python</strong>
+                                <code>multi-paradigm</code>
+                                <p>
+                                    Frequently used imperatively, but also supports object-oriented
+                                    and functional-style constructs.
+                                </p>
+                            </div>
+
+                            <div class="paradigm-card">
+                                <strong>C / C++</strong>
+                                <code>mainly imperative</code>
+                                <p>
+                                    Explicit statements, state changes, loops and conditions are central.
+                                </p>
+                            </div>
+
+                            <div class="paradigm-card">
+                                <strong>SQL</strong>
+                                <code>declarative query language</code>
+                                <p>
+                                    Describes the result set required from a database.
+                                </p>
+                            </div>
+
+                            <div class="paradigm-card">
+                                <strong>Prolog</strong>
+                                <code>declarative logic programming</code>
+                                <p>
+                                    Describes facts, rules and queries rather than a conventional control-flow
+                                    algorithm.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-code"></i> What about HTML and CSS?</h4>
+                            <p>
+                                HTML and CSS are often described as <strong>declarative technologies</strong>
+                                because they describe structure and presentation rather than a step-by-step algorithm.
+                                However, HTML itself is a markup language rather than a general-purpose programming
+                                language.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     COMPARISON
+                     ===================================================== -->
+                    <section class="lesson-section" id="comparison">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-scale-balanced"></i> Comparison Matrix
+                        </h2>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Imperative</th>
+                                    <th>Declarative</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Main focus</strong></td>
+                                    <td>HOW to perform the task</td>
+                                    <td>WHAT result or relationship is required</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Control flow</strong></td>
+                                    <td>Usually specified explicitly by the programmer</td>
+                                    <td>Often handled by the execution system</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>State</strong></td>
+                                    <td>Explicit state changes are common</td>
+                                    <td>Usually less emphasis on explicit step-by-step state updates</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Typical constructs</strong></td>
+                                    <td>Assignments, loops, conditions, sequences</td>
+                                    <td>Queries, expressions, facts, rules</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Examples</strong></td>
+                                    <td>Imperative Python/C++ code</td>
+                                    <td>SQL queries, Prolog rules</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Responsibility</strong></td>
+                                    <td>Programmer specifies much of the execution procedure</td>
+                                    <td>System determines many details of how the result is produced</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =====================================================
+                     SAME PROBLEM
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-compare"></i> Same Problem — Two Styles
+                        </h2>
+
+                        <p class="concept-text">
+                            Both examples below solve the same problem:
+                            <strong>find all students whose age is greater than 16</strong>.
+                            The difference is how responsibility is divided between programmer and execution system.
+                        </p>
+
+                        <div class="same-problem">
+                            <div class="problem-column">
+                                <div class="problem-header">
+                                    <h4>Imperative — Python</h4>
+                                    <p>The programmer describes the procedure.</p>
+                                </div>
+
+                                <pre>result = []
+
+for student in students:
+    if student["age"] &gt; 16:
+        result.append(student)
+
+print(result)</pre>
+
+                                <ul class="compare-points">
+                                    <li>Explicit iteration.</li>
+                                    <li>Explicit condition.</li>
+                                    <li>Explicit state update with <code>append()</code>.</li>
+                                </ul>
+                            </div>
+
+                            <div class="problem-column">
+                                <div class="problem-header">
+                                    <h4>Declarative — SQL</h4>
+                                    <p>The programmer describes the required result.</p>
+                                </div>
+
+                                <pre>SELECT *
+FROM students
+WHERE age &gt; 16;</pre>
+
+                                <ul class="compare-points">
+                                    <li>No explicit loop is written.</li>
+                                    <li>The required condition is declared.</li>
+                                    <li>The DBMS chooses an execution plan.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-key"></i> Exam-quality comparison</h4>
+                            <p>
+                                Do not write only “Python is imperative and SQL is declarative”.
+                                Compare the <strong>characteristics</strong>: explicit control flow,
+                                state changes, procedure, desired result and responsibility of the execution system.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     CLASSIFIER
+                     ===================================================== -->
+                    <section class="lesson-section" id="classifier">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-gamepad"></i> Imperative or Declarative?
+                        </h2>
+
+                        <p class="concept-text">
+                            Classify each example. Do not rely only on the language name —
+                            look for explicit steps/state changes versus a description of the required result.
+                        </p>
+
+                        <div class="classifier">
+                            <div class="classifier-code">
+                                <pre id="classifierCode"></pre>
+                            </div>
+
+                            <div class="classifier-options">
+                                <button class="classify-btn" data-answer="imperative" type="button">
+                                    Imperative
+                                </button>
+
+                                <button class="classify-btn" data-answer="declarative" type="button">
+                                    Declarative
+                                </button>
+                            </div>
+
+                            <div id="classifierFeedback" class="classifier-feedback">
+                                Choose a paradigm and explain your reason before checking the feedback.
+                            </div>
+
+                            <div class="classifier-progress">
+                                <span id="classifierProgress">Example 1 of 8</span>
+
+                                <button id="classifierNext" class="lab-btn" type="button">
+                                    Next example <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     WHEN USEFUL
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-toolbox"></i> When Are These Characteristics Useful?
+                        </h2>
+
+                        <div class="scenario-grid">
+                            <div class="scenario-card">
+                                <i class="fas fa-microchip"></i>
+                                <h4>Detailed Algorithmic Control</h4>
+                                <p>
+                                    When a programmer needs explicit control over sequence, conditions,
+                                    loops and state changes.
+                                </p>
+                                <strong>Often associated with imperative solutions.</strong>
+                            </div>
+
+                            <div class="scenario-card">
+                                <i class="fas fa-database"></i>
+                                <h4>Database Query</h4>
+                                <p>
+                                    When the programmer wants to specify which data is required
+                                    while the DBMS chooses how to retrieve it.
+                                </p>
+                                <strong>Declarative SQL is well suited to this pattern.</strong>
+                            </div>
+
+                            <div class="scenario-card">
+                                <i class="fas fa-brain"></i>
+                                <h4>Rule-Based Knowledge</h4>
+                                <p>
+                                    When a problem can be expressed using logical relationships,
+                                    facts and rules.
+                                </p>
+                                <strong>Declarative logic programming is a natural fit.</strong>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     COMMON PITFALLS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Common Misconceptions
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 1. “Declarative means no algorithm exists”</h4>
+                            <p>
+                                An algorithm still runs underneath. The difference is that the programmer
+                                usually does not explicitly describe every control-flow step.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 2. “Every language belongs to only one paradigm”</h4>
+                            <p>
+                                Many languages are multi-paradigm. Classify the programming style
+                                or construct being used rather than relying only on the language name.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 3. “SQL is imperative because the DBMS performs steps”</h4>
+                            <p>
+                                SQL is declarative because the query specifies the desired data,
+                                while the database engine decides the detailed execution strategy.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 4. “Declarative means there are no variables”</h4>
+                            <p>
+                                Declarative systems can use variables. Prolog variables, for example,
+                                represent values that can be matched during logical inference.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     BRIDGES
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-arrow-right"></i> Where This Topic Leads Next
+                        </h2>
+
+                        <div class="bridge-grid">
+                            <a class="bridge-card" href="expert-systems.html">
+                                <div class="bridge-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+
+                                <div>
+                                    <h4>Expert Systems & Prolog</h4>
+                                    <p>
+                                        Use declarative facts, rules and queries to build a simple expert system.
+                                    </p>
+                                </div>
+                            </a>
+
+                            <a class="bridge-card" href="compilation-stages.html">
+                                <div class="bridge-icon">
+                                    <i class="fas fa-gears"></i>
+                                </div>
+
+                                <div>
+                                    <h4>Program Compilation Stages</h4>
+                                    <p>
+                                        Study how source code is analysed and transformed into target code.
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PRACTICE
+                     ===================================================== -->
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Practice Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    Define <strong>imperative programming</strong> and
+                                    <strong>declarative programming</strong>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain the phrase <strong>HOW vs WHAT</strong> in the context of programming
+                                    paradigms.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain the difference between <strong>sequence</strong>,
+                                    <strong>selection</strong> and <strong>iteration</strong>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Classify six short code fragments as imperative or declarative
+                                    and justify each answer using programming characteristics.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Identify sequence, selection and iteration in a short Python program.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    Compare the Python and SQL examples that find students older than 16.
+                                    Give at least three differences.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    Explain why SQL is considered declarative even though the database
+                                    engine still executes algorithms internally.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    For each scenario — detailed algorithmic control, database query,
+                                    rule-based knowledge system — explain which paradigm characteristics are useful and
+                                    why.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM PRACTICE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: State one difference between imperative and declarative programming. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    Imperative code explicitly describes the procedure/control flow used to solve the
+                                    problem;
+                                    declarative code describes the desired result or relationship without explicitly
+                                    specifying
+                                    all control-flow steps.
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: Explain why a SQL SELECT query is an example of declarative programming. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    The query specifies what data should be returned, while the DBMS determines
+                                    the detailed search/access/execution strategy.
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: Describe two features of imperative programming. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    Examples: explicit sequence of statements; use of selection/iteration;
+                                    explicit state or variable updates; programmer-controlled procedure.
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: Compare an imperative and a declarative solution to the same data-filtering problem.
+                                [4]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    Credit comparative points such as: explicit loop vs no explicit loop;
+                                    explicit state updates vs result specification; programmer-defined procedure
+                                    vs execution plan chosen by the system; HOW vs WHAT.
+                                </div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-question-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: What is the main focus of imperative programming?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                HOW to perform the task through explicit instructions, control flow and state changes.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: What is the main focus of declarative programming?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                WHAT result, relationship or condition is required.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: What are the three core imperative control structures?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Sequence, selection and iteration.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Why is SQL considered declarative?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                It describes the data/result required while the DBMS chooses the detailed execution
+                                strategy.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q5: Why is Prolog considered declarative?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                It describes facts, rules and logical relationships and allows the Prolog engine
+                                to search for solutions.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q6: Can one programming language support several paradigms?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Yes. Many modern languages are multi-paradigm; for example, Python supports
+                                imperative, object-oriented and functional-style programming.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXIT
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-door-open"></i> Exit Ticket — 3–2–1
+                        </h2>
+
+                        <div class="exit-grid">
+                            <div class="exit-card">
+                                <strong>3</strong>
+                                <p>Write three characteristics of imperative programming.</p>
+                            </div>
+
+                            <div class="exit-card">
+                                <strong>2</strong>
+                                <p>Write two characteristics of declarative programming.</p>
+                            </div>
+
+                            <div class="exit-card">
+                                <strong>1</strong>
+                                <p>Give one clear HOW vs WHAT example of your own.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="ai-applications.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">AI Applications</span>
+                            </span>
+                        </a>
+
+                        <a href="expert-systems.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">Expert Systems & Prolog</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
         <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
     </footer>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // ============================================================
+            // HOW vs WHAT Explorer
+            // ============================================================
+            const howWhatData = {
+                imperative: {
+                    title: "Imperative — HOW?",
+                    description: "The programmer specifies the sequence of actions that should be executed.",
+                    badge: "EXPLICIT STEPS + CONTROL FLOW",
+                    label: "Goal: find all students older than 16",
+                    example:
+                        `1. Start with an empty result list.
+2. Read the first student.
+3. Check the student's age.
+4. If age > 16, add the student.
+5. Move to the next student.
+6. Repeat until all students are checked.`
+                },
+
+                declarative: {
+                    title: "Declarative — WHAT?",
+                    description: "The programmer specifies the desired result while the system decides many procedural details.",
+                    badge: "DESCRIBE THE REQUIRED RESULT",
+                    label: "Goal: find all students older than 16",
+                    example:
+                        `Give me all students
+WHERE age > 16.
+
+The request does not describe:
+- the loop,
+- the search order,
+- the access method,
+- the internal execution plan.`
+                }
+            };
+
+            const howWhatTabs = document.querySelectorAll(".how-what-tab");
+            const howWhatTitle = document.getElementById("howWhatTitle");
+            const howWhatDescription = document.getElementById("howWhatDescription");
+            const howWhatBadge = document.getElementById("howWhatBadge");
+            const howWhatLabel = document.getElementById("howWhatLabel");
+            const howWhatExample = document.getElementById("howWhatExample");
+
+            function showHowWhat(mode) {
+                const data = howWhatData[mode];
+
+                howWhatTitle.textContent = data.title;
+                howWhatDescription.textContent = data.description;
+                howWhatBadge.textContent = data.badge;
+                howWhatLabel.textContent = data.label;
+                howWhatExample.textContent = data.example;
+
+                howWhatTabs.forEach(tab => {
+                    tab.classList.toggle("active", tab.dataset.mode === mode);
+                });
+            }
+
+            howWhatTabs.forEach(tab => {
+                tab.addEventListener("click", () => showHowWhat(tab.dataset.mode));
+            });
+
+            showHowWhat("imperative");
+
+            // ============================================================
+            // Imperative or Declarative Classifier
+            // ============================================================
+            const classifierExamples = [
+                {
+                    code:
+                        `total = 0
+
+for price in prices:
+    total = total + price`,
+                    answer: "imperative",
+                    explanation:
+                        "The code explicitly controls iteration and repeatedly changes the value of total."
+                },
+                {
+                    code:
+                        `SELECT SUM(price)
+FROM sales;`,
+                    answer: "declarative",
+                    explanation:
+                        "The query states the result required. It does not describe the loop or aggregation algorithm."
+                },
+                {
+                    code:
+                        `while x < 100:
+    x = x * 2`,
+                    answer: "imperative",
+                    explanation:
+                        "The programmer explicitly controls repetition and changes program state."
+                },
+                {
+                    code:
+                        `grandparent(X, Z) :-
+    parent(X, Y),
+    parent(Y, Z).`,
+                    answer: "declarative",
+                    explanation:
+                        "The code declares a logical relationship. Prolog determines how to search for values that satisfy it."
+                },
+                {
+                    code:
+                        `result = []
+
+for n in numbers:
+    if n % 2 == 0:
+        result.append(n)`,
+                    answer: "imperative",
+                    explanation:
+                        "The solution specifies the procedure: loop, test each value and update a result list."
+                },
+                {
+                    code:
+                        `SELECT name
+FROM students
+WHERE score >= 80;`,
+                    answer: "declarative",
+                    explanation:
+                        "The query describes which rows should be returned while the DBMS chooses the execution plan."
+                },
+                {
+                    code:
+                        `x = 10
+x = x + 5
+print(x)`,
+                    answer: "imperative",
+                    explanation:
+                        "The statements explicitly change the program state step by step."
+                },
+                {
+                    code:
+                        `eligible(Student) :-
+    score(Student, S),
+    S >= 80.`,
+                    answer: "declarative",
+                    explanation:
+                        "The rule defines the condition under which eligible(Student) is true rather than giving a conventional control-flow algorithm."
+                }
+            ];
+
+            let classifierIndex = 0;
+
+            const classifierCode = document.getElementById("classifierCode");
+            const classifierFeedback = document.getElementById("classifierFeedback");
+            const classifierProgress = document.getElementById("classifierProgress");
+            const classifierButtons = document.querySelectorAll(".classify-btn");
+            const classifierNext = document.getElementById("classifierNext");
+
+            function loadClassifier() {
+                const example = classifierExamples[classifierIndex];
+
+                classifierCode.textContent = example.code;
+                classifierProgress.textContent =
+                    `Example ${classifierIndex + 1} of ${classifierExamples.length}`;
+
+                classifierFeedback.className = "classifier-feedback";
+                classifierFeedback.textContent =
+                    "Choose a paradigm and explain your reason before checking the feedback.";
+
+                classifierButtons.forEach(button => button.classList.remove("active"));
+            }
+
+            classifierButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    const example = classifierExamples[classifierIndex];
+                    const chosen = button.dataset.answer;
+                    const correct = chosen === example.answer;
+
+                    classifierButtons.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    classifierFeedback.className =
+                        `classifier-feedback ${correct ? "correct" : "wrong"}`;
+
+                    classifierFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>` +
+                        `<strong>Answer:</strong> ${example.answer.charAt(0).toUpperCase() + example.answer.slice(1)}.<br>` +
+                        example.explanation;
+                });
+            });
+
+            classifierNext.addEventListener("click", () => {
+                classifierIndex = (classifierIndex + 1) % classifierExamples.length;
+                loadClassifier();
+            });
+
+            loadClassifier();
+        });
+    </script>
+
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+
 </body>
 
 </html>
