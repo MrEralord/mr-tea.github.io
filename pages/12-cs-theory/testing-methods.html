@@ -4,381 +4,2162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Testing Methods — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
     <meta name="description"
-        content="System testing, normal, extreme, erroneous/abnormal data. Syntax, execution, runtime, and logic errors. NIS Grade 12 CS.">
+        content="System testing, normal, extreme and erroneous data, test plans, syntax errors, startup execution errors, runtime errors and logic errors. NIS Grade 12 Computer Science.">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* ============================================================
+           TESTING METHODS — page-specific components
+           ============================================================ */
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .section-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0 var(--space-xl);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            position: sticky;
+            top: 64px;
+            z-index: 12;
+            backdrop-filter: blur(14px);
+        }
+
+        .section-jump a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: .42rem .7rem;
+            font-size: .72rem;
+            font-weight: 700;
+            background: var(--bg-glass);
+            transition: all var(--transition);
+        }
+
+        .section-jump a:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .testing-cycle {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .cycle-step {
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .35rem;
+            text-align: center;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .cycle-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            top: 50%;
+            right: -12px;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+            z-index: 2;
+        }
+
+        .cycle-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .1);
+            color: var(--clr-tea);
+        }
+
+        .cycle-step strong {
+            font-size: .76rem;
+            color: var(--text-primary);
+        }
+
+        .cycle-step span {
+            font-size: .66rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .test-type-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .test-type-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+        }
+
+        .test-type-card .type-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-sm);
+            background: rgba(13, 148, 136, .09);
+            color: var(--clr-tea);
+        }
+
+        .test-type-card h4 {
+            margin: 0 0 .3rem;
+            color: var(--text-primary);
+            font-size: .9rem;
+        }
+
+        .test-type-card p {
+            margin: 0 0 .55rem;
+            color: var(--text-secondary);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        .test-type-card code {
+            display: block;
+            padding: .5rem;
+            border-radius: var(--radius-sm);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 600 .68rem/1.5 var(--font-code);
+        }
+
+        .classifier {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .classifier-scenario {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            margin-bottom: var(--space-md);
+        }
+
+        .classifier-scenario span {
+            display: block;
+            font-size: .64rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: .25rem;
+        }
+
+        .classifier-scenario strong {
+            color: var(--text-primary);
+            font-size: .86rem;
+        }
+
+        .classifier-value {
+            min-height: 130px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            text-align: center;
+        }
+
+        .classifier-value code {
+            font: 800 1.5rem var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .classifier-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .choice-btn,
+        .lab-btn {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .6rem .75rem;
+            cursor: pointer;
+            font: 700 .75rem var(--font-body);
+            transition: all var(--transition);
+        }
+
+        .choice-btn:hover,
+        .choice-btn.active,
+        .lab-btn:hover {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .classifier-feedback {
+            min-height: 90px;
+            margin-top: var(--space-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        .classifier-feedback.correct {
+            border-color: #16a34a;
+            background: rgba(22, 163, 74, .08);
+        }
+
+        .classifier-feedback.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, .08);
+        }
+
+        .classifier-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .7rem;
+        }
+
+        .boundary-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .boundary-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .boundary-control {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .boundary-control label {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            color: var(--text-secondary);
+            font-size: .75rem;
+            margin-bottom: .3rem;
+        }
+
+        .boundary-control output {
+            color: var(--clr-tea);
+            font: 700 .72rem var(--font-code);
+        }
+
+        .boundary-control input[type="range"] {
+            width: 100%;
+            accent-color: var(--clr-tea);
+        }
+
+        .boundary-numberline {
+            overflow-x: auto;
+            padding: var(--space-lg) var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .numberline-inner {
+            min-width: 650px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: var(--space-sm);
+            position: relative;
+        }
+
+        .numberline-inner::before {
+            content: "";
+            position: absolute;
+            left: 6%;
+            right: 6%;
+            top: 36px;
+            height: 2px;
+            background: var(--border-hover);
+        }
+
+        .boundary-point {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .boundary-dot {
+            width: 54px;
+            height: 54px;
+            margin: 8px auto .5rem;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font: 800 .74rem var(--font-code);
+        }
+
+        .boundary-point.normal .boundary-dot {
+            border-color: #16a34a;
+            background: rgba(22, 163, 74, .08);
+        }
+
+        .boundary-point.extreme .boundary-dot {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, .09);
+        }
+
+        .boundary-point.erroneous .boundary-dot {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, .08);
+        }
+
+        .boundary-point strong {
+            display: block;
+            font-size: .68rem;
+            color: var(--text-primary);
+        }
+
+        .boundary-point span {
+            display: block;
+            margin-top: .15rem;
+            font-size: .61rem;
+            color: var(--text-muted);
+        }
+
+        .plan-builder {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .plan-requirement {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--space-md);
+            align-items: center;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .plan-requirement span {
+            display: block;
+            color: var(--text-muted);
+            font-size: .64rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: .2rem;
+        }
+
+        .plan-requirement strong {
+            color: var(--text-primary);
+            font-size: .84rem;
+        }
+
+        .plan-table-wrap {
+            overflow-x: auto;
+            margin-top: var(--space-md);
+        }
+
+        .generated-plan {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+            font-size: .74rem;
+        }
+
+        .generated-plan th,
+        .generated-plan td {
+            padding: .65rem;
+            border: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .generated-plan th {
+            background: var(--bg-glass);
+            color: var(--text-primary);
+        }
+
+        .generated-plan td {
+            color: var(--text-secondary);
+        }
+
+        .generated-plan code {
+            font: 600 .68rem var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .error-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .timeline-card {
+            position: relative;
+            min-height: 185px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .timeline-card:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+        }
+
+        .timeline-card .timeline-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .09);
+            color: var(--clr-tea);
+            margin-bottom: var(--space-sm);
+        }
+
+        .timeline-card h4 {
+            margin: 0 0 .3rem;
+            font-size: .84rem;
+            color: var(--text-primary);
+        }
+
+        .timeline-card p {
+            margin: 0 0 .5rem;
+            font-size: .71rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+        }
+
+        .timeline-card code {
+            display: block;
+            white-space: pre-wrap;
+            padding: .5rem;
+            background: var(--bg-code);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font: 600 .65rem/1.4 var(--font-code);
+        }
+
+        .error-classifier {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .error-code-box {
+            min-height: 220px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .error-code-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font: 700 .8rem/1.6 var(--font-code);
+            color: var(--text-primary);
+        }
+
+        .error-option-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xs);
+        }
+
+        .error-choice {
+            text-align: left;
+        }
+
+        .compact-details {
+            margin: var(--space-md) 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .compact-details summary {
+            padding: var(--space-md);
+            cursor: pointer;
+            list-style: none;
+            color: var(--text-primary);
+            font-size: .82rem;
+            font-weight: 800;
+        }
+
+        .compact-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .compact-details summary::after {
+            content: "+";
+            float: right;
+            color: var(--clr-tea);
+            font-size: 1rem;
+        }
+
+        .compact-details[open] summary::after {
+            content: "−";
+        }
+
+        .details-body {
+            padding: 0 var(--space-md) var(--space-md);
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+        }
+
+        .strategy-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .strategy-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .76rem;
+            margin-bottom: .25rem;
+        }
+
+        .strategy-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .68rem;
+            line-height: 1.4;
+        }
+
+        .exam-marking {
+            margin-top: var(--space-xs);
+        }
+
+        .exam-marking summary {
+            cursor: pointer;
+            color: var(--clr-tea);
+            font-size: .72rem;
+            font-weight: 800;
+        }
+
+        .exam-marking div {
+            margin-top: var(--space-xs);
+            padding: var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5;
+        }
+
+        .exit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+        }
+
+        .exit-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            text-align: center;
+        }
+
+        .exit-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--clr-tea);
+            font-size: 2rem;
+        }
+
+        .exit-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .78rem;
+            line-height: 1.45;
+        }
+
+        @media (max-width: 960px) {
+            .section-jump {
+                position: static;
+            }
+
+            .testing-cycle {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cycle-step::after {
+                display: none;
+            }
+
+            .test-type-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .error-timeline {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline-card::after {
+                display: none;
+            }
+
+            .error-classifier {
+                grid-template-columns: 1fr;
+            }
+
+            .strategy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .testing-cycle,
+            .boundary-controls,
+            .error-timeline,
+            .strategy-grid,
+            .exit-grid,
+            .classifier-options,
+            .error-option-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .classifier,
+            .boundary-lab,
+            .plan-builder {
+                padding: var(--space-md);
+            }
+
+            .plan-requirement {
+                grid-template-columns: 1fr;
+            }
+
+            .classifier-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
-                <span>12.1C — Testing Methods</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-vial"></i> Unit 12.1C · Term 1</div>
-                <h1 class="lesson-title">Testing Methods</h1>
-                <p class="lesson-intro"><strong>System testing</strong> evaluates the complete, integrated software
-                    system to verify that it meets the specified functional and non-functional requirements. A
-                    well-tested program handles expected, extreme, and unexpected inputs gracefully while catching
-                    various types of errors before deployment.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.5.3.2</span> Perform testing using normal data</li>
-                    <li><span class="lo-code">12.5.3.3</span> Perform testing using extreme data</li>
-                    <li><span class="lo-code">12.5.3.4</span> Perform testing using erroneous data</li>
-                    <li><span class="lo-code">12.5.3.1</span> Describe execution errors at program startup</li>
-                    <li><span class="lo-code">12.5.3.5</span> Describe a syntax error in a program code</li>
-                    <li><span class="lo-code">12.5.3.6</span> Describe a logic error in a program code</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>Testing Methods · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="/assets/pdf/testing_methods.pdf" target="_blank" class="lesson-pdf-btn view-btn"><i
-                            class="fas fa-eye"></i> View</a>
-                    <a href="/assets/pdf/testing_methods.pdf" download class="lesson-pdf-btn download-btn"><i
-                            class="fas fa-download"></i> Download</a>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-car-crash"></i> The Car Safety Test</h4>
-                    <p>Before selling a car, manufacturers test it in <strong>normal</strong> conditions (city driving),
-                        <strong>extreme</strong> conditions (desert heat, icy roads), and <strong>erroneous</strong>
-                        conditions (what if the driver presses gas and brake simultaneously?). Software testing works
-                        the same way to ensure the system is robust and reliable.
-                    </p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 12 CS</a>
+                        <span class="sep">/</span>
+                        <span>12.1C — Testing Methods</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fas fa-vial"></i> Unit 12.1C · Term 1
+                        </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">System Testing</h3>
-                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                    <li><strong>Definition:</strong> A level of software testing that evaluates the complete, integrated
-                        software system to verify that it meets the specified functional (what the system should do) and
-                        non-functional (how well the system should do it) requirements.</li>
-                    <li><strong>Why it is needed:</strong> There are four primary reasons for system testing:
-                        <ul>
-                            <li><strong>Holistic Validation:</strong> Ensuring all parts work together as a whole.</li>
-                            <li><strong>Requirement Compliance:</strong> Confirming the software does exactly what the
-                                client requested.</li>
-                            <li><strong>Defect Detection:</strong> Finding bugs before the software reaches the user.
-                            </li>
-                            <li><strong>Risk Mitigation:</strong> Preventing costly or dangerous failures in real-world
-                                application.</li>
-                        </ul>
-                    </li>
-                </ul>
+                        <h1 class="lesson-title">Testing Methods</h1>
 
-                <div class="header-section">
-                    <h2>Test Plan</h2>
-                </div>
-
-                <div class="content-section">
-                    <p><strong>What is a test plan?</strong></p>
-                    <p class="definition">
-                        A test plan is a formal document which details the tests to be performed on the data/software.
-                    </p>
-
-                    <span class="checklist-title">It describes:</span>
-                    <ul class="test-plan-list">
-                        <li>The scope of the testing</li>
-                        <li>The tests to be performed</li>
-                        <li>The reason for each test</li>
-                        <li>The data to be used in tests</li>
-                        <li>The expected outcome of each test</li>
-                    </ul>
-
-                    <div class="test-types">
-                        <strong>A good test plan should include the type of test:</strong>
-                        <p>Normal / Extreme / Abnormal</p>
+                        <p class="lesson-intro">
+                            <strong>System testing</strong> evaluates the complete software system
+                            against its requirements. Good testing uses carefully selected
+                            <strong>normal</strong>, <strong>extreme</strong> and
+                            <strong>erroneous</strong> data and helps identify problems such as
+                            syntax, startup execution, runtime and logic errors before deployment.
+                        </p>
                     </div>
 
-                    <p>
-                        Once the test has been conducted, <span class="highlight-blue">the actual result from the test,
-                            along with evidence (e.g. screenshots) is added to the plan.</span>
-                    </p>
-                </div>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">12.5.3.2</span> Perform testing using normal data</li>
+                            <li><span class="lo-code">12.5.3.3</span> Perform testing using extreme data</li>
+                            <li><span class="lo-code">12.5.3.4</span> Perform testing using erroneous data</li>
+                            <li><span class="lo-code">12.5.3.1</span> Describe execution errors at program startup</li>
+                            <li><span class="lo-code">12.5.3.5</span> Describe a syntax error in a program code</li>
+                            <li><span class="lo-code">12.5.3.6</span> Describe a logic error in a program code</li>
+                        </ul>
+                    </div>
 
-                <footer class="footer-note">
-                    The actual outcome can be either <strong>accepted</strong> or <strong>rejected</strong>.
-                </footer>
+                    <div class="note-box">
+                        <h4><i class="fas fa-check-circle"></i> Success Criteria</h4>
+                        <p>
+                            I can classify test data as normal, extreme or erroneous ·
+                            identify important boundary values · construct a test plan with expected outcomes ·
+                            compare expected and actual results · distinguish syntax, startup execution,
+                            runtime and logic errors · explain why a test passes or fails.
+                        </p>
+                    </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
-                    Test Data</h3>
-                <p>After creating a system, it is necessary to test data to see if it performs under the conditions it
-                    was created for. Below is an example validating an age range of 17 to 70.</p>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Data Type</th>
-                            <th>Definition</th>
-                            <th>Example (Valid age: 17–70)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Normal</strong></td>
-                            <td>Typical, expected values that fall within the valid boundary and should be accepted by
-                                the system.</td>
-                            <td>25, 40, 55</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Extreme (Boundary)</strong></td>
-                            <td>Values at the very edges (upper and lower limits) of the valid range. These should be
-                                accepted.</td>
-                            <td>17, 70</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Erroneous (Abnormal)</strong></td>
-                            <td>Values that fall completely outside the boundary or are of the wrong data type. These
-                                must be rejected by the system.</td>
-                            <td>16, 71, "twenty"</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon">
+                            <i class="fas fa-file-powerpoint"></i>
+                        </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Test Plan
-                    Structure</h3>
-                <p>A good test plan must be structured systematically. It should include: the list of tests to be
-                    performed, the data to be used, the type of test, the expected outcome, and the actual outcome.</p>
-                <div class="code-block"><code># Program requirement: The system should accept an age range of 17 - 70. Any other data is rejected.
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>Testing Methods · Slides for classroom use</p>
+                        </div>
 
-┌────────┬────────┬──────────────────┬──────────────────┬──────────────────┐
-│ Test # │ Input  │ Test Type        │ Expected Outcome │ Actual Outcome   │
-├────────┼────────┼──────────────────┼──────────────────┼──────────────────┤
-│ 1      │ 25     │ Normal           │ Accepted         │ Accepted         │
-│ 2      │ 17     │ Extreme (Lower)  │ Accepted         │ Accepted         │
-│ 3      │ 70     │ Extreme (Upper)  │ Accepted         │ Accepted         │
-│ 4      │ 16     │ Erroneous        │ Rejected         │ Rejected         │
-│ 5      │ 71     │ Erroneous        │ Rejected         │ Rejected         │
-│ 6      │ "abc"  │ Erroneous        │ Rejected         │ Rejected         │
-└────────┴────────┴──────────────────┴──────────────────┴──────────────────┘</code></div>
+                        <div class="lesson-pdf-actions">
+                            <a href="/assets/pdf/testing_methods.pdf" target="_blank" class="lesson-pdf-btn view-btn">
+                                <i class="fas fa-eye"></i> View
+                            </a>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
-                    Programming Errors</h3>
-
-                <figure class="lesson-image-block">
-                    <img src="/assets/images/lessons/errors.jpeg" width="600" height="400" alt="Types of Errors">
-                    <figcaption>Types of Errors.</figcaption>
-                </figure>
-
-
-                <div class="lesson-video-block">
-                    <div class="lesson-video-header">
-                        <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
-                        <div class="lesson-video-info">
-                            <h4>Video Explanation</h4>
-                            <p>Watch a visual walkthrough of this topic</p>
+                            <a href="/assets/pdf/testing_methods.pdf" download class="lesson-pdf-btn download-btn">
+                                <i class="fas fa-download"></i> Download
+                            </a>
                         </div>
                     </div>
-                    <div class="lesson-video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/Qce-9ziTxKA" allowfullscreen></iframe>
-                    </div>
-                </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Syntax Errors</h4>
-                    <p>These errors occur during compilation when the code violates the grammatical rules of the
-                        programming language. The compiler cannot translate the code, which prevents the program from
-                        running at all. Example: missing a parenthesis in <code>print("Hello"</code>.</p>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Execution Errors at Program Startup</h4>
-                    <p>These are runtime exceptions or failures that occur during the initial loading and initialization
-                        phase of a software program, right after it begins running but before it reaches its core
-                        functionality. They differ from compile-time errors.</p>
-                    <ul style="padding-left: 20px;">
-                        <li><strong>Environmental Mismatch:</strong> The program's assumptions about the system (e.g.,
-                            files, network, hardware) don't match reality.</li>
-                        <li><strong>Resource Conflicts:</strong> Attempts to access locked or unavailable resources
-                            early on.</li>
-                        <li><strong>Dependency Issues:</strong> Failure to load required external libraries or modules.
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> General Run Time Errors</h4>
-                    <p>As the name suggests, the error is only detectable while the program is running. They produce
-                        unexpected application behaviors. Examples include:</p>
-                    <ul style="padding-left: 20px;">
-                        <li><strong>Memory leak:</strong> Causes a program to slowly use up more RAM until it crashes.
-                        </li>
-                        <li><strong>Program crash:</strong> The program unexpectedly quits while running (e.g., dividing
-                            by zero).</li>
-                    </ul>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Logic Errors</h4>
-                    <p>Logic errors occur when the program runs perfectly without crashing, but produces the wrong
-                        output because of a flaw in the programmer's reasoning. They are categorized into two types:</p>
-                    <table class="theory-table" style="margin-top: 10px;">
-                        <thead>
-                            <tr>
-                                <th>Formal Logic Error</th>
-                                <th>Informal Logic Error</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Also known as "mathematical logic". It is based on Boolean variables (True/False)
-                                    and logical thinking using AND, OR, and IF/THEN statements.</td>
-                                <td>Happens when the program follows all the rules of coding, but it doesn't solve the
-                                    problem the way it was intended.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Example:</strong> Writing <code>IF age > 17 AND age < 70</code> instead of
-                                    <code>IF age >= 17 AND age <= 70</code>. The mathematical logic misses the extreme
-                                    boundaries.
-                                </td>
-                                <td><strong>Example:</strong> Implementing an algorithm that sorts numbers, but it
-                                    unintentionally sorts them in descending order when it should have been ascending.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
-                    Additional Testing Strategies</h3>
-                <p>Beyond data input testing, software goes through several phases of validation to ensure robustness.
-                </p>
-                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                    <li><strong>Alpha Testing:</strong> Conducted by the internal development team in a lab environment
-                        before the software is released to external users.</li>
-                    <li><strong>Beta Testing:</strong> Conducted by a limited number of real users in a real-world
-                        environment before the final commercial release.</li>
-                    <li><strong>Dry Run Testing:</strong> A manual, paper-based walk-through of the code using a trace
-                        table to track variables without actually executing the program on a computer.</li>
-                    <li><strong>Blackbox Testing:</strong> Testing the functionality of the software without looking at
-                        the internal code structure. The tester only knows the required inputs and expected outputs.
-                    </li>
-                    <li><strong>Whitebox Testing:</strong> Testing the internal structures, logic, and workings of an
-                        application. The tester needs full access and knowledge of the source code.</li>
-                </ul>
-
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Only Testing Normal Data</h4>
-                    <p>Many students only test with "nice" values. Always construct a complete Test Plan that includes
-                        <strong>Extreme</strong> data to test the exact boundaries, and
-                        <strong>Erroneous/Abnormal</strong> data to verify the system rejects bad inputs.
-                    </p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Mixing Up Runtime and Logic Errors</h4>
-                    <p>Runtime errors <strong>crash</strong> the program or halt execution entirely. Logic errors
-                        <strong>don't crash</strong> —
-                        the program runs but gives wrong results. If the program unexpectedly quits = runtime. If it
-                        runs but the
-                        answer is wrong = logic.
-                    </p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level understand">Research & Discuss</span>
-                        <p>In pairs, research and prepare for a discussion to demonstrate and explain the concepts of:
-                            Alpha testing, Beta testing, Dry run testing, Blackbox testing, and Whitebox testing.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Create a test plan table for a program that accepts a password between 8 and 20 characters.
-                            Include columns for Test #, Input, Test Type, Expected Outcome, and Actual Outcome. Include
-                            at least 6 tests.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Differentiate between Formal Logic Errors and Informal Logic Errors using an original coding
-                            example for each.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What are Execution Errors at Startup?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Failures that occur during the
-                        initial loading and initialization phase right after the program begins running, caused by
-                        issues like environmental mismatch, resource conflicts, or dependency issues.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: Why is System Testing important?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It is essential for holistic
-                        validation, requirement compliance, defect detection, and risk mitigation before the software is
-                        deployed to end users.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: How does Erroneous data differ from Extreme data?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Extreme data represents the
-                        valid boundary limits and should be accepted by the system. Erroneous (Abnormal) data falls
-                        outside the acceptable range or is of the wrong data type and must be rejected.</div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="compilation-stages.html"><span class="nav-label">← Previous</span><span class="nav-title">Program Compilation Stages</span></a>
-                        <a href="threats-computer-system.html"><span class="nav-label">Next →</span><span class="nav-title">Threats to Computer System</span></a>
+                    <nav class="section-jump" aria-label="Lesson sections">
+                        <a href="#testing-cycle">Testing Cycle</a>
+                        <a href="#test-data">Test Data</a>
+                        <a href="#boundaries">Boundaries</a>
+                        <a href="#test-plan">Test Plan</a>
+                        <a href="#errors">Errors</a>
+                        <a href="#practice">Practice</a>
                     </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-car-crash"></i> The Car Safety Test</h4>
+                            <p>
+                                Before selling a car, manufacturers test it in
+                                <strong>normal</strong> conditions, at
+                                <strong>extreme</strong> limits, and in unusual or invalid situations.
+                                Software testing uses the same principle: test ordinary inputs,
+                                test the exact boundaries, and test data that should be rejected.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TESTING CYCLE
+                     ===================================================== -->
+                    <section class="lesson-section" id="testing-cycle">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-route"></i> The Testing Cycle
+                        </h2>
+
+                        <p class="concept-text">
+                            Testing starts from a requirement. A test should state the input,
+                            predict the expected result, record the actual result and then determine
+                            whether the test has passed or failed.
+                        </p>
+
+                        <div class="testing-cycle">
+                            <div class="cycle-step">
+                                <div class="cycle-icon"><i class="fas fa-list-check"></i></div>
+                                <strong>Requirement</strong>
+                                <span>What should the system do?</span>
+                            </div>
+
+                            <div class="cycle-step">
+                                <div class="cycle-icon"><i class="fas fa-keyboard"></i></div>
+                                <strong>Test Data</strong>
+                                <span>Choose an input deliberately.</span>
+                            </div>
+
+                            <div class="cycle-step">
+                                <div class="cycle-icon"><i class="fas fa-bullseye"></i></div>
+                                <strong>Expected Result</strong>
+                                <span>Predict correct behaviour before running.</span>
+                            </div>
+
+                            <div class="cycle-step">
+                                <div class="cycle-icon"><i class="fas fa-play"></i></div>
+                                <strong>Actual Result</strong>
+                                <span>Run the program and record what happens.</span>
+                            </div>
+
+                            <div class="cycle-step">
+                                <div class="cycle-icon"><i class="fas fa-check-double"></i></div>
+                                <strong>Pass / Fail</strong>
+                                <span>Compare expected and actual results.</span>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Why System Testing Is Needed
+                        </h3>
+
+                        <ul class="concept-list">
+                            <li><strong>Holistic validation:</strong> check that the complete system works as a whole.
+                            </li>
+                            <li><strong>Requirement compliance:</strong> confirm that the system behaves as specified.
+                            </li>
+                            <li><strong>Defect detection:</strong> find faults before users depend on the software.</li>
+                            <li><strong>Risk mitigation:</strong> reduce the chance of costly or dangerous failures.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- =====================================================
+                     TEST DATA TYPES
+                     ===================================================== -->
+                    <section class="lesson-section" id="test-data">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-database"></i> Types of Test Data
+                        </h2>
+
+                        <p class="concept-text">
+                            Suppose a program accepts an age from <strong>17 to 70 inclusive</strong>.
+                            The same requirement can be tested with three different categories of data.
+                        </p>
+
+                        <div class="test-type-grid">
+                            <div class="test-type-card">
+                                <div class="type-icon"><i class="fas fa-check"></i></div>
+                                <h4>Normal Data</h4>
+                                <p>
+                                    Typical valid values inside the accepted range.
+                                    They should be accepted by the program.
+                                </p>
+                                <code>25, 40, 55</code>
+                            </div>
+
+                            <div class="test-type-card">
+                                <div class="type-icon"><i class="fas fa-arrows-left-right-to-line"></i></div>
+                                <h4>Extreme Data</h4>
+                                <p>
+                                    Valid values exactly at the lower or upper boundary.
+                                    They should still be accepted.
+                                </p>
+                                <code>17, 70</code>
+                            </div>
+
+                            <div class="test-type-card">
+                                <div class="type-icon"><i class="fas fa-xmark"></i></div>
+                                <h4>Erroneous / Abnormal Data</h4>
+                                <p>
+                                    Values outside the valid range or data of an unacceptable form/type.
+                                    They should be rejected.
+                                </p>
+                                <code>16, 71, "twenty"</code>
+                            </div>
+                        </div>
+
+                        <div class="classifier">
+                            <div class="classifier-scenario">
+                                <span>Program requirement</span>
+                                <strong>Accept an age from 17 to 70 inclusive.</strong>
+                            </div>
+
+                            <div class="classifier-value">
+                                <code id="testDataValue">25</code>
+                            </div>
+
+                            <div class="classifier-options">
+                                <button class="choice-btn test-data-choice" data-choice="normal" type="button">
+                                    Normal
+                                </button>
+
+                                <button class="choice-btn test-data-choice" data-choice="extreme" type="button">
+                                    Extreme
+                                </button>
+
+                                <button class="choice-btn test-data-choice" data-choice="erroneous" type="button">
+                                    Erroneous
+                                </button>
+                            </div>
+
+                            <div id="testDataFeedback" class="classifier-feedback">
+                                Classify the input before revealing the explanation.
+                            </div>
+
+                            <div class="classifier-footer">
+                                <span id="testDataProgress">Input 1 of 7</span>
+
+                                <button id="nextTestData" class="lab-btn" type="button">
+                                    Next input <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     BOUNDARIES
+                     ===================================================== -->
+                    <section class="lesson-section" id="boundaries">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-ruler-horizontal"></i> Boundary Visualiser
+                        </h2>
+
+                        <p class="concept-text">
+                            Boundary errors are common. A good tester does not only test the two valid
+                            limits; they also check values just inside and just outside the boundaries.
+                        </p>
+
+                        <div class="boundary-lab">
+                            <div class="boundary-controls">
+                                <div class="boundary-control">
+                                    <label>
+                                        <span>Lower valid limit</span>
+                                        <output id="lowerValue">17</output>
+                                    </label>
+                                    <input id="lowerRange" type="range" min="0" max="50" value="17">
+                                </div>
+
+                                <div class="boundary-control">
+                                    <label>
+                                        <span>Upper valid limit</span>
+                                        <output id="upperValue">70</output>
+                                    </label>
+                                    <input id="upperRange" type="range" min="20" max="100" value="70">
+                                </div>
+                            </div>
+
+                            <div class="boundary-numberline">
+                                <div class="numberline-inner">
+                                    <div class="boundary-point erroneous">
+                                        <div class="boundary-dot" id="belowLower">16</div>
+                                        <strong>Erroneous</strong>
+                                        <span>just below</span>
+                                    </div>
+
+                                    <div class="boundary-point extreme">
+                                        <div class="boundary-dot" id="lowerBoundary">17</div>
+                                        <strong>Extreme</strong>
+                                        <span>lower boundary</span>
+                                    </div>
+
+                                    <div class="boundary-point normal">
+                                        <div class="boundary-dot" id="insideLower">18</div>
+                                        <strong>Normal</strong>
+                                        <span>just inside</span>
+                                    </div>
+
+                                    <div class="boundary-point normal">
+                                        <div class="boundary-dot" id="insideUpper">69</div>
+                                        <strong>Normal</strong>
+                                        <span>just inside</span>
+                                    </div>
+
+                                    <div class="boundary-point extreme">
+                                        <div class="boundary-dot" id="upperBoundary">70</div>
+                                        <strong>Extreme</strong>
+                                        <span>upper boundary</span>
+                                    </div>
+
+                                    <div class="boundary-point erroneous">
+                                        <div class="boundary-dot" id="aboveUpper">71</div>
+                                        <strong>Erroneous</strong>
+                                        <span>just above</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-lightbulb"></i> Boundary checklist</h4>
+                            <p>
+                                For a valid range <code>min ... max</code>, think about:
+                                <code>min - 1</code>, <code>min</code>, <code>min + 1</code>,
+                                <code>max - 1</code>, <code>max</code>, <code>max + 1</code>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TEST PLAN
+                     ===================================================== -->
+                    <section class="lesson-section" id="test-plan">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-table-list"></i> Test Plan
+                        </h2>
+
+                        <p class="concept-text">
+                            A <strong>test plan</strong> is a formal record of the tests that will be
+                            performed. It should state the data used, the type of test, the expected result
+                            and, after testing, the actual result.
+                        </p>
+
+                        <ul class="concept-list">
+                            <li>The scope or requirement being tested.</li>
+                            <li>The tests to be performed.</li>
+                            <li>The reason or type of each test.</li>
+                            <li>The input data.</li>
+                            <li>The expected outcome.</li>
+                            <li>The actual outcome and evidence after execution.</li>
+                            <li>Whether the test is accepted/passed or rejected/failed.</li>
+                        </ul>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Age Validation Test Plan</h4>
+
+                            <p class="concept-text">
+                                Requirement: <strong>accept age values from 17 to 70 inclusive; reject other
+                                    data.</strong>
+                            </p>
+
+                            <div style="overflow-x:auto;">
+                                <table class="theory-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Test #</th>
+                                            <th>Input</th>
+                                            <th>Test Type</th>
+                                            <th>Expected Outcome</th>
+                                            <th>Actual Outcome</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><code>25</code></td>
+                                            <td>Normal</td>
+                                            <td>Accepted</td>
+                                            <td>Accepted</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><code>17</code></td>
+                                            <td>Extreme — lower</td>
+                                            <td>Accepted</td>
+                                            <td>Accepted</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><code>70</code></td>
+                                            <td>Extreme — upper</td>
+                                            <td>Accepted</td>
+                                            <td>Accepted</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td><code>16</code></td>
+                                            <td>Erroneous</td>
+                                            <td>Rejected</td>
+                                            <td>Rejected</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td><code>71</code></td>
+                                            <td>Erroneous</td>
+                                            <td>Rejected</td>
+                                            <td>Rejected</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td><code>"abc"</code></td>
+                                            <td>Erroneous</td>
+                                            <td>Rejected</td>
+                                            <td>Rejected</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="plan-builder">
+                            <div class="plan-requirement">
+                                <div>
+                                    <span>Practice requirement</span>
+                                    <strong>Password length must be from 8 to 20 characters inclusive.</strong>
+                                </div>
+
+                                <button id="generatePlanBtn" class="lab-btn" type="button">
+                                    <i class="fas fa-wand-magic-sparkles"></i> Generate Example Plan
+                                </button>
+                            </div>
+
+                            <div id="planTableWrap" class="plan-table-wrap" hidden>
+                                <table class="generated-plan">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Input</th>
+                                            <th>Length</th>
+                                            <th>Type</th>
+                                            <th>Expected</th>
+                                            <th>Why?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="generatedPlanBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-camera"></i> After the Test</h4>
+                            <p>
+                                Once a test is performed, record the <strong>actual outcome</strong>
+                                and, where appropriate, evidence such as a screenshot. Compare it with
+                                the expected outcome to decide whether the test passed or failed.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     ERROR TYPES
+                     ===================================================== -->
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-bug"></i> Programming Errors — When Are They Found?
+                        </h2>
+
+                        <figure class="lesson-image-block">
+                            <img src="/assets/images/lessons/errors.jpeg" width="600" height="400" loading="lazy"
+                                alt="Types of programming errors">
+
+                            <figcaption>
+                                Different errors are detected at different stages of program development and execution.
+                            </figcaption>
+                        </figure>
+
+                        <div class="error-timeline">
+                            <div class="timeline-card">
+                                <div class="timeline-icon"><i class="fas fa-code"></i></div>
+                                <h4>1. Syntax Error</h4>
+                                <p>
+                                    The code violates the grammar of the programming language.
+                                    The program cannot be successfully interpreted/compiled as written.
+                                </p>
+                                <code>print("Hello"</code>
+                            </div>
+
+                            <div class="timeline-card">
+                                <div class="timeline-icon"><i class="fas fa-power-off"></i></div>
+                                <h4>2. Startup Execution Error</h4>
+                                <p>
+                                    The program begins loading or initialising but cannot start correctly
+                                    because a required resource, dependency or environment condition is missing.
+                                </p>
+                                <code>required config file
+or library missing</code>
+                            </div>
+
+                            <div class="timeline-card">
+                                <div class="timeline-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                                <h4>3. Runtime Error</h4>
+                                <p>
+                                    The program has started but an error occurs while instructions are being executed.
+                                </p>
+                                <code>answer = 10 / 0</code>
+                            </div>
+
+                            <div class="timeline-card">
+                                <div class="timeline-icon"><i class="fas fa-brain"></i></div>
+                                <h4>4. Logic Error</h4>
+                                <p>
+                                    The program runs, but a mistake in the algorithm or condition causes an incorrect
+                                    result.
+                                </p>
+                                <code>area = width + height
+# should multiply</code>
+                            </div>
+                        </div>
+
+                        <div class="lesson-video-block">
+                            <div class="lesson-video-header">
+                                <div class="lesson-video-icon">
+                                    <i class="fab fa-youtube"></i>
+                                </div>
+
+                                <div class="lesson-video-info">
+                                    <h4>Video Explanation</h4>
+                                    <p>Watch a visual walkthrough of testing and programming errors.</p>
+                                </div>
+                            </div>
+
+                            <div class="lesson-video-wrapper">
+                                <iframe src="https://www.youtube-nocookie.com/embed/Qce-9ziTxKA"
+                                    title="Testing methods and programming errors" loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+
+                        <div class="error-classifier">
+                            <div class="error-code-box">
+                                <pre id="errorCodeExample">print("Hello"</pre>
+                            </div>
+
+                            <div>
+                                <div class="error-option-grid">
+                                    <button class="choice-btn error-choice" data-choice="syntax" type="button">
+                                        Syntax Error
+                                    </button>
+
+                                    <button class="choice-btn error-choice" data-choice="startup" type="button">
+                                        Startup Execution Error
+                                    </button>
+
+                                    <button class="choice-btn error-choice" data-choice="runtime" type="button">
+                                        Runtime Error
+                                    </button>
+
+                                    <button class="choice-btn error-choice" data-choice="logic" type="button">
+                                        Logic Error
+                                    </button>
+                                </div>
+
+                                <div id="errorFeedback" class="classifier-feedback">
+                                    Identify the error type and think about when it would be detected.
+                                </div>
+
+                                <div class="classifier-footer">
+                                    <span id="errorProgress">Example 1 of 8</span>
+
+                                    <button id="nextErrorExample" class="lab-btn" type="button">
+                                        Next example <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     ERROR DETAIL
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-magnifying-glass"></i> Error Types in More Detail
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Syntax Errors</h4>
+                            <p>
+                                Syntax errors occur when code violates the grammatical rules of the
+                                programming language. Examples include missing brackets, incorrect punctuation
+                                or malformed statements.
+                            </p>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Execution Errors at Program Startup</h4>
+                            <p>
+                                These failures occur during initial loading or initialization after the
+                                program begins launching but before normal functionality is available.
+                            </p>
+
+                            <ul class="concept-list">
+                                <li><strong>Environmental mismatch:</strong> required files, network, hardware or
+                                    settings are unavailable.</li>
+                                <li><strong>Resource conflict:</strong> a required resource is locked or unavailable.
+                                </li>
+                                <li><strong>Dependency issue:</strong> a required external module or library cannot be
+                                    loaded.</li>
+                            </ul>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">4</span> General Runtime Errors</h4>
+                            <p>
+                                Runtime errors are detected while the program is executing.
+                                They may stop the program or cause unexpected behaviour.
+                                Examples include division by zero, invalid file operations or resource exhaustion.
+                            </p>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">5</span> Logic Errors</h4>
+                            <p>
+                                Logic errors do not necessarily crash the program.
+                                The code can run successfully but produce the wrong output or behaviour
+                                because the algorithm or conditions are incorrect.
+                            </p>
+
+                            <div class="code-block"><code># Requirement:
+# Accept age from 17 to 70 inclusive.
+
+# Incorrect logic:
+if age > 17 and age < 70:
+    print("Accepted")
+
+# Correct boundary logic:
+if age >= 17 and age <= 70:
+    print("Accepted")</code></div>
+                        </div>
+
+                        <details class="compact-details">
+                            <summary>Extension: Formal and Informal Logic Errors</summary>
+
+                            <div class="details-body">
+                                <table class="theory-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Formal Logic Error</th>
+                                            <th>Informal Logic Error</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                An error in Boolean, mathematical or conditional logic.
+                                            </td>
+                                            <td>
+                                                The code follows valid programming rules but implements
+                                                the intended problem incorrectly.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Example:
+                                                <code>age &gt; 17 AND age &lt; 70</code>
+                                                instead of inclusive boundaries.
+                                            </td>
+                                            <td>
+                                                Example: sorting a list in descending order when the
+                                                requirement specified ascending order.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </section>
+
+                    <!-- =====================================================
+                     ADDITIONAL METHODS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <details class="compact-details">
+                            <summary>Extension: Additional Testing Strategies</summary>
+
+                            <div class="details-body">
+                                <p class="concept-text">
+                                    These strategies extend testing beyond normal/extreme/erroneous input data.
+                                </p>
+
+                                <div class="strategy-grid">
+                                    <div class="strategy-card">
+                                        <strong>Alpha Testing</strong>
+                                        <p>
+                                            Internal testing by the development organisation before release to external
+                                            users.
+                                        </p>
+                                    </div>
+
+                                    <div class="strategy-card">
+                                        <strong>Beta Testing</strong>
+                                        <p>
+                                            Testing by a limited group of real users in real-world conditions before
+                                            final release.
+                                        </p>
+                                    </div>
+
+                                    <div class="strategy-card">
+                                        <strong>Dry Run</strong>
+                                        <p>
+                                            Manual walk-through of an algorithm or code, often using a trace table.
+                                        </p>
+                                    </div>
+
+                                    <div class="strategy-card">
+                                        <strong>Black-box</strong>
+                                        <p>
+                                            Tests inputs and outputs without relying on knowledge of internal source
+                                            code.
+                                        </p>
+                                    </div>
+
+                                    <div class="strategy-card">
+                                        <strong>White-box</strong>
+                                        <p>
+                                            Tests internal paths, structures and logic with access to the program code.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                    </section>
+
+                    <!-- =====================================================
+                     PITFALLS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 1. Testing Only Normal Data</h4>
+                            <p>
+                                A program can work for typical values and still fail at its boundaries.
+                                Always include extreme and erroneous data where relevant.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 2. Calling Just-Outside Values “Extreme”</h4>
+                            <p>
+                                For a valid range <code>17–70</code>, <code>17</code> and <code>70</code>
+                                are extreme valid data. <code>16</code> and <code>71</code> are erroneous.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 3. Writing the Actual Result Before Testing</h4>
+                            <p>
+                                The expected result is predicted in advance.
+                                The actual result is recorded only after the program is executed.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 4. Runtime Error vs Logic Error</h4>
+                            <p>
+                                A runtime error occurs during execution and may halt the program.
+                                A logic error allows the program to run but produces an incorrect result or behaviour.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> 5. Confusing Test Input with Expected Outcome</h4>
+                            <p>
+                                <code>17</code> is the input. <code>Accepted</code> is the expected outcome.
+                                Keep these as separate columns in the test plan.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PRACTICE
+                     ===================================================== -->
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Practice Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    Define <strong>normal</strong>, <strong>extreme</strong> and
+                                    <strong>erroneous</strong> test data.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    A program accepts marks from <code>0</code> to <code>100</code> inclusive.
+                                    Explain why <code>0</code> and <code>100</code> are extreme data,
+                                    while <code>-1</code> and <code>101</code> are erroneous.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    For the range <code>10–50</code>, give values for:
+                                    just below the lower boundary, lower boundary, just inside lower,
+                                    just inside upper, upper boundary and just above upper.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Create a complete test plan for a password length of
+                                    <code>8–20</code> characters. Include at least six tests.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Classify four short examples as syntax, startup execution,
+                                    runtime or logic errors and explain when each error is detected.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    A program accepts ages only when
+                                    <code>age &gt; 17 and age &lt; 70</code>.
+                                    Identify the defect and explain which test data would reveal it.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    A test expected <code>Rejected</code> but the actual result was
+                                    <code>Accepted</code>. Explain what should be recorded in the test plan
+                                    and what this tells the developer.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Choose your own validation rule and design a test plan containing
+                                    normal, extreme and erroneous inputs with expected outcomes.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM PRACTICE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: A program accepts an integer from 20 to 80 inclusive.
+                                Give one normal value and two extreme values. [3]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    Normal: any typical valid value strictly inside the range, for example
+                                    <code>50</code>.
+                                    Extreme: <code>20</code> and <code>80</code>.
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: Give two examples of erroneous data for the same program. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    Examples include a value below <code>20</code>, a value above <code>80</code>,
+                                    or inappropriate non-integer data if the program expects an integer.
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: Describe a syntax error in program code. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    Code violates the grammar/syntax rules of the language;
+                                    this prevents the statement/program from being successfully translated or executed
+                                    as written.
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: Explain the difference between a runtime error and a logic error. [4]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    Runtime error: occurs while the program is executing and may stop execution.
+                                    Logic error: the program can execute but produces an incorrect output/behaviour
+                                    because the algorithm or condition is wrong.
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q5: Describe one possible cause of an execution error at program startup. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    For example: a required library/module cannot be loaded;
+                                    a required file/resource is missing or unavailable;
+                                    or the environment does not satisfy the program's startup requirements.
+                                </div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-question-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: What is normal test data?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Typical valid data inside the accepted range.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: For a valid range of 17–70, what are the two extreme values?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>17</code> and <code>70</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: Why is 71 erroneous rather than extreme for the range 17–70?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Because 71 is outside the valid range and should be rejected.
+                                The valid upper extreme is 70.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: What is the difference between expected and actual outcome?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                Expected outcome is predicted before the test;
+                                actual outcome is what the program really does when the test is performed.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q5: What is a syntax error?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                An error caused by code that violates the grammar/syntax rules of the programming
+                                language.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q6: What is an execution error at startup?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                A failure during loading or initialization that prevents the program
+                                from reaching its normal functionality.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q7: How does a logic error differ from a runtime error?
+                            </p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                A logic error produces an incorrect result while the program may continue running;
+                                a runtime error occurs during execution and may halt the program.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXIT
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-door-open"></i> Exit Ticket — 3–2–1
+                        </h2>
+
+                        <div class="exit-grid">
+                            <div class="exit-card">
+                                <strong>3</strong>
+                                <p>Name the three main types of test data.</p>
+                            </div>
+
+                            <div class="exit-card">
+                                <strong>2</strong>
+                                <p>Give two values you would test near a boundary.</p>
+                            </div>
+
+                            <div class="exit-card">
+                                <strong>1</strong>
+                                <p>Explain one difference between a runtime error and a logic error.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="compilation-stages.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">Program Compilation Stages</span>
+                            </span>
+                        </a>
+
+                        <a href="threats-computer-system.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">Threats to Computer System</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
         <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
     </footer>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // ============================================================
+            // Test Data Classifier
+            // ============================================================
+            const testDataExamples = [
+                {
+                    value: "25",
+                    answer: "normal",
+                    explanation: "25 is a typical valid value inside the accepted range 17–70, so it is normal data."
+                },
+                {
+                    value: "17",
+                    answer: "extreme",
+                    explanation: "17 is the lowest valid boundary. It should still be accepted, so it is extreme data."
+                },
+                {
+                    value: "70",
+                    answer: "extreme",
+                    explanation: "70 is the highest valid boundary. It should still be accepted, so it is extreme data."
+                },
+                {
+                    value: "16",
+                    answer: "erroneous",
+                    explanation: "16 is below the valid range. It should be rejected, so it is erroneous data."
+                },
+                {
+                    value: "71",
+                    answer: "erroneous",
+                    explanation: "71 is above the valid range. It should be rejected, so it is erroneous data."
+                },
+                {
+                    value: "\"twenty\"",
+                    answer: "erroneous",
+                    explanation: "The program requirement expects a numeric age. The text value \"twenty\" is inappropriate input and should be rejected."
+                },
+                {
+                    value: "40",
+                    answer: "normal",
+                    explanation: "40 is a typical valid value well inside the accepted range, so it is normal data."
+                }
+            ];
+
+            let testDataIndex = 0;
+
+            const testDataValue = document.getElementById("testDataValue");
+            const testDataFeedback = document.getElementById("testDataFeedback");
+            const testDataProgress = document.getElementById("testDataProgress");
+            const testDataChoices = document.querySelectorAll(".test-data-choice");
+            const nextTestData = document.getElementById("nextTestData");
+
+            function loadTestDataExample() {
+                const item = testDataExamples[testDataIndex];
+
+                testDataValue.textContent = item.value;
+                testDataProgress.textContent =
+                    `Input ${testDataIndex + 1} of ${testDataExamples.length}`;
+
+                testDataFeedback.className = "classifier-feedback";
+                testDataFeedback.textContent =
+                    "Classify the input before revealing the explanation.";
+
+                testDataChoices.forEach(button => button.classList.remove("active"));
+            }
+
+            testDataChoices.forEach(button => {
+                button.addEventListener("click", () => {
+                    const item = testDataExamples[testDataIndex];
+                    const chosen = button.dataset.choice;
+                    const correct = chosen === item.answer;
+
+                    testDataChoices.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    testDataFeedback.className =
+                        `classifier-feedback ${correct ? "correct" : "wrong"}`;
+
+                    testDataFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>` +
+                        `<strong>Answer:</strong> ${item.answer.charAt(0).toUpperCase() + item.answer.slice(1)}.<br>` +
+                        item.explanation;
+                });
+            });
+
+            nextTestData.addEventListener("click", () => {
+                testDataIndex = (testDataIndex + 1) % testDataExamples.length;
+                loadTestDataExample();
+            });
+
+            loadTestDataExample();
+
+            // ============================================================
+            // Boundary Visualiser
+            // ============================================================
+            const lowerRange = document.getElementById("lowerRange");
+            const upperRange = document.getElementById("upperRange");
+            const lowerValue = document.getElementById("lowerValue");
+            const upperValue = document.getElementById("upperValue");
+
+            const belowLower = document.getElementById("belowLower");
+            const lowerBoundary = document.getElementById("lowerBoundary");
+            const insideLower = document.getElementById("insideLower");
+            const insideUpper = document.getElementById("insideUpper");
+            const upperBoundary = document.getElementById("upperBoundary");
+            const aboveUpper = document.getElementById("aboveUpper");
+
+            function renderBoundaries() {
+                let low = Number(lowerRange.value);
+                let high = Number(upperRange.value);
+
+                if (high <= low + 2) {
+                    high = low + 3;
+                    if (high > Number(upperRange.max)) {
+                        low = high - 3;
+                        lowerRange.value = low;
+                    } else {
+                        upperRange.value = high;
+                    }
+                }
+
+                lowerValue.textContent = low;
+                upperValue.textContent = high;
+
+                belowLower.textContent = low - 1;
+                lowerBoundary.textContent = low;
+                insideLower.textContent = low + 1;
+                insideUpper.textContent = high - 1;
+                upperBoundary.textContent = high;
+                aboveUpper.textContent = high + 1;
+            }
+
+            lowerRange.addEventListener("input", renderBoundaries);
+            upperRange.addEventListener("input", renderBoundaries);
+            renderBoundaries();
+
+            // ============================================================
+            // Test Plan Generator
+            // ============================================================
+            const generatePlanBtn = document.getElementById("generatePlanBtn");
+            const planTableWrap = document.getElementById("planTableWrap");
+            const generatedPlanBody = document.getElementById("generatedPlanBody");
+
+            const planRows = [
+                {
+                    input: "\"TeaRoom42\"",
+                    length: 9,
+                    type: "Normal",
+                    expected: "Accepted",
+                    why: "Typical valid length inside 8–20."
+                },
+                {
+                    input: "\"12345678\"",
+                    length: 8,
+                    type: "Extreme — lower",
+                    expected: "Accepted",
+                    why: "Exactly the minimum valid length."
+                },
+                {
+                    input: "\"12345678901234567890\"",
+                    length: 20,
+                    type: "Extreme — upper",
+                    expected: "Accepted",
+                    why: "Exactly the maximum valid length."
+                },
+                {
+                    input: "\"1234567\"",
+                    length: 7,
+                    type: "Erroneous",
+                    expected: "Rejected",
+                    why: "One character below the minimum."
+                },
+                {
+                    input: "\"123456789012345678901\"",
+                    length: 21,
+                    type: "Erroneous",
+                    expected: "Rejected",
+                    why: "One character above the maximum."
+                },
+                {
+                    input: "\"\"",
+                    length: 0,
+                    type: "Erroneous",
+                    expected: "Rejected",
+                    why: "Empty password is outside the valid length."
+                }
+            ];
+
+            generatePlanBtn.addEventListener("click", () => {
+                generatedPlanBody.innerHTML = "";
+
+                planRows.forEach((row, index) => {
+                    const tr = document.createElement("tr");
+
+                    const values = [
+                        String(index + 1),
+                        row.input,
+                        String(row.length),
+                        row.type,
+                        row.expected,
+                        row.why
+                    ];
+
+                    values.forEach((value, columnIndex) => {
+                        const td = document.createElement("td");
+
+                        if (columnIndex === 1) {
+                            const code = document.createElement("code");
+                            code.textContent = value;
+                            td.appendChild(code);
+                        } else {
+                            td.textContent = value;
+                        }
+
+                        tr.appendChild(td);
+                    });
+
+                    generatedPlanBody.appendChild(tr);
+                });
+
+                planTableWrap.hidden = false;
+                generatePlanBtn.innerHTML =
+                    '<i class="fas fa-check"></i> Example Plan Generated';
+            });
+
+            // ============================================================
+            // Error Classifier
+            // ============================================================
+            const errorExamples = [
+                {
+                    code: 'print("Hello"',
+                    answer: "syntax",
+                    explanation:
+                        "The statement is missing a closing parenthesis. It violates the language syntax."
+                },
+                {
+                    code: `Program starts...
+ImportError:
+required module not found`,
+                    answer: "startup",
+                    explanation:
+                        "A required dependency cannot be loaded during startup, preventing normal initialization."
+                },
+                {
+                    code: "answer = 10 / 0",
+                    answer: "runtime",
+                    explanation:
+                        "The statement is syntactically valid, but division by zero fails while the program is running."
+                },
+                {
+                    code: `width = 5
+height = 4
+area = width + height`,
+                    answer: "logic",
+                    explanation:
+                        "The program can run, but the area formula is wrong. It should multiply width by height."
+                },
+                {
+                    code: `if age > 17 and age < 70:
+    print("Accepted")`,
+                    answer: "logic",
+                    explanation:
+                        "The program runs, but the condition incorrectly rejects the valid extreme values 17 and 70."
+                },
+                {
+                    code: `with open("required_config.txt") as f:
+    settings = f.read()
+
+# required_config.txt is missing at startup`,
+                    answer: "startup",
+                    explanation:
+                        "A required startup resource is unavailable, so initialization cannot complete normally."
+                },
+                {
+                    code: `numbers = [1, 2, 3]
+print(numbers[10])`,
+                    answer: "runtime",
+                    explanation:
+                        "The syntax is valid, but accessing an index that does not exist causes an error during execution."
+                },
+                {
+                    code: `for i in range(5)
+    print(i)`,
+                    answer: "syntax",
+                    explanation:
+                        "The for statement is missing a colon, so it violates Python syntax."
+                }
+            ];
+
+            let errorIndex = 0;
+
+            const errorCodeExample = document.getElementById("errorCodeExample");
+            const errorFeedback = document.getElementById("errorFeedback");
+            const errorProgress = document.getElementById("errorProgress");
+            const errorChoices = document.querySelectorAll(".error-choice");
+            const nextErrorExample = document.getElementById("nextErrorExample");
+
+            function loadErrorExample() {
+                const item = errorExamples[errorIndex];
+
+                errorCodeExample.textContent = item.code;
+                errorProgress.textContent =
+                    `Example ${errorIndex + 1} of ${errorExamples.length}`;
+
+                errorFeedback.className = "classifier-feedback";
+                errorFeedback.textContent =
+                    "Identify the error type and think about when it would be detected.";
+
+                errorChoices.forEach(button => button.classList.remove("active"));
+            }
+
+            errorChoices.forEach(button => {
+                button.addEventListener("click", () => {
+                    const item = errorExamples[errorIndex];
+                    const chosen = button.dataset.choice;
+                    const correct = chosen === item.answer;
+
+                    errorChoices.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    errorFeedback.className =
+                        `classifier-feedback ${correct ? "correct" : "wrong"}`;
+
+                    const labelMap = {
+                        syntax: "Syntax Error",
+                        startup: "Startup Execution Error",
+                        runtime: "Runtime Error",
+                        logic: "Logic Error"
+                    };
+
+                    errorFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>` +
+                        `<strong>Answer:</strong> ${labelMap[item.answer]}.<br>` +
+                        item.explanation;
+                });
+            });
+
+            nextErrorExample.addEventListener("click", () => {
+                errorIndex = (errorIndex + 1) % errorExamples.length;
+                loadErrorExample();
+            });
+
+            loadErrorExample();
+        });
+    </script>
+
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+
 </body>
 
 </html>
