@@ -7,236 +7,1242 @@
     <title>Expert Systems & Prolog — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="Expert systems: knowledge base, inference engine, forward/backward chaining, and Prolog programming. NIS Grade 12 CS.">
+        content="Grade 12 Computer Science: expert systems, knowledge bases, inference engines, forward and backward chaining, Prolog facts, rules, queries and simple expert-system design.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        html {
+            scroll-behavior: smooth
+        }
+
+        .section-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0 var(--space-xl);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            position: sticky;
+            top: 64px;
+            z-index: 12;
+            backdrop-filter: blur(14px)
+        }
+
+        .section-jump a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: .42rem .7rem;
+            font-size: .72rem;
+            font-weight: 700;
+            background: var(--bg-glass);
+            transition: all var(--transition)
+        }
+
+        .section-jump a:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .architecture-flow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .architecture-node {
+            min-height: 126px;
+            padding: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition)
+        }
+
+        .architecture-node:hover,
+        .architecture-node.active {
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+            color: var(--clr-tea)
+        }
+
+        .architecture-node i {
+            font-size: 1.35rem
+        }
+
+        .architecture-node strong {
+            font-size: .78rem;
+            color: var(--text-primary)
+        }
+
+        .architecture-node small {
+            font-size: .66rem;
+            line-height: 1.35;
+            color: var(--text-muted)
+        }
+
+        .architecture-info {
+            min-height: 100px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass)
+        }
+
+        .architecture-info h4 {
+            margin: 0 0 .3rem;
+            color: var(--text-primary);
+            font-size: .9rem
+        }
+
+        .architecture-info p {
+            margin: 0;
+            font-size: .78rem;
+            line-height: 1.55;
+            color: var(--text-secondary)
+        }
+
+        .es-process {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .es-process-step {
+            position: relative;
+            min-height: 130px;
+            padding: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .35rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .es-process-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            top: 50%;
+            right: -12px;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+            z-index: 2
+        }
+
+        .process-number {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(13, 148, 136, .11);
+            color: var(--clr-tea);
+            font-size: .72rem;
+            font-weight: 800
+        }
+
+        .es-process-step strong {
+            font-size: .75rem;
+            color: var(--text-primary)
+        }
+
+        .es-process-step span {
+            font-size: .66rem;
+            line-height: 1.4;
+            color: var(--text-muted)
+        }
+
+        .reasoning-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden;
+            margin: var(--space-md) 0
+        }
+
+        .reasoning-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .reasoning-tab {
+            border: 0;
+            background: transparent;
+            color: var(--text-secondary);
+            padding: .8rem;
+            cursor: pointer;
+            font: 800 .8rem var(--font-body);
+            transition: all var(--transition)
+        }
+
+        .reasoning-tab:first-child {
+            border-right: 1px solid var(--border)
+        }
+
+        .reasoning-tab.active,
+        .reasoning-tab:hover {
+            background: rgba(13, 148, 136, .08);
+            color: var(--clr-tea)
+        }
+
+        .reasoning-body {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: var(--space-lg);
+            padding: var(--space-lg)
+        }
+
+        .reasoning-summary {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            padding: var(--space-md)
+        }
+
+        .reasoning-summary h4 {
+            margin: 0 0 .35rem;
+            font-size: .9rem;
+            color: var(--text-primary)
+        }
+
+        .reasoning-summary p {
+            font-size: .77rem;
+            line-height: 1.55;
+            color: var(--text-secondary)
+        }
+
+        .direction-badge {
+            display: inline-block;
+            margin-top: var(--space-sm);
+            padding: .3rem .55rem;
+            border-radius: var(--radius-full);
+            background: rgba(13, 148, 136, .09);
+            color: var(--clr-tea);
+            font-size: .68rem;
+            font-weight: 800
+        }
+
+        .reasoning-trace {
+            min-height: 260px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code)
+        }
+
+        .trace-step {
+            display: none;
+            padding: var(--space-sm);
+            margin-bottom: var(--space-xs);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            font-size: .75rem;
+            line-height: 1.5;
+            color: var(--text-secondary)
+        }
+
+        .trace-step.visible {
+            display: block
+        }
+
+        .trace-step strong {
+            color: var(--text-primary)
+        }
+
+        .lab-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-top: var(--space-sm)
+        }
+
+        .lab-btn {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .5rem .75rem;
+            font: 700 .74rem var(--font-body);
+            cursor: pointer;
+            transition: all var(--transition)
+        }
+
+        .lab-btn:hover,
+        .lab-btn.active {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .application-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .application-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md)
+        }
+
+        .application-card i {
+            color: var(--clr-tea);
+            font-size: 1.2rem;
+            margin-bottom: .5rem
+        }
+
+        .application-card h4 {
+            margin: 0 0 .25rem;
+            color: var(--text-primary);
+            font-size: .86rem
+        }
+
+        .application-card p {
+            margin: 0;
+            font-size: .74rem;
+            line-height: 1.45;
+            color: var(--text-muted)
+        }
+
+        .compact-details {
+            margin: var(--space-md) 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden
+        }
+
+        .compact-details summary {
+            padding: var(--space-md);
+            list-style: none;
+            cursor: pointer;
+            font-size: .82rem;
+            font-weight: 800;
+            color: var(--text-primary)
+        }
+
+        .compact-details summary::-webkit-details-marker {
+            display: none
+        }
+
+        .compact-details summary::after {
+            content: "+";
+            float: right;
+            color: var(--clr-tea);
+            font-size: 1rem
+        }
+
+        .compact-details[open] summary::after {
+            content: "−"
+        }
+
+        .details-body {
+            padding: 0 var(--space-md) var(--space-md)
+        }
+
+        .prolog-memory {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .prolog-memory-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card)
+        }
+
+        .prolog-memory-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .8rem
+        }
+
+        .prolog-memory-card code {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--clr-tea);
+            font: 700 .7rem var(--font-code)
+        }
+
+        .prolog-memory-card span {
+            font-size: .69rem;
+            line-height: 1.4;
+            color: var(--text-muted)
+        }
+
+        .syntax-anatomy {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            overflow-x: auto;
+            margin: var(--space-md) 0
+        }
+
+        .syntax-line {
+            min-width: 720px;
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            gap: .45rem;
+            font-family: var(--font-code)
+        }
+
+        .syntax-part {
+            text-align: center
+        }
+
+        .syntax-part code {
+            display: block;
+            padding: .5rem .65rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-weight: 700
+        }
+
+        .syntax-part.operator code {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .syntax-part span {
+            display: block;
+            margin-top: .35rem;
+            font-size: .6rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-weight: 800
+        }
+
+        .logic-flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .logic-card {
+            position: relative;
+            min-height: 115px;
+            padding: var(--space-md);
+            display: grid;
+            place-items: center;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .logic-card:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            top: 50%;
+            right: -12px;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800
+        }
+
+        .logic-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .8rem
+        }
+
+        .logic-card span {
+            font-size: .68rem;
+            line-height: 1.4;
+            color: var(--text-muted)
+        }
+
+        .query-lab {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: var(--space-lg);
+            margin: var(--space-md) 0
+        }
+
+        .query-kb,
+        .query-panel {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md)
+        }
+
+        .query-kb h4,
+        .query-panel h4 {
+            margin: 0 0 .45rem;
+            color: var(--text-primary);
+            font-size: .88rem
+        }
+
+        .query-kb pre {
+            margin: 0;
+            white-space: pre-wrap;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            font: 600 .7rem/1.55 var(--font-code);
+            color: var(--text-primary)
+        }
+
+        .query-buttons {
+            display: grid;
+            gap: var(--space-xs)
+        }
+
+        .query-btn {
+            width: 100%;
+            text-align: left;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .55rem .7rem;
+            cursor: pointer;
+            font: 600 .7rem var(--font-code)
+        }
+
+        .query-btn:hover,
+        .query-btn.active {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .query-trace {
+            margin-top: var(--space-sm);
+            min-height: 210px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            font: 600 .71rem/1.6 var(--font-code);
+            color: var(--text-primary);
+            white-space: pre-wrap
+        }
+
+        .error-checker {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: var(--space-lg);
+            margin: var(--space-md) 0
+        }
+
+        .error-example {
+            min-height: 180px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            text-align: center
+        }
+
+        .error-example code {
+            font: 700 .9rem var(--font-code);
+            color: var(--text-primary)
+        }
+
+        .error-options {
+            display: grid;
+            gap: var(--space-xs)
+        }
+
+        .error-feedback {
+            min-height: 95px;
+            margin-top: var(--space-sm);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            font-size: .76rem;
+            line-height: 1.5;
+            color: var(--text-secondary)
+        }
+
+        .error-feedback.correct {
+            border-color: #16a34a;
+            background: rgba(22, 163, 74, .08)
+        }
+
+        .error-feedback.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, .08)
+        }
+
+        .project-flow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .project-step {
+            position: relative;
+            padding: var(--space-md);
+            min-height: 120px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .project-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800
+        }
+
+        .project-step span {
+            display: block;
+            width: 28px;
+            height: 28px;
+            margin-bottom: .45rem;
+            border-radius: 50%;
+            background: rgba(13, 148, 136, .1);
+            color: var(--clr-tea);
+            text-align: center;
+            line-height: 28px;
+            font-size: .7rem;
+            font-weight: 800
+        }
+
+        .project-step strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .78rem;
+            margin-bottom: .25rem
+        }
+
+        .project-step p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .68rem;
+            line-height: 1.4
+        }
+
+        .exam-marking {
+            margin-top: var(--space-xs)
+        }
+
+        .exam-marking summary {
+            cursor: pointer;
+            color: var(--clr-tea);
+            font-size: .72rem;
+            font-weight: 800
+        }
+
+        .exam-marking div {
+            margin-top: var(--space-xs);
+            padding: var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            font-size: .74rem;
+            line-height: 1.5;
+            color: var(--text-secondary)
+        }
+
+        .exit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md)
+        }
+
+        .exit-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            text-align: center
+        }
+
+        .exit-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--clr-tea);
+            font-size: 2rem
+        }
+
+        .exit-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .78rem;
+            line-height: 1.45
+        }
+
+        @media(max-width:920px) {
+            .section-jump {
+                position: static
+            }
+
+            .architecture-flow,
+            .es-process,
+            .project-flow {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .es-process-step::after,
+            .project-step::after {
+                display: none
+            }
+
+            .reasoning-body,
+            .query-lab,
+            .error-checker {
+                grid-template-columns: 1fr
+            }
+
+            .application-grid,
+            .prolog-memory,
+            .logic-flow {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .logic-card::after {
+                display: none
+            }
+        }
+
+        @media(max-width:576px) {
+
+            .architecture-flow,
+            .es-process,
+            .application-grid,
+            .prolog-memory,
+            .logic-flow,
+            .project-flow,
+            .exit-grid {
+                grid-template-columns: 1fr
+            }
+
+            .reasoning-body {
+                padding: var(--space-md)
+            }
+
+            .syntax-anatomy {
+                padding: var(--space-md)
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-<div class="layout-wrapper">
-    <main class="main-content">
-
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
-                <span>12.1B — Expert Systems & Prolog</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-brain"></i> Unit 12.1B · Term 1</div>
-                <h1 class="lesson-title">Expert Systems & Prolog</h1>
-                <p class="lesson-intro">An <strong>expert system</strong> is a computer program that emulates the
-                    decision-making ability of a human expert. It uses a set of rules and facts to solve complex
-                    problems within a specific domain. We use declarative languages like <strong>Prolog</strong> to
-                    build these systems.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.5.1.2</span> Create a simple expert system using Prolog</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>Expert Systems & Prolog · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="/assets/pdf/expert_system.pdf" target="_blank" class="lesson-pdf-btn view-btn"><i
-                            class="fas fa-eye"></i> View</a>
-                    <a href="/assets/pdf/expert_system.pdf" download class="lesson-pdf-btn download-btn"><i
-                            class="fas fa-download"></i> Download</a>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i
+                            class="fas fa-bars"></i></button>
+                    <a href="/" class="logo" style="margin-left:15px;"><i class="fas fa-mug-hot logo-icon"></i><span
+                            class="logo-text">mr. TEA</span></a>
                 </div>
             </div>
 
-            <figure class="lesson-image-block">
-                <img src="/assets/images/lessons/expert-system-diagram.png"
-                    alt="Expert System Architecture — User Interface, Inference Engine, Knowledge Base">
-                <figcaption>Expert System Architecture: The user submits a query through the UI; the Inference Engine
-                    applies rules from the Knowledge Base to produce advice.</figcaption>
-            </figure>
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-user-md"></i> The Doctor's Flowchart</h4>
-                    <p>Imagine a doctor who follows a decision flowchart: "Does the patient have a fever?" → YES → "Is
-                        there a rash?" → YES → "Likely measles." An expert system works exactly like this — it stores
-                        <strong>rules</strong> written by real experts, then asks questions and uses logic to
-                        reach a conclusion. The computer doesn't "understand" medicine — it just follows the expert's
-                        rules.
-                    </p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a><span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+                        <span>12.1B — Expert Systems & Prolog</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-cogs"></i> Expert Systems Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fas fa-brain"></i> Unit 12.1B · Term 1</div>
+                        <h1 class="lesson-title">Expert Systems & Prolog</h1>
+                        <p class="lesson-intro">
+                            An <strong>expert system</strong> uses stored knowledge and logical rules to make decisions
+                            within a specific domain.
+                            In this lesson, you will connect expert-system architecture with <strong>Prolog</strong>:
+                            facts, rules, queries and logical inference.
+                        </p>
+                    </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Core Components</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Component</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Knowledge Base (KB)</strong></td>
-                            <td>Stores absolute <strong>facts</strong> and <strong>rules</strong> (IF-THEN statements)
-                                provided by a human domain expert.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Inference Engine</strong></td>
-                            <td>The "brain" of the system. It processes the rules, applies logic to the facts in the KB,
-                                and deduces new information or conclusions.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>User Interface (UI)</strong></td>
-                            <td>Allows the user to interact with the system, input data (answer questions), and receive
-                                the final recommendations.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Explanation Facility</strong></td>
-                            <td>Explains <em>how</em> a conclusion was reached (showing the rules triggered) and
-                                <em>why</em> a specific question is being asked.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objective</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">12.5.1.2</span> Create a simple expert system using Prolog</li>
+                        </ul>
+                    </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Reasoning
-                    Methods (Chaining)</h3>
+                    <div class="note-box">
+                        <h4><i class="fas fa-check-circle"></i> Success Criteria</h4>
+                        <p>
+                            I can identify the main components of an expert system · distinguish forward and backward
+                            chaining ·
+                            write Prolog facts, rules and queries · trace a simple Prolog conclusion · create a small
+                            rule-based expert system.
+                        </p>
+                    </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Forward Chaining (Data-Driven)</h4>
-                    <p>Starts from known facts and applies rules to derive new facts until a conclusion or goal is
-                        reached. It answers the question: <em>"What can I conclude from this data?"</em></p>
-                    <div class="code-block"><code>Known facts: patient_has_fever, patient_has_rash
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>Expert Systems & Prolog · Slides for classroom use</p>
+                        </div>
+                        <div class="lesson-pdf-actions">
+                            <a href="/assets/pdf/expert_system.pdf" target="_blank" class="lesson-pdf-btn view-btn"><i
+                                    class="fas fa-eye"></i> View</a>
+                            <a href="/assets/pdf/expert_system.pdf" download class="lesson-pdf-btn download-btn"><i
+                                    class="fas fa-download"></i> Download</a>
+                        </div>
+                    </div>
 
-Step 1: Rule 1 (IF fever AND rash THEN measles) fires.
-Step 2: New fact derived → patient_has_measles.
+                    <nav class="section-jump" aria-label="Lesson sections">
+                        <a href="#architecture">Architecture</a><a href="#reasoning">Reasoning</a><a
+                            href="#applications">Applications</a>
+                        <a href="#prolog">Prolog</a><a href="#query-lab">Query Lab</a><a href="#build">Build
+                            System</a><a href="#practice">Practice</a>
+                    </nav>
 
-Result: "The patient has measles."</code></div>
-                </div>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-diagram-project"></i> The Expert's Decision Rules</h4>
+                            <p>
+                                Imagine a specialist who makes decisions using explicit rules:
+                                <strong>IF condition A and condition B are true, THEN conclude C.</strong>
+                                A traditional rule-based expert system stores this specialist knowledge and applies the
+                                rules systematically to known facts.
+                            </p>
+                        </div>
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Simple Computer Support Rule</h4>
+                            <div class="code-block"><code>Known facts:
+- no_power_light
+- charger_connected
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Backward Chaining (Goal-Driven)</h4>
-                    <p>Starts from a hypothesis (goal) and works backward to check if the facts in the Knowledge Base
-                        support it. It answers the question: <em>"Is this hypothesis true?"</em></p>
-                    <div class="code-block"><code>Hypothesis: Does the patient have measles?
+Rule:
+IF no_power_light AND charger_connected
+THEN possible_power_supply_problem
 
-Step 1: System checks Rule 1 (Requires: fever AND rash).
-Step 2: System searches KB for "fever" → Found ✓
-Step 3: System searches KB for "rash" → Found ✓
+Conclusion:
+possible_power_supply_problem</code></div>
+                        </div>
+                    </section>
 
-Result: "Yes, the hypothesis is true."</code></div>
-                </div>
+                    <section class="lesson-section" id="architecture">
+                        <h2 class="lesson-section-title"><i class="fas fa-cogs"></i> Expert System Architecture</h2>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
-                    Advantages &amp; Disadvantages</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Advantages</th>
-                            <th>Disadvantages</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Available 24/7 and never suffers from fatigue.</td>
-                            <td>Cannot learn from experience — only knows the rules it was explicitly given.</td>
-                        </tr>
-                        <tr>
-                            <td>Provides consistent answers; the same input always gives the same output.</td>
-                            <td>Lacks "common sense" and cannot handle situations outside its narrow domain.</td>
-                        </tr>
-                        <tr>
-                            <td>Preserves highly specialized expert knowledge even after the human expert retires.</td>
-                            <td>Expensive and time-consuming to build, update, and maintain the Knowledge Base.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                        <figure class="lesson-image-block">
+                            <img src="/assets/images/lessons/expert-system-diagram.png"
+                                alt="Expert System Architecture — User Interface, Inference Engine and Knowledge Base">
+                            <figcaption>
+                                The user supplies information through the User Interface. The Inference Engine applies
+                                rules from the Knowledge Base to reach a conclusion.
+                            </figcaption>
+                        </figure>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-code"></i> Implementing with Prolog</h2>
-                <p><strong>Prolog</strong> (Programming in Logic) is a declarative language perfectly suited for
-                    building the Knowledge Base and Inference Engine of an expert system.</p>
+                        <p class="concept-text">Select a component to see its role.</p>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Prolog
-                    Syntax Rules</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Concept</th>
-                            <th>Syntax Rule</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Atoms (Constants)</strong></td>
-                            <td>Must start with a <strong>lowercase</strong> letter. Represents specific, known objects
-                                or relationships.</td>
-                            <td><code>john</code>, <code>male</code>, <code>parent</code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Variables</strong></td>
-                            <td>Must start with an <strong>Uppercase</strong> letter (or underscore). Acts as a
-                                placeholder for any atom.</td>
-                            <td><code>X</code>, <code>Person</code>, <code>Child</code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Facts</strong></td>
-                            <td>Unconditional statements of truth. Must end with a full stop <code>.</code></td>
-                            <td><code>male(john).</code><br><code>parent(john, mary).</code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rules</strong></td>
-                            <td>Conditional statements. <code>:-</code> means IF. <code>,</code> means AND.
-                                <code>;</code> means OR. Must end with a full stop.
-                            </td>
-                            <td><code>father(X,Y) :- male(X), parent(X,Y).</code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Queries</strong></td>
-                            <td>Questions asked to the Inference Engine to test a hypothesis.</td>
-                            <td><code>?- father(john, mary).</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <div class="architecture-flow">
+                            <button class="architecture-node active" data-component="user" type="button"><i
+                                    class="fas fa-user"></i><strong>User</strong><small>supplies facts or a
+                                    query</small></button>
+                            <button class="architecture-node" data-component="ui" type="button"><i
+                                    class="fas fa-display"></i><strong>User Interface</strong><small>communication with
+                                    the system</small></button>
+                            <button class="architecture-node" data-component="engine" type="button"><i
+                                    class="fas fa-gears"></i><strong>Inference Engine</strong><small>applies rules and
+                                    logic</small></button>
+                            <button class="architecture-node" data-component="kb" type="button"><i
+                                    class="fas fa-database"></i><strong>Knowledge Base</strong><small>facts and
+                                    rules</small></button>
+                            <button class="architecture-node" data-component="explanation" type="button"><i
+                                    class="fas fa-circle-question"></i><strong>Explanation
+                                    Facility</strong><small>explains why / how</small></button>
+                        </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Building
-                    a Family Tree Expert System</h3>
-                <div class="worked-example">
-                    <p>We can define a Knowledge Base using a family tree diagram, and then write Rules to let the
-                        Inference Engine deduce complex relationships.</p>
-                    <div class="code-block"><code>% KNOWLEDGE BASE: FACTS
+                        <div id="architectureInfo" class="architecture-info">
+                            <h4>User</h4>
+                            <p>The user provides facts, observations or a query and receives the system's conclusion.
+                            </p>
+                        </div>
+
+                        <table class="theory-table" style="margin-top:var(--space-md);">
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Main role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Knowledge Base</strong></td>
+                                    <td>Stores domain knowledge as facts and rules.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Inference Engine</strong></td>
+                                    <td>Selects and applies rules to facts to derive conclusions.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>User Interface</strong></td>
+                                    <td>Allows the user to enter information and receive conclusions.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Explanation Facility</strong></td>
+                                    <td>Shows how a conclusion was reached or why a question was asked.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-route"></i> How an Expert System Works</h2>
+                        <div class="es-process">
+                            <div class="es-process-step">
+                                <div class="process-number">1</div><strong>User provides facts</strong><span>symptoms,
+                                    measurements or observations</span>
+                            </div>
+                            <div class="es-process-step">
+                                <div class="process-number">2</div><strong>Facts enter the system</strong><span>through
+                                    the user interface</span>
+                            </div>
+                            <div class="es-process-step">
+                                <div class="process-number">3</div><strong>Rules are searched</strong><span>for
+                                    conditions matching known facts</span>
+                            </div>
+                            <div class="es-process-step">
+                                <div class="process-number">4</div><strong>Matching rule fires</strong><span>the
+                                    inference engine applies logic</span>
+                            </div>
+                            <div class="es-process-step">
+                                <div class="process-number">5</div><strong>Conclusion is produced</strong><span>or a new
+                                    fact is derived</span>
+                            </div>
+                            <div class="es-process-step">
+                                <div class="process-number">6</div><strong>Reason is explained</strong><span>the
+                                    reasoning path can be inspected</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="reasoning">
+                        <h2 class="lesson-section-title"><i class="fas fa-code-branch"></i> Forward vs Backward Chaining
+                        </h2>
+                        <p class="concept-text">
+                            Expert systems may reason from available data toward conclusions, or start from a goal and
+                            work backward to find supporting facts.
+                        </p>
+
+                        <div class="reasoning-lab">
+                            <div class="reasoning-tabs">
+                                <button class="reasoning-tab active" data-mode="forward" type="button">Forward
+                                    Chaining</button>
+                                <button class="reasoning-tab" data-mode="backward" type="button">Backward
+                                    Chaining</button>
+                            </div>
+                            <div class="reasoning-body">
+                                <div class="reasoning-summary">
+                                    <h4 id="reasoningTitle">Forward Chaining</h4>
+                                    <p id="reasoningDescription">Starts from known facts and repeatedly applies rules to
+                                        derive new facts.</p>
+                                    <span id="reasoningBadge" class="direction-badge">DATA → CONCLUSION</span>
+                                    <div class="lab-actions">
+                                        <button id="reasoningNext" class="lab-btn" type="button">Next step <i
+                                                class="fas fa-arrow-right"></i></button>
+                                        <button id="reasoningReset" class="lab-btn" type="button">Reset</button>
+                                    </div>
+                                </div>
+                                <div id="reasoningTrace" class="reasoning-trace">
+                                    <div class="trace-step visible"></div>
+                                    <div class="trace-step"></div>
+                                    <div class="trace-step"></div>
+                                    <div class="trace-step"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Forward Chaining</th>
+                                    <th>Backward Chaining</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Data-driven</td>
+                                    <td>Goal-driven</td>
+                                </tr>
+                                <tr>
+                                    <td>Starts from known facts</td>
+                                    <td>Starts from a hypothesis or query</td>
+                                </tr>
+                                <tr>
+                                    <td>“What can I conclude?”</td>
+                                    <td>“Can this goal be proved?”</td>
+                                </tr>
+                                <tr>
+                                    <td>Rules derive new facts</td>
+                                    <td>Rules identify facts needed to prove the goal</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="lesson-section" id="applications">
+                        <h2 class="lesson-section-title"><i class="fas fa-earth-americas"></i> Applications of Expert
+                            Systems</h2>
+
+                        <div class="application-grid">
+                            <div class="application-card"><i class="fas fa-stethoscope"></i>
+                                <h4>Healthcare</h4>
+                                <p>Rule-based support for diagnosis and clinical decision processes.</p>
+                            </div>
+                            <div class="application-card"><i class="fas fa-screwdriver-wrench"></i>
+                                <h4>Engineering</h4>
+                                <p>Fault diagnosis in mechanical or electronic systems.</p>
+                            </div>
+                            <div class="application-card"><i class="fas fa-mountain"></i>
+                                <h4>Geology</h4>
+                                <p>Mineral and oil exploration using geological evidence and expert rules.</p>
+                            </div>
+                            <div class="application-card"><i class="fas fa-coins"></i>
+                                <h4>Finance</h4>
+                                <p>Tax, financial or rule-based decision support.</p>
+                            </div>
+                            <div class="application-card"><i class="fas fa-route"></i>
+                                <h4>Logistics</h4>
+                                <p>Decision support for routing and operational planning.</p>
+                            </div>
+                            <div class="application-card"><i class="fas fa-leaf"></i>
+                                <h4>Identification</h4>
+                                <p>Identification of plants, animals or chemical/biological compounds.</p>
+                            </div>
+                        </div>
+
+                        <details class="compact-details">
+                            <summary>Historical examples: MYCIN and DENDRAL</summary>
+                            <div class="details-body">
+                                <table class="theory-table">
+                                    <thead>
+                                        <tr>
+                                            <th>System</th>
+                                            <th>Domain</th>
+                                            <th>Main purpose</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>MYCIN</strong></td>
+                                            <td>Medicine</td>
+                                            <td>Rule-based support for diagnosing bacterial infections and recommending
+                                                antibiotics.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>DENDRAL</strong></td>
+                                            <td>Chemistry</td>
+                                            <td>Used expert knowledge to help infer molecular structures from
+                                                experimental data.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+
+                        <details class="compact-details">
+                            <summary>Extension: Other reasoning approaches</summary>
+                            <div class="details-body">
+                                <table class="theory-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Approach</th>
+                                            <th>Idea</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Rule-Based Reasoning</td>
+                                            <td>Uses explicit IF–THEN rules.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Certainty Factors</td>
+                                            <td>Attach a numerical degree of confidence to conclusions.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fuzzy Logic</td>
+                                            <td>Represents partial truth rather than only true/false.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Probabilistic Reasoning</td>
+                                            <td>Uses probabilities to represent uncertainty.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Case-Based Reasoning</td>
+                                            <td>Uses similarities with previously solved cases.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-scale-balanced"></i> Advantages & Limitations
+                        </h2>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Advantages</th>
+                                    <th>Limitations</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Can preserve specialist knowledge.</td>
+                                    <td>Knowledge acquisition and maintenance can be expensive.</td>
+                                </tr>
+                                <tr>
+                                    <td>Can provide fast and consistent rule-based decisions.</td>
+                                    <td>Usually limited to a narrow problem domain.</td>
+                                </tr>
+                                <tr>
+                                    <td>Can store large amounts of facts and rules.</td>
+                                    <td>Only as reliable as the knowledge entered into the system — GIGO.</td>
+                                </tr>
+                                <tr>
+                                    <td>Can operate whenever the computer system is available.</td>
+                                    <td>May handle unusual situations poorly when no appropriate rule exists.</td>
+                                </tr>
+                                <tr>
+                                    <td>Can provide traceable reasoning when an explanation facility is present.</td>
+                                    <td>Users may incorrectly assume the system is always correct.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-brain"></i> Traditional Expert Systems ≠ Machine Learning</h4>
+                            <p>
+                                Traditional rule-based expert systems use an explicitly created knowledge base and
+                                inference rules.
+                                Machine-learning systems learn statistical patterns from data.
+                                Rule-based systems do not automatically learn new patterns from training data; their
+                                knowledge must be updated explicitly.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="prolog">
+                        <h2 class="lesson-section-title"><i class="fas fa-code"></i> Implementing Knowledge with Prolog
+                        </h2>
+                        <p class="concept-text">
+                            <strong>Prolog</strong> means <strong>Programming in Logic</strong>.
+                            Instead of describing a step-by-step algorithm, the programmer declares facts and rules,
+                            then asks queries.
+                        </p>
+
+                        <div class="prolog-memory">
+                            <div class="prolog-memory-card"><strong>Atom</strong><code>john</code><span>Usually begins
+                                    with a lowercase letter.</span></div>
+                            <div class="prolog-memory-card"><strong>Variable</strong><code>Person</code><span>Begins
+                                    with uppercase or underscore.</span></div>
+                            <div class="prolog-memory-card"><strong>Fact</strong><code>male(john).</code><span>A
+                                    statement stored as true in the knowledge base.</span></div>
+                            <div class="prolog-memory-card"><strong>Rule</strong><code>father(X,Y) :- ...</code><span>A
+                                    conclusion true when its conditions are true.</span></div>
+                            <div class="prolog-memory-card"><strong>Query</strong><code>?- father(X,mary).</code><span>A
+                                    question Prolog attempts to prove.</span></div>
+                        </div>
+
+                        <h3>Reading a Prolog Rule</h3>
+                        <div class="syntax-anatomy">
+                            <div class="syntax-line">
+                                <div class="syntax-part"><code>father(X,Y)</code><span>Head / Conclusion</span></div>
+                                <div class="syntax-part operator"><code>:-</code><span>IF</span></div>
+                                <div class="syntax-part"><code>male(X)</code><span>Condition</span></div>
+                                <div class="syntax-part operator"><code>,</code><span>AND</span></div>
+                                <div class="syntax-part"><code>parent(X,Y)</code><span>Condition</span></div>
+                                <div class="syntax-part operator"><code>.</code><span>End</span></div>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>:-</code></td>
+                                    <td>“is true IF”</td>
+                                </tr>
+                                <tr>
+                                    <td><code>,</code></td>
+                                    <td>logical AND</td>
+                                </tr>
+                                <tr>
+                                    <td><code>;</code></td>
+                                    <td>logical OR</td>
+                                </tr>
+                                <tr>
+                                    <td><code>\=</code></td>
+                                    <td>not equal / cannot be unified as equal</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.</code></td>
+                                    <td>end of a fact or rule</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Family Knowledge Base</h4>
+                            <div class="code-block"><code>% FACTS
 male(charles).
 male(william).
 male(harry).
@@ -247,98 +1253,588 @@ parent(diana, william).
 parent(charles, harry).
 parent(diana, harry).
 
-% KNOWLEDGE BASE: RULES
-% "X is a mother of Y IF X is female AND X is a parent of Y"
-mother(X, Y) :- female(X), parent(X, Y).
+% RULES
+mother(X, Y) :-
+    female(X),
+    parent(X, Y).
 
-% "X is a sibling of Y IF Z is a parent of X AND Z is a parent of Y AND X is not Y"
-sibling(X, Y) :- parent(Z, X), parent(Z, Y), X \= Y.
+sibling(X, Y) :-
+    parent(Z, X),
+    parent(Z, Y),
+    X \= Y.
 
-% "X is a brother of Y IF X is male AND X is a sibling of Y"
-brother(X, Y) :- male(X), sibling(X, Y).
+brother(X, Y) :-
+    male(X),
+    sibling(X, Y).</code></div>
+                        </div>
+                    </section>
 
-% INFERENCE ENGINE / QUERIES
-?- mother(diana, william). 
-% Output: true (Backward chaining confirms the facts)
-
-?- brother(X, william). 
-% Output: X = harry (Engine searches for X that satisfies male and sibling)</code></div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Expert Systems ≠ Machine Learning</h4>
-                    <p>Expert systems use <strong>hand-written rules</strong> programmed by humans. Machine learning
-                        algorithms <strong>learn patterns</strong> from training data autonomously. An expert system
-                        will never improve unless a programmer manually adds new rules.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Variables vs Atoms in Prolog</h4>
-                    <p>Remember: <code>john</code> is a specific person (Atom). <code>John</code> is an unknown variable
-                        (because of the capital 'J'). If you write <code>male(John).</code>, you are telling Prolog
-                        "Every possible thing is male", not "the specific person john is male".</p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Name the four main components of an expert system and describe the role of each.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain the difference between forward chaining and backward chaining. Which one starts with
-                            a hypothesis?</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Given the facts <code>parent(X,Y)</code>, write a Prolog rule to define
-                            <code>grandparent(X,Z)</code>.
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-magnifying-glass"></i> How Prolog Finds
+                            Answers</h2>
+                        <p class="concept-text">
+                            Two useful ideas explain Prolog behaviour: <strong>unification</strong> matches variables
+                            with values that satisfy a fact or rule,
+                            while <strong>backtracking</strong> lets Prolog return to an earlier choice and search for
+                            another solution.
                         </p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Compare expert systems with machine learning. In what critical situations (e.g., medicine)
-                            might an expert system with an Explanation Facility be preferred over a "black box" ML
-                            model?</p>
-                    </div>
-                </div>
-            </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What is the purpose of the Explanation Facility?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It allows the user to
-                        understand the reasoning of the system by showing exactly which rules were triggered to reach a
-                        specific conclusion, increasing trust in the system.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What does the symbol <code>:-</code> mean in a Prolog rule?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It represents "IF". The left
-                        side of the symbol is the conclusion, and the right side contains the conditions that must be
-                        met.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: If you want to check if X and Y are both true in Prolog, which operator
-                        do you use?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">You use the comma
-                        <code>,</code> which represents the logical AND operator.
-                    </div>
-                </div>
-            </section>
+                        <div class="logic-flow">
+                            <div class="logic-card">
+                                <div><strong>Query</strong><span><code>parent(charles, X).</code></span></div>
+                            </div>
+                            <div class="logic-card">
+                                <div><strong>Unification</strong><span>Match facts with the query pattern.</span></div>
+                            </div>
+                            <div class="logic-card">
+                                <div><strong>Backtracking</strong><span>Search again after the first answer.</span>
+                                </div>
+                            </div>
+                            <div class="logic-card">
+                                <div>
+                                    <strong>Answers</strong><span><code>X = william</code><br><code>X = harry</code></span>
+                                </div>
+                            </div>
+                        </div>
 
-            <nav class="lesson-nav">
-                        <a href="declarative-imperative.html"><span class="nav-label">← Previous</span><span class="nav-title">Declarative vs Imperative</span></a>
-                        <a href="compilation-stages.html"><span class="nav-label">Next →</span><span class="nav-title">Program Compilation Stages</span></a>
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Extension concept</h4>
+                            <p>For this lesson, students only need unification and backtracking at a simple conceptual
+                                level.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="query-lab">
+                        <h2 class="lesson-section-title"><i class="fas fa-terminal"></i> Prolog Query Lab</h2>
+                        <p class="concept-text">
+                            Select a query to see how the same knowledge base can prove facts or find values for
+                            variables.
+                        </p>
+
+                        <div class="query-lab">
+                            <div class="query-kb">
+                                <h4>Knowledge Base</h4>
+                                <pre>male(charles).
+male(william).
+male(harry).
+female(diana).
+
+parent(charles, william).
+parent(diana, william).
+parent(charles, harry).
+parent(diana, harry).
+
+mother(X,Y) :-
+  female(X),
+  parent(X,Y).
+
+sibling(X,Y) :-
+  parent(Z,X),
+  parent(Z,Y),
+  X \= Y.
+
+brother(X,Y) :-
+  male(X),
+  sibling(X,Y).</pre>
+                            </div>
+
+                            <div class="query-panel">
+                                <h4>Choose a query</h4>
+                                <div class="query-buttons">
+                                    <button class="query-btn active" data-query="mother" type="button">?- mother(diana,
+                                        william).</button>
+                                    <button class="query-btn" data-query="brother" type="button">?- brother(harry,
+                                        william).</button>
+                                    <button class="query-btn" data-query="children" type="button">?- parent(charles,
+                                        X).</button>
+                                    <button class="query-btn" data-query="findbrother" type="button">?- brother(X,
+                                        william).</button>
+                                </div>
+                                <div id="queryTrace" class="query-trace"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-bug"></i> Prolog Error Checker</h2>
+                        <p class="concept-text">
+                            Many beginner errors come from capitalization, missing punctuation or incorrect rule syntax.
+                        </p>
+
+                        <div class="error-checker">
+                            <div class="error-example"><code id="prologErrorCode">male(John).</code></div>
+                            <div>
+                                <div class="error-options">
+                                    <button class="lab-btn prolog-error-choice" data-choice="correct"
+                                        type="button">Correct</button>
+                                    <button class="lab-btn prolog-error-choice" data-choice="capitalization"
+                                        type="button">Atom / Variable capitalization problem</button>
+                                    <button class="lab-btn prolog-error-choice" data-choice="period"
+                                        type="button">Missing full stop</button>
+                                    <button class="lab-btn prolog-error-choice" data-choice="rule"
+                                        type="button">Incorrect rule operator</button>
+                                </div>
+                                <div id="prologErrorFeedback" class="error-feedback">Choose the most important issue.
+                                </div>
+                                <div class="lab-actions"><button id="nextPrologError" class="lab-btn" type="button">Next
+                                        example <i class="fas fa-arrow-right"></i></button></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="build">
+                        <h2 class="lesson-section-title"><i class="fas fa-laptop-code"></i> Build a Mini Expert System
+                        </h2>
+                        <p class="concept-text">
+                            A family tree is useful for learning Prolog syntax. Now use the same ideas to create a
+                            domain-specific expert system.
+                        </p>
+
+                        <div class="project-flow">
+                            <div class="project-step"><span>1</span><strong>Choose the domain</strong>
+                                <p>Computer troubleshooting.</p>
+                            </div>
+                            <div class="project-step"><span>2</span><strong>Define facts</strong>
+                                <p>Examples: no_power_light, fan_loud, computer_hot.</p>
+                            </div>
+                            <div class="project-step"><span>3</span><strong>Write rules</strong>
+                                <p>Connect combinations of symptoms to conclusions.</p>
+                            </div>
+                            <div class="project-step"><span>4</span><strong>Ask queries</strong>
+                                <p>Test whether a problem can be inferred.</p>
+                            </div>
+                            <div class="project-step"><span>5</span><strong>Explain reasoning</strong>
+                                <p>State which facts and rules led to each result.</p>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">3</span> Computer Troubleshooting Knowledge Base</h4>
+                            <div class="code-block"><code>% FACTS
+no_power_light.
+charger_connected.
+
+fan_loud.
+computer_hot.
+
+wifi_connected.
+internet_not_working.
+
+% RULES
+problem(power_supply) :-
+    no_power_light,
+    charger_connected.
+
+problem(overheating) :-
+    fan_loud,
+    computer_hot.
+
+problem(network) :-
+    wifi_connected,
+    internet_not_working.
+
+% QUERY EXAMPLES
+% ?- problem(power_supply).
+% ?- problem(X).</code></div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-check-double"></i> Minimum project requirements</h4>
+                            <p>
+                                At least <strong>5 facts</strong> · at least <strong>3 rules</strong> · at least
+                                <strong>3 queries</strong> ·
+                                one query containing a variable · a short explanation of how one conclusion was reached.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+                        </h2>
+                        <div class="pitfall-box">
+                            <h4>1. Atom vs Variable</h4>
+                            <p><code>john</code> is an atom. <code>John</code> is a variable because it begins with
+                                uppercase.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4>2. Missing Full Stop</h4>
+                            <p>Prolog facts and rules normally end with <code>.</code></p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4>3. Rule Direction</h4>
+                            <p>Read <code>father(X,Y) :- male(X), parent(X,Y).</code> as “father(X,Y) is true IF male(X)
+                                AND parent(X,Y) are true.”</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4>4. Forward ≠ Backward Chaining</h4>
+                            <p>Forward chaining begins with facts; backward chaining begins with a goal or query.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4>5. Expert Systems Are Domain-Specific</h4>
+                            <p>A rule-based system can only reason with the knowledge represented in its knowledge base.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Practice Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>Name the four main components of an expert system and state the role of each.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain the difference between forward and backward chaining. Which one begins with a
+                                    hypothesis?</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Classify each as Atom, Variable, Fact, Rule or Query: <code>john</code>,
+                                    <code>Person</code>, <code>male(john).</code>, <code>father(X,Y) :- ...</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Given <code>parent(X,Y)</code>, write a Prolog rule for
+                                    <code>grandparent(X,Z)</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Predict the answers to <code>?- parent(charles, X).</code> using the family knowledge
+                                    base.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Trace how Prolog can prove <code>brother(harry, william)</code> from the provided
+                                    facts and rules.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Find and correct errors in <code>male(John)</code> and
+                                    <code>father(X,Y) : male(X), parent(X,Y).</code></p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Create a simple expert system in Prolog with at least 5 facts, 3 rules and 3 queries.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: State the purpose of the knowledge base in an expert system.
+                                [1]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking point</summary>
+                                <div>Stores domain knowledge, such as facts and rules, that the inference engine can
+                                    use.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: Explain the role of the inference engine. [2]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>It selects/applies relevant rules to known facts and uses logical reasoning to
+                                    derive new facts or conclusions.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: Explain one difference between forward and backward chaining.
+                                [2]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Forward chaining starts from known facts and derives conclusions; backward chaining
+                                    starts from a goal/hypothesis and searches for facts/rules that prove it.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Explain two limitations of an expert system. [4]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Examples: expensive knowledge acquisition/maintenance; narrow domain; unusual cases
+                                    may not match any rule; results depend on the quality of stored knowledge; users may
+                                    place too much trust in the system.</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: What does the Knowledge Base store?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Domain knowledge such
+                                as facts and rules.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: Which component applies rules to facts?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The Inference Engine.
+                            </div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: Which chaining method starts with a goal?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Backward chaining.
+                            </div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: What is the difference between <code>john</code> and
+                                <code>John</code>?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>john</code> is an
+                                atom; <code>John</code> is a variable.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q5: What does <code>:-</code> mean?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It means “is true IF”.
+                            </div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q6: What does a comma mean inside a Prolog rule?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Logical AND.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q7: Why is the Explanation Facility useful?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It shows how a
+                                conclusion was reached or why the system asked a question.</div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-door-open"></i> Exit Ticket — 3–2–1</h2>
+                        <div class="exit-grid">
+                            <div class="exit-card"><strong>3</strong>
+                                <p>Name three Prolog constructs you learned today.</p>
+                            </div>
+                            <div class="exit-card"><strong>2</strong>
+                                <p>State two differences between forward and backward chaining.</p>
+                            </div>
+                            <div class="exit-card"><strong>1</strong>
+                                <p>Write one correct Prolog rule of your own.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="declarative-imperative.html"><span><span class="nav-label">← Previous</span><span
+                                    class="nav-title">Declarative vs Imperative</span></span></a>
+                        <a href="compilation-stages.html"><span><span class="nav-label">Next →</span><span
+                                    class="nav-title">Program Compilation Stages</span></span></a>
                     </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
         <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const architectureData = {
+                user: { title: "User", text: "The user provides facts, observations or a query and receives the system's conclusion." },
+                ui: { title: "User Interface", text: "The User Interface collects input in a usable form and displays questions, recommendations and conclusions." },
+                engine: { title: "Inference Engine", text: "The Inference Engine selects relevant rules, applies them to known facts and derives new facts or conclusions." },
+                kb: { title: "Knowledge Base", text: "The Knowledge Base stores specialist domain knowledge, usually represented as facts and IF–THEN-style rules." },
+                explanation: { title: "Explanation Facility", text: "The Explanation Facility shows how a conclusion was reached and can explain why the system asked a particular question." }
+            };
+
+            const architectureNodes = document.querySelectorAll(".architecture-node");
+            const architectureInfo = document.getElementById("architectureInfo");
+            architectureNodes.forEach(node => {
+                node.addEventListener("click", () => {
+                    const data = architectureData[node.dataset.component];
+                    architectureNodes.forEach(item => item.classList.remove("active"));
+                    node.classList.add("active");
+                    architectureInfo.innerHTML = `<h4>${data.title}</h4><p>${data.text}</p>`;
+                });
+            });
+
+            const reasoningData = {
+                forward: {
+                    title: "Forward Chaining",
+                    description: "Starts from known facts and repeatedly applies rules to derive new facts.",
+                    badge: "DATA → CONCLUSION",
+                    steps: [
+                        "<strong>Known facts:</strong> fever · rash",
+                        "<strong>Search rules:</strong> IF fever AND rash THEN possible_infection",
+                        "<strong>Rule fires:</strong> both required facts are known",
+                        "<strong>New conclusion:</strong> possible_infection"
+                    ]
+                },
+                backward: {
+                    title: "Backward Chaining",
+                    description: "Starts with a goal and works backward through rules to find the facts needed to prove it.",
+                    badge: "GOAL → REQUIRED FACTS",
+                    steps: [
+                        "<strong>Goal:</strong> possible_infection?",
+                        "<strong>Find a rule:</strong> fever AND rash → possible_infection",
+                        "<strong>Check required facts:</strong> fever ✓ · rash ✓",
+                        "<strong>Goal proven:</strong> possible_infection is supported"
+                    ]
+                }
+            };
+
+            let reasoningMode = "forward";
+            let reasoningIndex = 0;
+            const reasoningTabs = document.querySelectorAll(".reasoning-tab");
+            const reasoningTitle = document.getElementById("reasoningTitle");
+            const reasoningDescription = document.getElementById("reasoningDescription");
+            const reasoningBadge = document.getElementById("reasoningBadge");
+            const reasoningTraceSteps = document.querySelectorAll("#reasoningTrace .trace-step");
+            const reasoningNext = document.getElementById("reasoningNext");
+            const reasoningReset = document.getElementById("reasoningReset");
+
+            function renderReasoning() {
+                const data = reasoningData[reasoningMode];
+                reasoningTitle.textContent = data.title;
+                reasoningDescription.textContent = data.description;
+                reasoningBadge.textContent = data.badge;
+                reasoningTraceSteps.forEach((step, index) => {
+                    step.innerHTML = data.steps[index];
+                    step.classList.toggle("visible", index <= reasoningIndex);
+                });
+                reasoningTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.mode === reasoningMode));
+            }
+            reasoningTabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    reasoningMode = tab.dataset.mode;
+                    reasoningIndex = 0;
+                    renderReasoning();
+                });
+            });
+            reasoningNext.addEventListener("click", () => {
+                reasoningIndex = Math.min(reasoningData[reasoningMode].steps.length - 1, reasoningIndex + 1);
+                renderReasoning();
+            });
+            reasoningReset.addEventListener("click", () => { reasoningIndex = 0; renderReasoning(); });
+            renderReasoning();
+
+            const queryData = {
+                mother: `Query:
+?- mother(diana, william).
+
+Rule:
+mother(X,Y) :-
+  female(X),
+  parent(X,Y).
+
+Unify:
+X = diana
+Y = william
+
+Check:
+female(diana). ✓
+parent(diana, william). ✓
+
+Result:
+true.`,
+
+                brother: `Query:
+?- brother(harry, william).
+
+Rule:
+brother(X,Y) :-
+  male(X),
+  sibling(X,Y).
+
+Check male:
+male(harry). ✓
+
+Check sibling:
+sibling(harry, william)
+requires a shared parent.
+
+parent(charles, harry). ✓
+parent(charles, william). ✓
+harry \\= william. ✓
+
+Result:
+true.`,
+
+                children: `Query:
+?- parent(charles, X).
+
+Match facts:
+parent(charles, william).
+→ X = william
+
+Backtrack:
+parent(charles, harry).
+→ X = harry
+
+Results:
+X = william ;
+X = harry.`,
+
+                findbrother: `Query:
+?- brother(X, william).
+
+Rule requires:
+male(X)
+AND
+sibling(X, william)
+
+Candidate:
+X = harry
+
+male(harry). ✓
+
+Shared parent:
+parent(charles, harry). ✓
+parent(charles, william). ✓
+
+Result:
+X = harry.`
+            };
+
+            const queryButtons = document.querySelectorAll(".query-btn");
+            const queryTrace = document.getElementById("queryTrace");
+            function showQuery(name) {
+                queryTrace.textContent = queryData[name];
+                queryButtons.forEach(button => button.classList.toggle("active", button.dataset.query === name));
+            }
+            queryButtons.forEach(button => button.addEventListener("click", () => showQuery(button.dataset.query)));
+            showQuery("mother");
+
+            const prologErrors = [
+                { code: "male(John).", answer: "capitalization", explanation: "John begins with an uppercase letter, so Prolog treats it as a variable. If a specific atom is intended, use male(john)." },
+                { code: "male(john)", answer: "period", explanation: "A Prolog fact should end with a full stop: male(john)." },
+                { code: "father(X,Y) : male(X), parent(X,Y).", answer: "rule", explanation: "A Prolog rule uses :- rather than a single colon. Correct: father(X,Y) :- male(X), parent(X,Y)." },
+                { code: "parent(charles, william).", answer: "correct", explanation: "This is a valid Prolog fact: predicate name and atoms begin with lowercase letters and the fact ends with a full stop." }
+            ];
+
+            let errorIndex = 0;
+            const prologErrorCode = document.getElementById("prologErrorCode");
+            const prologErrorFeedback = document.getElementById("prologErrorFeedback");
+            const prologErrorChoices = document.querySelectorAll(".prolog-error-choice");
+            const nextPrologError = document.getElementById("nextPrologError");
+
+            function loadPrologError() {
+                const item = prologErrors[errorIndex];
+                prologErrorCode.textContent = item.code;
+                prologErrorFeedback.className = "error-feedback";
+                prologErrorFeedback.textContent = "Choose the most important issue.";
+                prologErrorChoices.forEach(button => button.classList.remove("active"));
+            }
+
+            prologErrorChoices.forEach(button => {
+                button.addEventListener("click", () => {
+                    const item = prologErrors[errorIndex];
+                    const correct = button.dataset.choice === item.answer;
+                    prologErrorChoices.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+                    prologErrorFeedback.className = `error-feedback ${correct ? "correct" : "wrong"}`;
+                    prologErrorFeedback.innerHTML = `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.explanation}`;
+                });
+            });
+
+            nextPrologError.addEventListener("click", () => {
+                errorIndex = (errorIndex + 1) % prologErrors.length;
+                loadPrologError();
+            });
+            loadPrologError();
+
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
