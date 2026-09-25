@@ -12,238 +12,1437 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth
+        }
+
+        .section-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0 var(--space-xl);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            position: sticky;
+            top: 64px;
+            z-index: 12;
+            backdrop-filter: blur(14px)
+        }
+
+        .section-jump a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: .42rem .7rem;
+            font-size: .72rem;
+            font-weight: 700;
+            background: var(--bg-glass)
+        }
+
+        .section-jump a:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .analysis-journey,
+        .method-grid,
+        .analysis-board {
+            display: grid;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .analysis-journey {
+            grid-template-columns: repeat(5, 1fr)
+        }
+
+        .method-grid,
+        .analysis-board {
+            grid-template-columns: repeat(5, 1fr)
+        }
+
+        .journey-step,
+        .method-card,
+        .analysis-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-md)
+        }
+
+        .journey-step {
+            position: relative;
+            min-height: 125px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .35rem
+        }
+
+        .journey-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+            z-index: 2
+        }
+
+        .mini-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .1);
+            color: var(--clr-tea)
+        }
+
+        .journey-step strong,
+        .method-card h4,
+        .analysis-card h4 {
+            color: var(--text-primary);
+            font-size: .78rem;
+            margin: 0
+        }
+
+        .journey-step span,
+        .method-card p,
+        .analysis-card li {
+            color: var(--text-muted);
+            font-size: .66rem;
+            line-height: 1.4
+        }
+
+        .case-hero {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: var(--space-lg);
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            margin: var(--space-md) 0
+        }
+
+        .case-copy h3 {
+            margin: 0 0 .35rem;
+            color: var(--text-primary);
+            font-size: 1.05rem
+        }
+
+        .case-copy p {
+            color: var(--text-secondary);
+            font-size: .8rem;
+            line-height: 1.55
+        }
+
+        .case-problem {
+            padding: .55rem .65rem;
+            margin-top: .4rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .72rem;
+            line-height: 1.4
+        }
+
+        .library-visual {
+            min-height: 260px;
+            padding: var(--space-md);
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: radial-gradient(circle at 70% 25%, rgba(13, 148, 136, .14), transparent 25%), var(--bg-glass)
+        }
+
+        .library-map {
+            width: 100%;
+            max-width: 520px;
+            display: grid;
+            grid-template-columns: 1fr 1.15fr 1fr;
+            gap: var(--space-sm);
+            align-items: center
+        }
+
+        .visual-node {
+            min-height: 90px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-sm);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card)
+        }
+
+        .visual-node.center {
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .06)
+        }
+
+        .visual-node i {
+            display: block;
+            color: var(--clr-tea);
+            font-size: 1.15rem;
+            margin-bottom: .3rem
+        }
+
+        .visual-node strong {
+            display: block;
+            font-size: .72rem;
+            color: var(--text-primary)
+        }
+
+        .visual-node small {
+            display: block;
+            margin-top: .15rem;
+            font-size: .6rem;
+            color: var(--text-muted)
+        }
+
+        .method-card .mini-icon,
+        .analysis-card>i {
+            margin-bottom: .5rem
+        }
+
+        .method-card h4,
+        .analysis-card h4 {
+            margin-bottom: .25rem
+        }
+
+        .method-card p {
+            margin: 0 0 .4rem
+        }
+
+        .method-tag {
+            display: inline-block;
+            padding: .22rem .4rem;
+            border-radius: var(--radius-full);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .58rem;
+            font-weight: 800
+        }
+
+        .analysis-card ul {
+            padding-left: 1rem;
+            margin: 0
+        }
+
+        .analysis-card li {
+            margin-bottom: .3rem
+        }
+
+        .analysis-card>i {
+            color: var(--clr-tea);
+            font-size: 1.05rem
+        }
+
+        .selector-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0
+        }
+
+        .selector-scenario,
+        .question-text {
+            min-height: 105px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font-size: .8rem;
+            line-height: 1.55;
+            display: grid;
+            align-items: center
+        }
+
+        .selector-options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-xs);
+            margin-top: var(--space-md)
+        }
+
+        .lab-btn,
+        .selector-btn {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .55rem .7rem;
+            cursor: pointer;
+            font: 700 .72rem var(--font-body)
+        }
+
+        .lab-btn:hover,
+        .selector-btn:hover,
+        .selector-btn.active {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .selector-feedback {
+            min-height: 92px;
+            margin-top: var(--space-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .75rem;
+            line-height: 1.5
+        }
+
+        .selector-feedback.correct {
+            border-color: #16a34a;
+            background: rgba(22, 163, 74, .08)
+        }
+
+        .selector-feedback.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, .08)
+        }
+
+        .selector-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .68rem
+        }
+
+        .question-lab {
+            display: grid;
+            grid-template-columns: .85fr 1.15fr;
+            gap: var(--space-lg);
+            margin: var(--space-md) 0
+        }
+
+        .question-panel {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .question-panel h4 {
+            margin: 0 0 .3rem;
+            color: var(--text-primary);
+            font-size: .88rem
+        }
+
+        .question-panel p {
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5
+        }
+
+        .question-example {
+            margin-top: .45rem;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 600 .7rem/1.5 var(--font-code)
+        }
+
+        .two-choice {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm)
+        }
+
+        .dfd-shell {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow-x: auto;
+            margin: var(--space-md) 0
+        }
+
+        .dfd {
+            min-width: 760px;
+            display: grid;
+            grid-template-columns: 1fr auto 1.25fr auto 1fr;
+            align-items: center;
+            gap: var(--space-sm)
+        }
+
+        .dfd-entity,
+        .dfd-process,
+        .dfd-store {
+            min-height: 100px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-md);
+            text-align: center;
+            background: var(--bg-glass);
+            color: var(--text-primary)
+        }
+
+        .dfd-entity {
+            border: 2px solid var(--border-hover);
+            border-radius: var(--radius-sm)
+        }
+
+        .dfd-process {
+            border: 2px solid var(--clr-tea);
+            border-radius: 50px;
+            background: rgba(13, 148, 136, .06)
+        }
+
+        .dfd-store {
+            border-top: 2px solid var(--border-hover);
+            border-bottom: 2px solid var(--border-hover)
+        }
+
+        .dfd strong {
+            display: block;
+            font-size: .78rem
+        }
+
+        .dfd small {
+            display: block;
+            margin-top: .2rem;
+            color: var(--text-muted);
+            font-size: .62rem
+        }
+
+        .dfd-arrow {
+            color: var(--clr-tea);
+            font-weight: 800;
+            font-size: .76rem;
+            text-align: center
+        }
+
+        .finding-grid {
+            display: grid;
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .finding-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: var(--space-sm);
+            align-items: center
+        }
+
+        .finding-box,
+        .requirement-box {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card)
+        }
+
+        .finding-box span,
+        .requirement-box span {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-muted);
+            font-size: .6rem;
+            text-transform: uppercase;
+            font-weight: 800
+        }
+
+        .finding-box p,
+        .requirement-box p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .73rem;
+            line-height: 1.45
+        }
+
+        .finding-arrow {
+            color: var(--clr-tea);
+            font-weight: 800
+        }
+
+        .solution-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden;
+            margin: var(--space-md) 0
+        }
+
+        .solution-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .solution-tab {
+            border: 0;
+            border-right: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            padding: .75rem .5rem;
+            cursor: pointer;
+            font: 700 .7rem var(--font-body)
+        }
+
+        .solution-tab:last-child {
+            border-right: 0
+        }
+
+        .solution-tab:hover,
+        .solution-tab.active {
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            padding: var(--space-lg)
+        }
+
+        .solution-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass)
+        }
+
+        .solution-card h4 {
+            margin: 0 0 .35rem;
+            color: var(--text-primary);
+            font-size: .85rem
+        }
+
+        .solution-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .73rem;
+            line-height: 1.5
+        }
+
+        .solution-evidence {
+            margin-top: .5rem;
+            padding: .45rem .55rem;
+            border-radius: var(--radius-sm);
+            background: var(--bg-code);
+            color: var(--text-muted);
+            font-size: .65rem;
+            line-height: 1.4
+        }
+
+        .cambridge-box {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--clr-tea);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            margin: var(--space-md) 0
+        }
+
+        .cambridge-box h4 {
+            margin: 0 0 .35rem;
+            color: var(--text-primary);
+            font-size: .9rem
+        }
+
+        .cambridge-box p {
+            color: var(--text-secondary);
+            font-size: .76rem;
+            line-height: 1.5
+        }
+
+        .exam-marking {
+            margin-top: var(--space-xs)
+        }
+
+        .exam-marking summary {
+            cursor: pointer;
+            color: var(--clr-tea);
+            font-size: .72rem;
+            font-weight: 800
+        }
+
+        .exam-marking div {
+            margin-top: var(--space-xs);
+            padding: var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5
+        }
+
+        .exit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md)
+        }
+
+        .exit-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            text-align: center
+        }
+
+        .exit-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--clr-tea);
+            font-size: 2rem
+        }
+
+        .exit-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .77rem;
+            line-height: 1.45
+        }
+
+        @media(max-width:980px) {
+            .section-jump {
+                position: static
+            }
+
+            .analysis-journey,
+            .method-grid,
+            .analysis-board {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .journey-step::after {
+                display: none
+            }
+
+            .case-hero,
+            .question-lab {
+                grid-template-columns: 1fr
+            }
+
+            .selector-options {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:680px) {
+
+            .analysis-journey,
+            .method-grid,
+            .analysis-board,
+            .solution-tabs,
+            .solution-content,
+            .selector-options,
+            .two-choice,
+            .exit-grid {
+                grid-template-columns: 1fr
+            }
+
+            .solution-tab {
+                border-right: 0;
+                border-bottom: 1px solid var(--border)
+            }
+
+            .finding-row {
+                grid-template-columns: 1fr
+            }
+
+            .finding-arrow {
+                transform: rotate(90deg);
+                text-align: center
+            }
+
+            .selector-lab {
+                padding: var(--space-md)
+            }
+
+            .selector-footer {
+                flex-direction: column;
+                align-items: flex-start
+            }
+        }
+    </style>
+
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
-                <span>11.1C — Data Analysis</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-project-diagram"></i> Unit 11.1C · Term 1</div>
-                <h1 class="lesson-title">Data Collection &amp; Analysis</h1>
-                <p class="lesson-intro">Before building any system, you must <strong>collect data</strong> about the
-                    current problem and <strong>analyse</strong> it to determine what the new system needs. This is the
-                    critical first stage of the SDLC.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.2.1.3</span> Describe data collection methods</li>
-                    <li><span class="lo-code">11.2.1.4</span> Apply data analysis techniques</li>
-                    <li><span class="lo-code">11.2.1.5</span> Compare alternative solutions</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1C-data-analysis.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="/" class="logo" style="margin-left: 15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-stethoscope"></i> The Doctor Analogy</h4>
-                    <p>A doctor doesn't prescribe medicine without first <strong>examining the patient</strong>.
-                        Similarly, a developer must examine the current system (collect data), understand the symptoms
-                        (analyse), and consider treatment options (compare solutions) before building anything.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Data Collection
-                    Methods</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Description</th>
-                            <th>Advantages</th>
-                            <th>Disadvantages</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Interview</strong></td>
-                            <td>Face-to-face questions with stakeholders</td>
-                            <td>Detailed answers, follow-up possible</td>
-                            <td>Time-consuming, biased answers</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Questionnaire</strong></td>
-                            <td>Written survey distributed to many people</td>
-                            <td>Quick, wide audience, quantitative</td>
-                            <td>Low response rate, no follow-up</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Observation</strong></td>
-                            <td>Watch users perform tasks in real time</td>
-                            <td>See actual workflow, find hidden issues</td>
-                            <td>Users may behave differently</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Document Review</strong></td>
-                            <td>Examine existing forms, reports, manuals</td>
-                            <td>Factual, no user bias</td>
-                            <td>May be outdated</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Focus Group</strong></td>
-                            <td>Group discussion with selected users</td>
-                            <td>Multiple perspectives, rich data</td>
-                            <td>Dominant voices may skew results</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Data
-                    Analysis Techniques</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Technique</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Identify inputs/outputs</strong></td>
-                            <td>What data goes in? What comes out?</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Identify processes</strong></td>
-                            <td>What transformations happen to the data?</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Identify data stores</strong></td>
-                            <td>Where is data stored? Files, databases?</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Identify constraints</strong></td>
-                            <td>Budget, time, hardware, legal requirements</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Create DFDs</strong></td>
-                            <td>Visual diagrams showing data flow through the system</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Comparing
-                    Alternative Solutions</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Criterion</th>
-                            <th>Questions to Ask</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Technical feasibility</strong></td>
-                            <td>Can we build it with available technology?</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Economic feasibility</strong></td>
-                            <td>Can we afford it? Will benefits outweigh costs?</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Operational feasibility</strong></td>
-                            <td>Will users accept and use it?</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Time feasibility</strong></td>
-                            <td>Can it be completed within the deadline?</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Open vs Closed Questions</h4>
-                    <p><strong>Open:</strong> "How do you process student grades?" (detailed answer).
-                        <strong>Closed:</strong> "Do you use a spreadsheet? Yes/No" (quick, countable answer). Good
-                        questionnaires use both types.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Skipping Data Collection</h4>
-                    <p>Building a system without proper data collection leads to a product that doesn't meet user needs.
-                        The most common reason software projects fail is <strong>poor requirements gathering</strong>.
-                    </p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Name 5 data collection methods.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>A school wants a new library system. Design a questionnaire with 5 questions (mix of open and
-                            closed) for librarians.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Compare building a custom system vs buying existing software for a small business. Use
-                            feasibility criteria.</p>
-                    </div>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: Name 3 data collection methods and a disadvantage of each.</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Interview (time-consuming),
-                        Questionnaire (low response rate), Observation (users may behave differently when watched).
-                    </div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What are the 4 types of feasibility?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Technical, economic,
-                        operational, and time feasibility.</div>
-                </div>
-            </section>
-            <nav class="lesson-nav">
-                        <a href="sdlc-models.html"><span class="nav-label">← Previous</span><span class="nav-title">SDLC models</span></a>
-                        <a href="relational-databases.html"><span class="nav-label">Next →</span><span class="nav-title">Basic concepts of a database</span></a>
+            <div class="lesson-page">
+                <div class="lesson-container">
+
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a> <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                        <span>11.1C — Data Analysis</span>
                     </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fas fa-project-diagram"></i> Unit 11.1C · Term 1</div>
+                        <h1 class="lesson-title">Data Collection &amp; Analysis</h1>
+                        <p class="lesson-intro">Before designing a new system, an analyst must understand the
+                            <strong>current system</strong>, collect evidence from stakeholders, analyse inputs,
+                            processes, outputs and data stores, identify requirements and compare possible solutions.
+                        </p>
+                    </div>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.2.1.3</span> Describe data collection methods</li>
+                            <li><span class="lo-code">11.2.1.4</span> Apply data analysis techniques</li>
+                            <li><span class="lo-code">11.2.1.5</span> Compare alternative solutions</li>
+                        </ul>
+                    </div>
+
+                    <div class="note-box">
+                        <h4><i class="fas fa-check-circle"></i> Success Criteria</h4>
+                        <p>I can select and justify an appropriate data collection method · distinguish open and closed
+                            questions · create a data collection plan · identify inputs, processes, outputs, data stores
+                            and constraints · convert findings into requirements · compare alternative solutions using
+                            technical, economic, operational and time feasibility.</p>
+                    </div>
+
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>11.1C-data-analysis.pdf · Slides for classroom use</p>
+                        </div>
+                        <div class="lesson-pdf-actions">
+                            <a href="/assets/pdf/11.1C-data-analysis.pdf" target="_blank"
+                                class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                            <a href="/assets/pdf/11.1C-data-analysis.pdf" download
+                                class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                        </div>
+                    </div>
+
+                    <nav class="section-jump" aria-label="Lesson sections">
+                        <a href="#journey">Analysis Journey</a><a href="#collection">Data Collection</a><a
+                            href="#questions">Questions</a><a href="#analysis">System Analysis</a><a
+                            href="#requirements">Requirements</a><a href="#solutions">Solutions</a><a
+                            href="#practice">Practice</a>
+                    </nav>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-stethoscope"></i> The Doctor Analogy</h4>
+                            <p>A doctor does not prescribe treatment before examining the patient. A systems analyst
+                                works in the same way: <strong>collect evidence</strong>, understand the current
+                                problems, identify what needs to improve and then compare possible solutions.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="journey">
+                        <h2 class="lesson-section-title"><i class="fas fa-route"></i> From Problem to Proposed Solution
+                        </h2>
+                        <div class="analysis-journey">
+                            <div class="journey-step">
+                                <div class="mini-icon"><i class="fas fa-magnifying-glass"></i></div><strong>1.
+                                    Investigate</strong><span>Understand the current system and its users.</span>
+                            </div>
+                            <div class="journey-step">
+                                <div class="mini-icon"><i class="fas fa-clipboard-question"></i></div><strong>2. Collect
+                                    Data</strong><span>Interview, questionnaire, observe and inspect documents.</span>
+                            </div>
+                            <div class="journey-step">
+                                <div class="mini-icon"><i class="fas fa-diagram-project"></i></div><strong>3.
+                                    Analyse</strong><span>Identify inputs, processes, outputs, stores and
+                                    constraints.</span>
+                            </div>
+                            <div class="journey-step">
+                                <div class="mini-icon"><i class="fas fa-list-check"></i></div><strong>4.
+                                    Requirements</strong><span>Turn evidence into clear system requirements.</span>
+                            </div>
+                            <div class="journey-step">
+                                <div class="mini-icon"><i class="fas fa-scale-balanced"></i></div><strong>5.
+                                    Compare</strong><span>Evaluate alternative solutions using feasibility
+                                    criteria.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-book-open-reader"></i> Running Case Study —
+                            School Library System</h2>
+                        <div class="case-hero">
+                            <div class="case-copy">
+                                <h3>The Current Situation</h3>
+                                <p>A school library uses a mixture of paper records and spreadsheets. The school wants
+                                    to investigate whether a new digital system is needed. You are the systems analyst.
+                                </p>
+                                <div class="case-problem"><strong>Problem 1:</strong> finding current loan information
+                                    can take too long.</div>
+                                <div class="case-problem"><strong>Problem 2:</strong> overdue books are not always
+                                    identified quickly.</div>
+                                <div class="case-problem"><strong>Problem 3:</strong> students cannot easily check
+                                    whether a book is available.</div>
+                                <div class="case-problem"><strong>Constraint:</strong> the school has a limited budget
+                                    and existing computers should be reused where possible.</div>
+                            </div>
+                            <div class="library-visual">
+                                <div class="library-map">
+                                    <div class="visual-node">
+                                        <div><i class="fas fa-user-graduate"></i><strong>Students</strong><small>search
+                                                · borrow · return</small></div>
+                                    </div>
+                                    <div class="visual-node center">
+                                        <div><i class="fas fa-book"></i><strong>Library System</strong><small>books ·
+                                                members · loans</small></div>
+                                    </div>
+                                    <div class="visual-node">
+                                        <div><i class="fas fa-user-tie"></i><strong>Librarian</strong><small>issue ·
+                                                return · reports</small></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fab fa-youtube"></i> Cambridge-Style Video
+                            Reinforcement</h2>
+                        <div class="lesson-video-block">
+                            <div class="lesson-video-header">
+                                <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                                <div class="lesson-video-info">
+                                    <h4>Craig'n'Dave — Cambridge IGCSE: Software Development Life Cycle</h4>
+                                    <p>Use this as a short overview. Pay particular attention to the
+                                        <strong>Analysis</strong> stage at about 00:30.</p>
+                                </div>
+                            </div>
+                            <div class="lesson-video-wrapper"><iframe
+                                    src="https://www.youtube-nocookie.com/embed/cY0GjVzmo8s"
+                                    title="Craig n Dave Cambridge IGCSE Software Development Life Cycle" loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe></div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-pencil"></i> While Watching</h4>
+                            <p>Write one sentence answering: <strong>Why must analysis happen before design and
+                                    coding?</strong></p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="collection">
+                        <h2 class="lesson-section-title"><i class="fas fa-clipboard-list"></i> Data Collection Methods
+                        </h2>
+                        <p class="concept-text">No single collection method is always best. Analysts choose methods
+                            according to the stakeholder, the information required, available time and the need for
+                            detail or breadth.</p>
+                        <div class="method-grid">
+                            <div class="method-card">
+                                <div class="mini-icon"><i class="fas fa-comments"></i></div>
+                                <h4>Interview</h4>
+                                <p>Direct conversation. Allows follow-up questions and detailed clarification.</p><span
+                                    class="method-tag">depth</span>
+                            </div>
+                            <div class="method-card">
+                                <div class="mini-icon"><i class="fas fa-square-poll-vertical"></i></div>
+                                <h4>Questionnaire</h4>
+                                <p>Standard questions for many users. Efficient for broad responses and countable
+                                    results.</p><span class="method-tag">large audience</span>
+                            </div>
+                            <div class="method-card">
+                                <div class="mini-icon"><i class="fas fa-eye"></i></div>
+                                <h4>Observation</h4>
+                                <p>Watch real tasks to understand actual workflow, timings and workarounds.</p><span
+                                    class="method-tag">real workflow</span>
+                            </div>
+                            <div class="method-card">
+                                <div class="mini-icon"><i class="fas fa-file-lines"></i></div>
+                                <h4>Document Review</h4>
+                                <p>Examine existing forms, records, manuals and reports.</p><span
+                                    class="method-tag">existing evidence</span>
+                            </div>
+                            <div class="method-card">
+                                <div class="mini-icon"><i class="fas fa-people-group"></i></div>
+                                <h4>Focus Group</h4>
+                                <p>Structured discussion with selected users to explore several perspectives.</p><span
+                                    class="method-tag">multiple views</span>
+                            </div>
+                        </div>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Strength</th>
+                                    <th>Limitation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Interview</strong></td>
+                                    <td>Detailed answers; questions can be clarified and followed up.</td>
+                                    <td>Time-consuming; not suitable for very large numbers.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Questionnaire</strong></td>
+                                    <td>Standardised responses from many people efficiently.</td>
+                                    <td>Low response rate or limited depth.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Observation</strong></td>
+                                    <td>Shows how the system is actually used in real time.</td>
+                                    <td>Time-consuming; users may behave differently when watched.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Document Review</strong></td>
+                                    <td>Provides existing forms, records and documented evidence.</td>
+                                    <td>Documents may be outdated or incomplete.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Focus Group</strong></td>
+                                    <td>Generates several viewpoints and discussion.</td>
+                                    <td>Dominant participants may influence others.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="selector-lab">
+                            <h3 style="margin-top:0">Which Method Should the Analyst Use?</h3>
+                            <div id="methodScenario" class="selector-scenario"></div>
+                            <div class="selector-options"><button class="selector-btn method-choice"
+                                    data-method="interview">Interview</button><button class="selector-btn method-choice"
+                                    data-method="questionnaire">Questionnaire</button><button
+                                    class="selector-btn method-choice"
+                                    data-method="observation">Observation</button><button
+                                    class="selector-btn method-choice" data-method="document">Document
+                                    Review</button><button class="selector-btn method-choice" data-method="focus">Focus
+                                    Group</button></div>
+                            <div id="methodFeedback" class="selector-feedback">Choose the most suitable primary method
+                                and justify your choice.</div>
+                            <div class="selector-footer"><span id="methodProgress">Scenario 1 of 6</span><button
+                                    id="nextMethodScenario" class="lab-btn">Next scenario <i
+                                        class="fas fa-arrow-right"></i></button></div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="questions">
+                        <h2 class="lesson-section-title"><i class="fas fa-circle-question"></i> Open vs Closed Questions
+                        </h2>
+                        <div class="question-lab">
+                            <div class="question-panel">
+                                <h4>Question Design</h4>
+                                <p><strong>Open questions</strong> invite explanations, opinions or descriptions.</p>
+                                <div class="question-example">What problems do you experience when issuing or returning
+                                    books?</div>
+                                <p style="margin-top:var(--space-md)"><strong>Closed questions</strong> restrict the
+                                    answer to predefined choices and are easier to count.</p>
+                                <div class="question-example">Do you use the library at least once per week? YES / NO
+                                </div>
+                            </div>
+                            <div class="question-panel">
+                                <h4>Open or Closed?</h4>
+                                <div id="questionText" class="question-text"></div>
+                                <div class="two-choice"><button class="selector-btn question-choice"
+                                        data-question-type="open">Open</button><button
+                                        class="selector-btn question-choice" data-question-type="closed">Closed</button>
+                                </div>
+                                <div id="questionFeedback" class="selector-feedback">Classify the question before
+                                    checking the explanation.</div>
+                                <div class="selector-footer"><span id="questionProgress">Question 1 of 6</span><button
+                                        id="nextQuestion" class="lab-btn">Next question</button></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-table-list"></i> Data Collection Plan</h2>
+                        <p class="concept-text">A strong analysis combines evidence from several sources. Decide
+                            <strong>who</strong> to investigate, <strong>which method</strong> to use and <strong>what
+                                information</strong> is needed.</p>
+                        <div style="overflow-x:auto">
+                            <table class="theory-table">
+                                <thead>
+                                    <tr>
+                                        <th>Stakeholder / Source</th>
+                                        <th>Method</th>
+                                        <th>Information Needed</th>
+                                        <th>Why?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Librarian</td>
+                                        <td>Interview</td>
+                                        <td>Daily workflow, problems, reports</td>
+                                        <td>Detailed follow-up is possible.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Students</td>
+                                        <td>Questionnaire</td>
+                                        <td>Frequency of use, search needs, difficulties</td>
+                                        <td>Reaches many users efficiently.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Issue / return desk</td>
+                                        <td>Observation</td>
+                                        <td>Actual steps, timing, repeated work</td>
+                                        <td>Shows real practice.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Forms / spreadsheets</td>
+                                        <td>Document Review</td>
+                                        <td>Current fields, codes, reports and records</td>
+                                        <td>Reveals existing stored data.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="analysis">
+                        <h2 class="lesson-section-title"><i class="fas fa-microscope"></i> Analyse the Current System
+                        </h2>
+                        <p class="concept-text">After collecting evidence, organise it into <strong>inputs, processes,
+                                outputs, data stores and constraints</strong>.</p>
+                        <div class="analysis-board">
+                            <div class="analysis-card"><i class="fas fa-keyboard"></i>
+                                <h4>Inputs</h4>
+                                <ul>
+                                    <li>Student ID</li>
+                                    <li>Book ID</li>
+                                    <li>Borrow / return request</li>
+                                    <li>New book details</li>
+                                </ul>
+                            </div>
+                            <div class="analysis-card"><i class="fas fa-gears"></i>
+                                <h4>Processes</h4>
+                                <ul>
+                                    <li>Check availability</li>
+                                    <li>Issue book</li>
+                                    <li>Record return</li>
+                                    <li>Calculate overdue status</li>
+                                </ul>
+                            </div>
+                            <div class="analysis-card"><i class="fas fa-display"></i>
+                                <h4>Outputs</h4>
+                                <ul>
+                                    <li>Loan confirmation</li>
+                                    <li>Availability result</li>
+                                    <li>Overdue list</li>
+                                    <li>Inventory report</li>
+                                </ul>
+                            </div>
+                            <div class="analysis-card"><i class="fas fa-database"></i>
+                                <h4>Data Stores</h4>
+                                <ul>
+                                    <li>Books</li>
+                                    <li>Students</li>
+                                    <li>Loans</li>
+                                    <li>Returns</li>
+                                </ul>
+                            </div>
+                            <div class="analysis-card"><i class="fas fa-triangle-exclamation"></i>
+                                <h4>Constraints</h4>
+                                <ul>
+                                    <li>Limited budget</li>
+                                    <li>Existing PCs</li>
+                                    <li>Term deadline</li>
+                                    <li>Staff training time</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="cambridge-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Exam Technique</h4>
+                            <p>When asked to <strong>analyse</strong>, apply the technique to the scenario. Write “Book
+                                ID is an input used to identify the book being borrowed” rather than only “Input: Book
+                                ID.”</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-diagram-project"></i> Simple Data Flow View
+                        </h2>
+                        <p class="concept-text">A DFD shows how data moves between external entities, processes and data
+                            stores. This simplified example focuses on borrowing a book.</p>
+                        <div class="dfd-shell">
+                            <div class="dfd">
+                                <div class="dfd-entity">
+                                    <div><strong>Student</strong><small>Student ID + Book ID</small></div>
+                                </div>
+                                <div class="dfd-arrow">Borrow request →</div>
+                                <div class="dfd-process">
+                                    <div><strong>Process Loan</strong><small>check availability + create loan</small>
+                                    </div>
+                                </div>
+                                <div class="dfd-arrow">read / update →</div>
+                                <div class="dfd-store">
+                                    <div><strong>Loans &amp; Books Data</strong><small>availability + active loan
+                                            records</small></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> DFD Reminder</h4>
+                            <p>A DFD describes <strong>data flow</strong>, not the detailed sequence of program
+                                instructions. Do not confuse it with a program flowchart.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="requirements">
+                        <h2 class="lesson-section-title"><i class="fas fa-arrow-right-arrow-left"></i> From Findings to
+                            Requirements</h2>
+                        <p class="concept-text">Data collection is useful only if evidence is converted into clear
+                            requirements.</p>
+                        <div class="finding-grid">
+                            <div class="finding-row">
+                                <div class="finding-box"><span>Finding</span>
+                                    <p>Librarians spend too long searching several records to find active loans.</p>
+                                </div>
+                                <div class="finding-arrow">→</div>
+                                <div class="requirement-box"><span>Requirement</span>
+                                    <p>The system should allow active loans to be searched by student ID.</p>
+                                </div>
+                            </div>
+                            <div class="finding-row">
+                                <div class="finding-box"><span>Finding</span>
+                                    <p>Students often ask staff whether a book is currently available.</p>
+                                </div>
+                                <div class="finding-arrow">→</div>
+                                <div class="requirement-box"><span>Requirement</span>
+                                    <p>The system should display the current availability of each book.</p>
+                                </div>
+                            </div>
+                            <div class="finding-row">
+                                <div class="finding-box"><span>Finding</span>
+                                    <p>The school cannot replace all library computers.</p>
+                                </div>
+                                <div class="finding-arrow">→</div>
+                                <div class="requirement-box"><span>Constraint</span>
+                                    <p>The solution should operate on existing school hardware where possible.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="solutions">
+                        <h2 class="lesson-section-title"><i class="fas fa-scale-balanced"></i> Comparing Alternative
+                            Solutions</h2>
+                        <p class="concept-text">Compare <strong>an existing library package</strong> with <strong>a
+                                bespoke system</strong> using the same feasibility criteria.</p>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Feasibility</th>
+                                    <th>Question to Ask</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Technical</strong></td>
+                                    <td>Can it work with available hardware, software and skills?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Economic</strong></td>
+                                    <td>Are costs acceptable relative to expected benefits?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Operational</strong></td>
+                                    <td>Will it fit workflows and be accepted by users?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Time</strong></td>
+                                    <td>Can it be implemented before the required deadline?</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="solution-lab">
+                            <div class="solution-tabs"><button class="solution-tab active"
+                                    data-criterion="technical">Technical</button><button class="solution-tab"
+                                    data-criterion="economic">Economic</button><button class="solution-tab"
+                                    data-criterion="operational">Operational</button><button class="solution-tab"
+                                    data-criterion="time">Time</button></div>
+                            <div class="solution-content">
+                                <div class="solution-card">
+                                    <h4>Option A — Existing Package</h4>
+                                    <p id="existingText"></p>
+                                    <div id="existingEvidence" class="solution-evidence"></div>
+                                </div>
+                                <div class="solution-card">
+                                    <h4>Option B — Bespoke System</h4>
+                                    <p id="bespokeText"></p>
+                                    <div id="bespokeEvidence" class="solution-evidence"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-key"></i> Comparison ≠ Listing</h4>
+                            <p>A strong comparison links both alternatives using the <strong>same criterion</strong>.
+                                Example: “The package may be deployed sooner, whereas the bespoke system requires
+                                development and testing time.”</p>
+                        </div>
+                        <div class="cambridge-box">
+                            <h4><i class="fas fa-pen"></i> Cambridge-Style Justification</h4>
+                            <p>When asked to recommend a solution, use scenario evidence. A conclusion should follow
+                                from feasibility evidence rather than simply saying one option is “better”.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+                        </h2>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Choosing a Method Without Justification</h4>
+                            <p>“Use an interview” is incomplete. Explain why it fits the stakeholder and information
+                                required.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Reported Workflow ≠ Actual Workflow</h4>
+                            <p>What users say and what happens in practice may differ. Observation can verify real
+                                working practice.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Writing Solutions Before Requirements</h4>
+                            <p>First identify problems and requirements. Only then compare possible solutions.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> DFD ≠ Flowchart</h4>
+                            <p>A DFD shows movement of data; a program flowchart shows algorithmic control flow.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Cheapest ≠ Automatically Most Feasible</h4>
+                            <p>Cost is only one criterion. Technical, operational and time feasibility also matter.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Practice Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>Name five data collection methods and state one strength of each.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain the difference between an open and a closed question. Give one library-system
+                                    example of each.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Choose an appropriate method to discover how librarians actually issue and return
+                                    books. Justify your choice.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Design a five-question student questionnaire containing both open and closed
+                                    questions.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Identify two inputs, two processes, two outputs and two data stores for an online
+                                    cinema booking system.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Turn this finding into a requirement: “Staff spend several minutes checking three
+                                    files before approving a booking.”</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Compare an existing software package with a bespoke solution using all four
+                                    feasibility criteria.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Produce a mini analysis report for a school process: collection plan → analysis → two
+                                    requirements → two alternatives.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: Describe two advantages of interviewing users when analysing an
+                                existing system. [4]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Information is obtained directly from experienced users; questions can be clarified
+                                    or followed up; detailed responses can be obtained. Develop each point.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: Explain why observation and document review may both be used to
+                                investigate the same system. [4]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Observation shows actual working practice in real time; document review reveals
+                                    existing forms, records and documented procedures. Together they allow practice to
+                                    be compared with recorded processes/data.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: A school is replacing a paper booking system. State one input,
+                                one process, one output and one data store. [4]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Answers must fit the scenario. Example: input — booking date; process — check
+                                    availability; output — confirmation; data store — bookings database.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Explain two feasibility criteria used when comparing
+                                alternative solutions. [4]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Any two of technical, economic, operational or time feasibility, each explained
+                                    rather than only named.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q5: Explain why an analyst should collect information before
+                                specifying requirements. [3]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>The analyst must understand the current system and user problems; evidence
+                                    identifies what must change; this reduces the risk of designing a system that does
+                                    not meet needs.</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: Which collection method is best for detailed follow-up
+                                questions?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Interview.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: Which method is useful for seeing how a process actually
+                                happens?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Observation.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: What is the difference between open and closed questions?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Open questions allow
+                                detailed free responses; closed questions restrict answers to predefined choices.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Name the five analysis areas used on this page.</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Inputs, processes,
+                                outputs, data stores and constraints.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q5: What does a DFD show?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">How data flows between
+                                external entities, processes and data stores.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q6: What are the four feasibility criteria?</p>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Technical, economic,
+                                operational and time feasibility.</div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-door-open"></i> Exit Ticket — 3–2–1</h2>
+                        <div class="exit-grid">
+                            <div class="exit-card"><strong>3</strong>
+                                <p>Name three data collection methods.</p>
+                            </div>
+                            <div class="exit-card"><strong>2</strong>
+                                <p>Give two things an analyst should identify in the current system.</p>
+                            </div>
+                            <div class="exit-card"><strong>1</strong>
+                                <p>Write one feasibility criterion and the question it asks.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="sdlc-models.html"><span><span class="nav-label">← Previous</span><span
+                                    class="nav-title">SDLC Models</span></span></a>
+                        <a href="relational-databases.html"><span><span class="nav-label">Next →</span><span
+                                    class="nav-title">Basic Concepts of a Database</span></span></a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+        <p>mr. TEA © 2026 — NIS Grade 11 Computer Science</p>
     </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const methods = [
+                { text: 'The analyst needs a detailed explanation from the librarian about why overdue-book reports are difficult to produce, and may need follow-up questions.', answer: 'interview', why: 'An interview gives detailed explanations and allows clarification or follow-up.' },
+                { text: 'The analyst wants opinions from 450 students about library use and online book searching.', answer: 'questionnaire', why: 'A questionnaire can collect standardised responses from a large number of students efficiently.' },
+                { text: 'The analyst wants the exact steps and delays when a student borrows and returns a book.', answer: 'observation', why: 'Observation shows the real workflow, timing and workarounds as they happen.' },
+                { text: 'The analyst needs to discover which fields are recorded on old loan forms and spreadsheets.', answer: 'document', why: 'Document review directly examines the existing forms and stored records.' },
+                { text: 'The analyst wants a small group from different year groups to discuss reactions to a proposed self-service search screen.', answer: 'focus', why: 'A focus group supports discussion and exposes several perspectives.' },
+                { text: 'The librarian says the issue process has only three steps. The analyst wants to check what really happens during a busy lunch break.', answer: 'observation', why: 'Observation verifies reported procedures against actual working practice.' }
+            ];
+            let mi = 0; const ms = document.getElementById('methodScenario'), mf = document.getElementById('methodFeedback'), mp = document.getElementById('methodProgress'), mc = document.querySelectorAll('.method-choice');
+            function loadM() { const x = methods[mi]; ms.textContent = x.text; mp.textContent = `Scenario ${mi + 1} of ${methods.length}`; mf.className = 'selector-feedback'; mf.textContent = 'Choose the most suitable primary method and justify your choice.'; mc.forEach(b => b.classList.remove('active')); }
+            const labels = { interview: 'Interview', questionnaire: 'Questionnaire', observation: 'Observation', document: 'Document Review', focus: 'Focus Group' };
+            mc.forEach(b => b.addEventListener('click', () => { const x = methods[mi], ok = b.dataset.method === x.answer; mc.forEach(z => z.classList.remove('active')); b.classList.add('active'); mf.className = `selector-feedback ${ok ? 'correct' : 'wrong'}`; mf.innerHTML = `<strong>${ok ? 'Good choice.' : 'A different method fits better.'}</strong><br><strong>Suggested answer:</strong> ${labels[x.answer]}.<br>${x.why}`; }));
+            document.getElementById('nextMethodScenario').addEventListener('click', () => { mi = (mi + 1) % methods.length; loadM(); }); loadM();
+
+            const qs = [
+                { text: 'What problems do you experience when returning a book?', answer: 'open', why: 'The respondent can give a detailed explanation in their own words.' },
+                { text: 'Do you use the library at least once per week? Yes / No', answer: 'closed', why: 'The respondent chooses from a restricted set of answers.' },
+                { text: 'How could the library search process be improved?', answer: 'open', why: 'The question invites ideas and explanations.' },
+                { text: 'Which device do you usually use? Phone / Tablet / Laptop / Desktop', answer: 'closed', why: 'The answer is selected from predefined options.' },
+                { text: 'Describe the steps you follow when a student loses a library book.', answer: 'open', why: 'The respondent can describe a process in detail.' },
+                { text: 'Should the system send overdue reminders? Yes / No', answer: 'closed', why: 'Only a limited choice is allowed.' }
+            ];
+            let qi = 0; const qt = document.getElementById('questionText'), qf = document.getElementById('questionFeedback'), qp = document.getElementById('questionProgress'), qc = document.querySelectorAll('.question-choice');
+            function loadQ() { const x = qs[qi]; qt.textContent = x.text; qp.textContent = `Question ${qi + 1} of ${qs.length}`; qf.className = 'selector-feedback'; qf.textContent = 'Classify the question before checking the explanation.'; qc.forEach(b => b.classList.remove('active')); }
+            qc.forEach(b => b.addEventListener('click', () => { const x = qs[qi], ok = b.dataset.questionType === x.answer; qc.forEach(z => z.classList.remove('active')); b.classList.add('active'); qf.className = `selector-feedback ${ok ? 'correct' : 'wrong'}`; qf.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br><strong>Answer:</strong> ${x.answer[0].toUpperCase() + x.answer.slice(1)}.<br>${x.why}`; }));
+            document.getElementById('nextQuestion').addEventListener('click', () => { qi = (qi + 1) % qs.length; loadQ(); }); loadQ();
+
+            const feas = {
+                technical: { existing: 'A mature package may already run on common school hardware and have documented system requirements.', ee: 'Check operating system support, network requirements, compatibility with existing PCs and data-import options.', bespoke: 'A bespoke system can be designed around existing hardware, but the team must have skills to build, test and maintain it.', be: 'Check programming/database skills, hosting, backups, security and long-term support.' },
+                economic: { existing: 'An existing package may have licence or subscription costs but avoids most development labour.', ee: 'Consider purchase/subscription fees, migration, training, upgrades and support.', bespoke: 'A bespoke system may avoid licence fees but requires development, testing and maintenance time.', be: 'Consider developer time, hosting, maintenance, bug fixes and future enhancements.' },
+                operational: { existing: 'Users may need to change some working practices to fit the package, though established products may include training and support.', ee: 'Check ease of use, workflow changes, accessibility, training and user acceptance.', bespoke: 'A bespoke system can closely match the school’s processes and terminology.', be: 'Check user involvement, usability testing and training.' },
+                time: { existing: 'A package may be configured and deployed relatively quickly if it already meets most requirements.', ee: 'Check procurement, configuration, migration and training time.', bespoke: 'A bespoke system needs requirements, design, implementation, testing and deployment before it is ready.', be: 'Check developer availability, deadline and testing/migration schedule.' }
+            };
+            const tabs = document.querySelectorAll('.solution-tab'), et = document.getElementById('existingText'), ee = document.getElementById('existingEvidence'), bt = document.getElementById('bespokeText'), be = document.getElementById('bespokeEvidence');
+            function showF(k) { const x = feas[k]; et.textContent = x.existing; ee.textContent = x.ee; bt.textContent = x.bespoke; be.textContent = x.be; tabs.forEach(t => t.classList.toggle('active', t.dataset.criterion === k)); }
+            tabs.forEach(t => t.addEventListener('click', () => showF(t.dataset.criterion))); showF('technical');
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
