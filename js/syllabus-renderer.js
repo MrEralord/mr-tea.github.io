@@ -120,6 +120,7 @@
           return;
         }
         if (currentGrade === gradeId) {
+          currentGrade = null; // Reset so renderGrade doesn't early-return
           renderGrade(gradeId);
         }
       });
