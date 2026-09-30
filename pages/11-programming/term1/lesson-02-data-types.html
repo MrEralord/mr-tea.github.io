@@ -4,379 +4,2443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Types &amp; Type Conversion — mr. TEA</title>
+
+    <title>Data Types & Type Conversion — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
     <meta name="description"
-        content="Python data types: int, float, str, bool. Type conversion with int(), float(), str(). NIS Grade 11 Programming 11.1.1.3, 11.1.1.4.">
+        content="Python data types: int, float, str, bool. Type conversion with int(), float(), str() and bool(). NIS Grade 11 Programming 11.1.1.3, 11.1.1.4.">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .section-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0 var(--space-xl);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            position: sticky;
+            top: 64px;
+            z-index: 12;
+            backdrop-filter: blur(14px);
+        }
+
+        .section-jump a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: .42rem .7rem;
+            font-size: .72rem;
+            font-weight: 700;
+            background: var(--bg-glass);
+            transition: all var(--transition);
+        }
+
+        .section-jump a:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        /* ---------- Type Atlas ---------- */
+
+        .type-atlas {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .type-card {
+            min-height: 250px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .type-symbol {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            margin-bottom: var(--space-sm);
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .1);
+            color: var(--clr-tea);
+            font: 800 .85rem var(--font-code);
+        }
+
+        .type-card h4 {
+            margin: 0 0 .25rem;
+            color: var(--text-primary);
+            font-size: .95rem;
+        }
+
+        .type-card p {
+            margin: 0 0 .55rem;
+            color: var(--text-secondary);
+            font-size: .73rem;
+            line-height: 1.45;
+        }
+
+        .type-card code {
+            display: block;
+            margin-bottom: .35rem;
+            padding: .45rem .5rem;
+            border-radius: var(--radius-sm);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .67rem/1.45 var(--font-code);
+        }
+
+        .type-card small {
+            color: var(--text-muted);
+            font-size: .64rem;
+            line-height: 1.35;
+        }
+
+        .same-looking {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: var(--space-md);
+            align-items: center;
+            margin: var(--space-md) 0;
+        }
+
+        .same-value-card {
+            padding: var(--space-lg);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .same-value-card code {
+            display: block;
+            font: 800 1.15rem var(--font-code);
+            color: var(--text-primary);
+            margin-bottom: .35rem;
+        }
+
+        .same-value-card strong {
+            color: var(--clr-tea);
+            font-size: .76rem;
+        }
+
+        .not-equal {
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+
+        /* ---------- Lab generic ---------- */
+
+        .learning-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .lab-prompt {
+            min-height: 130px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            text-align: center;
+        }
+
+        .lab-prompt code,
+        .lab-prompt pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 800 1rem/1.55 var(--font-code);
+        }
+
+        .lab-options {
+            display: grid;
+            gap: var(--space-xs);
+            margin-top: var(--space-md);
+        }
+
+        .lab-options.four {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .lab-options.three {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .lab-options.two {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .lab-btn,
+        .choice-btn,
+        .tab-btn,
+        .preset-btn {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .55rem .75rem;
+            cursor: pointer;
+            font: 700 .73rem var(--font-body);
+            transition: all var(--transition);
+        }
+
+        .lab-btn:hover,
+        .choice-btn:hover,
+        .choice-btn.active,
+        .tab-btn:hover,
+        .tab-btn.active,
+        .preset-btn:hover {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .lab-feedback {
+            min-height: 96px;
+            margin-top: var(--space-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        .lab-feedback.correct {
+            border-color: #16a34a;
+            background: rgba(22, 163, 74, .08);
+        }
+
+        .lab-feedback.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, .08);
+        }
+
+        .lab-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .68rem;
+        }
+
+        /* ---------- type inspector ---------- */
+
+        .inspector-grid {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: var(--space-lg);
+        }
+
+        .inspector-list {
+            display: grid;
+            gap: var(--space-xs);
+        }
+
+        .inspector-result {
+            min-height: 300px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .inspector-result span {
+            display: block;
+            color: var(--text-muted);
+            font-size: .61rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: .35rem;
+        }
+
+        .inspector-result pre {
+            margin: 0 0 var(--space-md);
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 700 .78rem/1.6 var(--font-code);
+        }
+
+        /* ---------- Conversion map ---------- */
+
+        .conversion-map {
+            position: relative;
+            min-height: 390px;
+            margin: var(--space-md) 0;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background:
+                radial-gradient(circle at center, rgba(13, 148, 136, .08), transparent 35%),
+                var(--bg-card);
+            overflow: hidden;
+        }
+
+        .conversion-inner {
+            width: min(620px, 100%);
+            height: 330px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .convert-node {
+            position: absolute;
+            width: 115px;
+            min-height: 82px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: var(--space-sm);
+            border: 2px solid var(--border-hover);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .convert-node strong {
+            display: block;
+            font: 800 .82rem var(--font-code);
+        }
+
+        .convert-node small {
+            display: block;
+            color: var(--text-muted);
+            font-size: .6rem;
+            margin-top: .2rem;
+        }
+
+        .node-int {
+            left: calc(50% - 57px);
+            top: 0;
+        }
+
+        .node-str {
+            left: 0;
+            top: 123px;
+        }
+
+        .node-float {
+            right: 0;
+            top: 123px;
+        }
+
+        .node-bool {
+            left: calc(50% - 57px);
+            bottom: 0;
+        }
+
+        .conversion-center {
+            position: absolute;
+            left: calc(50% - 80px);
+            top: 125px;
+            width: 160px;
+            min-height: 80px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            border: 1px dashed var(--clr-tea);
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .07);
+            color: var(--text-secondary);
+            font-size: .66rem;
+            line-height: 1.4;
+            padding: .6rem;
+        }
+
+        .map-arrow {
+            position: absolute;
+            color: var(--clr-tea);
+            font-size: 1.15rem;
+        }
+
+        .arrow-a {
+            left: 145px;
+            top: 76px;
+            transform: rotate(-25deg);
+        }
+
+        .arrow-b {
+            right: 145px;
+            top: 76px;
+            transform: rotate(25deg);
+        }
+
+        .arrow-c {
+            left: 145px;
+            bottom: 76px;
+            transform: rotate(25deg);
+        }
+
+        .arrow-d {
+            right: 145px;
+            bottom: 76px;
+            transform: rotate(-25deg);
+        }
+
+        /* ---------- truncation ---------- */
+
+        .truncation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .trunc-card {
+            padding: var(--space-lg);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .trunc-card code {
+            display: block;
+            color: var(--text-primary);
+            font: 800 1.05rem var(--font-code);
+            margin-bottom: .3rem;
+        }
+
+        .trunc-card span {
+            color: var(--text-muted);
+            font-size: .7rem;
+        }
+
+        /* ---------- Input pipeline ---------- */
+
+        .input-pipeline {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .pipeline-step {
+            position: relative;
+            min-height: 135px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .35rem;
+            text-align: center;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .pipeline-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 800;
+            z-index: 2;
+        }
+
+        .pipeline-step i {
+            color: var(--clr-tea);
+            font-size: 1.15rem;
+        }
+
+        .pipeline-step strong {
+            color: var(--text-primary);
+            font-size: .75rem;
+        }
+
+        .pipeline-step code {
+            color: var(--clr-tea);
+            font: 700 .67rem var(--font-code);
+        }
+
+        .pipeline-step small {
+            color: var(--text-muted);
+            font-size: .61rem;
+            line-height: 1.35;
+        }
+
+        /* ---------- conversion styles ---------- */
+
+        .conversion-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .conversion-column {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .conversion-column h4 {
+            margin: 0 0 .35rem;
+            color: var(--text-primary);
+            font-size: .88rem;
+        }
+
+        .conversion-column pre {
+            margin: 0;
+            white-space: pre-wrap;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .72rem/1.55 var(--font-code);
+        }
+
+        /* ---------- truthy falsy ---------- */
+
+        .truth-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .truth-column {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .truth-column h4 {
+            margin: 0 0 .5rem;
+            color: var(--text-primary);
+            font-size: .9rem;
+        }
+
+        .truth-chip {
+            display: inline-block;
+            margin: .2rem;
+            padding: .35rem .5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font: 650 .68rem var(--font-code);
+        }
+
+        /* ---------- type choice ---------- */
+
+        .scenario-type-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .scenario-type-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .scenario-type-card i {
+            color: var(--clr-tea);
+            font-size: 1.15rem;
+            margin-bottom: .4rem;
+        }
+
+        .scenario-type-card h4 {
+            margin: 0 0 .25rem;
+            color: var(--text-primary);
+            font-size: .82rem;
+        }
+
+        .scenario-type-card p {
+            margin: 0 0 .45rem;
+            color: var(--text-muted);
+            font-size: .69rem;
+            line-height: 1.42;
+        }
+
+        .scenario-type-card code {
+            color: var(--clr-tea);
+            font: 700 .7rem var(--font-code);
+        }
+
+        /* ---------- worked example tabs ---------- */
+
+        .example-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        .example-panel {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .example-panel h4 {
+            margin: 0 0 .3rem;
+            color: var(--text-primary);
+            font-size: .9rem;
+        }
+
+        .example-panel p {
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5;
+        }
+
+        .example-code-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-top: var(--space-sm);
+        }
+
+        .example-code-grid pre {
+            min-height: 230px;
+            margin: 0;
+            padding: var(--space-md);
+            white-space: pre-wrap;
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .7rem/1.55 var(--font-code);
+        }
+
+        /* ---------- exam ---------- */
+
+        .exam-marking {
+            margin-top: var(--space-xs);
+        }
+
+        .exam-marking summary {
+            cursor: pointer;
+            color: var(--clr-tea);
+            font-size: .72rem;
+            font-weight: 800;
+        }
+
+        .exam-marking div {
+            margin-top: var(--space-xs);
+            padding: var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .69rem;
+        }
+
+        @media (max-width: 1000px) {
+            .section-jump {
+                position: static;
+            }
+
+            .type-atlas {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .input-pipeline {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pipeline-step::after {
+                display: none;
+            }
+
+            .scenario-type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 780px) {
+
+            .inspector-grid,
+            .conversion-compare,
+            .truth-grid,
+            .example-code-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-options.four {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .conversion-inner {
+                height: auto;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-sm);
+            }
+
+            .convert-node,
+            .conversion-center,
+            .map-arrow {
+                position: static;
+                width: auto;
+                min-height: 90px;
+                transform: none;
+            }
+
+            .map-arrow {
+                display: none;
+            }
+
+            .conversion-center {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 580px) {
+
+            .type-atlas,
+            .same-looking,
+            .truncation-grid,
+            .scenario-type-grid,
+            .input-pipeline,
+            .lab-options.four,
+            .lab-options.three,
+            .lab-options.two {
+                grid-template-columns: 1fr;
+            }
+
+            .not-equal {
+                transform: rotate(90deg);
+                text-align: center;
+            }
+
+            .learning-lab {
+                padding: var(--space-md);
+            }
+
+            .lab-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .conversion-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .conversion-center {
+                grid-column: auto;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.1A — Data Types &amp; Type Conversion</span>
-            </nav>
-
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
-                <h1 class="lesson-title">Data Types &amp; Type Conversion</h1>
-                <p class="lesson-intro">Every value in Python has a <strong>type</strong> that determines what
-                    operations can be performed on it. Understanding data types and knowing how to convert between them
-                    is fundamental to writing correct programs.</p>
-            </div>
-
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.1.1.3</span> Distinguish between data types in Python</li>
-                    <li><span class="lo-code">11.1.1.4</span> Convert data types of variables</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1A-lesson-02-data-types.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <!-- Conceptual Anchor -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-box-open"></i> The Container Analogy</h4>
-                    <p>Think of data types as different <strong>types of containers</strong>. A glass holds liquid
-                        (numbers), an envelope holds letters (strings), and a light switch is either on or off
-                        (boolean). You can <strong>pour</strong> liquid from a glass into a measuring cup (type
-                        conversion), but you can't pour a letter into a glass — the types must be compatible.</p>
-                </div>
-            </section>
-
-            <!-- Rules & Theory -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Python Data Types
-                </h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Examples</th>
-                            <th>Check with</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>int</code></td>
-                            <td>Whole numbers (no decimals)</td>
-                            <td><code>42</code>, <code>-7</code>, <code>0</code></td>
-                            <td><code>type(42)</code> → <code>&lt;class 'int'&gt;</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>float</code></td>
-                            <td>Decimal numbers</td>
-                            <td><code>3.14</code>, <code>-0.5</code>, <code>2.0</code></td>
-                            <td><code>type(3.14)</code> → <code>&lt;class 'float'&gt;</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>str</code></td>
-                            <td>Text (sequence of characters)</td>
-                            <td><code>"Hello"</code>, <code>'A'</code>, <code>"123"</code></td>
-                            <td><code>type("Hi")</code> → <code>&lt;class 'str'&gt;</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>bool</code></td>
-                            <td>Logical value: True or False</td>
-                            <td><code>True</code>, <code>False</code></td>
-                            <td><code>type(True)</code> → <code>&lt;class 'bool'&gt;</code></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="code-block"><code># Checking types
-x = 10
-y = 3.14
-name = "Ali"
-is_student = True
-
-print(type(x))           # &lt;class 'int'&gt;
-print(type(y))           # &lt;class 'float'&gt;
-print(type(name))        # &lt;class 'str'&gt;
-print(type(is_student))  # &lt;class 'bool'&gt;</code></div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Type
-                    Conversion Functions</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Function</th>
-                            <th>Converts to</th>
-                            <th>Example</th>
-                            <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>int()</code></td>
-                            <td>Integer</td>
-                            <td><code>int("42")</code></td>
-                            <td><code>42</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>int()</code></td>
-                            <td>Integer (truncates)</td>
-                            <td><code>int(3.99)</code></td>
-                            <td><code>3</code> (not rounded!)</td>
-                        </tr>
-                        <tr>
-                            <td><code>float()</code></td>
-                            <td>Float</td>
-                            <td><code>float("3.14")</code></td>
-                            <td><code>3.14</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>float()</code></td>
-                            <td>Float</td>
-                            <td><code>float(5)</code></td>
-                            <td><code>5.0</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>str()</code></td>
-                            <td>String</td>
-                            <td><code>str(42)</code></td>
-                            <td><code>"42"</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>bool()</code></td>
-                            <td>Boolean</td>
-                            <td><code>bool(0)</code></td>
-                            <td><code>False</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>bool()</code></td>
-                            <td>Boolean</td>
-                            <td><code>bool(1)</code></td>
-                            <td><code>True</code></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Important: int() truncates, not rounds!</h4>
-                    <p><code>int(3.99)</code> gives <code>3</code>, not <code>4</code>. It simply removes the decimal
-                        part. To round, use <code>round(3.99)</code> which gives <code>4</code>.</p>
-                </div>
-            </section>
-
-            <!-- Worked Examples -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Distinguishing Types</h4>
-                    <div class="code-block"><code># What type is each value?
-a = 100         # int — whole number
-b = 100.0       # float — has decimal point
-c = "100"       # str — in quotes
-d = True        # bool — True/False keyword
-
-# Note: "100" is NOT the same as 100!
-print(type("100"))  # &lt;class 'str'&gt;
-print(type(100))    # &lt;class 'int'&gt;</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Converting User Input</h4>
-                    <div class="code-block"><code># input() always returns a string!
-age_str = input("Enter your age: ")   # e.g., "16"
-print(type(age_str))                   # &lt;class 'str'&gt;
-
-# Convert to int for calculations
-age = int(age_str)
-print(type(age))                       # &lt;class 'int'&gt;
-print("Next year you'll be:", age + 1) # Next year you'll be: 17
-
-# One-line version
-age = int(input("Enter your age: "))</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Mixing Types in Expressions</h4>
-                    <div class="code-block"><code># int + float → float (automatic promotion)
-result = 5 + 2.0
-print(result)        # 7.0
-print(type(result))  # &lt;class 'float'&gt;
-
-# int / int → float (in Python 3)
-result = 10 / 3
-print(result)        # 3.3333333333333335
-
-# String + number → ERROR!
-# print("Age: " + 16)    # TypeError!
-print("Age: " + str(16))  # Age: 16  ✓</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Boolean Conversion Rules</h4>
-                    <div class="code-block"><code># What values are "truthy" vs "falsy"?
-print(bool(0))      # False  — zero is falsy
-print(bool(42))     # True   — any non-zero is truthy
-print(bool(""))     # False  — empty string is falsy
-print(bool("Hi"))   # True   — non-empty string is truthy
-print(bool(0.0))    # False
-print(bool(-1))     # True   — even negative numbers!</code></div>
-                </div>
-            </section>
-
-            <!-- Pitfalls -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Converting Invalid Strings</h4>
-                    <p><code>int("hello")</code> or <code>int("3.14")</code> will crash with a <code>ValueError</code>.
-                        You can only convert strings that look like valid integers: <code>int("42")</code> ✓. For
-                        decimals, use <code>float("3.14")</code> first, then <code>int()</code> if needed.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Confusing "100" and 100</h4>
-                    <p>The string <code>"100"</code> and the integer <code>100</code> look similar but behave very
-                        differently. <code>"100" + "200"</code> gives <code>"100200"</code> (concatenation), while
-                        <code>100 + 200</code> gives <code>300</code> (addition).</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Forgetting input() Returns String</h4>
-                    <p><code>x = input("Number: ")</code> gives a string, even if the user types <code>5</code>. You
-                        must convert: <code>x = int(input("Number: "))</code>.</p>
-                </div>
-            </section>
-
-            <!-- Pro-Tips -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Type Questions Strategy</h4>
-                    <ul>
-                        <li>If it has a <strong>decimal point</strong>, it's a <code>float</code> (even
-                            <code>5.0</code>)</li>
-                        <li>If it's in <strong>quotes</strong>, it's a <code>str</code> (even <code>"123"</code>)</li>
-                        <li>If it's <code>True</code> or <code>False</code> (capitalized), it's <code>bool</code></li>
-                        <li><code>int()</code> <strong>truncates</strong> (cuts off decimal), it does NOT round</li>
-                        <li>Python 3: <code>10 / 3</code> = <code>3.333...</code> (float), <code>10 // 3</code> =
-                            <code>3</code> (int)</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Assessment -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Name the four basic data types in Python and give two examples of each.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain why <code>int(7.9)</code> returns <code>7</code> and not <code>8</code>.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that asks the user for their birth year (as a string), converts it to an
-                            integer, and calculates their age.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Predict the output and type of each: <code>"5" + "3"</code>, <code>5 + 3</code>,
-                            <code>5.0 + 3</code>, <code>int("5") + 3</code></p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Write a temperature converter: input Celsius as a string, convert to float, calculate
-                            Fahrenheit (F = C × 9/5 + 32), and output the result.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Quiz -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <div class="quiz-question">1. What type does <code>input()</code> always return?</div>
-                    <div class="quiz-answer" data-answer="str (string) — even if the user types a number">Click to
-                        reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">2. What is the result of <code>int(4.7)</code>?</div>
-                    <div class="quiz-answer" data-answer="4 — int() truncates (removes decimal), does NOT round">Click
-                        to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">3. What is <code>type(True)</code>?</div>
-                    <div class="quiz-answer" data-answer="<class 'bool'>">Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">4. What is <code>bool("")</code>?</div>
-                    <div class="quiz-answer" data-answer="False — empty string is falsy">Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">5. What is the output of <code>print(type(10 / 2))</code>?</div>
-                    <div class="quiz-answer"
-                        data-answer="<class 'float'> — division always returns float in Python 3 (result is 5.0, not 5)">
-                        Click to reveal answer</div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="lesson-01-output.html"><span class="nav-label">← Previous</span><span class="nav-title">Output &amp; Escape Sequences</span></a>
-                        <a href="lesson-03-input-arithmetic.html"><span class="nav-label">Next →</span><span class="nav-title">Input &amp; Arithmetic Operations</span></a>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 PROG</a>
+                        <span class="sep">/</span>
+                        <span>11.1A — Data Types & Type Conversion</span>
                     </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fab fa-python"></i> Unit 11.1A · Term 1
+                        </div>
+
+                        <h1 class="lesson-title">Data Types & Type Conversion</h1>
+
+                        <p class="lesson-intro">
+                            Every value in Python has a <strong>type</strong>. The type determines
+                            how Python interprets the value, what operations are possible, and how the
+                            value behaves in expressions. This lesson focuses on four basic types:
+                            <code>int</code>, <code>float</code>, <code>str</code> and <code>bool</code>,
+                            plus conversion between them.
+                        </p>
+                    </div>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.1.1.3</span> Distinguish between data types in Python</li>
+                            <li><span class="lo-code">11.1.1.4</span> Convert data types of variables</li>
+                        </ul>
+                    </div>
+
+                    <!-- =====================================================
+                     VIDEO
+                     ===================================================== -->
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+
+                            <div class="lesson-video-info">
+                                <h4>Craig'n'Dave — The Use of Basic Data Types</h4>
+                                <p>
+                                    Cambridge IGCSE 8.1 · Basic data types, choosing suitable types and casting.
+                                    Casting begins at approximately 03:25.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="lesson-video-wrapper">
+                            <iframe src="https://www.youtube-nocookie.com/embed/ugq7ig1qU8E"
+                                title="Craig n Dave - The use of basic data types" loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <nav class="section-jump" aria-label="Lesson sections">
+                        <a href="#types">Types</a>
+                        <a href="#type-lab">Type Lab</a>
+                        <a href="#conversion">Conversion</a>
+                        <a href="#casting-lab">Casting Lab</a>
+                        <a href="#input-pipeline">input()</a>
+                        <a href="#expressions">Expressions</a>
+                        <a href="#booleans">Boolean</a>
+                        <a href="#errors">Errors</a>
+                        <a href="#practice">Practice</a>
+                    </nav>
+
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-box-open"></i> The Container Analogy</h4>
+                            <p>
+                                Think of data types as different <strong>types of containers</strong>.
+                                A measuring cup stores a number, an envelope stores text,
+                                and a light switch stores one of two logical states.
+                                Conversion changes how Python represents a value — but only when that
+                                value can sensibly be converted.
+                            </p>
+                        </div>
+
+                        <div class="same-looking">
+                            <div class="same-value-card">
+                                <code>100</code>
+                                <strong>int</strong>
+                            </div>
+
+                            <div class="not-equal">≠</div>
+
+                            <div class="same-value-card">
+                                <code>"100"</code>
+                                <strong>str</strong>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Same characters, different behaviour</h4>
+                            <p>
+                                <code>100 + 200</code> gives <code>300</code>,
+                                while <code>"100" + "200"</code> gives <code>"100200"</code>.
+                                The type controls the meaning of the <code>+</code> operation.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TYPE ATLAS
+                     ===================================================== -->
+                    <section class="lesson-section" id="types">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-shapes"></i> Python Type Atlas
+                        </h2>
+
+                        <div class="type-atlas">
+                            <div class="type-card">
+                                <div class="type-symbol">int</div>
+                                <h4>Integer</h4>
+                                <p>Whole numbers without a decimal point.</p>
+                                <code>42</code>
+                                <code>-7</code>
+                                <code>0</code>
+                                <small>Typical use: age, quantity, counter, index.</small>
+                            </div>
+
+                            <div class="type-card">
+                                <div class="type-symbol">float</div>
+                                <h4>Floating-point number</h4>
+                                <p>Numbers that contain a decimal component.</p>
+                                <code>3.14</code>
+                                <code>-0.5</code>
+                                <code>2.0</code>
+                                <small>Typical use: temperature, measurement, price.</small>
+                            </div>
+
+                            <div class="type-card">
+                                <div class="type-symbol">str</div>
+                                <h4>String</h4>
+                                <p>A sequence of characters stored as text.</p>
+                                <code>"Hello"</code>
+                                <code>'A'</code>
+                                <code>"123"</code>
+                                <small>Typical use: names, messages, IDs, text input.</small>
+                            </div>
+
+                            <div class="type-card">
+                                <div class="type-symbol">bool</div>
+                                <h4>Boolean</h4>
+                                <p>A logical value with only two possibilities.</p>
+                                <code>True</code>
+                                <code>False</code>
+                                <small>Typical use: status flags, conditions, yes/no states.</small>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Examples</th>
+                                    <th>Check with</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>int</code></td>
+                                    <td>Whole numbers</td>
+                                    <td><code>42</code>, <code>-7</code>, <code>0</code></td>
+                                    <td><code>type(42)</code> → <code>&lt;class 'int'&gt;</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>float</code></td>
+                                    <td>Numbers with a decimal component</td>
+                                    <td><code>3.14</code>, <code>-0.5</code>, <code>2.0</code></td>
+                                    <td><code>type(3.14)</code> → <code>&lt;class 'float'&gt;</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>str</code></td>
+                                    <td>Text — a sequence of characters</td>
+                                    <td><code>"Hello"</code>, <code>'A'</code>, <code>"123"</code></td>
+                                    <td><code>type("Hi")</code> → <code>&lt;class 'str'&gt;</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>bool</code></td>
+                                    <td>Logical value</td>
+                                    <td><code>True</code>, <code>False</code></td>
+                                    <td><code>type(True)</code> → <code>&lt;class 'bool'&gt;</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =====================================================
+                     WHAT TYPE IS IT
+                     ===================================================== -->
+                    <section class="lesson-section" id="type-lab">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-gamepad"></i> What Type Is It?
+                        </h2>
+
+                        <p class="concept-text">
+                            Look carefully at the value itself. Quotes, decimal points and Boolean keywords
+                            are important clues.
+                        </p>
+
+                        <div class="learning-lab">
+                            <div class="lab-prompt">
+                                <code id="typePrompt"></code>
+                            </div>
+
+                            <div class="lab-options four">
+                                <button class="choice-btn type-choice" data-type="int" type="button">int</button>
+                                <button class="choice-btn type-choice" data-type="float" type="button">float</button>
+                                <button class="choice-btn type-choice" data-type="str" type="button">str</button>
+                                <button class="choice-btn type-choice" data-type="bool" type="button">bool</button>
+                            </div>
+
+                            <div id="typeFeedback" class="lab-feedback">
+                                Choose the Python type.
+                            </div>
+
+                            <div class="lab-footer">
+                                <span id="typeProgress"></span>
+                                <button id="nextType" class="lab-btn" type="button">
+                                    Next value <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TYPE INSPECTOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-magnifying-glass"></i> type() Inspector
+                        </h2>
+
+                        <div class="inspector-grid">
+                            <div class="inspector-list">
+                                <button class="choice-btn inspector-choice active" data-inspect="a" type="button">x =
+                                    10</button>
+                                <button class="choice-btn inspector-choice" data-inspect="b" type="button">y =
+                                    3.14</button>
+                                <button class="choice-btn inspector-choice" data-inspect="c" type="button">name =
+                                    "Ali"</button>
+                                <button class="choice-btn inspector-choice" data-inspect="d" type="button">is_student =
+                                    True</button>
+                                <button class="choice-btn inspector-choice" data-inspect="e" type="button">value =
+                                    5.0</button>
+                                <button class="choice-btn inspector-choice" data-inspect="f" type="button">code =
+                                    "007"</button>
+                            </div>
+
+                            <div class="inspector-result">
+                                <span>Variable</span>
+                                <pre id="inspectorVariable"></pre>
+
+                                <span>Check</span>
+                                <pre id="inspectorCheck"></pre>
+
+                                <span>Result</span>
+                                <pre id="inspectorResult"></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     CONVERSION
+                     ===================================================== -->
+                    <section class="lesson-section" id="conversion">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-right-left"></i> Type Conversion
+                        </h2>
+
+                        <p class="concept-text">
+                            Type conversion — often called <strong>casting</strong> — creates a value
+                            represented as another type.
+                        </p>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Function</th>
+                                    <th>Converts to</th>
+                                    <th>Example</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>int()</code></td>
+                                    <td>Integer</td>
+                                    <td><code>int("42")</code></td>
+                                    <td><code>42</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>int()</code></td>
+                                    <td>Integer — truncates a float toward zero</td>
+                                    <td><code>int(3.99)</code></td>
+                                    <td><code>3</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>float()</code></td>
+                                    <td>Float</td>
+                                    <td><code>float("3.14")</code></td>
+                                    <td><code>3.14</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>float()</code></td>
+                                    <td>Float</td>
+                                    <td><code>float(5)</code></td>
+                                    <td><code>5.0</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>str()</code></td>
+                                    <td>String</td>
+                                    <td><code>str(42)</code></td>
+                                    <td><code>"42"</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>bool()</code></td>
+                                    <td>Boolean</td>
+                                    <td><code>bool(0)</code></td>
+                                    <td><code>False</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>bool()</code></td>
+                                    <td>Boolean</td>
+                                    <td><code>bool(1)</code></td>
+                                    <td><code>True</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="conversion-map">
+                            <div class="conversion-inner">
+                                <div class="convert-node node-int">
+                                    <div>
+                                        <strong>int</strong>
+                                        <small>int(value)</small>
+                                    </div>
+                                </div>
+
+                                <div class="convert-node node-str">
+                                    <div>
+                                        <strong>str</strong>
+                                        <small>str(value)</small>
+                                    </div>
+                                </div>
+
+                                <div class="convert-node node-float">
+                                    <div>
+                                        <strong>float</strong>
+                                        <small>float(value)</small>
+                                    </div>
+                                </div>
+
+                                <div class="convert-node node-bool">
+                                    <div>
+                                        <strong>bool</strong>
+                                        <small>bool(value)</small>
+                                    </div>
+                                </div>
+
+                                <div class="conversion-center">
+                                    Conversion is possible only when Python can interpret the source value
+                                    in a valid way.
+                                </div>
+
+                                <div class="map-arrow arrow-a"><i class="fas fa-arrow-right"></i></div>
+                                <div class="map-arrow arrow-b"><i class="fas fa-arrow-left"></i></div>
+                                <div class="map-arrow arrow-c"><i class="fas fa-arrow-right"></i></div>
+                                <div class="map-arrow arrow-d"><i class="fas fa-arrow-left"></i></div>
+                            </div>
+                        </div>
+
+                        <div class="code-block"><code>int("42")       # 42        ✓
+float("3.14")  # 3.14      ✓
+str(42)        # "42"      ✓
+
+int("hello")   # ValueError ✗
+int("3.14")    # ValueError ✗</code></div>
+                    </section>
+
+                    <!-- =====================================================
+                     CASTING LAB
+                     ===================================================== -->
+                    <section class="lesson-section" id="casting-lab">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-flask"></i> Casting Lab
+                        </h2>
+
+                        <p class="concept-text">
+                            Predict what the expression produces. Some expressions return a value;
+                            others fail because the conversion is invalid.
+                        </p>
+
+                        <div class="learning-lab">
+                            <div class="lab-prompt">
+                                <code id="castingPrompt"></code>
+                            </div>
+
+                            <div class="lab-options three">
+                                <button class="choice-btn casting-choice" data-cast-choice="int" type="button">Integer
+                                    result</button>
+                                <button class="choice-btn casting-choice" data-cast-choice="float" type="button">Float
+                                    result</button>
+                                <button class="choice-btn casting-choice" data-cast-choice="str" type="button">String
+                                    result</button>
+                                <button class="choice-btn casting-choice" data-cast-choice="true"
+                                    type="button">True</button>
+                                <button class="choice-btn casting-choice" data-cast-choice="false"
+                                    type="button">False</button>
+                                <button class="choice-btn casting-choice" data-cast-choice="error"
+                                    type="button">Error</button>
+                            </div>
+
+                            <div id="castingFeedback" class="lab-feedback">
+                                Predict the result category.
+                            </div>
+
+                            <div class="lab-footer">
+                                <span id="castingProgress"></span>
+                                <button id="nextCasting" class="lab-btn" type="button">Next expression</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TRUNCATION
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-scissors"></i> int() Truncates — It Does Not Round
+                        </h2>
+
+                        <div class="truncation-grid">
+                            <div class="trunc-card">
+                                <code>int(3.99) → 3</code>
+                                <span>Moves toward zero.</span>
+                            </div>
+
+                            <div class="trunc-card">
+                                <code>int(-3.99) → -3</code>
+                                <span>Also moves toward zero.</span>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-info-circle"></i> Compare with round()</h4>
+                            <p>
+                                <code>int(3.99)</code> gives <code>3</code>.
+                                <code>round(3.99)</code> gives <code>4</code>.
+                                They perform different operations.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     INPUT PIPELINE
+                     ===================================================== -->
+                    <section class="lesson-section" id="input-pipeline">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-keyboard"></i> Why input() Usually Needs Conversion
+                        </h2>
+
+                        <div class="input-pipeline">
+                            <div class="pipeline-step">
+                                <i class="fas fa-user"></i>
+                                <strong>User types</strong>
+                                <code>16</code>
+                                <small>The keyboard supplies characters.</small>
+                            </div>
+
+                            <div class="pipeline-step">
+                                <i class="fas fa-keyboard"></i>
+                                <strong>input()</strong>
+                                <code>"16"</code>
+                                <small>Python returns a string.</small>
+                            </div>
+
+                            <div class="pipeline-step">
+                                <i class="fas fa-right-left"></i>
+                                <strong>int()</strong>
+                                <code>16</code>
+                                <small>Explicit conversion to integer.</small>
+                            </div>
+
+                            <div class="pipeline-step">
+                                <i class="fas fa-calculator"></i>
+                                <strong>Calculation</strong>
+                                <code>16 + 1</code>
+                                <small>Numeric addition is now possible.</small>
+                            </div>
+
+                            <div class="pipeline-step">
+                                <i class="fas fa-display"></i>
+                                <strong>Result</strong>
+                                <code>17</code>
+                                <small>Correct numeric output.</small>
+                            </div>
+                        </div>
+
+                        <div class="code-block"><code># input() always returns str
+age_text = input("Enter your age: ")
+
+print(type(age_text))   # &lt;class 'str'&gt;
+
+# Convert before arithmetic
+age = int(age_text)
+
+print(age + 1)
+
+# Common compact form
+age = int(input("Enter your age: "))</code></div>
+                    </section>
+
+                    <!-- =====================================================
+                     AUTOMATIC VS EXPLICIT
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-shuffle"></i> Automatic vs Explicit Conversion
+                        </h2>
+
+                        <div class="conversion-compare">
+                            <div class="conversion-column">
+                                <h4>Automatic numeric promotion</h4>
+                                <pre>result = 5 + 2.0
+
+# Python combines int + float
+# as a float result
+
+result == 7.0
+type(result) == float</pre>
+                            </div>
+
+                            <div class="conversion-column">
+                                <h4>Explicit conversion</h4>
+                                <pre>x = int("5")
+y = float(5)
+z = str(42)
+
+# The programmer explicitly
+# requests a new type.</pre>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Python 3 division</h4>
+                            <p>
+                                The <code>/</code> operator returns a <code>float</code>.
+                                Therefore <code>10 / 2</code> gives <code>5.0</code>.
+                                Floor division <code>//</code> behaves differently:
+                                <code>10 // 2</code> gives <code>5</code>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXPRESSION PREDICTOR
+                     ===================================================== -->
+                    <section class="lesson-section" id="expressions">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-brain"></i> Expression Predictor
+                        </h2>
+
+                        <p class="concept-text">
+                            Predict both the <strong>value</strong> and its <strong>type</strong>.
+                        </p>
+
+                        <div class="learning-lab">
+                            <div class="lab-prompt">
+                                <code id="expressionPrompt"></code>
+                            </div>
+
+                            <div class="lab-options two">
+                                <button id="revealExpression" class="lab-btn" type="button">
+                                    Reveal value + type
+                                </button>
+
+                                <button id="nextExpression" class="lab-btn" type="button">
+                                    Next expression
+                                </button>
+                            </div>
+
+                            <div id="expressionFeedback" class="lab-feedback">
+                                Work it out before revealing.
+                            </div>
+
+                            <div class="lab-footer">
+                                <span id="expressionProgress"></span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     BOOLEAN
+                     ===================================================== -->
+                    <section class="lesson-section" id="booleans">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-toggle-on"></i> Truthy & Falsy Values
+                        </h2>
+
+                        <p class="concept-text">
+                            When <code>bool()</code> is used, some values convert to
+                            <code>False</code> and others to <code>True</code>.
+                        </p>
+
+                        <div class="truth-grid">
+                            <div class="truth-column">
+                                <h4>Falsy in this lesson</h4>
+                                <span class="truth-chip">0</span>
+                                <span class="truth-chip">0.0</span>
+                                <span class="truth-chip">""</span>
+                                <span class="truth-chip">False</span>
+                            </div>
+
+                            <div class="truth-column">
+                                <h4>Truthy examples</h4>
+                                <span class="truth-chip">42</span>
+                                <span class="truth-chip">-1</span>
+                                <span class="truth-chip">"Hi"</span>
+                                <span class="truth-chip">"False"</span>
+                                <span class="truth-chip">"0"</span>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-lightbulb"></i> Important misconception</h4>
+                            <p>
+                                <code>bool("False")</code> is <code>True</code>.
+                                The value is a <strong>non-empty string</strong>.
+                                Python does not read the word inside the string and reinterpret it as the Boolean value
+                                <code>False</code>.
+                            </p>
+                        </div>
+
+                        <div class="code-block"><code>bool(0)         # False
+bool(42)        # True
+bool("")        # False
+bool("Hi")      # True
+bool(0.0)       # False
+bool(-1)        # True
+bool("False")   # True
+bool("0")       # True</code></div>
+                    </section>
+
+                    <!-- =====================================================
+                     BEST TYPE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-check-double"></i> Choose the Best Data Type
+                        </h2>
+
+                        <div class="scenario-type-grid">
+                            <div class="scenario-type-card">
+                                <i class="fas fa-user"></i>
+                                <h4>Student age</h4>
+                                <p>Whole number of years.</p>
+                                <code>int</code>
+                            </div>
+
+                            <div class="scenario-type-card">
+                                <i class="fas fa-temperature-half"></i>
+                                <h4>Temperature</h4>
+                                <p>May include decimal values.</p>
+                                <code>float</code>
+                            </div>
+
+                            <div class="scenario-type-card">
+                                <i class="fas fa-signature"></i>
+                                <h4>Student name</h4>
+                                <p>Text containing characters.</p>
+                                <code>str</code>
+                            </div>
+
+                            <div class="scenario-type-card">
+                                <i class="fas fa-right-to-bracket"></i>
+                                <h4>Is logged in?</h4>
+                                <p>Only two logical states are required.</p>
+                                <code>bool</code>
+                            </div>
+
+                            <div class="scenario-type-card">
+                                <i class="fas fa-book"></i>
+                                <h4>Number of books</h4>
+                                <p>A count of whole items.</p>
+                                <code>int</code>
+                            </div>
+
+                            <div class="scenario-type-card">
+                                <i class="fas fa-money-bill"></i>
+                                <h4>Price</h4>
+                                <p>Can contain a decimal component.</p>
+                                <code>float</code>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     WORKED EXAMPLES
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-pencil-alt"></i> Worked Examples
+                        </h2>
+
+                        <div class="example-tabs">
+                            <button class="tab-btn worked-tab active" data-worked="types" type="button">Types</button>
+                            <button class="tab-btn worked-tab" data-worked="input" type="button">User Input</button>
+                            <button class="tab-btn worked-tab" data-worked="mixed" type="button">Mixed Types</button>
+                            <button class="tab-btn worked-tab" data-worked="boolean" type="button">Boolean</button>
+                        </div>
+
+                        <div class="example-panel">
+                            <h4 id="workedTitle"></h4>
+                            <p id="workedDescription"></p>
+
+                            <div class="example-code-grid">
+                                <pre id="workedCode"></pre>
+                                <pre id="workedNotes"></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     CONVERSION ERROR LAB
+                     ===================================================== -->
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-bug"></i> Conversion Error Lab
+                        </h2>
+
+                        <p class="concept-text">
+                            Decide whether the expression is valid or which error would occur.
+                        </p>
+
+                        <div class="learning-lab">
+                            <div class="lab-prompt">
+                                <code id="errorPrompt"></code>
+                            </div>
+
+                            <div class="lab-options three">
+                                <button class="choice-btn error-choice" data-error-choice="valid"
+                                    type="button">Valid</button>
+                                <button class="choice-btn error-choice" data-error-choice="valueerror"
+                                    type="button">ValueError</button>
+                                <button class="choice-btn error-choice" data-error-choice="typeerror"
+                                    type="button">TypeError</button>
+                            </div>
+
+                            <div id="errorFeedback" class="lab-feedback">
+                                Choose the result category.
+                            </div>
+
+                            <div class="lab-footer">
+                                <span id="errorProgress"></span>
+                                <button id="nextError" class="lab-btn" type="button">Next example</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PITFALLS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Pitfalls & Common Errors
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Invalid String Conversion</h4>
+                            <p>
+                                <code>int("hello")</code> and <code>int("3.14")</code> raise
+                                <code>ValueError</code>. The text must have a valid integer form for direct
+                                conversion with <code>int()</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> "100" Is Not 100</h4>
+                            <p>
+                                <code>"100" + "200"</code> gives <code>"100200"</code>,
+                                while <code>100 + 200</code> gives <code>300</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> input() Returns str</h4>
+                            <p>
+                                <code>x = input("Number: ")</code> gives text.
+                                Use <code>x = int(input("Number: "))</code> when an integer is needed.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> bool("False") Is True</h4>
+                            <p>
+                                Any non-empty string is truthy in this context, even strings such as
+                                <code>"False"</code> and <code>"0"</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> int() Does Not Round</h4>
+                            <p>
+                                <code>int(7.9)</code> gives <code>7</code>.
+                                It truncates toward zero rather than rounding to the nearest integer.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> / Returns float</h4>
+                            <p>
+                                <code>10 / 2</code> gives <code>5.0</code> in Python 3,
+                                so <code>type(10 / 2)</code> is <code>float</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> String Repetition Is Valid</h4>
+                            <p>
+                                <code>"5" * 3</code> gives <code>"555"</code>.
+                                The left operand is a string, so Python repeats the text.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM TIPS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-star"></i> Pro-Tips for Exams
+                        </h2>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Type Questions Strategy</h4>
+                            <ul>
+                                <li>A decimal point usually indicates <code>float</code>, even in <code>5.0</code>.</li>
+                                <li>Quotes indicate <code>str</code>, even in <code>"123"</code>.</li>
+                                <li><code>True</code> and <code>False</code> without quotes are <code>bool</code>.</li>
+                                <li><code>int()</code> truncates toward zero; it does not round.</li>
+                                <li><code>input()</code> returns <code>str</code> unless you explicitly convert it.</li>
+                                <li>Python 3: <code>/</code> returns <code>float</code>.</li>
+                                <li>When asked for an expression result, give both the value and type if required.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     GRADED TASKS
+                     ===================================================== -->
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Graded Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    Name the four basic Python data types studied in this lesson
+                                    and give two examples of each.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain why <code>"5"</code> and <code>5</code> behave differently
+                                    when used with the <code>+</code> operator.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Choose a suitable data type for: student age, product price,
+                                    username and whether an account is active.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Write code that asks the user for their birth year,
+                                    converts the input to an integer and calculates an age.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Correct the following so that it works:
+                                    <code>value = int("12.5")</code>.
+                                    Give one reasonable solution.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    Predict the value and type of:
+                                    <code>"5" + "3"</code>,
+                                    <code>5 + 3</code>,
+                                    <code>5.0 + 3</code>,
+                                    <code>int("5") + 3</code>,
+                                    <code>10 / 2</code>,
+                                    <code>"5" * 3</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Write a temperature converter:
+                                    input Celsius, convert it to <code>float</code>,
+                                    calculate Fahrenheit using <code>F = C × 9/5 + 32</code>,
+                                    and display the result.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM PRACTICE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: State the type of each value:
+                                <code>17</code>, <code>17.0</code>, <code>"17"</code>, <code>False</code>. [4]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>17 → int
+                                    17.0 → float
+                                    "17" → str
+                                    False → bool</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2:
+                                <code>x = "8"</code>,
+                                <code>y = 2</code>.
+                                State the output and its type for <code>int(x) + y</code>. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Output/value: 10
+                                    Type: int</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: Write the result of <code>int(-4.9)</code> and explain why. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>-4
+                                    int() truncates toward zero; it does not round.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: What is the output of <code>print(type(10 / 2))</code>? [1]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking point</summary>
+                                <div>&lt;class 'float'&gt;</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q5: Explain why <code>int("3.14")</code> fails but <code>float("3.14")</code> succeeds.
+                                [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>
+                                    "3.14" is not a valid integer-form string, so direct conversion with int() raises
+                                    ValueError.
+                                    It is a valid floating-point representation, so float("3.14") produces 3.14.
+                                </div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-check-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="quiz-progress">
+                            <span>Six quick checks</span>
+                            <span>Click each answer to reveal</span>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                1. What type does <code>input()</code> return?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>str</code> — even if the user types digits.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                2. What is the result of <code>int(4.7)</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>4</code> — int() truncates toward zero.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                3. What is <code>type(True)</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>&lt;class 'bool'&gt;</code>
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                4. What is <code>bool("")</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>False</code> — the string is empty.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                5. What is <code>bool("False")</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>True</code> — it is a non-empty string.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                6. What is the output of <code>print(type(10 / 2))</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>&lt;class 'float'&gt;</code> because <code>/</code> returns a float in Python 3.
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="lesson-01-output.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">Output & Escape Sequences</span>
+                            </span>
+                        </a>
+
+                        <a href="lesson-03-input-arithmetic.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">Input & Arithmetic Operations</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
 
     <footer class="site-footer">
         <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
-            <p>&copy; 2025 IT-Tea. Educational use.</p>
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Programming</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // ============================================================
+            // WHAT TYPE IS IT?
+            // ============================================================
+            const typeExamples = [
+                { value: "42", answer: "int", explanation: "42 is a whole number with no decimal point or quotes." },
+                { value: "42.0", answer: "float", explanation: "42.0 contains a decimal point, so it is a float." },
+                { value: "\"42\"", answer: "str", explanation: "The quotes make this value a string." },
+                { value: "-7", answer: "int", explanation: "Negative whole numbers are still integers." },
+                { value: "\"True\"", answer: "str", explanation: "The quotes make this text, not a Boolean value." },
+                { value: "True", answer: "bool", explanation: "True without quotes is a Boolean value." },
+                { value: "0", answer: "int", explanation: "0 is an integer." },
+                { value: "0.0", answer: "float", explanation: "0.0 is a float because it has a decimal point." },
+                { value: "\"\"", answer: "str", explanation: "An empty string is still a string." },
+                { value: "False", answer: "bool", explanation: "False without quotes is Boolean." }
+            ];
+
+            let typeIndex = 0;
+
+            const typePrompt = document.getElementById("typePrompt");
+            const typeFeedback = document.getElementById("typeFeedback");
+            const typeProgress = document.getElementById("typeProgress");
+            const typeChoices = document.querySelectorAll(".type-choice");
+            const nextType = document.getElementById("nextType");
+
+            function loadTypeExample() {
+                const item = typeExamples[typeIndex];
+
+                typePrompt.textContent = item.value;
+                typeProgress.textContent = `Value ${typeIndex + 1} of ${typeExamples.length}`;
+                typeFeedback.className = "lab-feedback";
+                typeFeedback.textContent = "Choose the Python type.";
+
+                typeChoices.forEach(button => button.classList.remove("active"));
+            }
+
+            typeChoices.forEach(button => {
+                button.addEventListener("click", () => {
+                    const item = typeExamples[typeIndex];
+                    const correct = button.dataset.type === item.answer;
+
+                    typeChoices.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    typeFeedback.className = `lab-feedback ${correct ? "correct" : "wrong"}`;
+                    typeFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>` +
+                        `<strong>Type:</strong> ${item.answer}<br>${item.explanation}`;
+                });
+            });
+
+            nextType.addEventListener("click", () => {
+                typeIndex = (typeIndex + 1) % typeExamples.length;
+                loadTypeExample();
+            });
+
+            loadTypeExample();
+
+            // ============================================================
+            // TYPE INSPECTOR
+            // ============================================================
+            const inspectorData = {
+                a: {
+                    variable: "x = 10",
+                    check: "type(x)",
+                    result: "<class 'int'>"
+                },
+                b: {
+                    variable: "y = 3.14",
+                    check: "type(y)",
+                    result: "<class 'float'>"
+                },
+                c: {
+                    variable: 'name = "Ali"',
+                    check: "type(name)",
+                    result: "<class 'str'>"
+                },
+                d: {
+                    variable: "is_student = True",
+                    check: "type(is_student)",
+                    result: "<class 'bool'>"
+                },
+                e: {
+                    variable: "value = 5.0",
+                    check: "type(value)",
+                    result: "<class 'float'>"
+                },
+                f: {
+                    variable: 'code = "007"',
+                    check: "type(code)",
+                    result: "<class 'str'>"
+                }
+            };
+
+            const inspectorChoices = document.querySelectorAll(".inspector-choice");
+            const inspectorVariable = document.getElementById("inspectorVariable");
+            const inspectorCheck = document.getElementById("inspectorCheck");
+            const inspectorResult = document.getElementById("inspectorResult");
+
+            function showInspector(key) {
+                const item = inspectorData[key];
+
+                inspectorVariable.textContent = item.variable;
+                inspectorCheck.textContent = item.check;
+                inspectorResult.textContent = item.result;
+
+                inspectorChoices.forEach(button => {
+                    button.classList.toggle("active", button.dataset.inspect === key);
+                });
+            }
+
+            inspectorChoices.forEach(button => {
+                button.addEventListener("click", () => showInspector(button.dataset.inspect));
+            });
+
+            showInspector("a");
+
+            // ============================================================
+            // CASTING LAB
+            // ============================================================
+            const castingExamples = [
+                {
+                    expression: 'int("42")',
+                    answer: "int",
+                    detail: "Result: 42 · Type: int"
+                },
+                {
+                    expression: "int(3.99)",
+                    answer: "int",
+                    detail: "Result: 3 · Type: int · int() truncates toward zero."
+                },
+                {
+                    expression: "int(-3.99)",
+                    answer: "int",
+                    detail: "Result: -3 · Type: int · truncation is toward zero."
+                },
+                {
+                    expression: 'float("3.14")',
+                    answer: "float",
+                    detail: "Result: 3.14 · Type: float"
+                },
+                {
+                    expression: "float(5)",
+                    answer: "float",
+                    detail: "Result: 5.0 · Type: float"
+                },
+                {
+                    expression: "str(42)",
+                    answer: "str",
+                    detail: 'Result: "42" · Type: str'
+                },
+                {
+                    expression: "bool(0)",
+                    answer: "false",
+                    detail: "Result: False · Type: bool"
+                },
+                {
+                    expression: 'bool("")',
+                    answer: "false",
+                    detail: "Result: False · an empty string is falsy."
+                },
+                {
+                    expression: 'bool("False")',
+                    answer: "true",
+                    detail: 'Result: True · "False" is a non-empty string.'
+                },
+                {
+                    expression: 'int("hello")',
+                    answer: "error",
+                    detail: "ValueError · the string is not a valid integer representation."
+                },
+                {
+                    expression: 'int("3.14")',
+                    answer: "error",
+                    detail: "ValueError · direct int() conversion expects an integer-form string."
+                }
+            ];
+
+            let castingIndex = 0;
+
+            const castingPrompt = document.getElementById("castingPrompt");
+            const castingFeedback = document.getElementById("castingFeedback");
+            const castingProgress = document.getElementById("castingProgress");
+            const castingChoices = document.querySelectorAll(".casting-choice");
+            const nextCasting = document.getElementById("nextCasting");
+
+            function loadCasting() {
+                const item = castingExamples[castingIndex];
+
+                castingPrompt.textContent = item.expression;
+                castingProgress.textContent = `Expression ${castingIndex + 1} of ${castingExamples.length}`;
+                castingFeedback.className = "lab-feedback";
+                castingFeedback.textContent = "Predict the result category.";
+
+                castingChoices.forEach(button => button.classList.remove("active"));
+            }
+
+            castingChoices.forEach(button => {
+                button.addEventListener("click", () => {
+                    const item = castingExamples[castingIndex];
+                    const correct = button.dataset.castChoice === item.answer;
+
+                    castingChoices.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    castingFeedback.className = `lab-feedback ${correct ? "correct" : "wrong"}`;
+                    castingFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.detail}`;
+                });
+            });
+
+            nextCasting.addEventListener("click", () => {
+                castingIndex = (castingIndex + 1) % castingExamples.length;
+                loadCasting();
+            });
+
+            loadCasting();
+
+            // ============================================================
+            // EXPRESSION PREDICTOR
+            // ============================================================
+            const expressionExamples = [
+                {
+                    expression: '"5" + "3"',
+                    result: '"53"',
+                    type: "str",
+                    explanation: "Both operands are strings, so + concatenates them."
+                },
+                {
+                    expression: "5 + 3",
+                    result: "8",
+                    type: "int",
+                    explanation: "Integer addition."
+                },
+                {
+                    expression: "5.0 + 3",
+                    result: "8.0",
+                    type: "float",
+                    explanation: "Combining int and float produces a float result."
+                },
+                {
+                    expression: 'int("5") + 3',
+                    result: "8",
+                    type: "int",
+                    explanation: 'int("5") converts the string to integer 5 first.'
+                },
+                {
+                    expression: "10 / 2",
+                    result: "5.0",
+                    type: "float",
+                    explanation: "In Python 3, / returns a float."
+                },
+                {
+                    expression: "10 // 2",
+                    result: "5",
+                    type: "int",
+                    explanation: "Floor division between these integers produces integer 5."
+                },
+                {
+                    expression: '"5" * 3',
+                    result: '"555"',
+                    type: "str",
+                    explanation: "A string multiplied by an integer repeats the string."
+                },
+                {
+                    expression: "bool(-1)",
+                    result: "True",
+                    type: "bool",
+                    explanation: "A non-zero number is truthy."
+                }
+            ];
+
+            let expressionIndex = 0;
+
+            const expressionPrompt = document.getElementById("expressionPrompt");
+            const expressionFeedback = document.getElementById("expressionFeedback");
+            const expressionProgress = document.getElementById("expressionProgress");
+            const revealExpression = document.getElementById("revealExpression");
+            const nextExpression = document.getElementById("nextExpression");
+
+            function loadExpression() {
+                const item = expressionExamples[expressionIndex];
+
+                expressionPrompt.textContent = item.expression;
+                expressionFeedback.className = "lab-feedback";
+                expressionFeedback.textContent = "Work it out before revealing.";
+                expressionProgress.textContent =
+                    `Expression ${expressionIndex + 1} of ${expressionExamples.length}`;
+            }
+
+            revealExpression.addEventListener("click", () => {
+                const item = expressionExamples[expressionIndex];
+
+                expressionFeedback.className = "lab-feedback correct";
+                expressionFeedback.innerHTML =
+                    `<strong>Value:</strong> ${item.result}<br>` +
+                    `<strong>Type:</strong> ${item.type}<br>` +
+                    item.explanation;
+            });
+
+            nextExpression.addEventListener("click", () => {
+                expressionIndex = (expressionIndex + 1) % expressionExamples.length;
+                loadExpression();
+            });
+
+            loadExpression();
+
+            // ============================================================
+            // WORKED EXAMPLES TABS
+            // ============================================================
+            const workedExamples = {
+                types: {
+                    title: "Distinguishing Types",
+                    description: "The literal form of a value provides clues about its type.",
+                    code:
+                        `a = 100
+b = 100.0
+c = "100"
+d = True
+
+print(type(a))
+print(type(b))
+print(type(c))
+print(type(d))`,
+                    notes:
+                        `a → int
+b → float
+c → str
+d → bool
+
+"100" and 100 may look similar,
+but they are different values with
+different behaviour.`
+                },
+
+                input: {
+                    title: "Converting User Input",
+                    description: "input() returns a string, so numeric input usually needs conversion before arithmetic.",
+                    code:
+                        `age_text = input("Enter age: ")
+
+print(type(age_text))
+
+age = int(age_text)
+
+print(type(age))
+print(age + 1)
+
+# Compact form:
+age = int(input("Enter age: "))`,
+                    notes:
+                        `If the user types:
+16
+
+input() returns:
+"16" → str
+
+int("16") returns:
+16 → int
+
+Now age + 1 is numeric addition.`
+                },
+
+                mixed: {
+                    title: "Mixing Types in Expressions",
+                    description: "Some numeric types combine automatically; incompatible operations may fail.",
+                    code:
+                        `result = 5 + 2.0
+print(result)
+print(type(result))
+
+result = 10 / 3
+print(result)
+
+# Error:
+# print("Age: " + 16)
+
+# Fix:
+print("Age: " + str(16))`,
+                    notes:
+                        `5 + 2.0
+→ 7.0 : float
+
+10 / 3
+→ float result
+
+str + int
+→ TypeError
+
+str + str(16)
+→ valid concatenation`
+                },
+
+                boolean: {
+                    title: "Boolean Conversion Rules",
+                    description: "bool() tests whether a value is treated as truthy or falsy.",
+                    code:
+                        `print(bool(0))
+print(bool(42))
+print(bool(""))
+print(bool("Hi"))
+print(bool(0.0))
+print(bool(-1))
+print(bool("False"))`,
+                    notes:
+                        `False
+True
+False
+True
+False
+True
+True
+
+"False" is non-empty text,
+so bool("False") is True.`
+                }
+            };
+
+            const workedTabs = document.querySelectorAll(".worked-tab");
+            const workedTitle = document.getElementById("workedTitle");
+            const workedDescription = document.getElementById("workedDescription");
+            const workedCode = document.getElementById("workedCode");
+            const workedNotes = document.getElementById("workedNotes");
+
+            function showWorked(name) {
+                const item = workedExamples[name];
+
+                workedTitle.textContent = item.title;
+                workedDescription.textContent = item.description;
+                workedCode.textContent = "CODE:\n\n" + item.code;
+                workedNotes.textContent = "WHAT HAPPENS:\n\n" + item.notes;
+
+                workedTabs.forEach(button => {
+                    button.classList.toggle("active", button.dataset.worked === name);
+                });
+            }
+
+            workedTabs.forEach(button => {
+                button.addEventListener("click", () => showWorked(button.dataset.worked));
+            });
+
+            showWorked("types");
+
+            // ============================================================
+            // CONVERSION ERROR LAB
+            // ============================================================
+            const errorExamples = [
+                {
+                    expression: 'int("hello")',
+                    answer: "valueerror",
+                    explanation: "ValueError: the string cannot be interpreted as an integer."
+                },
+                {
+                    expression: 'int("3.14")',
+                    answer: "valueerror",
+                    explanation: "ValueError: this string has floating-point form, not integer form."
+                },
+                {
+                    expression: '"Age: " + 16',
+                    answer: "typeerror",
+                    explanation: "TypeError: Python cannot directly concatenate str and int."
+                },
+                {
+                    expression: 'float("12.5")',
+                    answer: "valid",
+                    explanation: "Valid: result is 12.5, type float."
+                },
+                {
+                    expression: 'str(12.5)',
+                    answer: "valid",
+                    explanation: 'Valid: result is "12.5", type str.'
+                },
+                {
+                    expression: "5 + 2.0",
+                    answer: "valid",
+                    explanation: "Valid: result is 7.0, type float."
+                },
+                {
+                    expression: '"5" * 3',
+                    answer: "valid",
+                    explanation: 'Valid: result is "555", type str.'
+                }
+            ];
+
+            let errorIndex = 0;
+
+            const errorPrompt = document.getElementById("errorPrompt");
+            const errorFeedback = document.getElementById("errorFeedback");
+            const errorProgress = document.getElementById("errorProgress");
+            const errorChoices = document.querySelectorAll(".error-choice");
+            const nextError = document.getElementById("nextError");
+
+            function loadError() {
+                const item = errorExamples[errorIndex];
+
+                errorPrompt.textContent = item.expression;
+                errorProgress.textContent = `Example ${errorIndex + 1} of ${errorExamples.length}`;
+                errorFeedback.className = "lab-feedback";
+                errorFeedback.textContent = "Choose the result category.";
+
+                errorChoices.forEach(button => button.classList.remove("active"));
+            }
+
+            errorChoices.forEach(button => {
+                button.addEventListener("click", () => {
+                    const item = errorExamples[errorIndex];
+                    const correct = button.dataset.errorChoice === item.answer;
+
+                    errorChoices.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    errorFeedback.className = `lab-feedback ${correct ? "correct" : "wrong"}`;
+                    errorFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.explanation}`;
+                });
+            });
+
+            nextError.addEventListener("click", () => {
+                errorIndex = (errorIndex + 1) % errorExamples.length;
+                loadError();
+            });
+
+            loadError();
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/lesson.js"></script>
+
 </body>
 
 </html>
