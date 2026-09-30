@@ -4,7 +4,7 @@
     // GOOGLE APPS SCRIPT WEB APP URL
     // =========================================================
 
-    const FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwV4naxd6fgVCiykasWNwDL7yOiSHN4qzt23sQIDnAEP196EDb2lfEbl3y7qVZ1jPjL/exe'
+    const FEEDBACK_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwV4naxd6fgVCiykasWNwDL7yOiSHN4qzt23sQIDnAEP196EDb2lfEbl3y7qVZ1jPjL/exec'
 
     // =========================================================
     // ELEMENTS
