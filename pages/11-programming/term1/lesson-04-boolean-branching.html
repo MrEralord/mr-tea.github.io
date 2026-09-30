@@ -4,463 +4,2980 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boolean Logic &amp; Branching — mr. TEA</title>
+
+    <title>Boolean Logic & Branching — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
     <meta name="description"
-        content="Python boolean logic, AND/OR/NOT, if/elif/else branching, flowcharts. NIS Grade 11 Programming 11.1.1.7, 11.1.1.8, 11.1.1.9.">
+        content="Python Boolean logic, comparison operators, AND OR NOT, if elif else branching and flowchart implementation. NIS Grade 11 Programming 11.1.1.7, 11.1.1.8, 11.1.1.9.">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* ============================================================
+           PAGE-SPECIFIC STYLES ONLY
+           Shared lab / tabs / feedback / exam / quiz styles live in
+           /css/lesson.css
+           ============================================================ */
+
+        /* ---------- Traffic light visual ---------- */
+
+        .logic-anchor-grid {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .traffic-visual {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+        }
+
+        .traffic-light {
+            width: 86px;
+            margin: 0 auto;
+            padding: 12px;
+            border-radius: 22px;
+            background: var(--bg-code);
+            border: 1px solid var(--border-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .traffic-bulb {
+            width: 58px;
+            height: 58px;
+            margin: 7px auto;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: grid;
+            place-items: center;
+            color: rgba(255, 255, 255, .9);
+            font-size: .62rem;
+            font-weight: 800;
+        }
+
+        .traffic-bulb.red {
+            background: #ef4444;
+        }
+
+        .traffic-bulb.yellow {
+            background: #f59e0b;
+            color: #1f2937;
+        }
+
+        .traffic-bulb.green {
+            background: #16a34a;
+        }
+
+        .traffic-rules {
+            display: grid;
+            gap: var(--space-sm);
+        }
+
+        .traffic-rule {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: var(--space-sm);
+            align-items: center;
+            padding: .65rem .75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .traffic-rule code {
+            color: var(--clr-tea);
+            font: 750 .7rem var(--font-code);
+        }
+
+        .traffic-rule span {
+            color: var(--text-secondary);
+            font-size: .7rem;
+        }
+
+        /* ---------- Comparison cards ---------- */
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .comparison-card {
+            padding: var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .comparison-card code {
+            display: block;
+            color: var(--clr-tea);
+            font: 900 1.1rem var(--font-code);
+            margin-bottom: .3rem;
+        }
+
+        .comparison-card strong {
+            color: var(--text-primary);
+            font-size: .65rem;
+            line-height: 1.25;
+        }
+
+        /* ---------- Logical operator cards ---------- */
+
+        .logic-rule-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .logic-rule-card {
+            min-height: 180px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .logic-rule-card .logic-word {
+            display: inline-grid;
+            place-items: center;
+            min-width: 64px;
+            min-height: 38px;
+            margin-bottom: .55rem;
+            padding: 0 .6rem;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .1);
+            color: var(--clr-tea);
+            font: 850 .78rem var(--font-code);
+        }
+
+        .logic-rule-card h4 {
+            margin: 0 0 .35rem;
+            color: var(--text-primary);
+            font-size: .83rem;
+        }
+
+        .logic-rule-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .7rem;
+            line-height: 1.5;
+        }
+
+        /* ---------- Boolean explorer ---------- */
+
+        .boolean-explorer-grid {
+            display: grid;
+            grid-template-columns: .85fr 1.15fr;
+            gap: var(--space-lg);
+        }
+
+        .boolean-controls {
+            display: grid;
+            gap: var(--space-md);
+            align-content: start;
+        }
+
+        .boolean-toggle-row {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+        }
+
+        .boolean-toggle-row strong {
+            display: block;
+            margin-bottom: .45rem;
+            color: var(--text-primary);
+            font: 800 .76rem var(--font-code);
+        }
+
+        .bool-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xs);
+        }
+
+        .bool-toggle button {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            padding: .55rem;
+            cursor: pointer;
+            font: 750 .68rem var(--font-code);
+        }
+
+        .bool-toggle button.active {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .1);
+        }
+
+        .boolean-results {
+            display: grid;
+            gap: var(--space-xs);
+        }
+
+        .boolean-result {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--space-md);
+            align-items: center;
+            padding: .72rem .8rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .boolean-result code {
+            color: var(--text-primary);
+            font: 700 .7rem var(--font-code);
+        }
+
+        .boolean-result span {
+            min-width: 58px;
+            text-align: center;
+            padding: .25rem .45rem;
+            border-radius: var(--radius-full);
+            font: 800 .65rem var(--font-code);
+        }
+
+        .bool-true {
+            color: #16a34a;
+            background: rgba(22, 163, 74, .1);
+        }
+
+        .bool-false {
+            color: #ef4444;
+            background: rgba(239, 68, 68, .1);
+        }
+
+        /* ---------- Boolean precedence ---------- */
+
+        .logic-precedence {
+            max-width: 520px;
+            margin: var(--space-lg) auto;
+            display: grid;
+            gap: .45rem;
+        }
+
+        .logic-precedence-step {
+            padding: .75rem var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+        }
+
+        .logic-precedence-step:nth-child(1) {
+            margin-inline: 0;
+        }
+
+        .logic-precedence-step:nth-child(2) {
+            margin-inline: 12%;
+        }
+
+        .logic-precedence-step:nth-child(3) {
+            margin-inline: 24%;
+        }
+
+        .logic-precedence-step code {
+            color: var(--clr-tea);
+            font: 850 .85rem var(--font-code);
+        }
+
+        .logic-precedence-step span {
+            display: block;
+            margin-top: .2rem;
+            color: var(--text-muted);
+            font-size: .63rem;
+        }
+
+        /* ---------- English -> expression ---------- */
+
+        .translation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .translation-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .translation-card .english {
+            min-height: 54px;
+            color: var(--text-secondary);
+            font-size: .72rem;
+            line-height: 1.45;
+        }
+
+        .translation-arrow {
+            text-align: center;
+            color: var(--clr-tea);
+            margin: .5rem 0;
+        }
+
+        .translation-card code {
+            display: block;
+            padding: .55rem;
+            border-radius: var(--radius-sm);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .66rem/1.45 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        /* ---------- Branch anatomy ---------- */
+
+        .branch-anatomy {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .branch-code {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .branch-code pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 700 .73rem/1.65 var(--font-code);
+        }
+
+        .branch-chain {
+            display: grid;
+            gap: var(--space-sm);
+        }
+
+        .branch-chain-step {
+            position: relative;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .branch-chain-step::after {
+            content: "↓ only if False";
+            display: block;
+            margin-top: .4rem;
+            color: var(--text-muted);
+            font-size: .61rem;
+        }
+
+        .branch-chain-step:last-child::after {
+            display: none;
+        }
+
+        .branch-chain-step strong {
+            display: block;
+            margin-bottom: .2rem;
+            color: var(--clr-tea);
+            font: 800 .72rem var(--font-code);
+        }
+
+        .branch-chain-step p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.45;
+        }
+
+        /* ---------- Branch simulator ---------- */
+
+        .branch-simulator {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: var(--space-lg);
+        }
+
+        .score-control {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+        }
+
+        .score-control label {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--text-secondary);
+            font-size: .7rem;
+            font-weight: 800;
+        }
+
+        .score-control input {
+            width: 100%;
+            padding: .65rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font: 750 .82rem var(--font-code);
+        }
+
+        .score-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-top: var(--space-sm);
+        }
+
+        .branch-path {
+            display: grid;
+            gap: var(--space-xs);
+        }
+
+        .branch-path-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--space-md);
+            align-items: center;
+            padding: .65rem .75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            opacity: .55;
+        }
+
+        .branch-path-row.checked {
+            opacity: 1;
+            border-color: var(--border-hover);
+        }
+
+        .branch-path-row.hit {
+            opacity: 1;
+            border-color: rgba(22, 163, 74, .55);
+            background: rgba(22, 163, 74, .07);
+        }
+
+        .branch-path-row code {
+            color: var(--text-primary);
+            font: 700 .68rem var(--font-code);
+        }
+
+        .branch-path-result {
+            font: 800 .65rem var(--font-code);
+        }
+
+        /* ---------- Why order matters ---------- */
+
+        .order-compare,
+        .if-compare,
+        .nested-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .compare-panel {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .compare-panel.bad {
+            border-color: rgba(239, 68, 68, .35);
+        }
+
+        .compare-panel.good {
+            border-color: rgba(22, 163, 74, .35);
+        }
+
+        .compare-panel h4 {
+            margin: 0 0 .45rem;
+            color: var(--text-primary);
+            font-size: .82rem;
+        }
+
+        .compare-panel pre {
+            margin: 0;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .68rem/1.55 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        .compare-panel p {
+            margin: .55rem 0 0;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.45;
+        }
+
+        /* ---------- Flowchart symbols ---------- */
+
+        .flow-symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .flow-symbol-card {
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .65rem;
+            text-align: center;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .flow-symbol-card strong {
+            color: var(--text-primary);
+            font-size: .7rem;
+        }
+
+        .flow-symbol-card small {
+            color: var(--text-muted);
+            font-size: .6rem;
+            line-height: 1.3;
+        }
+
+        .shape-oval,
+        .shape-rect,
+        .shape-parallelogram,
+        .shape-diamond {
+            width: 72px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border: 2px solid var(--clr-tea);
+            background: rgba(13, 148, 136, .05);
+            color: var(--clr-tea);
+            font-size: .55rem;
+            font-weight: 800;
+        }
+
+        .shape-oval {
+            border-radius: 999px;
+        }
+
+        .shape-rect {
+            border-radius: 4px;
+        }
+
+        .shape-parallelogram {
+            transform: skew(-15deg);
+        }
+
+        .shape-parallelogram span {
+            transform: skew(15deg);
+        }
+
+        .shape-diamond {
+            width: 52px;
+            height: 52px;
+            transform: rotate(45deg);
+        }
+
+        .shape-diamond span {
+            transform: rotate(-45deg);
+        }
+
+        .shape-arrow {
+            color: var(--clr-tea);
+            font-size: 2rem;
+        }
+
+        /* ---------- Flowchart to code SVG ---------- */
+
+        .flowcode-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+            margin: var(--space-md) 0;
+        }
+
+        .flow-svg-wrap {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow-x: auto;
+        }
+
+        .flow-svg-wrap svg {
+            display: block;
+            width: 100%;
+            min-width: 350px;
+            height: auto;
+        }
+
+        .flow-code-panel {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .flow-code-panel pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 700 .72rem/1.6 var(--font-code);
+        }
+
+        /* ---------- Flow tracer ---------- */
+
+        .tracer-layout {
+            display: grid;
+            grid-template-columns: 1fr .9fr;
+            gap: var(--space-lg);
+        }
+
+        .trace-stage {
+            min-height: 300px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            text-align: center;
+        }
+
+        .trace-stage pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 750 .78rem/1.65 var(--font-code);
+        }
+
+        .trace-summary {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+        }
+
+        .trace-summary label {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            font-weight: 800;
+        }
+
+        .trace-summary input {
+            width: 100%;
+            padding: .6rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font: 750 .78rem var(--font-code);
+            margin-bottom: var(--space-md);
+        }
+
+        .trace-summary p {
+            color: var(--text-secondary);
+            font-size: .7rem;
+            line-height: 1.5;
+        }
+
+        /* ---------- Challenge visual ---------- */
+
+        .challenge-map {
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            text-align: center;
+            color: var(--text-primary);
+            font: 700 .72rem/1.65 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        /* ---------- Short-circuit ---------- */
+
+        .short-circuit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .short-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            text-align: center;
+        }
+
+        .short-card code {
+            display: block;
+            color: var(--clr-tea);
+            font: 800 .8rem var(--font-code);
+            margin-bottom: .35rem;
+        }
+
+        .short-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.45;
+        }
+
+        /* ---------- Responsive ---------- */
+
+        @media (max-width: 980px) {
+            .comparison-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .flow-symbol-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .translation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 820px) {
+
+            .logic-anchor-grid,
+            .boolean-explorer-grid,
+            .branch-anatomy,
+            .branch-simulator,
+            .flowcode-grid,
+            .tracer-layout,
+            .nested-compare,
+            .order-compare,
+            .if-compare {
+                grid-template-columns: 1fr;
+            }
+
+            .logic-rule-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .traffic-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid,
+            .flow-symbol-grid,
+            .short-circuit-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .logic-precedence-step,
+            .logic-precedence-step:nth-child(1),
+            .logic-precedence-step:nth-child(2),
+            .logic-precedence-step:nth-child(3) {
+                margin-inline: 0;
+            }
+        }
+
+        @media (max-width: 420px) {
+
+            .comparison-grid,
+            .flow-symbol-grid,
+            .short-circuit-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lesson-page">
+                <div class="lesson-container">
+
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 PROG</a>
+                        <span class="sep">/</span>
+                        <span>11.1A — Boolean Logic & Branching</span>
+                    </nav>
+
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fab fa-python"></i> Unit 11.1A · Term 1
+                        </div>
+
+                        <h1 class="lesson-title">Boolean Logic & Branching</h1>
+
+                        <p class="lesson-intro">
+                            Programs make decisions by evaluating conditions as
+                            <code>True</code> or <code>False</code>. Comparison and logical operators
+                            build those conditions, while <code>if</code>, <code>elif</code> and
+                            <code>else</code> decide which path the program follows.
+                        </p>
+                    </div>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.1.1.7</span> Apply logic operations to Boolean variables</li>
+                            <li><span class="lo-code">11.1.1.8</span> Use logical operations AND, OR, NOT in selection
+                                structure</li>
+                            <li><span class="lo-code">11.1.1.9</span> Implement the branching algorithm according to the
+                                flowchart</li>
+                        </ul>
+                    </div>
+
+                    <!-- =====================================================
+                     EMBEDDED VIDEOS
+                     ===================================================== -->
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+
+                            <div class="lesson-video-info">
+                                <h4 id="lessonVideoTitle">Selection / Branching</h4>
+                                <p id="lessonVideoDescription">
+                                    Craig'n'Dave — the three basic programming constructs. Selection begins at about
+                                    00:59.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="video-tabs">
+                            <button class="video-tab active" data-video="selection" type="button">
+                                <i class="fas fa-code-branch"></i> Selection / Branching
+                            </button>
+                            <button class="video-tab" data-video="boolean" type="button">
+                                <i class="fas fa-toggle-on"></i> Boolean Operators
+                            </button>
+                        </div>
+
+                        <div class="lesson-video-wrapper">
+                            <iframe id="lessonVideoFrame" src="https://www.youtube-nocookie.com/embed/t0VphK9cWgE?rel=0"
+                                title="Craig n Dave - Selection and programming constructs" loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <nav class="lesson-section-jump" aria-label="Lesson sections">
+                        <a href="#comparison">Comparisons</a>
+                        <a href="#logic">AND OR NOT</a>
+                        <a href="#boolean-explorer">Logic Explorer</a>
+                        <a href="#branching">Branching</a>
+                        <a href="#flowcharts">Flowcharts</a>
+                        <a href="#tracer">Path Tracer</a>
+                        <a href="#errors">Errors</a>
+                        <a href="#practice">Practice</a>
+                    </nav>
+
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="logic-anchor-grid">
+                            <div class="analogy-box" style="margin:0;">
+                                <h4><i class="fas fa-traffic-light"></i> The Traffic Light Analogy</h4>
+                                <p>
+                                    A traffic light is a branching algorithm:
+                                    <strong>IF</strong> the light is green → go;
+                                    <strong>ELIF</strong> it is yellow → slow down;
+                                    <strong>ELSE</strong> → stop.
+                                    Each decision is based on a condition that evaluates to
+                                    <code>True</code> or <code>False</code>.
+                                </p>
+                            </div>
+
+                            <div class="traffic-visual" aria-label="Traffic light branching visual">
+                                <div class="traffic-light">
+                                    <div class="traffic-bulb red">STOP</div>
+                                    <div class="traffic-bulb yellow">SLOW</div>
+                                    <div class="traffic-bulb green">GO</div>
+                                </div>
+
+                                <div class="traffic-rules">
+                                    <div class="traffic-rule">
+                                        <code>if green:</code>
+                                        <span>GO</span>
+                                    </div>
+                                    <div class="traffic-rule">
+                                        <code>elif yellow:</code>
+                                        <span>SLOW DOWN</span>
+                                    </div>
+                                    <div class="traffic-rule">
+                                        <code>else:</code>
+                                        <span>STOP</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     COMPARISON OPERATORS
+                     ===================================================== -->
+                    <section class="lesson-section" id="comparison">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-scale-balanced"></i> Comparison Operators
+                        </h2>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-card"><code>==</code><strong>equal to</strong></div>
+                            <div class="comparison-card"><code>!=</code><strong>not equal to</strong></div>
+                            <div class="comparison-card"><code>&gt;</code><strong>greater than</strong></div>
+                            <div class="comparison-card"><code>&lt;</code><strong>less than</strong></div>
+                            <div class="comparison-card"><code>&gt;=</code><strong>greater or equal</strong></div>
+                            <div class="comparison-card"><code>&lt;=</code><strong>less or equal</strong></div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Meaning</th>
+                                    <th>Example</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>==</code></td>
+                                    <td>Equal to</td>
+                                    <td><code>5 == 5</code></td>
+                                    <td><code>True</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>!=</code></td>
+                                    <td>Not equal to</td>
+                                    <td><code>5 != 3</code></td>
+                                    <td><code>True</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>&gt;</code></td>
+                                    <td>Greater than</td>
+                                    <td><code>5 &gt; 3</code></td>
+                                    <td><code>True</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>&lt;</code></td>
+                                    <td>Less than</td>
+                                    <td><code>5 &lt; 3</code></td>
+                                    <td><code>False</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>&gt;=</code></td>
+                                    <td>Greater or equal</td>
+                                    <td><code>5 &gt;= 5</code></td>
+                                    <td><code>True</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>&lt;=</code></td>
+                                    <td>Less or equal</td>
+                                    <td><code>5 &lt;= 3</code></td>
+                                    <td><code>False</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Comparison Lab
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">
+                                <code id="comparisonPrompt"></code>
+                            </div>
+
+                            <div class="lesson-lab-options two">
+                                <button class="lesson-choice-btn comparison-choice" data-answer="true"
+                                    type="button">True</button>
+                                <button class="lesson-choice-btn comparison-choice" data-answer="false"
+                                    type="button">False</button>
+                            </div>
+
+                            <div id="comparisonFeedback" class="lesson-lab-feedback">
+                                Evaluate the comparison before choosing.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="comparisonProgress"></span>
+                                <button id="nextComparison" class="lesson-lab-btn" type="button">Next
+                                    comparison</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     LOGICAL OPERATORS
+                     ===================================================== -->
+                    <section class="lesson-section" id="logic">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-diagram-project"></i> Logical Operators: AND, OR, NOT
+                        </h2>
+
+                        <div class="logic-rule-grid">
+                            <div class="logic-rule-card">
+                                <span class="logic-word">and</span>
+                                <h4>Both conditions must be True</h4>
+                                <p><code>A and B</code> is True only when A and B are both True.</p>
+                            </div>
+
+                            <div class="logic-rule-card">
+                                <span class="logic-word">or</span>
+                                <h4>At least one must be True</h4>
+                                <p><code>A or B</code> is True when A is True, B is True, or both are True.</p>
+                            </div>
+
+                            <div class="logic-rule-card">
+                                <span class="logic-word">not</span>
+                                <h4>Reverse a Boolean value</h4>
+                                <p><code>not True</code> becomes False, and <code>not False</code> becomes True.</p>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Meaning</th>
+                                    <th>True when…</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>and</code></td>
+                                    <td>Both conditions must be True</td>
+                                    <td>A is True AND B is True</td>
+                                    <td><code>(x &gt; 0) and (x &lt; 100)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>or</code></td>
+                                    <td>At least one condition is True</td>
+                                    <td>A is True OR B is True, or both</td>
+                                    <td><code>(x == 0) or (x == 1)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>not</code></td>
+                                    <td>Inverts the Boolean value</td>
+                                    <td>The original condition is False</td>
+                                    <td><code>not (x &gt; 10)</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Truth Table
+                        </h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>A</th>
+                                    <th>B</th>
+                                    <th>A and B</th>
+                                    <th>A or B</th>
+                                    <th>not A</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>True</td>
+                                    <td>True</td>
+                                    <td>True</td>
+                                    <td>True</td>
+                                    <td>False</td>
+                                </tr>
+                                <tr>
+                                    <td>True</td>
+                                    <td>False</td>
+                                    <td>False</td>
+                                    <td>True</td>
+                                    <td>False</td>
+                                </tr>
+                                <tr>
+                                    <td>False</td>
+                                    <td>True</td>
+                                    <td>False</td>
+                                    <td>True</td>
+                                    <td>True</td>
+                                </tr>
+                                <tr>
+                                    <td>False</td>
+                                    <td>False</td>
+                                    <td>False</td>
+                                    <td>False</td>
+                                    <td>True</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =====================================================
+                     BOOLEAN EXPLORER
+                     ===================================================== -->
+                    <section class="lesson-section" id="boolean-explorer">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-toggle-on"></i> Boolean Logic Explorer
+                        </h2>
+
+                        <div class="lesson-lab">
+                            <div class="boolean-explorer-grid">
+                                <div class="boolean-controls">
+                                    <div class="boolean-toggle-row">
+                                        <strong>A</strong>
+                                        <div class="bool-toggle">
+                                            <button class="bool-a active" data-value="true" type="button">True</button>
+                                            <button class="bool-a" data-value="false" type="button">False</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="boolean-toggle-row">
+                                        <strong>B</strong>
+                                        <div class="bool-toggle">
+                                            <button class="bool-b" data-value="true" type="button">True</button>
+                                            <button class="bool-b active" data-value="false"
+                                                type="button">False</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="boolean-results">
+                                    <div class="boolean-result"><code>A and B</code><span id="resAnd"></span></div>
+                                    <div class="boolean-result"><code>A or B</code><span id="resOr"></span></div>
+                                    <div class="boolean-result"><code>not A</code><span id="resNotA"></span></div>
+                                    <div class="boolean-result"><code>not B</code><span id="resNotB"></span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Compound Boolean Predictor
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">
+                                <code id="compoundPrompt"></code>
+                            </div>
+
+                            <div class="lesson-lab-options two">
+                                <button id="revealCompound" class="lesson-lab-btn" type="button">Reveal result</button>
+                                <button id="nextCompound" class="lesson-lab-btn" type="button">Next expression</button>
+                            </div>
+
+                            <div id="compoundFeedback" class="lesson-lab-feedback">
+                                Work through NOT, then AND, then OR unless parentheses change the order.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="compoundProgress"></span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PRECEDENCE + TRANSLATION
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-layer-group"></i> Boolean Precedence
+                        </h2>
+
+                        <div class="logic-precedence">
+                            <div class="logic-precedence-step">
+                                <code>not</code>
+                                <span>highest of these logical operators</span>
+                            </div>
+                            <div class="logic-precedence-step">
+                                <code>and</code>
+                                <span>evaluated after NOT</span>
+                            </div>
+                            <div class="logic-precedence-step">
+                                <code>or</code>
+                                <span>lowest of these logical operators</span>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Use parentheses when clarity matters</h4>
+                            <p>
+                                <code>(a or b) and c</code> is not always the same as
+                                <code>a or (b and c)</code>. Parentheses make the intended grouping clear.
+                            </p>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            English → Boolean Expression
+                        </h3>
+
+                        <div class="translation-grid">
+                            <div class="translation-card">
+                                <div class="english">Age is at least 18 AND the user has ID.</div>
+                                <div class="translation-arrow"><i class="fas fa-arrow-down"></i></div>
+                                <code>age &gt;= 18 and has_id</code>
+                            </div>
+
+                            <div class="translation-card">
+                                <div class="english">It is Saturday OR Sunday.</div>
+                                <div class="translation-arrow"><i class="fas fa-arrow-down"></i></div>
+                                <code>day == "Saturday" or day == "Sunday"</code>
+                            </div>
+
+                            <div class="translation-card">
+                                <div class="english">It is NOT raining.</div>
+                                <div class="translation-arrow"><i class="fas fa-arrow-down"></i></div>
+                                <code>not is_raining</code>
+                            </div>
+                        </div>
+
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">
+                                <pre id="translationPrompt"></pre>
+                            </div>
+
+                            <div id="translationOptions" class="lesson-lab-options three"></div>
+
+                            <div id="translationFeedback" class="lesson-lab-feedback">
+                                Choose the Boolean expression that matches the sentence.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="translationProgress"></span>
+                                <button id="nextTranslation" class="lesson-lab-btn" type="button">Next
+                                    statement</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     BRANCHING
+                     ===================================================== -->
+                    <section class="lesson-section" id="branching">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-branch"></i> if / elif / else
+                        </h2>
+
+                        <div class="branch-anatomy">
+                            <div class="branch-code">
+                                <pre>if condition_1:
+    block_A
+
+elif condition_2:
+    block_B
+
+else:
+    block_C</pre>
+                            </div>
+
+                            <div class="branch-chain">
+                                <div class="branch-chain-step">
+                                    <strong>if condition_1</strong>
+                                    <p>If this is True, Python executes block A and leaves the chain.</p>
+                                </div>
+
+                                <div class="branch-chain-step">
+                                    <strong>elif condition_2</strong>
+                                    <p>This is checked only if all previous conditions were False.</p>
+                                </div>
+
+                                <div class="branch-chain-step">
+                                    <strong>else</strong>
+                                    <p>This runs only when every previous condition was False.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-key"></i> First True Branch Rule</h4>
+                            <p>
+                                In one <code>if / elif / else</code> chain, Python executes
+                                the <strong>first branch whose condition is True</strong>, then skips the rest of that
+                                chain.
+                            </p>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Branching Simulator — Grade Classifier
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="branch-simulator">
+                                <div class="score-control">
+                                    <label for="scoreInput">Score</label>
+                                    <input id="scoreInput" type="number" min="0" max="100" value="85">
+
+                                    <div class="score-presets">
+                                        <button class="lesson-lab-btn score-preset" data-score="95"
+                                            type="button">95</button>
+                                        <button class="lesson-lab-btn score-preset" data-score="85"
+                                            type="button">85</button>
+                                        <button class="lesson-lab-btn score-preset" data-score="72"
+                                            type="button">72</button>
+                                        <button class="lesson-lab-btn score-preset" data-score="61"
+                                            type="button">61</button>
+                                        <button class="lesson-lab-btn score-preset" data-score="40"
+                                            type="button">40</button>
+                                    </div>
+                                </div>
+
+                                <div id="branchPath" class="branch-path"></div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Why Order Matters
+                        </h3>
+
+                        <div class="order-compare">
+                            <div class="compare-panel bad">
+                                <h4>Problematic order</h4>
+                                <pre>if score &gt;= 60:
+    print("D")
+elif score &gt;= 70:
+    print("C")
+elif score &gt;= 80:
+    print("B")
+elif score &gt;= 90:
+    print("A")</pre>
+                                <p>
+                                    For <code>score = 95</code>, the very first condition is already True,
+                                    so this prints <strong>D</strong>.
+                                </p>
+                            </div>
+
+                            <div class="compare-panel good">
+                                <h4>Correct descending thresholds</h4>
+                                <pre>if score &gt;= 90:
+    print("A")
+elif score &gt;= 80:
+    print("B")
+elif score &gt;= 70:
+    print("C")
+elif score &gt;= 60:
+    print("D")
+else:
+    print("F")</pre>
+                                <p>Start with the most restrictive/highest threshold.</p>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            if / if / if vs if / elif / else
+                        </h3>
+
+                        <div class="if-compare">
+                            <div class="compare-panel">
+                                <h4>Separate if statements</h4>
+                                <pre>x = 10
+
+if x &gt; 0:
+    print("positive")
+
+if x &gt; 5:
+    print("greater than 5")</pre>
+                                <p>Both conditions are checked, so both messages can be printed.</p>
+                            </div>
+
+                            <div class="compare-panel">
+                                <h4>One if/elif chain</h4>
+                                <pre>x = 10
+
+if x &gt; 0:
+    print("positive")
+
+elif x &gt; 5:
+    print("greater than 5")</pre>
+                                <p>The first condition is True, so the <code>elif</code> is not checked.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     FLOWCHARTS
+                     ===================================================== -->
+                    <section class="lesson-section" id="flowcharts">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-project-diagram"></i> Flowchart → Code
+                        </h2>
+
+                        <div class="flow-symbol-grid">
+                            <div class="flow-symbol-card">
+                                <div class="shape-oval">START</div>
+                                <strong>Oval</strong>
+                                <small>Start / End</small>
+                            </div>
+
+                            <div class="flow-symbol-card">
+                                <div class="shape-parallelogram"><span>INPUT</span></div>
+                                <strong>Parallelogram</strong>
+                                <small>Input / Output</small>
+                            </div>
+
+                            <div class="flow-symbol-card">
+                                <div class="shape-rect">PROCESS</div>
+                                <strong>Rectangle</strong>
+                                <small>Process / assignment</small>
+                            </div>
+
+                            <div class="flow-symbol-card">
+                                <div class="shape-diamond"><span>?</span></div>
+                                <strong>Diamond</strong>
+                                <small>Decision / condition</small>
+                            </div>
+
+                            <div class="flow-symbol-card">
+                                <div class="shape-arrow"><i class="fas fa-arrow-down-long"></i></div>
+                                <strong>Arrow</strong>
+                                <small>Flow direction</small>
+                            </div>
+                        </div>
+
+                        <div class="flowcode-grid">
+                            <div class="flow-svg-wrap">
+                                <svg viewBox="0 0 460 500" role="img" aria-label="Adult or minor flowchart">
+                                    <defs>
+                                        <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3"
+                                            orient="auto">
+                                            <path d="M0,0 L0,6 L7,3 z" fill="#0d9488"></path>
+                                        </marker>
+                                    </defs>
+
+                                    <ellipse cx="230" cy="45" rx="70" ry="28" fill="rgba(13,148,136,.08)"
+                                        stroke="#0d9488" stroke-width="2"></ellipse>
+                                    <text x="230" y="51" text-anchor="middle" fill="currentColor"
+                                        font-size="15">Start</text>
+
+                                    <line x1="230" y1="73" x2="230" y2="110" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#arrow)"></line>
+
+                                    <polygon points="135,120 325,120 305,178 115,178" fill="rgba(13,148,136,.06)"
+                                        stroke="#0d9488" stroke-width="2"></polygon>
+                                    <text x="220" y="154" text-anchor="middle" fill="currentColor" font-size="14">Input
+                                        age</text>
+
+                                    <line x1="220" y1="178" x2="220" y2="220" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#arrow)"></line>
+
+                                    <polygon points="220,225 320,290 220,355 120,290" fill="rgba(13,148,136,.06)"
+                                        stroke="#0d9488" stroke-width="2"></polygon>
+                                    <text x="220" y="286" text-anchor="middle" fill="currentColor" font-size="14">age ≥
+                                        18?</text>
+
+                                    <line x1="120" y1="290" x2="65" y2="290" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#arrow)"></line>
+                                    <text x="88" y="278" fill="currentColor" font-size="12">No</text>
+
+                                    <line x1="320" y1="290" x2="385" y2="290" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#arrow)"></line>
+                                    <text x="342" y="278" fill="currentColor" font-size="12">Yes</text>
+
+                                    <polygon points="15,310 115,310 100,365 0,365" fill="rgba(239,68,68,.06)"
+                                        stroke="#ef4444" stroke-width="2"></polygon>
+                                    <text x="57" y="342" text-anchor="middle" fill="currentColor"
+                                        font-size="13">"Minor"</text>
+
+                                    <polygon points="350,310 450,310 435,365 335,365" fill="rgba(22,163,74,.06)"
+                                        stroke="#16a34a" stroke-width="2"></polygon>
+                                    <text x="392" y="342" text-anchor="middle" fill="currentColor"
+                                        font-size="13">"Adult"</text>
+
+                                    <line x1="57" y1="365" x2="57" y2="420" stroke="#0d9488" stroke-width="2"></line>
+                                    <line x1="392" y1="365" x2="392" y2="420" stroke="#0d9488" stroke-width="2"></line>
+                                    <line x1="57" y1="420" x2="225" y2="420" stroke="#0d9488" stroke-width="2"></line>
+                                    <line x1="392" y1="420" x2="225" y2="420" stroke="#0d9488" stroke-width="2"></line>
+                                    <line x1="225" y1="420" x2="225" y2="442" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#arrow)"></line>
+
+                                    <ellipse cx="225" cy="470" rx="65" ry="25" fill="rgba(13,148,136,.08)"
+                                        stroke="#0d9488" stroke-width="2"></ellipse>
+                                    <text x="225" y="476" text-anchor="middle" fill="currentColor"
+                                        font-size="14">End</text>
+                                </svg>
+                            </div>
+
+                            <div class="flow-code-panel">
+                                <pre>age = int(input("Age: "))
+
+if age &gt;= 18:
+    print("Adult")
+else:
+    print("Minor")</pre>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-diamond"></i> Flowchart translation rule</h4>
+                            <p>
+                                A decision <strong>diamond</strong> becomes a Boolean condition.
+                                Its Yes/True and No/False arrows become alternative code paths.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     FLOWCHART TRACER
+                     ===================================================== -->
+                    <section class="lesson-section" id="tracer">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-route"></i> Flowchart Path Tracer
+                        </h2>
+
+                        <p class="concept-text">
+                            Follow only the path selected by the current input. Change the number and trace again.
+                        </p>
+
+                        <div class="lesson-lab">
+                            <div class="tracer-layout">
+                                <div class="trace-stage">
+                                    <pre id="traceStage"></pre>
+                                </div>
+
+                                <div class="trace-summary">
+                                    <label for="traceInput">Input number</label>
+                                    <input id="traceInput" type="number" value="7">
+
+                                    <p id="traceExplanation">
+                                        Press <strong>Next step</strong> to move through the algorithm.
+                                    </p>
+
+                                    <div class="lesson-tabs">
+                                        <button id="tracePrev" class="lesson-lab-btn" type="button">Previous</button>
+                                        <button id="traceNext" class="lesson-lab-btn" type="button">Next step</button>
+                                        <button id="traceReset" class="lesson-lab-btn" type="button">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Flowchart → Code Challenge
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div id="challengeMap" class="challenge-map"></div>
+                            <div id="challengeOptions" class="lesson-lab-options three"></div>
+
+                            <div id="challengeFeedback" class="lesson-lab-feedback">
+                                Choose the Python code that matches the flowchart logic.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="challengeProgress"></span>
+                                <button id="nextChallenge" class="lesson-lab-btn" type="button">Next challenge</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     NESTED VS COMPOUND
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-branch"></i> Compound Conditions vs Nested if
+                        </h2>
+
+                        <div class="nested-compare">
+                            <div class="compare-panel">
+                                <h4>Compound condition</h4>
+                                <pre>if age &gt;= 18 and has_id:
+    print("Access granted")</pre>
+                                <p>
+                                    Compact when both conditions are part of one decision.
+                                </p>
+                            </div>
+
+                            <div class="compare-panel">
+                                <h4>Nested if</h4>
+                                <pre>if age &gt;= 18:
+    if has_id:
+        print("Access granted")</pre>
+                                <p>
+                                    Useful when the second decision belongs inside the first branch.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Equivalent only in suitable situations</h4>
+                            <p>
+                                These two examples grant access under the same simple condition,
+                                but nested structures are more flexible when each level needs its own
+                                <code>else</code> or additional processing.
+                            </p>
+                        </div>
+
+                        <details class="lesson-compact-details">
+                            <summary>Extension: Python chained comparisons</summary>
+                            <div class="lesson-details-body">
+                                <div class="code-block"><code># Standard form
+age &gt;= 18 and age &lt;= 65
+
+# Python also allows:
+18 &lt;= age &lt;= 65</code></div>
+                            </div>
+                        </details>
+                    </section>
+
+                    <!-- =====================================================
+                     WORKED EXAMPLES
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-pencil-alt"></i> Worked Examples
+                        </h2>
+
+                        <p class="concept-text"><strong>Choose an example:</strong></p>
+
+                        <div class="lesson-tabs">
+                            <button class="lesson-tab active" data-example="boolean" type="button">
+                                <i class="fas fa-toggle-on"></i> Boolean Variables
+                            </button>
+                            <button class="lesson-tab" data-example="compound" type="button">
+                                <i class="fas fa-link"></i> Compound Conditions
+                            </button>
+                            <button class="lesson-tab" data-example="nested" type="button">
+                                <i class="fas fa-layer-group"></i> Cinema Ticket
+                            </button>
+                            <button class="lesson-tab" data-example="flowchart" type="button">
+                                <i class="fas fa-project-diagram"></i> Flowchart Implementation
+                            </button>
+                        </div>
+
+                        <div class="lesson-tab-panel">
+                            <h4 id="workedTitle"></h4>
+                            <p id="workedDescription"></p>
+                            <div class="code-block"><code id="workedCode"></code></div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SHORT CIRCUIT
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-bolt"></i> Short-Circuit Logic
+                        </h2>
+
+                        <div class="short-circuit-grid">
+                            <div class="short-card">
+                                <code>False and ...</code>
+                                <p>
+                                    The full AND expression is already known to be False,
+                                    so Python may skip evaluating the remaining part.
+                                </p>
+                            </div>
+
+                            <div class="short-card">
+                                <code>True or ...</code>
+                                <p>
+                                    The full OR expression is already known to be True,
+                                    so Python may skip evaluating the remaining part.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     ERROR LAB
+                     ===================================================== -->
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-bug"></i> Boolean & Branch Error Lab
+                        </h2>
+
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">
+                                <pre id="errorPrompt"></pre>
+                            </div>
+
+                            <div class="lesson-lab-options four">
+                                <button class="lesson-choice-btn error-choice" data-error="correct"
+                                    type="button">Correct</button>
+                                <button class="lesson-choice-btn error-choice" data-error="syntax"
+                                    type="button">Syntax</button>
+                                <button class="lesson-choice-btn error-choice" data-error="indentation"
+                                    type="button">Indentation</button>
+                                <button class="lesson-choice-btn error-choice" data-error="logic"
+                                    type="button">Logic</button>
+                            </div>
+
+                            <div id="errorFeedback" class="lesson-lab-feedback">
+                                Identify the most important problem.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="errorProgress"></span>
+                                <button id="nextError" class="lesson-lab-btn" type="button">Next example</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PITFALLS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Pitfalls & Common Errors
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> = vs ==</h4>
+                            <p>
+                                <code>=</code> assigns a value. <code>==</code> compares two values.
+                                Use <code>if x == 5:</code>, not <code>if x = 5:</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Forgetting the colon</h4>
+                            <p>
+                                <code>if</code>, <code>elif</code> and <code>else</code>
+                                headers end with <code>:</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Indentation matters</h4>
+                            <p>
+                                Python uses indentation to define a block. Use consistent indentation,
+                                conventionally four spaces.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Incorrect elif ordering</h4>
+                            <p>
+                                In threshold problems, place more restrictive conditions first.
+                                Otherwise an earlier broad condition may capture the value.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Incomplete AND condition</h4>
+                            <p>
+                                <code>if x &gt; 5 and &lt; 10:</code> is invalid.
+                                Write <code>if x &gt; 5 and x &lt; 10:</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> x == 5 or 10</h4>
+                            <p>
+                                Do not write <code>x == 5 or 10</code> when you mean two comparisons.
+                                Write <code>x == 5 or x == 10</code>.
+                            </p>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-code"></i> Style tip</h4>
+                            <p>
+                                If a variable is already Boolean, prefer
+                                <code>if is_logged_in:</code> instead of
+                                <code>if is_logged_in == True:</code>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM TIPS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-star"></i> Pro-Tips for Exams
+                        </h2>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Exam Strategy</h4>
+                            <ul>
+                                <li>When tracing a flowchart, follow only one path at a time for the current input.</li>
+                                <li>In an <code>if/elif/else</code> chain, stop after the first True branch.</li>
+                                <li>For <code>and</code>, one False operand is enough to make the whole expression
+                                    False.</li>
+                                <li>For <code>or</code>, one True operand is enough to make the whole expression True.
+                                </li>
+                                <li>Logical precedence: <code>not</code> before <code>and</code> before <code>or</code>.
+                                </li>
+                                <li>Draw a small truth table when a compound Boolean expression is difficult to trace.
+                                </li>
+                                <li>A flowchart diamond represents a decision condition.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TASKS
+                     ===================================================== -->
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Graded Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    State the purpose of <code>==</code>, <code>!=</code>,
+                                    <code>and</code>, <code>or</code> and <code>not</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Complete the truth table for
+                                    <code>A and (B or not C)</code> for all combinations of A, B and C.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain the difference between three separate <code>if</code> statements
+                                    and one <code>if/elif/else</code> chain.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Write a Boolean expression that is True when
+                                    <code>age</code> is between 18 and 65 inclusive and
+                                    <code>has_id</code> is True.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Write a program that reads a year and determines whether it is a leap year:
+                                    divisible by 4, but not 100, unless also divisible by 400.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Implement a flowchart that classifies a temperature as
+                                    Hot (&gt;30), Warm (&gt;20), Cool (&gt;10), or Cold.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    Trace this program for <code>x = 15</code> and explain why only one branch runs:
+                                    <code>if x &gt; 10 and x &lt; 20: ... elif x &gt; 5: ... else: ...</code>
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Create a quiz program with three True/False questions,
+                                    count the score and output Excellent / Good / Fair / Fail.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM PRACTICE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: State the output and explain which branch is executed. [3]
+                            </p>
+                            <div class="code-block"><code>x = 15
+
+if x &gt; 10 and x &lt; 20:
+    print("A")
+elif x &gt; 5:
+    print("B")
+else:
+    print("C")</code></div>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Output: A
+                                    x &gt; 10 is True and x &lt; 20 is True.
+                                    Therefore the first condition is True.
+                                    The first branch runs and the elif/else branches are skipped.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: Write a Boolean expression that is True when
+                                <code>age</code> is between 18 and 65 inclusive. [2]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>age &gt;= 18 and age &lt;= 65
+
+                                    Python extension:
+                                    18 &lt;= age &lt;= 65</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: Convert the following logic into Python. [4]
+                                <br>Input temperature → if temperature &gt; 30 output "Hot" →
+                                otherwise if temperature &gt; 20 output "Warm" → otherwise output "Cool".
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>temperature = float(input("Temperature: "))
+
+                                    if temperature &gt; 30:
+                                    print("Hot")
+                                    elif temperature &gt; 20:
+                                    print("Warm")
+                                    else:
+                                    print("Cool")</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: Explain why <code>x == 5 or 10</code> is not the correct way
+                                to test whether x is 5 or 10. [2]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>The second part, 10, is not a comparison.
+                                    Write: x == 5 or x == 10.</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-check-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="lesson-quiz-progress">
+                            <span>Eight quick checks</span>
+                            <span>Click each answer to reveal</span>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. What is <code>True and False</code>?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>False</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. What is <code>True or False</code>?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>True</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What is <code>not True</code>?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>False</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. What is the difference between <code>=</code> and
+                                <code>==</code>?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>=</code> is assignment; <code>==</code> is comparison.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. What is the logical-operator precedence order?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>not</code> → <code>and</code> → <code>or</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                6. In one <code>if/elif/else</code> chain, what happens after the first True branch?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                That branch executes and the remaining branches in the chain are skipped.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. Which flowchart shape represents a decision?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                A diamond.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                8. How should you write “x is 5 or x is 10”?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>x == 5 or x == 10</code>.
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="lesson-03-input-arithmetic.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">Input & Arithmetic Operations</span>
+                            </span>
+                        </a>
+
+                        <a href="lesson-05-while-loop.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">While Loop & Flowcharts</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
     </div>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.1A — Boolean Logic &amp; Branching</span>
-            </nav>
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Programming</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
 
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
-                <h1 class="lesson-title">Boolean Logic &amp; Branching</h1>
-                <p class="lesson-intro">Programs need to make decisions. Boolean logic determines whether conditions are
-                    <code>True</code> or <code>False</code>, and branching structures (<code>if/elif/else</code>) allow
-                    the program to take different paths based on those conditions.</p>
-            </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.1.1.7</span> Apply logic operations to Boolean variables</li>
-                    <li><span class="lo-code">11.1.1.8</span> Use logical operations AND, OR, NOT in selection structure
-                    </li>
-                    <li><span class="lo-code">11.1.1.9</span> Implement the branching algorithm according to the
-                        flowchart</li>
-                </ul>
-            </div>
+            // ============================================================
+            // VIDEO TABS — embedded on page
+            // ============================================================
+            const videos = {
+                selection: {
+                    title: "Selection / Branching",
+                    description:
+                        "Craig'n'Dave — the three basic programming constructs. Selection begins at about 00:59.",
+                    src: "https://www.youtube-nocookie.com/embed/t0VphK9cWgE?rel=0",
+                    iframeTitle: "Craig n Dave - Selection and programming constructs"
+                },
+                boolean: {
+                    title: "Boolean Operators",
+                    description:
+                        "Craig'n'Dave — NOT, AND, OR and Boolean expressions. Boolean operators begin at about 00:14.",
+                    src: "https://www.youtube-nocookie.com/embed/IILJVSOg6Oo?rel=0",
+                    iframeTitle: "Craig n Dave - Boolean operators"
+                }
+            };
 
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1A-lesson-04-boolean-branching.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
+            const videoTabs = document.querySelectorAll(".video-tab");
+            const videoFrame = document.getElementById("lessonVideoFrame");
+            const videoTitle = document.getElementById("lessonVideoTitle");
+            const videoDescription = document.getElementById("lessonVideoDescription");
 
+            function showVideo(key) {
+                const item = videos[key];
+                videoTitle.textContent = item.title;
+                videoDescription.textContent = item.description;
+                videoFrame.src = item.src;
+                videoFrame.title = item.iframeTitle;
 
-            <!-- Conceptual Anchor -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-traffic-light"></i> The Traffic Light Analogy</h4>
-                    <p>A traffic light is a branching algorithm: <strong>IF</strong> the light is green → go;
-                        <strong>ELIF</strong> yellow → slow down; <strong>ELSE</strong> (red) → stop. The light's colour
-                        is a condition that evaluates to True or False for each check. Logical operators combine
-                        conditions: you cross <strong>AND</strong> the light is green <strong>AND</strong> no
-                        pedestrians are crossing.</p>
-                </div>
-            </section>
+                videoTabs.forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.video === key);
+                });
+            }
 
-            <!-- Rules & Theory -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+            videoTabs.forEach(btn => {
+                btn.addEventListener("click", () => showVideo(btn.dataset.video));
+            });
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Comparison Operators
-                </h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Operator</th>
-                            <th>Meaning</th>
-                            <th>Example</th>
-                            <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>==</code></td>
-                            <td>Equal to</td>
-                            <td><code>5 == 5</code></td>
-                            <td><code>True</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>!=</code></td>
-                            <td>Not equal to</td>
-                            <td><code>5 != 3</code></td>
-                            <td><code>True</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>&gt;</code></td>
-                            <td>Greater than</td>
-                            <td><code>5 &gt; 3</code></td>
-                            <td><code>True</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>&lt;</code></td>
-                            <td>Less than</td>
-                            <td><code>5 &lt; 3</code></td>
-                            <td><code>False</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>&gt;=</code></td>
-                            <td>Greater or equal</td>
-                            <td><code>5 &gt;= 5</code></td>
-                            <td><code>True</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>&lt;=</code></td>
-                            <td>Less or equal</td>
-                            <td><code>5 &lt;= 3</code></td>
-                            <td><code>False</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+            // ============================================================
+            // COMPARISON LAB
+            // ============================================================
+            const comparisonExamples = [
+                { expr: "8 > 5", answer: true, why: "8 is greater than 5." },
+                { expr: "8 == 8", answer: true, why: "Both numeric values are equal." },
+                { expr: "8 != 3", answer: true, why: "8 and 3 are not equal." },
+                { expr: "8 <= 7", answer: false, why: "8 is not less than or equal to 7." },
+                { expr: "10 == 10.0", answer: true, why: "Python compares their numeric values, which are equal." },
+                { expr: '"A" == "a"', answer: false, why: "String comparison is case-sensitive." },
+                { expr: "7 != 7", answer: false, why: "The values are equal, so != is False." },
+                { expr: "-2 < 0", answer: true, why: "-2 is less than 0." }
+            ];
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Logical
-                    Operators: AND, OR, NOT</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Operator</th>
-                            <th>Meaning</th>
-                            <th>True when…</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>and</code></td>
-                            <td>Both conditions must be True</td>
-                            <td>A is True <strong>AND</strong> B is True</td>
-                            <td><code>(x &gt; 0) and (x &lt; 100)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>or</code></td>
-                            <td>At least one condition is True</td>
-                            <td>A is True <strong>OR</strong> B is True (or both)</td>
-                            <td><code>(x == 0) or (x == 1)</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>not</code></td>
-                            <td>Inverts the value</td>
-                            <td>A is False</td>
-                            <td><code>not (x &gt; 10)</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+            let comparisonIndex = 0;
+            const comparisonPrompt = document.getElementById("comparisonPrompt");
+            const comparisonFeedback = document.getElementById("comparisonFeedback");
+            const comparisonProgress = document.getElementById("comparisonProgress");
+            const comparisonChoices = document.querySelectorAll(".comparison-choice");
+            const nextComparison = document.getElementById("nextComparison");
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Truth
-                    Tables</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>A</th>
-                            <th>B</th>
-                            <th>A and B</th>
-                            <th>A or B</th>
-                            <th>not A</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>True</td>
-                            <td>True</td>
-                            <td>True</td>
-                            <td>True</td>
-                            <td>False</td>
-                        </tr>
-                        <tr>
-                            <td>True</td>
-                            <td>False</td>
-                            <td>False</td>
-                            <td>True</td>
-                            <td>False</td>
-                        </tr>
-                        <tr>
-                            <td>False</td>
-                            <td>True</td>
-                            <td>False</td>
-                            <td>True</td>
-                            <td>True</td>
-                        </tr>
-                        <tr>
-                            <td>False</td>
-                            <td>False</td>
-                            <td>False</td>
-                            <td>False</td>
-                            <td>True</td>
-                        </tr>
-                    </tbody>
-                </table>
+            function loadComparison() {
+                const item = comparisonExamples[comparisonIndex];
+                comparisonPrompt.textContent = item.expr;
+                comparisonFeedback.className = "lesson-lab-feedback";
+                comparisonFeedback.textContent = "Evaluate the comparison before choosing.";
+                comparisonProgress.textContent =
+                    `Comparison ${comparisonIndex + 1} of ${comparisonExamples.length}`;
+                comparisonChoices.forEach(btn => btn.classList.remove("active"));
+            }
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">if / elif
-                    / else Structure</h3>
-                <div class="code-block"><code># Pattern: if → elif → else
-if condition_1:
-    # executes when condition_1 is True
-elif condition_2:
-    # executes when condition_1 is False AND condition_2 is True
+            comparisonChoices.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const item = comparisonExamples[comparisonIndex];
+                    const chosen = btn.dataset.answer === "true";
+                    const correct = chosen === item.answer;
+
+                    comparisonChoices.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    comparisonFeedback.className =
+                        `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+                    comparisonFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.expr} → ${item.answer}<br>${item.why}`;
+                });
+            });
+
+            nextComparison.addEventListener("click", () => {
+                comparisonIndex = (comparisonIndex + 1) % comparisonExamples.length;
+                loadComparison();
+            });
+
+            loadComparison();
+
+            // ============================================================
+            // BOOLEAN EXPLORER
+            // ============================================================
+            let boolA = true;
+            let boolB = false;
+
+            const buttonsA = document.querySelectorAll(".bool-a");
+            const buttonsB = document.querySelectorAll(".bool-b");
+
+            const resAnd = document.getElementById("resAnd");
+            const resOr = document.getElementById("resOr");
+            const resNotA = document.getElementById("resNotA");
+            const resNotB = document.getElementById("resNotB");
+
+            function renderBooleanResult(element, value) {
+                element.textContent = value ? "True" : "False";
+                element.className = value ? "bool-true" : "bool-false";
+            }
+
+            function renderBooleanExplorer() {
+                renderBooleanResult(resAnd, boolA && boolB);
+                renderBooleanResult(resOr, boolA || boolB);
+                renderBooleanResult(resNotA, !boolA);
+                renderBooleanResult(resNotB, !boolB);
+
+                buttonsA.forEach(btn => {
+                    btn.classList.toggle("active", (btn.dataset.value === "true") === boolA);
+                });
+
+                buttonsB.forEach(btn => {
+                    btn.classList.toggle("active", (btn.dataset.value === "true") === boolB);
+                });
+            }
+
+            buttonsA.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    boolA = btn.dataset.value === "true";
+                    renderBooleanExplorer();
+                });
+            });
+
+            buttonsB.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    boolB = btn.dataset.value === "true";
+                    renderBooleanExplorer();
+                });
+            });
+
+            renderBooleanExplorer();
+
+            // ============================================================
+            // COMPOUND PREDICTOR
+            // ============================================================
+            const compoundExamples = [
+                {
+                    expr: "True and False or True",
+                    result: "True",
+                    why: "AND is evaluated before OR: (True and False) or True → False or True → True."
+                },
+                {
+                    expr: "not True or False",
+                    result: "False",
+                    why: "NOT first: False or False → False."
+                },
+                {
+                    expr: "(True or False) and False",
+                    result: "False",
+                    why: "Parentheses first: True and False → False."
+                },
+                {
+                    expr: "not (False or False)",
+                    result: "True",
+                    why: "Parentheses: False or False → False; then not False → True."
+                },
+                {
+                    expr: "True or False and False",
+                    result: "True",
+                    why: "AND first: False and False → False; then True or False → True."
+                },
+                {
+                    expr: "not False and True",
+                    result: "True",
+                    why: "NOT first: True and True → True."
+                }
+            ];
+
+            let compoundIndex = 0;
+            const compoundPrompt = document.getElementById("compoundPrompt");
+            const compoundFeedback = document.getElementById("compoundFeedback");
+            const compoundProgress = document.getElementById("compoundProgress");
+            const revealCompound = document.getElementById("revealCompound");
+            const nextCompound = document.getElementById("nextCompound");
+
+            function loadCompound() {
+                const item = compoundExamples[compoundIndex];
+                compoundPrompt.textContent = item.expr;
+                compoundFeedback.className = "lesson-lab-feedback";
+                compoundFeedback.textContent =
+                    "Work through NOT, then AND, then OR unless parentheses change the order.";
+                compoundProgress.textContent =
+                    `Expression ${compoundIndex + 1} of ${compoundExamples.length}`;
+            }
+
+            revealCompound.addEventListener("click", () => {
+                const item = compoundExamples[compoundIndex];
+                compoundFeedback.className = "lesson-lab-feedback correct";
+                compoundFeedback.innerHTML =
+                    `<strong>Result: ${item.result}</strong><br>${item.why}`;
+            });
+
+            nextCompound.addEventListener("click", () => {
+                compoundIndex = (compoundIndex + 1) % compoundExamples.length;
+                loadCompound();
+            });
+
+            loadCompound();
+
+            // ============================================================
+            // ENGLISH -> BOOLEAN
+            // ============================================================
+            const translationExamples = [
+                {
+                    text: "Temperature is above 20 AND below 30.",
+                    options: [
+                        "temperature > 20 and temperature < 30",
+                        "temperature > 20 or temperature < 30",
+                        "temperature == 20 and 30"
+                    ],
+                    answer: 0,
+                    why: "Both boundaries must be satisfied, so AND is required."
+                },
+                {
+                    text: "The user is an admin OR a teacher.",
+                    options: [
+                        "is_admin and is_teacher",
+                        "is_admin or is_teacher",
+                        "not is_admin or is_teacher"
+                    ],
+                    answer: 1,
+                    why: "Either role is enough, so OR is appropriate."
+                },
+                {
+                    text: "The account is NOT locked.",
+                    options: [
+                        "not is_locked",
+                        "is_locked and False",
+                        "is_locked == True"
+                    ],
+                    answer: 0,
+                    why: "NOT reverses the Boolean state."
+                },
+                {
+                    text: "x is either 5 OR 10.",
+                    options: [
+                        "x == 5 or 10",
+                        "x == 5 and x == 10",
+                        "x == 5 or x == 10"
+                    ],
+                    answer: 2,
+                    why: "Each alternative needs its own comparison."
+                }
+            ];
+
+            let translationIndex = 0;
+            const translationPrompt = document.getElementById("translationPrompt");
+            const translationOptions = document.getElementById("translationOptions");
+            const translationFeedback = document.getElementById("translationFeedback");
+            const translationProgress = document.getElementById("translationProgress");
+            const nextTranslation = document.getElementById("nextTranslation");
+
+            function loadTranslation() {
+                const item = translationExamples[translationIndex];
+
+                translationPrompt.textContent = item.text;
+                translationFeedback.className = "lesson-lab-feedback";
+                translationFeedback.textContent =
+                    "Choose the Boolean expression that matches the sentence.";
+                translationProgress.textContent =
+                    `Statement ${translationIndex + 1} of ${translationExamples.length}`;
+
+                translationOptions.innerHTML = "";
+
+                item.options.forEach((option, idx) => {
+                    const button = document.createElement("button");
+                    button.className = "lesson-choice-btn";
+                    button.type = "button";
+                    button.textContent = option;
+
+                    button.addEventListener("click", () => {
+                        const correct = idx === item.answer;
+
+                        [...translationOptions.children].forEach(b => b.classList.remove("active"));
+                        button.classList.add("active");
+
+                        translationFeedback.className =
+                            `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+                        translationFeedback.innerHTML =
+                            `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+                    });
+
+                    translationOptions.appendChild(button);
+                });
+            }
+
+            nextTranslation.addEventListener("click", () => {
+                translationIndex = (translationIndex + 1) % translationExamples.length;
+                loadTranslation();
+            });
+
+            loadTranslation();
+
+            // ============================================================
+            // BRANCHING SIMULATOR
+            // ============================================================
+            const scoreInput = document.getElementById("scoreInput");
+            const scorePresets = document.querySelectorAll(".score-preset");
+            const branchPath = document.getElementById("branchPath");
+
+            const gradeConditions = [
+                { condition: "score >= 90", grade: "Grade A", test: s => s >= 90 },
+                { condition: "score >= 80", grade: "Grade B", test: s => s >= 80 },
+                { condition: "score >= 70", grade: "Grade C", test: s => s >= 70 },
+                { condition: "score >= 60", grade: "Grade D", test: s => s >= 60 },
+                { condition: "else", grade: "Grade F", test: () => true }
+            ];
+
+            function renderBranchPath() {
+                const score = Number(scoreInput.value);
+                branchPath.innerHTML = "";
+                let hit = false;
+
+                gradeConditions.forEach((item) => {
+                    const row = document.createElement("div");
+                    row.className = "branch-path-row";
+
+                    let label;
+                    let result;
+
+                    if (hit) {
+                        label = item.condition;
+                        result = "skipped";
+                    } else {
+                        const passed = item.test(score);
+                        row.classList.add("checked");
+
+                        if (passed) {
+                            hit = true;
+                            row.classList.add("hit");
+                            label = item.condition;
+                            result = `True → ${item.grade}`;
+                        } else {
+                            label = item.condition;
+                            result = "False";
+                        }
+                    }
+
+                    row.innerHTML =
+                        `<code>${label}</code><span class="branch-path-result">${result}</span>`;
+                    branchPath.appendChild(row);
+                });
+            }
+
+            scoreInput.addEventListener("input", renderBranchPath);
+
+            scorePresets.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    scoreInput.value = btn.dataset.score;
+                    renderBranchPath();
+                });
+            });
+
+            renderBranchPath();
+
+            // ============================================================
+            // FLOWCHART PATH TRACER
+            // ============================================================
+            let traceIndex = 0;
+            const traceInput = document.getElementById("traceInput");
+            const traceStage = document.getElementById("traceStage");
+            const traceExplanation = document.getElementById("traceExplanation");
+            const tracePrev = document.getElementById("tracePrev");
+            const traceNext = document.getElementById("traceNext");
+            const traceReset = document.getElementById("traceReset");
+
+            function getTraceSteps(value) {
+                const steps = [
+                    {
+                        stage: `START\n↓\nInput number = ${value}`,
+                        explanation: `The program receives ${value}.`
+                    },
+                    {
+                        stage: `${value} > 0 ?`,
+                        explanation: `${value} > 0 evaluates to ${value > 0 ? "True" : "False"}.`
+                    }
+                ];
+
+                if (value > 0) {
+                    steps.push({
+                        stage: `${value} % 2 == 0 ?`,
+                        explanation:
+                            `${value} % 2 = ${value % 2}. The condition is ${value % 2 === 0 ? "True" : "False"}.`
+                    });
+
+                    steps.push({
+                        stage:
+                            value % 2 === 0
+                                ? `OUTPUT\n"${value} is positive and even"`
+                                : `OUTPUT\n"${value} is positive and odd"`,
+                        explanation: "The selected branch produces the output."
+                    });
+                } else {
+                    steps.push({
+                        stage: `${value} < 0 ?`,
+                        explanation: `${value} < 0 evaluates to ${value < 0 ? "True" : "False"}.`
+                    });
+
+                    steps.push({
+                        stage:
+                            value < 0
+                                ? `OUTPUT\n"${value} is negative"`
+                                : `OUTPUT\n"Zero"`,
+                        explanation: "The selected branch produces the output."
+                    });
+                }
+
+                steps.push({
+                    stage: "END",
+                    explanation: "The branching algorithm has finished."
+                });
+
+                return steps;
+            }
+
+            function renderTrace() {
+                const value = Number(traceInput.value);
+                const steps = getTraceSteps(value);
+
+                if (traceIndex >= steps.length) traceIndex = steps.length - 1;
+
+                traceStage.textContent = steps[traceIndex].stage;
+                traceExplanation.textContent =
+                    `Step ${traceIndex + 1} of ${steps.length}: ${steps[traceIndex].explanation}`;
+
+                tracePrev.disabled = traceIndex === 0;
+                traceNext.disabled = traceIndex === steps.length - 1;
+            }
+
+            traceInput.addEventListener("input", () => {
+                traceIndex = 0;
+                renderTrace();
+            });
+
+            tracePrev.addEventListener("click", () => {
+                if (traceIndex > 0) traceIndex--;
+                renderTrace();
+            });
+
+            traceNext.addEventListener("click", () => {
+                const steps = getTraceSteps(Number(traceInput.value));
+                if (traceIndex < steps.length - 1) traceIndex++;
+                renderTrace();
+            });
+
+            traceReset.addEventListener("click", () => {
+                traceIndex = 0;
+                renderTrace();
+            });
+
+            renderTrace();
+
+            // ============================================================
+            // FLOWCHART -> CODE CHALLENGE
+            // ============================================================
+            const challenges = [
+                {
+                    map:
+                        `START
+  ↓
+Input age
+  ↓
+age >= 18 ?
+ YES ↙   ↘ NO
+"Adult"  "Minor"
+   ↘     ↙
+     END`,
+                    options: [
+                        `if age >= 18:
+    print("Adult")
 else:
-    # executes when ALL above conditions are False
-
-# Example: Grade classifier
-score = int(input("Enter score: "))
-
-if score >= 90:
-    print("Grade: A")
-elif score >= 80:
-    print("Grade: B")
-elif score >= 70:
-    print("Grade: C")
-elif score >= 60:
-    print("Grade: D")
+    print("Minor")`,
+                        `if age <= 18:
+    print("Adult")
 else:
-    print("Grade: F")</code></div>
+    print("Minor")`,
+                        `if age >= 18:
+    print("Minor")
+else:
+    print("Adult")`
+                    ],
+                    answer: 0,
+                    why: "The Yes path from age >= 18 outputs Adult; the No path outputs Minor."
+                },
+                {
+                    map:
+                        `START
+  ↓
+Input n
+  ↓
+n > 0 ?
+ YES → "Positive"
+ NO
+  ↓
+n < 0 ?
+ YES → "Negative"
+ NO  → "Zero"`,
+                    options: [
+                        `if n > 0:
+    print("Positive")
+elif n < 0:
+    print("Negative")
+else:
+    print("Zero")`,
+                        `if n > 0:
+    print("Positive")
+else:
+    print("Negative")`,
+                        `if n == 0:
+    print("Positive")
+elif n > 0:
+    print("Zero")
+else:
+    print("Negative")`
+                    ],
+                    answer: 0,
+                    why: "The second decision is checked only after n > 0 is False."
+                },
+                {
+                    map:
+                        `START
+  ↓
+Input temp
+  ↓
+temp > 30 ?
+ YES → "Hot"
+ NO
+  ↓
+temp > 20 ?
+ YES → "Warm"
+ NO  → "Cool"`,
+                    options: [
+                        `if temp > 20:
+    print("Warm")
+elif temp > 30:
+    print("Hot")
+else:
+    print("Cool")`,
+                        `if temp > 30:
+    print("Hot")
+elif temp > 20:
+    print("Warm")
+else:
+    print("Cool")`,
+                        `if temp > 30 and temp > 20:
+    print("Cool")
+else:
+    print("Hot")`
+                    ],
+                    answer: 1,
+                    why: "The flowchart checks the >30 decision first, then >20."
+                },
+                {
+                    map:
+                        `START
+  ↓
+Input age, has_id
+  ↓
+age >= 18 AND has_id ?
+ YES → "Access"
+ NO  → "Denied"`,
+                    options: [
+                        `if age >= 18 or has_id:
+    print("Access")
+else:
+    print("Denied")`,
+                        `if age >= 18 and has_id:
+    print("Access")
+else:
+    print("Denied")`,
+                        `if not has_id:
+    print("Access")
+else:
+    print("Denied")`
+                    ],
+                    answer: 1,
+                    why: "The decision requires both age >= 18 and has_id to be True."
+                }
+            ];
 
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Flowchart → Code</h4>
-                    <p>A flowchart <strong>diamond</strong> (decision box) = <code>if</code> condition. The
-                        <strong>Yes</strong> arrow = the indented block. The <strong>No</strong> arrow =
-                        <code>elif</code> or <code>else</code>. Always trace the flowchart path from top to bottom,
-                        matching each diamond to a condition in code.</p>
-                </div>
-            </section>
+            let challengeIndex = 0;
+            const challengeMap = document.getElementById("challengeMap");
+            const challengeOptions = document.getElementById("challengeOptions");
+            const challengeFeedback = document.getElementById("challengeFeedback");
+            const challengeProgress = document.getElementById("challengeProgress");
+            const nextChallenge = document.getElementById("nextChallenge");
 
-            <!-- Worked Examples -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+            function loadChallenge() {
+                const item = challenges[challengeIndex];
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Boolean Variables</h4>
-                    <div class="code-block"><code># Boolean variables hold True/False
-is_raining = True
+                challengeMap.textContent = item.map;
+                challengeFeedback.className = "lesson-lab-feedback";
+                challengeFeedback.textContent =
+                    "Choose the Python code that matches the flowchart logic.";
+                challengeProgress.textContent =
+                    `Challenge ${challengeIndex + 1} of ${challenges.length}`;
+
+                challengeOptions.innerHTML = "";
+
+                item.options.forEach((option, idx) => {
+                    const button = document.createElement("button");
+                    button.className = "lesson-choice-btn";
+                    button.type = "button";
+                    button.textContent = option;
+
+                    button.addEventListener("click", () => {
+                        const correct = idx === item.answer;
+
+                        [...challengeOptions.children].forEach(b => b.classList.remove("active"));
+                        button.classList.add("active");
+
+                        challengeFeedback.className =
+                            `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+                        challengeFeedback.innerHTML =
+                            `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+                    });
+
+                    challengeOptions.appendChild(button);
+                });
+            }
+
+            nextChallenge.addEventListener("click", () => {
+                challengeIndex = (challengeIndex + 1) % challenges.length;
+                loadChallenge();
+            });
+
+            loadChallenge();
+
+            // ============================================================
+            // WORKED EXAMPLE TABS
+            // ============================================================
+            const workedExamples = {
+                boolean: {
+                    title: "Boolean Variables",
+                    description: "Boolean variables store True or False and can be combined with logical operators.",
+                    code:
+                        `is_raining = True
 has_umbrella = False
 
-# Logical expressions
 can_go_outside = not is_raining or has_umbrella
-print(can_go_outside)   # False
 
-# Explanation:
+print(can_go_outside)
+
 # not True → False
-# False or False → False</code></div>
-                </div>
+# False or False → False`
+                },
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Compound Conditions with AND/OR</h4>
-                    <div class="code-block"><code>age = int(input("Enter age: "))
+                compound: {
+                    title: "Compound Conditions with AND / OR",
+                    description: "AND requires both conditions; OR requires at least one.",
+                    code:
+                        `age = int(input("Enter age: "))
 has_id = input("Do you have ID? (yes/no): ") == "yes"
 
-# AND — both must be true
 if age >= 18 and has_id:
     print("Access granted")
 else:
     print("Access denied")
 
-# OR — either one is enough
 day = input("Enter day: ")
+
 if day == "Saturday" or day == "Sunday":
     print("Weekend!")
 else:
-    print("Weekday")</code></div>
-                </div>
+    print("Weekday")`
+                },
 
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Nested if — Cinema Ticket Pricing</h4>
-                    <div class="code-block"><code>age = int(input("Enter age: "))
+                nested: {
+                    title: "Nested if — Cinema Ticket Pricing",
+                    description: "A second decision is placed inside one branch of the first decision.",
+                    code:
+                        `age = int(input("Enter age: "))
 is_student = input("Student? (yes/no): ") == "yes"
 
 if age < 12:
     price = 500
-elif age >= 12 and age < 18:
+
+elif age < 18:
     if is_student:
         price = 700
     else:
         price = 900
+
 else:
     price = 1200
 
-print("Ticket price:", price, "tenge")</code></div>
-                </div>
+print("Ticket price:", price, "tenge")`
+                },
 
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Flowchart Implementation — Number Classifier</h4>
-                    <p>Flowchart: Input number → Is it positive? → If yes: Is it even? → Print result</p>
-                    <div class="code-block"><code>num = int(input("Enter a number: "))
+                flowchart: {
+                    title: "Flowchart Implementation — Number Classifier",
+                    description: "Each flowchart diamond becomes a Boolean condition in the branching code.",
+                    code:
+                        `num = int(input("Enter a number: "))
 
 if num > 0:
     if num % 2 == 0:
         print(num, "is positive and even")
     else:
         print(num, "is positive and odd")
+
 elif num < 0:
     print(num, "is negative")
+
 else:
-    print("Zero")
+    print("Zero")`
+                }
+            };
 
-# Trace for input 7:
-# num = 7
-# 7 > 0 → True → enter first if
-# 7 % 2 == 0 → 1 == 0 → False → enter else
-# Output: "7 is positive and odd"</code></div>
-                </div>
-            </section>
+            const workedTabs = document.querySelectorAll("[data-example]");
+            const workedTitle = document.getElementById("workedTitle");
+            const workedDescription = document.getElementById("workedDescription");
+            const workedCode = document.getElementById("workedCode");
 
-            <!-- Pitfalls -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> = vs == Confusion</h4>
-                    <p><code>=</code> is <strong>assignment</strong>, <code>==</code> is <strong>comparison</strong>.
-                        Writing <code>if x = 5:</code> is a SyntaxError. It must be <code>if x == 5:</code>.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Forgetting the Colon</h4>
-                    <p><code>if x > 5</code> → SyntaxError. Every <code>if</code>, <code>elif</code>, <code>else</code>
-                        must end with <code>:</code></p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Indentation Errors</h4>
-                    <p>Python uses indentation to define blocks. Inconsistent indentation causes
-                        <code>IndentationError</code>. Use 4 spaces consistently.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Wrong Operator Precedence</h4>
-                    <p><code>not</code> has higher precedence than <code>and</code>, which is higher than
-                        <code>or</code>. Use parentheses when combining: <code>(a or b) and c</code> is different from
-                        <code>a or (b and c)</code>.</p>
-                </div>
-            </section>
+            function showWorked(key) {
+                const item = workedExamples[key];
 
-            <!-- Pro-Tips -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Exam Strategy</h4>
-                    <ul>
-                        <li>When tracing a flowchart, follow ONLY one path at a time based on the input value</li>
-                        <li>For <code>and</code>: if the first condition is False, the whole expression is False
-                            (short-circuit)</li>
-                        <li>For <code>or</code>: if the first condition is True, the whole expression is True
-                            (short-circuit)</li>
-                        <li>Remember that <code>elif</code> is checked only if ALL previous conditions were False</li>
-                        <li>Draw a truth table if a complex boolean expression confuses you</li>
-                    </ul>
-                </div>
-            </section>
+                workedTitle.textContent = item.title;
+                workedDescription.textContent = item.description;
+                workedCode.textContent = item.code;
 
-            <!-- Assessment -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Complete the truth table for: <code>A and (B or not C)</code> for all combinations of A, B,
-                            C.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain the difference between <code>if/if/if</code> (three separate ifs) and
-                            <code>if/elif/else</code>. Give an example where they produce different results.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that reads a year and determines if it is a leap year. (Divisible by 4, but
-                            not 100, unless also divisible by 400.)</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Implement the following flowchart: Input a temperature → If temp > 30: "Hot" → Else if temp >
-                            20: "Warm" → Else if temp > 10: "Cool" → Else: "Cold".</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Given <code>x = 15</code>, trace and determine the output of:
-                            <code>if x > 10 and x < 20: print("A") elif x > 5 or x == 15: print("B") else: print("C")</code>
-                        </p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Design a quiz program that asks 3 true/false questions, counts the score, and outputs a grade
-                            based on the number correct (3 = Excellent, 2 = Good, 1 = Fair, 0 = Fail).</p>
-                    </div>
-                </div>
-            </section>
+                workedTabs.forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.example === key);
+                });
+            }
 
-            <!-- Quiz -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <div class="quiz-question">1. What is the result of <code>True and False</code>?</div>
-                    <div class="quiz-answer" data-answer="False — AND requires BOTH to be True">Click to reveal answer
-                    </div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">2. What is the result of <code>True or False</code>?</div>
-                    <div class="quiz-answer" data-answer="True — OR requires at least ONE to be True">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">3. What is <code>not True</code>?</div>
-                    <div class="quiz-answer" data-answer="False — NOT inverts the value">Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">4. What is the difference between <code>=</code> and <code>==</code>?
-                    </div>
-                    <div class="quiz-answer"
-                        data-answer="= is assignment (x = 5 stores 5 in x). == is comparison (x == 5 checks if x equals 5, returns True/False)">
-                        Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">5. Can you have <code>elif</code> without <code>if</code>?</div>
-                    <div class="quiz-answer"
-                        data-answer="No — elif must come after an if statement. It is checked only when the preceding if (or elif) was False.">
-                        Click to reveal answer</div>
-                </div>
-            </section>
+            workedTabs.forEach(btn => {
+                btn.addEventListener("click", () => showWorked(btn.dataset.example));
+            });
 
-            <nav class="lesson-nav">
-                        <a href="lesson-03-input-arithmetic.html"><span class="nav-label">← Previous</span><span class="nav-title">Input &amp; Arithmetic Operations</span></a>
-                        <a href="lesson-05-while-loop.html"><span class="nav-label">Next →</span><span class="nav-title">While Loop &amp; Flowcharts</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+            showWorked("boolean");
 
-    <footer class="site-footer">
-        <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
-            <p>&copy; 2025 IT-Tea. Educational use.</p>
-        </div>
-    </footer>
+            // ============================================================
+            // ERROR LAB
+            // ============================================================
+            const errorExamples = [
+                {
+                    code:
+                        `if x = 5:
+    print("Yes")`,
+                    answer: "syntax",
+                    why: "Use == for comparison. = is assignment."
+                },
+                {
+                    code:
+                        `if x == 5
+    print("Yes")`,
+                    answer: "syntax",
+                    why: "The if header is missing its colon."
+                },
+                {
+                    code:
+                        `if x > 5:
+print("Yes")`,
+                    answer: "indentation",
+                    why: "The print statement must be indented inside the if block."
+                },
+                {
+                    code:
+                        `if x > 5 and < 10:
+    print("In range")`,
+                    answer: "syntax",
+                    why: "The second comparison needs its own left operand: x > 5 and x < 10."
+                },
+                {
+                    code:
+                        `if score >= 60:
+    print("D")
+elif score >= 90:
+    print("A")`,
+                    answer: "logic",
+                    why: "For score 95, the >=60 branch runs first. Higher thresholds should be checked first."
+                },
+                {
+                    code:
+                        `if x == 5 or 10:
+    print("Match")`,
+                    answer: "logic",
+                    why: "10 is not a comparison. Use x == 5 or x == 10."
+                },
+                {
+                    code:
+                        `if is_logged_in:
+    print("Welcome")`,
+                    answer: "correct",
+                    why: "This is correct and idiomatic when is_logged_in is already Boolean."
+                }
+            ];
+
+            let errorIndex = 0;
+            const errorPrompt = document.getElementById("errorPrompt");
+            const errorFeedback = document.getElementById("errorFeedback");
+            const errorProgress = document.getElementById("errorProgress");
+            const errorChoices = document.querySelectorAll(".error-choice");
+            const nextError = document.getElementById("nextError");
+
+            function loadError() {
+                const item = errorExamples[errorIndex];
+
+                errorPrompt.textContent = item.code;
+                errorFeedback.className = "lesson-lab-feedback";
+                errorFeedback.textContent = "Identify the most important problem.";
+                errorProgress.textContent =
+                    `Example ${errorIndex + 1} of ${errorExamples.length}`;
+
+                errorChoices.forEach(btn => btn.classList.remove("active"));
+            }
+
+            errorChoices.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const item = errorExamples[errorIndex];
+                    const correct = btn.dataset.error === item.answer;
+
+                    errorChoices.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    errorFeedback.className =
+                        `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+                    errorFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+                });
+            });
+
+            nextError.addEventListener("click", () => {
+                errorIndex = (errorIndex + 1) % errorExamples.length;
+                loadError();
+            });
+
+            loadError();
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/lesson.js"></script>
+
 </body>
 
 </html>
