@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function initQuizReveal() {
     document.querySelectorAll('.quiz-answer').forEach(el => {
         el.addEventListener('click', () => {
+            /* New format: answer stored in data-answer attribute */
+            if (!el.classList.contains('revealed') && el.dataset.answer) {
+                el.textContent = el.dataset.answer;
+            }
             el.classList.toggle('revealed');
         });
     });
