@@ -4,203 +4,2772 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>While Loop &amp; Flowcharts — mr. TEA</title>
+
+    <title>While Loop & Flowcharts — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
     <meta name="description"
-        content="Python while loop, loop flowcharts, sentinel values, infinite loops. NIS Grade 11 Programming 11.1.2.1, 11.1.2.2.">
+        content="Python while loops, loop tracing, sentinel values, accumulators, validation, infinite loops and flowchart implementation. NIS Grade 11 Programming 11.1.2.1, 11.1.2.2.">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* ============================================================
+           PAGE-SPECIFIC STYLES ONLY
+           Shared interactive components live in /css/lesson.css
+           ============================================================ */
+
+        /* ---------- Guard / loop cycle ---------- */
+
+        .loop-anchor-grid {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .guard-visual {
+            min-height: 280px;
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+        }
+
+        .guard-door {
+            width: 92px;
+            height: 170px;
+            position: relative;
+            margin: 0 auto;
+            border: 3px solid var(--clr-tea);
+            border-radius: 8px 8px 2px 2px;
+            background: rgba(13, 148, 136, .06);
+        }
+
+        .guard-door::before {
+            content: "";
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            left: 30px;
+            top: -38px;
+            border-radius: 50%;
+            border: 2px solid var(--clr-tea);
+            background: var(--bg-card);
+        }
+
+        .guard-door::after {
+            content: "GUARD";
+            position: absolute;
+            left: 16px;
+            top: -70px;
+            color: var(--clr-tea);
+            font-size: .58rem;
+            font-weight: 900;
+            letter-spacing: .08em;
+        }
+
+        .door-handle {
+            width: 8px;
+            height: 8px;
+            position: absolute;
+            right: 10px;
+            top: 80px;
+            border-radius: 50%;
+            background: var(--clr-tea);
+        }
+
+        .guard-steps {
+            display: grid;
+            gap: var(--space-xs);
+        }
+
+        .guard-step {
+            padding: .65rem .75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .7rem;
+            line-height: 1.45;
+        }
+
+        .guard-step strong {
+            color: var(--clr-tea);
+        }
+
+        .loop-cycle {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+            gap: var(--space-xs);
+            align-items: center;
+            margin: var(--space-lg) 0;
+        }
+
+        .cycle-node {
+            min-height: 110px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .cycle-node strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .73rem;
+        }
+
+        .cycle-node code {
+            color: var(--clr-tea);
+            font: 700 .67rem var(--font-code);
+        }
+
+        .cycle-arrow {
+            color: var(--clr-tea);
+            font-weight: 900;
+        }
+
+        .cycle-back {
+            margin-top: var(--space-sm);
+            padding: .6rem;
+            text-align: center;
+            border: 1px dashed var(--clr-tea);
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .05);
+            color: var(--text-secondary);
+            font-size: .68rem;
+        }
+
+        /* ---------- Zero-run + anatomy ---------- */
+
+        .zero-run-grid,
+        .while-anatomy-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .zero-run-card,
+        .anatomy-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .zero-run-card code,
+        .anatomy-card code {
+            display: block;
+            color: var(--clr-tea);
+            font: 750 .7rem/1.5 var(--font-code);
+            margin-bottom: .35rem;
+            white-space: pre-wrap;
+        }
+
+        .zero-run-card strong,
+        .anatomy-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .73rem;
+        }
+
+        .zero-run-card p,
+        .anatomy-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .67rem;
+            line-height: 1.45;
+        }
+
+        .anatomy-card {
+            position: relative;
+        }
+
+        .anatomy-card:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 900;
+        }
+
+        /* ---------- While tracer ---------- */
+
+        .trace-control-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-sm);
+        }
+
+        .trace-control-bar .status {
+            color: var(--text-muted);
+            font-size: .68rem;
+        }
+
+        .loop-trace-table,
+        .builder-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+        }
+
+        .loop-trace-table th,
+        .loop-trace-table td,
+        .builder-table th,
+        .builder-table td {
+            padding: .55rem .5rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: .68rem;
+        }
+
+        .loop-trace-table th,
+        .builder-table th {
+            color: var(--text-primary);
+            background: var(--bg-glass);
+            font-weight: 800;
+        }
+
+        .loop-trace-table tr.active-row {
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .loop-trace-table code,
+        .builder-table code {
+            color: var(--clr-tea);
+            font: 700 .66rem var(--font-code);
+        }
+
+        /* ---------- Config simulator ---------- */
+
+        .loop-config-grid {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: var(--space-lg);
+        }
+
+        .config-controls {
+            display: grid;
+            gap: var(--space-sm);
+            align-content: start;
+        }
+
+        .config-controls label,
+        .validator-panel label,
+        .trace-summary label,
+        .sentinel-input label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            font-weight: 800;
+        }
+
+        .config-controls input,
+        .validator-panel input,
+        .trace-summary input,
+        .sentinel-input input,
+        .builder-table input {
+            width: 100%;
+            margin-top: .3rem;
+            padding: .55rem .6rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            outline: none;
+            font: 700 .74rem var(--font-code);
+        }
+
+        .config-controls input:focus,
+        .validator-panel input:focus,
+        .trace-summary input:focus,
+        .sentinel-input input:focus,
+        .builder-table input:focus {
+            border-color: var(--clr-tea);
+        }
+
+        .config-result {
+            min-height: 230px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .config-result span {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            font-size: .59rem;
+            font-weight: 800;
+        }
+
+        .config-result pre {
+            margin: 0 0 var(--space-md);
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            color: var(--text-primary);
+            font: 700 .73rem/1.6 var(--font-code);
+        }
+
+        /* ---------- Flowchart symbols ---------- */
+
+        .flow-symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .flow-symbol-card {
+            min-height: 155px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+            padding: var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .flow-symbol-card strong {
+            color: var(--text-primary);
+            font-size: .7rem;
+        }
+
+        .flow-symbol-card small {
+            color: var(--text-muted);
+            font-size: .59rem;
+            line-height: 1.35;
+        }
+
+        .shape-oval,
+        .shape-rect,
+        .shape-parallelogram,
+        .shape-diamond {
+            width: 72px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border: 2px solid var(--clr-tea);
+            background: rgba(13, 148, 136, .05);
+            color: var(--clr-tea);
+            font-size: .54rem;
+            font-weight: 850;
+        }
+
+        .shape-oval {
+            border-radius: 999px;
+        }
+
+        .shape-rect {
+            border-radius: 4px;
+        }
+
+        .shape-parallelogram {
+            transform: skew(-15deg);
+        }
+
+        .shape-parallelogram span {
+            transform: skew(15deg);
+        }
+
+        .shape-diamond {
+            width: 52px;
+            height: 52px;
+            transform: rotate(45deg);
+        }
+
+        .shape-diamond span {
+            transform: rotate(-45deg);
+        }
+
+        .shape-arrow {
+            color: var(--clr-tea);
+            font-size: 2rem;
+        }
+
+        /* ---------- Flowchart / tracer ---------- */
+
+        .flowcode-grid,
+        .loop-tracer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+            margin: var(--space-md) 0;
+        }
+
+        .flow-svg-wrap {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow-x: auto;
+        }
+
+        .flow-svg-wrap svg {
+            display: block;
+            width: 100%;
+            min-width: 390px;
+            height: auto;
+        }
+
+        .flow-code-panel,
+        .trace-stage {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .flow-code-panel pre,
+        .trace-stage pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 700 .72rem/1.6 var(--font-code);
+        }
+
+        .trace-stage {
+            min-height: 310px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+        }
+
+        .trace-summary {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+        }
+
+        .trace-summary p {
+            color: var(--text-secondary);
+            font-size: .7rem;
+            line-height: 1.5;
+        }
+
+        /* ---------- Pattern explorer ---------- */
+
+        .pattern-visual {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: var(--space-xs);
+            align-items: center;
+            margin: var(--space-md) 0;
+        }
+
+        .pattern-node {
+            min-height: 90px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .65rem;
+            line-height: 1.4;
+        }
+
+        .pattern-node code {
+            color: var(--clr-tea);
+            font: 700 .63rem var(--font-code);
+        }
+
+        .pattern-arrow {
+            color: var(--clr-tea);
+            font-weight: 900;
+        }
+
+        /* ---------- Sentinel / validation ---------- */
+
+        .sentinel-layout,
+        .validator-layout {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: var(--space-lg);
+        }
+
+        .sentinel-input,
+        .validator-panel {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+        }
+
+        .sentinel-log {
+            display: grid;
+            gap: var(--space-xs);
+        }
+
+        .sentinel-row {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: var(--space-sm);
+            align-items: center;
+            padding: .55rem .65rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .68rem;
+        }
+
+        .sentinel-row code {
+            color: var(--clr-tea);
+            font: 750 .66rem var(--font-code);
+        }
+
+        .validator-result {
+            min-height: 140px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .74rem/1.55 var(--font-code);
+        }
+
+        /* ---------- Use while / design ---------- */
+
+        .use-while-grid,
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .use-card,
+        .design-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .use-card i,
+        .design-card i {
+            color: var(--clr-tea);
+            margin-bottom: .35rem;
+        }
+
+        .use-card strong,
+        .design-card strong {
+            display: block;
+            margin-bottom: .2rem;
+            color: var(--text-primary);
+            font-size: .7rem;
+        }
+
+        .use-card p,
+        .design-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .63rem;
+            line-height: 1.4;
+        }
+
+        /* ---------- Infinite detector / off by one ---------- */
+
+        .detector-code {
+            min-height: 170px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .detector-code pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 700 .74rem/1.6 var(--font-code);
+        }
+
+        .offby-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        .offby-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .offby-card pre {
+            margin: 0 0 .6rem;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .69rem/1.55 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        .offby-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.45;
+        }
+
+        /* ---------- Trace table builder ---------- */
+
+        .builder-table input {
+            margin: 0;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .builder-cell.correct {
+            background: rgba(22, 163, 74, .08);
+        }
+
+        .builder-cell.wrong {
+            background: rgba(239, 68, 68, .08);
+        }
+
+        /* ---------- Digit visual ---------- */
+
+        .digit-visual {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: var(--space-sm);
+            align-items: center;
+            margin: var(--space-md) 0;
+        }
+
+        .digit-card {
+            min-height: 110px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .digit-card code {
+            color: var(--clr-tea);
+            font: 800 .8rem var(--font-code);
+        }
+
+        .digit-card span {
+            color: var(--text-muted);
+            font-size: .63rem;
+        }
+
+        .digit-arrow {
+            color: var(--clr-tea);
+            font-weight: 900;
+        }
+
+        /* ---------- Challenge / error ---------- */
+
+        .challenge-map {
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            text-align: center;
+            font: 700 .71rem/1.65 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        .code-choice {
+            white-space: pre-wrap;
+            text-align: left;
+            font-family: var(--font-code);
+            font-size: .65rem;
+            line-height: 1.45;
+        }
+
+        /* ---------- Responsive ---------- */
+
+        @media (max-width: 1000px) {
+            .flow-symbol-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .use-while-grid,
+            .design-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .zero-run-grid,
+            .while-anatomy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .anatomy-card::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 820px) {
+
+            .loop-anchor-grid,
+            .loop-config-grid,
+            .flowcode-grid,
+            .loop-tracer-grid,
+            .sentinel-layout,
+            .validator-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .loop-cycle,
+            .pattern-visual,
+            .digit-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .cycle-arrow,
+            .pattern-arrow,
+            .digit-arrow {
+                transform: rotate(90deg);
+                text-align: center;
+            }
+
+            .offby-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .guard-visual {
+                grid-template-columns: 1fr;
+                padding-top: 5rem;
+            }
+
+            .flow-symbol-grid,
+            .use-while-grid,
+            .design-grid,
+            .zero-run-grid,
+            .while-anatomy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .loop-trace-table,
+            .builder-table {
+                min-width: 650px;
+            }
+
+            .table-scroll {
+                overflow-x: auto;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.1A — While Loop &amp; Flowcharts</span>
-            </nav>
-
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
-                <h1 class="lesson-title">While Loop &amp; Flowcharts</h1>
-                <p class="lesson-intro">The <code>while</code> loop repeats a block of code as long as a condition
-                    remains <code>True</code>. It is ideal when you don't know in advance how many times the loop should
-                    run. Flowcharts provide a visual way to design and understand loop algorithms before coding.</p>
-            </div>
-
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.1.2.1</span> Write program code using a While loop</li>
-                    <li><span class="lo-code">11.1.2.2</span> Implement a loop algorithm according to a flowchart</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1A-lesson-05-while-loop.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-sync-alt"></i> The Guard at the Door</h4>
-                    <p>A <code>while</code> loop is like a <strong>guard</strong> checking a condition before letting
-                        you through the door again. Each time you finish the loop body, you return to the guard. If the
-                        condition is still True, you go through again. If it's False, the guard stops you and the
-                        program continues past the loop.</p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 PROG</a>
+                        <span class="sep">/</span>
+                        <span>11.1A — While Loop & Flowcharts</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fab fa-python"></i> Unit 11.1A · Term 1
+                        </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">While Loop Syntax
-                </h3>
-                <div class="code-block"><code># Basic pattern
-while condition:
-    # body — runs while condition is True
-    # MUST modify something to eventually make condition False
+                        <h1 class="lesson-title">While Loop & Flowcharts</h1>
 
-# Simple counting
-count = 1
-while count <= 5:
+                        <p class="lesson-intro">
+                            A <code>while</code> loop repeats a block of code while a condition remains
+                            <code>True</code>. It is especially useful when the number of repetitions is
+                            not known in advance. Flowcharts help us design the loop before translating
+                            the algorithm into Python.
+                        </p>
+                    </div>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.1.2.1</span> Write program code using a While loop</li>
+                            <li><span class="lo-code">11.1.2.2</span> Implement a loop algorithm according to a
+                                flowchart</li>
+                        </ul>
+                    </div>
+
+                    <!-- =====================================================
+                     EMBEDDED VIDEO
+                     ===================================================== -->
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+
+                            <div class="lesson-video-info">
+                                <h4 id="lessonVideoTitle">While / Iteration</h4>
+                                <p id="lessonVideoDescription">
+                                    Craig'n'Dave — iteration in the three basic programming constructs.
+                                    The iteration section begins at about 03:39.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="video-tabs">
+                            <button class="video-tab active" data-video="while" type="button">
+                                <i class="fas fa-rotate"></i> While / Iteration
+                            </button>
+
+                            <button class="video-tab" data-video="flowchart" type="button">
+                                <i class="fas fa-project-diagram"></i> Flowcharts
+                            </button>
+                        </div>
+
+                        <div class="lesson-video-wrapper">
+                            <iframe id="lessonVideoFrame"
+                                src="https://www.youtube-nocookie.com/embed/t0VphK9cWgE?start=219&rel=0"
+                                title="Craig n Dave - Iteration" loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <nav class="lesson-section-jump" aria-label="Lesson sections">
+                        <a href="#anatomy">Anatomy</a>
+                        <a href="#trace">Tracer</a>
+                        <a href="#flowcharts">Flowcharts</a>
+                        <a href="#patterns">Patterns</a>
+                        <a href="#simulators">Simulators</a>
+                        <a href="#debug">Debugging</a>
+                        <a href="#examples">Examples</a>
+                        <a href="#practice">Practice</a>
+                    </nav>
+
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="loop-anchor-grid">
+                            <div class="analogy-box" style="margin:0;">
+                                <h4><i class="fas fa-door-open"></i> The Guard at the Door</h4>
+                                <p>
+                                    A <code>while</code> loop is like a guard checking a condition
+                                    <strong>before</strong> each entry. If the condition is True, you
+                                    enter the loop body. When the body finishes, you return to the
+                                    guard. If the condition becomes False, you leave the loop.
+                                </p>
+                            </div>
+
+                            <div class="guard-visual" aria-label="Guard and while loop analogy">
+                                <div class="guard-door">
+                                    <span class="door-handle"></span>
+                                </div>
+
+                                <div class="guard-steps">
+                                    <div class="guard-step"><strong>1.</strong> Check condition</div>
+                                    <div class="guard-step"><strong>2.</strong> True → enter body</div>
+                                    <div class="guard-step"><strong>3.</strong> State changes</div>
+                                    <div class="guard-step"><strong>4.</strong> Return and check again</div>
+                                    <div class="guard-step"><strong>5.</strong> False → leave loop</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="loop-cycle">
+                            <div class="cycle-node">
+                                <div>
+                                    <strong>Initialise</strong>
+                                    <code>count = 1</code>
+                                </div>
+                            </div>
+
+                            <div class="cycle-arrow">→</div>
+
+                            <div class="cycle-node">
+                                <div>
+                                    <strong>Check</strong>
+                                    <code>count &lt;= 5?</code>
+                                </div>
+                            </div>
+
+                            <div class="cycle-arrow">→</div>
+
+                            <div class="cycle-node">
+                                <div>
+                                    <strong>Body</strong>
+                                    <code>print(count)</code>
+                                </div>
+                            </div>
+
+                            <div class="cycle-arrow">→</div>
+
+                            <div class="cycle-node">
+                                <div>
+                                    <strong>Update</strong>
+                                    <code>count += 1</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cycle-back">
+                            <i class="fas fa-rotate-left"></i>
+                            After the update, execution returns to the condition. If the condition is False, the loop
+                            ends.
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     ZERO ITERATIONS + ANATOMY
+                     ===================================================== -->
+                    <section class="lesson-section" id="anatomy">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code"></i> Anatomy of a While Loop
+                        </h2>
+
+                        <div class="code-block"><code>count = 1
+
+while count &lt;= 5:
     print(count)
-    count += 1     # Without this → infinite loop!
-# Output: 1 2 3 4 5 (each on a new line)</code></div>
+    count += 1</code></div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Flowchart
-                    Structure</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Flowchart Shape</th>
-                            <th>Meaning</th>
-                            <th>Python Equivalent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Oval</td>
-                            <td>Start / End</td>
-                            <td>Beginning / End of program</td>
-                        </tr>
-                        <tr>
-                            <td>Parallelogram</td>
-                            <td>Input / Output</td>
-                            <td><code>input()</code> / <code>print()</code></td>
-                        </tr>
-                        <tr>
-                            <td>Rectangle</td>
-                            <td>Process</td>
-                            <td>Assignment, calculation</td>
-                        </tr>
-                        <tr>
-                            <td>Diamond</td>
-                            <td>Decision</td>
-                            <td><code>while condition:</code></td>
-                        </tr>
-                        <tr>
-                            <td>Arrow</td>
-                            <td>Flow direction</td>
-                            <td>Sequence of execution</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <div class="while-anatomy-grid">
+                            <div class="anatomy-card">
+                                <strong>1. Initialise</strong>
+                                <code>count = 1</code>
+                                <p>Create the starting state before the first condition check.</p>
+                            </div>
 
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> While Loop Flowchart Pattern</h4>
-                    <p>In a flowchart, a while loop always has: (1) Initialize a variable, (2) Diamond: check condition,
-                        (3) Yes → process body → loop back to diamond, (4) No → continue to next step.</p>
-                </div>
+                            <div class="anatomy-card">
+                                <strong>2. Condition</strong>
+                                <code>count &lt;= 5</code>
+                                <p>The body runs only when this expression is True.</p>
+                            </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
-                    While Loop Patterns</h3>
-                <div class="code-block"><code># Pattern 1: Counter-controlled
-count = 0
-while count < 10:
+                            <div class="anatomy-card">
+                                <strong>3. Body</strong>
+                                <code>print(count)</code>
+                                <p>The statements repeated during each iteration.</p>
+                            </div>
+
+                            <div class="anatomy-card">
+                                <strong>4. Update</strong>
+                                <code>count += 1</code>
+                                <p>Changes state so the condition can eventually become False.</p>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> More precise rule</h4>
+                            <p>
+                                Something relevant to the condition must eventually change,
+                                otherwise the loop may never terminate.
+                            </p>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            A while loop can run zero times
+                        </h3>
+
+                        <div class="zero-run-grid">
+                            <div class="zero-run-card">
+                                <strong>Initial value</strong>
+                                <code>x = 10</code>
+                                <p>The variable starts at 10.</p>
+                            </div>
+
+                            <div class="zero-run-card">
+                                <strong>First check</strong>
+                                <code>x &lt; 5</code>
+                                <p><code>10 &lt; 5</code> is False.</p>
+                            </div>
+
+                            <div class="zero-run-card">
+                                <strong>Body</strong>
+                                <code>print(x)</code>
+                                <p>Skipped because the first check is already False.</p>
+                            </div>
+
+                            <div class="zero-run-card">
+                                <strong>Output</strong>
+                                <code>nothing</code>
+                                <p>The body executes zero times.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-block"><code>x = 10
+
+while x &lt; 5:
+    print(x)
+
+# No output</code></div>
+                    </section>
+
+                    <!-- =====================================================
+                     WHILE TRACER
+                     ===================================================== -->
+                    <section class="lesson-section" id="trace">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-list-ol"></i> While Loop Tracer
+                        </h2>
+
+                        <p class="concept-text">
+                            Notice that the condition is checked one more time after the final successful iteration.
+                        </p>
+
+                        <div class="lesson-lab">
+                            <div class="trace-control-bar">
+                                <span id="traceStatus" class="status"></span>
+
+                                <div class="lesson-tabs" style="margin:0;">
+                                    <button id="traceNextIteration" class="lesson-lab-btn" type="button">
+                                        Next check
+                                    </button>
+                                    <button id="traceResetTable" class="lesson-lab-btn" type="button">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-scroll">
+                                <table class="loop-trace-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Check</th>
+                                            <th>count before</th>
+                                            <th>count &lt;= 5</th>
+                                            <th>Output</th>
+                                            <th>count after update</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="traceTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Change the Loop
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="loop-config-grid">
+                                <div class="config-controls">
+                                    <label>
+                                        Start value
+                                        <input id="configStart" type="number" step="1" value="1">
+                                    </label>
+
+                                    <label>
+                                        Limit
+                                        <input id="configLimit" type="number" step="1" value="5">
+                                    </label>
+
+                                    <label>
+                                        Step
+                                        <input id="configStep" type="number" step="1" value="1">
+                                    </label>
+
+                                    <div class="lesson-tabs">
+                                        <button class="lesson-lab-btn config-preset" data-start="1" data-limit="5"
+                                            data-step="1" type="button">1 → 5</button>
+                                        <button class="lesson-lab-btn config-preset" data-start="10" data-limit="0"
+                                            data-step="-2" type="button">10 → 0</button>
+                                    </div>
+                                </div>
+
+                                <div class="config-result">
+                                    <span>Generated loop</span>
+                                    <pre id="configCode"></pre>
+
+                                    <span>Output</span>
+                                    <pre id="configOutput"></pre>
+
+                                    <span>Summary</span>
+                                    <pre id="configSummary"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     FLOWCHARTS
+                     ===================================================== -->
+                    <section class="lesson-section" id="flowcharts">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-project-diagram"></i> While Loop Flowcharts
+                        </h2>
+
+                        <div class="flow-symbol-grid">
+                            <div class="flow-symbol-card">
+                                <div class="shape-oval">START</div>
+                                <strong>Oval</strong>
+                                <small>Start / End</small>
+                            </div>
+
+                            <div class="flow-symbol-card">
+                                <div class="shape-parallelogram"><span>INPUT</span></div>
+                                <strong>Parallelogram</strong>
+                                <small>Input / Output</small>
+                            </div>
+
+                            <div class="flow-symbol-card">
+                                <div class="shape-rect">PROCESS</div>
+                                <strong>Rectangle</strong>
+                                <small>Assignment / calculation</small>
+                            </div>
+
+                            <div class="flow-symbol-card">
+                                <div class="shape-diamond"><span>?</span></div>
+                                <strong>Diamond</strong>
+                                <small>Condition / decision</small>
+                            </div>
+
+                            <div class="flow-symbol-card">
+                                <div class="shape-arrow"><i class="fas fa-arrow-down-long"></i></div>
+                                <strong>Arrow</strong>
+                                <small>Flow direction</small>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Flowchart Shape</th>
+                                    <th>Meaning</th>
+                                    <th>Python Equivalent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Oval</td>
+                                    <td>Start / End</td>
+                                    <td>Beginning / end of algorithm</td>
+                                </tr>
+                                <tr>
+                                    <td>Parallelogram</td>
+                                    <td>Input / Output</td>
+                                    <td><code>input()</code> / <code>print()</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Rectangle</td>
+                                    <td>Process</td>
+                                    <td>Assignment / calculation</td>
+                                </tr>
+                                <tr>
+                                    <td>Diamond</td>
+                                    <td>Decision</td>
+                                    <td><code>while condition:</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Arrow</td>
+                                    <td>Flow direction</td>
+                                    <td>Sequence / loop-back path</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="flowcode-grid">
+                            <div class="flow-svg-wrap">
+                                <svg viewBox="0 0 500 650" role="img"
+                                    aria-label="While loop flowchart counting from 1 to 5">
+                                    <defs>
+                                        <marker id="loopArrow" markerWidth="8" markerHeight="8" refX="6" refY="3"
+                                            orient="auto">
+                                            <path d="M0,0 L0,6 L7,3 z" fill="#0d9488"></path>
+                                        </marker>
+                                    </defs>
+
+                                    <ellipse cx="250" cy="42" rx="72" ry="28" fill="rgba(13,148,136,.08)"
+                                        stroke="#0d9488" stroke-width="2"></ellipse>
+                                    <text x="250" y="48" text-anchor="middle" fill="currentColor"
+                                        font-size="15">Start</text>
+
+                                    <line x1="250" y1="70" x2="250" y2="105" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#loopArrow)"></line>
+
+                                    <rect x="165" y="115" width="170" height="60" rx="4" fill="rgba(13,148,136,.06)"
+                                        stroke="#0d9488" stroke-width="2"></rect>
+                                    <text x="250" y="150" text-anchor="middle" fill="currentColor" font-size="14">count
+                                        ← 1</text>
+
+                                    <line x1="250" y1="175" x2="250" y2="215" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#loopArrow)"></line>
+
+                                    <polygon points="250,225 360,295 250,365 140,295" fill="rgba(13,148,136,.06)"
+                                        stroke="#0d9488" stroke-width="2"></polygon>
+                                    <text x="250" y="291" text-anchor="middle" fill="currentColor" font-size="14">count
+                                        ≤ 5?</text>
+
+                                    <line x1="360" y1="295" x2="430" y2="295" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#loopArrow)"></line>
+                                    <text x="382" y="282" fill="currentColor" font-size="12">No</text>
+
+                                    <ellipse cx="448" cy="295" rx="43" ry="24" fill="rgba(239,68,68,.06)"
+                                        stroke="#ef4444" stroke-width="2"></ellipse>
+                                    <text x="448" y="301" text-anchor="middle" fill="currentColor"
+                                        font-size="13">End</text>
+
+                                    <line x1="250" y1="365" x2="250" y2="405" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#loopArrow)"></line>
+                                    <text x="262" y="387" fill="currentColor" font-size="12">Yes</text>
+
+                                    <polygon points="170,415 340,415 325,475 155,475" fill="rgba(13,148,136,.06)"
+                                        stroke="#0d9488" stroke-width="2"></polygon>
+                                    <text x="247" y="450" text-anchor="middle" fill="currentColor"
+                                        font-size="14">print(count)</text>
+
+                                    <line x1="247" y1="475" x2="247" y2="515" stroke="#0d9488" stroke-width="2"
+                                        marker-end="url(#loopArrow)"></line>
+
+                                    <rect x="160" y="525" width="175" height="58" rx="4" fill="rgba(13,148,136,.06)"
+                                        stroke="#0d9488" stroke-width="2"></rect>
+                                    <text x="247" y="559" text-anchor="middle" fill="currentColor" font-size="14">count
+                                        ← count + 1</text>
+
+                                    <path d="M160 554 L75 554 L75 295 L140 295" fill="none" stroke="#0d9488"
+                                        stroke-width="2" marker-end="url(#loopArrow)"></path>
+                                    <text x="82" y="420" fill="currentColor" font-size="12">loop back</text>
+                                </svg>
+                            </div>
+
+                            <div class="flow-code-panel">
+                                <pre>count = 1
+
+while count &lt;= 5:
     print(count)
     count += 1
 
-# Pattern 2: Sentinel value (user says "stop")
-text = input("Enter text (or 'quit'): ")
+# Output:
+# 1
+# 2
+# 3
+# 4
+# 5</pre>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-rotate-left"></i> The loop-back arrow is the key</h4>
+                            <p>
+                                The Yes/True path enters the body and eventually returns to the
+                                same decision diamond. The No/False path leaves the loop.
+                            </p>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Flowchart Path Tracer
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="loop-tracer-grid">
+                                <div class="trace-stage">
+                                    <pre id="flowTraceStage"></pre>
+                                </div>
+
+                                <div class="trace-summary">
+                                    <p id="flowTraceExplanation"></p>
+
+                                    <div class="lesson-tabs">
+                                        <button id="flowTracePrev" class="lesson-lab-btn"
+                                            type="button">Previous</button>
+                                        <button id="flowTraceNext" class="lesson-lab-btn" type="button">Next
+                                            step</button>
+                                        <button id="flowTraceReset" class="lesson-lab-btn" type="button">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     COMMON PATTERNS
+                     ===================================================== -->
+                    <section class="lesson-section" id="patterns">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-shapes"></i> Common While-Loop Patterns
+                        </h2>
+
+                        <div class="lesson-tabs-label">
+                            <i class="fas fa-hand-pointer"></i>
+                            <span>Choose a while-loop pattern:</span>
+                        </div>
+
+                        <div class="lesson-tabs lesson-tabs--examples">
+                            <button class="lesson-tab active" data-pattern="counter" type="button">
+                                <i class="fas fa-list-ol"></i><span>Counter</span>
+                            </button>
+                            <button class="lesson-tab" data-pattern="sentinel" type="button">
+                                <i class="fas fa-stop-circle"></i><span>Sentinel</span>
+                            </button>
+                            <button class="lesson-tab" data-pattern="accumulator" type="button">
+                                <i class="fas fa-plus-circle"></i><span>Accumulator</span>
+                            </button>
+                            <button class="lesson-tab" data-pattern="validation" type="button">
+                                <i class="fas fa-check-circle"></i><span>Validation</span>
+                            </button>
+                        </div>
+
+                        <div class="lesson-tab-panel">
+                            <h4 id="patternTitle"></h4>
+                            <p id="patternDescription"></p>
+
+                            <div id="patternVisual" class="pattern-visual"></div>
+
+                            <div class="code-block"><code id="patternCode"></code></div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SIMULATORS
+                     ===================================================== -->
+                    <section class="lesson-section" id="simulators">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-flask"></i> Loop Simulators
+                        </h2>
+
+                        <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">
+                            Sentinel Accumulator Simulator
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="sentinel-layout">
+                                <div class="sentinel-input">
+                                    <label for="sentinelValues">Values separated by commas — use 0 to stop</label>
+                                    <input id="sentinelValues" type="text" value="5, 8, 3, 0">
+
+                                    <div class="lesson-tabs">
+                                        <button id="runSentinel" class="lesson-lab-btn" type="button">Run
+                                            simulation</button>
+                                        <button class="lesson-lab-btn sentinel-preset" data-values="10, -2, 4, 0"
+                                            type="button">Try 10, -2, 4, 0</button>
+                                    </div>
+                                </div>
+
+                                <div id="sentinelLog" class="sentinel-log"></div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Input Validation Simulator
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="validator-layout">
+                                <div class="validator-panel">
+                                    <label for="ageValidationInput">Enter age</label>
+                                    <input id="ageValidationInput" type="number" value="150">
+
+                                    <div class="lesson-tabs">
+                                        <button class="lesson-lab-btn age-preset" data-age="150"
+                                            type="button">150</button>
+                                        <button class="lesson-lab-btn age-preset" data-age="0" type="button">0</button>
+                                        <button class="lesson-lab-btn age-preset" data-age="16"
+                                            type="button">16</button>
+                                    </div>
+                                </div>
+
+                                <div id="ageValidationResult" class="validator-result"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     WHEN WHILE + DESIGN
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-compass"></i> When Should I Use while?
+                        </h2>
+
+                        <div class="use-while-grid">
+                            <div class="use-card">
+                                <i class="fas fa-question"></i>
+                                <strong>Unknown repetitions</strong>
+                                <p>You do not know in advance how many iterations will be needed.</p>
+                            </div>
+
+                            <div class="use-card">
+                                <i class="fas fa-toggle-on"></i>
+                                <strong>Condition-controlled</strong>
+                                <p>Repetition continues while a Boolean condition remains True.</p>
+                            </div>
+
+                            <div class="use-card">
+                                <i class="fas fa-keyboard"></i>
+                                <strong>User-controlled stop</strong>
+                                <p>Input determines when the loop finishes.</p>
+                            </div>
+
+                            <div class="use-card">
+                                <i class="fas fa-shield-alt"></i>
+                                <strong>Validation</strong>
+                                <p>Repeat until acceptable input is received.</p>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-forward"></i> Preview of the next lesson</h4>
+                            <p>
+                                When the number of repetitions is known in advance,
+                                a <code>for</code> loop is often more suitable.
+                            </p>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Design a while loop with three questions
+                        </h3>
+
+                        <div class="design-grid">
+                            <div class="design-card">
+                                <i class="fas fa-play"></i>
+                                <strong>1. Starting state?</strong>
+                                <p>What values must exist before the first condition check?</p>
+                            </div>
+
+                            <div class="design-card">
+                                <i class="fas fa-question-circle"></i>
+                                <strong>2. Continue while what?</strong>
+                                <p>Write the Boolean condition controlling repetition.</p>
+                            </div>
+
+                            <div class="design-card">
+                                <i class="fas fa-rotate"></i>
+                                <strong>3. What changes?</strong>
+                                <p>Which state changes after each iteration?</p>
+                            </div>
+
+                            <div class="design-card">
+                                <i class="fas fa-flag-checkered"></i>
+                                <strong>4. How does it stop?</strong>
+                                <p>Identify the state that makes the condition False.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     DEBUGGING LABS
+                     ===================================================== -->
+                    <section class="lesson-section" id="debug">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-bug"></i> Debugging While Loops
+                        </h2>
+
+                        <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">
+                            Infinite Loop Detector
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="detector-code">
+                                <pre id="detectorCode"></pre>
+                            </div>
+
+                            <div class="lesson-lab-options two">
+                                <button class="lesson-choice-btn detector-choice" data-detector="terminate"
+                                    type="button">
+                                    It terminates
+                                </button>
+                                <button class="lesson-choice-btn detector-choice" data-detector="infinite"
+                                    type="button">
+                                    Infinite loop
+                                </button>
+                            </div>
+
+                            <div id="detectorFeedback" class="lesson-lab-feedback">
+                                Follow how the condition changes after each iteration.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="detectorProgress"></span>
+                                <button id="nextDetector" class="lesson-lab-btn" type="button">Next loop</button>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Off-by-One Lab
+                        </h3>
+
+                        <div class="offby-grid">
+                            <div class="offby-card">
+                                <pre>count = 0
+
+while count &lt; 5:
+    print(count)
+    count += 1</pre>
+                                <p><strong>Output:</strong> 0, 1, 2, 3, 4 → <strong>5 iterations</strong>.</p>
+                            </div>
+
+                            <div class="offby-card">
+                                <pre>count = 0
+
+while count &lt;= 5:
+    print(count)
+    count += 1</pre>
+                                <p><strong>Output:</strong> 0, 1, 2, 3, 4, 5 → <strong>6 iterations</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">
+                                <code id="offbyPrompt">count = 0; while count &lt;= 5: count += 1</code>
+                            </div>
+
+                            <div class="lesson-lab-options two">
+                                <button class="lesson-choice-btn offby-choice" data-count="5" type="button">5
+                                    iterations</button>
+                                <button class="lesson-choice-btn offby-choice" data-count="6" type="button">6
+                                    iterations</button>
+                            </div>
+
+                            <div id="offbyFeedback" class="lesson-lab-feedback">
+                                Predict before choosing.
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Trace Table Builder
+                        </h3>
+
+                        <div class="code-block"><code>x = 20
+
+while x &gt; 2:
+    x = x // 2
+    print(x)</code></div>
+
+                        <div class="lesson-lab">
+                            <div class="table-scroll">
+                                <table class="builder-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Iteration</th>
+                                            <th>x before</th>
+                                            <th>x after <code>// 2</code></th>
+                                            <th>Output</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="builderBody"></tbody>
+                                </table>
+                            </div>
+
+                            <div class="lesson-tabs">
+                                <button id="checkBuilder" class="lesson-lab-btn" type="button">Check table</button>
+                                <button id="resetBuilder" class="lesson-lab-btn" type="button">Reset table</button>
+                            </div>
+
+                            <div id="builderFeedback" class="lesson-lab-feedback">
+                                Fill in every cell, then check your trace.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     WORKED EXAMPLES
+                     ===================================================== -->
+                    <section class="lesson-section" id="examples">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-pencil-alt"></i> Worked Examples
+                        </h2>
+
+                        <div class="lesson-tabs-label">
+                            <i class="fas fa-hand-pointer"></i>
+                            <span>Choose an example:</span>
+                        </div>
+
+                        <div class="lesson-tabs lesson-tabs--examples">
+                            <button class="lesson-tab active" data-example="countdown" type="button">
+                                <i class="fas fa-hourglass-half"></i><span>Countdown</span>
+                            </button>
+                            <button class="lesson-tab" data-example="guess" type="button">
+                                <i class="fas fa-gamepad"></i><span>Guessing Game</span>
+                            </button>
+                            <button class="lesson-tab" data-example="digits" type="button">
+                                <i class="fas fa-hashtag"></i><span>Sum of Digits</span>
+                            </button>
+                            <button class="lesson-tab" data-example="password" type="button">
+                                <i class="fas fa-lock"></i><span>Password</span>
+                            </button>
+                        </div>
+
+                        <div class="lesson-tab-panel">
+                            <h4 id="workedTitle"></h4>
+                            <p id="workedDescription"></p>
+                            <div id="workedExtra"></div>
+                            <div class="code-block"><code id="workedCode"></code></div>
+                        </div>
+
+                        <details class="lesson-compact-details">
+                            <summary>Extension: break</summary>
+                            <div class="lesson-details-body">
+                                <p class="concept-text">
+                                    <code>break</code> immediately exits the nearest loop, even when the loop condition
+                                    is still True.
+                                </p>
+
+                                <div class="code-block"><code>while condition:
+    # repeated statements
+
+    if something:
+        break
+
+# execution continues here</code></div>
+                            </div>
+                        </details>
+                    </section>
+
+                    <!-- =====================================================
+                     FLOWCHART CHALLENGE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-compare"></i> Flowchart → Code Challenge
+                        </h2>
+
+                        <div class="lesson-lab">
+                            <div id="challengeMap" class="challenge-map"></div>
+                            <div id="challengeOptions" class="lesson-lab-options three"></div>
+
+                            <div id="challengeFeedback" class="lesson-lab-feedback">
+                                Choose the Python code that matches the algorithm.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="challengeProgress"></span>
+                                <button id="nextChallenge" class="lesson-lab-btn" type="button">Next challenge</button>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            While Error Lab
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">
+                                <pre id="errorPrompt"></pre>
+                            </div>
+
+                            <div class="lesson-lab-options five">
+                                <button class="lesson-choice-btn error-choice" data-error="correct"
+                                    type="button">Correct</button>
+                                <button class="lesson-choice-btn error-choice" data-error="infinite"
+                                    type="button">Infinite loop</button>
+                                <button class="lesson-choice-btn error-choice" data-error="offby"
+                                    type="button">Off-by-one</button>
+                                <button class="lesson-choice-btn error-choice" data-error="sentinel"
+                                    type="button">Sentinel error</button>
+                                <button class="lesson-choice-btn error-choice" data-error="logic" type="button">Logic
+                                    error</button>
+                            </div>
+
+                            <div id="errorFeedback" class="lesson-lab-feedback">
+                                Identify the most important issue.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="errorProgress"></span>
+                                <button id="nextError" class="lesson-lab-btn" type="button">Next example</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PITFALLS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Pitfalls & Common Errors
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Infinite Loop</h4>
+                            <p>
+                                If the condition never becomes False, the loop continues indefinitely.
+                                Changing a variable is not enough — it must change in a direction that can
+                                eventually make the condition False.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Off-by-One Error</h4>
+                            <p>
+                                <code>&lt;</code> and <code>&lt;=</code> often produce different iteration counts.
+                                Trace the first and last successful checks.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Sentinel Not Updated</h4>
+                            <p>
+                                When a sentinel controls the loop, a new value must be obtained inside
+                                the loop body. Otherwise the condition keeps testing the same old value.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Update Moves the Wrong Way</h4>
+                            <p>
+                                <code>x += 1</code> is wrong if the loop needs x to decrease toward zero.
+                                Always compare the update with the stopping condition.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Invalid Starting State</h4>
+                            <p>
+                                The condition is checked before the first iteration. A starting value may
+                                cause the body to run zero times.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Numeric Input Still Needs Conversion</h4>
+                            <p>
+                                <code>input()</code> returns <code>str</code>. Convert with <code>int()</code>
+                                or <code>float()</code> when the loop compares numeric values.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM TIPS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-star"></i> Pro-Tips for Exams
+                        </h2>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Loop Tracing Strategy</h4>
+                            <ul>
+                                <li>Write a trace table with a column for every changing variable and the output.</li>
+                                <li>Check the condition before every iteration, including the first.</li>
+                                <li>Remember that one final False check happens after the last successful iteration.
+                                </li>
+                                <li>For flowchart → code, map the decision diamond to the <code>while</code> condition.
+                                </li>
+                                <li>Follow the loop-back arrow carefully.</li>
+                                <li>Ask: what changes, and how will that eventually make the condition False?</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     GRADED TASKS
+                     ===================================================== -->
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Graded Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    State the four parts of a common counter-controlled while loop:
+                                    initialisation, condition, body and update.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain how a <code>while</code> loop can execute zero times.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Identify why the following is infinite:
+                                    <code>x = 10; while x &gt; 0: x += 1</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Write a countdown using <code>while</code> that prints 10 down to 1 and then
+                                    prints <code>"Launch!"</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Read integers until the user enters 0. Accumulate and output the total of all
+                                    non-zero values entered.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Convert a flowchart with the structure
+                                    Initialise → condition diamond → process → update → loop back
+                                    into valid Python code.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    Trace:
+                                    <code>x = 100; while x &gt; 1: x = x // 2; print(x)</code>.
+                                    Produce a complete trace table and exact output.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Create a number guessing or input-validation program in which
+                                    <code>while</code> repeats until a correct/valid value is entered.
+                                </p>
+                            </div>
+                        </div>
+
+                        <details class="lesson-compact-details">
+                            <summary>Challenge: Collatz sequence</summary>
+                            <div class="lesson-details-body">
+                                <p class="concept-text">
+                                    Start with a positive integer. While it is greater than 1:
+                                    if even divide by 2; if odd multiply by 3 and add 1.
+                                    Print every value and count the steps.
+                                </p>
+                            </div>
+                        </details>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM PRACTICE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: Write the exact output. [3]
+                            </p>
+
+                            <div class="code-block"><code>x = 10
+
+while x &gt; 1:
+    x = x // 2
+    print(x)</code></div>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>5
+                                    2
+                                    1</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: Explain why this loop never terminates. [2]
+                            </p>
+
+                            <div class="code-block"><code>x = 1
+
+while x &lt;= 5:
+    print(x)</code></div>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>x never changes inside the loop.
+                                    Therefore x remains 1 and the condition x &lt;= 5 remains True.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: Write Python code for this algorithm. [4]<br>
+                                Set total to 0 → input number → while number is not 0 →
+                                add number to total → input next number → output total.
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>total = 0
+                                    number = int(input("Number: "))
+
+                                    while number != 0:
+                                    total += number
+                                    number = int(input("Number: "))
+
+                                    print(total)</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: How many times does the body execute? [1]<br>
+                                <code>i = 0; while i &lt;= 5: i += 1</code>
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking point</summary>
+                                <div>6 times.</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-check-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="lesson-quiz-progress">
+                            <span>Eight quick checks</span>
+                            <span>Click each answer to reveal</span>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                1. What happens if the <code>while</code> condition is False at the start?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="The loop body never executes — it is skipped entirely">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                2. How many times does <code>i = 0; while i &lt; 3: i += 1</code> run?
+                            </div>
+                            <div class="quiz-answer" data-answer="3 times — for starting values 0, 1 and 2">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What commonly causes an infinite loop?</div>
+                            <div class="quiz-answer"
+                                data-answer="The condition never becomes False — for example, the relevant state is not updated or moves in the wrong direction">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. What does <code>break</code> do?</div>
+                            <div class="quiz-answer" data-answer="It immediately exits the nearest loop">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. Which flowchart shape represents the loop condition?</div>
+                            <div class="quiz-answer" data-answer="A diamond — the decision shape">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                6. With <code>count = 0</code>, what is the difference between
+                                <code>count &lt; 5</code> and <code>count &lt;= 5</code>?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="Using < gives five iterations for 0–4; using <= gives six iterations for 0–5">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. Why must a sentinel value usually be updated inside the loop?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="Otherwise the loop keeps checking the same old value and may never reach the stopping sentinel">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">8. Where does execution go after the loop body finishes?</div>
+                            <div class="quiz-answer" data-answer="Back to the while condition for another check">
+                                Click to reveal answer
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="lesson-04-boolean-branching.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">Boolean Logic & Branching</span>
+                            </span>
+                        </a>
+
+                        <a href="lesson-06-for-loop.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">For Loop & Range</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Programming</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // ============================================================
+            // EMBEDDED VIDEO TABS
+            // ============================================================
+            const videos = {
+                while: {
+                    title: "While / Iteration",
+                    description:
+                        "Craig'n'Dave — iteration in the three basic programming constructs. The iteration section begins at about 03:39.",
+                    src: "https://www.youtube-nocookie.com/embed/t0VphK9cWgE?start=219&rel=0",
+                    iframeTitle: "Craig n Dave - Iteration"
+                },
+
+                flowchart: {
+                    title: "Flowcharts",
+                    description:
+                        "Craig'n'Dave Cambridge IGCSE — producing algorithms with pseudocode and flowcharts. Flowcharts begin at about 00:24.",
+                    src: "https://www.youtube-nocookie.com/embed/kSpUGDYBnww?start=24&rel=0",
+                    iframeTitle: "Craig n Dave - Flowcharts"
+                }
+            };
+
+            const videoTabs = document.querySelectorAll(".video-tab");
+            const lessonVideoFrame = document.getElementById("lessonVideoFrame");
+            const lessonVideoTitle = document.getElementById("lessonVideoTitle");
+            const lessonVideoDescription = document.getElementById("lessonVideoDescription");
+
+            function showVideo(key) {
+                const item = videos[key];
+                lessonVideoTitle.textContent = item.title;
+                lessonVideoDescription.textContent = item.description;
+                lessonVideoFrame.src = item.src;
+                lessonVideoFrame.title = item.iframeTitle;
+
+                videoTabs.forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.video === key);
+                });
+            }
+
+            videoTabs.forEach(btn => {
+                btn.addEventListener("click", () => showVideo(btn.dataset.video));
+            });
+
+            // ============================================================
+            // WHILE LOOP TRACER
+            // ============================================================
+            const traceRows = [
+                { check: 1, before: 1, condition: "True", output: "1", after: 2 },
+                { check: 2, before: 2, condition: "True", output: "2", after: 3 },
+                { check: 3, before: 3, condition: "True", output: "3", after: 4 },
+                { check: 4, before: 4, condition: "True", output: "4", after: 5 },
+                { check: 5, before: 5, condition: "True", output: "5", after: 6 },
+                { check: 6, before: 6, condition: "False", output: "—", after: "—" }
+            ];
+
+            let traceRowIndex = 0;
+            const traceTableBody = document.getElementById("traceTableBody");
+            const traceStatus = document.getElementById("traceStatus");
+            const traceNextIteration = document.getElementById("traceNextIteration");
+            const traceResetTable = document.getElementById("traceResetTable");
+
+            function renderTraceTable() {
+                traceTableBody.innerHTML = "";
+
+                traceRows.slice(0, traceRowIndex).forEach((row, idx) => {
+                    const tr = document.createElement("tr");
+                    if (idx === traceRowIndex - 1) tr.classList.add("active-row");
+
+                    tr.innerHTML =
+                        `<td>${row.check}</td>` +
+                        `<td><code>${row.before}</code></td>` +
+                        `<td>${row.condition}</td>` +
+                        `<td><code>${row.output}</code></td>` +
+                        `<td><code>${row.after}</code></td>`;
+
+                    traceTableBody.appendChild(tr);
+                });
+
+                if (traceRowIndex === 0) {
+                    traceStatus.textContent = "Press “Next check” to begin tracing.";
+                } else if (traceRowIndex < traceRows.length) {
+                    traceStatus.textContent =
+                        `Shown ${traceRowIndex} of ${traceRows.length} condition checks.`;
+                } else {
+                    traceStatus.textContent =
+                        "Complete: 6 condition checks, 5 body executions.";
+                }
+
+                traceNextIteration.disabled = traceRowIndex >= traceRows.length;
+            }
+
+            traceNextIteration.addEventListener("click", () => {
+                if (traceRowIndex < traceRows.length) traceRowIndex++;
+                renderTraceTable();
+            });
+
+            traceResetTable.addEventListener("click", () => {
+                traceRowIndex = 0;
+                renderTraceTable();
+            });
+
+            renderTraceTable();
+
+            // ============================================================
+            // CHANGE THE LOOP
+            // ============================================================
+            const configStart = document.getElementById("configStart");
+            const configLimit = document.getElementById("configLimit");
+            const configStep = document.getElementById("configStep");
+            const configCode = document.getElementById("configCode");
+            const configOutput = document.getElementById("configOutput");
+            const configSummary = document.getElementById("configSummary");
+            const configPresets = document.querySelectorAll(".config-preset");
+
+            function simulateConfiguredLoop() {
+                const start = Number(configStart.value);
+                const limit = Number(configLimit.value);
+                const step = Number(configStep.value);
+
+                if (!Number.isFinite(start) || !Number.isFinite(limit) || !Number.isFinite(step)) {
+                    configCode.textContent = "Enter valid numeric values.";
+                    configOutput.textContent = "—";
+                    configSummary.textContent = "—";
+                    return;
+                }
+
+                if (step === 0) {
+                    configCode.textContent =
+                        `count = ${start}
+
+while ...:
+    print(count)
+    count += 0`;
+                    configOutput.textContent = "Potential infinite loop";
+                    configSummary.textContent =
+                        "Step = 0, so count never changes.";
+                    return;
+                }
+
+                const increasing = step > 0;
+                const conditionText = increasing ? `count <= ${limit}` : `count >= ${limit}`;
+
+                configCode.textContent =
+                    `count = ${start}
+
+while ${conditionText}:
+    print(count)
+    count += ${step}`;
+
+                const values = [];
+                let count = start;
+                let guard = 0;
+
+                while ((increasing ? count <= limit : count >= limit) && guard < 100) {
+                    values.push(count);
+                    count += step;
+                    guard++;
+                }
+
+                if (values.length === 0) {
+                    configOutput.textContent = "(no output)";
+                    configSummary.textContent =
+                        `0 iterations · final count = ${start}`;
+                } else {
+                    configOutput.textContent = values.join("  ");
+                    configSummary.textContent =
+                        `${values.length} iteration${values.length === 1 ? "" : "s"} · final count = ${count}`;
+                }
+            }
+
+            [configStart, configLimit, configStep].forEach(input => {
+                input.addEventListener("input", simulateConfiguredLoop);
+            });
+
+            configPresets.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    configStart.value = btn.dataset.start;
+                    configLimit.value = btn.dataset.limit;
+                    configStep.value = btn.dataset.step;
+                    simulateConfiguredLoop();
+                });
+            });
+
+            simulateConfiguredLoop();
+
+            // ============================================================
+            // FLOWCHART PATH TRACER
+            // ============================================================
+            const flowTraceSteps = [
+                {
+                    stage: "START\n↓\ncount = 1",
+                    explanation: "Initialise count before the first condition check."
+                },
+                {
+                    stage: "count <= 5 ?\n1 <= 5 → True",
+                    explanation: "The True path enters the loop body."
+                },
+                {
+                    stage: "print(count)\nOutput: 1",
+                    explanation: "The body prints the current value."
+                },
+                {
+                    stage: "count = count + 1\ncount = 2",
+                    explanation: "The update changes the loop state."
+                },
+                {
+                    stage: "↺ BACK TO CONDITION\n2 <= 5 → True",
+                    explanation: "The loop-back arrow returns to the same diamond."
+                },
+                {
+                    stage: "...\nAfter printing 5:\ncount becomes 6",
+                    explanation: "After the fifth iteration, the update changes count to 6."
+                },
+                {
+                    stage: "count <= 5 ?\n6 <= 5 → False",
+                    explanation: "The False path leaves the loop."
+                },
+                {
+                    stage: "END",
+                    explanation: "The loop algorithm has finished."
+                }
+            ];
+
+            let flowTraceIndex = 0;
+            const flowTraceStage = document.getElementById("flowTraceStage");
+            const flowTraceExplanation = document.getElementById("flowTraceExplanation");
+            const flowTracePrev = document.getElementById("flowTracePrev");
+            const flowTraceNext = document.getElementById("flowTraceNext");
+            const flowTraceReset = document.getElementById("flowTraceReset");
+
+            function renderFlowTrace() {
+                const step = flowTraceSteps[flowTraceIndex];
+                flowTraceStage.textContent = step.stage;
+                flowTraceExplanation.textContent =
+                    `Step ${flowTraceIndex + 1} of ${flowTraceSteps.length}: ${step.explanation}`;
+
+                flowTracePrev.disabled = flowTraceIndex === 0;
+                flowTraceNext.disabled = flowTraceIndex === flowTraceSteps.length - 1;
+            }
+
+            flowTracePrev.addEventListener("click", () => {
+                if (flowTraceIndex > 0) flowTraceIndex--;
+                renderFlowTrace();
+            });
+
+            flowTraceNext.addEventListener("click", () => {
+                if (flowTraceIndex < flowTraceSteps.length - 1) flowTraceIndex++;
+                renderFlowTrace();
+            });
+
+            flowTraceReset.addEventListener("click", () => {
+                flowTraceIndex = 0;
+                renderFlowTrace();
+            });
+
+            renderFlowTrace();
+
+            // ============================================================
+            // PATTERN EXPLORER
+            // ============================================================
+            const patternData = {
+                counter: {
+                    title: "Counter-Controlled while",
+                    description:
+                        "A counter starts at a known value, the condition checks its range, and the body updates the counter.",
+                    nodes: ["Initialise<br><code>count = 0</code>", "Check<br><code>count < 10</code>", "Body<br><code>print(count)</code>", "Update<br><code>count += 1</code>"],
+                    code:
+                        `count = 0
+
+while count < 10:
+    print(count)
+    count += 1`
+                },
+
+                sentinel: {
+                    title: "Sentinel-Controlled while",
+                    description:
+                        "A special input value tells the program when to stop. The sentinel must be checked and the input must be updated.",
+                    nodes: ["Input value", "Check<br><code>value != sentinel</code>", "Process value", "Input next value"],
+                    code:
+                        `text = input("Enter text (or 'quit'): ")
+
 while text != "quit":
     print("You said:", text)
-    text = input("Enter text (or 'quit'): ")
+    text = input("Enter text (or 'quit'): ")`
+                },
 
-# Pattern 3: Accumulator
-total = 0
+                accumulator: {
+                    title: "Accumulator Pattern",
+                    description:
+                        "An accumulator stores a running total while values are repeatedly processed.",
+                    nodes: ["Initialise<br><code>total = 0</code>", "Input number", "Add<br><code>total += num</code>", "Input next number"],
+                    code:
+                        `total = 0
 num = int(input("Enter number (0 to stop): "))
+
 while num != 0:
     total += num
     num = int(input("Enter number (0 to stop): "))
-print("Total:", total)
 
-# Pattern 4: Input validation
-age = int(input("Enter age (1-120): "))
+print("Total:", total)`
+                },
+
+                validation: {
+                    title: "Input Validation Pattern",
+                    description:
+                        "The loop repeats while the current input is outside the acceptable range.",
+                    nodes: ["Input age", "Invalid?<br><code>age < 1 or age > 120</code>", "Show message", "Input again"],
+                    code:
+                        `age = int(input("Enter age (1-120): "))
+
 while age < 1 or age > 120:
     print("Invalid! Try again.")
-    age = int(input("Enter age (1-120): "))</code></div>
-            </section>
+    age = int(input("Enter age (1-120): "))
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+print("Accepted:", age)`
+                }
+            };
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Countdown Timer</h4>
-                    <div class="code-block"><code>count = 10
+            const patternTabs = document.querySelectorAll("[data-pattern]");
+            const patternTitle = document.getElementById("patternTitle");
+            const patternDescription = document.getElementById("patternDescription");
+            const patternVisual = document.getElementById("patternVisual");
+            const patternCode = document.getElementById("patternCode");
+
+            function showPattern(key) {
+                const item = patternData[key];
+
+                patternTitle.textContent = item.title;
+                patternDescription.textContent = item.description;
+                patternCode.textContent = item.code;
+                patternVisual.innerHTML = "";
+
+                item.nodes.forEach((node, idx) => {
+                    const div = document.createElement("div");
+                    div.className = "pattern-node";
+                    div.innerHTML = node;
+                    patternVisual.appendChild(div);
+
+                    if (idx < item.nodes.length - 1) {
+                        const arrow = document.createElement("div");
+                        arrow.className = "pattern-arrow";
+                        arrow.textContent = "→";
+                        patternVisual.appendChild(arrow);
+                    }
+                });
+
+                patternTabs.forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.pattern === key);
+                });
+            }
+
+            patternTabs.forEach(btn => {
+                btn.addEventListener("click", () => showPattern(btn.dataset.pattern));
+            });
+
+            showPattern("counter");
+
+            // ============================================================
+            // SENTINEL SIMULATOR
+            // ============================================================
+            const sentinelValues = document.getElementById("sentinelValues");
+            const runSentinel = document.getElementById("runSentinel");
+            const sentinelLog = document.getElementById("sentinelLog");
+            const sentinelPresets = document.querySelectorAll(".sentinel-preset");
+
+            function runSentinelSimulation() {
+                const tokens = sentinelValues.value
+                    .split(",")
+                    .map(v => v.trim())
+                    .filter(v => v !== "");
+
+                sentinelLog.innerHTML = "";
+
+                let total = 0;
+                let stopped = false;
+
+                if (tokens.length === 0) {
+                    sentinelLog.innerHTML =
+                        '<div class="sentinel-row"><code>—</code><span>Enter comma-separated numbers.</span></div>';
+                    return;
+                }
+
+                tokens.forEach(token => {
+                    if (stopped) return;
+
+                    const value = Number(token);
+
+                    const row = document.createElement("div");
+                    row.className = "sentinel-row";
+
+                    if (!Number.isFinite(value)) {
+                        row.innerHTML =
+                            `<code>${token}</code><span>Invalid numeric input — simulation stops.</span>`;
+                        sentinelLog.appendChild(row);
+                        stopped = true;
+                        return;
+                    }
+
+                    if (value === 0) {
+                        row.innerHTML =
+                            `<code>0</code><span>Sentinel reached → STOP · final total = ${total}</span>`;
+                        sentinelLog.appendChild(row);
+                        stopped = true;
+                        return;
+                    }
+
+                    total += value;
+                    row.innerHTML =
+                        `<code>${value}</code><span>total = ${total}</span>`;
+                    sentinelLog.appendChild(row);
+                });
+
+                if (!stopped) {
+                    const row = document.createElement("div");
+                    row.className = "sentinel-row";
+                    row.innerHTML =
+                        `<code>?</code><span>No 0 sentinel was supplied — a real input loop would still be waiting.</span>`;
+                    sentinelLog.appendChild(row);
+                }
+            }
+
+            runSentinel.addEventListener("click", runSentinelSimulation);
+
+            sentinelPresets.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    sentinelValues.value = btn.dataset.values;
+                    runSentinelSimulation();
+                });
+            });
+
+            runSentinelSimulation();
+
+            // ============================================================
+            // VALIDATION SIMULATOR
+            // ============================================================
+            const ageValidationInput = document.getElementById("ageValidationInput");
+            const ageValidationResult = document.getElementById("ageValidationResult");
+            const agePresets = document.querySelectorAll(".age-preset");
+
+            function renderValidation() {
+                const age = Number(ageValidationInput.value);
+                const invalid = !Number.isFinite(age) || age < 1 || age > 120;
+
+                if (invalid) {
+                    ageValidationResult.innerHTML =
+                        `age = ${ageValidationInput.value || "?"}
+
+age < 1 or age > 120
+→ True
+
+Invalid — while repeats and asks again.`;
+                } else {
+                    ageValidationResult.innerHTML =
+                        `age = ${age}
+
+age < 1 or age > 120
+→ False
+
+Accepted — leave the while loop.`;
+                }
+            }
+
+            ageValidationInput.addEventListener("input", renderValidation);
+
+            agePresets.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    ageValidationInput.value = btn.dataset.age;
+                    renderValidation();
+                });
+            });
+
+            renderValidation();
+
+            // ============================================================
+            // INFINITE LOOP DETECTOR
+            // ============================================================
+            const detectorExamples = [
+                {
+                    code:
+                        `count = 1
+
+while count <= 5:
+    print(count)`,
+                    answer: "infinite",
+                    why: "count never changes, so count <= 5 remains True."
+                },
+                {
+                    code:
+                        `x = 10
+
+while x > 0:
+    x += 1`,
+                    answer: "infinite",
+                    why: "x moves away from 0. The condition x > 0 never becomes False."
+                },
+                {
+                    code:
+                        `x = 10
+
+while x > 0:
+    x -= 1`,
+                    answer: "terminate",
+                    why: "x decreases until it becomes 0, making x > 0 False."
+                },
+                {
+                    code:
+                        `x = 0
+
+while x < 5:
+    x += 2`,
+                    answer: "terminate",
+                    why: "x becomes 0, 2, 4, 6. At 6, x < 5 is False."
+                }
+            ];
+
+            let detectorIndex = 0;
+            const detectorCode = document.getElementById("detectorCode");
+            const detectorChoices = document.querySelectorAll(".detector-choice");
+            const detectorFeedback = document.getElementById("detectorFeedback");
+            const detectorProgress = document.getElementById("detectorProgress");
+            const nextDetector = document.getElementById("nextDetector");
+
+            function loadDetector() {
+                const item = detectorExamples[detectorIndex];
+                detectorCode.textContent = item.code;
+                detectorFeedback.className = "lesson-lab-feedback";
+                detectorFeedback.textContent =
+                    "Follow how the condition changes after each iteration.";
+                detectorProgress.textContent =
+                    `Loop ${detectorIndex + 1} of ${detectorExamples.length}`;
+                detectorChoices.forEach(btn => btn.classList.remove("active"));
+            }
+
+            detectorChoices.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const item = detectorExamples[detectorIndex];
+                    const correct = btn.dataset.detector === item.answer;
+
+                    detectorChoices.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    detectorFeedback.className =
+                        `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+                    detectorFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+                });
+            });
+
+            nextDetector.addEventListener("click", () => {
+                detectorIndex = (detectorIndex + 1) % detectorExamples.length;
+                loadDetector();
+            });
+
+            loadDetector();
+
+            // ============================================================
+            // OFF-BY-ONE LAB
+            // ============================================================
+            const offbyChoices = document.querySelectorAll(".offby-choice");
+            const offbyFeedback = document.getElementById("offbyFeedback");
+
+            offbyChoices.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const correct = btn.dataset.count === "6";
+
+                    offbyChoices.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    offbyFeedback.className =
+                        `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+                    offbyFeedback.innerHTML = correct
+                        ? "<strong>Correct.</strong><br>The body runs for count = 0, 1, 2, 3, 4 and 5."
+                        : "<strong>Not quite.</strong><br>Remember that <= includes the boundary value 5.";
+                });
+            });
+
+            // ============================================================
+            // TRACE TABLE BUILDER
+            // ============================================================
+            const builderRows = [
+                [20, 10, 10],
+                [10, 5, 5],
+                [5, 2, 2]
+            ];
+
+            const builderBody = document.getElementById("builderBody");
+            const checkBuilder = document.getElementById("checkBuilder");
+            const resetBuilder = document.getElementById("resetBuilder");
+            const builderFeedback = document.getElementById("builderFeedback");
+
+            function buildTraceInputs() {
+                builderBody.innerHTML = "";
+
+                builderRows.forEach((row, rowIndex) => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML =
+                        `<td>${rowIndex + 1}</td>
+<td class="builder-cell"><input aria-label="Iteration ${rowIndex + 1} x before"></td>
+<td class="builder-cell"><input aria-label="Iteration ${rowIndex + 1} x after"></td>
+<td class="builder-cell"><input aria-label="Iteration ${rowIndex + 1} output"></td>`;
+                    builderBody.appendChild(tr);
+                });
+
+                builderFeedback.className = "lesson-lab-feedback";
+                builderFeedback.textContent =
+                    "Fill in every cell, then check your trace.";
+            }
+
+            checkBuilder.addEventListener("click", () => {
+                let correctCount = 0;
+                let total = 0;
+
+                [...builderBody.rows].forEach((tr, rowIndex) => {
+                    const inputs = tr.querySelectorAll("input");
+                    const expected = builderRows[rowIndex];
+
+                    inputs.forEach((input, colIndex) => {
+                        total++;
+                        const cell = input.parentElement;
+                        const correct = Number(input.value) === expected[colIndex];
+
+                        cell.classList.remove("correct", "wrong");
+                        cell.classList.add(correct ? "correct" : "wrong");
+                        if (correct) correctCount++;
+                    });
+                });
+
+                const allCorrect = correctCount === total;
+                builderFeedback.className =
+                    `lesson-lab-feedback ${allCorrect ? "correct" : "wrong"}`;
+                builderFeedback.textContent = allCorrect
+                    ? "Correct. The trace is 20 → 10 → 5 → 2, with outputs 10, 5, 2."
+                    : `${correctCount} of ${total} cells are correct. Recheck each assignment before the print.`;
+            });
+
+            resetBuilder.addEventListener("click", buildTraceInputs);
+            buildTraceInputs();
+
+            // ============================================================
+            // WORKED EXAMPLES
+            // ============================================================
+            const workedExamples = {
+                countdown: {
+                    title: "Countdown Timer",
+                    description:
+                        "A counter decreases each iteration until the condition becomes False.",
+                    extra: "",
+                    code:
+                        `count = 10
+
 while count > 0:
     print(count)
     count -= 1
-print("Launch!")
 
-# Trace table:
-# count | Output
-# 10    | 10
-# 9     | 9
-# ...
-# 1     | 1
-# 0     | Launch!</code></div>
-                </div>
+print("Launch!")`
+                },
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Guessing Game (Flowchart Implementation)</h4>
-                    <p>Flowchart: Start → Set secret=7 → Input guess → Is guess == secret? → No: Too high/low → Input
-                        guess again → Yes: "Correct!" → End</p>
-                    <div class="code-block"><code>secret = 7
+                guess: {
+                    title: "Guessing Game — Flowchart Implementation",
+                    description:
+                        "The loop repeats until the guess matches the secret. Each incorrect guess produces feedback and then new input.",
+                    extra:
+                        `START
+  ↓
+secret = 7
+  ↓
+Input guess
+  ↓
+guess != secret ?
+ YES → Too high / Too low → Input guess again ↺
+ NO  → "Correct!" → END`,
+                    code:
+                        `secret = 7
 guess = int(input("Guess the number (1-10): "))
 
 while guess != secret:
@@ -208,170 +2777,360 @@ while guess != secret:
         print("Too high!")
     else:
         print("Too low!")
+
     guess = int(input("Try again: "))
 
-print("Correct! 🎉")</code></div>
-                </div>
+print("Correct! 🎉")`
+                },
 
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Sum of Digits</h4>
-                    <div class="code-block"><code># Extract and sum each digit of a number
-num = int(input("Enter a number: "))  # e.g., 347
+                digits: {
+                    title: "Sum of Digits",
+                    description:
+                        "Modulo extracts the last digit; floor division removes it. The loop repeats until no digits remain.",
+                    extra:
+                        `347 % 10 → 7
+347 // 10 → 34
+
+34 % 10 → 4
+34 // 10 → 3
+
+3 % 10 → 3
+3 // 10 → 0`,
+                    code:
+                        `num = int(input("Enter a positive number: "))
 total = 0
 
 while num > 0:
-    digit = num % 10     # Get last digit
-    total += digit       # Add to total
-    num = num // 10      # Remove last digit
+    digit = num % 10
+    total += digit
+    num = num // 10
 
-print("Sum of digits:", total)
+print("Sum of digits:", total)`
+                },
 
-# Trace for 347:
-# num  | digit | total
-# 347  | 7     | 7
-# 34   | 4     | 11
-# 3    | 3     | 14
-# 0    | (stop)| 14</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Password Checker with Attempt Limit</h4>
-                    <div class="code-block"><code>correct = "python123"
+                password: {
+                    title: "Password Checker with Attempt Limit",
+                    description:
+                        "The loop is controlled by remaining attempts. break exits immediately when the correct password is entered.",
+                    extra: "",
+                    code:
+                        `correct = "python123"
 attempts = 3
 
 while attempts > 0:
     pw = input("Enter password: ")
+
     if pw == correct:
         print("Access granted!")
         break
-    else:
-        attempts -= 1
-        print(f"Wrong! {attempts} attempts left.")
+
+    attempts -= 1
+    print(f"Wrong! {attempts} attempts left.")
 
 if attempts == 0:
-    print("Account locked!")</code></div>
-                </div>
-            </section>
+    print("Account locked!")`
+                }
+            };
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Infinite Loop</h4>
-                    <p>If the condition never becomes False, the loop runs forever. Always ensure the loop variable
-                        changes inside the loop body. Press <code>Ctrl+C</code> to stop an infinite loop.</p>
-                    <div class="code-block"><code># BUG: count never changes!
+            const workedTabs = document.querySelectorAll("[data-example]");
+            const workedTitle = document.getElementById("workedTitle");
+            const workedDescription = document.getElementById("workedDescription");
+            const workedExtra = document.getElementById("workedExtra");
+            const workedCode = document.getElementById("workedCode");
+
+            function showWorked(key) {
+                const item = workedExamples[key];
+
+                workedTitle.textContent = item.title;
+                workedDescription.textContent = item.description;
+                workedCode.textContent = item.code;
+
+                if (item.extra) {
+                    if (key === "digits") {
+                        workedExtra.innerHTML =
+                            `<div class="digit-visual">
+    <div class="digit-card"><div><code>347</code><br><span>current number</span></div></div>
+    <div class="digit-arrow">→</div>
+    <div class="digit-card"><div><code>% 10 → 7</code><br><span>extract last digit</span></div></div>
+    <div class="digit-arrow">→</div>
+    <div class="digit-card"><div><code>// 10 → 34</code><br><span>remove last digit</span></div></div>
+</div>
+<div class="code-block"><code>${item.extra}</code></div>`;
+                    } else {
+                        workedExtra.innerHTML =
+                            `<div class="challenge-map">${item.extra}</div>`;
+                    }
+                } else {
+                    workedExtra.innerHTML = "";
+                }
+
+                workedTabs.forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.example === key);
+                });
+            }
+
+            workedTabs.forEach(btn => {
+                btn.addEventListener("click", () => showWorked(btn.dataset.example));
+            });
+
+            showWorked("countdown");
+
+            // ============================================================
+            // FLOWCHART -> CODE CHALLENGE
+            // ============================================================
+            const challenges = [
+                {
+                    map:
+                        `START
+  ↓
 count = 1
+  ↓
+count <= 5 ?
+ YES → print(count) → count = count + 1 ↺
+ NO  → END`,
+                    options: [
+                        `count = 1
 while count <= 5:
     print(count)
-    # Missing: count += 1</code></div>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Off-by-One Error</h4>
-                    <p><code>while count < 5</code> runs 5 times (0,1,2,3,4). <code>while count <= 5</code> runs 6 times
-                        (0,1,2,3,4,5). Always trace the first and last iterations.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Sentinel Not Updated</h4>
-                    <p>If you use a sentinel value to exit, make sure the input is inside the loop, not just before it.
-                    </p>
-                </div>
-            </section>
+    count += 1`,
+                        `count = 1
+if count <= 5:
+    print(count)
+    count += 1`,
+                        `count = 5
+while count <= 1:
+    print(count)
+    count += 1`
+                    ],
+                    answer: 0,
+                    why: "The Yes path loops back after the update, so this must be a while loop."
+                },
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Loop Tracing Strategy</h4>
-                    <ul>
-                        <li>Always draw a trace table with columns for each variable + output</li>
-                        <li>Check the condition BEFORE each iteration (including the first)</li>
-                        <li>Count the total number of iterations carefully</li>
-                        <li>For flowchart → code: map each diamond to a <code>while</code> condition, each rectangle to
-                            a statement</li>
-                    </ul>
-                </div>
-            </section>
+                {
+                    map:
+                        `Input password
+      ↓
+password != "python" ?
+ YES → Input password again ↺
+ NO  → "Access" → END`,
+                    options: [
+                        `password = input("Password: ")
+while password != "python":
+    password = input("Try again: ")
+print("Access")`,
+                        `password = input("Password: ")
+if password != "python":
+    print("Access")`,
+                        `while password == "python":
+    password = input("Try again: ")`
+                    ],
+                    answer: 0,
+                    why: "The input is updated inside the loop and repetition stops when password equals python."
+                },
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>What are the three essential parts of every while loop?</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Draw a flowchart for a program that sums numbers entered by the user until they enter 0.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that asks the user for a positive integer and prints its factorial using a
-                            while loop.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Implement the following flowchart: Input a number → While number > 1 → If even: divide by 2 →
-                            If odd: multiply by 3 and add 1 → Print number → Count steps.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Trace the following code and write the output:
-                            <code>x = 100; while x > 1: x = x // 2; print(x)</code></p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Create a number guessing game where the computer picks a random number 1-100 and the user
-                            must guess it, receiving "higher" or "lower" hints. Count and display the number of
-                            attempts.</p>
-                    </div>
-                </div>
-            </section>
+                {
+                    map:
+                        `total = 0
+Input n
+   ↓
+n != 0 ?
+ YES → total = total + n → Input n ↺
+ NO  → print(total)`,
+                    options: [
+                        `total = 0
+n = int(input())
+while n != 0:
+    total += n
+    n = int(input())
+print(total)`,
+                        `total = 0
+while n == 0:
+    total += n
+print(total)`,
+                        `n = int(input())
+while n != 0:
+    n = int(input())
+total += n`
+                    ],
+                    answer: 0,
+                    why: "The accumulator and new input are both inside the loop body."
+                },
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <div class="quiz-question">1. What happens if the while condition is False at the start?</div>
-                    <div class="quiz-answer" data-answer="The loop body never executes — it is skipped entirely">Click
-                        to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">2. How many times does this loop run?
-                        <code>i = 0; while i < 3: i += 1</code></div>
-                    <div class="quiz-answer" data-answer="3 times (i goes 0→1, 1→2, 2→3, then 3 < 3 is False)">Click to
-                        reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">3. What causes an infinite loop?</div>
-                    <div class="quiz-answer"
-                        data-answer="The condition never becomes False, usually because the loop variable is not updated inside the body">
-                        Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">4. What does <code>break</code> do inside a while loop?</div>
-                    <div class="quiz-answer" data-answer="It immediately exits the loop, regardless of the condition">
-                        Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">5. What flowchart shape represents a loop condition?</div>
-                    <div class="quiz-answer"
-                        data-answer="Diamond (decision shape) — with Yes/No paths, where one path loops back">Click to
-                        reveal answer</div>
-                </div>
-            </section>
+                {
+                    map:
+                        `Input age
+   ↓
+age < 1 OR age > 120 ?
+ YES → "Invalid" → Input age again ↺
+ NO  → "Accepted"`,
+                    options: [
+                        `age = int(input())
+while age < 1 or age > 120:
+    print("Invalid")
+    age = int(input())
+print("Accepted")`,
+                        `age = int(input())
+while age >= 1 and age <= 120:
+    print("Invalid")`,
+                        `age = int(input())
+if age < 1 or age > 120:
+    print("Accepted")`
+                    ],
+                    answer: 0,
+                    why: "The loop repeats only while the age is invalid."
+                }
+            ];
 
-            <nav class="lesson-nav">
-                        <a href="lesson-04-boolean-branching.html"><span class="nav-label">← Previous</span><span class="nav-title">Boolean Logic &amp; Branching</span></a>
-                        <a href="lesson-06-for-loop.html"><span class="nav-label">Next →</span><span class="nav-title">For Loop &amp; Range</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+            let challengeIndex = 0;
+            const challengeMap = document.getElementById("challengeMap");
+            const challengeOptions = document.getElementById("challengeOptions");
+            const challengeFeedback = document.getElementById("challengeFeedback");
+            const challengeProgress = document.getElementById("challengeProgress");
+            const nextChallenge = document.getElementById("nextChallenge");
 
-    <footer class="site-footer">
-        <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
-            <p>&copy; 2025 IT-Tea. Educational use.</p>
-        </div>
-    </footer>
+            function loadChallenge() {
+                const item = challenges[challengeIndex];
+
+                challengeMap.textContent = item.map;
+                challengeOptions.innerHTML = "";
+                challengeFeedback.className = "lesson-lab-feedback";
+                challengeFeedback.textContent =
+                    "Choose the Python code that matches the algorithm.";
+                challengeProgress.textContent =
+                    `Challenge ${challengeIndex + 1} of ${challenges.length}`;
+
+                item.options.forEach((option, idx) => {
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.className = "lesson-choice-btn code-choice";
+                    button.textContent = option;
+
+                    button.addEventListener("click", () => {
+                        const correct = idx === item.answer;
+                        [...challengeOptions.children].forEach(b => b.classList.remove("active"));
+                        button.classList.add("active");
+
+                        challengeFeedback.className =
+                            `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+                        challengeFeedback.innerHTML =
+                            `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+                    });
+
+                    challengeOptions.appendChild(button);
+                });
+            }
+
+            nextChallenge.addEventListener("click", () => {
+                challengeIndex = (challengeIndex + 1) % challenges.length;
+                loadChallenge();
+            });
+
+            loadChallenge();
+
+            // ============================================================
+            // WHILE ERROR LAB
+            // ============================================================
+            const errorExamples = [
+                {
+                    code:
+                        `x = 1
+
+while x <= 5:
+    print(x)`,
+                    answer: "infinite",
+                    why: "x never changes, so the condition remains True."
+                },
+
+                {
+                    code:
+                        `x = 0
+
+while x <= 5:
+    print(x)
+    x += 1`,
+                    answer: "offby",
+                    why: "If the intention was five repetitions, <= includes 5 and produces six outputs."
+                },
+
+                {
+                    code:
+                        `text = input("Text: ")
+
+while text != "quit":
+    print(text)`,
+                    answer: "sentinel",
+                    why: "text is never updated inside the loop, so the sentinel may never be reached."
+                },
+
+                {
+                    code:
+                        `x = 10
+
+while x > 0:
+    x += 1`,
+                    answer: "logic",
+                    why: "The update moves x away from the stopping boundary instead of toward it."
+                },
+
+                {
+                    code:
+                        `count = 1
+
+while count <= 5:
+    print(count)
+    count += 1`,
+                    answer: "correct",
+                    why: "The loop has a start value, condition, body and update that eventually makes the condition False."
+                }
+            ];
+
+            let errorIndex = 0;
+            const errorPrompt = document.getElementById("errorPrompt");
+            const errorFeedback = document.getElementById("errorFeedback");
+            const errorProgress = document.getElementById("errorProgress");
+            const errorChoices = document.querySelectorAll(".error-choice");
+            const nextError = document.getElementById("nextError");
+
+            function loadError() {
+                const item = errorExamples[errorIndex];
+
+                errorPrompt.textContent = item.code;
+                errorFeedback.className = "lesson-lab-feedback";
+                errorFeedback.textContent = "Identify the most important issue.";
+                errorProgress.textContent =
+                    `Example ${errorIndex + 1} of ${errorExamples.length}`;
+
+                errorChoices.forEach(btn => btn.classList.remove("active"));
+            }
+
+            errorChoices.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const item = errorExamples[errorIndex];
+                    const correct = btn.dataset.error === item.answer;
+
+                    errorChoices.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    errorFeedback.className =
+                        `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+                    errorFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+                });
+            });
+
+            nextError.addEventListener("click", () => {
+                errorIndex = (errorIndex + 1) % errorExamples.length;
+                loadError();
+            });
+
+            loadError();
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/lesson.js"></script>
+
 </body>
 
 </html>
