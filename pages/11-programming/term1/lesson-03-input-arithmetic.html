@@ -4,389 +4,2725 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input &amp; Arithmetic Operations — mr. TEA</title>
+
+    <title>Input & Arithmetic Operations — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
     <meta name="description"
-        content="Python keyboard input with input(), arithmetic operators, PEMDAS order. NIS Grade 11 Programming 11.1.1.5, 11.1.1.6.">
+        content="Python keyboard input with input(), arithmetic operators, floor division, modulo, exponentiation and operator precedence. NIS Grade 11 Programming 11.1.1.5, 11.1.1.6.">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .section-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0 var(--space-xl);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            position: sticky;
+            top: 64px;
+            z-index: 12;
+            backdrop-filter: blur(14px);
+        }
+
+        .section-jump a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: .42rem .7rem;
+            font-size: .72rem;
+            font-weight: 700;
+            background: var(--bg-glass);
+            transition: all var(--transition);
+        }
+
+        .section-jump a:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        /* ============================================================
+           VIDEO BLOCK
+           ============================================================ */
+
+        .video-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        .video-tab,
+        .lab-btn,
+        .choice-btn,
+        .example-tab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .55rem .75rem;
+            cursor: pointer;
+            font: 700 .73rem var(--font-body);
+            transition: all var(--transition);
+        }
+
+        .video-tab:hover,
+        .video-tab.active,
+        .lab-btn:hover,
+        .choice-btn:hover,
+        .choice-btn.active,
+        .example-tab:hover,
+        .example-tab.active {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .video-resource-card {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--space-lg);
+            align-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background:
+                radial-gradient(circle at 85% 20%, rgba(239, 68, 68, .10), transparent 28%),
+                var(--bg-card);
+        }
+
+        .video-resource-card h4 {
+            margin: 0 0 .3rem;
+            color: var(--text-primary);
+            font-size: .95rem;
+        }
+
+        .video-resource-card p {
+            margin: 0 0 .55rem;
+            color: var(--text-secondary);
+            font-size: .76rem;
+            line-height: 1.5;
+        }
+
+        .video-resource-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+        }
+
+        .video-resource-meta span {
+            padding: .25rem .45rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            color: var(--text-muted);
+            background: var(--bg-glass);
+            font-size: .61rem;
+            font-weight: 700;
+        }
+
+        .watch-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .45rem;
+            min-width: 145px;
+            text-decoration: none;
+            padding: .7rem .9rem;
+            border-radius: var(--radius-md);
+            background: #ef4444;
+            color: #fff;
+            font-size: .73rem;
+            font-weight: 800;
+        }
+
+        /* ============================================================
+           CALCULATOR VISUAL / IPO
+           ============================================================ */
+
+        .anchor-grid {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .smart-calculator {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .calculator-screen {
+            min-height: 88px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--clr-tea);
+            font: 800 1.25rem var(--font-code);
+            margin-bottom: var(--space-md);
+        }
+
+        .calculator-keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: .45rem;
+        }
+
+        .calc-key {
+            min-height: 46px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            font: 700 .74rem var(--font-code);
+        }
+
+        .calc-key.op {
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08);
+        }
+
+        .ipo-flow,
+        .input-pipeline {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .ipo-step,
+        .pipeline-step {
+            position: relative;
+            min-height: 125px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: .32rem;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .ipo-step:not(:last-child)::after,
+        .pipeline-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 900;
+            z-index: 2;
+        }
+
+        .ipo-step i,
+        .pipeline-step i {
+            color: var(--clr-tea);
+            font-size: 1.1rem;
+        }
+
+        .ipo-step strong,
+        .pipeline-step strong {
+            color: var(--text-primary);
+            font-size: .74rem;
+        }
+
+        .ipo-step code,
+        .pipeline-step code {
+            color: var(--clr-tea);
+            font: 700 .67rem var(--font-code);
+        }
+
+        .ipo-step small,
+        .pipeline-step small {
+            color: var(--text-muted);
+            font-size: .61rem;
+            line-height: 1.35;
+        }
+
+        /* ============================================================
+           INPUT ANATOMY
+           ============================================================ */
+
+        .input-anatomy {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .anatomy-part {
+            position: relative;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .anatomy-part:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            top: 50%;
+            right: -12px;
+            transform: translateY(-50%);
+            color: var(--clr-tea);
+            font-weight: 900;
+        }
+
+        .anatomy-part span {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            font-size: .59rem;
+            font-weight: 800;
+        }
+
+        .anatomy-part code {
+            display: block;
+            color: var(--text-primary);
+            font: 750 .72rem/1.5 var(--font-code);
+            margin-bottom: .35rem;
+        }
+
+        .anatomy-part p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.42;
+        }
+
+        /* ============================================================
+           GENERIC LABS
+           ============================================================ */
+
+        .learning-lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0;
+        }
+
+        .lab-prompt {
+            min-height: 120px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            text-align: center;
+        }
+
+        .lab-prompt code,
+        .lab-prompt pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 800 .9rem/1.55 var(--font-code);
+        }
+
+        .lab-feedback {
+            min-height: 90px;
+            margin-top: var(--space-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .75rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .lab-feedback.correct {
+            border-color: #16a34a;
+            background: rgba(22, 163, 74, .08);
+        }
+
+        .lab-feedback.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, .08);
+        }
+
+        .lab-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .67rem;
+        }
+
+        .lab-options {
+            display: grid;
+            gap: var(--space-xs);
+            margin-top: var(--space-sm);
+        }
+
+        .lab-options.two {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .lab-options.three {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .lab-options.four {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* ============================================================
+           INPUT SIMULATOR
+           ============================================================ */
+
+        .input-simulator {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: var(--space-lg);
+        }
+
+        .sim-input-panel,
+        .sim-result-panel {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+        }
+
+        .sim-input-panel label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .7rem;
+            font-weight: 800;
+            margin-bottom: .35rem;
+        }
+
+        .sim-input-panel input {
+            width: 100%;
+            padding: .65rem .7rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            outline: none;
+            font: 700 .8rem var(--font-code);
+        }
+
+        .sim-input-panel input:focus {
+            border-color: var(--clr-tea);
+        }
+
+        .sim-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-top: var(--space-sm);
+        }
+
+        .sim-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1.2fr;
+            gap: var(--space-sm);
+            align-items: center;
+            padding: .6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sim-row:last-child {
+            border-bottom: 0;
+        }
+
+        .sim-row code {
+            color: var(--text-primary);
+            font: 700 .68rem var(--font-code);
+        }
+
+        .sim-arrow {
+            color: var(--clr-tea);
+        }
+
+        .sim-result {
+            font-size: .69rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .sim-result.ok {
+            color: #16a34a;
+        }
+
+        .sim-result.err {
+            color: #ef4444;
+        }
+
+        /* ============================================================
+           OPERATOR CARDS + PLAYGROUND
+           ============================================================ */
+
+        .operator-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .operator-card {
+            padding: var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .operator-card code {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--clr-tea);
+            font: 900 1.2rem var(--font-code);
+        }
+
+        .operator-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .67rem;
+            margin-bottom: .18rem;
+        }
+
+        .operator-card small {
+            color: var(--text-muted);
+            font-size: .58rem;
+            line-height: 1.3;
+        }
+
+        .arithmetic-playground {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: var(--space-lg);
+        }
+
+        .number-controls {
+            display: grid;
+            gap: var(--space-sm);
+        }
+
+        .number-controls label {
+            color: var(--text-secondary);
+            font-size: .7rem;
+            font-weight: 800;
+        }
+
+        .number-controls input {
+            width: 100%;
+            padding: .65rem;
+            margin-top: .3rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font: 750 .8rem var(--font-code);
+        }
+
+        .operator-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xs);
+        }
+
+        .op-result {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: .6rem;
+            align-items: center;
+            padding: .65rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .op-result code {
+            color: var(--clr-tea);
+            font: 800 .72rem var(--font-code);
+        }
+
+        .op-result span {
+            color: var(--text-primary);
+            font: 700 .7rem var(--font-code);
+            overflow-wrap: anywhere;
+        }
+
+        /* ============================================================
+           DIVISION FAMILY
+           ============================================================ */
+
+        .division-family {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .division-card {
+            padding: var(--space-lg);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .division-card .division-op {
+            display: block;
+            color: var(--clr-tea);
+            font: 900 1.5rem var(--font-code);
+            margin-bottom: .25rem;
+        }
+
+        .division-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .8rem;
+            margin-bottom: .25rem;
+        }
+
+        .division-card code {
+            display: block;
+            color: var(--text-primary);
+            font: 700 .75rem var(--font-code);
+            margin: .4rem 0;
+        }
+
+        .division-card small {
+            color: var(--text-muted);
+            font-size: .65rem;
+            line-height: 1.4;
+        }
+
+        .division-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .division-controls label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            font-weight: 800;
+        }
+
+        .division-controls input {
+            width: 100%;
+            margin-top: .3rem;
+            padding: .55rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font: 700 .76rem var(--font-code);
+        }
+
+        /* ============================================================
+           TOOLBOX
+           ============================================================ */
+
+        .toolbox-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .toolbox-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .toolbox-card code {
+            display: block;
+            color: var(--clr-tea);
+            font: 800 .72rem var(--font-code);
+            margin-bottom: .35rem;
+        }
+
+        .toolbox-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .73rem;
+            margin-bottom: .2rem;
+        }
+
+        .toolbox-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .64rem;
+            line-height: 1.4;
+        }
+
+        /* ============================================================
+           PRECEDENCE
+           ============================================================ */
+
+        .precedence-staircase {
+            max-width: 600px;
+            margin: var(--space-lg) auto;
+            display: grid;
+            gap: .45rem;
+        }
+
+        .precedence-step {
+            padding: .75rem var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            text-align: center;
+        }
+
+        .precedence-step:nth-child(1) {
+            margin-inline: 0;
+        }
+
+        .precedence-step:nth-child(2) {
+            margin-inline: 8%;
+        }
+
+        .precedence-step:nth-child(3) {
+            margin-inline: 16%;
+        }
+
+        .precedence-step:nth-child(4) {
+            margin-inline: 24%;
+        }
+
+        .precedence-step code {
+            color: var(--clr-tea);
+            font: 800 .8rem var(--font-code);
+        }
+
+        .precedence-step span {
+            display: block;
+            margin-top: .18rem;
+            color: var(--text-muted);
+            font-size: .63rem;
+        }
+
+        /* ============================================================
+           EXPRESSION STEPPER
+           ============================================================ */
+
+        .stepper-box {
+            min-height: 185px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .stepper-box span {
+            display: block;
+            color: var(--text-muted);
+            font-size: .61rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: .45rem;
+        }
+
+        .stepper-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 750 .8rem/1.7 var(--font-code);
+        }
+
+        .stepper-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-top: var(--space-sm);
+        }
+
+        /* ============================================================
+           FLOOR DIVISION
+           ============================================================ */
+
+        .floor-visual {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: var(--space-sm);
+            align-items: center;
+            margin: var(--space-md) 0;
+        }
+
+        .floor-card {
+            padding: var(--space-lg);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .floor-card code {
+            display: block;
+            color: var(--text-primary);
+            font: 800 .9rem var(--font-code);
+            margin-bottom: .3rem;
+        }
+
+        .floor-card small {
+            color: var(--text-muted);
+            font-size: .64rem;
+        }
+
+        .floor-arrow {
+            color: var(--clr-tea);
+            font-weight: 900;
+        }
+
+        /* ============================================================
+           WORKED TABS
+           ============================================================ */
+
+        .examples-intro {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            margin-bottom: var(--space-sm);
+            color: var(--text-secondary);
+            font-size: .72rem;
+            font-weight: 800;
+        }
+
+        .example-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+            padding: var(--space-sm);
+            border: 1px dashed var(--border-hover);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+        }
+
+        .example-tab i {
+            margin-right: .3rem;
+        }
+
+        .example-panel {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .example-panel h4 {
+            margin: 0 0 .3rem;
+            color: var(--text-primary);
+            font-size: .92rem;
+        }
+
+        .example-panel p {
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5;
+        }
+
+        .example-code-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-top: var(--space-sm);
+        }
+
+        .example-code-grid pre {
+            min-height: 250px;
+            margin: 0;
+            padding: var(--space-md);
+            white-space: pre-wrap;
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .7rem/1.55 var(--font-code);
+        }
+
+        /* ============================================================
+           EXAM
+           ============================================================ */
+
+        .exam-marking summary {
+            cursor: pointer;
+            color: var(--clr-tea);
+            font-size: .72rem;
+            font-weight: 800;
+        }
+
+        .exam-marking div {
+            margin-top: var(--space-xs);
+            padding: var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .68rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        details.compact-details {
+            margin: var(--space-md) 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        details.compact-details summary {
+            list-style: none;
+            cursor: pointer;
+            padding: var(--space-md);
+            color: var(--text-primary);
+            font-size: .8rem;
+            font-weight: 800;
+        }
+
+        details.compact-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.compact-details summary::after {
+            content: "+";
+            float: right;
+            color: var(--clr-tea);
+        }
+
+        details.compact-details[open] summary::after {
+            content: "−";
+        }
+
+        .details-body {
+            padding: 0 var(--space-md) var(--space-md);
+        }
+
+        @media (max-width: 1050px) {
+            .section-jump {
+                position: static;
+            }
+
+            .operator-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .toolbox-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .ipo-flow,
+            .input-pipeline {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ipo-step::after,
+            .pipeline-step::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 850px) {
+
+            .anchor-grid,
+            .input-simulator,
+            .arithmetic-playground,
+            .example-code-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-anatomy {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .anatomy-part::after {
+                display: none;
+            }
+
+            .floor-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .floor-arrow {
+                transform: rotate(90deg);
+                text-align: center;
+            }
+
+            .video-resource-card {
+                grid-template-columns: 1fr;
+            }
+
+            .watch-btn {
+                width: fit-content;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .operator-grid,
+            .toolbox-grid,
+            .division-family,
+            .operator-results,
+            .division-controls,
+            .input-anatomy,
+            .ipo-flow,
+            .input-pipeline,
+            .lab-options.two,
+            .lab-options.three,
+            .lab-options.four {
+                grid-template-columns: 1fr;
+            }
+
+            .learning-lab {
+                padding: var(--space-md);
+            }
+
+            .lab-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .sim-row {
+                grid-template-columns: 1fr;
+            }
+
+            .sim-arrow {
+                transform: rotate(90deg);
+            }
+
+            .precedence-step,
+            .precedence-step:nth-child(1),
+            .precedence-step:nth-child(2),
+            .precedence-step:nth-child(3),
+            .precedence-step:nth-child(4) {
+                margin-inline: 0;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.1A — Input &amp; Arithmetic Operations</span>
-            </nav>
-
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
-                <h1 class="lesson-title">Input &amp; Arithmetic Operations</h1>
-                <p class="lesson-intro">Programs become interactive when they accept data from the user. Python's
-                    <code>input()</code> function reads keyboard input, and arithmetic operators let you perform
-                    calculations. Together, they form the foundation of every useful program.</p>
-            </div>
-
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.1.1.5</span> Organize keyboard inputs</li>
-                    <li><span class="lo-code">11.1.1.6</span> Use arithmetic operations when solving problems</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1A-lesson-03-input-arithmetic.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <!-- Conceptual Anchor -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-calculator"></i> The Calculator Analogy</h4>
-                    <p>A program is like a <strong>smart calculator</strong>. The <code>input()</code> function is the
-                        <strong>keyboard</strong> — it accepts what you type. Arithmetic operators (<code>+</code>,
-                        <code>-</code>, <code>*</code>, <code>/</code>) are the <strong>buttons</strong>. And
-                        <code>print()</code> is the <strong>display</strong> that shows the result. But unlike a regular
-                        calculator, you must tell Python the type of number you're entering (integer or decimal).</p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 PROG</a>
+                        <span class="sep">/</span>
+                        <span>11.1A — Input & Arithmetic Operations</span>
+                    </nav>
 
-            <!-- Rules & Theory -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fab fa-python"></i> Unit 11.1A · Term 1
+                        </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">The input() Function
-                </h3>
-                <div class="code-block"><code># input() always returns a STRING
-name = input("Enter your name: ")     # Returns str
-age = input("Enter your age: ")       # Returns str ("16", not 16)
+                        <h1 class="lesson-title">Input & Arithmetic Operations</h1>
 
-# Converting input to numbers
-age = int(input("Enter your age: "))        # str → int
-price = float(input("Enter the price: "))   # str → float
+                        <p class="lesson-intro">
+                            Programs become useful when they can receive data, process it and produce a result.
+                            Python's <code>input()</code> function reads keyboard input, while arithmetic
+                            operators such as <code>+</code>, <code>//</code>, <code>%</code> and
+                            <code>**</code> allow programs to solve numerical problems.
+                        </p>
+                    </div>
 
-# Multiple inputs on separate lines
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.1.1.5</span> Organize keyboard inputs</li>
+                            <li><span class="lo-code">11.1.1.6</span> Use arithmetic operations when solving problems
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- =====================================================
+                     VIDEO RESOURCES
+                     ===================================================== -->
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+
+                            <div class="lesson-video-info">
+                                <h4>Craig'n'Dave — Cambridge IGCSE Programming</h4>
+                                <p>Choose the part of this lesson you want to reinforce.</p>
+                            </div>
+                        </div>
+
+                        <div style="padding:var(--space-md);">
+                            <div class="video-tabs">
+                                <button class="video-tab active" data-video="input" type="button">
+                                    <i class="fas fa-keyboard"></i> User Input
+                                </button>
+                                <button class="video-tab" data-video="arithmetic" type="button">
+                                    <i class="fas fa-calculator"></i> Arithmetic Operators
+                                </button>
+                            </div>
+
+                            <div class="video-resource-card">
+                                <div>
+                                    <h4 id="videoTitle"></h4>
+                                    <p id="videoDescription"></p>
+                                    <div id="videoMeta" class="video-resource-meta"></div>
+                                </div>
+
+                                <a id="videoLink" class="watch-btn" href="#" target="_blank" rel="noopener noreferrer">
+                                    <i class="fab fa-youtube"></i> Watch video
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="section-jump" aria-label="Lesson sections">
+                        <a href="#input">input()</a>
+                        <a href="#simulator">Input Simulator</a>
+                        <a href="#operators">Operators</a>
+                        <a href="#playground">Playground</a>
+                        <a href="#division">/ // %</a>
+                        <a href="#precedence">Precedence</a>
+                        <a href="#examples">Examples</a>
+                        <a href="#errors">Errors</a>
+                        <a href="#practice">Practice</a>
+                    </nav>
+
+                    <!-- =====================================================
+                     CONCEPTUAL ANCHOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="anchor-grid">
+                            <div class="analogy-box" style="margin:0;">
+                                <h4><i class="fas fa-calculator"></i> The Smart Calculator Analogy</h4>
+                                <p>
+                                    A program is like a smart calculator.
+                                    <code>input()</code> is the <strong>keyboard</strong>,
+                                    arithmetic operators are the <strong>calculation buttons</strong>,
+                                    and <code>print()</code> is the <strong>display</strong>.
+                                    The important difference is that Python must also know whether
+                                    the user's input should remain text or be converted to a number.
+                                </p>
+                            </div>
+
+                            <figure class="smart-calculator" aria-label="Smart calculator illustration">
+                                <div class="calculator-screen">17 // 5 = 3</div>
+                                <div class="calculator-keys">
+                                    <div class="calc-key">7</div>
+                                    <div class="calc-key">8</div>
+                                    <div class="calc-key">9</div>
+                                    <div class="calc-key op">/</div>
+                                    <div class="calc-key">4</div>
+                                    <div class="calc-key">5</div>
+                                    <div class="calc-key">6</div>
+                                    <div class="calc-key op">//</div>
+                                    <div class="calc-key">1</div>
+                                    <div class="calc-key">2</div>
+                                    <div class="calc-key">3</div>
+                                    <div class="calc-key op">%</div>
+                                    <div class="calc-key">0</div>
+                                    <div class="calc-key op">+</div>
+                                    <div class="calc-key op">*</div>
+                                    <div class="calc-key op">**</div>
+                                </div>
+                            </figure>
+                        </div>
+
+                        <div class="ipo-flow">
+                            <div class="ipo-step">
+                                <i class="fas fa-user"></i>
+                                <strong>Input</strong>
+                                <code>15</code>
+                                <small>User enters data.</small>
+                            </div>
+
+                            <div class="ipo-step">
+                                <i class="fas fa-keyboard"></i>
+                                <strong>Read</strong>
+                                <code>input()</code>
+                                <small>Python receives text.</small>
+                            </div>
+
+                            <div class="ipo-step">
+                                <i class="fas fa-right-left"></i>
+                                <strong>Convert</strong>
+                                <code>int("15")</code>
+                                <small>Text becomes a number.</small>
+                            </div>
+
+                            <div class="ipo-step">
+                                <i class="fas fa-gears"></i>
+                                <strong>Process</strong>
+                                <code>15 * 2</code>
+                                <small>Arithmetic operation.</small>
+                            </div>
+
+                            <div class="ipo-step">
+                                <i class="fas fa-display"></i>
+                                <strong>Output</strong>
+                                <code>30</code>
+                                <small>Result is displayed.</small>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     INPUT
+                     ===================================================== -->
+                    <section class="lesson-section" id="input">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-keyboard"></i> Anatomy of input()
+                        </h2>
+
+                        <div class="code-block"><code>age = int(input("Enter age: "))</code></div>
+
+                        <div class="input-anatomy">
+                            <div class="anatomy-part">
+                                <span>1. Prompt</span>
+                                <code>"Enter age: "</code>
+                                <p>Text shown to the user.</p>
+                            </div>
+
+                            <div class="anatomy-part">
+                                <span>2. Read</span>
+                                <code>input(...)</code>
+                                <p>Receives keyboard input as <code>str</code>.</p>
+                            </div>
+
+                            <div class="anatomy-part">
+                                <span>3. Convert</span>
+                                <code>int(...)</code>
+                                <p>Converts valid integer-form text to <code>int</code>.</p>
+                            </div>
+
+                            <div class="anatomy-part">
+                                <span>4. Store</span>
+                                <code>age =</code>
+                                <p>The integer value is assigned to the variable.</p>
+                            </div>
+                        </div>
+
+                        <div class="code-block"><code># input() always returns a string
+name = input("Enter your name: ")
+age_text = input("Enter your age: ")
+
+# Convert input when numeric operations are needed
+age = int(input("Enter your age: "))
+price = float(input("Enter the price: "))
+
+# Multiple inputs
 x = int(input("x = "))
 y = int(input("y = "))</code></div>
+                    </section>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
-                    Arithmetic Operators</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Operator</th>
-                            <th>Name</th>
-                            <th>Example</th>
-                            <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>+</code></td>
-                            <td>Addition</td>
-                            <td><code>7 + 3</code></td>
-                            <td><code>10</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>-</code></td>
-                            <td>Subtraction</td>
-                            <td><code>7 - 3</code></td>
-                            <td><code>4</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>*</code></td>
-                            <td>Multiplication</td>
-                            <td><code>7 * 3</code></td>
-                            <td><code>21</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>/</code></td>
-                            <td>Division (float)</td>
-                            <td><code>7 / 3</code></td>
-                            <td><code>2.333...</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>//</code></td>
-                            <td>Integer division (floor)</td>
-                            <td><code>7 // 3</code></td>
-                            <td><code>2</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>%</code></td>
-                            <td>Modulo (remainder)</td>
-                            <td><code>7 % 3</code></td>
-                            <td><code>1</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>**</code></td>
-                            <td>Exponentiation (power)</td>
-                            <td><code>2 ** 3</code></td>
-                            <td><code>8</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <!-- =====================================================
+                     INPUT SIMULATOR
+                     ===================================================== -->
+                    <section class="lesson-section" id="simulator">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-flask"></i> Input Simulator
+                        </h2>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Operator
-                    Precedence (PEMDAS)</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Priority</th>
-                            <th>Operators</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1 (highest)</td>
-                            <td><code>()</code></td>
-                            <td>Parentheses</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><code>**</code></td>
-                            <td>Exponentiation</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><code>* / // %</code></td>
-                            <td>Multiplication, division, floor div, modulo</td>
-                        </tr>
-                        <tr>
-                            <td>4 (lowest)</td>
-                            <td><code>+ -</code></td>
-                            <td>Addition, subtraction</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <p class="concept-text">
+                            Enter the characters a user might type. The simulator shows what
+                            <code>input()</code>, <code>int()</code> and <code>float()</code> would do.
+                        </p>
 
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> / vs // vs %</h4>
-                    <p><code>17 / 5</code> = <code>3.4</code> (exact division). <code>17 // 5</code> = <code>3</code>
-                        (whole part only). <code>17 % 5</code> = <code>2</code> (remainder). These three operators are
-                        tested frequently in exams!</p>
+                        <div class="learning-lab">
+                            <div class="input-simulator">
+                                <div class="sim-input-panel">
+                                    <label for="simInput">User types:</label>
+                                    <input id="simInput" type="text" value="25">
+
+                                    <div class="sim-presets">
+                                        <button class="lab-btn sim-preset" data-value="25" type="button">25</button>
+                                        <button class="lab-btn sim-preset" data-value="3.14" type="button">3.14</button>
+                                        <button class="lab-btn sim-preset" data-value="-7" type="button">-7</button>
+                                        <button class="lab-btn sim-preset" data-value="hello"
+                                            type="button">hello</button>
+                                        <button class="lab-btn sim-preset" data-value="12.0" type="button">12.0</button>
+                                    </div>
+                                </div>
+
+                                <div class="sim-result-panel">
+                                    <div class="sim-row">
+                                        <code>input()</code>
+                                        <span class="sim-arrow">→</span>
+                                        <span id="simStr" class="sim-result"></span>
+                                    </div>
+
+                                    <div class="sim-row">
+                                        <code>int(input())</code>
+                                        <span class="sim-arrow">→</span>
+                                        <span id="simInt" class="sim-result"></span>
+                                    </div>
+
+                                    <div class="sim-row">
+                                        <code>float(input())</code>
+                                        <span class="sim-arrow">→</span>
+                                        <span id="simFloat" class="sim-result"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     OPERATORS
+                     ===================================================== -->
+                    <section class="lesson-section" id="operators">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-calculator"></i> Arithmetic Operators
+                        </h2>
+
+                        <div class="operator-grid">
+                            <div class="operator-card"><code>+</code><strong>Addition</strong><small>7 + 3 → 10</small>
+                            </div>
+                            <div class="operator-card"><code>-</code><strong>Subtraction</strong><small>7 - 3 →
+                                    4</small></div>
+                            <div class="operator-card"><code>*</code><strong>Multiplication</strong><small>7 * 3 →
+                                    21</small></div>
+                            <div class="operator-card"><code>/</code><strong>Division</strong><small>7 / 3 →
+                                    2.333...</small></div>
+                            <div class="operator-card"><code>//</code><strong>Floor division</strong><small>7 // 3 →
+                                    2</small></div>
+                            <div class="operator-card"><code>%</code><strong>Modulo</strong><small>7 % 3 → 1</small>
+                            </div>
+                            <div class="operator-card"><code>**</code><strong>Power</strong><small>2 ** 3 → 8</small>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Name</th>
+                                    <th>Example</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>+</code></td>
+                                    <td>Addition</td>
+                                    <td><code>7 + 3</code></td>
+                                    <td><code>10</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>-</code></td>
+                                    <td>Subtraction</td>
+                                    <td><code>7 - 3</code></td>
+                                    <td><code>4</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>*</code></td>
+                                    <td>Multiplication</td>
+                                    <td><code>7 * 3</code></td>
+                                    <td><code>21</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/</code></td>
+                                    <td>Division (float result)</td>
+                                    <td><code>7 / 3</code></td>
+                                    <td><code>2.333...</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>//</code></td>
+                                    <td>Floor division</td>
+                                    <td><code>7 // 3</code></td>
+                                    <td><code>2</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>%</code></td>
+                                    <td>Modulo / remainder</td>
+                                    <td><code>7 % 3</code></td>
+                                    <td><code>1</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>**</code></td>
+                                    <td>Exponentiation</td>
+                                    <td><code>2 ** 3</code></td>
+                                    <td><code>8</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =====================================================
+                     ARITHMETIC PLAYGROUND
+                     ===================================================== -->
+                    <section class="lesson-section" id="playground">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-sliders"></i> Arithmetic Playground
+                        </h2>
+
+                        <div class="learning-lab">
+                            <div class="arithmetic-playground">
+                                <div class="number-controls">
+                                    <label>
+                                        A
+                                        <input id="arithA" type="number" step="any" value="17">
+                                    </label>
+
+                                    <label>
+                                        B
+                                        <input id="arithB" type="number" step="any" value="5">
+                                    </label>
+
+                                    <div class="note-box" style="margin:0;">
+                                        <h4><i class="fas fa-circle-info"></i> Try this</h4>
+                                        <p>
+                                            Change <strong>A</strong> and <strong>B</strong>.
+                                            Compare how <code>/</code>, <code>//</code> and <code>%</code>
+                                            respond to the same pair of values.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="operator-results">
+                                    <div class="op-result"><code>A + B</code><span id="resAdd"></span></div>
+                                    <div class="op-result"><code>A - B</code><span id="resSub"></span></div>
+                                    <div class="op-result"><code>A * B</code><span id="resMul"></span></div>
+                                    <div class="op-result"><code>A / B</code><span id="resDiv"></span></div>
+                                    <div class="op-result"><code>A // B</code><span id="resFloor"></span></div>
+                                    <div class="op-result"><code>A % B</code><span id="resMod"></span></div>
+                                    <div class="op-result"><code>A ** B</code><span id="resPow"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     DIVISION FAMILY
+                     ===================================================== -->
+                    <section class="lesson-section" id="division">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-branch"></i> The Division Family: / vs // vs %
+                        </h2>
+
+                        <div class="learning-lab">
+                            <div class="division-controls">
+                                <label>
+                                    Dividend
+                                    <input id="dividendInput" type="number" step="1" value="17">
+                                </label>
+
+                                <label>
+                                    Divisor
+                                    <input id="divisorInput" type="number" step="1" value="5">
+                                </label>
+                            </div>
+
+                            <div class="division-family">
+                                <div class="division-card">
+                                    <span class="division-op">/</span>
+                                    <strong>Real division</strong>
+                                    <code id="divisionExact">17 / 5 = 3.4</code>
+                                    <small>The quotient as a floating-point result.</small>
+                                </div>
+
+                                <div class="division-card">
+                                    <span class="division-op">//</span>
+                                    <strong>Floor division</strong>
+                                    <code id="divisionFloor">17 // 5 = 3</code>
+                                    <small>The mathematical floor of the quotient.</small>
+                                </div>
+
+                                <div class="division-card">
+                                    <span class="division-op">%</span>
+                                    <strong>Modulo</strong>
+                                    <code id="divisionMod">17 % 5 = 2</code>
+                                    <small>The remainder associated with floor division.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-key"></i> Relationship</h4>
+                            <p>
+                                For positive integers:
+                                <code>dividend = divisor × (dividend // divisor) + (dividend % divisor)</code>.
+                                Example: <code>17 = 5 × 3 + 2</code>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     OPERATOR TOOLBOX
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-toolbox"></i> Operator Toolbox
+                        </h2>
+
+                        <div class="toolbox-grid">
+                            <div class="toolbox-card">
+                                <code>n % 2</code>
+                                <strong>Even / odd remainder</strong>
+                                <p>0 means divisible by 2; 1 is the usual remainder for positive odd integers.</p>
+                            </div>
+
+                            <div class="toolbox-card">
+                                <code>n % 10</code>
+                                <strong>Last digit</strong>
+                                <p>For a positive base-10 integer, gives the units digit.</p>
+                            </div>
+
+                            <div class="toolbox-card">
+                                <code>n // 10</code>
+                                <strong>Remove last digit</strong>
+                                <p>Useful when processing positive decimal integers digit by digit.</p>
+                            </div>
+
+                            <div class="toolbox-card">
+                                <code>minutes // 60</code>
+                                <strong>Whole hours</strong>
+                                <p>Calculates how many complete hours fit in a number of minutes.</p>
+                            </div>
+
+                            <div class="toolbox-card">
+                                <code>minutes % 60</code>
+                                <strong>Remaining minutes</strong>
+                                <p>Calculates what remains after removing complete hours.</p>
+                            </div>
+                        </div>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Remainder First — No Branching Needed Yet</h4>
+                            <div class="code-block"><code>number = int(input("Number: "))
+
+remainder = number % 2
+
+print("Remainder:", remainder)
+
+# For positive integers:
+# remainder 0 → even
+# remainder 1 → odd</code></div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-forward"></i> Preview of the Next Lesson</h4>
+                            <p>
+                                Once you learn Boolean expressions and branching, the same idea can become:
+                            </p>
+                            <div class="code-block"><code>if number % 2 == 0:
+    print("Even")
+else:
+    print("Odd")</code></div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PRECEDENCE
+                     ===================================================== -->
+                    <section class="lesson-section" id="precedence">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-layer-group"></i> Operator Precedence
+                        </h2>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Priority</th>
+                                    <th>Operators</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1 — highest</td>
+                                    <td><code>()</code></td>
+                                    <td>Parentheses</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><code>**</code></td>
+                                    <td>Exponentiation</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><code>* / // %</code></td>
+                                    <td>Multiplication and division family</td>
+                                </tr>
+                                <tr>
+                                    <td>4 — lowest here</td>
+                                    <td><code>+ -</code></td>
+                                    <td>Addition and subtraction</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="precedence-staircase">
+                            <div class="precedence-step">
+                                <code>()</code>
+                                <span>Parentheses — evaluate grouped expressions first</span>
+                            </div>
+
+                            <div class="precedence-step">
+                                <code>**</code>
+                                <span>Exponentiation</span>
+                            </div>
+
+                            <div class="precedence-step">
+                                <code>* &nbsp; / &nbsp; // &nbsp; %</code>
+                                <span>Multiplication / division level</span>
+                            </div>
+
+                            <div class="precedence-step">
+                                <code>+ &nbsp; -</code>
+                                <span>Addition / subtraction</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXPRESSION STEPPER
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-shoe-prints"></i> Expression Stepper
+                        </h2>
+
+                        <p class="concept-text">
+                            Follow one operation at a time. The stepper highlights the order Python uses.
+                        </p>
+
+                        <div class="learning-lab">
+                            <div class="stepper-box">
+                                <span id="stepperLabel">Start</span>
+                                <pre id="stepperText"></pre>
+                            </div>
+
+                            <div class="stepper-actions">
+                                <button id="stepperPrev" class="lab-btn" type="button">
+                                    <i class="fas fa-arrow-left"></i> Previous step
+                                </button>
+
+                                <button id="stepperNext" class="lab-btn" type="button">
+                                    Next step <i class="fas fa-arrow-right"></i>
+                                </button>
+
+                                <button id="stepperReset" class="lab-btn" type="button">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <details class="compact-details">
+                            <summary>Extension: Two exponentiation surprises</summary>
+                            <div class="details-body">
+                                <div class="code-block"><code># Exponentiation chains are evaluated from the right
+2 ** 3 ** 2
+= 2 ** (3 ** 2)
+= 2 ** 9
+= 512
+
+# Unary minus and exponentiation
+-2 ** 2
+= -(2 ** 2)
+= -4
+
+(-2) ** 2
+= 4</code></div>
+                            </div>
+                        </details>
+                    </section>
+
+                    <!-- =====================================================
+                     NEGATIVE FLOOR
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-arrow-down-long"></i> Negative Floor Division
+                        </h2>
+
+                        <div class="floor-visual">
+                            <div class="floor-card">
+                                <code>-7 / 2 = -3.5</code>
+                                <small>Exact division.</small>
+                            </div>
+
+                            <div class="floor-arrow">→</div>
+
+                            <div class="floor-card">
+                                <code>floor(-3.5) = -4</code>
+                                <small>Floor means the next integer downward.</small>
+                            </div>
+
+                            <div class="floor-arrow">→</div>
+
+                            <div class="floor-card">
+                                <code>-7 // 2 = -4</code>
+                                <small>Python floor division result.</small>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-code-compare"></i> Compare with int()</h4>
+                            <p>
+                                <code>int(-3.5)</code> gives <code>-3</code> because <code>int()</code>
+                                truncates toward zero. But <code>-7 // 2</code> gives <code>-4</code>
+                                because floor division moves down toward negative infinity.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     WORKED EXAMPLES
+                     ===================================================== -->
+                    <section class="lesson-section" id="examples">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-pencil-alt"></i> Worked Examples
+                        </h2>
+
+                        <div class="examples-intro">
+                            <i class="fas fa-hand-pointer"></i>
+                            <span>Choose an example:</span>
+                        </div>
+
+                        <div class="example-tabs">
+                            <button class="example-tab active" data-example="calculator" type="button">
+                                <i class="fas fa-calculator"></i> Calculator
+                            </button>
+                            <button class="example-tab" data-example="time" type="button">
+                                <i class="fas fa-clock"></i> Time Converter
+                            </button>
+                            <button class="example-tab" data-example="pemdas" type="button">
+                                <i class="fas fa-layer-group"></i> PEMDAS
+                            </button>
+                            <button class="example-tab" data-example="digits" type="button">
+                                <i class="fas fa-hashtag"></i> Digits
+                            </button>
+                        </div>
+
+                        <div class="example-panel">
+                            <h4 id="exampleTitle"></h4>
+                            <p id="exampleDescription"></p>
+
+                            <div class="example-code-grid">
+                                <pre id="exampleCode"></pre>
+                                <pre id="exampleOutput"></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SOLVE PROBLEM LAB
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-puzzle-piece"></i> Solve the Problem
+                        </h2>
+
+                        <div class="learning-lab">
+                            <div class="lab-prompt">
+                                <pre id="problemPrompt"></pre>
+                            </div>
+
+                            <div class="lab-options two">
+                                <button id="revealProblem" class="lab-btn" type="button">
+                                    Reveal solution
+                                </button>
+                                <button id="nextProblem" class="lab-btn" type="button">
+                                    Next problem
+                                </button>
+                            </div>
+
+                            <div id="problemFeedback" class="lab-feedback">
+                                Write the Python expressions before revealing.
+                            </div>
+
+                            <div class="lab-footer">
+                                <span id="problemProgress"></span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     ERROR LAB
+                     ===================================================== -->
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-bug"></i> Arithmetic Error Lab
+                        </h2>
+
+                        <div class="learning-lab">
+                            <div class="lab-prompt">
+                                <pre id="errorPrompt"></pre>
+                            </div>
+
+                            <div class="lab-options four">
+                                <button class="choice-btn error-choice" data-error="valid" type="button">Valid</button>
+                                <button class="choice-btn error-choice" data-error="type"
+                                    type="button">TypeError</button>
+                                <button class="choice-btn error-choice" data-error="value"
+                                    type="button">ValueError</button>
+                                <button class="choice-btn error-choice" data-error="zero"
+                                    type="button">ZeroDivisionError</button>
+                            </div>
+
+                            <div id="errorFeedback" class="lab-feedback">
+                                Decide whether the code is valid or which error occurs.
+                            </div>
+
+                            <div class="lab-footer">
+                                <span id="errorProgress"></span>
+                                <button id="nextError" class="lab-btn" type="button">Next example</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     PITFALLS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Pitfalls & Common Errors
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Division by Zero</h4>
+                            <p>
+                                <code>x / 0</code>, <code>x // 0</code> and <code>x % 0</code>
+                                raise <code>ZeroDivisionError</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Forgetting to Convert input()</h4>
+                            <p>
+                                <code>input()</code> returns a string. Therefore
+                                <code>input("Number: ") + 5</code> attempts to combine <code>str</code>
+                                and <code>int</code> and raises <code>TypeError</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Invalid Numeric Input</h4>
+                            <p>
+                                If <code>int(input(...))</code> receives text such as
+                                <code>"hello"</code>, conversion raises <code>ValueError</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> / Returns a Float</h4>
+                            <p>
+                                In Python 3, <code>10 / 2</code> gives <code>5.0</code>,
+                                not integer <code>5</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> // Means Floor Division</h4>
+                            <p>
+                                It is not simply “remove the decimal part”.
+                                This distinction matters for negative values:
+                                <code>-7 // 2 == -4</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> % Means Remainder, Not Percentage</h4>
+                            <p>
+                                <code>17 % 5</code> means the remainder after division, which is <code>2</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> ** Is Power — Not ^</h4>
+                            <p>
+                                Use <code>2 ** 3</code> for exponentiation.
+                                In Python, <code>^</code> has a different meaning (bitwise XOR).
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM TIPS
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-star"></i> Pro-Tips for Exams
+                        </h2>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Must-Know</h4>
+                            <ul>
+                                <li><code>input()</code> returns a string.</li>
+                                <li>Use <code>int()</code> or <code>float()</code> when arithmetic is required.</li>
+                                <li><code>//</code> and <code>%</code> often appear in digit and time-conversion
+                                    problems.</li>
+                                <li>For positive integers, <code>n % 2</code> helps determine even/odd.</li>
+                                <li><code>n % 10</code> gives the last decimal digit of a positive integer.</li>
+                                <li><code>n // 10</code> removes the last decimal digit of a positive integer.</li>
+                                <li>Use <code>**</code> for exponentiation, not <code>^</code>.</li>
+                                <li>Apply operator precedence carefully when tracing expressions.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     TASKS
+                     ===================================================== -->
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Graded Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    List all seven arithmetic operators in this lesson and state the purpose of each.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain the difference between <code>/</code>, <code>//</code>
+                                    and <code>%</code> using <code>17</code> and <code>5</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Write a program that reads the radius of a circle and outputs its area.
+                                    Use <code>3.14159</code> for π.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Convert a total number of seconds into hours, minutes and remaining seconds
+                                    using <code>//</code> and <code>%</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    For a positive three-digit integer, write expressions that obtain
+                                    its hundreds, tens and units digits.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    Without running Python, evaluate
+                                    <code>2 + 3 * 4 ** 2 - 10 // 3</code>.
+                                    Show each step in the correct order.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Create a program that asks for three test scores,
+                                    calculates their average and displays the result rounded to one decimal place.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     EXAM PRACTICE
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: Write the exact output. [2]<br>
+                                <code>x = 17</code><br>
+                                <code>y = 5</code><br>
+                                <code>print(x // y, x % y)</code>
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>3 2</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: State the output and show the order of evaluation. [3]<br>
+                                <code>print(2 + 3 * 4 ** 2)</code>
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>4 ** 2 = 16
+                                    3 * 16 = 48
+                                    2 + 48 = 50
+
+                                    Output: 50</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: Write two Python expressions that convert
+                                <code>367</code> seconds into whole minutes and remaining seconds. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>minutes = 367 // 60
+                                    seconds = 367 % 60</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: The user enters <code>12.5</code>. Explain why
+                                <code>int(input("Number: "))</code> fails and write a suitable alternative. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>The text "12.5" is not a valid integer-form string, so int() raises ValueError.
+                                    A suitable alternative is:
+                                    number = float(input("Number: "))</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q5: State the result of <code>-7 // 2</code> and explain why. [2]
+                            </p>
+
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>-4
+                                    Floor division uses the mathematical floor, so -3.5 is rounded down to -4.</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <!-- =====================================================
+                     SELF CHECK
+                     ===================================================== -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-check-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="quiz-progress">
+                            <span>Seven quick checks</span>
+                            <span>Click each answer to reveal</span>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                1. What type does <code>input()</code> return?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>str</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                2. What is <code>17 / 5</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>3.4</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                3. What is <code>17 // 5</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>3</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                4. What is <code>17 % 5</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>2</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                5. What is the result of <code>2 + 3 * 4</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>14</code> — multiplication happens before addition.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                6. What is <code>-7 // 2</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>-4</code>.
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                7. Which Python operator should be used for powers: <code>^</code> or <code>**</code>?
+                            </div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">
+                                <code>**</code>. The <code>^</code> operator has a different meaning in Python.
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="lesson-02-data-types.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">Data Types & Type Conversion</span>
+                            </span>
+                        </a>
+
+                        <a href="lesson-04-boolean-branching.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">Boolean Logic & Branching</span>
+                            </span>
+                        </a>
+                    </nav>
+
                 </div>
-            </section>
+            </div>
+        </main>
+    </div>
 
-            <!-- Worked Examples -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Programming</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Simple Calculator</h4>
-                    <div class="code-block"><code>a = float(input("Enter first number: "))
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // ============================================================
+            // VIDEO TABS
+            // ============================================================
+            const videoData = {
+                input: {
+                    title: "091. Cambridge IGCSE Topic 8.1 — User input and display output",
+                    description:
+                        "Craig'n'Dave overview of user input and display output. The core explanation begins at about 00:11 and includes Cambridge IGCSE pseudocode near the end.",
+                    meta: ["Cambridge IGCSE 0478/0984", "Section 8.1", "≈ 3:31"],
+                    url: "https://craigndave.org/videos/cambridge-igcse-topic-8-1-user-input-and-display-output/"
+                },
+                arithmetic: {
+                    title: "095. Cambridge IGCSE Topic 8.1 — The common arithmetic and relational operators",
+                    description:
+                        "Craig'n'Dave reinforcement of the arithmetic operators used in programming. Use this after the operator table and playground.",
+                    meta: ["Cambridge IGCSE 0478/0984", "Section 8.1", "Arithmetic operators"],
+                    url: "https://craigndave.org/videos/cambridge-igcse-topic-8-1-the-common-arithmetic-and-comparison-operators/"
+                }
+            };
+
+            const videoTabs = document.querySelectorAll(".video-tab");
+            const videoTitle = document.getElementById("videoTitle");
+            const videoDescription = document.getElementById("videoDescription");
+            const videoMeta = document.getElementById("videoMeta");
+            const videoLink = document.getElementById("videoLink");
+
+            function showVideo(name) {
+                const item = videoData[name];
+
+                videoTitle.textContent = item.title;
+                videoDescription.textContent = item.description;
+                videoMeta.innerHTML = "";
+
+                item.meta.forEach(text => {
+                    const span = document.createElement("span");
+                    span.textContent = text;
+                    videoMeta.appendChild(span);
+                });
+
+                videoLink.href = item.url;
+
+                videoTabs.forEach(button => {
+                    button.classList.toggle("active", button.dataset.video === name);
+                });
+            }
+
+            videoTabs.forEach(button => {
+                button.addEventListener("click", () => showVideo(button.dataset.video));
+            });
+
+            showVideo("input");
+
+            // ============================================================
+            // INPUT SIMULATOR
+            // ============================================================
+            const simInput = document.getElementById("simInput");
+            const simStr = document.getElementById("simStr");
+            const simInt = document.getElementById("simInt");
+            const simFloat = document.getElementById("simFloat");
+            const simPresets = document.querySelectorAll(".sim-preset");
+
+            function isIntegerText(text) {
+                return /^[+-]?\d+$/.test(text.trim());
+            }
+
+            function isFloatText(text) {
+                const trimmed = text.trim();
+                if (trimmed === "") return false;
+                return Number.isFinite(Number(trimmed));
+            }
+
+            function renderInputSimulator() {
+                const raw = simInput.value;
+
+                simStr.className = "sim-result ok";
+                simStr.textContent = `"${raw}" : str`;
+
+                if (isIntegerText(raw)) {
+                    simInt.className = "sim-result ok";
+                    simInt.textContent = `${parseInt(raw, 10)} : int`;
+                } else {
+                    simInt.className = "sim-result err";
+                    simInt.textContent = "ValueError";
+                }
+
+                if (isFloatText(raw)) {
+                    simFloat.className = "sim-result ok";
+                    simFloat.textContent = `${Number(raw)} : float`;
+                } else {
+                    simFloat.className = "sim-result err";
+                    simFloat.textContent = "ValueError";
+                }
+            }
+
+            simInput.addEventListener("input", renderInputSimulator);
+
+            simPresets.forEach(button => {
+                button.addEventListener("click", () => {
+                    simInput.value = button.dataset.value;
+                    renderInputSimulator();
+                });
+            });
+
+            renderInputSimulator();
+
+            // ============================================================
+            // ARITHMETIC PLAYGROUND
+            // ============================================================
+            const arithA = document.getElementById("arithA");
+            const arithB = document.getElementById("arithB");
+
+            const resAdd = document.getElementById("resAdd");
+            const resSub = document.getElementById("resSub");
+            const resMul = document.getElementById("resMul");
+            const resDiv = document.getElementById("resDiv");
+            const resFloor = document.getElementById("resFloor");
+            const resMod = document.getElementById("resMod");
+            const resPow = document.getElementById("resPow");
+
+            function formatNumber(value) {
+                if (!Number.isFinite(value)) return String(value);
+                if (Number.isInteger(value)) return String(value);
+                return String(Number(value.toFixed(10)));
+            }
+
+            function renderArithmetic() {
+                const a = Number(arithA.value);
+                const b = Number(arithB.value);
+
+                resAdd.textContent = formatNumber(a + b);
+                resSub.textContent = formatNumber(a - b);
+                resMul.textContent = formatNumber(a * b);
+
+                if (b === 0) {
+                    resDiv.textContent = "ZeroDivisionError";
+                    resFloor.textContent = "ZeroDivisionError";
+                    resMod.textContent = "ZeroDivisionError";
+                } else {
+                    resDiv.textContent = formatNumber(a / b);
+                    resFloor.textContent = formatNumber(Math.floor(a / b));
+                    resMod.textContent = formatNumber(a - b * Math.floor(a / b));
+                }
+
+                const power = a ** b;
+                resPow.textContent = Number.isFinite(power) ? formatNumber(power) : String(power);
+            }
+
+            arithA.addEventListener("input", renderArithmetic);
+            arithB.addEventListener("input", renderArithmetic);
+            renderArithmetic();
+
+            // ============================================================
+            // DIVISION EXPLORER
+            // ============================================================
+            const dividendInput = document.getElementById("dividendInput");
+            const divisorInput = document.getElementById("divisorInput");
+            const divisionExact = document.getElementById("divisionExact");
+            const divisionFloor = document.getElementById("divisionFloor");
+            const divisionMod = document.getElementById("divisionMod");
+
+            function renderDivisionFamily() {
+                const a = Number(dividendInput.value);
+                const b = Number(divisorInput.value);
+
+                if (b === 0) {
+                    divisionExact.textContent = `${a} / 0 → ZeroDivisionError`;
+                    divisionFloor.textContent = `${a} // 0 → ZeroDivisionError`;
+                    divisionMod.textContent = `${a} % 0 → ZeroDivisionError`;
+                    return;
+                }
+
+                const floor = Math.floor(a / b);
+                const mod = a - b * floor;
+
+                divisionExact.textContent = `${a} / ${b} = ${formatNumber(a / b)}`;
+                divisionFloor.textContent = `${a} // ${b} = ${formatNumber(floor)}`;
+                divisionMod.textContent = `${a} % ${b} = ${formatNumber(mod)}`;
+            }
+
+            dividendInput.addEventListener("input", renderDivisionFamily);
+            divisorInput.addEventListener("input", renderDivisionFamily);
+            renderDivisionFamily();
+
+            // ============================================================
+            // EXPRESSION STEPPER
+            // ============================================================
+            const stepperSteps = [
+                {
+                    label: "Start",
+                    text: "2 + 3 * 4 ** 2 - 10 // 3"
+                },
+                {
+                    label: "Step 1 — exponentiation",
+                    text: "4 ** 2 = 16\n\n2 + 3 * 16 - 10 // 3"
+                },
+                {
+                    label: "Step 2 — multiplication",
+                    text: "3 * 16 = 48\n\n2 + 48 - 10 // 3"
+                },
+                {
+                    label: "Step 3 — floor division",
+                    text: "10 // 3 = 3\n\n2 + 48 - 3"
+                },
+                {
+                    label: "Step 4 — addition/subtraction",
+                    text: "2 + 48 - 3\n= 50 - 3\n= 47"
+                },
+                {
+                    label: "Final answer",
+                    text: "47"
+                }
+            ];
+
+            let stepperIndex = 0;
+
+            const stepperLabel = document.getElementById("stepperLabel");
+            const stepperText = document.getElementById("stepperText");
+            const stepperPrev = document.getElementById("stepperPrev");
+            const stepperNext = document.getElementById("stepperNext");
+            const stepperReset = document.getElementById("stepperReset");
+
+            function renderStepper() {
+                stepperLabel.textContent = stepperSteps[stepperIndex].label;
+                stepperText.textContent = stepperSteps[stepperIndex].text;
+                stepperPrev.disabled = stepperIndex === 0;
+                stepperNext.disabled = stepperIndex === stepperSteps.length - 1;
+            }
+
+            stepperPrev.addEventListener("click", () => {
+                if (stepperIndex > 0) stepperIndex--;
+                renderStepper();
+            });
+
+            stepperNext.addEventListener("click", () => {
+                if (stepperIndex < stepperSteps.length - 1) stepperIndex++;
+                renderStepper();
+            });
+
+            stepperReset.addEventListener("click", () => {
+                stepperIndex = 0;
+                renderStepper();
+            });
+
+            renderStepper();
+
+            // ============================================================
+            // WORKED EXAMPLES
+            // ============================================================
+            const exampleData = {
+                calculator: {
+                    title: "Simple Calculator",
+                    description: "Read two decimal-capable numbers and apply the four familiar operations.",
+                    code:
+                        `a = float(input("Enter first number: "))
 b = float(input("Enter second number: "))
 
 print("Sum:", a + b)
 print("Difference:", a - b)
 print("Product:", a * b)
-print("Quotient:", a / b)
+print("Quotient:", a / b)`,
+                    output:
+                        `Example input:
+10
+3
 
-# Input: 10, 3
-# Sum: 13.0
-# Difference: 7.0
-# Product: 30.0
-# Quotient: 3.3333333333333335</code></div>
-                </div>
+Output:
+Sum: 13.0
+Difference: 7.0
+Product: 30.0
+Quotient: 3.3333333333333335`
+                },
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Using // and % — Time Converter</h4>
-                    <div class="code-block"><code># Convert total minutes to hours and minutes
-total_minutes = int(input("Enter minutes: "))  # e.g., 135
+                time: {
+                    title: "Time Converter with // and %",
+                    description: "Floor division gives the whole number of hours; modulo gives the remaining minutes.",
+                    code:
+                        `total_minutes = int(input("Enter minutes: "))
 
-hours = total_minutes // 60    # 135 // 60 = 2
-minutes = total_minutes % 60   # 135 % 60 = 15
+hours = total_minutes // 60
+minutes = total_minutes % 60
 
-print(total_minutes, "minutes =", hours, "h", minutes, "min")
-# 135 minutes = 2 h 15 min</code></div>
-                </div>
+print(total_minutes, "minutes =",
+      hours, "h",
+      minutes, "min")`,
+                    output:
+                        `Input:
+135
 
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Operator Precedence</h4>
-                    <div class="code-block"><code># Without parentheses — follows PEMDAS
-result = 2 + 3 * 4       # 3*4=12, then 2+12=14
-print(result)             # 14
+135 // 60 = 2
+135 % 60  = 15
 
-# With parentheses — override precedence
-result = (2 + 3) * 4     # 2+3=5, then 5*4=20
-print(result)             # 20
+Output:
+135 minutes = 2 h 15 min`
+                },
 
-# Exponentiation before multiplication
-result = 2 * 3 ** 2      # 3**2=9, then 2*9=18
-print(result)             # 18</code></div>
-                </div>
+                pemdas: {
+                    title: "Operator Precedence",
+                    description: "Parentheses can deliberately change the order of evaluation.",
+                    code:
+                        `result = 2 + 3 * 4
+print(result)
 
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Extracting Digits with %</h4>
-                    <div class="code-block"><code># Extract the last digit of any number
-number = int(input("Enter a number: "))  # e.g., 347
+result = (2 + 3) * 4
+print(result)
 
-last_digit = number % 10       # 347 % 10 = 7
-print("Last digit:", last_digit)
+result = 2 * 3 ** 2
+print(result)`,
+                    output:
+                        `2 + 3 * 4
+→ 2 + 12
+→ 14
 
-# Check if the number is even or odd
-if number % 2 == 0:
-    print("Even")
-else:
-    print("Odd")</code></div>
-                </div>
-            </section>
+(2 + 3) * 4
+→ 5 * 4
+→ 20
 
-            <!-- Pitfalls -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Division by Zero</h4>
-                    <p><code>x / 0</code> or <code>x // 0</code> or <code>x % 0</code> — all cause a
-                        <code>ZeroDivisionError</code>. Always validate that the divisor is not zero before dividing.
-                    </p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Forgetting to Convert Input</h4>
-                    <p>If you write <code>x = input("Number: ")</code> and then <code>x + 5</code>, you'll get a
-                        <code>TypeError</code> because you can't add a string to an integer. Always use
-                        <code>int()</code> or <code>float()</code> on input.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Negative Floor Division</h4>
-                    <p><code>-7 // 2</code> = <code>-4</code>, not <code>-3</code>! Floor division rounds
-                        <strong>down</strong> (toward negative infinity), not toward zero.</p>
-                </div>
-            </section>
+2 * 3 ** 2
+→ 2 * 9
+→ 18`
+                },
 
-            <!-- Pro-Tips -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Must-Know for Exams</h4>
-                    <ul>
-                        <li><code>//</code> and <code>%</code> are the most commonly tested operators</li>
-                        <li>To test if a number is even: <code>n % 2 == 0</code></li>
-                        <li>To get the last digit: <code>n % 10</code></li>
-                        <li>To remove the last digit: <code>n // 10</code></li>
-                        <li>Always apply PEMDAS when tracing expressions</li>
-                    </ul>
-                </div>
-            </section>
+                digits: {
+                    title: "Extracting Digits with // and %",
+                    description: "For positive base-10 integers, // and % can isolate digits.",
+                    code:
+                        `number = 347
 
-            <!-- Assessment -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>List all 7 arithmetic operators in Python and give one example of each.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain the difference between <code>/</code>, <code>//</code>, and <code>%</code> using the
-                            example <code>17</code> divided by <code>5</code>.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that reads the radius of a circle and outputs its area (π × r²). Use
-                            <code>3.14159</code> for π.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that converts a total number of seconds into hours, minutes, and remaining
-                            seconds using <code>//</code> and <code>%</code>.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Without running, evaluate: <code>2 + 3 * 4 ** 2 - 10 // 3</code>. Show step-by-step working.
-                        </p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Create a program that asks for 3 test scores and calculates the average. Display the result
-                            rounded to 1 decimal place.</p>
-                    </div>
-                </div>
-            </section>
+units = number % 10
+tens = (number // 10) % 10
+hundreds = number // 100
 
-            <!-- Quiz -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <div class="quiz-question">1. What does <code>input()</code> always return?</div>
-                    <div class="quiz-answer" data-answer="A string (str), regardless of what the user types">Click to
-                        reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">2. What is <code>17 // 5</code>?</div>
-                    <div class="quiz-answer" data-answer="3 — integer (floor) division gives the whole part only">Click
-                        to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">3. What is <code>17 % 5</code>?</div>
-                    <div class="quiz-answer" data-answer="2 — modulo gives the remainder after division">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">4. What is the result of <code>2 + 3 * 4</code>?</div>
-                    <div class="quiz-answer"
-                        data-answer="14 — multiplication has higher precedence: 3*4=12, then 2+12=14">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">5. What is <code>-7 // 2</code>?</div>
-                    <div class="quiz-answer"
-                        data-answer="-4 — floor division rounds DOWN (toward negative infinity), not toward zero">Click
-                        to reveal answer</div>
-                </div>
-            </section>
+print(hundreds, tens, units)`,
+                    output:
+                        `347 % 10 = 7
 
-            <nav class="lesson-nav">
-                        <a href="lesson-02-data-types.html"><span class="nav-label">← Previous</span><span class="nav-title">Data Types &amp; Type Conversion</span></a>
-                        <a href="lesson-04-boolean-branching.html"><span class="nav-label">Next →</span><span class="nav-title">Boolean Logic &amp; Branching</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+347 // 10 = 34
+34 % 10 = 4
 
-    <footer class="site-footer">
-        <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
-            <p>&copy; 2025 IT-Tea. Educational use.</p>
-        </div>
-    </footer>
+347 // 100 = 3
+
+Output:
+3 4 7`
+                }
+            };
+
+            const exampleTabs = document.querySelectorAll(".example-tab");
+            const exampleTitle = document.getElementById("exampleTitle");
+            const exampleDescription = document.getElementById("exampleDescription");
+            const exampleCode = document.getElementById("exampleCode");
+            const exampleOutput = document.getElementById("exampleOutput");
+
+            function showExample(name) {
+                const item = exampleData[name];
+
+                exampleTitle.textContent = item.title;
+                exampleDescription.textContent = item.description;
+                exampleCode.textContent = "CODE:\n\n" + item.code;
+                exampleOutput.textContent = "WALKTHROUGH / OUTPUT:\n\n" + item.output;
+
+                exampleTabs.forEach(button => {
+                    button.classList.toggle("active", button.dataset.example === name);
+                });
+            }
+
+            exampleTabs.forEach(button => {
+                button.addEventListener("click", () => showExample(button.dataset.example));
+            });
+
+            showExample("calculator");
+
+            // ============================================================
+            // SOLVE THE PROBLEM
+            // ============================================================
+            const problems = [
+                {
+                    prompt:
+                        `367 seconds are given.
+
+Write expressions to calculate:
+1. whole minutes
+2. remaining seconds`,
+                    solution:
+                        `minutes = 367 // 60   # 6
+seconds = 367 % 60    # 7`
+                },
+                {
+                    prompt:
+                        `347 is a positive three-digit integer.
+
+Write expressions to obtain:
+1. hundreds digit
+2. tens digit
+3. units digit`,
+                    solution:
+                        `hundreds = 347 // 100
+tens = (347 // 10) % 10
+units = 347 % 10
+
+# 3, 4, 7`
+                },
+                {
+                    prompt:
+                        `125 minutes are given.
+
+Calculate:
+1. whole hours
+2. remaining minutes`,
+                    solution:
+                        `hours = 125 // 60     # 2
+minutes = 125 % 60    # 5`
+                },
+                {
+                    prompt:
+                        `A box holds 6 bottles.
+
+There are 38 bottles.
+Calculate:
+1. complete boxes
+2. bottles left over`,
+                    solution:
+                        `boxes = 38 // 6       # 6
+left = 38 % 6         # 2`
+                }
+            ];
+
+            let problemIndex = 0;
+
+            const problemPrompt = document.getElementById("problemPrompt");
+            const problemFeedback = document.getElementById("problemFeedback");
+            const problemProgress = document.getElementById("problemProgress");
+            const revealProblem = document.getElementById("revealProblem");
+            const nextProblem = document.getElementById("nextProblem");
+
+            function loadProblem() {
+                problemPrompt.textContent = problems[problemIndex].prompt;
+                problemFeedback.className = "lab-feedback";
+                problemFeedback.textContent = "Write the Python expressions before revealing.";
+                problemProgress.textContent = `Problem ${problemIndex + 1} of ${problems.length}`;
+            }
+
+            revealProblem.addEventListener("click", () => {
+                problemFeedback.className = "lab-feedback correct";
+                problemFeedback.textContent = problems[problemIndex].solution;
+            });
+
+            nextProblem.addEventListener("click", () => {
+                problemIndex = (problemIndex + 1) % problems.length;
+                loadProblem();
+            });
+
+            loadProblem();
+
+            // ============================================================
+            // ERROR LAB
+            // ============================================================
+            const errorExamples = [
+                {
+                    code: "10 / 0",
+                    answer: "zero",
+                    explanation: "ZeroDivisionError: division by zero is undefined."
+                },
+                {
+                    code: 'input("x = ") + 5',
+                    answer: "type",
+                    explanation: "TypeError: input() returns str, which cannot be directly added to int 5."
+                },
+                {
+                    code:
+                        `x = int(input("x = "))
+# user enters: hello`,
+                    answer: "value",
+                    explanation: 'ValueError: "hello" cannot be converted to an integer.'
+                },
+                {
+                    code: "2 + 3 * 4",
+                    answer: "valid",
+                    explanation: "Valid. Multiplication happens first, so the result is 14."
+                },
+                {
+                    code: "17 % 5",
+                    answer: "valid",
+                    explanation: "Valid. The remainder is 2."
+                },
+                {
+                    code: "5 // 0",
+                    answer: "zero",
+                    explanation: "ZeroDivisionError also applies to floor division by zero."
+                },
+                {
+                    code: "2 ** 3",
+                    answer: "valid",
+                    explanation: "Valid. Exponentiation gives 8."
+                }
+            ];
+
+            let errorIndex = 0;
+
+            const errorPrompt = document.getElementById("errorPrompt");
+            const errorFeedback = document.getElementById("errorFeedback");
+            const errorProgress = document.getElementById("errorProgress");
+            const errorChoices = document.querySelectorAll(".error-choice");
+            const nextError = document.getElementById("nextError");
+
+            function loadError() {
+                errorPrompt.textContent = errorExamples[errorIndex].code;
+                errorFeedback.className = "lab-feedback";
+                errorFeedback.textContent = "Decide whether the code is valid or which error occurs.";
+                errorProgress.textContent = `Example ${errorIndex + 1} of ${errorExamples.length}`;
+
+                errorChoices.forEach(button => button.classList.remove("active"));
+            }
+
+            errorChoices.forEach(button => {
+                button.addEventListener("click", () => {
+                    const item = errorExamples[errorIndex];
+                    const correct = button.dataset.error === item.answer;
+
+                    errorChoices.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    errorFeedback.className = `lab-feedback ${correct ? "correct" : "wrong"}`;
+                    errorFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.explanation}`;
+                });
+            });
+
+            nextError.addEventListener("click", () => {
+                errorIndex = (errorIndex + 1) % errorExamples.length;
+                loadError();
+            });
+
+            loadError();
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/lesson.js"></script>
+
 </body>
 
 </html>
