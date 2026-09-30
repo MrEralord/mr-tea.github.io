@@ -4,402 +4,1115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Output &amp; Escape Sequences — mr. TEA</title>
+    <title>Output & Escape Sequences — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
         content="Python lesson on data output: print(), sep, end, escape sequences. NIS Grade 11 Programming 11.1.1.1, 11.1.1.2.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        html {
+            scroll-behavior: smooth
+        }
+
+        .section-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0 var(--space-xl);
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            position: sticky;
+            top: 64px;
+            z-index: 12;
+            backdrop-filter: blur(14px)
+        }
+
+        .section-jump a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: .42rem .7rem;
+            font-size: .72rem;
+            font-weight: 700;
+            background: var(--bg-glass)
+        }
+
+        .section-jump a:hover {
+            color: var(--clr-tea);
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .print-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: var(--space-md);
+            align-items: center;
+            margin: var(--space-md) 0
+        }
+
+        .flow-box {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .flow-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font: 700 .78rem/1.6 var(--font-code);
+            color: var(--text-primary)
+        }
+
+        .flow-label {
+            display: block;
+            margin-bottom: .4rem;
+            color: var(--text-muted);
+            font-size: .62rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .06em
+        }
+
+        .flow-arrow {
+            color: var(--clr-tea);
+            font-size: 1.2rem;
+            text-align: center
+        }
+
+        .parameter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .parameter-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass)
+        }
+
+        .parameter-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .78rem;
+            margin-bottom: .2rem
+        }
+
+        .parameter-card code {
+            color: var(--clr-tea);
+            font: 700 .69rem var(--font-code)
+        }
+
+        .parameter-card p {
+            margin: .35rem 0 0;
+            color: var(--text-muted);
+            font-size: .68rem;
+            line-height: 1.4
+        }
+
+        .lab {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            margin: var(--space-md) 0
+        }
+
+        .lab-code {
+            min-height: 130px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            overflow-x: auto
+        }
+
+        .lab-code pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font: 700 .8rem/1.6 var(--font-code);
+            color: var(--text-primary)
+        }
+
+        .lab-output {
+            min-height: 90px;
+            margin-top: var(--space-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .76rem;
+            line-height: 1.55;
+            white-space: pre-wrap
+        }
+
+        .lab-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-top: var(--space-sm)
+        }
+
+        .lab-btn,
+        .switch-btn,
+        .choice-btn {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: .52rem .72rem;
+            font: 700 .72rem var(--font-body);
+            cursor: pointer
+        }
+
+        .lab-btn:hover,
+        .switch-btn:hover,
+        .switch-btn.active,
+        .choice-btn:hover,
+        .choice-btn.active {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .lab-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .68rem
+        }
+
+        .playground-grid {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: var(--space-lg)
+        }
+
+        .playground-panel {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass)
+        }
+
+        .field {
+            margin-bottom: var(--space-sm)
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            font-weight: 700
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: .5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font: 600 .72rem var(--font-code)
+        }
+
+        .playground-panel pre {
+            margin: 0;
+            min-height: 130px;
+            padding: var(--space-md);
+            white-space: pre-wrap;
+            border-radius: var(--radius-sm);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .73rem/1.6 var(--font-code)
+        }
+
+        .switch-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md)
+        }
+
+        .explorer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md)
+        }
+
+        .explorer-box {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass)
+        }
+
+        .explorer-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 700 .74rem/1.6 var(--font-code)
+        }
+
+        .explorer-note {
+            margin-top: .45rem;
+            color: var(--text-muted);
+            font-size: .68rem;
+            line-height: 1.45
+        }
+
+        .code-output-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .co-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: hidden
+        }
+
+        .co-head {
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg-glass);
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+            font-size: .76rem;
+            font-weight: 800
+        }
+
+        .co-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr
+        }
+
+        .co-side {
+            padding: var(--space-md);
+            min-height: 130px
+        }
+
+        .co-side:first-child {
+            border-right: 1px solid var(--border);
+            background: var(--bg-code)
+        }
+
+        .co-side span {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--text-muted);
+            font-size: .58rem;
+            text-transform: uppercase;
+            font-weight: 800
+        }
+
+        .co-side pre {
+            margin: 0;
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 650 .68rem/1.55 var(--font-code)
+        }
+
+        .error-card {
+            border-color: rgba(239, 68, 68, .35)
+        }
+
+        .error-text {
+            color: #ef4444 !important
+        }
+
+        .example-panel {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .example-panel h4 {
+            margin: 0 0 .3rem;
+            color: var(--text-primary);
+            font-size: .9rem
+        }
+
+        .example-panel p {
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-top: var(--space-sm)
+        }
+
+        .example-grid pre {
+            margin: 0;
+            min-height: 190px;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 650 .69rem/1.55 var(--font-code)
+        }
+
+        .fix-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xs);
+            margin-top: var(--space-sm)
+        }
+
+        .feedback.correct {
+            border-color: #16a34a;
+            background: rgba(22, 163, 74, .08)
+        }
+
+        .feedback.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, .08)
+        }
+
+        .exam-marking {
+            margin-top: var(--space-xs)
+        }
+
+        .exam-marking summary {
+            cursor: pointer;
+            color: var(--clr-tea);
+            font-size: .72rem;
+            font-weight: 800
+        }
+
+        .exam-marking div {
+            margin-top: var(--space-xs);
+            padding: var(--space-sm);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .74rem;
+            line-height: 1.5;
+            white-space: pre-wrap
+        }
+
+        @media(max-width:900px) {
+            .section-jump {
+                position: static
+            }
+
+            .print-flow,
+            .playground-grid,
+            .explorer-grid,
+            .example-grid {
+                grid-template-columns: 1fr
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg)
+            }
+
+            .parameter-grid {
+                grid-template-columns: 1fr
+            }
+
+            .code-output-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:650px) {
+            .co-body {
+                grid-template-columns: 1fr
+            }
+
+            .co-side:first-child {
+                border-right: 0;
+                border-bottom: 1px solid var(--border)
+            }
+
+            .fix-options {
+                grid-template-columns: 1fr
+            }
+
+            .lab {
+                padding: var(--space-md)
+            }
+
+            .lab-footer {
+                align-items: flex-start;
+                flex-direction: column
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-P4C0Y8SW2K');</script>
 </head>
 
 <body>
-
-<div class="layout-wrapper">
-    <main class="main-content">
-
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.1A — Output &amp; Escape Sequences</span>
-            </nav>
-
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
-                <h1 class="lesson-title">Output &amp; Escape Sequences</h1>
-                <p class="lesson-intro">Every program needs to communicate with the user. In Python, the
-                    <code>print()</code> function is your primary tool for displaying information. This lesson covers
-                    how to organize data output and use special escape sequences to control formatting.
-                </p>
+    <div class="layout-wrapper">
+        <main class="main-content">
+            <div class="mobile-header">
+                <div class="header-left"><button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i
+                            class="fas fa-bars"></i></button><a href="/" class="logo" style="margin-left:15px;"><i
+                            class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a></div>
             </div>
 
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.1.1.1</span> Organize data output</li>
-                    <li><span class="lo-code">11.1.1.2</span> Use the escape sequences with data output</li>
-                </ul>
-            </div>
+            <div class="lesson-page">
+                <div class="lesson-container">
+                    <nav class="lesson-breadcrumb"><a href="/index.html">Home</a> <span class="sep">/</span> <a
+                            href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span> <span>11.1A —
+                            Output & Escape Sequences</span></nav>
 
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1A-lesson-01-output.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="/assets/pdf/prog11.1Output&EscapeSequences.pdf" class="lesson-pdf-btn view-btn"><i
-                            class="fas fa-eye"></i> View</a>
-                    <a href="/assets/pdf/prog11.1Output&EscapeSequences.pdf"
-                        class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
-
-            <div class="lesson-video-block">
-                <div class="lesson-video-header">
-                    <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
-                    <div class="lesson-video-info">
-                        <h4>Video Explanation</h4>
-                        <p>Watch a visual walkthrough of this topic</p>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                        <h1 class="lesson-title">Output & Escape Sequences</h1>
+                        <p class="lesson-intro">Every program needs to communicate with the user. In Python,
+                            <code>print()</code> is the main tool for displaying information. This lesson focuses on
+                            organising output with <code>sep</code> and <code>end</code>, and using escape sequences to
+                            control formatting.</p>
                     </div>
-                </div>
-                <div class="lesson-video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/eoiOIfJ1IlQ?si=G3vu8RCrZEc" allowfullscreen></iframe>
-                </div>
-            </div>
 
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.1.1.1</span> Organize data output</li>
+                            <li><span class="lo-code">11.1.1.2</span> Use the escape sequences with data output</li>
+                        </ul>
+                    </div>
 
-            <!-- Conceptual Anchor -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-bullhorn"></i> The Billboard Analogy</h4>
-                    <p>Think of <code>print()</code> as a digital billboard. You choose <strong>what</strong> to display
-                        (the message),
-                        <strong>how</strong> items are separated (the <code>sep</code> parameter), and <strong>what
-                            comes at the end</strong>
-                        (the <code>end</code> parameter). Escape sequences are like formatting controls — they tell the
-                        billboard
-                        to start a <strong>new line</strong>, insert a <strong>tab space</strong>, or display special
-                        characters like quotes.
-                    </p>
-                </div>
-            </section>
+                    <div class="lesson-pdf-block">
+                        <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                        <div class="lesson-pdf-info">
+                            <h4>Lesson Presentation</h4>
+                            <p>11.1A-lesson-01-output.pdf · Slides for classroom use</p>
+                        </div>
+                        <div class="lesson-pdf-actions"><a href="/assets/pdf/prog11.1Output&EscapeSequences.pdf"
+                                target="_blank" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a><a
+                                href="/assets/pdf/prog11.1Output&EscapeSequences.pdf" download
+                                class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a></div>
+                    </div>
 
-            <!-- Rules & Theory -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="lesson-video-info">
+                                <h4>Video Explanation</h4>
+                                <p>Watch a visual walkthrough of Python output and formatting.</p>
+                            </div>
+                        </div>
+                        <div class="lesson-video-wrapper"><iframe
+                                src="https://www.youtube-nocookie.com/embed/eoiOIfJ1IlQ?si=G3vu8RCrZEc"
+                                title="Python output and escape sequences" loading="lazy" allowfullscreen></iframe>
+                        </div>
+                    </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">The print() Function
-                </h3>
-                <div class="code-block"><code># Basic syntax
+                    <nav class="section-jump"><a href="#anatomy">print()</a><a href="#predictor">Predict Output</a><a
+                            href="#playground">Playground</a><a href="#escapes">Escape Sequences</a><a
+                            href="#code-output">Code vs Output</a><a href="#examples">Examples</a><a href="#fix">Fix
+                            Errors</a><a href="#practice">Practice</a></nav>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-bullhorn"></i> The Billboard Analogy</h4>
+                            <p>Think of <code>print()</code> as a digital billboard. You choose <strong>what</strong> to
+                                display, <strong>how</strong> items are separated using <code>sep</code>, and
+                                <strong>what comes after the output</strong> using <code>end</code>. Escape sequences
+                                are formatting controls that create new lines, tabs or special characters.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="anatomy">
+                        <h2 class="lesson-section-title"><i class="fas fa-code"></i> Anatomy of print()</h2>
+                        <div class="print-flow">
+                            <div class="flow-box"><span class="flow-label">Python code</span>
+                                <pre>print("A", "B", "C",
+      sep="-",
+      end="!")</pre>
+                            </div>
+                            <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="flow-box"><span class="flow-label">Exact output</span>
+                                <pre>A-B-C!</pre>
+                            </div>
+                        </div>
+                        <div class="parameter-grid">
+                            <div class="parameter-card"><strong>Values</strong><code>"A", "B", "C"</code>
+                                <p>The objects that Python displays.</p>
+                            </div>
+                            <div class="parameter-card"><strong>Separator</strong><code>sep="-"</code>
+                                <p>Text inserted between multiple values. Default: one space.</p>
+                            </div>
+                            <div class="parameter-card"><strong>End</strong><code>end="!"</code>
+                                <p>Text added after all values. Default: newline <code>\n</code>.</p>
+                            </div>
+                        </div>
+                        <div class="code-block"><code># General form
 print(value1, value2, ..., sep=' ', end='\n')
 
-# Simple output
-print("Hello, World!")          # Hello, World!
+print("Hello, World!")
+print("Name:", "Ali")
+print("2026", "09", "30", sep="-")
+print("Loading", end="...")
+print("Done!")
+print()  # blank line</code></div>
+                    </section>
 
-# Multiple values — separated by space by default
-print("Name:", "Ali")           # Name: Ali
-print("Age:", 16)               # Age: 16
+                    <section class="lesson-section" id="predictor">
+                        <h2 class="lesson-section-title"><i class="fas fa-eye"></i> Output Predictor</h2>
+                        <p class="concept-text">Predict the <strong>exact</strong> output before revealing it. Pay
+                            attention to spaces, line breaks, <code>sep</code> and <code>end</code>.</p>
+                        <div class="lab">
+                            <div class="lab-code">
+                                <pre id="predictorCode"></pre>
+                            </div>
+                            <div class="lab-actions"><button id="showPredictor" class="lab-btn" type="button"><i
+                                        class="fas fa-eye"></i> Show Output</button></div>
+                            <div id="predictorOutput" class="lab-output">Predict first, then reveal the output.</div>
+                            <div class="lab-footer"><span id="predictorProgress"></span><button id="nextPredictor"
+                                    class="lab-btn" type="button">Next example <i
+                                        class="fas fa-arrow-right"></i></button></div>
+                        </div>
+                    </section>
 
-# Changing the separator
-print("2025", "02", "19", sep="-")    # 2025-02-19
-print("A", "B", "C", sep=" → ")       # A → B → C
+                    <section class="lesson-section" id="playground">
+                        <h2 class="lesson-section-title"><i class="fas fa-sliders"></i> Print Playground</h2>
+                        <p class="concept-text">Change the values, separator and ending. The preview models one
+                            <code>print()</code> statement.</p>
+                        <div class="lab">
+                            <div class="playground-grid">
+                                <div class="playground-panel">
+                                    <div class="field"><label>Value 1</label><input id="v1" value="A"></div>
+                                    <div class="field"><label>Value 2</label><input id="v2" value="B"></div>
+                                    <div class="field"><label>Value 3</label><input id="v3" value="C"></div>
+                                    <div class="field"><label>sep</label><select id="sepSelect">
+                                            <option value=" ">space</option>
+                                            <option value="">empty</option>
+                                            <option value="-">-</option>
+                                            <option value=", ">, + space</option>
+                                            <option value=" → ">→</option>
+                                            <option value="&#10;">\n</option>
+                                            <option value="&#9;">\t</option>
+                                        </select></div>
+                                    <div class="field"><label>end</label><select id="endSelect">
+                                            <option value="&#10;">\n (default)</option>
+                                            <option value="">empty</option>
+                                            <option value="!">!</option>
+                                            <option value="...">...</option>
+                                            <option value=" | "> | </option>
+                                        </select></div>
+                                    <div class="lab-actions"><button class="lab-btn preset"
+                                            data-preset="date">Date</button><button class="lab-btn preset"
+                                            data-preset="csv">CSV</button><button class="lab-btn preset"
+                                            data-preset="arrow">Arrow</button><button class="lab-btn preset"
+                                            data-preset="lines">New lines</button><button class="lab-btn preset"
+                                            data-preset="same">Same line</button></div>
+                                </div>
+                                <div class="playground-panel"><span class="flow-label">Generated statement</span>
+                                    <pre id="generatedStatement"></pre><span class="flow-label"
+                                        style="margin-top:var(--space-md);">Preview</span>
+                                    <pre id="playgroundOutput"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-# Changing the end character
-print("Loading", end="...")     # Loading...
-print("Done!")                  # Done!  (on same line)
+                    <section class="lesson-section" id="escapes">
+                        <h2 class="lesson-section-title"><i class="fas fa-keyboard"></i> Escape Sequences</h2>
+                        <p class="concept-text">An escape sequence begins with a backslash and represents a special
+                            character inside a string.</p>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Escape Sequence</th>
+                                    <th>Meaning</th>
+                                    <th>Example Output</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>\n</code></td>
+                                    <td>New line</td>
+                                    <td>Line 1, then Line 2 on the next line</td>
+                                </tr>
+                                <tr>
+                                    <td><code>\t</code></td>
+                                    <td>Horizontal tab / next tab stop</td>
+                                    <td>Useful for tabbed spacing</td>
+                                </tr>
+                                <tr>
+                                    <td><code>\\</code></td>
+                                    <td>Backslash character</td>
+                                    <td><code>C:\Users\</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>\'</code></td>
+                                    <td>Single quote</td>
+                                    <td><code>It's</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>\"</code></td>
+                                    <td>Double quote</td>
+                                    <td><code>He said "Hi"</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="lab">
+                            <h3 style="margin-top:0;">Escape Sequence Explorer</h3>
+                            <div class="switch-row"><button class="switch-btn escape-btn active"
+                                    data-escape="newline">\n</button><button class="switch-btn escape-btn"
+                                    data-escape="tab">\t</button><button class="switch-btn escape-btn"
+                                    data-escape="backslash">\\</button><button class="switch-btn escape-btn"
+                                    data-escape="single">\'</button><button class="switch-btn escape-btn"
+                                    data-escape="double">\"</button></div>
+                            <div class="explorer-grid">
+                                <div class="explorer-box"><span class="flow-label">Code</span>
+                                    <pre id="escapeCode"></pre>
+                                    <div id="escapeMeaning" class="explorer-note"></div>
+                                </div>
+                                <div class="explorer-box"><span class="flow-label">Output</span>
+                                    <pre id="escapeOutput"></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-info-circle"></i> About <code>\t</code></h4>
+                            <p><code>\t</code> inserts a horizontal tab and advances to the next tab stop. Its visible
+                                width depends on the terminal, editor or environment, so do not treat it as “exactly
+                                eight spaces”.</p>
+                        </div>
+                    </section>
 
-# Empty print = blank line
-print()                         # (blank line)</code></div>
+                    <section class="lesson-section" id="code-output">
+                        <h2 class="lesson-section-title"><i class="fas fa-code-compare"></i> Code vs Output</h2>
+                        <p class="concept-text">Study how tiny changes affect output. The last examples show common
+                            errors.</p>
+                        <div class="code-output-grid">
+                            <div class="co-card">
+                                <div class="co-head">1. Default separator</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("A", "B", "C")</pre>
+                                    </div>
+                                    <div class="co-side"><span>Output</span>
+                                        <pre>A B C</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card">
+                                <div class="co-head">2. Empty separator</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("A", "B", "C", sep="")</pre>
+                                    </div>
+                                    <div class="co-side"><span>Output</span>
+                                        <pre>ABC</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card">
+                                <div class="co-head">3. New lines inside one string</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("A\nB\nC")</pre>
+                                    </div>
+                                    <div class="co-side"><span>Output</span>
+                                        <pre>A
+B
+C</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card">
+                                <div class="co-head">4. Newline as separator</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("A", "B", "C", sep="\n")</pre>
+                                    </div>
+                                    <div class="co-side"><span>Output</span>
+                                        <pre>A
+B
+C</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card">
+                                <div class="co-head">5. Two print() calls joined</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("Loading", end="...")
+print("Done")</pre>
+                                    </div>
+                                    <div class="co-side"><span>Output</span>
+                                        <pre>Loading...Done</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card">
+                                <div class="co-head">6. sep + end together</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("A", "B", sep=":", end=" | ")
+print("C")</pre>
+                                    </div>
+                                    <div class="co-side"><span>Output</span>
+                                        <pre>A:B | C</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card">
+                                <div class="co-head">7. Tabbed spacing</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("Name\tScore")
+print("Ali\t95")</pre>
+                                    </div>
+                                    <div class="co-side"><span>Output</span>
+                                        <pre>Name    Score
+Ali     95</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card">
+                                <div class="co-head">8. Blank line</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("Top")
+print()
+print("Bottom")</pre>
+                                    </div>
+                                    <div class="co-side"><span>Output</span>
+                                        <pre>Top
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Escape
-                    Sequences</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Escape Sequence</th>
-                            <th>Meaning</th>
-                            <th>Example Output</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>\n</code></td>
-                            <td>New line</td>
-                            <td>Line 1↵Line 2</td>
-                        </tr>
-                        <tr>
-                            <td><code>\t</code></td>
-                            <td>Tab (8 spaces)</td>
-                            <td>Name&emsp;Score</td>
-                        </tr>
-                        <tr>
-                            <td><code>\\</code></td>
-                            <td>Backslash character</td>
-                            <td>C:\Users\</td>
-                        </tr>
-                        <tr>
-                            <td><code>\'</code></td>
-                            <td>Single quote</td>
-                            <td>It's</td>
-                        </tr>
-                        <tr>
-                            <td><code>\"</code></td>
-                            <td>Double quote</td>
-                            <td>He said "Hi"</td>
-                        </tr>
-                    </tbody>
-                </table>
+Bottom</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card error-card">
+                                <div class="co-head">9. Error — missing comma</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("Score:" 95)</pre>
+                                    </div>
+                                    <div class="co-side"><span class="error-text">Result</span>
+                                        <pre>SyntaxError</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card error-card">
+                                <div class="co-head">10. Error — broken quotes</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print('It's raining')</pre>
+                                    </div>
+                                    <div class="co-side"><span class="error-text">Result</span>
+                                        <pre>SyntaxError</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card error-card">
+                                <div class="co-head">11. Unexpected path output</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>print("C:\new\test")</pre>
+                                    </div>
+                                    <div class="co-side"><span class="error-text">Output</span>
+                                        <pre>C:
+ew	est</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-card error-card">
+                                <div class="co-head">12. Error — str + int</div>
+                                <div class="co-body">
+                                    <div class="co-side"><span>Code</span>
+                                        <pre>age = 16
+print("Age: " + age)</pre>
+                                    </div>
+                                    <div class="co-side"><span class="error-text">Result</span>
+                                        <pre>TypeError</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                <div class="code-block"><code># Escape sequences in action
-print("Line 1\nLine 2\nLine 3")
-# Line 1
-# Line 2
-# Line 3
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-folder-open"></i> File Paths: Escaped vs Raw
+                            Strings</h2>
+                        <p class="concept-text">Windows-style paths can accidentally contain <code>\n</code> and
+                            <code>\t</code>. Two common solutions are shown below.</p>
+                        <div class="switch-row"><button class="switch-btn path-btn active" data-path="escaped">Escaped
+                                string</button><button class="switch-btn path-btn" data-path="raw">Raw string</button>
+                        </div>
+                        <div class="flow-box">
+                            <pre id="pathCode"></pre>
+                        </div>
+                        <div class="note-box" style="margin-top:var(--space-md);">
+                            <h4><i class="fas fa-circle-info"></i> Extension</h4>
+                            <p>Raw strings are useful when text contains many backslashes, but the core objective
+                                remains understanding escape sequences.</p>
+                        </div>
+                    </section>
 
-print("Name\tScore\tGrade")
-print("Ali\t95\tA")
-print("Dana\t87\tB")
-# Name    Score   Grade
-# Ali     95      A
-# Dana    87      B
+                    <section class="lesson-section" id="examples">
+                        <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="switch-row"><button class="switch-btn example-tab active"
+                                data-example="report">Student Report</button><button class="switch-btn example-tab"
+                                data-example="table">Table</button><button class="switch-btn example-tab"
+                                data-example="same">Same Line</button><button class="switch-btn example-tab"
+                                data-example="art">ASCII Art</button></div>
+                        <div class="example-panel">
+                            <h4 id="exampleTitle"></h4>
+                            <p id="exampleDescription"></p>
+                            <div class="example-grid">
+                                <pre id="exampleCode"></pre>
+                                <pre id="exampleOutput"></pre>
+                            </div>
+                        </div>
+                    </section>
 
-print("Path: C:\\Users\\student\\file.py")
-# Path: C:\Users\student\file.py
+                    <section class="lesson-section" id="fix">
+                        <h2 class="lesson-section-title"><i class="fas fa-screwdriver-wrench"></i> Fix the Output</h2>
+                        <p class="concept-text">Find the most important problem, then choose the best correction.</p>
+                        <div class="lab">
+                            <div class="lab-code">
+                                <pre id="fixCode"></pre>
+                            </div>
+                            <div id="fixOptions" class="fix-options"></div>
+                            <div id="fixFeedback" class="lab-output feedback">Choose the best correction.</div>
+                            <div class="lab-footer"><span id="fixProgress"></span><button id="nextFix" class="lab-btn"
+                                    type="button">Next problem</button></div>
+                        </div>
+                    </section>
 
-print('He said: "Hello!"')       # He said: "Hello!"
-print("It\'s a sunny day")       # It's a sunny day</code></div>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls & Common
+                            Errors</h2>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Forgetting Escape in File Paths</h4>
+                            <p><code>print("C:\new\test")</code> interprets <code>\n</code> as a newline and
+                                <code>\t</code> as a tab. Use <code>"C:\\new\\test"</code> or, where appropriate,
+                                <code>r"C:\new\test"</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Mixing Quote Types Incorrectly</h4>
+                            <p><code>print('It's raining')</code> causes a syntax error. Use
+                                <code>print("It's raining")</code> or <code>print('It\'s raining')</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Missing Comma Between Arguments</h4>
+                            <p><code>print("Score:" 95)</code> is invalid. Use <code>print("Score:", 95)</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Concatenating Text and Numbers Directly</h4>
+                            <p><code>"Age: " + 16</code> causes a <code>TypeError</code>. Use
+                                <code>print("Age:", 16)</code> or convert the number with <code>str()</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Forgetting What end Does</h4>
+                            <p><code>end=""</code> or <code>end=" "</code> means the next <code>print()</code> begins on
+                                the same line.</p>
+                        </div>
+                    </section>
 
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Organizing Output</h4>
-                    <p>Use <code>\t</code> to create aligned columns. Use <code>\n</code> to break long messages across
-                        lines. Combine <code>sep</code> and <code>end</code> with loops for formatted tables.</p>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Output Questions</h4>
+                            <ul>
+                                <li>Write the output exactly, including spaces, punctuation and line breaks.</li>
+                                <li>Default <code>sep=' '</code> is one space.</li>
+                                <li>Default <code>end='\n'</code> moves to the next line.</li>
+                                <li><code>print()</code> with no values outputs only its ending, so the default creates
+                                    a blank line.</li>
+                                <li><code>\t</code> moves to a tab stop; do not assume exactly eight spaces.</li>
+                                <li>With several <code>print()</code> calls, trace where the previous <code>end</code>
+                                    leaves the cursor.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>Match <code>\n</code>, <code>\t</code>, <code>\\</code>, <code>\'</code>,
+                                    <code>\"</code> with their meanings.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>State the exact output of <code>print("A", "B", "C", sep="-")</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Use <code>sep</code> to print <code>2026-09-30</code> from three separate values.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Use <code>end</code> so the numbers 1 to 5 are printed on the same line.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Print the path <code>C:\Users\student\Documents\homework.py</code> correctly.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Write the exact output of
+                                    <code>print("A", "B", sep=":", end=" | "); print("C\nD")</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Create a formatted receipt using <code>print()</code>, <code>\t</code>,
+                                    <code>\n</code>, <code>sep</code> and <code>end</code>. Include at least three
+                                    items, prices and a total.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: Write the exact output.
+                                [2]<br><code>print("Red", "Green", "Blue", sep="/")</code></p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking point</summary>
+                                <div>Red/Green/Blue</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: Write the exact output.
+                                [3]<br><code>print("A", "B", sep=":", end=" | ")</code><br><code>print("C\nD")</code>
+                            </p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>A:B | C
+                                    D</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: Explain why <code>print("C:\new\test")</code> does not display
+                                the intended path. [2]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Backslash begins escape sequences. \n becomes a newline and \t becomes a tab
+                                    instead of literal path characters.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Correct <code>print('It's ready')</code>. [1]</p>
+                            <details class="exam-marking">
+                                <summary>Reveal marking point</summary>
+                                <div>For example: print("It's ready") or print('It\'s ready').</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. What is the default value of <code>sep</code>?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A single space:
+                                <code>' '</code>.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. What does <code>\t</code> do?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It inserts a horizontal
+                                tab and advances to the next tab stop.</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What is the output of
+                                <code>print("A", "B", "C", sep="-", end="!")</code>?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>A-B-C!</code>
+                            </div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. How do you place a literal backslash inside a normal Python
+                                string?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Use <code>\\</code>.
+                            </div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. What happens with <code>print("Hello\nWorld")</code>?</div>
+                            <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>Hello</code> is
+                                printed on one line and <code>World</code> on the next.</div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav"><a href="../../11-cs-theory/data-protection.html"><span><span
+                                    class="nav-label">← Previous</span><span class="nav-title">Information protection
+                                    measures</span></span></a><a href="lesson-02-data-types.html"><span><span
+                                    class="nav-label">Next →</span><span class="nav-title">Data Types & Type
+                                    Conversion</span></span></a></nav>
                 </div>
-            </section>
-
-            <!-- Worked Examples -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Formatting a Student Report</h4>
-                    <div class="code-block"><code># Organized output using sep and escape sequences
-name = "Aisha"
-grade = 11
-score = 92.5
-
-print("=" * 30)
-print("STUDENT REPORT")
-print("=" * 30)
-print("Name:", name)
-print("Grade:", grade)
-print("Score:", score)
-print("=" * 30)
-
-# Output:
-# ==============================
-# STUDENT REPORT
-# ==============================
-# Name: Aisha
-# Grade: 11
-# Score: 92.5
-# ==============================</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Building a Table with Tabs</h4>
-                    <div class="code-block"><code># Using \t to create aligned columns
-print("Product\tPrice\tQty")
-print("-" * 30)
-print("Apple\t$1.20\t50")
-print("Banana\t$0.80\t120")
-print("Orange\t$1.50\t75")
-
-# Output:
-# Product   Price   Qty
-# ------------------------------
-# Apple     $1.20   50
-# Banana    $0.80   120
-# Orange    $1.50   75</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Printing on the Same Line</h4>
-                    <div class="code-block"><code># Using end parameter to stay on the same line
-print("Counting: ", end="")
-for i in range(1, 6):
-    print(i, end=" ")
-print()  # Move to next line
-
-# Output:
-# Counting: 1 2 3 4 5</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Multi-line Art with Escape Sequences</h4>
-                    <div class="code-block"><code># Combining \n for multi-line output
-print("  *\n ***\n*****\n ***\n  *")
-
-# Output:
-#   *
-#  ***
-# *****
-#  ***
-#   *</code></div>
-                </div>
-            </section>
-
-            <!-- Pitfalls -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
-
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Forgetting Escape in File Paths</h4>
-                    <p>Writing <code>print("C:\new\test")</code> will interpret <code>\n</code> as a newline and
-                        <code>\t</code> as a tab! Use <code>\\</code> or a raw string <code>r"C:\new\test"</code>.
-                    </p>
-                </div>
-
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Mixing Quote Types</h4>
-                    <p><code>print('It's raining')</code> causes a SyntaxError because the apostrophe ends the string
-                        early. Fix: <code>print("It's raining")</code> or <code>print('It\'s raining')</code>.</p>
-                </div>
-
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Missing Separator between Arguments</h4>
-                    <p><code>print("Score:" 95)</code> is wrong — you need a comma between arguments:
-                        <code>print("Score:", 95)</code>.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Pro-Tips -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
-
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Output Questions</h4>
-                    <ul>
-                        <li>When tracing <code>print()</code> with <code>sep</code> and <code>end</code>, write out the
-                            exact output character by character</li>
-                        <li>Remember: default <code>sep=' '</code> (space) and default <code>end='\n'</code> (newline)
-                        </li>
-                        <li><code>print()</code> with no arguments just prints a blank line</li>
-                        <li>Count the <code>\t</code> stops carefully — they align to 8-character boundaries</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Graded Tasks -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item">
-                        <span class="task-level remember">Remember</span>
-                        <p>List all 5 escape sequences from this lesson and give one example for each.</p>
-                    </div>
-                    <div class="task-item">
-                        <span class="task-level understand">Understand</span>
-                        <p>Explain the difference between <code>print("A", "B")</code> and
-                            <code>print("A", "B", sep="")</code>. What does each output?
-                        </p>
-                    </div>
-                    <div class="task-item">
-                        <span class="task-level apply">Apply</span>
-                        <p>Write a program that prints a multiplication table for 5 (from 5×1 to 5×10) using
-                            <code>\t</code> for alignment.
-                        </p>
-                    </div>
-                    <div class="task-item">
-                        <span class="task-level apply">Apply</span>
-                        <p>Print the following path correctly: <code>C:\Users\student\Documents\homework.py</code></p>
-                    </div>
-                    <div class="task-item">
-                        <span class="task-level create">Create</span>
-                        <p>Create a formatted "receipt" using <code>print()</code> with <code>\t</code>,
-                            <code>\n</code>, <code>sep</code>, and <code>end</code>. Include at least 3 items with
-                            prices and a total.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Quiz -->
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <div class="quiz-question">1. What is the default value of the <code>sep</code> parameter in
-                        <code>print()</code>?
-                    </div>
-                    <div class="quiz-answer" data-answer="A single space ' '">Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">2. What does <code>\t</code> do in a string?</div>
-                    <div class="quiz-answer" data-answer="Inserts a horizontal tab (typically 8 spaces of alignment)">
-                        Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">3. What is the output of
-                        <code>print("A", "B", "C", sep="-", end="!")</code>?
-                    </div>
-                    <div class="quiz-answer"
-                        data-answer="A-B-C! (items joined by '-', ending with '!' instead of newline)">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">4. How do you print a backslash character?</div>
-                    <div class="quiz-answer" data-answer="Use double backslash: print('\\') outputs a single \">Click to
-                        reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">5. What happens if you write <code>print("Hello\nWorld")</code>?</div>
-                    <div class="quiz-answer" data-answer="It prints Hello on one line and World on the next line">Click
-                        to reveal answer</div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="../../11-cs-theory/data-protection.html"><span class="nav-label">← Previous</span><span class="nav-title">Information protection measures</span></a>
-                        <a href="lesson-02-data-types.html"><span class="nav-label">Next →</span><span class="nav-title">Data Types &amp; Type Conversion</span></a>
-                    </nav>
-
-        </div>
-        </div>
-    </main>
-  </div>
+            </div>
+        </main>
+    </div>
 
     <footer class="site-footer">
         <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
-            <p>&copy; 2025 IT-Tea. Educational use.</p>
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Programming</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
         </div>
     </footer>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const predictorExamples = [
+                { code: 'print("Hello")', output: 'Hello', note: 'One value is printed, then the default newline.' },
+                { code: 'print("A", "B", "C")', output: 'A B C', note: 'The default separator is one space.' },
+                { code: 'print("2026", "09", "30", sep="-")', output: '2026-09-30', note: 'The custom separator replaces the default spaces.' },
+                { code: 'print("Loading", end="...")\nprint("Done")', output: 'Loading...Done', note: 'The first print() does not move to a new line.' },
+                { code: 'print("A\\nB\\nC")', output: 'A\nB\nC', note: '\\n creates new lines inside the string.' },
+                { code: 'print("A", "B", "C", sep="\\n")', output: 'A\nB\nC', note: 'The separator itself is a newline.' },
+                { code: 'print("A", "B", sep=":", end=" | ")\nprint("C")', output: 'A:B | C', note: 'sep works between values; end works after the print() call.' },
+                { code: 'print("Top")\nprint()\nprint("Bottom")', output: 'Top\n\nBottom', note: 'Empty print() creates a blank line using the default newline.' }
+            ];
+            let pIndex = 0; const pCode = document.getElementById('predictorCode'), pOut = document.getElementById('predictorOutput'), pProg = document.getElementById('predictorProgress');
+            function loadPredictor() { const x = predictorExamples[pIndex]; pCode.textContent = x.code; pOut.textContent = 'Predict first, then reveal the output.'; pProg.textContent = `Example ${pIndex + 1} of ${predictorExamples.length}` }
+            document.getElementById('showPredictor').addEventListener('click', () => { const x = predictorExamples[pIndex]; pOut.textContent = `OUTPUT:\n${x.output}\n\nWHY:\n${x.note}` }); document.getElementById('nextPredictor').addEventListener('click', () => { pIndex = (pIndex + 1) % predictorExamples.length; loadPredictor() }); loadPredictor();
+
+            const v1 = document.getElementById('v1'), v2 = document.getElementById('v2'), v3 = document.getElementById('v3'), sep = document.getElementById('sepSelect'), end = document.getElementById('endSelect'), statement = document.getElementById('generatedStatement'), preview = document.getElementById('playgroundOutput');
+            const esc = s => s.replaceAll('\\', '\\\\').replaceAll('\n', '\\n').replaceAll('\t', '\\t').replaceAll('"', '\\"');
+            function renderPlay() { const vals = [v1.value, v2.value, v3.value]; statement.textContent = `print("${esc(vals[0])}", "${esc(vals[1])}", "${esc(vals[2])}", sep="${esc(sep.value)}", end="${esc(end.value)}")`; preview.textContent = vals.join(sep.value) + end.value }
+            [v1, v2, v3, sep, end].forEach(x => { x.addEventListener('input', renderPlay); x.addEventListener('change', renderPlay) });
+            const presets = { date: { v: ['2026', '09', '30'], s: '-', e: '\n' }, csv: { v: ['Ali', '95', 'A'], s: ', ', e: '\n' }, arrow: { v: ['Start', 'Process', 'End'], s: ' → ', e: '\n' }, lines: { v: ['Red', 'Green', 'Blue'], s: '\n', e: '\n' }, same: { v: ['Loading', '50%', 'Done'], s: ' ', e: '' } };
+            document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => { const x = presets[b.dataset.preset];[v1.value, v2.value, v3.value] = x.v; sep.value = x.s; end.value = x.e; renderPlay() })); renderPlay();
+
+            const escapeData = { newline: { code: 'print("Hello\\nWorld")', out: 'Hello\nWorld', note: '\\n inserts a new line.' }, tab: { code: 'print("Name\\tScore")\nprint("Ali\\t95")', out: 'Name    Score\nAli     95', note: '\\t inserts a horizontal tab and advances to a tab stop.' }, backslash: { code: 'print("C:\\\\Users\\\\student")', out: 'C:\\Users\\student', note: '\\\\ represents one literal backslash.' }, single: { code: "print('It\\'s ready')", out: "It's ready", note: "\\' lets a single quote appear inside a single-quoted string." }, double: { code: 'print("He said: \\"Hello!\\"")', out: 'He said: "Hello!"', note: '\\" lets a double quote appear inside a double-quoted string.' } };
+            const eCode = document.getElementById('escapeCode'), eOut = document.getElementById('escapeOutput'), eNote = document.getElementById('escapeMeaning'); function showEscape(name) { const x = escapeData[name]; eCode.textContent = x.code; eOut.textContent = x.out; eNote.textContent = x.note; document.querySelectorAll('.escape-btn').forEach(b => b.classList.toggle('active', b.dataset.escape === name)) } document.querySelectorAll('.escape-btn').forEach(b => b.addEventListener('click', () => showEscape(b.dataset.escape))); showEscape('newline');
+
+            const pathData = { escaped: 'print("C:\\\\Users\\\\student\\\\Documents\\\\homework.py")\n\nOutput:\nC:\\Users\\student\\Documents\\homework.py', raw: 'print(r"C:\\Users\\student\\Documents\\homework.py")\n\nOutput:\nC:\\Users\\student\\Documents\\homework.py' }; const pathCode = document.getElementById('pathCode'); function showPath(m) { pathCode.textContent = pathData[m]; document.querySelectorAll('.path-btn').forEach(b => b.classList.toggle('active', b.dataset.path === m)) } document.querySelectorAll('.path-btn').forEach(b => b.addEventListener('click', () => showPath(b.dataset.path))); showPath('escaped');
+
+            const ex = { report: { title: 'Formatting a Student Report', desc: 'A clear report uses separators and labelled values.', code: 'name = "Aisha"\ngrade = 11\nscore = 92.5\n\nprint("=" * 30)\nprint("STUDENT REPORT")\nprint("=" * 30)\nprint("Name:", name)\nprint("Grade:", grade)\nprint("Score:", score)\nprint("=" * 30)', out: '==============================\nSTUDENT REPORT\n==============================\nName: Aisha\nGrade: 11\nScore: 92.5\n==============================' }, table: { title: 'Building a Table with Tabs', desc: 'Tabs can create simple tabbed columns in a terminal.', code: 'print("Product\\tPrice\\tQty")\nprint("-" * 30)\nprint("Apple\\t$1.20\\t50")\nprint("Banana\\t$0.80\\t120")\nprint("Orange\\t$1.50\\t75")', out: 'Product    Price    Qty\n------------------------------\nApple      $1.20    50\nBanana     $0.80    120\nOrange     $1.50    75' }, same: { title: 'Printing on the Same Line', desc: 'Changing end prevents automatic movement to the next line.', code: 'print("Counting: ", end="")\nfor i in range(1, 6):\n    print(i, end=" ")\nprint()', out: 'Counting: 1 2 3 4 5 ' }, art: { title: 'Multi-line Art with Escape Sequences', desc: '\\n can build small multi-line patterns inside one string.', code: 'print("  *\\n ***\\n*****\\n ***\\n  *")', out: '  *\n ***\n*****\n ***\n  *' } };
+            const exTitle = document.getElementById('exampleTitle'), exDesc = document.getElementById('exampleDescription'), exCode = document.getElementById('exampleCode'), exOut = document.getElementById('exampleOutput'); function showExample(n) { const x = ex[n]; exTitle.textContent = x.title; exDesc.textContent = x.desc; exCode.textContent = 'CODE:\n\n' + x.code; exOut.textContent = 'OUTPUT:\n\n' + x.out; document.querySelectorAll('.example-tab').forEach(b => b.classList.toggle('active', b.dataset.example === n)) } document.querySelectorAll('.example-tab').forEach(b => b.addEventListener('click', () => showExample(b.dataset.example))); showExample('report');
+
+            const fixes = [
+                { code: 'print("Score:" 95)', opts: ['print("Score:", 95)', 'print("Score:" + 95)', 'print("Score:"; 95)', 'print("Score:" - 95)'], a: 0, note: 'Separate print() arguments with a comma.' },
+                { code: "print('It's raining')", opts: ["print('It's raining')", 'print("It\'s raining")', "print('It\"s raining')", 'print(It is raining)'], a: 1, note: 'Double quotes outside allow the apostrophe inside the string.' },
+                { code: 'print("C:\\new\\test")', opts: ['print("C:\\new\\test")', 'print("C:\\\\new\\\\test")', 'print("C:/\\new/test")', 'print(C:\\new\\test)'], a: 1, note: 'Double each backslash in a normal string.' },
+                { code: 'age = 16\nprint("Age: " + age)', opts: ['print("Age:", age)', 'print("Age: " - age)', 'print("Age: " + int(age))', 'print(age + "Age: ")'], a: 0, note: 'Separate arguments rather than concatenating str and int.' },
+                { code: 'print("A", "B", sep="-")\n# Wanted: A B', opts: ['print("A", "B")', 'print("A", "B", sep="")', 'print("A-B")', 'print("A", "B", end="-")'], a: 0, note: 'The default separator is one space.' }
+            ];
+            let fIndex = 0; const fCode = document.getElementById('fixCode'), fOpts = document.getElementById('fixOptions'), fFeed = document.getElementById('fixFeedback'), fProg = document.getElementById('fixProgress'); function loadFix() { const x = fixes[fIndex]; fCode.textContent = x.code; fProg.textContent = `Problem ${fIndex + 1} of ${fixes.length}`; fFeed.className = 'lab-output feedback'; fFeed.textContent = 'Choose the best correction.'; fOpts.innerHTML = ''; x.opts.forEach((o, i) => { const b = document.createElement('button'); b.className = 'choice-btn'; b.type = 'button'; b.textContent = o; b.addEventListener('click', () => { [...fOpts.children].forEach(q => q.classList.remove('active')); b.classList.add('active'); const ok = i === x.a; fFeed.className = `lab-output feedback ${ok ? 'correct' : 'wrong'}`; fFeed.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.note}` }); fOpts.appendChild(b) }) } document.getElementById('nextFix').addEventListener('click', () => { fIndex = (fIndex + 1) % fixes.length; loadFix() }); loadFix();
+        });
+    </script>
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/lesson.js"></script>
