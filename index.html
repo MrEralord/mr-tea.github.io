@@ -343,6 +343,121 @@
         </div>
       </section>
 
+      <!-- ===================== QUICK FEEDBACK ===================== -->
+      <section class="feedback-section" id="feedback">
+        <div class="container">
+
+          <form class="feedback-card" id="feedback-form">
+
+            <div class="feedback-intro">
+              <div class="feedback-icon">
+                <i class="fas fa-comment-dots"></i>
+              </div>
+
+              <div>
+                <h2 id="feedback-title">Help make mr. TEA better</h2>
+                <p>Was the website useful today?</p>
+              </div>
+            </div>
+
+
+            <fieldset class="feedback-rating-group">
+              <legend>Rate your experience</legend>
+
+              <label class="feedback-rating">
+                <input type="radio" name="rating" value="bad" required>
+
+                <span class="feedback-rating-content">
+                  <span class="feedback-emoji">😕</span>
+                  <span>Not really</span>
+                </span>
+              </label>
+
+
+              <label class="feedback-rating">
+                <input type="radio" name="rating" value="okay">
+
+                <span class="feedback-rating-content">
+                  <span class="feedback-emoji">😐</span>
+                  <span>Somewhat</span>
+                </span>
+              </label>
+
+
+              <label class="feedback-rating">
+                <input type="radio" name="rating" value="good">
+
+                <span class="feedback-rating-content">
+                  <span class="feedback-emoji">👍</span>
+                  <span>Yes!</span>
+                </span>
+              </label>
+
+            </fieldset>
+
+
+            <!-- Appears after user selects a rating -->
+            <div class="feedback-extra" id="feedback-extra" hidden>
+
+              <div class="feedback-field">
+                <label for="feedback-type">
+                  What is your feedback about?
+                </label>
+
+                <select id="feedback-type" name="type">
+                  <option value="General feedback">General feedback</option>
+                  <option value="Found an error">🐞 Found an error</option>
+                  <option value="Suggestion">💡 Suggestion</option>
+                  <option value="Request a topic">📚 Request a topic</option>
+                  <option value="Design / usability">✨ Design / usability</option>
+                </select>
+              </div>
+
+
+              <div class="feedback-field">
+                <label for="feedback-message">
+                  Tell me more
+                  <span class="feedback-optional">optional</span>
+                </label>
+
+                <textarea id="feedback-message" name="message" rows="3" maxlength="1000"
+                  placeholder="Found an error? Have an idea? Tell me here..."></textarea>
+              </div>
+
+
+              <!-- Honeypot: real users do not see this -->
+              <div class="feedback-honeypot" aria-hidden="true">
+                <label>
+                  Website
+                  <input type="text" name="website" tabindex="-1" autocomplete="off">
+                </label>
+              </div>
+
+
+              <div class="feedback-submit-row">
+
+                <button type="submit" class="feedback-submit" id="feedback-submit">
+                  <i class="fas fa-paper-plane"></i>
+                  Send feedback
+                </button>
+
+                <span class="feedback-anonymous">
+                  <i class="fas fa-user-secret"></i>
+                  Anonymous · no registration
+                </span>
+
+              </div>
+
+              <p class="feedback-status" id="feedback-status" aria-live="polite"></p>
+
+            </div>
+
+          </form>
+
+        </div>
+      </section>
+      <!-- =================== / QUICK FEEDBACK ==================== -->
+
       <section class="assessment-hub" id="assessment-hub">
         <div class="container">
           <div class="section-header">
@@ -517,6 +632,9 @@
   <script src="js/i18n.js"></script>
   <script src="js/syllabus-renderer.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Website feedback -->
+  <script src="js/feedback.js"></script>
   <!-- Уведомление об обновлении сайта -->
   <style>
     .site-update-modal {
