@@ -4,388 +4,1463 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Loop &amp; Range — mr. TEA</title>
+    <title>For Loop & Range — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="Python for loop, range() function with start/stop/step. NIS Grade 11 Programming 11.1.2.4, 11.1.2.5.">
-
-    <!-- Open Graph -->
+        content="Python for loop, range() function with start, stop and step. NIS Grade 11 Programming 11.1.2.4, 11.1.2.5.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="For Loop &amp;amp; Range — mr. TEA">
-    <meta property="og:description" content="Python for loop, range() function with start/stop/step. NIS Grade 11 Programming 11.1.2.4, 11.1.2.5.">
+    <meta property="og:title" content="For Loop & Range — mr. TEA">
+    <meta property="og:description"
+        content="Python for loop, range() function with start, stop and step. NIS Grade 11 Programming 11.1.2.4, 11.1.2.5.">
     <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term1/lesson-06-for-loop.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        .range-anchor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: stretch
+        }
+
+        .range-tape {
+            min-height: 245px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+            overflow: hidden
+        }
+
+        .tape-title {
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+            text-align: center;
+            font: 750 .78rem var(--font-code)
+        }
+
+        .tape-line {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            align-items: end;
+            padding-top: 26px
+        }
+
+        .tape-line::before {
+            content: "";
+            position: absolute;
+            top: 40px;
+            left: 4%;
+            right: 4%;
+            height: 2px;
+            background: var(--border-hover)
+        }
+
+        .tape-mark {
+            position: relative;
+            z-index: 1;
+            min-height: 58px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font: 700 .62rem var(--font-code)
+        }
+
+        .tape-mark::before {
+            content: "";
+            width: 2px;
+            height: 16px;
+            margin-bottom: .28rem;
+            background: var(--border-hover)
+        }
+
+        .tape-mark.generated {
+            color: var(--clr-tea);
+            font-weight: 900
+        }
+
+        .tape-mark.generated::before {
+            height: 23px;
+            background: var(--clr-tea)
+        }
+
+        .tape-mark.stop {
+            color: #ef4444;
+            text-decoration: line-through
+        }
+
+        .tape-mark small {
+            margin-top: .2rem;
+            color: inherit;
+            font-size: .5rem;
+            text-decoration: none
+        }
+
+        .range-arrow {
+            margin-top: var(--space-md);
+            text-align: center;
+            color: var(--clr-tea);
+            font-size: .68rem;
+            font-weight: 800
+        }
+
+        .range-anatomy {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .range-part {
+            padding: var(--space-lg);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .range-part code {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--clr-tea);
+            font: 850 1rem var(--font-code)
+        }
+
+        .range-part strong {
+            display: block;
+            margin-bottom: .22rem;
+            color: var(--text-primary);
+            font-size: .72rem
+        }
+
+        .range-part p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .66rem;
+            line-height: 1.42
+        }
+
+        .range-builder-grid {
+            display: grid;
+            grid-template-columns: .72fr 1.28fr;
+            gap: var(--space-lg)
+        }
+
+        .range-controls {
+            display: grid;
+            gap: var(--space-sm);
+            align-content: start
+        }
+
+        .range-controls label,
+        .mult-control label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            font-weight: 800
+        }
+
+        .range-controls input,
+        .mult-control input {
+            width: 100%;
+            margin-top: .3rem;
+            padding: .6rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            outline: none;
+            font: 750 .76rem var(--font-code)
+        }
+
+        .range-controls input:focus,
+        .mult-control input:focus {
+            border-color: var(--clr-tea)
+        }
+
+        .range-result-panel {
+            min-height: 250px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code)
+        }
+
+        .range-result-panel span {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            font-size: .58rem;
+            font-weight: 800
+        }
+
+        .range-result-panel pre {
+            margin: 0 0 var(--space-md);
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            color: var(--text-primary);
+            font: 700 .72rem/1.58 var(--font-code)
+        }
+
+        .dynamic-number-line {
+            margin-top: var(--space-md);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow-x: auto
+        }
+
+        .number-line-track {
+            min-width: 500px;
+            display: flex;
+            gap: .42rem;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        .number-chip {
+            min-width: 38px;
+            padding: .35rem .45rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font: 700 .64rem var(--font-code)
+        }
+
+        .number-chip.generated {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .number-chip.stop {
+            border-color: rgba(239, 68, 68, .45);
+            color: #ef4444;
+            text-decoration: line-through
+        }
+
+        .direction-note {
+            margin-top: .6rem;
+            color: var(--text-muted);
+            font-size: .64rem
+        }
+
+        .empty-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .empty-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .empty-card code {
+            display: block;
+            margin-bottom: .45rem;
+            color: var(--clr-tea);
+            font: 800 .78rem var(--font-code)
+        }
+
+        .empty-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.45
+        }
+
+        .for-anatomy {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .for-part {
+            padding: var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .for-part code {
+            display: block;
+            color: var(--clr-tea);
+            font: 800 .72rem/1.45 var(--font-code);
+            margin-bottom: .3rem
+        }
+
+        .for-part strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .68rem;
+            margin-bottom: .2rem
+        }
+
+        .for-part p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .61rem;
+            line-height: 1.35
+        }
+
+        .value-conveyor {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: var(--space-sm);
+            align-items: center;
+            margin: var(--space-lg) 0
+        }
+
+        .conveyor-box {
+            min-height: 110px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .conveyor-box code {
+            color: var(--clr-tea);
+            font: 800 .7rem var(--font-code)
+        }
+
+        .conveyor-box span {
+            display: block;
+            margin-top: .3rem;
+            color: var(--text-muted);
+            font-size: .62rem
+        }
+
+        .conveyor-arrow,
+        .pattern-arrow {
+            color: var(--clr-tea);
+            font-weight: 900
+        }
+
+        .trace-table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .trace-table th,
+        .trace-table td {
+            padding: .58rem .5rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: .68rem
+        }
+
+        .trace-table th {
+            color: var(--text-primary);
+            background: var(--bg-glass);
+            font-weight: 800
+        }
+
+        .trace-table tr.active {
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .pattern-preview {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: var(--space-xs);
+            align-items: center;
+            margin: var(--space-md) 0
+        }
+
+        .pattern-box {
+            min-height: 92px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-sm);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .64rem;
+            line-height: 1.4
+        }
+
+        .pattern-box code {
+            color: var(--clr-tea);
+            font: 700 .62rem var(--font-code)
+        }
+
+        .accumulator-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .acc-step {
+            padding: var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .acc-step code {
+            display: block;
+            color: var(--clr-tea);
+            font: 800 .68rem var(--font-code);
+            margin-bottom: .3rem
+        }
+
+        .acc-step span {
+            color: var(--text-secondary);
+            font-size: .62rem
+        }
+
+        .choice-scenarios {
+            display: grid;
+            gap: var(--space-xs)
+        }
+
+        .scenario-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: var(--space-sm);
+            align-items: center;
+            padding: .62rem .7rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass)
+        }
+
+        .scenario-row span {
+            color: var(--text-secondary);
+            font-size: .7rem
+        }
+
+        .scenario-result {
+            min-width: 85px;
+            color: var(--text-muted);
+            font-size: .62rem;
+            font-weight: 800
+        }
+
+        .mult-grid {
+            display: grid;
+            grid-template-columns: .6fr 1.4fr;
+            gap: var(--space-lg);
+            margin: var(--space-md) 0
+        }
+
+        .mult-control {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass)
+        }
+
+        .mult-output {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xs)
+        }
+
+        .mult-row {
+            padding: .45rem .6rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            font: 700 .65rem var(--font-code)
+        }
+
+        .filter-compare,
+        .variable-experiment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .filter-card,
+        .experiment-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .filter-card h4 {
+            margin: 0 0 .35rem;
+            color: var(--text-primary);
+            font-size: .78rem
+        }
+
+        .filter-card pre,
+        .experiment-card pre {
+            margin: 0 0 .55rem;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .65rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .experiment-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .67rem;
+            line-height: 1.45
+        }
+
+        .converter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .converter-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.45
+        }
+
+        .converter-card strong {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--text-primary);
+            font-size: .7rem
+        }
+
+        .converter-card code {
+            display: block;
+            margin-top: .45rem;
+            color: var(--clr-tea);
+            font: 750 .69rem var(--font-code)
+        }
+
+        .count-answer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin-top: var(--space-sm)
+        }
+
+        .count-answer {
+            padding: .55rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .65rem;
+            text-align: center
+        }
+
+        .count-answer code {
+            color: var(--clr-tea);
+            font-weight: 800
+        }
+
+        @media(max-width:1000px) {
+            .for-anatomy {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .accumulator-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .converter-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:820px) {
+
+            .range-anchor-grid,
+            .range-builder-grid,
+            .mult-grid,
+            .filter-compare,
+            .variable-experiment-grid {
+                grid-template-columns: 1fr
+            }
+
+            .range-anatomy {
+                grid-template-columns: 1fr
+            }
+
+            .value-conveyor,
+            .pattern-preview {
+                grid-template-columns: 1fr
+            }
+
+            .conveyor-arrow,
+            .pattern-arrow {
+                transform: rotate(90deg);
+                text-align: center
+            }
+
+            .accumulator-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .count-answer-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:600px) {
+
+            .for-anatomy,
+            .accumulator-grid,
+            .count-answer-grid {
+                grid-template-columns: 1fr
+            }
+
+            .comparison-scroll {
+                overflow-x: auto
+            }
+
+            .trace-table {
+                min-width: 520px
+            }
+
+            .scenario-row {
+                grid-template-columns: 1fr
+            }
+
+            .mult-output {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-<div class="layout-wrapper">
-    <main class="main-content">
-
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.1A — For Loop &amp; Range</span>
-            </nav>
-
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
-                <h1 class="lesson-title">For Loop &amp; Range</h1>
-                <p class="lesson-intro">The <code>for</code> loop iterates over a sequence a definite number of times.
-                    Combined with the <code>range()</code> function, it gives you precise control over start, stop, and
-                    step values — making it perfect for counting, iterating over sequences, and generating number
-                    patterns.</p>
-            </div>
-
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.1.2.4</span> Write program code using a For loop</li>
-                    <li><span class="lo-code">11.1.2.5</span> Define a range of values for a loop</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1A-lesson-06-for-loop.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i
+                            class="fas fa-bars"></i></button>
+                    <a href="/" class="logo" style="margin-left:15px;"><i class="fas fa-mug-hot logo-icon"></i><span
+                            class="logo-text">mr. TEA</span></a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-ruler"></i> The Measuring Tape Analogy</h4>
-                    <p>A <code>for</code> loop with <code>range()</code> is like walking along a measuring tape.
-                        <code>range(start, stop, step)</code> tells you: where to <strong>start</strong>, where to
-                        <strong>stop</strong>
-                        (but not including this mark), and how big each <strong>step</strong> is. Once you reach or pass
-                        the stop mark,
-                        you're done — you know exactly how many steps you'll take before you begin.
-                    </p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">range() Function
-                </h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Form</th>
-                            <th>Meaning</th>
-                            <th>Example</th>
-                            <th>Values Generated</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>range(stop)</code></td>
-                            <td>0 to stop-1, step 1</td>
-                            <td><code>range(5)</code></td>
-                            <td>0, 1, 2, 3, 4</td>
-                        </tr>
-                        <tr>
-                            <td><code>range(start, stop)</code></td>
-                            <td>start to stop-1, step 1</td>
-                            <td><code>range(2, 6)</code></td>
-                            <td>2, 3, 4, 5</td>
-                        </tr>
-                        <tr>
-                            <td><code>range(start, stop, step)</code></td>
-                            <td>start to stop-1, step N</td>
-                            <td><code>range(0, 10, 2)</code></td>
-                            <td>0, 2, 4, 6, 8</td>
-                        </tr>
-                        <tr>
-                            <td><code>range(start, stop, -step)</code></td>
-                            <td>Counting down</td>
-                            <td><code>range(5, 0, -1)</code></td>
-                            <td>5, 4, 3, 2, 1</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Critical: Stop value is EXCLUDED</h4>
-                    <p><code>range(1, 5)</code> generates 1, 2, 3, 4 — <strong>NOT including 5</strong>. This is the
-                        most common source of off-by-one errors. To include 5, use <code>range(1, 6)</code>.</p>
-                </div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">For Loop
-                    Patterns</h3>
-                <div class="code-block"><code># Pattern 1: Simple counting
-for i in range(5):         # i = 0, 1, 2, 3, 4
-    print(i)
-
-# Pattern 2: Custom range
-for i in range(1, 11):     # i = 1, 2, ..., 10
-    print(i)
-
-# Pattern 3: Step
-for i in range(0, 21, 5):  # i = 0, 5, 10, 15, 20
-    print(i)
-
-# Pattern 4: Countdown
-for i in range(10, 0, -1): # i = 10, 9, ..., 1
-    print(i)
-print("Go!")
-
-# Pattern 5: Iterating over a string
-for char in "Python":
-    print(char)            # P y t h o n (each on new line)
-
-# Pattern 6: Accumulator with for
-total = 0
-for i in range(1, 101):
-    total += i
-print("Sum 1-100:", total) # 5050</code></div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">For vs
-                    While</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Aspect</th>
-                            <th>for loop</th>
-                            <th>while loop</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Use when</td>
-                            <td>Number of iterations is <strong>known</strong></td>
-                            <td>Number of iterations is <strong>unknown</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Counter</td>
-                            <td>Managed automatically by range()</td>
-                            <td>You must manage manually</td>
-                        </tr>
-                        <tr>
-                            <td>Infinite loop risk</td>
-                            <td>Very low</td>
-                            <td>High if condition not updated</td>
-                        </tr>
-                        <tr>
-                            <td>Example</td>
-                            <td>Process exactly 10 items</td>
-                            <td>Read until user types "quit"</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Multiplication Table</h4>
-                    <div class="code-block"><code>num = int(input("Enter a number: "))   # e.g., 7
-
-for i in range(1, 11):
-    result = num * i
-    print(f"{num} x {i} = {result}")
-
-# Output for 7:
-# 7 x 1 = 7
-# 7 x 2 = 14
-# ...
-# 7 x 10 = 70</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Even Numbers in a Range</h4>
-                    <div class="code-block"><code>start = int(input("Start: "))   # e.g., 1
-end = int(input("End: "))       # e.g., 20
-
-print("Even numbers:")
-for i in range(start, end + 1):
-    if i % 2 == 0:
-        print(i, end=" ")
-print()
-
-# Alternative using step:
-for i in range(2, end + 1, 2):
-    print(i, end=" ")</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Power Table with Trace</h4>
-                    <div class="code-block"><code># Print powers of 2 from 2^0 to 2^8
-print("n\t2^n")
-print("-" * 16)
-for n in range(9):
-    print(f"{n}\t{2**n}")
-
-# Trace table:
-# n | 2**n | Output
-# 0 | 1    | 0    1
-# 1 | 2    | 1    2
-# 2 | 4    | 2    4
-# 3 | 8    | 3    8
-# ...
-# 8 | 256  | 8    256</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> break and continue</h4>
-                    <div class="code-block"><code># break — exit the loop immediately
-for i in range(1, 100):
-    if i * i > 50:
-        print(f"First square > 50: {i}^2 = {i*i}")
-        break
-
-# continue — skip to the next iteration
-for i in range(1, 11):
-    if i % 3 == 0:
-        continue           # Skip multiples of 3
-    print(i, end=" ")
-# Output: 1 2 4 5 7 8 10</code></div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Modifying the Loop Variable</h4>
-                    <p>Changing <code>i</code> inside a for loop has no effect — it resets at the start of each
-                        iteration. Unlike while, the for loop controls <code>i</code> automatically.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Empty Range</h4>
-                    <p><code>range(5, 2)</code> produces no values (start > stop with positive step). For counting down,
-                        use a negative step: <code>range(5, 2, -1)</code>.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> range() with Float</h4>
-                    <p><code>range(0.0, 1.0, 0.1)</code> causes a <code>TypeError</code>. <code>range()</code> only
-                        works with integers.</p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Range Counting Formula</h4>
-                    <ul>
-                        <li><code>range(a, b)</code> produces <code>b - a</code> values</li>
-                        <li><code>range(a, b, s)</code> produces <code>ceil((b - a) / s)</code> values</li>
-                        <li>If the question says "from 1 to N <strong>including</strong> N", use
-                            <code>range(1, N + 1)</code></li>
-                        <li>When tracing, write out the sequence generated by range() first, then iterate</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Write the values generated by: <code>range(3, 15, 3)</code> and
-                            <code>range(10, 0, -2)</code>.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain why <code>range(1, 10)</code> does not include 10. How would you include it?</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that calculates the factorial of N (N!) using a for loop.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program to print all odd numbers between 1 and 50 using <code>range()</code> with a
-                            step.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>How many times does <code>for i in range(2, 100, 7)</code> execute? List the first 5 and last
-                            2 values of <code>i</code>.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Create a program that prints an alphabet pattern: Line 1: A, Line 2: AB, Line 3: ABC, ...,
-                            Line 26: ABC...XYZ. Use <code>chr()</code> and <code>ord()</code>.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <div class="quiz-question">1. What values does <code>range(5)</code> generate?</div>
-                    <div class="quiz-answer" data-answer="0, 1, 2, 3, 4 — starts at 0, stops BEFORE 5">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">2. What does <code>range(2, 8, 2)</code> produce?</div>
-                    <div class="quiz-answer" data-answer="2, 4, 6 — starts at 2, step 2, stops before 8">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">3. How do you count from 10 down to 1?</div>
-                    <div class="quiz-answer" data-answer="range(10, 0, -1) — start=10, stop=0 (excluded), step=-1">Click
-                        to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">4. Can you use <code>range()</code> with floats?</div>
-                    <div class="quiz-answer"
-                        data-answer="No — range() only accepts integers. Using floats causes TypeError.">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">5. What does <code>break</code> do inside a for loop?</div>
-                    <div class="quiz-answer"
-                        data-answer="Immediately exits the loop, skipping all remaining iterations">Click to reveal
-                        answer</div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="lesson-05-while-loop.html"><span class="nav-label">← Previous</span><span class="nav-title">While Loop &amp; Flowcharts</span></a>
-                        <a href="lesson-07-nested-loops.html"><span class="nav-label">Next →</span><span class="nav-title">Nested Loops</span></a>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a><span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 PROG</a><span class="sep">/</span>
+                        <span>11.1A — For Loop & Range</span>
                     </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                        <h1 class="lesson-title">For Loop & Range</h1>
+                        <p class="lesson-intro">A <code>for</code> loop takes values from an iterable one at a time and
+                            runs the loop body for each value. With <code>range()</code>, Python can generate
+                            predictable integer sequences using a <strong>start</strong>, <strong>stop</strong> and
+                            <strong>step</strong>.</p>
+                    </div>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.1.2.4</span> Write program code using a For loop</li>
+                            <li><span class="lo-code">11.1.2.5</span> Define a range of values for a loop</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="lesson-video-info">
+                                <h4 id="lessonVideoTitle">FOR Loop / Iteration</h4>
+                                <p id="lessonVideoDescription">Craig'n'Dave — count-controlled FOR loops. The FOR-loop
+                                    section begins at approximately 07:44.</p>
+                            </div>
+                        </div>
+                        <div class="video-tabs">
+                            <button class="video-tab active" data-video="for" type="button"><i
+                                    class="fas fa-repeat"></i> FOR Loop</button>
+                            <button class="video-tab" data-video="compare" type="button"><i
+                                    class="fas fa-code-compare"></i> FOR vs WHILE</button>
+                        </div>
+                        <div class="lesson-video-wrapper">
+                            <iframe id="lessonVideoFrame"
+                                src="https://www.youtube-nocookie.com/embed/t0VphK9cWgE?start=464&rel=0"
+                                title="Craig n Dave - FOR loop" loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <nav class="lesson-section-jump" aria-label="Lesson sections">
+                        <a href="#range">range()</a><a href="#builder">Range Builder</a><a href="#for-anatomy">For
+                            Anatomy</a><a href="#patterns">Patterns</a><a href="#compare">For vs While</a><a
+                            href="#examples">Examples</a><a href="#errors">Errors</a><a href="#practice">Practice</a>
+                    </nav>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="range-anchor-grid">
+                            <div class="analogy-box" style="margin:0;">
+                                <h4><i class="fas fa-ruler"></i> The Measuring Tape Analogy</h4>
+                                <p><code>range(start, stop, step)</code> is like walking along a measuring tape.
+                                    <strong>start</strong> is where you stand first, <strong>step</strong> is how far
+                                    you move each time, and <strong>stop</strong> is the boundary you do not include.
+                                </p>
+                            </div>
+                            <div class="range-tape">
+                                <div class="tape-title">range(2, 8, 2)</div>
+                                <div class="tape-line">
+                                    <div class="tape-mark">0</div>
+                                    <div class="tape-mark">1</div>
+                                    <div class="tape-mark generated">2<small>start</small></div>
+                                    <div class="tape-mark">3</div>
+                                    <div class="tape-mark generated">4</div>
+                                    <div class="tape-mark">5</div>
+                                    <div class="tape-mark generated">6</div>
+                                    <div class="tape-mark">7</div>
+                                    <div class="tape-mark stop">8<small>stop</small></div>
+                                </div>
+                                <div class="range-arrow">2 → 4 → 6 &nbsp; | &nbsp; stop 8 is excluded</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="range">
+                        <h2 class="lesson-section-title"><i class="fas fa-ruler-horizontal"></i> Understanding range()
+                        </h2>
+                        <div class="code-block"><code>range(2, 10, 3)</code></div>
+                        <div class="range-anatomy">
+                            <div class="range-part"><code>2</code><strong>start</strong>
+                                <p>The first generated value.</p>
+                            </div>
+                            <div class="range-part"><code>10</code><strong>stop — excluded</strong>
+                                <p>The sequence stops before reaching this boundary.</p>
+                            </div>
+                            <div class="range-part"><code>3</code><strong>step</strong>
+                                <p>The amount added after each generated value.</p>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-arrow-right"></i> Result</h4>
+                            <p><code>range(2, 10, 3)</code> generates <code>2, 5, 8</code>. The next value would be 11,
+                                so the range stops.</p>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Form</th>
+                                    <th>Meaning</th>
+                                    <th>Example</th>
+                                    <th>Values Generated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>range(stop)</code></td>
+                                    <td>Starts at 0, step 1</td>
+                                    <td><code>range(5)</code></td>
+                                    <td>0, 1, 2, 3, 4</td>
+                                </tr>
+                                <tr>
+                                    <td><code>range(start, stop)</code></td>
+                                    <td>Starts at start, step 1</td>
+                                    <td><code>range(2, 6)</code></td>
+                                    <td>2, 3, 4, 5</td>
+                                </tr>
+                                <tr>
+                                    <td><code>range(start, stop, step)</code></td>
+                                    <td>Uses the specified integer step</td>
+                                    <td><code>range(0, 10, 2)</code></td>
+                                    <td>0, 2, 4, 6, 8</td>
+                                </tr>
+                                <tr>
+                                    <td><code>range(start, stop, step)</code></td>
+                                    <td>A negative step counts downward</td>
+                                    <td><code>range(5, 0, -1)</code></td>
+                                    <td>5, 4, 3, 2, 1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-info-circle"></i> Critical: stop is excluded</h4>
+                            <p><code>range(1, 5)</code> generates <code>1, 2, 3, 4</code>. To generate 1 through 5
+                                inclusive, use <code>range(1, 6)</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-ban"></i> step cannot be zero</h4>
+                            <p><code>range(1, 10, 0)</code> raises <code>ValueError</code>. A zero step could never move
+                                toward a stopping boundary.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="builder">
+                        <h2 class="lesson-section-title"><i class="fas fa-sliders"></i> Range Builder</h2>
+                        <p class="concept-text">Change start, stop and step. The generated sequence and its direction
+                            update immediately.</p>
+
+                        <div class="lesson-lab">
+                            <div class="range-builder-grid">
+                                <div class="range-controls">
+                                    <label>start<input id="rangeStart" type="number" step="1" value="2"></label>
+                                    <label>stop<input id="rangeStop" type="number" step="1" value="10"></label>
+                                    <label>step<input id="rangeStep" type="number" step="1" value="2"></label>
+                                    <div class="lesson-tabs">
+                                        <button class="lesson-lab-btn range-preset" data-start="0" data-stop="5"
+                                            data-step="1" type="button">range(5)</button>
+                                        <button class="lesson-lab-btn range-preset" data-start="2" data-stop="10"
+                                            data-step="2" type="button">Even</button>
+                                        <button class="lesson-lab-btn range-preset" data-start="10" data-stop="0"
+                                            data-step="-2" type="button">Countdown</button>
+                                        <button class="lesson-lab-btn range-preset" data-start="5" data-stop="2"
+                                            data-step="1" type="button">Empty</button>
+                                    </div>
+                                </div>
+                                <div class="range-result-panel">
+                                    <span>Expression</span>
+                                    <pre id="rangeExpression"></pre>
+                                    <span>Generated values</span>
+                                    <pre id="rangeValues"></pre>
+                                    <span>Summary</span>
+                                    <pre id="rangeSummary"></pre>
+                                </div>
+                            </div>
+                            <div class="dynamic-number-line">
+                                <div id="numberLineTrack" class="number-line-track"></div>
+                                <div id="directionNote" class="direction-note"></div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            What does range() produce?</h3>
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt"><code id="predictRangePrompt"></code></div>
+                            <div class="lesson-lab-options two">
+                                <button id="revealRange" class="lesson-lab-btn" type="button">Reveal sequence</button>
+                                <button id="nextRange" class="lesson-lab-btn" type="button">Next range</button>
+                            </div>
+                            <div id="predictRangeFeedback" class="lesson-lab-feedback">Write the sequence before
+                                revealing.</div>
+                            <div class="lesson-lab-footer"><span id="predictRangeProgress"></span></div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Empty Range Detector</h3>
+                        <div class="empty-grid">
+                            <div class="empty-card"><code>range(5, 2)</code>
+                                <p>The default step is <code>+1</code>, but start is already greater than stop. The
+                                    sequence moves in the wrong direction → <strong>empty</strong>.</p>
+                            </div>
+                            <div class="empty-card"><code>range(2, 5, -1)</code>
+                                <p>The step is negative, but reaching 5 requires moving upward. Wrong direction →
+                                    <strong>empty</strong>.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="for-anatomy">
+                        <h2 class="lesson-section-title"><i class="fas fa-repeat"></i> Anatomy of a for Loop</h2>
+                        <div class="code-block"><code>for i in range(1, 6):
+    print(i)</code></div>
+
+                        <div class="for-anatomy">
+                            <div class="for-part"><code>for</code><strong>Iteration keyword</strong>
+                                <p>Repeat once for every value supplied by the iterable.</p>
+                            </div>
+                            <div class="for-part"><code>i</code><strong>Loop variable</strong>
+                                <p>Receives the next value automatically.</p>
+                            </div>
+                            <div class="for-part"><code>range(1, 6)</code><strong>Iterable</strong>
+                                <p>Supplies 1, 2, 3, 4, 5.</p>
+                            </div>
+                            <div class="for-part"><code>print(i)</code><strong>Indented body</strong>
+                                <p>Runs once for each supplied value.</p>
+                            </div>
+                        </div>
+
+                        <div class="value-conveyor">
+                            <div class="conveyor-box">
+                                <div><code>range(1, 5)</code><span>generates values</span></div>
+                            </div>
+                            <div class="conveyor-arrow">→</div>
+                            <div class="conveyor-box">
+                                <div><code>1 → 2 → 3 → 4</code><span>one value at a time</span></div>
+                            </div>
+                            <div class="conveyor-arrow">→</div>
+                            <div class="conveyor-box">
+                                <div><code>i → body</code><span>Python assigns each next value to i</span></div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            For Loop Tracer</h3>
+                        <div class="lesson-lab">
+                            <div class="code-block"><code>for i in range(2, 10, 2):
+    print(i)</code></div>
+                            <div class="lesson-tabs">
+                                <button id="traceNext" class="lesson-lab-btn" type="button">Next iteration</button>
+                                <button id="traceReset" class="lesson-lab-btn" type="button">Reset</button>
+                            </div>
+                            <div class="comparison-scroll">
+                                <table class="trace-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Iteration</th>
+                                            <th>i</th>
+                                            <th>Output</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="forTraceBody"></tbody>
+                                </table>
+                            </div>
+                            <div id="traceMessage" class="lesson-lab-feedback">Press Next iteration to begin.</div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="patterns">
+                        <h2 class="lesson-section-title"><i class="fas fa-shapes"></i> Common for-Loop Patterns</h2>
+
+                        <div class="lesson-tabs-label"><i class="fas fa-hand-pointer"></i><span>Choose a for-loop
+                                pattern:</span></div>
+                        <div class="lesson-tabs lesson-tabs--examples">
+                            <button class="lesson-tab active" data-pattern="counting" type="button"><i
+                                    class="fas fa-list-ol"></i><span>Counting</span></button>
+                            <button class="lesson-tab" data-pattern="custom" type="button"><i
+                                    class="fas fa-arrows-left-right"></i><span>Custom Range</span></button>
+                            <button class="lesson-tab" data-pattern="step" type="button"><i
+                                    class="fas fa-forward-step"></i><span>Step</span></button>
+                            <button class="lesson-tab" data-pattern="countdown" type="button"><i
+                                    class="fas fa-arrow-down-1-9"></i><span>Countdown</span></button>
+                            <button class="lesson-tab" data-pattern="string" type="button"><i
+                                    class="fas fa-font"></i><span>String</span></button>
+                            <button class="lesson-tab" data-pattern="accumulator" type="button"><i
+                                    class="fas fa-plus"></i><span>Accumulator</span></button>
+                        </div>
+
+                        <div class="lesson-tab-panel">
+                            <h4 id="patternTitle"></h4>
+                            <p id="patternDescription"></p>
+                            <div id="patternPreview" class="pattern-preview"></div>
+                            <div class="code-block"><code id="patternCode"></code></div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Accumulator Visual</h3>
+                        <div class="accumulator-grid">
+                            <div class="acc-step"><code>i = 1</code><span>total = 1</span></div>
+                            <div class="acc-step"><code>i = 2</code><span>total = 3</span></div>
+                            <div class="acc-step"><code>i = 3</code><span>total = 6</span></div>
+                            <div class="acc-step"><code>i = 4</code><span>total = 10</span></div>
+                            <div class="acc-step"><code>i = 5</code><span>total = 15</span></div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="compare">
+                        <h2 class="lesson-section-title"><i class="fas fa-code-compare"></i> for vs while</h2>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Aspect</th>
+                                    <th>for loop</th>
+                                    <th>while loop</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Core idea</td>
+                                    <td>Iterate over an iterable / generated sequence</td>
+                                    <td>Repeat while a condition remains True</td>
+                                </tr>
+                                <tr>
+                                    <td>Common use</td>
+                                    <td>Known sequence or predictable repetition</td>
+                                    <td>Condition-controlled / unknown repetitions</td>
+                                </tr>
+                                <tr>
+                                    <td>Loop variable</td>
+                                    <td>Gets the next iterable value automatically</td>
+                                    <td>Usually updated manually</td>
+                                </tr>
+                                <tr>
+                                    <td>Typical example</td>
+                                    <td>Process 30 students</td>
+                                    <td>Read input until "quit"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            For or While?</h3>
+                        <div id="scenarioList" class="choice-scenarios"></div>
+                    </section>
+
+                    <section class="lesson-section" id="examples">
+                        <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="lesson-tabs-label"><i class="fas fa-hand-pointer"></i><span>Choose an
+                                example:</span></div>
+                        <div class="lesson-tabs lesson-tabs--examples">
+                            <button class="lesson-tab active" data-example="table" type="button"><i
+                                    class="fas fa-table"></i><span>Multiplication Table</span></button>
+                            <button class="lesson-tab" data-example="even" type="button"><i
+                                    class="fas fa-filter"></i><span>Even Numbers</span></button>
+                            <button class="lesson-tab" data-example="powers" type="button"><i
+                                    class="fas fa-superscript"></i><span>Powers</span></button>
+                            <button class="lesson-tab" data-example="control" type="button"><i
+                                    class="fas fa-forward"></i><span>break & continue</span></button>
+                        </div>
+                        <div class="lesson-tab-panel">
+                            <h4 id="workedTitle"></h4>
+                            <p id="workedDescription"></p>
+                            <div id="workedInteractive"></div>
+                            <div class="code-block"><code id="workedCode"></code></div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-vial"></i> Loop Variable Experiment</h2>
+                        <div class="variable-experiment-grid">
+                            <div class="experiment-card">
+                                <pre>for i in range(3):
+    i = 100
+    print(i)</pre>
+                                <p>Output: <code>100 100 100</code>. The assignment changes <code>i</code> during the
+                                    current iteration.</p>
+                            </div>
+                            <div class="experiment-card">
+                                <pre>for i in range(3):
+    print(i)
+    i = 100</pre>
+                                <p>Output: <code>0 1 2</code>. At the start of the next iteration, Python assigns the
+                                    next value supplied by <code>range()</code>.</p>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Precise rule</h4>
+                            <p>Assigning a new value to the loop variable affects it during the current iteration, but
+                                it does <strong>not change the sequence of values supplied by the for loop</strong>.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-bullseye"></i> Inclusive End & Range Counting
+                        </h2>
+                        <div class="converter-grid">
+                            <div class="converter-card"><strong>Print 1 to 10 inclusive</strong>Stop must be one beyond
+                                10.<code>range(1, 11)</code></div>
+                            <div class="converter-card"><strong>Print even numbers 2 to 20 inclusive</strong>Keep step 2
+                                and place stop beyond 20.<code>range(2, 21, 2)</code></div>
+                            <div class="converter-card"><strong>Print 10 to 1 inclusive</strong>A negative step requires
+                                a lower excluded stop.<code>range(10, 0, -1)</code></div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Exam strategy — do not rely on one formula</h4>
+                            <ol>
+                                <li>Identify the start value.</li>
+                                <li>Remember that stop is excluded.</li>
+                                <li>Follow the sign and size of the step.</li>
+                                <li>Write the generated sequence when unsure.</li>
+                                <li>Count the values in that sequence.</li>
+                            </ol>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Range Count Trainer</h3>
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt"><code>range(2, 100, 7)</code></div>
+                            <div class="count-answer-grid">
+                                <div class="count-answer">First: <code>2</code></div>
+                                <div class="count-answer">Second: <code>9</code></div>
+                                <div class="count-answer">Last: <code id="countLast">?</code></div>
+                                <div class="count-answer">Iterations: <code id="countIterations">?</code></div>
+                            </div>
+                            <div class="lesson-tabs"><button id="revealCount" class="lesson-lab-btn"
+                                    type="button">Reveal</button></div>
+                            <div id="countFeedback" class="lesson-lab-feedback">Work out the final value and number of
+                                generated values first.</div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title"><i class="fas fa-bug"></i> Range Error Lab</h2>
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt"><code id="errorPrompt"></code></div>
+                            <div class="lesson-lab-options four">
+                                <button class="lesson-choice-btn error-choice" data-error="valid"
+                                    type="button">Valid</button>
+                                <button class="lesson-choice-btn error-choice" data-error="empty" type="button">Empty
+                                    range</button>
+                                <button class="lesson-choice-btn error-choice" data-error="type"
+                                    type="button">TypeError</button>
+                                <button class="lesson-choice-btn error-choice" data-error="value"
+                                    type="button">ValueError</button>
+                            </div>
+                            <div id="errorFeedback" class="lesson-lab-feedback">Decide what happens.</div>
+                            <div class="lesson-lab-footer"><span id="errorProgress"></span><button id="nextError"
+                                    class="lesson-lab-btn" type="button">Next example</button></div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls & Common
+                            Errors</h2>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Stop value is excluded</h4>
+                            <p><code>range(1, 10)</code> ends at 9. Use <code>range(1, 11)</code> when the requirement
+                                includes 10.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Wrong step direction</h4>
+                            <p><code>range(5, 2)</code> and <code>range(2, 5, -1)</code> are empty because the step
+                                moves away from the stop boundary.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Zero step</h4>
+                            <p><code>range(1, 10, 0)</code> raises <code>ValueError</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> range() with floats</h4>
+                            <p><code>range(0.0, 1.0, 0.1)</code> raises <code>TypeError</code>. Standard
+                                <code>range()</code> arguments must be integers.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Modifying the loop variable</h4>
+                            <p>Reassigning <code>i</code> affects the current iteration, but the next iteration still
+                                receives the next value from the iterable.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Unnecessary manual update</h4>
+                            <p>In a normal <code>for i in range(...)</code> loop, you do not need <code>i += 1</code>.
+                                The next value is supplied automatically.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>Write the values generated by <code>range(3, 15, 3)</code> and
+                                    <code>range(10, 0, -2)</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain why <code>range(1, 10)</code> does not include 10 and write a range that does
+                                    include it.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain why <code>range(5, 2)</code> is empty. Give a range that counts from 5 down
+                                    to 3.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Write a program that calculates the factorial of N using a <code>for</code> loop.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Print all odd numbers from 1 to 49 using the <code>step</code> argument of
+                                    <code>range()</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Write a <code>for</code> loop that prints 20, 15, 10 and 5.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>How many times does <code>for i in range(2, 100, 7)</code> execute? List the first
+                                    five and last two values of <code>i</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Create a program that prints <code>1</code>, <code>12</code>, <code>123</code>,
+                                    <code>1234</code>, <code>12345</code>. Use <code>for</code> loops.</p>
+                            </div>
+                        </div>
+                        <details class="lesson-compact-details">
+                            <summary>Challenge: Alphabet pattern</summary>
+                            <div class="lesson-details-body">
+                                <p class="concept-text">Print A, then AB, then ABC, continuing until ABC...XYZ. You may
+                                    use <code>chr()</code> and <code>ord()</code>.</p>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: Write the exact output. [2]</p>
+                            <div class="code-block"><code>for i in range(2, 9, 2):
+    print(i, end=" ")</code></div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>2 4 6 8</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: State the output. [2]</p>
+                            <div class="code-block"><code>total = 0
+
+for i in range(1, 5):
+    total += i
+
+print(total)</code></div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>10
+
+                                    range(1, 5) supplies 1, 2, 3, 4.
+                                    1 + 2 + 3 + 4 = 10.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: Write a <code>for</code> loop that outputs 20, 15, 10, 5. [2]
+                            </p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>for i in range(20, 0, -5):
+                                    print(i)</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Explain why <code>range(2, 10, -2)</code> produces no values.
+                                [2]</p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>The start value 2 is below stop 10, but the step is negative.
+                                    The sequence moves away from the stop boundary, so the range is empty.</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                        <div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to
+                                reveal</span></div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. What values does <code>range(5)</code> generate?</div>
+                            <div class="quiz-answer"
+                                data-answer="0, 1, 2, 3, 4 — range(5) starts at 0 and stops before 5">Click to reveal
+                                answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. What does <code>range(2, 8, 2)</code> produce?</div>
+                            <div class="quiz-answer" data-answer="2, 4, 6 — start 2, step 2, stop before 8">Click to
+                                reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. How do you count from 10 down to 1?</div>
+                            <div class="quiz-answer" data-answer="range(10, 0, -1)">Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. Is the stop value normally included?</div>
+                            <div class="quiz-answer" data-answer="No — the stop value is excluded">Click to reveal
+                                answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. What does <code>range(5, 2)</code> produce?</div>
+                            <div class="quiz-answer"
+                                data-answer="No values — it is an empty range because the default positive step moves in the wrong direction">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">6. What happens with <code>range(1, 10, 0)</code>?</div>
+                            <div class="quiz-answer" data-answer="ValueError — the step argument cannot be zero">Click
+                                to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. Can standard <code>range()</code> use float arguments?</div>
+                            <div class="quiz-answer"
+                                data-answer="No — standard range() requires integer arguments; floats cause TypeError">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">8. What does <code>break</code> do inside a for loop?</div>
+                            <div class="quiz-answer"
+                                data-answer="It immediately exits the nearest loop and skips its remaining iterations">
+                                Click to reveal answer</div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="lesson-05-while-loop.html"><span><span class="nav-label">← Previous</span><span
+                                    class="nav-title">While Loop & Flowcharts</span></span></a>
+                        <a href="lesson-07-nested-loops.html"><span><span class="nav-label">Next →</span><span
+                                    class="nav-title">Nested Loops</span></span></a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
 
     <footer class="site-footer">
         <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
-            <p>&copy; 2025 IT-Tea. Educational use.</p>
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Cambridge AS & A Level 9618</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const videos = {
+                for: { title: "FOR Loop / Iteration", description: "Craig'n'Dave — count-controlled FOR loops. The FOR-loop section begins at approximately 07:44.", src: "https://www.youtube-nocookie.com/embed/t0VphK9cWgE?start=464&rel=0", iframeTitle: "Craig n Dave - FOR loop" },
+                compare: { title: "FOR vs WHILE", description: "The same iteration lesson also shows count-controlled FOR and pre-condition WHILE loops. This view begins with the iteration section.", src: "https://www.youtube-nocookie.com/embed/t0VphK9cWgE?start=228&rel=0", iframeTitle: "Craig n Dave - Iteration FOR and WHILE" }
+            };
+            const videoTabs = document.querySelectorAll(".video-tab"), videoFrame = document.getElementById("lessonVideoFrame"), videoTitle = document.getElementById("lessonVideoTitle"), videoDescription = document.getElementById("lessonVideoDescription");
+            function showVideo(key) { const v = videos[key]; videoTitle.textContent = v.title; videoDescription.textContent = v.description; videoFrame.src = v.src; videoFrame.title = v.iframeTitle; videoTabs.forEach(b => b.classList.toggle("active", b.dataset.video === key)) }
+            videoTabs.forEach(b => b.addEventListener("click", () => showVideo(b.dataset.video)));
+
+            function buildRange(start, stop, step, maxItems = 300) {
+                if (![start, stop, step].every(Number.isInteger)) return { error: "TypeError", values: [] };
+                if (step === 0) return { error: "ValueError", values: [] };
+                const values = []; let current = start, guard = 0;
+                if (step > 0) { while (current < stop && guard < maxItems) { values.push(current); current += step; guard++ } }
+                else { while (current > stop && guard < maxItems) { values.push(current); current += step; guard++ } }
+                return { error: null, values, truncated: guard >= maxItems && ((step > 0 && current < stop) || (step < 0 && current > stop)) }
+            }
+
+            const rangeStart = document.getElementById("rangeStart"), rangeStop = document.getElementById("rangeStop"), rangeStep = document.getElementById("rangeStep"), rangeExpression = document.getElementById("rangeExpression"), rangeValues = document.getElementById("rangeValues"), rangeSummary = document.getElementById("rangeSummary"), numberLineTrack = document.getElementById("numberLineTrack"), directionNote = document.getElementById("directionNote");
+            function renderNumberLine(start, stop, step, generated) {
+                numberLineTrack.innerHTML = "";
+                const set = new Set(generated.slice(0, 30));
+                const minValue = Math.min(start, stop, ...(generated.length ? generated.slice(0, 30) : [start]));
+                const maxValue = Math.max(start, stop, ...(generated.length ? generated.slice(0, 30) : [start]));
+                let numbers = [];
+                if (maxValue - minValue <= 24) { for (let n = minValue; n <= maxValue; n++)numbers.push(n) }
+                else { numbers = [...generated.slice(0, 15)]; if (!numbers.includes(stop)) numbers.push(stop) }
+                numbers.forEach(n => { const chip = document.createElement("span"); chip.className = "number-chip"; chip.textContent = n; if (set.has(n)) chip.classList.add("generated"); if (n === stop) chip.classList.add("stop"); numberLineTrack.appendChild(chip) });
+                directionNote.textContent = step > 0 ? "Direction → increasing values. The stop boundary is never included." : "Direction ← decreasing values. The stop boundary is never included."
+            }
+            function renderRangeBuilder() {
+                const start = Number(rangeStart.value), stop = Number(rangeStop.value), step = Number(rangeStep.value);
+                rangeExpression.textContent = `range(${start}, ${stop}, ${step})`;
+                const result = buildRange(start, stop, step, 200);
+                if (result.error) { rangeValues.textContent = result.error; rangeSummary.textContent = result.error === "ValueError" ? "step cannot be zero" : "range() requires integer arguments"; numberLineTrack.innerHTML = ""; directionNote.textContent = "No sequence generated."; return }
+                rangeValues.textContent = result.values.length ? result.values.slice(0, 40).join(", ") + (result.values.length > 40 || result.truncated ? ", …" : "") : "(empty range)";
+                rangeSummary.textContent = `${result.values.length}${result.truncated ? "+" : ""} generated value(s)\nstop value ${stop}: excluded\ndirection: ${step > 0 ? "increasing →" : "decreasing ←"}`;
+                renderNumberLine(start, stop, step, result.values)
+            }
+            [rangeStart, rangeStop, rangeStep].forEach(i => i.addEventListener("input", renderRangeBuilder));
+            document.querySelectorAll(".range-preset").forEach(b => b.addEventListener("click", () => { rangeStart.value = b.dataset.start; rangeStop.value = b.dataset.stop; rangeStep.value = b.dataset.step; renderRangeBuilder() }));
+            renderRangeBuilder();
+
+            const rangePredictions = [
+                { expr: "range(5)", values: "0, 1, 2, 3, 4", note: "One argument means start=0 and step=1." },
+                { expr: "range(2, 6)", values: "2, 3, 4, 5", note: "Stop 6 is excluded." },
+                { expr: "range(1, 10, 3)", values: "1, 4, 7", note: "The next value would be 10, the excluded stop." },
+                { expr: "range(10, 0, -2)", values: "10, 8, 6, 4, 2", note: "Negative step counts down; stop 0 is excluded." },
+                { expr: "range(5, 2)", values: "(empty range)", note: "Default +1 step moves away from the lower stop." },
+                { expr: "range(2, 5, -1)", values: "(empty range)", note: "Negative step moves away from the higher stop." }
+            ];
+            let rp = 0; const prp = document.getElementById("predictRangePrompt"), prf = document.getElementById("predictRangeFeedback"), prg = document.getElementById("predictRangeProgress");
+            function loadRP() { const x = rangePredictions[rp]; prp.textContent = x.expr; prf.className = "lesson-lab-feedback"; prf.textContent = "Write the sequence before revealing."; prg.textContent = `Range ${rp + 1} of ${rangePredictions.length}` }
+            document.getElementById("revealRange").addEventListener("click", () => { const x = rangePredictions[rp]; prf.className = "lesson-lab-feedback correct"; prf.innerHTML = `<strong>${x.values}</strong><br>${x.note}` });
+            document.getElementById("nextRange").addEventListener("click", () => { rp = (rp + 1) % rangePredictions.length; loadRP() }); loadRP();
+
+            const traceRows = [{ n: 1, i: 2, o: 2 }, { n: 2, i: 4, o: 4 }, { n: 3, i: 6, o: 6 }, { n: 4, i: 8, o: 8 }];
+            let ti = 0; const tb = document.getElementById("forTraceBody"), tm = document.getElementById("traceMessage"), tn = document.getElementById("traceNext");
+            function renderTrace() { tb.innerHTML = ""; traceRows.slice(0, ti).forEach((r, idx) => { const tr = document.createElement("tr"); if (idx === ti - 1) tr.classList.add("active"); tr.innerHTML = `<td>${r.n}</td><td><code>${r.i}</code></td><td><code>${r.o}</code></td>`; tb.appendChild(tr) }); tm.className = ti === traceRows.length ? "lesson-lab-feedback correct" : "lesson-lab-feedback"; tm.textContent = ti === 0 ? "Press Next iteration to begin." : ti < traceRows.length ? `Python has used ${ti} of the 4 values generated by range(2, 10, 2).` : "range(2, 10, 2) is exhausted after 2, 4, 6, 8 — the for loop ends."; tn.disabled = ti >= traceRows.length }
+            tn.addEventListener("click", () => { if (ti < traceRows.length) ti++; renderTrace() }); document.getElementById("traceReset").addEventListener("click", () => { ti = 0; renderTrace() }); renderTrace();
+
+            const patterns = {
+                counting: { title: "Simple Counting", description: "range(stop) starts at 0 and supplies each integer before stop.", preview: ["range(5)", "0, 1, 2, 3, 4", "i receives each value"], code: `for i in range(5):\n    print(i)` },
+                custom: { title: "Custom Start and Stop", description: "Use two arguments when the sequence should begin somewhere other than 0.", preview: ["range(1, 11)", "1 … 10", "10 included via stop 11"], code: `for i in range(1, 11):\n    print(i)` },
+                step: { title: "Custom Step", description: "The third argument changes the distance between generated values.", preview: ["range(0, 21, 5)", "0, 5, 10, 15, 20", "step = 5"], code: `for i in range(0, 21, 5):\n    print(i)` },
+                countdown: { title: "Countdown", description: "A negative step generates decreasing values.", preview: ["range(10, 0, -1)", "10 … 1", "stop 0 excluded"], code: `for i in range(10, 0, -1):\n    print(i)\n\nprint("Go!")` },
+                string: { title: "Iterating over a String", description: "A for loop can iterate over a string — range() is not required.", preview: ['"Python"', "P → y → t → h → o → n", "char receives one character"], code: `for char in "Python":\n    print(char)` },
+                accumulator: { title: "Accumulator with for", description: "The loop supplies values while an accumulator stores a running total.", preview: ["total = 0", "i = 1 … 100", "total += i"], code: `total = 0\n\nfor i in range(1, 101):\n    total += i\n\nprint("Sum 1-100:", total)` }
+            };
+            const ptabs = document.querySelectorAll("[data-pattern]"), pt = document.getElementById("patternTitle"), pd = document.getElementById("patternDescription"), pp = document.getElementById("patternPreview"), pc = document.getElementById("patternCode");
+            function showPattern(key) { const x = patterns[key]; pt.textContent = x.title; pd.textContent = x.description; pc.textContent = x.code; pp.innerHTML = ""; x.preview.forEach((text, idx) => { const box = document.createElement("div"); box.className = "pattern-box"; box.textContent = text; pp.appendChild(box); if (idx < x.preview.length - 1) { const a = document.createElement("div"); a.className = "pattern-arrow"; a.textContent = "→"; pp.appendChild(a) } }); ptabs.forEach(b => b.classList.toggle("active", b.dataset.pattern === key)) }
+            ptabs.forEach(b => b.addEventListener("click", () => showPattern(b.dataset.pattern))); showPattern("counting");
+
+            const scenarios = [
+                { text: "Print the numbers 1 to 20.", answer: "for" },
+                { text: "Ask for a password until it is correct.", answer: "while" },
+                { text: "Process exactly 30 student names.", answer: "for" },
+                { text: 'Read commands until the user types "quit".', answer: "while" },
+                { text: 'Process every character in "Python".', answer: "for" }
+            ];
+            const sl = document.getElementById("scenarioList");
+            scenarios.forEach(item => { const row = document.createElement("div"); row.className = "scenario-row"; const text = document.createElement("span"); text.textContent = item.text; const fb = document.createElement("button"); fb.className = "lesson-choice-btn"; fb.type = "button"; fb.textContent = "for"; const wb = document.createElement("button"); wb.className = "lesson-choice-btn"; wb.type = "button"; wb.textContent = "while"; const result = document.createElement("span"); result.className = "scenario-result"; result.textContent = "Choose"; function choose(choice, button) { fb.classList.remove("active"); wb.classList.remove("active"); button.classList.add("active"); result.textContent = choice === item.answer ? "✓ Correct" : `→ ${item.answer}` } fb.addEventListener("click", () => choose("for", fb)); wb.addEventListener("click", () => choose("while", wb)); row.append(text, fb, wb, result); sl.appendChild(row) });
+
+            const worked = {
+                table: { title: "Multiplication Table", description: "The loop variable becomes the multiplier from 1 through 10.", code: `num = int(input("Enter a number: "))\n\nfor i in range(1, 11):\n    result = num * i\n    print(f"{num} x {i} = {result}")` },
+                even: { title: "Even Numbers in a Range", description: "Compare filtering all values with generating only the values you need.", code: `start = int(input("Start: "))\nend = int(input("End: "))\n\nfor i in range(start, end + 1):\n    if i % 2 == 0:\n        print(i, end=" ")\n\n# If the required sequence starts at 2:\nfor i in range(2, end + 1, 2):\n    print(i, end=" ")` },
+                powers: { title: "Power Table with Trace", description: "range(9) supplies exponents 0 through 8.", code: `print("n\\t2^n")\nprint("-" * 16)\n\nfor n in range(9):\n    print(f"{n}\\t{2**n}")` },
+                control: { title: "Extension — break and continue", description: "break exits the loop; continue skips the rest of the current iteration.", code: `# break\nfor i in range(1, 100):\n    if i * i > 50:\n        print(f"First square > 50: {i}^2 = {i*i}")\n        break\n\n# continue\nfor i in range(1, 11):\n    if i % 3 == 0:\n        continue\n    print(i, end=" ")` }
+            };
+            const wtabs = document.querySelectorAll("[data-example]"), wt = document.getElementById("workedTitle"), wd = document.getElementById("workedDescription"), wi = document.getElementById("workedInteractive"), wc = document.getElementById("workedCode");
+            function showWorked(key) {
+                const x = worked[key]; wt.textContent = x.title; wd.textContent = x.description; wc.textContent = x.code;
+                if (key === "table") { wi.innerHTML = `<div class="mult-grid"><div class="mult-control"><label>Choose a number<input id="multNumber" type="number" value="7"></label></div><div id="multOutput" class="mult-output"></div></div>`; const input = document.getElementById("multNumber"), out = document.getElementById("multOutput"); function render() { const n = Number(input.value); out.innerHTML = ""; for (let i = 1; i <= 10; i++) { const r = document.createElement("div"); r.className = "mult-row"; r.textContent = `${n} × ${i} = ${n * i}`; out.appendChild(r) } } input.addEventListener("input", render); render() }
+                else if (key === "even") { wi.innerHTML = `<div class="filter-compare"><div class="filter-card"><h4>Filter values</h4><pre>for i in range(start, end + 1):\n    if i % 2 == 0:\n        print(i)</pre></div><div class="filter-card"><h4>Generate only needed values</h4><pre>for i in range(2, end + 1, 2):\n    print(i)</pre></div></div>` }
+                else if (key === "powers") { wi.innerHTML = `<div class="accumulator-grid"><div class="acc-step"><code>n=0</code><span>2**0 = 1</span></div><div class="acc-step"><code>n=1</code><span>2**1 = 2</span></div><div class="acc-step"><code>n=2</code><span>2**2 = 4</span></div><div class="acc-step"><code>n=3</code><span>2**3 = 8</span></div><div class="acc-step"><code>…</code><span>up to n=8</span></div></div>` }
+                else { wi.innerHTML = `<div class="note-box"><h4><i class="fas fa-flask"></i> Extension</h4><p><code>break</code> exits the nearest loop immediately. <code>continue</code> skips the rest of the current iteration and moves to the next value.</p></div>` }
+                wtabs.forEach(b => b.classList.toggle("active", b.dataset.example === key))
+            }
+            wtabs.forEach(b => b.addEventListener("click", () => showWorked(b.dataset.example))); showWorked("table");
+
+            document.getElementById("revealCount").addEventListener("click", () => { const r = buildRange(2, 100, 7), last = r.values[r.values.length - 1]; document.getElementById("countLast").textContent = last; document.getElementById("countIterations").textContent = r.values.length; const f = document.getElementById("countFeedback"); f.className = "lesson-lab-feedback correct"; f.textContent = `Sequence: ${r.values.join(", ")}. Therefore the last value is ${last} and the loop executes ${r.values.length} times.` });
+
+            const errors = [
+                { expr: "range(5)", answer: "valid", why: "Valid: it generates 0, 1, 2, 3, 4." },
+                { expr: "range(5, 2)", answer: "empty", why: "Empty: the default positive step moves away from the lower stop." },
+                { expr: "range(1, 5, 0)", answer: "value", why: "ValueError: range() step argument must not be zero." },
+                { expr: "range(0.0, 1.0, 0.1)", answer: "type", why: "TypeError: standard range() requires integer arguments." },
+                { expr: "range(10, 0, -2)", answer: "valid", why: "Valid: 10, 8, 6, 4, 2." },
+                { expr: "range(2, 10, -2)", answer: "empty", why: "Empty: the negative step moves away from the higher stop." }
+            ];
+            let ei = 0; const ep = document.getElementById("errorPrompt"), ef = document.getElementById("errorFeedback"), eg = document.getElementById("errorProgress"), ec = document.querySelectorAll(".error-choice");
+            function loadError() { const x = errors[ei]; ep.textContent = x.expr; ef.className = "lesson-lab-feedback"; ef.textContent = "Decide what happens."; eg.textContent = `Example ${ei + 1} of ${errors.length}`; ec.forEach(b => b.classList.remove("active")) }
+            ec.forEach(b => b.addEventListener("click", () => { const x = errors[ei], ok = b.dataset.error === x.answer; ec.forEach(z => z.classList.remove("active")); b.classList.add("active"); ef.className = `lesson-lab-feedback ${ok ? "correct" : "wrong"}`; ef.innerHTML = `<strong>${ok ? "Correct." : "Not quite."}</strong><br>${x.why}` }));
+            document.getElementById("nextError").addEventListener("click", () => { ei = (ei + 1) % errors.length; loadError() }); loadError();
+
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
