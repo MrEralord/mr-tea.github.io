@@ -7,355 +7,1883 @@
     <title>Nested Loops — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="Python nested loops: patterns, multiplication tables, matrix traversal. NIS Grade 11 Programming 11.1.2.7.">
+        content="Python nested loops: tracing, dependent ranges, patterns, coordinates and multiplication tables. NIS Grade 11 Programming 11.1.2.7.">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
     <meta property="og:title" content="Nested Loops — mr. TEA">
-    <meta property="og:description" content="Python nested loops: patterns, multiplication tables, matrix traversal. NIS Grade 11 Programming 11.1.2.7.">
+    <meta property="og:description"
+        content="Python nested loops: tracing, dependent ranges, patterns, coordinates and multiplication tables. NIS Grade 11 Programming 11.1.2.7.">
     <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term1/lesson-07-nested-loops.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* Page-specific only: common lesson UI lives in /css/lesson.css */
+
+        .nested-anchor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: stretch
+        }
+
+        .clock-visual {
+            min-height: 300px;
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card)
+        }
+
+        .clock-face {
+            width: 165px;
+            height: 165px;
+            position: relative;
+            margin: 0 auto;
+            border: 3px solid var(--clr-tea);
+            border-radius: 50%;
+            background: rgba(13, 148, 136, .04)
+        }
+
+        .clock-face::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 5;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: var(--clr-tea)
+        }
+
+        .clock-number {
+            position: absolute;
+            color: var(--text-muted);
+            font: 700 .58rem var(--font-code)
+        }
+
+        .clock-number.n12 {
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%)
+        }
+
+        .clock-number.n3 {
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%)
+        }
+
+        .clock-number.n6 {
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%)
+        }
+
+        .clock-number.n9 {
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%)
+        }
+
+        .minute-hand,
+        .hour-hand {
+            position: absolute;
+            left: 50%;
+            bottom: 50%;
+            transform-origin: bottom center;
+            border-radius: 999px
+        }
+
+        .minute-hand {
+            width: 2px;
+            height: 61px;
+            background: var(--clr-tea);
+            transform: translateX(-50%) rotate(90deg)
+        }
+
+        .hour-hand {
+            width: 4px;
+            height: 42px;
+            background: var(--text-primary);
+            transform: translateX(-50%) rotate(30deg)
+        }
+
+        .clock-sequence {
+            display: grid;
+            gap: var(--space-xs)
+        }
+
+        .clock-sequence-row {
+            padding: .62rem .7rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.45
+        }
+
+        .clock-sequence-row code {
+            color: var(--clr-tea);
+            font: 750 .66rem var(--font-code)
+        }
+
+        .row-col-layout {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: var(--space-lg);
+            align-items: center
+        }
+
+        .row-col-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(50px, 1fr));
+            gap: var(--space-xs)
+        }
+
+        .row-col-cell {
+            min-height: 58px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font: 700 .65rem var(--font-code)
+        }
+
+        .row-col-cell strong {
+            color: var(--clr-tea)
+        }
+
+        .row-col-labels {
+            display: grid;
+            gap: var(--space-sm)
+        }
+
+        .row-col-label {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .row-col-label strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .72rem
+        }
+
+        .row-col-label code {
+            color: var(--clr-tea);
+            font: 750 .68rem var(--font-code)
+        }
+
+        .row-col-label p {
+            margin: .25rem 0 0;
+            color: var(--text-secondary);
+            font-size: .66rem;
+            line-height: 1.42
+        }
+
+        .nested-anatomy {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .nested-anatomy-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .nested-anatomy-card code {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--clr-tea);
+            font: 800 .72rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .nested-anatomy-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .73rem
+        }
+
+        .nested-anatomy-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .66rem;
+            line-height: 1.45
+        }
+
+        .inner-reset-visual {
+            display: grid;
+            gap: .45rem;
+            margin: var(--space-lg) 0
+        }
+
+        .reset-row {
+            display: grid;
+            grid-template-columns: 95px 1fr;
+            gap: var(--space-sm);
+            align-items: center
+        }
+
+        .reset-row>code {
+            padding: .48rem .55rem;
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .08);
+            color: var(--clr-tea);
+            text-align: center;
+            font: 800 .66rem var(--font-code)
+        }
+
+        .reset-values {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs)
+        }
+
+        .reset-values span {
+            min-width: 32px;
+            padding: .3rem .4rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font: 700 .62rem var(--font-code)
+        }
+
+        .nested-tracer-layout {
+            display: grid;
+            grid-template-columns: .72fr 1.28fr;
+            gap: var(--space-lg)
+        }
+
+        .tracer-state {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code)
+        }
+
+        .tracer-state pre {
+            margin: 0 0 var(--space-md);
+            white-space: pre-wrap;
+            color: var(--text-primary);
+            font: 700 .72rem/1.6 var(--font-code)
+        }
+
+        .tracer-readout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xs)
+        }
+
+        .readout-box {
+            padding: .55rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass)
+        }
+
+        .readout-box span {
+            display: block;
+            color: var(--text-muted);
+            font-size: .57rem;
+            text-transform: uppercase;
+            letter-spacing: .04em
+        }
+
+        .readout-box code {
+            color: var(--clr-tea);
+            font: 850 .73rem var(--font-code)
+        }
+
+        .tracer-grid-wrap {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .tracer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-xs)
+        }
+
+        .tracer-cell {
+            min-height: 72px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-muted);
+            font: 700 .62rem var(--font-code);
+            transition: border-color .2s ease, background .2s ease, transform .2s ease
+        }
+
+        .tracer-cell.visited {
+            border-color: rgba(13, 148, 136, .35);
+            color: var(--text-secondary)
+        }
+
+        .tracer-cell.active {
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .12);
+            color: var(--clr-tea);
+            transform: translateY(-2px)
+        }
+
+        .tracer-status {
+            margin-top: var(--space-sm);
+            min-height: 54px;
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.45
+        }
+
+        .grid-explorer-layout {
+            display: grid;
+            grid-template-columns: .65fr 1.35fr;
+            gap: var(--space-lg)
+        }
+
+        .grid-controls {
+            display: grid;
+            gap: var(--space-sm);
+            align-content: start
+        }
+
+        .grid-controls label,
+        .growth-control label,
+        .perf-controls label,
+        .example-inputs label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            font-weight: 800
+        }
+
+        .grid-controls input,
+        .growth-control input,
+        .perf-controls input,
+        .example-inputs input {
+            width: 100%;
+            margin-top: .3rem;
+            padding: .6rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            outline: none;
+            font: 750 .74rem var(--font-code)
+        }
+
+        .grid-controls input:focus,
+        .growth-control input:focus,
+        .perf-controls input:focus,
+        .example-inputs input:focus {
+            border-color: var(--clr-tea)
+        }
+
+        .grid-preview-panel {
+            min-height: 260px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            overflow: auto
+        }
+
+        .dynamic-grid {
+            display: grid;
+            gap: var(--space-xs);
+            width: fit-content;
+            min-width: 100%
+        }
+
+        .dynamic-grid-cell {
+            min-width: 52px;
+            min-height: 52px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font: 700 .58rem var(--font-code)
+        }
+
+        .grid-summary {
+            margin-top: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .66rem
+        }
+
+        .trace-table-wrap {
+            overflow-x: auto;
+            margin: var(--space-md) 0
+        }
+
+        .nested-trace-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 620px
+        }
+
+        .nested-trace-table th,
+        .nested-trace-table td {
+            padding: .55rem .48rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: .67rem
+        }
+
+        .nested-trace-table th {
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            font-weight: 800
+        }
+
+        .nested-trace-table code {
+            color: var(--clr-tea);
+            font: 700 .65rem var(--font-code)
+        }
+
+        .nested-trace-table input {
+            width: 82px;
+            max-width: 100%;
+            padding: .42rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            text-align: center;
+            outline: none;
+            font: 700 .66rem var(--font-code)
+        }
+
+        .nested-trace-table input:focus {
+            border-color: var(--clr-tea)
+        }
+
+        .trace-cell-correct {
+            background: rgba(22, 163, 74, .08)
+        }
+
+        .trace-cell-wrong {
+            background: rgba(239, 68, 68, .08)
+        }
+
+        .count-mode-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .count-mode-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .count-mode-card h4 {
+            margin: 0 0 .35rem;
+            color: var(--text-primary);
+            font-size: .8rem
+        }
+
+        .count-mode-card pre {
+            margin: 0 0 .6rem;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .67rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .count-equation {
+            padding: .5rem .6rem;
+            border: 1px dashed var(--clr-tea);
+            border-radius: var(--radius-md);
+            background: rgba(13, 148, 136, .05);
+            color: var(--clr-tea);
+            font: 800 .7rem var(--font-code);
+            text-align: center
+        }
+
+        .growth-layout {
+            display: grid;
+            grid-template-columns: .65fr 1.35fr;
+            gap: var(--space-lg)
+        }
+
+        .growth-control {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass)
+        }
+
+        .growth-output {
+            min-height: 240px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 750 .76rem/1.55 var(--font-code);
+            white-space: pre;
+            overflow: auto
+        }
+
+        .growth-counts {
+            margin-top: var(--space-sm);
+            color: var(--text-muted);
+            font-size: .65rem
+        }
+
+        .predict-output {
+            min-height: 110px;
+            margin-top: var(--space-sm);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .69rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .placement-target {
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            text-align: center;
+            border: 1px dashed var(--border-hover);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            font: 800 .76rem/1.45 var(--font-code);
+            white-space: pre
+        }
+
+        .placement-choice {
+            white-space: pre-wrap;
+            text-align: left;
+            font-family: var(--font-code);
+            font-size: .64rem;
+            line-height: 1.45
+        }
+
+        .coord-layout {
+            display: grid;
+            grid-template-columns: 1.25fr .75fr;
+            gap: var(--space-lg);
+            align-items: center
+        }
+
+        .coord-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-xs)
+        }
+
+        .coord-cell {
+            min-height: 66px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font: 700 .62rem var(--font-code)
+        }
+
+        .coord-cell:hover,
+        .coord-cell.active {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+            background: rgba(13, 148, 136, .08)
+        }
+
+        .coord-readout {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code)
+        }
+
+        .coord-readout pre {
+            margin: 0;
+            color: var(--text-primary);
+            font: 700 .72rem/1.6 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .uses-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .use-card {
+            min-height: 120px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-sm);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .use-card i {
+            display: block;
+            margin-bottom: .45rem;
+            color: var(--clr-tea);
+            font-size: 1.1rem
+        }
+
+        .use-card strong {
+            color: var(--text-primary);
+            font-size: .66rem
+        }
+
+        .example-control {
+            display: grid;
+            grid-template-columns: 170px 1fr;
+            gap: var(--space-lg);
+            margin: var(--space-md) 0
+        }
+
+        .example-inputs {
+            display: grid;
+            gap: var(--space-sm);
+            align-content: start;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass)
+        }
+
+        .pattern-output {
+            min-height: 220px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 750 .72rem/1.5 var(--font-code);
+            white-space: pre;
+            overflow: auto
+        }
+
+        .mult-table-grid {
+            display: grid;
+            gap: 2px;
+            margin: var(--space-md) 0;
+            overflow: auto
+        }
+
+        .mult-cell {
+            min-width: 42px;
+            min-height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font: 700 .58rem var(--font-code)
+        }
+
+        .mult-cell.header {
+            background: rgba(13, 148, 136, .08);
+            color: var(--clr-tea);
+            font-weight: 850
+        }
+
+        .mult-cell:hover:not(.header) {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea)
+        }
+
+        .mult-readout {
+            margin-top: var(--space-sm);
+            color: var(--text-secondary);
+            font-size: .68rem
+        }
+
+        .pyramid-process {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .process-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .process-card code {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--clr-tea);
+            font: 750 .67rem/1.5 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .process-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .66rem;
+            line-height: 1.45
+        }
+
+        .mixed-grid,
+        .same-variable-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .mixed-card,
+        .same-variable-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .mixed-card pre,
+        .same-variable-card pre {
+            margin: 0 0 .6rem;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 650 .66rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .mixed-card p,
+        .same-variable-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .66rem;
+            line-height: 1.45
+        }
+
+        .performance-layout {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: var(--space-lg)
+        }
+
+        .perf-controls {
+            display: grid;
+            gap: var(--space-sm);
+            align-content: start
+        }
+
+        .perf-result {
+            min-height: 190px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code)
+        }
+
+        .perf-result strong {
+            display: block;
+            color: var(--clr-tea);
+            font: 900 1.45rem var(--font-code)
+        }
+
+        .perf-result span {
+            display: block;
+            margin-top: .45rem;
+            color: var(--text-secondary);
+            font-size: .68rem
+        }
+
+        .error-code {
+            min-height: 150px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .71rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        @media(max-width:1000px) {
+            .uses-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        @media(max-width:850px) {
+
+            .nested-anchor-grid,
+            .row-col-layout,
+            .nested-tracer-layout,
+            .grid-explorer-layout,
+            .growth-layout,
+            .coord-layout,
+            .example-control,
+            .performance-layout,
+            .mixed-grid,
+            .same-variable-grid,
+            .pyramid-process,
+            .count-mode-grid {
+                grid-template-columns: 1fr
+            }
+
+            .nested-anatomy {
+                grid-template-columns: 1fr
+            }
+
+            .clock-visual {
+                grid-template-columns: 1fr
+            }
+
+            .clock-face {
+                margin-top: 1.5rem
+            }
+
+            .uses-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:600px) {
+            .uses-grid {
+                grid-template-columns: 1fr
+            }
+
+            .tracer-readout {
+                grid-template-columns: 1fr
+            }
+
+            .row-col-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-<div class="layout-wrapper">
-    <main class="main-content">
-
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.1A — Nested Loops</span>
-            </nav>
-
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
-                <h1 class="lesson-title">Nested Loops</h1>
-                <p class="lesson-intro">A <strong>nested loop</strong> is a loop inside another loop. The inner loop
-                    completes all its iterations for each single iteration of the outer loop. Nested loops are essential
-                    for working with 2D patterns, tables, and grids.</p>
-            </div>
-
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.1.2.7</span> Use nested loops when solving problems</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1A-lesson-07-nested-loops.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i
+                            class="fas fa-bars"></i></button>
+                    <a href="/" class="logo" style="margin-left:15px;"><i class="fas fa-mug-hot logo-icon"></i><span
+                            class="logo-text">mr. TEA</span></a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-clock"></i> The Clock Analogy</h4>
-                    <p>Think of a clock: the <strong>minute hand</strong> (inner loop) completes 60 ticks for every
-                        <strong>1 tick</strong> of the hour hand (outer loop). After 60 minutes → the hour hand moves by
-                        1 → the minute hand starts again from 0. That's exactly how nested loops work.</p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a><span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 PROG</a><span class="sep">/</span>
+                        <span>11.1A — Nested Loops</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                        <h1 class="lesson-title">Nested Loops</h1>
+                        <p class="lesson-intro">A <strong>nested loop</strong> is a loop inside another loop. The inner
+                            loop completes all its iterations for each single iteration of the outer loop. Nested loops
+                            are useful for rows and columns, coordinate grids, tables, 2D structures and pattern
+                            generation.</p>
+                    </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">How Nested Loops
-                    Execute</h3>
-                <div class="code-block"><code># Structure
-for i in range(outer):       # Outer loop
-    for j in range(inner):   # Inner loop
-        print(i, j)          # Runs outer × inner times
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objective</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.1.2.7</span> Use nested loops when solving problems</li>
+                        </ul>
+                    </div>
 
-# Example: 3 × 4 = 12 total iterations
-for i in range(3):
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="lesson-video-info">
+                                <h4 id="lessonVideoTitle">Nested Statements</h4>
+                                <p id="lessonVideoDescription">Craig'n'Dave — nested structures and nested statement
+                                    examples.</p>
+                            </div>
+                        </div>
+
+                        <div class="video-tabs">
+                            <button class="video-tab active" data-video="craig" type="button"><i
+                                    class="fas fa-code-branch"></i> Nested Statements</button>
+                            <button class="video-tab" data-video="visual" type="button"><i class="fas fa-eye"></i>
+                                Visual Explanation</button>
+                        </div>
+
+                        <div class="lesson-video-wrapper">
+                            <iframe id="lessonVideoFrame"
+                                src="https://www.youtube-nocookie.com/embed/eZqFsqVw4yw?start=31&rel=0"
+                                title="Craig n Dave - Nested statements" loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <nav class="lesson-section-jump" aria-label="Lesson sections">
+                        <a href="#mechanics">Mechanics</a>
+                        <a href="#tracer">Tracer</a>
+                        <a href="#trace-tables">Trace Tables</a>
+                        <a href="#dependent">Dependent Range</a>
+                        <a href="#coordinates">Coordinates</a>
+                        <a href="#examples">Examples</a>
+                        <a href="#debug">Debugging</a>
+                        <a href="#practice">Practice</a>
+                    </nav>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="nested-anchor-grid">
+                            <div class="analogy-box" style="margin:0;">
+                                <h4><i class="fas fa-clock"></i> The Clock Analogy</h4>
+                                <p>Think of a clock. The <strong>minute hand</strong> behaves like the inner loop: it
+                                    completes many values before the <strong>hour hand</strong>, the outer loop, moves
+                                    to its next value. Then the minute hand starts its cycle again.</p>
+                            </div>
+
+                            <div class="clock-visual">
+                                <div class="clock-face" aria-label="Clock analogy">
+                                    <span class="clock-number n12">12</span><span class="clock-number n3">3</span><span
+                                        class="clock-number n6">6</span><span class="clock-number n9">9</span>
+                                    <span class="minute-hand"></span><span class="hour-hand"></span>
+                                </div>
+                                <div class="clock-sequence">
+                                    <div class="clock-sequence-row"><code>hour = 1</code> → minute: 0, 1, 2, 3, ...
+                                    </div>
+                                    <div class="clock-sequence-row">inner loop finishes</div>
+                                    <div class="clock-sequence-row"><code>hour = 2</code> → minute starts again from 0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="mechanics">
+                        <h2 class="lesson-section-title"><i class="fas fa-table-cells"></i> Rows, Columns & Nested-Loop
+                            Mechanics</h2>
+
+                        <div class="row-col-layout">
+                            <div class="row-col-labels">
+                                <div class="row-col-label">
+                                    <strong>Outer loop → rows</strong>
+                                    <code>for i in range(3)</code>
+                                    <p><code>i</code> changes only after the whole inner loop finishes.</p>
+                                </div>
+                                <div class="row-col-label">
+                                    <strong>Inner loop → columns</strong>
+                                    <code>for j in range(4)</code>
+                                    <p><code>j</code> moves through all four values for every value of <code>i</code>.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row-col-grid">
+                                <div class="row-col-cell"><strong>(0,0)</strong></div>
+                                <div class="row-col-cell">(0,1)</div>
+                                <div class="row-col-cell">(0,2)</div>
+                                <div class="row-col-cell">(0,3)</div>
+                                <div class="row-col-cell"><strong>(1,0)</strong></div>
+                                <div class="row-col-cell">(1,1)</div>
+                                <div class="row-col-cell">(1,2)</div>
+                                <div class="row-col-cell">(1,3)</div>
+                                <div class="row-col-cell"><strong>(2,0)</strong></div>
+                                <div class="row-col-cell">(2,1)</div>
+                                <div class="row-col-cell">(2,2)</div>
+                                <div class="row-col-cell">(2,3)</div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Anatomy of Nested Loops</h3>
+                        <div class="code-block"><code>for i in range(3):       # outer loop
+    for j in range(4):   # inner loop
+        print(i, j)      # body</code></div>
+
+                        <div class="nested-anatomy">
+                            <div class="nested-anatomy-card"><code>for i in range(3)</code><strong>Outer loop</strong>
+                                <p>Controls the slower-changing dimension: usually rows, groups or larger cycles.</p>
+                            </div>
+                            <div class="nested-anatomy-card"><code>for j in range(4)</code><strong>Inner loop</strong>
+                                <p>Runs from start to finish for every single outer-loop value.</p>
+                            </div>
+                            <div class="nested-anatomy-card"><code>print(i, j)</code><strong>Body</strong>
+                                <p>Runs once for every valid pair of outer and inner values.</p>
+                            </div>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-key"></i> Key Rule</h4>
+                            <p>For every single value of <code>i</code>, the inner loop runs <strong>completely from
+                                    start to finish</strong>. Only after that does <code>i</code> move to its next
+                                value.</p>
+                        </div>
+
+                        <div class="inner-reset-visual">
+                            <div class="reset-row"><code>i = 0</code>
+                                <div class="reset-values">
+                                    <span>j=0</span><span>j=1</span><span>j=2</span><span>j=3</span></div>
+                            </div>
+                            <div class="reset-row"><code>i = 1</code>
+                                <div class="reset-values">
+                                    <span>j=0</span><span>j=1</span><span>j=2</span><span>j=3</span></div>
+                            </div>
+                            <div class="reset-row"><code>i = 2</code>
+                                <div class="reset-values">
+                                    <span>j=0</span><span>j=1</span><span>j=2</span><span>j=3</span></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="tracer">
+                        <h2 class="lesson-section-title"><i class="fas fa-route"></i> Nested Loop Tracer</h2>
+                        <p class="concept-text">Follow the exact order in which the nested loop visits each coordinate.
+                            Watch what happens when the inner range is exhausted.</p>
+
+                        <div class="lesson-lab">
+                            <div class="nested-tracer-layout">
+                                <div class="tracer-state">
+                                    <pre>for i in range(3):
     for j in range(4):
-        print(f"({i},{j})", end=" ")
-    print()  # New line after each row
+        print(i, j)</pre>
 
-# Output:
-# (0,0) (0,1) (0,2) (0,3)
-# (1,0) (1,1) (1,2) (1,3)
-# (2,0) (2,1) (2,2) (2,3)</code></div>
+                                    <div class="tracer-readout">
+                                        <div class="readout-box"><span>Outer i</span><code id="tracerI">—</code></div>
+                                        <div class="readout-box"><span>Inner j</span><code id="tracerJ">—</code></div>
+                                        <div class="readout-box"><span>Step</span><code id="tracerStep">0 / 12</code>
+                                        </div>
+                                    </div>
 
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Concept</th>
-                            <th>Description</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Total iterations</td>
-                            <td>outer_count × inner_count</td>
-                            <td>3 × 4 = 12</td>
-                        </tr>
-                        <tr>
-                            <td>Outer variable</td>
-                            <td>Changes slowly (once per full inner cycle)</td>
-                            <td><code>i</code> in rows</td>
-                        </tr>
-                        <tr>
-                            <td>Inner variable</td>
-                            <td>Changes quickly (every single iteration)</td>
-                            <td><code>j</code> in columns</td>
-                        </tr>
-                        <tr>
-                            <td>Dependent range</td>
-                            <td>Inner range can depend on outer variable</td>
-                            <td><code>range(i+1)</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <div class="lesson-tabs">
+                                        <button id="nestedPrev" class="lesson-lab-btn" type="button">Previous</button>
+                                        <button id="nestedNext" class="lesson-lab-btn" type="button">Next
+                                            iteration</button>
+                                        <button id="nestedReset" class="lesson-lab-btn" type="button">Reset</button>
+                                    </div>
+                                </div>
 
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Key Insight</h4>
-                    <p>For every single value of <code>i</code>, the inner loop runs <strong>completely from start to
-                            finish</strong>. Only then does <code>i</code> move to the next value.</p>
-                </div>
-            </section>
+                                <div class="tracer-grid-wrap">
+                                    <div id="tracerGrid" class="tracer-grid"></div>
+                                    <div id="tracerStatus" class="tracer-status">Press <strong>Next iteration</strong>
+                                        to start.</div>
+                                </div>
+                            </div>
+                        </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="note-box">
+                            <h4><i class="fas fa-rotate-left"></i> Watch the reset</h4>
+                            <p>After <code>j = 3</code>, the inner range is exhausted. The outer loop advances to the
+                                next <code>i</code>, and the inner loop starts again at <code>j = 0</code>.</p>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Star Rectangle</h4>
-                    <div class="code-block"><code>rows = 4
-cols = 6
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Nested Loop Grid Explorer</h3>
+                        <div class="lesson-lab">
+                            <div class="grid-explorer-layout">
+                                <div class="grid-controls">
+                                    <label>Outer iterations / rows<input id="gridRows" type="number" min="1" max="8"
+                                            value="3"></label>
+                                    <label>Inner iterations / columns<input id="gridCols" type="number" min="1" max="10"
+                                            value="4"></label>
+                                </div>
+                                <div class="grid-preview-panel">
+                                    <div id="dynamicGrid" class="dynamic-grid"></div>
+                                    <div id="gridSummary" class="grid-summary"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-for i in range(rows):
-    for j in range(cols):
-        print("*", end=" ")
-    print()
+                    <section class="lesson-section" id="trace-tables">
+                        <h2 class="lesson-section-title"><i class="fas fa-table-list"></i> Trace Tables for Nested Loops
+                        </h2>
 
-# Output:
-# * * * * * *
-# * * * * * *
-# * * * * * *
-# * * * * * *</code></div>
-                </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-pencil"></i> Recommended tracing method</h4>
+                            <p>Use one row for every execution of the innermost body. Record every changing loop
+                                variable, any calculated value, and the output.</p>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Right Triangle Pattern</h4>
-                    <div class="code-block"><code># Inner range depends on outer variable
-for i in range(1, 6):
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            1. Worked Trace Table Example</h3>
+                        <div class="code-block"><code>for i in range(2):
+    for j in range(3):
+        x = i + j
+        print(x)</code></div>
+
+                        <div class="trace-table-wrap">
+                            <table class="nested-trace-table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>i</th>
+                                        <th>j</th>
+                                        <th>x = i + j</th>
+                                        <th>Output</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                        <td>2</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-eye"></i> What the table reveals</h4>
+                            <p><code>i</code> changes <strong>0 → 1</strong>, while <code>j</code> runs <strong>0 → 1 →
+                                    2</strong> for each value of <code>i</code>. When <code>i</code> becomes 1,
+                                <code>j</code> resets to 0.</p>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            2. Guided Trace Practice</h3>
+                        <div class="code-block"><code>for row in range(1, 4):
+    for col in range(1, 3):
+        value = row * col
+        print(value, end=" ")</code></div>
+
+                        <div class="lesson-lab">
+                            <div class="trace-table-wrap">
+                                <table class="nested-trace-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Step</th>
+                                            <th>row</th>
+                                            <th>col</th>
+                                            <th>value</th>
+                                            <th>Output</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="guidedTraceBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="lesson-tabs">
+                                <button id="checkGuidedTrace" class="lesson-lab-btn" type="button">Check table</button>
+                                <button id="resetGuidedTrace" class="lesson-lab-btn" type="button">Reset</button>
+                            </div>
+                            <div id="guidedTraceFeedback" class="lesson-lab-feedback">The first row is completed for
+                                you. Fill the remaining cells.</div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            3. Independent Trace Practice</h3>
+                        <div class="code-block"><code>for i in range(1, 4):
     for j in range(i):
-        print("*", end=" ")
-    print()
+        print(j, end="")
+    print()</code></div>
 
-# Output:
-# *
-# * *
-# * * *
-# * * * *
-# * * * * *
+                        <div class="lesson-lab">
+                            <p class="concept-text">Before revealing the template, decide how many rows your trace table
+                                needs. Then trace every execution of the inner body.</p>
+                            <div class="lesson-tabs">
+                                <button id="showIndependentTemplate" class="lesson-lab-btn" type="button">Show trace
+                                    table template</button>
+                                <button id="checkIndependentTrace" class="lesson-lab-btn" type="button" disabled>Check
+                                    table</button>
+                                <button id="resetIndependentTrace" class="lesson-lab-btn" type="button"
+                                    disabled>Reset</button>
+                            </div>
+                            <div id="independentTraceArea" hidden></div>
+                            <div id="independentTraceFeedback" class="lesson-lab-feedback">Predict the total number of
+                                inner-loop executions and exact output first.</div>
+                        </div>
+                    </section>
 
-# Trace:
-# i=1 → j runs 0 → 1 star
-# i=2 → j runs 0,1 → 2 stars
-# i=3 → j runs 0,1,2 → 3 stars
-# i=4 → j runs 0,1,2,3 → 4 stars
-# i=5 → j runs 0,1,2,3,4 → 5 stars</code></div>
-                </div>
+                    <section class="lesson-section" id="dependent">
+                        <h2 class="lesson-section-title"><i class="fas fa-calculator"></i> Fixed vs Dependent Inner
+                            Ranges</h2>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Multiplication Table (10×10)</h4>
-                    <div class="code-block"><code># Header row
-print("\t", end="")
-for j in range(1, 11):
-    print(j, end="\t")
-print()
-print("-" * 90)
+                        <div class="count-mode-grid">
+                            <div class="count-mode-card">
+                                <h4>Fixed inner range</h4>
+                                <pre>for i in range(3):
+    for j in range(4):
+        ...</pre>
+                                <div class="count-equation">3 × 4 = 12 body executions</div>
+                            </div>
 
-# Table body
-for i in range(1, 11):
-    print(i, end="\t")
-    for j in range(1, 11):
-        print(i * j, end="\t")
-    print()
+                            <div class="count-mode-card">
+                                <h4>Dependent inner range</h4>
+                                <pre>for i in range(1, 6):
+    for j in range(i):
+        ...</pre>
+                                <div class="count-equation">1 + 2 + 3 + 4 + 5 = 15</div>
+                            </div>
+                        </div>
 
-# Output:
-#     1   2   3   4   5   6   7   8   9   10
-# -------...
-# 1   1   2   3   4   5   6   7   8   9   10
-# 2   2   4   6   8   10  12  14  16  18  20
-# ...</code></div>
-                </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Important rule</h4>
+                            <p>Multiplying <code>outer_count × inner_count</code> works when the inner loop has the same
+                                number of iterations every time. With a dependent range, add the inner-loop counts for
+                                each outer value.</p>
+                        </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Number Pyramid</h4>
-                    <div class="code-block"><code>n = 5
-for i in range(1, n + 1):
-    # Print spaces for alignment
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Pattern Growth Visualizer</h3>
+                        <div class="lesson-lab">
+                            <div class="growth-layout">
+                                <div class="growth-control">
+                                    <label>Rows<input id="growthRows" type="range" min="1" max="8" value="5"></label>
+                                    <div id="growthCounts" class="growth-counts"></div>
+                                </div>
+                                <pre id="growthOutput" class="growth-output"></pre>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Predict the Output</h3>
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">
+                                <pre id="predictPrompt"></pre>
+                            </div>
+                            <div class="lesson-lab-options two">
+                                <button id="revealPrediction" class="lesson-lab-btn" type="button">Reveal
+                                    output</button>
+                                <button id="nextPrediction" class="lesson-lab-btn" type="button">Next program</button>
+                            </div>
+                            <div id="predictFeedback" class="predict-output">Trace the loop before revealing.</div>
+                            <div class="lesson-lab-footer"><span id="predictProgress"></span></div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Where Should print() Go?</h3>
+                        <div class="lesson-lab">
+                            <div class="placement-target">****
+                                ****
+                                ****</div>
+                            <div id="placementOptions" class="lesson-lab-options three"></div>
+                            <div id="placementFeedback" class="lesson-lab-feedback">Choose the code that produces
+                                exactly three rows of four stars.</div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="coordinates">
+                        <h2 class="lesson-section-title"><i class="fas fa-border-all"></i> Coordinate Grid Explorer</h2>
+                        <p class="concept-text">Nested loops often model a 2D position. The outer variable can represent
+                            a row, while the inner variable represents a column.</p>
+
+                        <div class="lesson-lab">
+                            <div class="coord-layout">
+                                <div id="coordGrid" class="coord-grid"></div>
+                                <div class="coord-readout">
+                                    <pre id="coordReadout">Click a cell.
+
+row = i = ?
+column = j = ?</pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="uses-grid">
+                            <div class="use-card">
+                                <div><i class="fas fa-table"></i><strong>Tables</strong></div>
+                            </div>
+                            <div class="use-card">
+                                <div><i class="fas fa-border-all"></i><strong>Grids</strong></div>
+                            </div>
+                            <div class="use-card">
+                                <div><i class="fas fa-layer-group"></i><strong>2D arrays</strong></div>
+                            </div>
+                            <div class="use-card">
+                                <div><i class="fas fa-image"></i><strong>Image pixels</strong></div>
+                            </div>
+                            <div class="use-card">
+                                <div><i class="fas fa-link"></i><strong>Pairs</strong></div>
+                            </div>
+                            <div class="use-card">
+                                <div><i class="fas fa-star"></i><strong>Patterns</strong></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="examples">
+                        <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="lesson-tabs-label"><i class="fas fa-hand-pointer"></i><span>Choose an
+                                example:</span></div>
+                        <div class="lesson-tabs lesson-tabs--examples">
+                            <button class="lesson-tab active" data-example="rectangle" type="button"><i
+                                    class="fas fa-border-all"></i><span>Rectangle</span></button>
+                            <button class="lesson-tab" data-example="triangle" type="button"><i
+                                    class="fas fa-play"></i><span>Triangle</span></button>
+                            <button class="lesson-tab" data-example="table" type="button"><i
+                                    class="fas fa-table"></i><span>Table</span></button>
+                            <button class="lesson-tab" data-example="pyramid" type="button"><i
+                                    class="fas fa-mountain"></i><span>Pyramid</span></button>
+                        </div>
+
+                        <div class="lesson-tab-panel">
+                            <h4 id="workedTitle"></h4>
+                            <p id="workedDescription"></p>
+                            <div id="workedInteractive"></div>
+                            <div class="code-block"><code id="workedCode"></code></div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-code-branch"></i> More Nested-Loop Structures
+                        </h2>
+
+                        <div class="mixed-grid">
+                            <div class="mixed-card">
+                                <h4 style="margin:0 0 .45rem;color:var(--text-primary);font-size:.78rem;">for outside,
+                                    while inside</h4>
+                                <pre>for i in range(3):
+    j = 0
+
+    while j &lt; 2:
+        print(i, j)
+        j += 1</pre>
+                                <p>Nested loops do not have to be two <code>for</code> loops. The same outer/inner rule
+                                    still applies.</p>
+                            </div>
+
+                            <div class="mixed-card">
+                                <h4 style="margin:0 0 .45rem;color:var(--text-primary);font-size:.78rem;">One outer
+                                    loop, multiple inner loops</h4>
+                                <pre>for i in range(1, n + 1):
     for s in range(n - i):
         print(" ", end="")
-    # Print numbers
+
     for j in range(1, i + 1):
         print(j, end="")
-    print()
 
-# Output:
-#     1
-#    12
-#   123
-#  1234
-# 12345</code></div>
-                </div>
-            </section>
+    print()</pre>
+                                <p>Both inner loops execute in sequence for every value of the outer variable.</p>
+                            </div>
+                        </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Using the Same Variable Name</h4>
-                    <p>Using <code>i</code> for both outer and inner loops causes the outer variable to be overwritten.
-                        Always use different names (<code>i</code>/<code>j</code>, <code>row</code>/<code>col</code>).
-                    </p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Misplaced print()</h4>
-                    <p><code>print()</code> for a new line must be inside the <strong>outer</strong> loop but
-                        <strong>outside</strong> the inner loop. If it's inside the inner loop, you get one value per
-                        line instead of rows.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Performance Issues</h4>
-                    <p>Nested loops multiply iterations. A loop of 1000 inside a loop of 1000 = 1,000,000 iterations.
-                        Three nested loops of 100 each = 1,000,000. Be careful with large ranges.</p>
-                </div>
-            </section>
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Same Variable Experiment</h3>
+                        <div class="same-variable-grid">
+                            <div class="same-variable-card">
+                                <pre>for i in range(3):
+    print("outer before:", i)
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Pattern Questions</h4>
-                    <ul>
-                        <li>For any pattern: first identify <strong>how many rows</strong> and <strong>what changes each
-                                row</strong></li>
-                        <li>Inner range depending on outer variable = triangle/staircase patterns</li>
-                        <li>Spaces + characters = centered/pyramid patterns</li>
-                        <li>Always trace the first 2-3 rows manually before writing code</li>
-                        <li>Total iterations = sum of inner loop counts for each outer value</li>
-                    </ul>
-                </div>
-            </section>
+    for i in range(2):
+        print("inner:", i)
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>How many total iterations occur in:
-                            <code>for i in range(5): for j in range(3): print(i, j)</code>?</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain why <code>print()</code> is placed after the inner loop but inside the outer loop
-                            when printing patterns.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a nested loop to print an inverted triangle: 5 stars on line 1, 4 on line 2, ..., 1 on
-                            line 5.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a program that prints all pairs (i, j) where i + j = 10 and both i, j are between 1 and
-                            9.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Trace: <code>for i in range(3): for j in range(i, 3): print(j, end=""); print()</code>. Show
-                            the output.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Create a diamond pattern of stars with height 7 (3 rows growing, 1 middle, 3 rows shrinking).
-                        </p>
-                    </div>
-                </div>
-            </section>
+    print("outer after:", i)</pre>
+                                <p>Predict the value shown by <code>outer after</code> before reading the explanation.
+                                </p>
+                            </div>
+                            <div class="same-variable-card">
+                                <p><strong>Key idea:</strong> the inner loop assigns values to the same name
+                                    <code>i</code>. The current outer value is no longer available after the inner loop
+                                    finishes. On the next outer iteration, Python assigns the next outer value again.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <div class="quiz-question">1. In a nested loop, which loop completes first?</div>
-                    <div class="quiz-answer"
-                        data-answer="The inner loop completes all its iterations before the outer loop moves to its next value">
-                        Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">2. How many times does <code>print()</code> execute in:
-                        <code>for i in range(4): for j in range(5): print("X")</code>?</div>
-                    <div class="quiz-answer" data-answer="20 times (4 × 5 = 20)">Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">3. What pattern does <code>for i in range(1, n+1): print('*' * i)</code>
-                        produce?</div>
-                    <div class="quiz-answer"
-                        data-answer="A right triangle of stars — each line has one more star than the previous">Click to
-                        reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">4. Can the inner loop's range depend on the outer loop variable?</div>
-                    <div class="quiz-answer"
-                        data-answer="Yes! For example, range(i+1) makes the inner loop grow with each outer iteration">
-                        Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">5. What happens if both loops use the same variable name <code>i</code>?
-                    </div>
-                    <div class="quiz-answer"
-                        data-answer="The inner loop overwrites the outer i, causing unexpected behavior. Always use different variable names.">
-                        Click to reveal answer</div>
-                </div>
-            </section>
+                    <section class="lesson-section" id="debug">
+                        <h2 class="lesson-section-title"><i class="fas fa-gauge-high"></i> Performance & Debugging</h2>
 
-            <nav class="lesson-nav">
-                        <a href="lesson-06-for-loop.html"><span class="nav-label">← Previous</span><span class="nav-title">For Loop &amp; Range</span></a>
-                        <a href="lesson-08-tracing-debugging.html"><span class="nav-label">Next →</span><span class="nav-title">Tracing &amp; Debugging</span></a>
+                        <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Execution
+                            Count Calculator</h3>
+                        <div class="lesson-lab">
+                            <div class="performance-layout">
+                                <div class="perf-controls">
+                                    <label>Outer iterations<input id="perfOuter" type="number" min="1" max="100000"
+                                            value="1000"></label>
+                                    <label>Inner iterations<input id="perfInner" type="number" min="1" max="100000"
+                                            value="1000"></label>
+                                    <label>Third nested loop (optional)<input id="perfThird" type="number" min="0"
+                                            max="100000" value="0"></label>
+                                </div>
+                                <div class="perf-result">
+                                    <div><strong id="perfTotal">1,000,000</strong><span id="perfExplanation">1000 × 1000
+                                            body executions</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Nested Loop Error Lab</h3>
+                        <div class="lesson-lab">
+                            <div id="errorCode" class="error-code"></div>
+                            <div class="lesson-lab-options five">
+                                <button class="lesson-choice-btn error-choice" data-error="correct"
+                                    type="button">Correct</button>
+                                <button class="lesson-choice-btn error-choice" data-error="indentation"
+                                    type="button">Wrong indentation</button>
+                                <button class="lesson-choice-btn error-choice" data-error="samevar" type="button">Same
+                                    variable</button>
+                                <button class="lesson-choice-btn error-choice" data-error="range" type="button">Wrong
+                                    range</button>
+                                <button class="lesson-choice-btn error-choice" data-error="placement"
+                                    type="button">Output placement</button>
+                            </div>
+                            <div id="errorFeedback" class="lesson-lab-feedback">Identify the most important problem.
+                            </div>
+                            <div class="lesson-lab-footer"><span id="errorProgress"></span><button id="nextError"
+                                    class="lesson-lab-btn" type="button">Next example</button></div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls & Common
+                            Errors</h2>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Reusing the same loop variable</h4>
+                            <p>The inner loop reassigns the same variable name during its execution. This makes the
+                                current outer value unavailable inside/after the inner loop body. Prefer distinct names
+                                such as <code>i/j</code> or <code>row/col</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Misplaced print()</h4>
+                            <p>For row-based patterns, the blank <code>print()</code> used for a new line normally
+                                belongs inside the outer loop but after the inner loop.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Multiplying counts when the range is dependent</h4>
+                            <p><code>outer × inner</code> only works for a fixed inner count. If the inner range depends
+                                on the outer variable, add each inner count.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Performance grows quickly</h4>
+                            <p>1000 outer iterations × 1000 inner iterations = 1,000,000 body executions. Three nested
+                                loops of 100 each also produce 1,000,000 executions.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Nested-Loop Strategy</h4>
+                            <ul>
+                                <li>Identify the outer variable and inner variable first.</li>
+                                <li>Trace the full inner loop for the first outer value.</li>
+                                <li>When the inner loop is exhausted, reset it and move to the next outer value.</li>
+                                <li>For fixed inner ranges, total body executions can be found by multiplication.</li>
+                                <li>For dependent inner ranges, add the number of inner iterations for each outer value.
+                                </li>
+                                <li>For pattern questions, identify the number of rows and what changes on each row.
+                                </li>
+                                <li>Use a trace table when more than one variable changes.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>How many times does the innermost body execute in
+                                    <code>for i in range(5): for j in range(3): ...</code>?</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain the difference between the outer and inner loop and describe when the inner
+                                    variable resets.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain why a blank <code>print()</code> is often placed after the inner loop but
+                                    still inside the outer loop.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Write nested loops that print a rectangle with 4 rows and 7 stars per row.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Write an inverted triangle with 5 stars on the first row down to 1 star on the last
+                                    row.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Print all pairs <code>(i, j)</code> where <code>i + j == 10</code> and both values
+                                    are between 1 and 9.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Complete a trace table for
+                                    <code>for i in range(1,4): for j in range(i): x=i+j</code>. Include Step, i, j and
+                                    x.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Create a number or star pattern whose number of inner-loop iterations changes on each
+                                    row.</p>
+                            </div>
+                        </div>
+
+                        <details class="lesson-compact-details">
+                            <summary>Challenge: Diamond pattern</summary>
+                            <div class="lesson-details-body">
+                                <p class="concept-text">Create a centered diamond of stars with height 7: three growing
+                                    rows, one middle row, and three shrinking rows.</p>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: Write the exact output. [3]</p>
+                            <div class="code-block"><code>for i in range(2):
+    for j in range(3):
+        print(i + j, end=" ")
+    print()</code></div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>0 1 2
+                                    1 2 3</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: State how many times the body executes.
+                                [1]<br><code>for i in range(4): for j in range(5): print(i, j)</code></p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking point</summary>
+                                <div>20 times: 4 × 5.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: Calculate the total number of inner-loop executions. [2]</p>
+                            <div class="code-block"><code>for i in range(1, 5):
+    for j in range(i):
+        print("*", end="")</code></div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>1 + 2 + 3 + 4 = 10 inner-loop executions.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Complete the trace table for the program below. [4]</p>
+                            <div class="code-block"><code>for i in range(2):
+    for j in range(2):
+        x = i * 10 + j
+        print(x)</code></div>
+                            <div class="trace-table-wrap">
+                                <table class="nested-trace-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Step</th>
+                                            <th>i</th>
+                                            <th>j</th>
+                                            <th>x</th>
+                                            <th>Output</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal completed trace table</summary>
+                                <div>Step 1: i=0, j=0, x=0, output 0
+                                    Step 2: i=0, j=1, x=1, output 1
+                                    Step 3: i=1, j=0, x=10, output 10
+                                    Step 4: i=1, j=1, x=11, output 11</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                        <div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to
+                                reveal</span></div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. In a nested loop, which loop completes first?</div>
+                            <div class="quiz-answer"
+                                data-answer="The inner loop completes all its iterations before the outer loop moves to its next value">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. How many times does the body run for 4 outer iterations and 5
+                                fixed inner iterations?</div>
+                            <div class="quiz-answer" data-answer="20 times — 4 × 5">Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. For <code>for i in range(1,4): for j in range(i)</code>, how
+                                many inner executions occur?</div>
+                            <div class="quiz-answer" data-answer="6 total — 1 + 2 + 3">Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. Where does a blank print() normally go when building rows of a
+                                pattern?</div>
+                            <div class="quiz-answer"
+                                data-answer="Inside the outer loop but after the inner loop, so each completed inner loop becomes one row">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. Why should outer and inner loops usually use different
+                                variable names?</div>
+                            <div class="quiz-answer"
+                                data-answer="Because the inner loop reassigns its loop variable; reusing the same name makes the current outer value unavailable after the inner loop">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">6. What does the outer variable commonly represent in a grid?
+                            </div>
+                            <div class="quiz-answer" data-answer="A row or larger group/cycle">Click to reveal answer
+                            </div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. When can you calculate total executions using outer_count ×
+                                inner_count?</div>
+                            <div class="quiz-answer"
+                                data-answer="When the inner loop has the same fixed number of iterations for every outer-loop value">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">8. What is 1000 × 1000 nested body executions?</div>
+                            <div class="quiz-answer" data-answer="1,000,000 body executions">Click to reveal answer
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="lesson-06-for-loop.html"><span><span class="nav-label">← Previous</span><span
+                                    class="nav-title">For Loop & Range</span></span></a>
+                        <a href="lesson-08-tracing-debugging.html"><span><span class="nav-label">Next →</span><span
+                                    class="nav-title">Tracing & Debugging</span></span></a>
                     </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
 
     <footer class="site-footer">
         <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
-            <p>&copy; 2025 IT-Tea. Educational use.</p>
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const videos = {
+                craig: { title: "Nested Statements", description: "Craig'n'Dave — nested structures and Cambridge IGCSE nested statement examples. Nested structures begin at about 00:31.", src: "https://www.youtube-nocookie.com/embed/eZqFsqVw4yw?start=31&rel=0", iframeTitle: "Craig n Dave - Nested statements" },
+                visual: { title: "Nested Loops — Visual Explanation", description: "Visual explanation of nested-loop syntax, execution mechanics and common use cases.", src: "https://www.youtube-nocookie.com/embed/je2hZUyq7IA?start=19&rel=0", iframeTitle: "Nested Loops - Visually Explained" }
+            };
+            const videoTabs = document.querySelectorAll(".video-tab"), videoFrame = document.getElementById("lessonVideoFrame"), videoTitle = document.getElementById("lessonVideoTitle"), videoDescription = document.getElementById("lessonVideoDescription");
+            function showVideo(key) { const v = videos[key]; videoTitle.textContent = v.title; videoDescription.textContent = v.description; videoFrame.src = v.src; videoFrame.title = v.iframeTitle; videoTabs.forEach(b => b.classList.toggle("active", b.dataset.video === key)) }
+            videoTabs.forEach(b => b.addEventListener("click", () => showVideo(b.dataset.video)));
+
+            const nestedSteps = []; for (let i = 0; i < 3; i++) { for (let j = 0; j < 4; j++) { nestedSteps.push({ i, j }) } }
+            let nestedIndex = -1;
+            const tracerGrid = document.getElementById("tracerGrid"), tracerI = document.getElementById("tracerI"), tracerJ = document.getElementById("tracerJ"), tracerStep = document.getElementById("tracerStep"), tracerStatus = document.getElementById("tracerStatus"), nestedPrev = document.getElementById("nestedPrev"), nestedNext = document.getElementById("nestedNext"), nestedReset = document.getElementById("nestedReset");
+            function buildTracerGrid() { tracerGrid.innerHTML = ""; nestedSteps.forEach(s => { const c = document.createElement("div"); c.className = "tracer-cell"; c.textContent = `(${s.i},${s.j})`; tracerGrid.appendChild(c) }) }
+            function renderNestedTracer() {
+                const cells = [...tracerGrid.children]; cells.forEach((c, idx) => { c.classList.toggle("visited", idx <= nestedIndex && nestedIndex >= 0); c.classList.toggle("active", idx === nestedIndex) });
+                if (nestedIndex < 0) { tracerI.textContent = "—"; tracerJ.textContent = "—"; tracerStep.textContent = `0 / ${nestedSteps.length}`; tracerStatus.innerHTML = 'Press <strong>Next iteration</strong> to start.' }
+                else { const s = nestedSteps[nestedIndex]; tracerI.textContent = s.i; tracerJ.textContent = s.j; tracerStep.textContent = `${nestedIndex + 1} / ${nestedSteps.length}`; let m = `Body executes with i=${s.i}, j=${s.j}.`; if (s.j === 3 && s.i < 2) m += ` Inner range is exhausted. Next, i becomes ${s.i + 1} and j restarts at 0.`; else if (nestedIndex === nestedSteps.length - 1) m += " Final inner cycle complete — the nested loops finish."; tracerStatus.textContent = m }
+                nestedPrev.disabled = nestedIndex < 0; nestedNext.disabled = nestedIndex >= nestedSteps.length - 1
+            }
+            nestedPrev.addEventListener("click", () => { if (nestedIndex >= 0) nestedIndex--; renderNestedTracer() });
+            nestedNext.addEventListener("click", () => { if (nestedIndex < nestedSteps.length - 1) nestedIndex++; renderNestedTracer() });
+            nestedReset.addEventListener("click", () => { nestedIndex = -1; renderNestedTracer() });
+            buildTracerGrid(); renderNestedTracer();
+
+            const gridRows = document.getElementById("gridRows"), gridCols = document.getElementById("gridCols"), dynamicGrid = document.getElementById("dynamicGrid"), gridSummary = document.getElementById("gridSummary");
+            function clamp(v, min, max) { return Math.min(max, Math.max(min, v)) }
+            function renderDynamicGrid() { const rows = clamp(Number(gridRows.value) || 1, 1, 8), cols = clamp(Number(gridCols.value) || 1, 1, 10); gridRows.value = rows; gridCols.value = cols; dynamicGrid.innerHTML = ""; dynamicGrid.style.gridTemplateColumns = `repeat(${cols},minmax(52px,1fr))`; for (let i = 0; i < rows; i++) { for (let j = 0; j < cols; j++) { const c = document.createElement("div"); c.className = "dynamic-grid-cell"; c.textContent = `(${i},${j})`; dynamicGrid.appendChild(c) } } gridSummary.textContent = `${rows} outer iterations × ${cols} fixed inner iterations = ${rows * cols} body executions.` }
+            [gridRows, gridCols].forEach(i => i.addEventListener("input", renderDynamicGrid)); renderDynamicGrid();
+
+            const guidedAnswers = [[1, 1, 1, 1], [1, 2, 2, 2], [2, 1, 2, 2], [2, 2, 4, 4], [3, 1, 3, 3], [3, 2, 6, 6]];
+            const guidedTraceBody = document.getElementById("guidedTraceBody"), guidedTraceFeedback = document.getElementById("guidedTraceFeedback");
+            function buildGuidedTrace() { guidedTraceBody.innerHTML = ""; guidedAnswers.forEach((r, idx) => { const tr = document.createElement("tr"); if (idx === 0) { tr.innerHTML = `<td>1</td><td>1</td><td>1</td><td>1</td><td>1</td>` } else { tr.innerHTML = `<td>${idx + 1}</td><td><input></td><td><input></td><td><input></td><td><input></td>` } guidedTraceBody.appendChild(tr) }); guidedTraceFeedback.className = "lesson-lab-feedback"; guidedTraceFeedback.textContent = "The first row is completed for you. Fill the remaining cells." }
+            document.getElementById("checkGuidedTrace").addEventListener("click", () => { let correct = 0, total = 0;[...guidedTraceBody.rows].forEach((tr, rowIndex) => { if (rowIndex === 0) return; const inputs = tr.querySelectorAll("input"), expected = guidedAnswers[rowIndex]; inputs.forEach((input, colIndex) => { total++; const cell = input.parentElement, isCorrect = Number(input.value) === expected[colIndex]; cell.classList.remove("trace-cell-correct", "trace-cell-wrong"); cell.classList.add(isCorrect ? "trace-cell-correct" : "trace-cell-wrong"); if (isCorrect) correct++ }) }); const all = correct === total; guidedTraceFeedback.className = `lesson-lab-feedback ${all ? "correct" : "wrong"}`; guidedTraceFeedback.textContent = all ? "Correct. The inner loop runs col=1,2 for every row=1,2,3." : `${correct} of ${total} entered cells are correct. Follow the inner loop completely before changing row.` });
+            document.getElementById("resetGuidedTrace").addEventListener("click", buildGuidedTrace); buildGuidedTrace();
+
+            const independentAnswers = [[1, 0, "0"], [2, 0, "0"], [2, 1, "1"], [3, 0, "0"], [3, 1, "1"], [3, 2, "2"]];
+            const independentTraceArea = document.getElementById("independentTraceArea"), independentTraceFeedback = document.getElementById("independentTraceFeedback"), checkIndependentTrace = document.getElementById("checkIndependentTrace"), resetIndependentTrace = document.getElementById("resetIndependentTrace");
+            function buildIndependentTrace() { const rows = independentAnswers.map((_, idx) => `<tr><td>${idx + 1}</td><td><input></td><td><input></td><td><input></td></tr>`).join(""); independentTraceArea.innerHTML = `<div class="trace-table-wrap"><table class="nested-trace-table"><thead><tr><th>Step</th><th>i</th><th>j</th><th>Printed j</th></tr></thead><tbody>${rows}</tbody></table></div>`; independentTraceArea.hidden = false; checkIndependentTrace.disabled = false; resetIndependentTrace.disabled = false; independentTraceFeedback.className = "lesson-lab-feedback"; independentTraceFeedback.textContent = "The correct trace has six executions of the inner body. Fill the table and check." }
+            document.getElementById("showIndependentTemplate").addEventListener("click", buildIndependentTrace);
+            checkIndependentTrace.addEventListener("click", () => { const rows = independentTraceArea.querySelectorAll("tbody tr"); let correct = 0, total = 0; rows.forEach((tr, rowIndex) => { const inputs = tr.querySelectorAll("input"), expected = independentAnswers[rowIndex]; inputs.forEach((input, colIndex) => { total++; const wanted = String(expected[colIndex]), got = input.value.trim(), cell = input.parentElement, isCorrect = got === wanted; cell.classList.remove("trace-cell-correct", "trace-cell-wrong"); cell.classList.add(isCorrect ? "trace-cell-correct" : "trace-cell-wrong"); if (isCorrect) correct++ }) }); const all = correct === total; independentTraceFeedback.className = `lesson-lab-feedback ${all ? "correct" : "wrong"}`; independentTraceFeedback.textContent = all ? 'Correct. Inner counts are 1 + 2 + 3 = 6. Exact output is: "0", then "01", then "012".' : `${correct} of ${total} cells are correct. Remember that j starts again at 0 for each new i.` });
+            resetIndependentTrace.addEventListener("click", buildIndependentTrace);
+
+            const growthRows = document.getElementById("growthRows"), growthOutput = document.getElementById("growthOutput"), growthCounts = document.getElementById("growthCounts");
+            function renderGrowth() { const rows = Number(growthRows.value); let output = "", counts = []; for (let i = 1; i <= rows; i++) { output += "*".repeat(i) + (i < rows ? "\n" : ""); counts.push(i) } const total = counts.reduce((a, b) => a + b, 0); growthOutput.textContent = output; growthCounts.textContent = `Inner counts: ${counts.join(" + ")} = ${total} total body executions.` }
+            growthRows.addEventListener("input", renderGrowth); renderGrowth();
+
+            const predictions = [
+                { code: `for i in range(2):\n    for j in range(3):\n        print(i, j)`, output: `0 0\n0 1\n0 2\n1 0\n1 1\n1 2`, why: "For i=0, j completes 0,1,2. Then i=1 and j restarts at 0." },
+                { code: `for i in range(1, 4):\n    for j in range(i):\n        print(j, end="")\n    print()`, output: `0\n01\n012`, why: "The inner range depends on i, so each row gets one more inner iteration." },
+                { code: `for i in range(3):\n    for j in range(2):\n        print("*", end="")\n    print()`, output: `**\n**\n**`, why: "Each outer iteration creates one row. The inner loop prints two stars before the newline." }
+            ];
+            let predictIndex = 0; const predictPrompt = document.getElementById("predictPrompt"), predictFeedback = document.getElementById("predictFeedback"), predictProgress = document.getElementById("predictProgress");
+            function loadPrediction() { const p = predictions[predictIndex]; predictPrompt.textContent = p.code; predictFeedback.textContent = "Trace the loop before revealing."; predictProgress.textContent = `Program ${predictIndex + 1} of ${predictions.length}` }
+            document.getElementById("revealPrediction").addEventListener("click", () => { const p = predictions[predictIndex]; predictFeedback.textContent = `Output:\n${p.output}\n\n${p.why}` });
+            document.getElementById("nextPrediction").addEventListener("click", () => { predictIndex = (predictIndex + 1) % predictions.length; loadPrediction() }); loadPrediction();
+
+            const placementPrograms = [
+                { code: `for i in range(3):\n    for j in range(4):\n        print("*", end="")\n    print()`, correct: true, why: "Correct. The inner loop prints four stars on one row; the outer-loop newline starts the next row." },
+                { code: `for i in range(3):\n    for j in range(4):\n        print("*")\n    print()`, correct: false, why: "This prints every star on its own line because print('*') uses the default newline." },
+                { code: `for i in range(3):\n    print()\n    for j in range(4):\n        print("*", end="")`, correct: false, why: "The newline happens before each row and creates a leading blank line." }
+            ];
+            const placementOptions = document.getElementById("placementOptions"), placementFeedback = document.getElementById("placementFeedback");
+            placementPrograms.forEach(p => { const b = document.createElement("button"); b.type = "button"; b.className = "lesson-choice-btn placement-choice"; b.textContent = p.code; b.addEventListener("click", () => { [...placementOptions.children].forEach(x => x.classList.remove("active")); b.classList.add("active"); placementFeedback.className = `lesson-lab-feedback ${p.correct ? "correct" : "wrong"}`; placementFeedback.textContent = p.why }); placementOptions.appendChild(b) });
+
+            const coordGrid = document.getElementById("coordGrid"), coordReadout = document.getElementById("coordReadout");
+            for (let i = 0; i < 4; i++) { for (let j = 0; j < 4; j++) { const c = document.createElement("button"); c.type = "button"; c.className = "coord-cell"; c.textContent = `(${i},${j})`; c.addEventListener("click", () => { [...coordGrid.children].forEach(x => x.classList.remove("active")); c.classList.add("active"); coordReadout.textContent = `Coordinate: (${i}, ${j})\n\nrow = i = ${i}\ncolumn = j = ${j}\n\nThe outer loop selected row ${i}.\nThe inner loop selected column ${j}.` }); coordGrid.appendChild(c) } }
+
+            const examples = {
+                rectangle: { title: "Star Rectangle", description: "The outer loop controls rows and the inner loop controls columns.", code: `rows = 4\ncols = 6\n\nfor i in range(rows):\n    for j in range(cols):\n        print("*", end=" ")\n    print()` },
+                triangle: { title: "Right Triangle", description: "The inner range depends on the outer variable, so the number of stars grows each row.", code: `for i in range(1, 6):\n    for j in range(i):\n        print("*", end=" ")\n    print()` },
+                table: { title: "Multiplication Table", description: "Rows and columns combine to produce each multiplication result.", code: `for i in range(1, 11):\n    for j in range(1, 11):\n        print(i * j, end="\\t")\n    print()` },
+                pyramid: { title: "Number Pyramid", description: "One outer loop can contain multiple inner loops: one for spaces and one for numbers.", code: `n = 5\n\nfor i in range(1, n + 1):\n    for s in range(n - i):\n        print(" ", end="")\n\n    for j in range(1, i + 1):\n        print(j, end="")\n\n    print()` }
+            };
+            const workedTabs = document.querySelectorAll("[data-example]"), workedTitle = document.getElementById("workedTitle"), workedDescription = document.getElementById("workedDescription"), workedInteractive = document.getElementById("workedInteractive"), workedCode = document.getElementById("workedCode");
+            function renderRectangleInteractive() { workedInteractive.innerHTML = `<div class="example-control"><div class="example-inputs"><label>Rows<input id="rectRows" type="number" min="1" max="8" value="4"></label><label>Columns<input id="rectCols" type="number" min="1" max="12" value="6"></label></div><pre id="rectOutput" class="pattern-output"></pre></div>`; const r = document.getElementById("rectRows"), c = document.getElementById("rectCols"), o = document.getElementById("rectOutput"); function render() { const rows = clamp(Number(r.value) || 1, 1, 8), cols = clamp(Number(c.value) || 1, 1, 12); r.value = rows; c.value = cols; o.textContent = Array.from({ length: rows }, () => Array(cols).fill("*").join(" ")).join("\n") } [r, c].forEach(x => x.addEventListener("input", render)); render() }
+            function renderTriangleInteractive() { workedInteractive.innerHTML = `<div class="example-control"><div class="example-inputs"><label>Rows<input id="triangleRows" type="range" min="1" max="8" value="5"></label><div id="triangleCount" class="grid-summary"></div></div><pre id="triangleOutput" class="pattern-output"></pre></div>`; const input = document.getElementById("triangleRows"), out = document.getElementById("triangleOutput"), count = document.getElementById("triangleCount"); function render() { const rows = Number(input.value); out.textContent = Array.from({ length: rows }, (_, i) => Array(i + 1).fill("*").join(" ")).join("\n"); const vals = Array.from({ length: rows }, (_, i) => i + 1), total = vals.reduce((a, b) => a + b, 0); count.textContent = `Rows: ${rows} · inner executions: ${vals.join(" + ")} = ${total}` } input.addEventListener("input", render); render() }
+            function renderTableInteractive() { workedInteractive.innerHTML = `<div id="multTableGrid" class="mult-table-grid"></div><div id="multReadout" class="mult-readout">Hover a result cell.</div>`; const g = document.getElementById("multTableGrid"), r = document.getElementById("multReadout"), size = 5; g.style.gridTemplateColumns = `repeat(${size + 1},minmax(42px,1fr))`; for (let row = 0; row <= size; row++) { for (let col = 0; col <= size; col++) { const c = document.createElement("div"); if (row === 0 || col === 0) { c.className = "mult-cell header"; c.textContent = row === 0 && col === 0 ? "×" : row === 0 ? col : row } else { c.className = "mult-cell"; c.textContent = row * col; c.addEventListener("mouseenter", () => { r.textContent = `row i=${row}, column j=${col} → ${row} × ${col} = ${row * col}` }) } g.appendChild(c) } } }
+            function renderPyramidInteractive() { workedInteractive.innerHTML = `<div class="pyramid-process"><div class="process-card"><code>for s in range(n - i)</code><p>First inner loop prints leading spaces.</p></div><div class="process-card"><code>for j in range(1, i + 1)</code><p>Second inner loop prints the numbers for that row.</p></div></div><pre class="pattern-output">    1\n   12\n  123\n 1234\n12345</pre>` }
+            function showExample(key) { const e = examples[key]; workedTitle.textContent = e.title; workedDescription.textContent = e.description; workedCode.textContent = e.code; if (key === "rectangle") renderRectangleInteractive(); if (key === "triangle") renderTriangleInteractive(); if (key === "table") renderTableInteractive(); if (key === "pyramid") renderPyramidInteractive(); workedTabs.forEach(b => b.classList.toggle("active", b.dataset.example === key)) }
+            workedTabs.forEach(b => b.addEventListener("click", () => showExample(b.dataset.example))); showExample("rectangle");
+
+            const perfOuter = document.getElementById("perfOuter"), perfInner = document.getElementById("perfInner"), perfThird = document.getElementById("perfThird"), perfTotal = document.getElementById("perfTotal"), perfExplanation = document.getElementById("perfExplanation");
+            function renderPerformance() { const o = Math.max(1, Number(perfOuter.value) || 1), i = Math.max(1, Number(perfInner.value) || 1), t = Math.max(0, Number(perfThird.value) || 0), total = t > 0 ? o * i * t : o * i; perfTotal.textContent = total.toLocaleString("en-US"); perfExplanation.textContent = t > 0 ? `${o} × ${i} × ${t} body executions` : `${o} × ${i} body executions` }
+            [perfOuter, perfInner, perfThird].forEach(x => x.addEventListener("input", renderPerformance)); renderPerformance();
+
+            const errors = [
+                { code: `for i in range(3):\n    for j in range(4):\n        print(i, j)`, answer: "correct", why: "Correct: separate variables, valid ranges and correct indentation." },
+                { code: `for i in range(3):\nfor j in range(4):\n    print(i, j)`, answer: "indentation", why: "The inner loop must be indented inside the outer loop." },
+                { code: `for i in range(3):\n    for i in range(4):\n        print(i)`, answer: "samevar", why: "The inner loop reuses i, so the current outer i value is overwritten during the inner loop." },
+                { code: `for i in range(3):\n    for j in range(i, 0):\n        print("*", end="")`, answer: "range", why: "With the default positive step, range(i, 0) is empty for positive i. A negative step would be required to count downward." },
+                { code: `for i in range(3):\n    for j in range(4):\n        print("*")\n    print()`, answer: "placement", why: "print('*') uses a newline every time, so the output does not form rows of four stars." }
+            ];
+            let errorIndex = 0; const errorCode = document.getElementById("errorCode"), errorChoices = document.querySelectorAll(".error-choice"), errorFeedback = document.getElementById("errorFeedback"), errorProgress = document.getElementById("errorProgress");
+            function loadError() { const e = errors[errorIndex]; errorCode.textContent = e.code; errorFeedback.className = "lesson-lab-feedback"; errorFeedback.textContent = "Identify the most important problem."; errorProgress.textContent = `Example ${errorIndex + 1} of ${errors.length}`; errorChoices.forEach(b => b.classList.remove("active")) }
+            errorChoices.forEach(b => b.addEventListener("click", () => { const e = errors[errorIndex], ok = b.dataset.error === e.answer; errorChoices.forEach(x => x.classList.remove("active")); b.classList.add("active"); errorFeedback.className = `lesson-lab-feedback ${ok ? "correct" : "wrong"}`; errorFeedback.innerHTML = `<strong>${ok ? "Correct." : "Not quite."}</strong><br>${e.why}` }));
+            document.getElementById("nextError").addEventListener("click", () => { errorIndex = (errorIndex + 1) % errors.length; loadError() }); loadError();
+
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
