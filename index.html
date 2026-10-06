@@ -10,13 +10,14 @@
   <meta name="description"
     content="Structured CS knowledge base for grades 11-12. Aligned with NIS 2025 standards and Cambridge AS & A Level 9618. Python programming and CS theory.">
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="mr. TEA — CS Knowledge Base | NIS 2025 &amp; Cambridge 9618">
-    <meta property="og:description" content="Structured CS knowledge base for grades 11-12. Aligned with NIS 2025 standards and Cambridge AS &amp; A Level 9618. Python programming and CS theory.">
-    <meta property="og:url" content="https://mr-tea.net/index.html">
-    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+  <meta property="og:title" content="mr. TEA — CS Knowledge Base | NIS 2025 &amp; Cambridge 9618">
+  <meta property="og:description"
+    content="Structured CS knowledge base for grades 11-12. Aligned with NIS 2025 standards and Cambridge AS &amp; A Level 9618. Python programming and CS theory.">
+  <meta property="og:url" content="https://mr-tea.net/index.html">
+  <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
@@ -766,6 +767,26 @@
       }
     });
   </script>
+  <script>
+    // Fix incorrectly displayed HTML entity &amp;
+    function fixAmpersands() {
+      document.querySelectorAll('a').forEach(link => {
+        if (link.textContent.includes('&amp;')) {
+          link.textContent = link.textContent.replace(/&amp;/g, '&');
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', fixAmpersands);
+
+    // Full Syllabus is generated dynamically, so watch for new elements
+    const ampObserver = new MutationObserver(fixAmpersands);
+    ampObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  </script>
+
 </body>
 
 </html>
