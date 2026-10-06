@@ -4,324 +4,2590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Game Loop — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description"
-        content="PyGame game loop: event handling, update, render cycle. FPS control with Clock. NIS Grade 12.">
 
-    <!-- Open Graph -->
+    <meta name="description"
+        content="PyGame game loop: event queue, update, render, display flip and FPS control with Clock. NIS Grade 12 Programming 12.5.1.3.">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
     <meta property="og:title" content="Game Loop — mr. TEA">
-    <meta property="og:description" content="PyGame game loop: event handling, update, render cycle. FPS control with Clock. NIS Grade 12.">
+    <meta property="og:description"
+        content="PyGame game loop: event queue, update, render, display flip and FPS control with Clock. NIS Grade 12 Programming 12.5.1.3.">
     <meta property="og:url" content="https://mr-tea.net/pages/12-programming/term2/game-loop.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
+    <style>
+        /* ============================================================
+           PAGE-SPECIFIC STYLES ONLY
+           Shared labs, tabs, feedback, exam and quiz styles live in
+           /css/lesson.css
+           ============================================================ */
+
+        /* ---------- Film projector ---------- */
+
+        .film-anchor-grid {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .film-strip {
+            min-height: 270px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            align-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .film-frame {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border: 3px solid #202124;
+            border-radius: 7px;
+            background: #f7f7f7;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .film-frame::before,
+        .film-frame::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 9px;
+            background:
+                repeating-linear-gradient(90deg,
+                    #202124 0 10px,
+                    transparent 10px 18px);
+            z-index: 2;
+        }
+
+        .film-frame::before {
+            top: 0;
+        }
+
+        .film-frame::after {
+            bottom: 0;
+        }
+
+        .film-player {
+            position: absolute;
+            width: 22%;
+            aspect-ratio: 1;
+            top: 43%;
+            border-radius: 5px;
+            background: var(--clr-tea);
+            transform: translateY(-50%);
+        }
+
+        .film-frame:nth-child(1) .film-player {
+            left: 8%;
+        }
+
+        .film-frame:nth-child(2) .film-player {
+            left: 30%;
+        }
+
+        .film-frame:nth-child(3) .film-player {
+            left: 52%;
+        }
+
+        .film-frame:nth-child(4) .film-player {
+            left: 70%;
+        }
+
+        .film-label {
+            position: absolute;
+            left: 50%;
+            bottom: 15px;
+            transform: translateX(-50%);
+            color: #3f4650;
+            font: 800 .54rem var(--font-code);
+            white-space: nowrap;
+        }
+
+        /* ---------- Loop cycle ---------- */
+
+        .cycle-layout {
+            display: grid;
+            grid-template-columns: .86fr 1.14fr;
+            gap: var(--space-lg);
+            align-items: stretch;
+        }
+
+        .cycle-ring {
+            position: relative;
+            min-height: 410px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+
+        .cycle-center {
+            width: 120px;
+            height: 120px;
+            display: grid;
+            place-items: center;
+            position: relative;
+            z-index: 3;
+            border: 2px solid var(--clr-tea);
+            border-radius: 50%;
+            background: rgba(13, 148, 136, .08);
+            color: var(--text-primary);
+            text-align: center;
+            font-size: .66rem;
+            font-weight: 850;
+        }
+
+        .cycle-node {
+            width: 118px;
+            min-height: 74px;
+            display: grid;
+            place-items: center;
+            position: absolute;
+            z-index: 3;
+            padding: .55rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .6rem;
+            font-weight: 750;
+            transition: all .2s ease;
+        }
+
+        .cycle-node i {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--clr-tea);
+        }
+
+        .cycle-node.active {
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .12);
+            color: var(--clr-tea);
+            transform: scale(1.05);
+        }
+
+        .cycle-node.events {
+            top: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cycle-node.update {
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+        }
+
+        .cycle-node.render {
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cycle-node.fps {
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+        }
+
+        .cycle-node.events.active {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .cycle-node.update.active {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .cycle-node.render.active {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .cycle-node.fps.active {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .cycle-path {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border: 2px dashed var(--border-hover);
+            border-radius: 50%;
+        }
+
+        .cycle-simulator {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+        }
+
+        .cycle-state-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        .cycle-state-box {
+            padding: .55rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .cycle-state-box span {
+            display: block;
+            color: var(--text-muted);
+            font-size: .56rem;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .cycle-state-box code {
+            color: var(--clr-tea);
+            font: 850 .72rem var(--font-code);
+        }
+
+        .cycle-log {
+            min-height: 140px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-secondary);
+            font: 700 .66rem/1.5 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        /* ---------- Loop anatomy ---------- */
+
+        .loop-anatomy {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .loop-anatomy-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .loop-anatomy-card code {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--clr-tea);
+            font: 800 .66rem/1.45 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        .loop-anatomy-card strong {
+            display: block;
+            margin-bottom: .18rem;
+            color: var(--text-primary);
+            font-size: .66rem;
+        }
+
+        .loop-anatomy-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .6rem;
+            line-height: 1.38;
+        }
+
+        .running-flow {
+            display: grid;
+            grid-template-columns: repeat(7, auto);
+            gap: var(--space-xs);
+            align-items: center;
+            justify-content: center;
+            margin: var(--space-lg) 0;
+        }
+
+        .running-box {
+            min-height: 66px;
+            display: grid;
+            place-items: center;
+            padding: .55rem .65rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            text-align: center;
+            font: 700 .62rem/1.35 var(--font-code);
+        }
+
+        .running-arrow {
+            color: var(--clr-tea);
+            font-weight: 900;
+        }
+
+        /* ---------- Event queue ---------- */
+
+        .event-queue-layout {
+            display: grid;
+            grid-template-columns: .75fr 1.25fr;
+            gap: var(--space-lg);
+        }
+
+        .event-source {
+            display: grid;
+            gap: var(--space-sm);
+            align-content: start;
+        }
+
+        .event-source-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .event-source-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .68rem;
+        }
+
+        .event-source-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .61rem;
+            line-height: 1.38;
+        }
+
+        .queue-panel {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .queue-box,
+        .processing-box {
+            min-height: 92px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            align-content: flex-start;
+            padding: var(--space-md);
+            border: 1px dashed var(--border-hover);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+        }
+
+        .processing-box {
+            margin-top: var(--space-sm);
+        }
+
+        .queue-chip {
+            padding: .42rem .55rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font: 750 .6rem var(--font-code);
+        }
+
+        .queue-chip.quit {
+            border-color: rgba(239, 68, 68, .45);
+            color: #ef4444;
+        }
+
+        .queue-label {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--text-muted);
+            font-size: .58rem;
+            font-weight: 850;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        /* ---------- Quit tracer ---------- */
+
+        .quit-tracer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        .quit-code {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+        }
+
+        .quit-code-line {
+            padding: .42rem .5rem;
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font: 700 .66rem/1.45 var(--font-code);
+        }
+
+        .quit-code-line.active {
+            background: rgba(13, 148, 136, .12);
+            outline: 1px solid var(--clr-tea);
+        }
+
+        .quit-state {
+            min-height: 245px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .quit-state pre {
+            margin: 0;
+            color: var(--text-secondary);
+            font: 700 .68rem/1.55 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        /* ---------- Render pipeline ---------- */
+
+        .render-pipeline {
+            display: grid;
+            grid-template-columns: repeat(7, auto);
+            gap: var(--space-xs);
+            align-items: center;
+            justify-content: center;
+            margin: var(--space-md) 0;
+        }
+
+        .render-step {
+            min-width: 115px;
+            min-height: 88px;
+            display: grid;
+            place-items: center;
+            padding: .55rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .render-step i {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--clr-tea);
+        }
+
+        .render-step strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .65rem;
+        }
+
+        .render-step code {
+            color: var(--clr-tea);
+            font: 700 .58rem var(--font-code);
+        }
+
+        .render-arrow {
+            color: var(--clr-tea);
+            font-weight: 900;
+        }
+
+        .render-lab-grid {
+            display: grid;
+            grid-template-columns: .85fr 1.15fr;
+            gap: var(--space-lg);
+        }
+
+        .render-preview {
+            min-height: 260px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background:
+                linear-gradient(45deg, var(--bg-glass) 25%, transparent 25%) 0 0/18px 18px,
+                linear-gradient(45deg, transparent 75%, var(--bg-glass) 75%) 0 0/18px 18px,
+                var(--bg-card);
+        }
+
+        .mini-game-window {
+            width: 78%;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            border: 2px solid var(--border-hover);
+            border-radius: 8px;
+            background: #202124;
+            box-shadow: var(--shadow-md);
+        }
+
+        .mini-game-title {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 .55rem;
+            background: #303136;
+            color: #fff;
+            font-size: .58rem;
+            font-weight: 750;
+        }
+
+        .mini-game-screen {
+            height: calc(100% - 30px);
+            display: grid;
+            place-items: center;
+            position: relative;
+            background: #202124;
+        }
+
+        .mini-player {
+            width: 38px;
+            height: 38px;
+            border-radius: 6px;
+            background: var(--clr-tea);
+        }
+
+        .render-lab-controls {
+            display: grid;
+            gap: var(--space-sm);
+            align-content: start;
+        }
+
+        .render-order-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+            cursor: pointer;
+        }
+
+        .render-order-card:hover,
+        .render-order-card.active {
+            border-color: var(--clr-tea);
+        }
+
+        .render-order-card code {
+            display: block;
+            color: var(--clr-tea);
+            font: 700 .64rem/1.45 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        /* ---------- FPS lab ---------- */
+
+        .fps-layout {
+            display: grid;
+            grid-template-columns: .7fr 1.3fr;
+            gap: var(--space-lg);
+        }
+
+        .fps-controls {
+            display: grid;
+            gap: var(--space-md);
+            align-content: start;
+        }
+
+        .fps-controls label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            font-weight: 800;
+        }
+
+        .fps-controls input {
+            width: 100%;
+            margin-top: .45rem;
+        }
+
+        .fps-readout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+        }
+
+        .fps-card {
+            min-height: 130px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .fps-card strong {
+            display: block;
+            color: var(--clr-tea);
+            font: 900 1.1rem var(--font-code);
+        }
+
+        .fps-card span {
+            display: block;
+            margin-top: .3rem;
+            color: var(--text-muted);
+            font-size: .6rem;
+        }
+
+        .fps-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+
+        .fps-compare-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .fps-compare-card strong {
+            display: block;
+            margin-bottom: .4rem;
+            color: var(--text-primary);
+            font-size: .7rem;
+        }
+
+        .fps-samples {
+            color: var(--text-secondary);
+            font: 700 .68rem/1.55 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        /* ---------- Templates ---------- */
+
+        .template-anatomy {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0;
+        }
+
+        .template-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+
+        .template-card strong {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--text-primary);
+            font-size: .66rem;
+        }
+
+        .template-card code {
+            color: var(--clr-tea);
+            font: 700 .61rem/1.4 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        /* ---------- Build the loop ---------- */
+
+        .build-loop-target {
+            min-height: 125px;
+            padding: var(--space-lg);
+            border: 1px dashed var(--border-hover);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+        }
+
+        .build-loop-sequence {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+        }
+
+        .build-chip {
+            padding: .45rem .58rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font: 750 .6rem var(--font-code);
+        }
+
+        .build-chip.correct {
+            border-color: var(--clr-tea);
+            color: var(--clr-tea);
+        }
+
+        /* ---------- Error lab ---------- */
+
+        .loop-error-code {
+            min-height: 160px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .7rem/1.55 var(--font-code);
+            white-space: pre-wrap;
+        }
+
+        /* ---------- Responsive ---------- */
+
+        @media (max-width: 1050px) {
+
+            .loop-anatomy,
+            .template-anatomy {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .running-flow,
+            .render-pipeline {
+                grid-template-columns: 1fr;
+            }
+
+            .running-arrow,
+            .render-arrow {
+                transform: rotate(90deg);
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 850px) {
+
+            .film-anchor-grid,
+            .cycle-layout,
+            .event-queue-layout,
+            .quit-tracer-grid,
+            .render-lab-grid,
+            .fps-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .fps-readout,
+            .fps-compare {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .film-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .loop-anatomy,
+            .template-anatomy {
+                grid-template-columns: 1fr;
+            }
+
+            .cycle-state-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-<div class="layout-wrapper">
-    <main class="main-content">
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
-                <span>12.2A — Game Loop</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.2A · Term 2</div>
-                <h1 class="lesson-title">Game Loop</h1>
-                <p class="lesson-intro">The <strong>game loop</strong> is the heartbeat of every game. It runs
-                    continuously — <strong>handling events</strong>, <strong>updating state</strong>, and
-                    <strong>rendering visuals</strong> — dozens of times per second.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.5.1.3</span> Code the game loop of the application</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.2A-game-loop.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                    <a href="/" class="logo" style="margin-left:15px;">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
+            <div class="lesson-page">
+                <div class="lesson-container">
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-sync-alt"></i> The Film Projector Analogy</h4>
-                    <p>A movie projector shows 24 frames per second — each frame is a still image, but played fast they
-                        create the illusion of motion. A game loop does the same: <strong>clear screen → draw new frame
-                            → show it → repeat</strong>. The faster this cycle runs (FPS), the smoother the game feels.
-                    </p>
-                </div>
-            </section>
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 12 PROG</a>
+                        <span class="sep">/</span>
+                        <span>12.2A — Game Loop</span>
+                    </nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fab fa-python"></i> Unit 12.2A · Term 2
+                        </div>
 
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">The 3 Phases of a
-                    Game Loop</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Phase</th>
-                            <th>What Happens</th>
-                            <th>Code</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>1. Handle Events</strong></td>
-                            <td>Process user input (keys, mouse, quit)</td>
-                            <td><code>pygame.event.get()</code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>2. Update State</strong></td>
-                            <td>Move objects, check collisions, update scores</td>
-                            <td>Game logic code</td>
-                        </tr>
-                        <tr>
-                            <td><strong>3. Render (Draw)</strong></td>
-                            <td>Clear screen, draw everything, display</td>
-                            <td><code>screen.fill()</code> + <code>draw</code> + <code>flip()</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <h1 class="lesson-title">Game Loop</h1>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">FPS
-                    Control with Clock</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Command</th>
-                            <th>Purpose</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>clock = pygame.time.Clock()</code></td>
-                            <td>Create a Clock object</td>
-                        </tr>
-                        <tr>
-                            <td><code>clock.tick(60)</code></td>
-                            <td>Limit loop to 60 FPS maximum</td>
-                        </tr>
-                        <tr>
-                            <td><code>clock.get_fps()</code></td>
-                            <td>Get actual frames per second</td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <p class="lesson-intro">
+                            The <strong>game loop</strong> is the heartbeat of a real-time game.
+                            While the application is running, it repeatedly
+                            <strong>handles events</strong>, <strong>updates game state</strong>,
+                            <strong>renders the next frame</strong>, and controls the speed of the cycle.
+                        </p>
+                    </div>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Event
-                    Types</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Event</th>
-                            <th>When It Fires</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>pygame.QUIT</code></td>
-                            <td>User clicks the window close button (✕)</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.KEYDOWN</code></td>
-                            <td>A key is pressed down</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.KEYUP</code></td>
-                            <td>A key is released</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.MOUSEBUTTONDOWN</code></td>
-                            <td>A mouse button is pressed</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.MOUSEMOTION</code></td>
-                            <td>The mouse is moved</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objective</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">12.5.1.3</span> Code the game loop of the application</li>
+                        </ul>
+                    </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                    <!-- =========================================================
+     VIDEO
+     ========================================================= -->
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Standard Game Loop Template</h4>
-                    <div class="code-block"><code>import pygame
-import sys
+                            <div class="lesson-video-info">
+                                <h4 id="lessonVideoTitle">How Games Work</h4>
+                                <p id="lessonVideoDescription">
+                                    Clear Code — how games create movement from repeated frames. Starts at 01:06.
+                                </p>
+                            </div>
+                        </div>
 
-pygame.init()
+                        <div class="video-tabs">
+                            <button class="video-tab active" data-video="frames" type="button">
+                                <i class="fas fa-film"></i> How Games Work
+                            </button>
 
-# --- Setup ---
-WIDTH, HEIGHT = 800, 600
-FPS = 60
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game Loop Demo")
-clock = pygame.time.Clock()
+                            <button class="video-tab" data-video="loop" type="button">
+                                <i class="fas fa-repeat"></i> Window + Clock + Loop
+                            </button>
+                        </div>
 
-# --- Colors ---
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
+                        <div class="lesson-video-wrapper">
+                            <iframe id="lessonVideoFrame"
+                                src="https://www.youtube-nocookie.com/embed/AY9MnQ4x3zk?start=66&rel=0"
+                                title="Clear Code - How games work" loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
 
-# --- Game Loop ---
-running = True
+                    <nav class="lesson-section-jump" aria-label="Lesson sections">
+                        <a href="#cycle">Cycle</a>
+                        <a href="#anatomy">Anatomy</a>
+                        <a href="#events">Events</a>
+                        <a href="#render">Render</a>
+                        <a href="#fps">FPS</a>
+                        <a href="#templates">Templates</a>
+                        <a href="#errors">Errors</a>
+                        <a href="#practice">Practice</a>
+                    </nav>
+
+                    <!-- =========================================================
+     FILM PROJECTOR
+     ========================================================= -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="film-anchor-grid">
+                            <div class="analogy-box" style="margin:0;">
+                                <h4><i class="fas fa-film"></i> The Film Projector Analogy</h4>
+                                <p>
+                                    A film creates the illusion of motion by showing many still frames
+                                    in rapid succession. A game does the same thing, except each frame
+                                    is produced by code: <strong>read input → update state → draw the
+                                        current state → show the frame → repeat</strong>.
+                                </p>
+                            </div>
+
+                            <div class="film-strip" aria-label="Four successive game frames">
+                                <div class="film-frame">
+                                    <span class="film-player"></span>
+                                    <span class="film-label">Frame 1</span>
+                                </div>
+                                <div class="film-frame">
+                                    <span class="film-player"></span>
+                                    <span class="film-label">Frame 2</span>
+                                </div>
+                                <div class="film-frame">
+                                    <span class="film-player"></span>
+                                    <span class="film-label">Frame 3</span>
+                                </div>
+                                <div class="film-frame">
+                                    <span class="film-player"></span>
+                                    <span class="film-label">Frame 4</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =========================================================
+     CYCLE SIMULATOR
+     ========================================================= -->
+                    <section class="lesson-section" id="cycle">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-rotate"></i> One Frame of the Game Loop
+                        </h2>
+
+                        <div class="cycle-layout">
+                            <div class="cycle-ring">
+                                <div class="cycle-path"></div>
+
+                                <div class="cycle-node events" data-cycle-node="events">
+                                    <div><i class="fas fa-inbox"></i>Handle Events</div>
+                                </div>
+
+                                <div class="cycle-node update" data-cycle-node="update">
+                                    <div><i class="fas fa-gears"></i>Update State</div>
+                                </div>
+
+                                <div class="cycle-node render" data-cycle-node="render">
+                                    <div><i class="fas fa-display"></i>Render Frame</div>
+                                </div>
+
+                                <div class="cycle-node fps" data-cycle-node="fps">
+                                    <div><i class="fas fa-gauge-high"></i>Control FPS</div>
+                                </div>
+
+                                <div class="cycle-center">
+                                    GAME LOOP
+                                </div>
+                            </div>
+
+                            <div class="cycle-simulator">
+                                <div class="cycle-state-grid">
+                                    <div class="cycle-state-box">
+                                        <span>Frame</span>
+                                        <code id="cycleFrame">1</code>
+                                    </div>
+
+                                    <div class="cycle-state-box">
+                                        <span>running</span>
+                                        <code id="cycleRunning">True</code>
+                                    </div>
+
+                                    <div class="cycle-state-box">
+                                        <span>Phase</span>
+                                        <code id="cyclePhase">Events</code>
+                                    </div>
+                                </div>
+
+                                <div id="cycleLog" class="cycle-log"></div>
+
+                                <div class="lesson-tabs">
+                                    <button id="cycleNext" class="lesson-lab-btn" type="button">Next phase</button>
+                                    <button id="cycleReset" class="lesson-lab-btn" type="button">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Phase</th>
+                                    <th>Purpose</th>
+                                    <th>Typical PyGame code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1. Handle Events</strong></td>
+                                    <td>Read queued events such as QUIT or key presses</td>
+                                    <td><code>pygame.event.get()</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. Update State</strong></td>
+                                    <td>Change positions, scores, timers and other game data</td>
+                                    <td>Game logic</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. Render</strong></td>
+                                    <td>Clear the old frame, draw the new state and show it</td>
+                                    <td><code>fill()</code> + draw + <code>flip()</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. Control FPS</strong></td>
+                                    <td>Limit how quickly frames repeat</td>
+                                    <td><code>clock.tick(FPS)</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =========================================================
+     ANATOMY
+     ========================================================= -->
+                    <section class="lesson-section" id="anatomy">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code"></i> Anatomy of the Game Loop
+                        </h2>
+
+                        <div class="code-block"><code>running = True
+
 while running:
-    # Phase 1: HANDLE EVENTS
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    # update game state
+
+    screen.fill(BLACK)
+    # draw current game state
+
+    pygame.display.flip()
+    clock.tick(FPS)
+
+pygame.quit()</code></div>
+
+                        <div class="loop-anatomy">
+                            <div class="loop-anatomy-card">
+                                <code>while running:</code>
+                                <strong>Repeat frames</strong>
+                                <p>The program keeps producing frames while the control variable remains True.</p>
+                            </div>
+
+                            <div class="loop-anatomy-card">
+                                <code>pygame.event.get()</code>
+                                <strong>Handle events</strong>
+                                <p>Retrieve queued PyGame events so the application can react.</p>
+                            </div>
+
+                            <div class="loop-anatomy-card">
+                                <code>screen.fill(...)
+pygame.display.flip()</code>
+                                <strong>Render</strong>
+                                <p>Prepare the current frame and then make the complete display Surface visible.</p>
+                            </div>
+
+                            <div class="loop-anatomy-card">
+                                <code>clock.tick(FPS)</code>
+                                <strong>Control speed</strong>
+                                <p>Limit the loop so it does not run unrestricted as fast as the CPU allows.</p>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Why while running?
+                        </h3>
+
+                        <div class="running-flow">
+                            <div class="running-box">running = True</div>
+                            <div class="running-arrow">→</div>
+                            <div class="running-box">while running</div>
+                            <div class="running-arrow">→</div>
+                            <div class="running-box">one frame</div>
+                            <div class="running-arrow">→</div>
+                            <div class="running-box">running still True? ↺</div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-door-open"></i> How the loop ends</h4>
+                            <p>
+                                When a <code>pygame.QUIT</code> event is found, the program sets
+                                <code>running = False</code>. The current iteration finishes,
+                                the <code>while</code> condition fails on the next check, and
+                                execution continues after the loop to <code>pygame.quit()</code>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =========================================================
+     EVENTS / QUEUE
+     ========================================================= -->
+                    <section class="lesson-section" id="events">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-inbox"></i> Event Queue
+                        </h2>
+
+                        <div class="event-queue-layout">
+                            <div class="event-source">
+                                <div class="event-source-card">
+                                    <strong>Operating system / devices</strong>
+                                    <p>
+                                        Mouse movement, keyboard actions and window controls generate events.
+                                    </p>
+                                </div>
+
+                                <div class="event-source-card">
+                                    <strong>PyGame event queue</strong>
+                                    <p>
+                                        Events wait in a queue until your program retrieves and handles them.
+                                    </p>
+                                </div>
+
+                                <div class="event-source-card">
+                                    <strong>pygame.event.get()</strong>
+                                    <p>
+                                        Gets the queued events so a <code>for event in ...</code> loop can process them.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="queue-panel">
+                                <span class="queue-label">Event queue</span>
+                                <div id="eventQueue" class="queue-box"></div>
+
+                                <div class="lesson-tabs">
+                                    <button class="lesson-lab-btn add-event" data-event="QUIT" type="button">Add
+                                        QUIT</button>
+                                    <button class="lesson-lab-btn add-event" data-event="KEYDOWN" type="button">Add
+                                        KEYDOWN</button>
+                                    <button class="lesson-lab-btn add-event" data-event="MOUSEMOTION" type="button">Add
+                                        MOUSEMOTION</button>
+                                    <button id="getEvents" class="lesson-lab-btn" type="button">Call
+                                        pygame.event.get()</button>
+                                    <button id="resetEvents" class="lesson-lab-btn" type="button">Reset</button>
+                                </div>
+
+                                <span class="queue-label">Events returned for processing</span>
+                                <div id="processingQueue" class="processing-box"></div>
+
+                                <div id="queueFeedback" class="lesson-lab-feedback">
+                                    Add some events, then call pygame.event.get().
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-triangle-exclamation"></i> Why process events regularly?</h4>
+                            <p>
+                                The event queue has a limit and should be serviced every frame.
+                                If your application stops processing events for too long, the operating
+                                system may consider the program unresponsive.
+                            </p>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            QUIT Event Tracer
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="quit-tracer-grid">
+                                <div class="quit-code">
+                                    <div class="quit-code-line" data-quit-line="1">for event in pygame.event.get():
+                                    </div>
+                                    <div class="quit-code-line" data-quit-line="2">&nbsp;&nbsp;&nbsp;&nbsp;if event.type
+                                        == pygame.QUIT:</div>
+                                    <div class="quit-code-line" data-quit-line="3">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;running = False</div>
+                                </div>
+
+                                <div class="quit-state">
+                                    <pre id="quitTracerState"></pre>
+
+                                    <div class="lesson-tabs">
+                                        <button id="quitNext" class="lesson-lab-btn" type="button">Process next
+                                            event</button>
+                                        <button id="quitReset" class="lesson-lab-btn" type="button">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Role in this unit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>pygame.QUIT</code></td>
+                                    <td><strong>Core today:</strong> user requests that the window close</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pygame.KEYDOWN</code></td>
+                                    <td><strong>Preview:</strong> a key has been pressed</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pygame.KEYUP</code></td>
+                                    <td><strong>Preview:</strong> a key has been released</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pygame.MOUSEBUTTONDOWN</code></td>
+                                    <td>Coming later: Mouse Control</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pygame.MOUSEMOTION</code></td>
+                                    <td>Coming later: Mouse Control</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- =========================================================
+     RENDER
+     ========================================================= -->
+                    <section class="lesson-section" id="render">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-display"></i> Render Pipeline
+                        </h2>
+
+                        <div class="render-pipeline">
+                            <div class="render-step">
+                                <div><i class="fas fa-image"></i><strong>Old frame</strong></div>
+                            </div>
+
+                            <div class="render-arrow">→</div>
+
+                            <div class="render-step">
+                                <div><i class="fas fa-eraser"></i><strong>Clear</strong><code>screen.fill()</code></div>
+                            </div>
+
+                            <div class="render-arrow">→</div>
+
+                            <div class="render-step">
+                                <div><i class="fas fa-pencil"></i><strong>Draw state</strong><code># draw...</code>
+                                </div>
+                            </div>
+
+                            <div class="render-arrow">→</div>
+
+                            <div class="render-step">
+                                <div><i class="fas fa-eye"></i><strong>Show frame</strong><code>display.flip()</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Why pygame.display.flip()?</h4>
+                            <p>
+                                After you prepare the current frame on the display Surface,
+                                <code>pygame.display.flip()</code> updates the full display so the
+                                user can see that frame.
+                            </p>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Render Order Lab
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <div class="render-lab-grid">
+                                <div class="render-preview">
+                                    <div class="mini-game-window">
+                                        <div class="mini-game-title">Render Preview</div>
+                                        <div id="renderScreen" class="mini-game-screen">
+                                            <span id="miniPlayer" class="mini-player"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="render-lab-controls">
+                                    <div class="render-order-card" data-render-order="correct">
+                                        <code>fill → draw → flip</code>
+                                    </div>
+
+                                    <div class="render-order-card" data-render-order="covered">
+                                        <code>draw → fill → flip</code>
+                                    </div>
+
+                                    <div class="render-order-card" data-render-order="notshown">
+                                        <code>fill → draw
+# no flip()</code>
+                                    </div>
+
+                                    <div id="renderFeedback" class="lesson-lab-feedback">
+                                        Choose an order and observe the result.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =========================================================
+     FPS
+     ========================================================= -->
+                    <section class="lesson-section" id="fps">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-gauge-high"></i> FPS Control with Clock
+                        </h2>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Command</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>clock = pygame.time.Clock()</code></td>
+                                    <td>Create one Clock object before the game loop</td>
+                                </tr>
+                                <tr>
+                                    <td><code>clock.tick(60)</code></td>
+                                    <td>Limit the loop to approximately a maximum of 60 frames per second</td>
+                                </tr>
+                                <tr>
+                                    <td><code>clock.get_fps()</code></td>
+                                    <td>Estimate the current frame rate measured by the Clock</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="lesson-lab">
+                            <div class="fps-layout">
+                                <div class="fps-controls">
+                                    <label>
+                                        Target / maximum FPS
+                                        <input id="fpsSlider" type="range" min="15" max="144" step="1" value="60">
+                                    </label>
+
+                                    <div class="lesson-tabs">
+                                        <button class="lesson-lab-btn fps-preset" data-fps="30" type="button">30
+                                            FPS</button>
+                                        <button class="lesson-lab-btn fps-preset" data-fps="60" type="button">60
+                                            FPS</button>
+                                        <button class="lesson-lab-btn fps-preset" data-fps="120" type="button">120
+                                            FPS</button>
+                                    </div>
+                                </div>
+
+                                <div class="fps-readout">
+                                    <div class="fps-card">
+                                        <div>
+                                            <strong id="fpsValue">60</strong>
+                                            <span>target/max FPS</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="fps-card">
+                                        <div>
+                                            <strong id="msValue">16.7 ms</strong>
+                                            <span>ideal time per frame</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="fps-card">
+                                        <div>
+                                            <strong id="frames10Value">600</strong>
+                                            <span>frames in 10 seconds</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fps-compare">
+                                <div class="fps-compare-card">
+                                    <strong>Without clock.tick()</strong>
+                                    <div class="fps-samples">437 FPS
+                                        812 FPS
+                                        526 FPS
+                                        as fast as CPU allows</div>
+                                </div>
+
+                                <div class="fps-compare-card">
+                                    <strong>With clock.tick(60)</strong>
+                                    <div class="fps-samples">59 FPS
+                                        60 FPS
+                                        60 FPS
+                                        approximately limited</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <details class="lesson-compact-details">
+                            <summary>Extension: delta time preview</summary>
+                            <div class="lesson-details-body">
+                                <div class="code-block"><code>dt = clock.tick(60) / 1000</code></div>
+
+                                <p class="concept-text">
+                                    <code>tick()</code> returns elapsed milliseconds. Dividing by 1000
+                                    gives seconds. Later, during Movement & Animation, delta time can be
+                                    used for frame-rate-independent motion.
+                                </p>
+                            </div>
+                        </details>
+                    </section>
+
+                    <!-- =========================================================
+     TEMPLATES
+     ========================================================= -->
+                    <section class="lesson-section" id="templates">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-branch"></i> Game Loop Templates
+                        </h2>
+
+                        <div class="lesson-tabs-label">
+                            <i class="fas fa-hand-pointer"></i>
+                            <span>Choose a template:</span>
+                        </div>
+
+                        <div class="lesson-tabs lesson-tabs--examples">
+                            <button class="lesson-tab active" data-template="minimal" type="button">
+                                <i class="fas fa-seedling"></i><span>Minimal</span>
+                            </button>
+
+                            <button class="lesson-tab" data-template="escape" type="button">
+                                <i class="fas fa-keyboard"></i><span>With ESC</span>
+                            </button>
+
+                            <button class="lesson-tab" data-template="fps" type="button">
+                                <i class="fas fa-gauge"></i><span>With FPS</span>
+                            </button>
+                        </div>
+
+                        <div class="lesson-tab-panel">
+                            <h4 id="templateTitle"></h4>
+                            <p id="templateDescription"></p>
+
+                            <div class="code-block">
+                                <code id="templateCode"></code>
+                            </div>
+                        </div>
+
+                        <div class="template-anatomy">
+                            <div class="template-card">
+                                <strong>Events</strong>
+                                <code>for event in pygame.event.get():</code>
+                            </div>
+
+                            <div class="template-card">
+                                <strong>Update</strong>
+                                <code># change game state</code>
+                            </div>
+
+                            <div class="template-card">
+                                <strong>Render</strong>
+                                <code>fill → draw → flip</code>
+                            </div>
+
+                            <div class="template-card">
+                                <strong>Timing</strong>
+                                <code>clock.tick(FPS)</code>
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Build the Game Loop
+                        </h3>
+
+                        <div class="lesson-lab">
+                            <p class="concept-text">
+                                Click the phases in the correct order for one frame.
+                            </p>
+
+                            <div class="lesson-lab-options five">
+                                <button class="lesson-choice-btn build-loop-btn" data-build="Render"
+                                    type="button">Render</button>
+                                <button class="lesson-choice-btn build-loop-btn" data-build="Events"
+                                    type="button">Handle Events</button>
+                                <button class="lesson-choice-btn build-loop-btn" data-build="FPS" type="button">Control
+                                    FPS</button>
+                                <button class="lesson-choice-btn build-loop-btn" data-build="Update"
+                                    type="button">Update State</button>
+                                <button class="lesson-choice-btn build-loop-btn" data-build="Next" type="button">Next
+                                    Frame</button>
+                            </div>
+
+                            <div class="build-loop-target">
+                                <div id="buildLoopSequence" class="build-loop-sequence"></div>
+                            </div>
+
+                            <div class="lesson-tabs">
+                                <button id="resetBuildLoop" class="lesson-lab-btn" type="button">Reset</button>
+                            </div>
+
+                            <div id="buildLoopFeedback" class="lesson-lab-feedback">
+                                Correct order: Events → Update → Render → FPS → Next Frame.
+                            </div>
+                        </div>
+
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            What Belongs Where?
+                        </h3>
+
+                        <div id="belongsWhere" class="lesson-lab"></div>
+
+                        <details class="lesson-compact-details">
+                            <summary>Extension: display FPS on the game screen</summary>
+
+                            <div class="lesson-details-body">
+                                <p class="concept-text">
+                                    This requires <code>pygame.font</code>, <code>font.render()</code>
+                                    and <code>blit()</code>, so it is intentionally an extension rather
+                                    than core Game Loop content.
+                                </p>
+
+                                <div class="code-block"><code>font = pygame.font.SysFont("Arial", 24)
+
+fps_text = font.render(
+    f"FPS: {clock.get_fps():.0f}",
+    True,
+    (0, 255, 0)
+)
+
+screen.blit(fps_text, (10, 10))</code></div>
+                            </div>
+                        </details>
+                    </section>
+
+                    <!-- =========================================================
+     ERROR LAB
+     ========================================================= -->
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-bug"></i> Game Loop Error Lab
+                        </h2>
+
+                        <div class="lesson-lab">
+                            <div id="loopErrorCode" class="loop-error-code"></div>
+
+                            <div class="lesson-lab-options five">
+                                <button class="lesson-choice-btn loop-error-choice" data-error="events"
+                                    type="button">Events not processed</button>
+                                <button class="lesson-choice-btn loop-error-choice" data-error="render"
+                                    type="button">Wrong render order</button>
+                                <button class="lesson-choice-btn loop-error-choice" data-error="flip"
+                                    type="button">Missing flip()</button>
+                                <button class="lesson-choice-btn loop-error-choice" data-error="clock"
+                                    type="button">Clock misuse</button>
+                                <button class="lesson-choice-btn loop-error-choice" data-error="quit" type="button">QUIT
+                                    misuse</button>
+                            </div>
+
+                            <div id="loopErrorFeedback" class="lesson-lab-feedback">
+                                Identify the most important game-loop problem.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="loopErrorProgress"></span>
+                                <button id="nextLoopError" class="lesson-lab-btn" type="button">Next example</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =========================================================
+     PITFALLS
+     ========================================================= -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Pitfalls & Common Errors
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Not processing events</h4>
+                            <p>
+                                A game window must keep servicing its event queue. Otherwise it can
+                                become unresponsive and the operating system may report it as frozen.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> No clock.tick() = unrestricted loop speed</h4>
+                            <p>
+                                Without an FPS limit, the loop can run as quickly as the machine allows,
+                                wasting resources and making frame-dependent behaviour inconsistent.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Drawing before clearing</h4>
+                            <p>
+                                If you draw an object and then call <code>screen.fill()</code>,
+                                the background covers that object before the frame is shown.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Missing display.flip()</h4>
+                            <p>
+                                You can prepare a new frame on the Surface but still fail to show it.
+                                The display update belongs after drawing the current frame.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Creating Clock() inside every frame</h4>
+                            <p>
+                                Create the <code>Clock</code> once before the loop, then call
+                                <code>clock.tick()</code> each iteration.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> pygame.quit() inside the loop</h4>
+                            <p>
+                                Normally <code>pygame.quit()</code> belongs after the loop finishes.
+                                Calling it every frame uninitialises modules while the program is still running.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- =========================================================
+     GRADED TASKS
+     ========================================================= -->
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Graded Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>
+                                    Name the three core game-loop phases and state the role of
+                                    <code>clock.tick()</code>.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain the purpose of <code>while running:</code> and how a
+                                    <code>pygame.QUIT</code> event causes the loop to finish.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>
+                                    Explain what the event queue is and why
+                                    <code>pygame.event.get()</code> should be called regularly.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Write the event-handling code that sets
+                                    <code>running = False</code> when the user closes the window.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Change a <code>background</code> variable when the user presses
+                                    Space, then use that variable when rendering the next frame.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>
+                                    Add <code>pygame.time.Clock()</code> and limit a game loop to
+                                    approximately 60 FPS.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>
+                                    Find and explain all problems in a loop that never processes
+                                    events, clears the screen after drawing, and creates a new Clock
+                                    every frame.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>
+                                    Complete a clean game-loop template with clearly separated
+                                    <strong>Events</strong>, <strong>Update</strong>,
+                                    <strong>Render</strong> and <strong>FPS control</strong> sections.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- =========================================================
+     EXAM PRACTICE
+     ========================================================= -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: Complete the missing code. [5]
+                            </p>
+
+                            <div class="code-block"><code>running = True
+
+while ______:
+    for event in pygame.event._____():
+        if event.type == pygame._____:
+            running = False
+
+    pygame.display._____()
+    clock._____(60)</code></div>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>while running:
+                                    pygame.event.get()
+                                    pygame.QUIT
+                                    pygame.display.flip()
+                                    clock.tick(60)</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: Explain why <code>pygame.event.get()</code> must be called regularly. [2]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>It retrieves/processes queued application events.
+                                    If the queue is not serviced, the application may become unresponsive and events can
+                                    be lost when the queue fills.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: State the correct rendering order. [3]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>1. Clear/fill the previous frame
+                                    2. Draw the current game state
+                                    3. Update/show the display with flip() or an appropriate display update</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: A game uses <code>clock.tick(50)</code>. Calculate the ideal
+                                time available per frame in milliseconds. [2]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>1000 ÷ 50 = 20 ms per frame.</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <!-- =========================================================
+     SELF CHECK
+     ========================================================= -->
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-check-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="lesson-quiz-progress">
+                            <span>Eight quick checks</span>
+                            <span>Click each answer to reveal</span>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. What are the three core phases of a game loop?</div>
+                            <div class="quiz-answer" data-answer="Handle Events, Update State, Render the frame">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                2. What does <code>pygame.event.get()</code> return?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="The queued PyGame events so the program can iterate through and process them">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                3. Which event is generated when the user requests the window to close?
+                            </div>
+                            <div class="quiz-answer" data-answer="pygame.QUIT">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                4. Why is <code>screen.fill()</code> normally called before drawing the current frame?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="To clear the previous frame/background before the current game state is drawn">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                5. What does <code>pygame.display.flip()</code> do?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="It updates the complete display Surface so the prepared frame becomes visible">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                6. What does <code>clock.tick(60)</code> do?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="It delays as needed to limit the game loop to approximately a maximum of 60 frames per second">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                7. Approximately how many milliseconds are available per frame at 60 FPS?
+                            </div>
+                            <div class="quiz-answer" data-answer="About 16.7 milliseconds per frame (1000 ÷ 60)">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">
+                                8. Where should <code>pygame.quit()</code> normally be placed?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="After the main game loop has finished, so PyGame modules are uninitialised during shutdown">
+                                Click to reveal answer
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="pygame-setup.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">PyGame Setup &amp; Window</span>
+                            </span>
+                        </a>
+
+                        <a href="pygame-drawing.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">Drawing Primitives</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 12 Programming</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // ============================================================
+            // VIDEO TABS
+            // ============================================================
+            const videos = {
+                frames: {
+                    title: "How Games Work",
+                    description:
+                        "Clear Code — how repeated frames create a real-time game. Starts at 01:06.",
+                    src: "https://www.youtube-nocookie.com/embed/AY9MnQ4x3zk?start=66&rel=0",
+                    iframeTitle: "Clear Code - How games work"
+                },
+
+                loop: {
+                    title: "Window + Clock + Loop",
+                    description:
+                        "Clear Code — creating the blank PyGame window and Clock, starting at 08:08.",
+                    src: "https://www.youtube-nocookie.com/embed/AY9MnQ4x3zk?start=488&rel=0",
+                    iframeTitle: "Clear Code - Pygame window and clock"
+                }
+            };
+
+            const videoTabs = document.querySelectorAll(".video-tab");
+            const videoFrame = document.getElementById("lessonVideoFrame");
+            const videoTitle = document.getElementById("lessonVideoTitle");
+            const videoDescription = document.getElementById("lessonVideoDescription");
+
+            function showVideo(key) {
+                const item = videos[key];
+
+                videoTitle.textContent = item.title;
+                videoDescription.textContent = item.description;
+                videoFrame.src = item.src;
+                videoFrame.title = item.iframeTitle;
+
+                videoTabs.forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.video === key);
+                });
+            }
+
+            videoTabs.forEach(btn => {
+                btn.addEventListener("click", () => showVideo(btn.dataset.video));
+            });
+
+            // ============================================================
+            // GAME LOOP CYCLE SIMULATOR
+            // ============================================================
+            const cyclePhases = [
+                {
+                    key: "events",
+                    label: "Events",
+                    log:
+                        `HANDLE EVENTS
+pygame.event.get() retrieves queued events.
+Check QUIT / keyboard / other inputs.`
+                },
+                {
+                    key: "update",
+                    label: "Update",
+                    log:
+                        `UPDATE STATE
+Change the data that represents the game:
+positions, score, timers, states, etc.`
+                },
+                {
+                    key: "render",
+                    label: "Render",
+                    log:
+                        `RENDER
+Clear the old frame.
+Draw the current game state.
+pygame.display.flip() shows the frame.`
+                },
+                {
+                    key: "fps",
+                    label: "FPS",
+                    log:
+                        `CONTROL FPS
+clock.tick(FPS) limits how quickly the loop repeats.`
+                }
+            ];
+
+            let cyclePhaseIndex = 0;
+            let cycleFrameNumber = 1;
+
+            const cycleNodes = document.querySelectorAll("[data-cycle-node]");
+            const cycleFrame = document.getElementById("cycleFrame");
+            const cycleRunning = document.getElementById("cycleRunning");
+            const cyclePhase = document.getElementById("cyclePhase");
+            const cycleLog = document.getElementById("cycleLog");
+            const cycleNext = document.getElementById("cycleNext");
+            const cycleReset = document.getElementById("cycleReset");
+
+            function renderCycle() {
+                const phase = cyclePhases[cyclePhaseIndex];
+
+                cycleNodes.forEach(node => {
+                    node.classList.toggle("active", node.dataset.cycleNode === phase.key);
+                });
+
+                cycleFrame.textContent = cycleFrameNumber;
+                cycleRunning.textContent = "True";
+                cyclePhase.textContent = phase.label;
+                cycleLog.textContent =
+                    `FRAME ${cycleFrameNumber}\n\n${phase.log}`;
+            }
+
+            cycleNext.addEventListener("click", () => {
+                cyclePhaseIndex++;
+
+                if (cyclePhaseIndex >= cyclePhases.length) {
+                    cyclePhaseIndex = 0;
+                    cycleFrameNumber++;
+                }
+
+                renderCycle();
+            });
+
+            cycleReset.addEventListener("click", () => {
+                cyclePhaseIndex = 0;
+                cycleFrameNumber = 1;
+                renderCycle();
+            });
+
+            renderCycle();
+
+            // ============================================================
+            // EVENT QUEUE LAB
+            // ============================================================
+            let queue = [];
+            let returnedEvents = [];
+
+            const eventQueue = document.getElementById("eventQueue");
+            const processingQueue = document.getElementById("processingQueue");
+            const queueFeedback = document.getElementById("queueFeedback");
+            const addEventButtons = document.querySelectorAll(".add-event");
+            const getEvents = document.getElementById("getEvents");
+            const resetEvents = document.getElementById("resetEvents");
+
+            function eventChip(type) {
+                const chip = document.createElement("span");
+                chip.className = "queue-chip" + (type === "QUIT" ? " quit" : "");
+                chip.textContent = type;
+                return chip;
+            }
+
+            function renderQueues() {
+                eventQueue.innerHTML = "";
+                processingQueue.innerHTML = "";
+
+                queue.forEach(type => eventQueue.appendChild(eventChip(type)));
+                returnedEvents.forEach(type => processingQueue.appendChild(eventChip(type)));
+
+                if (queue.length === 0 && returnedEvents.length === 0) {
+                    eventQueue.innerHTML = '<span class="queue-chip">queue empty</span>';
+                    processingQueue.innerHTML = '<span class="queue-chip">nothing returned yet</span>';
+                }
+            }
+
+            addEventButtons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    queue.push(btn.dataset.event);
+                    returnedEvents = [];
+                    queueFeedback.className = "lesson-lab-feedback";
+                    queueFeedback.textContent =
+                        `${btn.dataset.event} added. ${queue.length} event(s) waiting in the queue.`;
+                    renderQueues();
+                });
+            });
+
+            getEvents.addEventListener("click", () => {
+                returnedEvents = [...queue];
+                queue = [];
+
+                queueFeedback.className = "lesson-lab-feedback correct";
+                queueFeedback.textContent =
+                    returnedEvents.length
+                        ? `pygame.event.get() returned ${returnedEvents.length} event(s). The queue is now empty.`
+                        : "pygame.event.get() returned an empty list because no events were waiting.";
+
+                renderQueues();
+            });
+
+            resetEvents.addEventListener("click", () => {
+                queue = [];
+                returnedEvents = [];
+                queueFeedback.className = "lesson-lab-feedback";
+                queueFeedback.textContent = "Add some events, then call pygame.event.get().";
+                renderQueues();
+            });
+
+            renderQueues();
+
+            // ============================================================
+            // QUIT EVENT TRACER
+            // ============================================================
+            const quitSequence = ["KEYDOWN", "MOUSEMOTION", "QUIT"];
+            let quitIndex = -1;
+            let quitRunning = true;
+
+            const quitLines = document.querySelectorAll(".quit-code-line");
+            const quitTracerState = document.getElementById("quitTracerState");
+            const quitNext = document.getElementById("quitNext");
+            const quitReset = document.getElementById("quitReset");
+
+            function renderQuitTracer() {
+                quitLines.forEach(line => line.classList.remove("active"));
+
+                if (quitIndex < 0) {
+                    quitTracerState.textContent =
+                        `event queue:
+[KEYDOWN, MOUSEMOTION, QUIT]
+
+running = True
+
+Press "Process next event".`;
+
+                    quitNext.disabled = false;
+                    return;
+                }
+
+                const event = quitSequence[quitIndex];
+                const isQuit = event === "QUIT";
+
+                quitLines[0].classList.add("active");
+                quitLines[1].classList.add("active");
+
+                if (isQuit) {
+                    quitRunning = false;
+                    quitLines[2].classList.add("active");
+                }
+
+                quitTracerState.textContent =
+                    `event = ${event}
+
+event.type == pygame.QUIT
+→ ${isQuit ? "True" : "False"}
+
+running = ${quitRunning ? "True" : "False"}
+
+${isQuit
+                        ? "The loop control variable is now False. The while loop will end after this iteration."
+                        : "No quit request. Continue processing events."}`;
+
+                quitNext.disabled = quitIndex >= quitSequence.length - 1;
+            }
+
+            quitNext.addEventListener("click", () => {
+                if (quitIndex < quitSequence.length - 1) quitIndex++;
+                renderQuitTracer();
+            });
+
+            quitReset.addEventListener("click", () => {
+                quitIndex = -1;
+                quitRunning = true;
+                renderQuitTracer();
+            });
+
+            renderQuitTracer();
+
+            // ============================================================
+            // RENDER ORDER LAB
+            // ============================================================
+            const renderCards = document.querySelectorAll(".render-order-card");
+            const renderScreen = document.getElementById("renderScreen");
+            const miniPlayer = document.getElementById("miniPlayer");
+            const renderFeedback = document.getElementById("renderFeedback");
+
+            renderCards.forEach(card => {
+                card.addEventListener("click", () => {
+                    const order = card.dataset.renderOrder;
+
+                    renderCards.forEach(c => c.classList.remove("active"));
+                    card.classList.add("active");
+
+                    miniPlayer.style.display = "block";
+                    renderScreen.style.background = "#202124";
+
+                    if (order === "correct") {
+                        renderFeedback.className = "lesson-lab-feedback correct";
+                        renderFeedback.textContent =
+                            "Correct. Clear the previous frame, draw the current state, then flip the display.";
+                    }
+
+                    if (order === "covered") {
+                        miniPlayer.style.display = "none";
+                        renderFeedback.className = "lesson-lab-feedback wrong";
+                        renderFeedback.textContent =
+                            "The object is drawn first, then screen.fill() covers it before flip().";
+                    }
+
+                    if (order === "notshown") {
+                        miniPlayer.style.opacity = ".22";
+                        renderFeedback.className = "lesson-lab-feedback wrong";
+                        renderFeedback.textContent =
+                            "The new frame is prepared, but without a display update the user may keep seeing the previous visible frame.";
+                        setTimeout(() => { miniPlayer.style.opacity = "1"; }, 400);
+                    }
+                });
+            });
+
+            // ============================================================
+            // FPS LAB
+            // ============================================================
+            const fpsSlider = document.getElementById("fpsSlider");
+            const fpsValue = document.getElementById("fpsValue");
+            const msValue = document.getElementById("msValue");
+            const frames10Value = document.getElementById("frames10Value");
+            const fpsPresets = document.querySelectorAll(".fps-preset");
+
+            function renderFps() {
+                const fps = Number(fpsSlider.value);
+                const ms = 1000 / fps;
+
+                fpsValue.textContent = fps;
+                msValue.textContent = `${ms.toFixed(1)} ms`;
+                frames10Value.textContent = fps * 10;
+            }
+
+            fpsSlider.addEventListener("input", renderFps);
+
+            fpsPresets.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    fpsSlider.value = btn.dataset.fps;
+                    renderFps();
+                });
+            });
+
+            renderFps();
+
+            // ============================================================
+            // TEMPLATE TABS
+            // ============================================================
+            const templates = {
+                minimal: {
+                    title: "Minimal Game Loop",
+                    description:
+                        "The cleanest template for the LO: handle QUIT, render a frame, control FPS, then quit after the loop.",
+                    code:
+                        `import pygame
+
+pygame.init()
+
+screen = pygame.display.set_mode((800, 600))
+clock = pygame.time.Clock()
+
+BLACK = (0, 0, 0)
+FPS = 60
+
+running = True
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # UPDATE STATE
+
+    # RENDER
+    screen.fill(BLACK)
+    # draw game objects here
+    pygame.display.flip()
+
+    clock.tick(FPS)
+
+pygame.quit()`
+                },
+
+                escape: {
+                    title: "Game Loop with ESC to Quit",
+                    description:
+                        "Adds a KEYDOWN event check so Escape also sets running to False.",
+                    code:
+                        `running = True
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
 
-    # Phase 2: UPDATE STATE
-    # (game logic goes here)
+    # UPDATE STATE
 
-    # Phase 3: RENDER
     screen.fill(BLACK)
-    # (draw objects here)
+    # draw game objects here
     pygame.display.flip()
 
-    # Control FPS
     clock.tick(FPS)
 
-pygame.quit()
-sys.exit()</code></div>
-                </div>
+pygame.quit()`
+                },
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Showing FPS Counter</h4>
-                    <div class="code-block"><code>import pygame, sys
-
-pygame.init()
-screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("FPS Counter")
-clock = pygame.time.Clock()
-font = pygame.font.SysFont("Arial", 24)
-
+                fps: {
+                    title: "Game Loop with Frame Counter",
+                    description:
+                        "Adds a simple frame counter without introducing pygame.font or blitting text.",
+                    code:
+                        `frame_count = 0
 running = True
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill((30, 30, 30))
+    frame_count += 1
 
-    # Display current FPS
-    fps_text = font.render(f"FPS: {clock.get_fps():.0f}",
-                           True, (0, 255, 0))
-    screen.blit(fps_text, (10, 10))
+    if frame_count == 100:
+        print("Frame 100 reached")
 
+    screen.fill(BLACK)
     pygame.display.flip()
+
     clock.tick(60)
 
-pygame.quit()
-sys.exit()</code></div>
-                </div>
-            </section>
+pygame.quit()`
+                }
+            };
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> No clock.tick() = Unlimited Speed</h4>
-                    <p>Without <code>clock.tick()</code>, the loop runs as fast as the CPU allows. This wastes power,
-                        heats the CPU, and makes game speed inconsistent across different computers.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Drawing BEFORE Filling</h4>
-                    <p>Always <code>screen.fill()</code> FIRST, then draw objects. If you draw first and then fill, your
-                        drawings get covered!</p>
-                </div>
-            </section>
+            const templateTabs = document.querySelectorAll("[data-template]");
+            const templateTitle = document.getElementById("templateTitle");
+            const templateDescription = document.getElementById("templateDescription");
+            const templateCode = document.getElementById("templateCode");
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Name the 3 phases of a game loop and describe what happens in each.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a game loop that changes the background color when the user presses the Space bar.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Add an FPS counter to any PyGame application displaying current frames per second.</p>
-                    </div>
-                </div>
-            </section>
+            function showTemplate(key) {
+                const item = templates[key];
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What are the 3 phases of a game loop?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">1) Handle Events — process user
-                        input. 2) Update State — move objects, check collisions. 3) Render — clear screen, draw,
-                        display.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What does <code>clock.tick(60)</code> do?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Limits the game loop to a
-                        maximum of 60 iterations per second (60 FPS), ensuring consistent speed and preventing CPU
-                        waste.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What event type is triggered when the user clicks ✕?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>pygame.QUIT</code></div>
-                </div>
-            </section>
+                templateTitle.textContent = item.title;
+                templateDescription.textContent = item.description;
+                templateCode.textContent = item.code;
 
-            <nav class="lesson-nav">
-                        <a href="pygame-setup.html"><span class="nav-label">← Previous</span><span class="nav-title">PyGame Setup &amp;amp; Window</span></a>
-                        <a href="pygame-drawing.html"><span class="nav-label">Next →</span><span class="nav-title">Drawing Primitives</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
-    <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
-    </footer>
+                templateTabs.forEach(btn => {
+                    btn.classList.toggle("active", btn.dataset.template === key);
+                });
+            }
+
+            templateTabs.forEach(btn => {
+                btn.addEventListener("click", () => showTemplate(btn.dataset.template));
+            });
+
+            showTemplate("minimal");
+
+            // ============================================================
+            // BUILD THE GAME LOOP
+            // ============================================================
+            const buildCorrect = ["Events", "Update", "Render", "FPS", "Next"];
+            const buildSequence = [];
+            const buildButtons = document.querySelectorAll(".build-loop-btn");
+            const buildLoopSequence = document.getElementById("buildLoopSequence");
+            const buildLoopFeedback = document.getElementById("buildLoopFeedback");
+            const resetBuildLoop = document.getElementById("resetBuildLoop");
+
+            function renderBuildSequence() {
+                buildLoopSequence.innerHTML = "";
+
+                buildSequence.forEach((value, idx) => {
+                    const chip = document.createElement("span");
+                    chip.className = "build-chip";
+
+                    if (value === buildCorrect[idx]) {
+                        chip.classList.add("correct");
+                    }
+
+                    chip.textContent = value;
+                    buildLoopSequence.appendChild(chip);
+                });
+            }
+
+            buildButtons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    if (buildSequence.length >= buildCorrect.length) return;
+
+                    buildSequence.push(btn.dataset.build);
+                    renderBuildSequence();
+
+                    const index = buildSequence.length - 1;
+
+                    if (buildSequence[index] !== buildCorrect[index]) {
+                        buildLoopFeedback.className = "lesson-lab-feedback wrong";
+                        buildLoopFeedback.textContent =
+                            `Not quite. At position ${index + 1}, think about what must happen before ${buildSequence[index]}.`;
+                        return;
+                    }
+
+                    if (buildSequence.length === buildCorrect.length) {
+                        buildLoopFeedback.className = "lesson-lab-feedback correct";
+                        buildLoopFeedback.textContent =
+                            "Correct. Events → Update → Render → FPS → Next Frame.";
+                    } else {
+                        buildLoopFeedback.className = "lesson-lab-feedback";
+                        buildLoopFeedback.textContent = "Correct so far. Continue.";
+                    }
+                });
+            });
+
+            resetBuildLoop.addEventListener("click", () => {
+                buildSequence.length = 0;
+                renderBuildSequence();
+                buildLoopFeedback.className = "lesson-lab-feedback";
+                buildLoopFeedback.textContent =
+                    "Correct order: Events → Update → Render → FPS → Next Frame.";
+            });
+
+            // ============================================================
+            // WHAT BELONGS WHERE
+            // ============================================================
+            const belongsItems = [
+                { text: "if event.type == pygame.QUIT", answer: "Events" },
+                { text: "score += 1", answer: "Update" },
+                { text: "screen.fill(BLACK)", answer: "Render" },
+                { text: "pygame.display.flip()", answer: "Render" },
+                { text: "clock.tick(FPS)", answer: "FPS" }
+            ];
+
+            const belongsWhere = document.getElementById("belongsWhere");
+
+            belongsWhere.innerHTML =
+                '<div class="lesson-lab-prompt">Classify each line: Events / Update / Render / FPS control</div>';
+
+            belongsItems.forEach(item => {
+                const row = document.createElement("div");
+                row.style.display = "grid";
+                row.style.gridTemplateColumns = "1fr auto auto auto auto";
+                row.style.gap = "var(--space-xs)";
+                row.style.alignItems = "center";
+                row.style.marginTop = "var(--space-xs)";
+                row.style.padding = ".55rem";
+                row.style.border = "1px solid var(--border)";
+                row.style.borderRadius = "var(--radius-md)";
+                row.style.background = "var(--bg-glass)";
+
+                const label = document.createElement("code");
+                label.textContent = item.text;
+                label.style.color = "var(--text-primary)";
+                label.style.fontSize = ".64rem";
+
+                row.appendChild(label);
+
+                ["Events", "Update", "Render", "FPS"].forEach(choice => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "lesson-choice-btn";
+                    btn.textContent = choice;
+
+                    btn.addEventListener("click", () => {
+                        [...row.querySelectorAll("button")].forEach(b => b.classList.remove("active"));
+                        btn.classList.add("active");
+                        btn.title = choice === item.answer ? "Correct" : `Correct: ${item.answer}`;
+                    });
+
+                    row.appendChild(btn);
+                });
+
+                belongsWhere.appendChild(row);
+            });
+
+            // ============================================================
+            // GAME LOOP ERROR LAB
+            // ============================================================
+            const errorExamples = [
+                {
+                    code:
+                        `running = True
+
+while running:
+    # game logic
+    screen.fill(BLACK)
+    pygame.display.flip()`,
+                    answer: "events",
+                    why:
+                        "The loop never retrieves/processes the event queue, so the window cannot properly react to QUIT and may become unresponsive."
+                },
+
+                {
+                    code:
+                        `# draw current game objects
+screen.fill(BLACK)
+pygame.display.flip()`,
+                    answer: "render",
+                    why:
+                        "The background fill happens after drawing, so it covers the objects before the frame is shown."
+                },
+
+                {
+                    code:
+                        `screen.fill(BLACK)
+# draw current frame
+
+# pygame.display.flip() is missing`,
+                    answer: "flip",
+                    why:
+                        "The frame is prepared on the Surface but the complete display is not updated for the user."
+                },
+
+                {
+                    code:
+                        `while running:
+    clock = pygame.time.Clock()
+
+    # frame code
+    clock.tick(60)`,
+                    answer: "clock",
+                    why:
+                        "Create one Clock object before the loop. Recreating it every frame defeats the purpose of using a persistent timing object."
+                },
+
+                {
+                    code:
+                        `while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
+    # loop continues...`,
+                    answer: "quit",
+                    why:
+                        "Calling pygame.quit() here uninitialises modules but does not set the loop condition False. Normally set running=False and call pygame.quit() after the loop."
+                }
+            ];
+
+            let loopErrorIndex = 0;
+
+            const loopErrorCode = document.getElementById("loopErrorCode");
+            const loopErrorChoices = document.querySelectorAll(".loop-error-choice");
+            const loopErrorFeedback = document.getElementById("loopErrorFeedback");
+            const loopErrorProgress = document.getElementById("loopErrorProgress");
+            const nextLoopError = document.getElementById("nextLoopError");
+
+            function loadLoopError() {
+                const item = errorExamples[loopErrorIndex];
+
+                loopErrorCode.textContent = item.code;
+                loopErrorFeedback.className = "lesson-lab-feedback";
+                loopErrorFeedback.textContent = "Identify the most important game-loop problem.";
+                loopErrorProgress.textContent =
+                    `Example ${loopErrorIndex + 1} of ${errorExamples.length}`;
+
+                loopErrorChoices.forEach(btn => btn.classList.remove("active"));
+            }
+
+            loopErrorChoices.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const item = errorExamples[loopErrorIndex];
+                    const correct = btn.dataset.error === item.answer;
+
+                    loopErrorChoices.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+
+                    loopErrorFeedback.className =
+                        `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+                    loopErrorFeedback.innerHTML =
+                        `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+                });
+            });
+
+            nextLoopError.addEventListener("click", () => {
+                loopErrorIndex = (loopErrorIndex + 1) % errorExamples.length;
+                loadLoopError();
+            });
+
+            loadLoopError();
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+
 </body>
 
 </html>
