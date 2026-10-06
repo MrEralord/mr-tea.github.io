@@ -4,561 +4,1288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tracing &amp; Debugging — mr. TEA</title>
+    <title>Tracing & Debugging — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="Python program tracing with trace tables, three error types, debugging techniques. NIS Grade 11 Programming 11.1.2.3, 11.1.2.6.">
-
-    <!-- Open Graph -->
+        content="Python program tracing with trace tables, debugging, error types and traceback reading. NIS Grade 11 Programming 11.1.2.3, 11.1.2.6.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="Tracing &amp;amp; Debugging — mr. TEA">
-    <meta property="og:description" content="Python program tracing with trace tables, three error types, debugging techniques. NIS Grade 11 Programming 11.1.2.3, 11.1.2.6.">
+    <meta property="og:title" content="Tracing & Debugging — mr. TEA">
+    <meta property="og:description"
+        content="Python program tracing with trace tables, debugging, error types and traceback reading. NIS Grade 11 Programming 11.1.2.3, 11.1.2.6.">
     <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term1/lesson-08-tracing-debugging.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+    <style>
+        /* Page-specific only. Shared interactive components are in lesson.css */
+        .detective-grid,
+        .statement-grid,
+        .traceback-grid,
+        .bug-grid,
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: stretch
+        }
+
+        .detective-visual,
+        .state-panel,
+        .traceback-guide,
+        .bug-notes,
+        .output-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .evidence-board {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: var(--space-sm);
+            align-items: center;
+            min-height: 210px
+        }
+
+        .evidence-card {
+            min-height: 105px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font-size: .65rem
+        }
+
+        .evidence-card i {
+            display: block;
+            color: var(--clr-tea);
+            font-size: 1.15rem;
+            margin-bottom: .35rem
+        }
+
+        .evidence-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .68rem
+        }
+
+        .evidence-arrow {
+            color: var(--clr-tea);
+            font-weight: 900
+        }
+
+        .trace-method-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .trace-method-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .trace-method-card b {
+            display: block;
+            color: var(--text-primary);
+            font-size: .7rem;
+            margin: .3rem 0
+        }
+
+        .trace-method-card span {
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(13, 148, 136, .1);
+            color: var(--clr-tea);
+            font: 900 .7rem var(--font-code)
+        }
+
+        .trace-method-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .62rem;
+            line-height: 1.4
+        }
+
+        .trace-table-wrap {
+            overflow-x: auto;
+            margin: var(--space-md) 0
+        }
+
+        .trace-table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse
+        }
+
+        .trace-table th,
+        .trace-table td {
+            padding: .54rem .48rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: .66rem
+        }
+
+        .trace-table th {
+            background: var(--bg-glass);
+            color: var(--text-primary);
+            font-weight: 800
+        }
+
+        .trace-table input {
+            width: 82px;
+            max-width: 100%;
+            padding: .4rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            text-align: center;
+            outline: none;
+            font: 700 .64rem var(--font-code)
+        }
+
+        .trace-table input:focus {
+            border-color: var(--clr-tea)
+        }
+
+        .trace-cell-correct {
+            background: rgba(22, 163, 74, .08)
+        }
+
+        .trace-cell-wrong {
+            background: rgba(239, 68, 68, .08)
+        }
+
+        .code-panel,
+        .classifier-code,
+        .traceback-panel,
+        .bug-code,
+        .debug-console {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code)
+        }
+
+        .code-lines {
+            display: grid;
+            gap: 2px
+        }
+
+        .code-line {
+            display: grid;
+            grid-template-columns: 32px 1fr;
+            gap: .55rem;
+            padding: .42rem .48rem;
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font: 700 .68rem/1.48 var(--font-code)
+        }
+
+        .code-line .ln {
+            color: var(--text-muted);
+            text-align: right
+        }
+
+        .code-line.active {
+            background: rgba(13, 148, 136, .12);
+            outline: 1px solid var(--clr-tea)
+        }
+
+        .state-values {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md)
+        }
+
+        .state-box {
+            padding: .55rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-glass)
+        }
+
+        .state-box small {
+            display: block;
+            color: var(--text-muted);
+            font-size: .56rem;
+            text-transform: uppercase
+        }
+
+        .state-box code {
+            color: var(--clr-tea);
+            font: 850 .75rem var(--font-code)
+        }
+
+        .state-event {
+            min-height: 90px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.5
+        }
+
+        .error-type-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin: var(--space-md) 0
+        }
+
+        .error-type-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .error-type-card i {
+            color: var(--clr-tea);
+            font-size: 1.1rem
+        }
+
+        .error-type-card h4 {
+            margin: .4rem 0;
+            color: var(--text-primary);
+            font-size: .8rem
+        }
+
+        .error-type-card p {
+            margin: 0 0 .4rem;
+            color: var(--text-secondary);
+            font-size: .66rem;
+            line-height: 1.45
+        }
+
+        .error-type-card code {
+            color: var(--clr-tea);
+            font: 700 .64rem var(--font-code)
+        }
+
+        .classifier-code {
+            min-height: 120px;
+            color: var(--text-primary);
+            font: 700 .72rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .python-error-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .python-error-card {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .python-error-card code {
+            display: block;
+            color: var(--clr-tea);
+            font: 800 .7rem var(--font-code);
+            margin-bottom: .25rem
+        }
+
+        .python-error-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .62rem;
+            line-height: 1.4
+        }
+
+        .traceback-line {
+            padding: .38rem .48rem;
+            margin-bottom: 3px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font: 650 .65rem/1.45 var(--font-code);
+            white-space: pre;
+            cursor: pointer
+        }
+
+        .traceback-line:hover,
+        .traceback-line.active {
+            background: rgba(13, 148, 136, .1);
+            color: var(--text-primary)
+        }
+
+        .traceback-guide pre {
+            margin: 0;
+            color: var(--text-primary);
+            font: 700 .7rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .debug-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+            gap: var(--space-xs);
+            align-items: center;
+            margin: var(--space-lg) 0
+        }
+
+        .debug-step {
+            min-height: 105px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .debug-step i {
+            display: block;
+            color: var(--clr-tea);
+            margin-bottom: .3rem
+        }
+
+        .debug-step strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .66rem
+        }
+
+        .debug-step small {
+            color: var(--text-muted);
+            font-size: .58rem;
+            line-height: 1.3
+        }
+
+        .debug-arrow {
+            color: var(--clr-tea);
+            font-weight: 900
+        }
+
+        .bug-line {
+            display: grid;
+            grid-template-columns: 30px 1fr;
+            gap: .5rem;
+            padding: .42rem .5rem;
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font: 700 .66rem/1.45 var(--font-code);
+            cursor: pointer
+        }
+
+        .bug-line span:first-child {
+            color: var(--text-muted);
+            text-align: right
+        }
+
+        .bug-line:hover,
+        .bug-line.selected {
+            background: rgba(239, 68, 68, .08);
+            outline: 1px solid rgba(239, 68, 68, .35)
+        }
+
+        .bug-notes h4 {
+            margin: 0 0 .4rem;
+            color: var(--text-primary);
+            font-size: .8rem
+        }
+
+        .bug-notes p {
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.5
+        }
+
+        .output-card strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: .7rem;
+            margin-bottom: .4rem
+        }
+
+        .output-card pre {
+            margin: 0;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .68rem/1.5 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .swap-flow {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .swap-card {
+            padding: var(--space-md);
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .swap-card code {
+            display: block;
+            color: var(--clr-tea);
+            font: 750 .67rem var(--font-code);
+            margin-bottom: .25rem
+        }
+
+        .swap-card span {
+            color: var(--text-secondary);
+            font-size: .62rem
+        }
+
+        .fib-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin: var(--space-md) 0
+        }
+
+        .fib-chip {
+            min-width: 44px;
+            padding: .42rem .5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            font: 750 .65rem var(--font-code)
+        }
+
+        .debug-console {
+            margin: var(--space-md) 0;
+            color: var(--text-primary);
+            font: 700 .68rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        @media(max-width:1000px) {
+            .trace-method-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .debug-flow {
+                grid-template-columns: 1fr
+            }
+
+            .debug-arrow {
+                transform: rotate(90deg)
+            }
+        }
+
+        @media(max-width:850px) {
+
+            .detective-grid,
+            .statement-grid,
+            .traceback-grid,
+            .bug-grid,
+            .compare-grid {
+                grid-template-columns: 1fr
+            }
+
+            .error-type-grid,
+            .python-error-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:600px) {
+
+            .trace-method-grid,
+            .swap-flow,
+            .state-values {
+                grid-template-columns: 1fr
+            }
+
+            .evidence-board {
+                grid-template-columns: 1fr
+            }
+
+            .evidence-arrow {
+                transform: rotate(90deg)
+            }
+        }
+    </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-P4C0Y8SW2K');</script>
 </head>
 
 <body>
-
-<div class="layout-wrapper">
-    <main class="main-content">
-
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.1A — Tracing &amp; Debugging</span>
-            </nav>
-
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
-                <h1 class="lesson-title">Tracing &amp; Debugging</h1>
-                <p class="lesson-intro"><strong>Tracing</strong> means stepping through code line by line, recording how
-                    variables change — a critical exam skill. <strong>Debugging</strong> is the process of finding and
-                    fixing errors. Together, they make you a confident, effective programmer.</p>
+    <div class="layout-wrapper">
+        <main class="main-content">
+            <div class="mobile-header">
+                <div class="header-left"><button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i
+                            class="fas fa-bars"></i></button><a href="/" class="logo" style="margin-left:15px;"><i
+                            class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a></div>
             </div>
+            <div class="lesson-page">
+                <div class="lesson-container">
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb"><a href="/index.html">Home</a><span
+                            class="sep">/</span><a href="/index.html#syllabus">Grade 11 PROG</a><span
+                            class="sep">/</span><span>11.1A — Tracing & Debugging</span></nav>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.1A · Term 1</div>
+                        <h1 class="lesson-title">Tracing & Debugging</h1>
+                        <p class="lesson-intro"><strong>Tracing</strong> means stepping through program code and
+                            recording how variables and output change. <strong>Debugging</strong> means locating,
+                            understanding and fixing errors. These are general techniques you can apply to any program.
+                        </p>
+                    </div>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.1.2.3</span> Trace program code</li>
+                            <li><span class="lo-code">11.1.2.6</span> Debug a program</li>
+                        </ul>
+                    </div>
+                    <div class="note-box">
+                        <h4><i class="fas fa-link"></i> Connection to the previous lesson</h4>
+                        <p>You already traced nested loops. Now we generalise the technique to assignments, selection,
+                            loops, accumulators and complete programs. We will not repeat the nested-loop grid mechanics
+                            here.</p>
+                    </div>
 
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.1.2.3</span> Trace program code</li>
-                    <li><span class="lo-code">11.1.2.6</span> Debug a program</li>
-                </ul>
-            </div>
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="lesson-video-info">
+                                <h4 id="lessonVideoTitle">Trace Tables</h4>
+                                <p id="lessonVideoDescription">Craig'n'Dave Cambridge IGCSE — trace tables and
+                                    dry-running algorithms.</p>
+                            </div>
+                        </div>
+                        <div class="video-tabs"><button class="video-tab active" data-video="trace" type="button"><i
+                                    class="fas fa-table-list"></i> Trace Tables</button><button class="video-tab"
+                                data-video="errors" type="button"><i class="fas fa-bug"></i> Identifying Errors</button>
+                        </div>
+                        <div class="lesson-video-wrapper"><iframe id="lessonVideoFrame"
+                                src="https://www.youtube-nocookie.com/embed/-7_kyY88Y9Y?start=9&rel=0"
+                                title="Craig n Dave - Trace tables" loading="lazy"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe></div>
+                    </div>
 
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.1A-lesson-08-tracing-debugging.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
+                    <nav class="lesson-section-jump" aria-label="Lesson sections"><a href="#trace-method">Trace
+                            Method</a><a href="#line-tracer">Line Tracer</a><a href="#trace-practice">Trace
+                            Practice</a><a href="#errors">Error Types</a><a href="#traceback">Traceback</a><a
+                            href="#debugging">Debugging</a><a href="#examples">Examples</a><a
+                            href="#practice">Practice</a></nav>
 
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="detective-grid">
+                            <div class="analogy-box" style="margin:0;">
+                                <h4><i class="fas fa-search"></i> The Detective Analogy</h4>
+                                <p>Tracing code is like being a detective examining evidence step by step. A
+                                    <strong>trace table</strong> is your evidence notebook: you record variable values
+                                    and output as execution progresses. Debugging is the investigation that finds the
+                                    line or state that caused the problem.</p>
+                            </div>
+                            <div class="detective-visual">
+                                <div class="evidence-board">
+                                    <div class="evidence-card">
+                                        <div><i class="fas fa-code"></i><strong>Read code</strong>one statement</div>
+                                    </div>
+                                    <div class="evidence-arrow">→</div>
+                                    <div class="evidence-card">
+                                        <div><i class="fas fa-table"></i><strong>Record state</strong>new values</div>
+                                    </div>
+                                    <div class="evidence-arrow">→</div>
+                                    <div class="evidence-card">
+                                        <div><i class="fas fa-bug"></i><strong>Compare</strong>expected vs actual</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-search"></i> The Detective Analogy</h4>
-                    <p>Tracing code is like being a <strong>detective</strong> examining a crime scene step by step. A
-                        <strong>trace table</strong> is your evidence notebook — you record every variable change as it
-                        happens. Debugging is finding which "suspect" (line of code) caused the "crime" (bug).
-                        Methodical, line-by-line investigation always beats random guessing.</p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Trace Table Method
-                </h3>
-                <p class="concept-text">A trace table has <strong>one column per variable</strong> plus an
-                    <strong>Output column</strong>. You add a new row each time a variable changes value.</p>
-
-                <div class="code-block"><code># Code to trace:
-x = 5
+                    <section class="lesson-section" id="trace-method">
+                        <h2 class="lesson-section-title"><i class="fas fa-table-list"></i> Trace Table Method</h2>
+                        <div class="trace-method-grid">
+                            <div class="trace-method-card"><span>1</span><b>Create columns</b>
+                                <p>Use one column for each changing variable and an Output column when needed.</p>
+                            </div>
+                            <div class="trace-method-card"><span>2</span><b>Follow execution</b>
+                                <p>Use the real control flow. Selection may skip lines; loops may repeat them.</p>
+                            </div>
+                            <div class="trace-method-card"><span>3</span><b>Record changes</b>
+                                <p>Write values exactly as Python calculates them.</p>
+                            </div>
+                            <div class="trace-method-card"><span>4</span><b>Record output</b>
+                                <p>Whenever print() executes, add its result to the Output column.</p>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> How many rows?</h4>
+                            <p>A row may represent a statement execution, one loop iteration, or a meaningful state
+                                change depending on the question. The important rule is consistency: do not skip a value
+                                change that is needed to explain the result.</p>
+                        </div>
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Worked Trace Table</h3>
+                        <div class="code-block"><code>x = 5
 y = 3
 total = 0
-while x > 0:
+
+while x &gt; 0:
     total = total + y
     x = x - 1
+
 print(total)</code></div>
+                        <div class="trace-table-wrap">
+                            <table class="trace-table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>x</th>
+                                        <th>y</th>
+                                        <th>total</th>
+                                        <th>x &gt; 0?</th>
+                                        <th>Output</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>init</td>
+                                        <td>5</td>
+                                        <td>3</td>
+                                        <td>0</td>
+                                        <td>True</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>4</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>True</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>6</td>
+                                        <td>True</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>9</td>
+                                        <td>True</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>3</td>
+                                        <td>12</td>
+                                        <td>True</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>15</td>
+                                        <td>False</td>
+                                        <td>15</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
 
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Step</th>
-                            <th>x</th>
-                            <th>y</th>
-                            <th>total</th>
-                            <th>x > 0?</th>
-                            <th>Output</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>init</td>
-                            <td>5</td>
-                            <td>3</td>
-                            <td>0</td>
-                            <td>True</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>4</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>True</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>6</td>
-                            <td>True</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>9</td>
-                            <td>True</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>1</td>
-                            <td>3</td>
-                            <td>12</td>
-                            <td>True</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>0</td>
-                            <td>3</td>
-                            <td>15</td>
-                            <td>False</td>
-                            <td>15</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <section class="lesson-section" id="line-tracer">
+                        <h2 class="lesson-section-title"><i class="fas fa-forward-step"></i> Statement-by-Statement
+                            Tracer</h2>
+                        <p class="concept-text">Step through a complete program and watch the current line, variables
+                            and output change together.</p>
+                        <div class="lesson-lab">
+                            <div class="statement-grid">
+                                <div class="code-panel">
+                                    <div class="code-lines" id="traceCodeLines">
+                                        <div class="code-line" data-line="1"><span class="ln">1</span><span>x = 3</span>
+                                        </div>
+                                        <div class="code-line" data-line="2"><span class="ln">2</span><span>y = 2</span>
+                                        </div>
+                                        <div class="code-line" data-line="3"><span class="ln">3</span><span>total =
+                                                0</span></div>
+                                        <div class="code-line" data-line="4"><span class="ln">4</span><span>while x &gt;
+                                                0:</span></div>
+                                        <div class="code-line" data-line="5"><span
+                                                class="ln">5</span><span>&nbsp;&nbsp;&nbsp;&nbsp;total = total +
+                                                y</span></div>
+                                        <div class="code-line" data-line="6"><span
+                                                class="ln">6</span><span>&nbsp;&nbsp;&nbsp;&nbsp;x = x - 1</span></div>
+                                        <div class="code-line" data-line="7"><span
+                                                class="ln">7</span><span>print(total)</span></div>
+                                    </div>
+                                </div>
+                                <div class="state-panel">
+                                    <div class="state-values">
+                                        <div class="state-box"><small>x</small><code id="stateX">—</code></div>
+                                        <div class="state-box"><small>y</small><code id="stateY">—</code></div>
+                                        <div class="state-box"><small>total</small><code id="stateTotal">—</code></div>
+                                    </div>
+                                    <div id="stateEvent" class="state-event">Press <strong>Next statement</strong> to
+                                        begin.</div>
+                                    <div class="lesson-tabs"><button id="statePrev" class="lesson-lab-btn"
+                                            type="button">Previous</button><button id="stateNext" class="lesson-lab-btn"
+                                            type="button">Next statement</button><button id="stateReset"
+                                            class="lesson-lab-btn" type="button">Reset</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Three
-                    Types of Errors</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Error Type</th>
-                            <th>When Detected</th>
-                            <th>Cause</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Syntax Error</strong></td>
-                            <td>Before running</td>
-                            <td>Violates Python rules</td>
-                            <td><code>print("hi"</code> — missing <code>)</code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Runtime Error</strong></td>
-                            <td>While running</td>
-                            <td>Impossible operation</td>
-                            <td><code>10 / 0</code> — ZeroDivisionError</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Logic Error</strong></td>
-                            <td>After running</td>
-                            <td>Wrong algorithm/formula</td>
-                            <td>Using <code>+</code> instead of <code>*</code></td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <section class="lesson-section" id="trace-practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-pencil"></i> Trace Table Practice</h2>
+                        <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Guided
+                            Practice</h3>
+                        <div class="code-block"><code>n = 4
+result = 1
 
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
-                    Python Errors</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Error Name</th>
-                            <th>Cause</th>
-                            <th>Fix</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>SyntaxError</code></td>
-                            <td>Missing colon, bracket, quote</td>
-                            <td>Check punctuation</td>
-                        </tr>
-                        <tr>
-                            <td><code>IndentationError</code></td>
-                            <td>Wrong whitespace</td>
-                            <td>Use consistent 4-space indentation</td>
-                        </tr>
-                        <tr>
-                            <td><code>NameError</code></td>
-                            <td>Undefined variable</td>
-                            <td>Check spelling, declare before use</td>
-                        </tr>
-                        <tr>
-                            <td><code>TypeError</code></td>
-                            <td>Wrong type in operation</td>
-                            <td>Use <code>int()</code>, <code>str()</code> conversion</td>
-                        </tr>
-                        <tr>
-                            <td><code>ValueError</code></td>
-                            <td>Invalid conversion</td>
-                            <td><code>int("abc")</code> — validate input</td>
-                        </tr>
-                        <tr>
-                            <td><code>ZeroDivisionError</code></td>
-                            <td>Division by zero</td>
-                            <td>Check divisor != 0</td>
-                        </tr>
-                        <tr>
-                            <td><code>IndexError</code></td>
-                            <td>Invalid list/string index</td>
-                            <td>Check bounds</td>
-                        </tr>
-                    </tbody>
-                </table>
+while n &gt; 1:
+    result = result * n
+    n = n - 1
 
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Reading a Traceback</h4>
-                    <p>Python tracebacks read <strong>bottom to top</strong>. The last line tells you the error type and
-                        message. The line above it shows the exact line number and code that caused the error. Always
-                        start reading from the bottom!</p>
-                </div>
-            </section>
+print(result)</code></div>
+                        <div class="lesson-lab">
+                            <div class="trace-table-wrap">
+                                <table class="trace-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Step</th>
+                                            <th>n</th>
+                                            <th>result</th>
+                                            <th>n &gt; 1?</th>
+                                            <th>Output</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="guidedTraceBody"></tbody>
+                                </table>
+                            </div>
+                            <div class="lesson-tabs"><button id="checkGuidedTrace" class="lesson-lab-btn"
+                                    type="button">Check table</button><button id="resetGuidedTrace"
+                                    class="lesson-lab-btn" type="button">Reset</button></div>
+                            <div id="guidedTraceFeedback" class="lesson-lab-feedback">The initial row is provided.
+                                Complete the remaining rows.</div>
+                        </div>
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Independent Practice</h3>
+                        <div class="code-block"><code>s = ""
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+for i in range(1, 5):
+    if i % 2 == 0:
+        s = s + str(i)
+    else:
+        s = s + "*"
 
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Trace Table — Swapping Variables</h4>
-                    <div class="code-block"><code>a = 10
-b = 20
-temp = a
-a = b
-b = temp
-print(a, b)</code></div>
-                    <table class="theory-table">
-                        <thead>
-                            <tr>
-                                <th>Step</th>
-                                <th>a</th>
-                                <th>b</th>
-                                <th>temp</th>
-                                <th>Output</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>10</td>
-                                <td>20</td>
-                                <td>—</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>10</td>
-                                <td>20</td>
-                                <td>10</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>20</td>
-                                <td>20</td>
-                                <td>10</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>20</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>20 10</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+print(s)</code></div>
+                        <div class="lesson-lab">
+                            <p class="concept-text">Decide which columns you need before opening the template.</p>
+                            <div class="lesson-tabs"><button id="showIndependentTrace" class="lesson-lab-btn"
+                                    type="button">Show trace template</button><button id="checkIndependentTrace"
+                                    class="lesson-lab-btn" type="button" disabled>Check table</button><button
+                                    id="resetIndependentTrace" class="lesson-lab-btn" type="button"
+                                    disabled>Reset</button></div>
+                            <div id="independentTraceArea" hidden></div>
+                            <div id="independentTraceFeedback" class="lesson-lab-feedback">Predict the final value of s
+                                and exact output first.</div>
+                        </div>
+                    </section>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Finding and Fixing Bugs</h4>
-                    <div class="code-block"><code># BUGGY CODE — Find 3 errors:
-num = input("Enter a number")      # Bug 1: missing colon in prompt
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title"><i class="fas fa-bug"></i> Three Types of Errors</h2>
+                        <div class="error-type-grid">
+                            <div class="error-type-card"><i class="fas fa-code"></i>
+                                <h4>Syntax Error</h4>
+                                <p>Python cannot parse the program because a language rule has been broken.</p>
+                                <code>print("Hi"</code>
+                            </div>
+                            <div class="error-type-card"><i class="fas fa-bolt"></i>
+                                <h4>Runtime Error</h4>
+                                <p>The program starts, but an invalid operation occurs while it is running.</p>
+                                <code>10 / 0</code>
+                            </div>
+                            <div class="error-type-card"><i class="fas fa-brain"></i>
+                                <h4>Logic Error</h4>
+                                <p>The program runs, but the algorithm or formula produces the wrong result.</p>
+                                <code>area = length + width</code>
+                            </div>
+                        </div>
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Error Classifier</h3>
+                        <div class="lesson-lab">
+                            <div id="classifierCode" class="classifier-code"></div>
+                            <div class="lesson-lab-options three"><button class="lesson-choice-btn classifier-choice"
+                                    data-type="syntax" type="button">Syntax</button><button
+                                    class="lesson-choice-btn classifier-choice" data-type="runtime"
+                                    type="button">Runtime</button><button class="lesson-choice-btn classifier-choice"
+                                    data-type="logic" type="button">Logic</button></div>
+                            <div id="classifierFeedback" class="lesson-lab-feedback">Classify the most important error
+                                shown.</div>
+                            <div class="lesson-lab-footer"><span id="classifierProgress"></span><button
+                                    id="nextClassifier" class="lesson-lab-btn" type="button">Next example</button></div>
+                        </div>
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Common Python Errors</h3>
+                        <div class="python-error-grid">
+                            <div class="python-error-card"><code>SyntaxError</code>
+                                <p>Missing colon, bracket or quote. Check punctuation and syntax.</p>
+                            </div>
+                            <div class="python-error-card"><code>IndentationError</code>
+                                <p>Invalid or inconsistent indentation.</p>
+                            </div>
+                            <div class="python-error-card"><code>NameError</code>
+                                <p>An undefined or misspelled name is used.</p>
+                            </div>
+                            <div class="python-error-card"><code>TypeError</code>
+                                <p>An operation receives an inappropriate type.</p>
+                            </div>
+                            <div class="python-error-card"><code>ValueError</code>
+                                <p>Example: <code>int("abc")</code>.</p>
+                            </div>
+                            <div class="python-error-card"><code>ZeroDivisionError</code>
+                                <p>Division or modulo by zero.</p>
+                            </div>
+                            <div class="python-error-card"><code>IndexError</code>
+                                <p>A sequence index is outside valid bounds.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="traceback">
+                        <h2 class="lesson-section-title"><i class="fas fa-terminal"></i> Reading a Python Traceback</h2>
+                        <div class="traceback-grid">
+                            <div class="traceback-panel" id="tracebackPanel">
+                                <div class="traceback-line"
+                                    data-explain="This is the traceback header. In a long traceback, the call chain follows below it.">
+                                    Traceback (most recent call last):</div>
+                                <div class="traceback-line"
+                                    data-explain="This tells you which file and line Python was executing."> File
+                                    "program.py", line 4, in &lt;module&gt;</div>
+                                <div class="traceback-line"
+                                    data-explain="This is the source statement where execution failed."> answer = 10 /
+                                    number</div>
+                                <div class="traceback-line"
+                                    data-explain="Read this first: the final line gives the exception type and message.">
+                                    ZeroDivisionError: division by zero</div>
+                            </div>
+                            <div class="traceback-guide">
+                                <pre id="tracebackExplanation">Click a traceback line.
+
+Recommended order:
+1. Read the final line.
+2. Identify the error type.
+3. Find the line number.
+4. Inspect the source line.
+5. Work backwards to find why the value became invalid.</pre>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-arrow-up"></i> Practical rule</h4>
+                            <p>Start at the bottom to identify the exception, then use the file and line information
+                                above it to locate the failing statement. In longer tracebacks, earlier lines show the
+                                chain of function calls that led there.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="debugging">
+                        <h2 class="lesson-section-title"><i class="fas fa-screwdriver-wrench"></i> Systematic Debugging
+                        </h2>
+                        <div class="debug-flow">
+                            <div class="debug-step">
+                                <div><i class="fas fa-play"></i><strong>Reproduce</strong><small>same failing
+                                        input</small></div>
+                            </div>
+                            <div class="debug-arrow">→</div>
+                            <div class="debug-step">
+                                <div><i class="fas fa-search"></i><strong>Locate</strong><small>suspicious
+                                        line/state</small></div>
+                            </div>
+                            <div class="debug-arrow">→</div>
+                            <div class="debug-step">
+                                <div><i class="fas fa-table-list"></i><strong>Trace</strong><small>record values</small>
+                                </div>
+                            </div>
+                            <div class="debug-arrow">→</div>
+                            <div class="debug-step">
+                                <div><i class="fas fa-wrench"></i><strong>Fix</strong><small>change the cause</small>
+                                </div>
+                            </div>
+                            <div class="debug-arrow">→</div>
+                            <div class="debug-step">
+                                <div><i class="fas fa-vial"></i><strong>Retest</strong><small>normal + edge
+                                        cases</small></div>
+                            </div>
+                        </div>
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Bug Hunt</h3>
+                        <div class="lesson-lab">
+                            <div class="bug-grid">
+                                <div class="bug-code" id="bugCode">
+                                    <div class="bug-line" data-bug="1"><span>1</span><span>num = input("Enter a number:
+                                            ")</span></div>
+                                    <div class="bug-line" data-bug="2"><span>2</span><span>total = 0</span></div>
+                                    <div class="bug-line" data-bug="3"><span>3</span><span>for i in range(1,
+                                            num):</span></div>
+                                    <div class="bug-line" data-bug="4"><span>4</span><span>&nbsp;&nbsp;&nbsp;&nbsp;total
+                                            += i</span></div>
+                                    <div class="bug-line" data-bug="5">
+                                        <span>5</span><span>&nbsp;&nbsp;&nbsp;&nbsp;print("Sum:", totl)</span></div>
+                                </div>
+                                <div class="bug-notes">
+                                    <h4 id="bugTitle">Select a suspicious line</h4>
+                                    <p id="bugExplanation">Click a line to investigate it.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Expected vs Actual Output</h3>
+                        <div class="code-block"><code># Intended: average of 3 numbers
 total = 0
-for i in range(1, num):            # Bug 2: num is a string!
-    total += i
-    print("Sum:", totl)             # Bug 3: typo "totl"
+for i in range(3):
+    n = int(input("Number: "))
+    total += n
+average = total / 2
+print(average)</code></div>
+                        <div class="compare-grid">
+                            <div class="output-card"><strong>Input</strong>
+                                <pre>10
+20
+30</pre>
+                            </div>
+                            <div class="output-card"><strong>Expected vs Actual</strong>
+                                <pre>Expected: 20.0
+Actual:   30.0</pre>
+                            </div>
+                        </div>
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">Which line causes the logic error?</div>
+                            <div class="lesson-lab-options three"><button class="lesson-choice-btn output-choice"
+                                    data-output="loop" type="button">for i in range(3)</button><button
+                                    class="lesson-choice-btn output-choice" data-output="input"
+                                    type="button">int(input(...))</button><button
+                                    class="lesson-choice-btn output-choice" data-output="divide" type="button">average =
+                                    total / 2</button></div>
+                            <div id="outputFeedback" class="lesson-lab-feedback">Compare the expected operation with the
+                                actual formula.</div>
+                        </div>
+                    </section>
 
-# FIXED CODE:
-num = int(input("Enter a number: "))  # Fix 1: added ": ", Fix 2: int()
-total = 0
-for i in range(1, num + 1):           # Fix: include num in range
-    total += i
-print("Sum:", total)                   # Fix 3: fixed typo, moved outside loop</code></div>
-                </div>
+                    <section class="lesson-section" id="examples">
+                        <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="lesson-tabs-label"><i class="fas fa-hand-pointer"></i><span>Choose an
+                                example:</span></div>
+                        <div class="lesson-tabs lesson-tabs--examples"><button class="lesson-tab active"
+                                data-example="swap" type="button"><i
+                                    class="fas fa-right-left"></i><span>Swapping</span></button><button
+                                class="lesson-tab" data-example="bugs" type="button"><i
+                                    class="fas fa-bug"></i><span>Fixing Bugs</span></button><button class="lesson-tab"
+                                data-example="fib" type="button"><i
+                                    class="fas fa-wave-square"></i><span>Fibonacci</span></button><button
+                                class="lesson-tab" data-example="debugprint" type="button"><i
+                                    class="fas fa-terminal"></i><span>print() Debugging</span></button></div>
+                        <div class="lesson-tab-panel">
+                            <h4 id="workedTitle"></h4>
+                            <p id="workedDescription"></p>
+                            <div id="workedInteractive"></div>
+                            <div class="code-block"><code id="workedCode"></code></div>
+                        </div>
+                    </section>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">3</span> Trace — Fibonacci Sequence</h4>
-                    <div class="code-block"><code>a = 0
-b = 1
-for i in range(6):
-    print(a, end=" ")
-    a, b = b, a + b</code></div>
-                    <table class="theory-table">
-                        <thead>
-                            <tr>
-                                <th>i</th>
-                                <th>a (before)</th>
-                                <th>b (before)</th>
-                                <th>Output</th>
-                                <th>a (after)</th>
-                                <th>b (after)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>1</td>
-                                <td>0</td>
-                                <td>1</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>5</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>3</td>
-                                <td>5</td>
-                                <td>3</td>
-                                <td>5</td>
-                                <td>8</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>5</td>
-                                <td>8</td>
-                                <td>5</td>
-                                <td>8</td>
-                                <td>13</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p>Output: <code>0 1 1 2 3 5</code></p>
-                </div>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls & Common
+                            Errors</h2>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Logic errors may not crash</h4>
+                            <p>Compare actual output with a known expected result and trace the program to find where
+                                values first diverge.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Skipping important trace steps</h4>
+                            <p>A trace table is evidence. Do not skip a state change needed to explain the final result.
+                            </p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Confusing runtime and syntax errors</h4>
+                            <p>A <code>NameError</code> occurs during execution. A syntax error prevents Python from
+                                successfully parsing the program.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Fixing without retesting</h4>
+                            <p>Always rerun the failing case and at least one normal case after a fix.</p>
+                        </div>
+                    </section>
 
-                <div class="worked-example">
-                    <h4><span class="step-num">4</span> Debugging Strategy — print() Debugging</h4>
-                    <div class="code-block"><code># If you can't find a bug, add print() statements:
-def average(numbers):
-    total = 0
-    for n in numbers:
-        total += n
-        print(f"DEBUG: n={n}, total={total}")  # Temporary debug print
-    avg = total / len(numbers)
-    print(f"DEBUG: final total={total}, count={len(numbers)}")
-    return avg
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Trace Table Tips</h4>
+                            <ul>
+                                <li>Create columns for every changing variable required by the question.</li>
+                                <li>Record output exactly when the print statement executes.</li>
+                                <li>Follow the real control flow: selection may skip statements and loops may repeat
+                                    them.</li>
+                                <li>Keep types accurate — for example, <code>/</code> can produce a float.</li>
+                                <li>Do not jump straight to the final answer when intermediate states are required.</li>
+                            </ul>
+                        </div>
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-screwdriver-wrench"></i> Debugging Strategy</h4>
+                            <ul>
+                                <li>Read the error message and identify its type.</li>
+                                <li>Locate the line mentioned by the traceback.</li>
+                                <li>Trace suspicious variables or use temporary debug prints.</li>
+                                <li>Compare actual output with an expected result you can calculate manually.</li>
+                                <li>Retest after every fix.</li>
+                            </ul>
+                        </div>
+                    </section>
 
-result = average([10, 20, 30])
-print("Average:", result)
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>Name the three main error types and state when each is detected.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain why <code>pritn("Hello")</code> produces a runtime <code>NameError</code>
+                                    rather than a syntax error.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>State the purpose of an Output column in a trace table.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Create a complete trace table for
+                                    <code>n=4; result=1; while n&gt;1: result*=n; n-=1; print(result)</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Fix the average program:
+                                    <code>total=0; for i in range(3); n=input(...); total+=n; avg=total/2</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Given a traceback ending in <code>ZeroDivisionError</code>, describe the order in
+                                    which you would investigate it.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Trace <code>s=""; for i in range(1,5): if i%2==0: s+=str(i); else: s+="*"</code>.
+                                    Show every value of <code>i</code> and <code>s</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Write a deliberately buggy program with one syntax error, one runtime error and one
+                                    logic error. Then provide the corrected version with explanations.</p>
+                            </div>
+                        </div>
+                    </section>
 
-# Remove debug prints when the bug is fixed!</code></div>
-                </div>
-            </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: Complete the trace table. [4]</p>
+                            <div class="code-block"><code>x = 2
+y = 1
+for i in range(3):
+    x = x + y
+    y = y + 1
+print(x)</code></div>
+                            <div class="trace-table-wrap">
+                                <table class="trace-table">
+                                    <thead>
+                                        <tr>
+                                            <th>i</th>
+                                            <th>x</th>
+                                            <th>y</th>
+                                            <th>Output</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>0</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>after loop</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                            <td>?</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal completed trace</summary>
+                                <div>i=0 → x=3, y=2
+                                    i=1 → x=5, y=3
+                                    i=2 → x=8, y=4
+                                    after loop → output 8</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: Classify the error and explain why. [2]
+                                <code>age = int("sixteen")</code></p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Runtime error / ValueError. The string cannot be converted to an integer.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: Identify and fix the error. [2]</p>
+                            <div class="code-block"><code>length = 8
+width = 5
+area = length + width
+print(area)</code></div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Logic error. Replace + with *: area = length * width</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Which traceback line should you normally read first, and why?
+                                [2]</p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Read the final line first because it gives the exception type and message. Then use
+                                    the lines above to locate the source statement and call path.</div>
+                            </details>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common
-                    Errors</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Logic Error — Hardest to Find</h4>
-                    <p>Logic errors don't crash the program — they just give wrong results. The code runs fine, but the
-                        answer is incorrect. Only trace tables and careful testing reveal them.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Skipping Steps in Trace Tables</h4>
-                    <p>In exams, you must show <strong>every</strong> variable change, not just the final values. Each
-                        row should represent one iteration or one statement execution.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Confusing Error Types</h4>
-                    <p>A <code>NameError</code> is a runtime error (program crashes), not a syntax error. Syntax errors
-                        prevent the program from running at all. Runtime errors occur while the program is running.</p>
-                </div>
-            </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                        <div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to
+                                reveal</span></div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. What type of error is <code>pritn</code> instead of
+                                <code>print</code>?</div>
+                            <div class="quiz-answer"
+                                data-answer="NameError — a runtime error because Python tries to use a name that is not defined">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. Which error type can give the wrong answer without crashing?
+                            </div>
+                            <div class="quiz-answer" data-answer="A logic error">Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What should a trace table record when print() executes?</div>
+                            <div class="quiz-answer"
+                                data-answer="The exact printed value in the Output column at that point in execution">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. What should you normally read first in a traceback?</div>
+                            <div class="quiz-answer"
+                                data-answer="The final line, because it gives the exception type and error message">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. What error does <code>int("hello")</code> cause?</div>
+                            <div class="quiz-answer"
+                                data-answer="ValueError — the string cannot be interpreted as a valid integer">Click to
+                                reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">6. Why is expected output useful during debugging?</div>
+                            <div class="quiz-answer"
+                                data-answer="It gives a correct result to compare against, helping you find where actual behaviour first diverges">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. Why add temporary print() statements?</div>
+                            <div class="quiz-answer"
+                                data-answer="To inspect variable values and program state at suspicious points">Click to
+                                reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">8. What should you do after fixing a bug?</div>
+                            <div class="quiz-answer"
+                                data-answer="Retest the failing case and other relevant inputs to confirm the fix">Click
+                                to reveal answer</div>
+                        </div>
+                    </section>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Trace Table Tips</h4>
-                    <ul>
-                        <li>Draw columns for <strong>every variable</strong> mentioned + an <strong>Output</strong>
-                            column</li>
-                        <li>Execute <strong>one line at a time</strong>, left to right, top to bottom</li>
-                        <li>For loops: check the condition <strong>before</strong> and <strong>after</strong> each
-                            iteration</li>
-                        <li>Write values <strong>exactly as Python computes them</strong> (int vs float matters!)</li>
-                        <li>If the code uses <code>print()</code>, record in the Output column at that step</li>
-                    </ul>
+                    <nav class="lesson-nav"><a href="lesson-07-nested-loops.html"><span><span class="nav-label">←
+                                    Previous</span><span class="nav-title">Nested Loops</span></span></a><a
+                            href="../term2/lesson-09-sets-create.html"><span><span class="nav-label">Next →</span><span
+                                    class="nav-title">Creating Sets</span></span></a></nav>
                 </div>
-                <div class="pro-tip-box">
-                    <h4><i class="fas fa-graduation-cap"></i> Debugging Strategy</h4>
-                    <ul>
-                        <li><strong>Read</strong> the error message carefully (especially the last line)</li>
-                        <li><strong>Locate</strong> the line number mentioned in the traceback</li>
-                        <li><strong>Add print()</strong> statements to check variable values at suspicious points</li>
-                        <li><strong>Test</strong> with simple, known inputs where you can calculate the expected output
-                        </li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Name the three types of errors and give one characteristic of each.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Classify each error: (a) <code>primt("Hello")</code> (b) <code>int("abc")</code> (c) Using
-                            <code>n + 1</code> instead of <code>n - 1</code> in a formula.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Create a complete trace table for:
-                            <code>n = 4; result = 1; while n > 1: result *= n; n -= 1; print(result)</code></p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>The following code should print the average of 3 numbers but has 3 bugs. Find and fix
-                            them:<br><code>total = 0; for i in range(3); n = input("Number: "); total += n; avg = total / 2; print(avg)</code>
-                        </p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Trace:
-                            <code>s = ""; for i in range(1, 5): if i % 2 == 0: s += str(i); else: s += "*"; print(s)</code>
-                        </p>
-                    </div>
-                    <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Write a deliberately buggy program (with 1 syntax error, 1 runtime error, and 1 logic error).
-                            Then provide the corrected version with explanations.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <div class="quiz-question">1. What type of error is a misspelled variable name like
-                        <code>pritn</code> instead of <code>print</code>?</div>
-                    <div class="quiz-answer"
-                        data-answer="NameError (runtime error) — Python doesn't recognise the name 'pritn'">Click to
-                        reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">2. What type of error gives a wrong answer but doesn't crash?</div>
-                    <div class="quiz-answer"
-                        data-answer="Logic error — the program runs fine but produces incorrect results">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">3. What columns should a trace table always include?</div>
-                    <div class="quiz-answer"
-                        data-answer="One column per variable + an Output column for print() statements">Click to reveal
-                        answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">4. How do you read a Python traceback?</div>
-                    <div class="quiz-answer"
-                        data-answer="Bottom to top — the last line shows the error type, the line above shows the code that caused it">
-                        Click to reveal answer</div>
-                </div>
-                <div class="quiz-item">
-                    <div class="quiz-question">5. What error does <code>int("hello")</code> cause?</div>
-                    <div class="quiz-answer" data-answer="ValueError — 'hello' cannot be converted to an integer">Click
-                        to reveal answer</div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="lesson-07-nested-loops.html"><span class="nav-label">← Previous</span><span class="nav-title">Nested Loops</span></a>
-                        <a href="../term2/lesson-09-sets-create.html"><span class="nav-label">Next →</span><span class="nav-title">Creating Sets</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
-
+            </div>
+        </main>
+    </div>
     <footer class="site-footer">
         <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
-            <p>&copy; 2025 IT-Tea. Educational use.</p>
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const videos = { trace: { title: 'Trace Tables', description: "Craig'n'Dave Cambridge IGCSE — trace tables and dry-running algorithms. The explanation begins at about 00:09.", src: 'https://www.youtube-nocookie.com/embed/-7_kyY88Y9Y?start=9&rel=0', iframeTitle: 'Craig n Dave - Trace tables' }, errors: { title: 'Identifying Errors & Suggesting Fixes', description: "Craig'n'Dave Cambridge IGCSE — types of errors, syntax errors and logical errors.", src: 'https://www.youtube-nocookie.com/embed/F_BiYH9b8OQ?start=11&rel=0', iframeTitle: 'Craig n Dave - Identifying errors' } };
+            const vt = document.querySelectorAll('.video-tab'), vf = document.getElementById('lessonVideoFrame'), vtitle = document.getElementById('lessonVideoTitle'), vdesc = document.getElementById('lessonVideoDescription'); function showVideo(k) { const v = videos[k]; vtitle.textContent = v.title; vdesc.textContent = v.description; vf.src = v.src; vf.title = v.iframeTitle; vt.forEach(b => b.classList.toggle('active', b.dataset.video === k)) } vt.forEach(b => b.addEventListener('click', () => showVideo(b.dataset.video)));
+
+            const states = [{ l: 1, x: 3, y: '—', t: '—', e: 'Execute line 1: x becomes 3.' }, { l: 2, x: 3, y: 2, t: '—', e: 'Execute line 2: y becomes 2.' }, { l: 3, x: 3, y: 2, t: 0, e: 'Execute line 3: total becomes 0.' }, { l: 4, x: 3, y: 2, t: 0, e: 'Check 3 > 0 → True.' }, { l: 5, x: 3, y: 2, t: 2, e: 'total = 0 + 2 = 2.' }, { l: 6, x: 2, y: 2, t: 2, e: 'x = 3 - 1 = 2.' }, { l: 4, x: 2, y: 2, t: 2, e: 'Check 2 > 0 → True.' }, { l: 5, x: 2, y: 2, t: 4, e: 'total = 2 + 2 = 4.' }, { l: 6, x: 1, y: 2, t: 4, e: 'x = 2 - 1 = 1.' }, { l: 4, x: 1, y: 2, t: 4, e: 'Check 1 > 0 → True.' }, { l: 5, x: 1, y: 2, t: 6, e: 'total = 4 + 2 = 6.' }, { l: 6, x: 0, y: 2, t: 6, e: 'x = 1 - 1 = 0.' }, { l: 4, x: 0, y: 2, t: 6, e: 'Check 0 > 0 → False, leave the loop.' }, { l: 7, x: 0, y: 2, t: 6, e: 'print(total) outputs 6.' }]; let si = -1; const lines = document.querySelectorAll('.code-line'), sx = document.getElementById('stateX'), sy = document.getElementById('stateY'), st = document.getElementById('stateTotal'), se = document.getElementById('stateEvent'), sp = document.getElementById('statePrev'), sn = document.getElementById('stateNext'); function renderState() { lines.forEach(x => x.classList.remove('active')); if (si < 0) { sx.textContent = sy.textContent = st.textContent = '—'; se.innerHTML = 'Press <strong>Next statement</strong> to begin.' } else { const s = states[si], line = document.querySelector(`.code-line[data-line="${s.l}"]`); if (line) line.classList.add('active'); sx.textContent = s.x; sy.textContent = s.y; st.textContent = s.t; se.textContent = s.e } sp.disabled = si < 0; sn.disabled = si >= states.length - 1 } sp.addEventListener('click', () => { if (si >= 0) si--; renderState() }); sn.addEventListener('click', () => { if (si < states.length - 1) si++; renderState() }); document.getElementById('stateReset').addEventListener('click', () => { si = -1; renderState() }); renderState();
+
+            const guided = [['init', 4, 1, 'True', ''], ['1', 3, 4, 'True', ''], ['2', 2, 12, 'True', ''], ['3', 1, 24, 'False', '24']], gb = document.getElementById('guidedTraceBody'), gf = document.getElementById('guidedTraceFeedback'); function buildGuided() { gb.innerHTML = ''; guided.forEach((r, i) => { const tr = document.createElement('tr'); tr.innerHTML = i === 0 ? '<td>init</td><td>4</td><td>1</td><td>True</td><td></td>' : `<td>${r[0]}</td><td><input></td><td><input></td><td><input></td><td><input></td>`; gb.appendChild(tr) }); gf.className = 'lesson-lab-feedback'; gf.textContent = 'The initial row is provided. Complete the remaining rows.' } document.getElementById('checkGuidedTrace').addEventListener('click', () => { let c = 0, t = 0;[...gb.rows].forEach((tr, i) => { if (i === 0) return; const ins = tr.querySelectorAll('input'), exp = guided[i].slice(1); ins.forEach((inp, j) => { t++; const ok = inp.value.trim() === String(exp[j]), cell = inp.parentElement; cell.classList.remove('trace-cell-correct', 'trace-cell-wrong'); cell.classList.add(ok ? 'trace-cell-correct' : 'trace-cell-wrong'); if (ok) c++ }) }); const ok = c === t; gf.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`; gf.textContent = ok ? 'Correct. result changes 1 → 4 → 12 → 24 while n falls to 1.' : `${c} of ${t} cells are correct. Multiply first, then decrement n.` }); document.getElementById('resetGuidedTrace').addEventListener('click', buildGuided); buildGuided();
+
+            const ind = [[1, '*'], [2, '*2'], [3, '*2*'], [4, '*2*4']], ia = document.getElementById('independentTraceArea'), ifb = document.getElementById('independentTraceFeedback'), ic = document.getElementById('checkIndependentTrace'), ir = document.getElementById('resetIndependentTrace'); function buildInd() { ia.innerHTML = `<div class="trace-table-wrap"><table class="trace-table"><thead><tr><th>Iteration</th><th>i</th><th>s after iteration</th></tr></thead><tbody>${ind.map((_, i) => `<tr><td>${i + 1}</td><td><input></td><td><input></td></tr>`).join('')}</tbody></table></div>`; ia.hidden = false; ic.disabled = false; ir.disabled = false; ifb.className = 'lesson-lab-feedback'; ifb.textContent = 'Fill i and s after each iteration. Final output should be *2*4.' } document.getElementById('showIndependentTrace').addEventListener('click', buildInd); ic.addEventListener('click', () => { let c = 0, t = 0; ia.querySelectorAll('tbody tr').forEach((tr, i) => { const ins = tr.querySelectorAll('input'); ins.forEach((inp, j) => { t++; const ok = inp.value.trim() === String(ind[i][j]), cell = inp.parentElement; cell.classList.remove('trace-cell-correct', 'trace-cell-wrong'); cell.classList.add(ok ? 'trace-cell-correct' : 'trace-cell-wrong'); if (ok) c++ }) }); const ok = c === t; ifb.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`; ifb.textContent = ok ? 'Correct. Final s and output are *2*4.' : `${c} of ${t} cells are correct. Re-evaluate the if/else branch for each i.` }); ir.addEventListener('click', buildInd);
+
+            const classEx = [{ code: 'print("Hello"', a: 'syntax', why: 'Missing closing parenthesis: Python cannot parse the statement.' }, { code: 'number = 0\nprint(10 / number)', a: 'runtime', why: 'Division by zero fails while the program is running.' }, { code: 'length = 8\nwidth = 5\narea = length + width', a: 'logic', why: 'The program runs, but the formula is wrong for rectangle area.' }, { code: 'name = "Ada"\nprint(nmae)', a: 'runtime', why: 'The misspelled variable causes NameError during execution.' }, { code: 'for i in range(5)\n    print(i)', a: 'syntax', why: 'The for statement is missing its colon.' }]; let ci = 0; const cc = document.getElementById('classifierCode'), cf = document.getElementById('classifierFeedback'), cp = document.getElementById('classifierProgress'), choices = document.querySelectorAll('.classifier-choice'); function loadClass() { const x = classEx[ci]; cc.textContent = x.code; cf.className = 'lesson-lab-feedback'; cf.textContent = 'Classify the most important error shown.'; cp.textContent = `Example ${ci + 1} of ${classEx.length}`; choices.forEach(b => b.classList.remove('active')) } choices.forEach(b => b.addEventListener('click', () => { const x = classEx[ci], ok = b.dataset.type === x.a; choices.forEach(z => z.classList.remove('active')); b.classList.add('active'); cf.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`; cf.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}` })); document.getElementById('nextClassifier').addEventListener('click', () => { ci = (ci + 1) % classEx.length; loadClass() }); loadClass();
+
+            document.querySelectorAll('.traceback-line').forEach(line => line.addEventListener('click', () => { document.querySelectorAll('.traceback-line').forEach(x => x.classList.remove('active')); line.classList.add('active'); document.getElementById('tracebackExplanation').textContent = line.dataset.explain }));
+
+            const bd = { 1: ['Line 1 — type issue', 'input() returns a string. Convert it with int(input(...)) before using it as a range limit.'], 2: ['Line 2 — correct', 'total = 0 is a valid accumulator initialisation.'], 3: ['Line 3 — runtime/type problem', 'range(1, num) requires an integer. If the intention is to include num, use range(1, num + 1) after conversion.'], 4: ['Line 4 — correct', 'total += i correctly accumulates the values.'], 5: ['Line 5 — NameError and placement issue', 'totl is misspelled. If only the final sum is required, print("Sum:", total) should be after the loop.'] }; document.querySelectorAll('.bug-line').forEach(line => line.addEventListener('click', () => { document.querySelectorAll('.bug-line').forEach(x => x.classList.remove('selected')); line.classList.add('selected'); const d = bd[line.dataset.bug]; document.getElementById('bugTitle').textContent = d[0]; document.getElementById('bugExplanation').textContent = d[1] }));
+
+            document.querySelectorAll('.output-choice').forEach(b => b.addEventListener('click', () => { const ok = b.dataset.output === 'divide'; document.querySelectorAll('.output-choice').forEach(x => x.classList.remove('active')); b.classList.add('active'); const f = document.getElementById('outputFeedback'); f.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`; f.textContent = ok ? 'Correct. Three numbers are entered, so the average must divide by 3, not 2.' : 'Not quite. Input and accumulation are correct; recheck the formula.' }));
+
+            const ex = { swap: { title: 'Trace Table — Swapping Variables', desc: 'temp preserves the original value of a before a is overwritten.', code: 'a = 10\nb = 20\ntemp = a\na = b\nb = temp\nprint(a, b)' }, bugs: { title: 'Finding and Fixing Bugs', desc: 'Separate type, name and logic/placement problems instead of changing many lines at once.', code: 'num = int(input("Enter a number: "))\ntotal = 0\nfor i in range(1, num + 1):\n    total += i\nprint("Sum:", total)' }, fib: { title: 'Trace — Fibonacci Sequence', desc: 'Track the values before and after the simultaneous assignment.', code: 'a = 0\nb = 1\nfor i in range(6):\n    print(a, end=" ")\n    a, b = b, a + b' }, debugprint: { title: 'Debugging with Temporary print() Statements', desc: 'Temporary debug output lets you inspect internal state without changing the algorithm.', code: 'def average(numbers):\n    total = 0\n    for n in numbers:\n        total += n\n        print(f"DEBUG: n={n}, total={total}")\n    avg = total / len(numbers)\n    return avg' } }; const wt = document.querySelectorAll('[data-example]'), wtitle = document.getElementById('workedTitle'), wdesc = document.getElementById('workedDescription'), wi = document.getElementById('workedInteractive'), wc = document.getElementById('workedCode'); function showEx(k) { const x = ex[k]; wtitle.textContent = x.title; wdesc.textContent = x.desc; wc.textContent = x.code; if (k === 'swap') wi.innerHTML = '<div class="swap-flow"><div class="swap-card"><code>temp = a</code><span>temp = 10</span></div><div class="swap-card"><code>a = b</code><span>a = 20</span></div><div class="swap-card"><code>b = temp</code><span>b = 10</span></div></div>'; if (k === 'bugs') wi.innerHTML = '<div class="compare-grid"><div class="output-card"><strong>Type problem</strong><pre>num = input(...)\nrange(1, num)</pre></div><div class="output-card"><strong>Name problem</strong><pre>totl → undefined\ntotal → correct</pre></div></div>'; if (k === 'fib') wi.innerHTML = '<div class="fib-strip"><span class="fib-chip">0</span><span class="fib-chip">1</span><span class="fib-chip">1</span><span class="fib-chip">2</span><span class="fib-chip">3</span><span class="fib-chip">5</span></div>'; if (k === 'debugprint') wi.innerHTML = '<div class="debug-console">DEBUG: n=10, total=10\nDEBUG: n=20, total=30\nDEBUG: n=30, total=60\nAverage: 20.0</div>'; wt.forEach(b => b.classList.toggle('active', b.dataset.example === k)) } wt.forEach(b => b.addEventListener('click', () => showEx(b.dataset.example))); showEx('swap');
+        });
+    </script>
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/lesson.js"></script>
