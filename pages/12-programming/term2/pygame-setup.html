@@ -4,333 +4,1117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PyGame Setup &amp; Window — mr. TEA</title>
+    <title>PyGame Setup & Window — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
-        content="Installing PyGame, importing modules, creating a game window with pygame.display. NIS Grade 12.">
-
-    <!-- Open Graph -->
+        content="Installing PyGame, importing modules, initializing pygame and creating a display Surface/window. NIS Grade 12 Programming 12.5.1.1, 12.5.1.2.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="PyGame Setup &amp;amp; Window — mr. TEA">
-    <meta property="og:description" content="Installing PyGame, importing modules, creating a game window with pygame.display. NIS Grade 12.">
+    <meta property="og:title" content="PyGame Setup & Window — mr. TEA">
+    <meta property="og:description"
+        content="Installing PyGame, importing modules, initializing pygame and creating a display Surface/window. NIS Grade 12 Programming 12.5.1.1, 12.5.1.2.">
     <meta property="og:url" content="https://mr-tea.net/pages/12-programming/term2/pygame-setup.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+    <style>
+        .pygame-roadmap {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .roadmap-card {
+            min-height: 145px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .roadmap-card.today {
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .06)
+        }
+
+        .roadmap-card i {
+            margin-bottom: .4rem;
+            color: var(--clr-tea);
+            font-size: 1.1rem
+        }
+
+        .roadmap-card strong {
+            display: block;
+            margin-bottom: .2rem;
+            color: var(--text-primary);
+            font-size: .7rem
+        }
+
+        .roadmap-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .62rem;
+            line-height: 1.4
+        }
+
+        .roadmap-tag {
+            display: inline-block;
+            margin-bottom: .4rem;
+            padding: .2rem .42rem;
+            border-radius: 999px;
+            background: rgba(13, 148, 136, .1);
+            color: var(--clr-tea);
+            font-size: .54rem;
+            font-weight: 900;
+            text-transform: uppercase
+        }
+
+        .anchor-grid,
+        .install-grid,
+        .window-anatomy-layout,
+        .builder-layout,
+        .code-anatomy-layout,
+        .worked-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: stretch
+        }
+
+        .setup-pipeline {
+            min-height: 250px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+            gap: var(--space-xs);
+            align-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card)
+        }
+
+        .pipeline-node {
+            min-height: 100px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass)
+        }
+
+        .pipeline-node i {
+            display: block;
+            margin-bottom: .3rem;
+            color: var(--clr-tea)
+        }
+
+        .pipeline-node strong {
+            display: block;
+            margin-bottom: .2rem;
+            color: var(--text-primary);
+            font-size: .64rem
+        }
+
+        .pipeline-node code {
+            color: var(--clr-tea);
+            font: 700 .58rem var(--font-code)
+        }
+
+        .pipeline-arrow {
+            color: var(--clr-tea);
+            font-weight: 900
+        }
+
+        .install-card {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .install-card strong {
+            display: block;
+            margin-bottom: .35rem;
+            color: var(--text-primary);
+            font-size: .72rem
+        }
+
+        .install-card pre {
+            margin: 0;
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .67rem/1.5 var(--font-code);
+            white-space: pre-wrap;
+            overflow-wrap: anywhere
+        }
+
+        .fake-window-shell {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: var(--bg-glass)
+        }
+
+        .fake-window {
+            width: 100%;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            border: 2px solid var(--border-hover);
+            border-radius: 10px;
+            background: #202124;
+            box-shadow: var(--shadow-lg)
+        }
+
+        .fake-titlebar {
+            height: 42px;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            padding: 0 .8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, .12);
+            background: #313338;
+            color: #f2f3f5;
+            font-size: .68rem;
+            font-weight: 750
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 5px
+        }
+
+        .window-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .38)
+        }
+
+        .fake-canvas {
+            height: calc(100% - 42px);
+            display: grid;
+            place-items: center;
+            position: relative;
+            color: rgba(255, 255, 255, .76);
+            font: 700 .72rem var(--font-code)
+        }
+
+        .dim-h {
+            position: absolute;
+            left: 8%;
+            right: 8%;
+            bottom: 9%;
+            border-top: 1px dashed rgba(255, 255, 255, .5);
+            text-align: center
+        }
+
+        .dim-h span {
+            position: relative;
+            top: .35rem;
+            padding: 0 .35rem;
+            background: #202124
+        }
+
+        .dim-v {
+            position: absolute;
+            top: 10%;
+            bottom: 12%;
+            right: 8%;
+            border-left: 1px dashed rgba(255, 255, 255, .5)
+        }
+
+        .dim-v span {
+            position: absolute;
+            top: 45%;
+            left: .4rem;
+            transform: rotate(90deg);
+            transform-origin: left center;
+            padding: 0 .35rem;
+            background: #202124
+        }
+
+        .anatomy-labels {
+            display: grid;
+            gap: var(--space-sm)
+        }
+
+        .anatomy-label {
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .anatomy-label strong {
+            display: block;
+            margin-bottom: .2rem;
+            color: var(--text-primary);
+            font-size: .7rem
+        }
+
+        .anatomy-label code {
+            color: var(--clr-tea);
+            font: 700 .65rem var(--font-code)
+        }
+
+        .anatomy-label p {
+            margin: .25rem 0 0;
+            color: var(--text-secondary);
+            font-size: .64rem;
+            line-height: 1.4
+        }
+
+        .builder-layout {
+            grid-template-columns: .72fr 1.28fr
+        }
+
+        .builder-controls {
+            display: grid;
+            gap: var(--space-sm);
+            align-content: start
+        }
+
+        .builder-controls label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .68rem;
+            font-weight: 800
+        }
+
+        .builder-controls input {
+            width: 100%;
+            margin-top: .3rem;
+            padding: .58rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            outline: none;
+            font: 700 .72rem var(--font-code)
+        }
+
+        .builder-controls input:focus {
+            border-color: var(--clr-tea)
+        }
+
+        .builder-preview {
+            display: grid;
+            gap: var(--space-md)
+        }
+
+        .builder-window-shell {
+            min-height: 250px;
+            display: grid;
+            place-items: center;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .builder-window {
+            width: 72%;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            border: 2px solid var(--border-hover);
+            border-radius: 8px;
+            background: #1e1f22;
+            box-shadow: var(--shadow-lg);
+            transition: width .2s ease, aspect-ratio .2s ease
+        }
+
+        .builder-titlebar {
+            height: 34px;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: 0 .65rem;
+            background: #303136;
+            color: #fff;
+            font-size: .62rem;
+            font-weight: 750
+        }
+
+        .builder-titlebar i {
+            color: var(--clr-tea)
+        }
+
+        .builder-screen {
+            height: calc(100% - 34px);
+            display: grid;
+            place-items: center;
+            color: rgba(255, 255, 255, .7);
+            font: 700 .62rem var(--font-code)
+        }
+
+        .builder-code {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code)
+        }
+
+        .builder-code pre {
+            margin: 0;
+            color: var(--text-primary);
+            font: 700 .7rem/1.58 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .clickable-code,
+        .code-explanation {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg)
+        }
+
+        .clickable-code {
+            background: var(--bg-code)
+        }
+
+        .code-explanation {
+            background: var(--bg-card);
+            min-height: 250px
+        }
+
+        .clickable-line {
+            display: grid;
+            grid-template-columns: 32px 1fr;
+            gap: .5rem;
+            padding: .48rem;
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            cursor: pointer;
+            font: 700 .66rem/1.45 var(--font-code)
+        }
+
+        .clickable-line .line-no {
+            color: var(--text-muted);
+            text-align: right
+        }
+
+        .clickable-line:hover,
+        .clickable-line.active {
+            background: rgba(13, 148, 136, .1);
+            outline: 1px solid rgba(13, 148, 136, .35)
+        }
+
+        .code-explanation h4 {
+            margin: 0 0 .4rem;
+            color: var(--text-primary);
+            font-size: .8rem
+        }
+
+        .code-explanation p {
+            color: var(--text-secondary);
+            font-size: .68rem;
+            line-height: 1.5
+        }
+
+        .code-explanation code {
+            color: var(--clr-tea);
+            font: 700 .66rem var(--font-code)
+        }
+
+        .module-map {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-sm);
+            margin: var(--space-md) 0
+        }
+
+        .module-card {
+            min-height: 135px;
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .module-card.today {
+            border-color: var(--clr-tea);
+            background: rgba(13, 148, 136, .05)
+        }
+
+        .module-card code {
+            display: block;
+            margin-bottom: .25rem;
+            color: var(--clr-tea);
+            font: 800 .68rem var(--font-code)
+        }
+
+        .module-card strong {
+            display: block;
+            margin-bottom: .18rem;
+            color: var(--text-primary);
+            font-size: .64rem
+        }
+
+        .module-card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: .6rem;
+            line-height: 1.38
+        }
+
+        .setup-error-code {
+            min-height: 120px;
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-code);
+            color: var(--text-primary);
+            font: 700 .72rem/1.55 var(--font-code);
+            white-space: pre-wrap
+        }
+
+        .support-code-note {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: var(--space-md);
+            align-items: start
+        }
+
+        .support-code-note i {
+            color: var(--clr-tea);
+            font-size: 1.1rem;
+            margin-top: .15rem
+        }
+
+        .worked-mini-window,
+        .worked-note {
+            padding: var(--space-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card)
+        }
+
+        .worked-mini-window {
+            min-height: 210px;
+            display: grid;
+            place-items: center
+        }
+
+        .worked-mini-screen {
+            width: 75%;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            border: 2px solid var(--border-hover);
+            border-radius: 8px;
+            background: #17181a;
+            box-shadow: var(--shadow-md)
+        }
+
+        .worked-mini-title {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 .55rem;
+            background: #303136;
+            color: #fff;
+            font-size: .58rem;
+            font-weight: 700
+        }
+
+        .worked-mini-body {
+            height: calc(100% - 30px);
+            display: grid;
+            place-items: center;
+            color: rgba(255, 255, 255, .66);
+            font-size: .6rem
+        }
+
+        .worked-note p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: .67rem;
+            line-height: 1.48
+        }
+
+        @media(max-width:1000px) {
+            .pygame-roadmap {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .module-map {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .setup-pipeline {
+                grid-template-columns: 1fr
+            }
+
+            .pipeline-arrow {
+                transform: rotate(90deg);
+                text-align: center
+            }
+        }
+
+        @media(max-width:850px) {
+
+            .anchor-grid,
+            .install-grid,
+            .window-anatomy-layout,
+            .builder-layout,
+            .code-anatomy-layout,
+            .worked-preview {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:600px) {
+
+            .pygame-roadmap,
+            .module-map {
+                grid-template-columns: 1fr
+            }
+
+            .builder-window {
+                width: 92%
+            }
+        }
+    </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-P4C0Y8SW2K');</script>
 </head>
 
 <body>
+    <div class="layout-wrapper">
+        <main class="main-content">
+            <div class="mobile-header">
+                <div class="header-left"><button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i
+                            class="fas fa-bars"></i></button><a href="/" class="logo" style="margin-left:15px;"><i
+                            class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a></div>
+            </div>
+            <div class="lesson-page">
+                <div class="lesson-container">
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb"><a href="/index.html">Home</a><span
+                            class="sep">/</span><a href="/index.html#syllabus">Grade 12 PROG</a><span
+                            class="sep">/</span><span>12.2A — PyGame Setup & Window</span></nav>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.2A · Term 2</div>
+                        <h1 class="lesson-title">PyGame Setup & Window</h1>
+                        <p class="lesson-intro"><strong>PyGame</strong> is a Python library for building 2D applications
+                            and games. In this lesson you will connect the library, initialise its imported modules,
+                            create the main <strong>display Surface</strong>, and configure the game window.</p>
+                    </div>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">12.5.1.1</span> Connect the PyGame library and its modules</li>
+                            <li><span class="lo-code">12.5.1.2</span> Create the game window</li>
+                        </ul>
+                    </div>
+                    <nav class="lesson-section-jump" aria-label="Lesson sections"><a href="#scope">Scope</a><a
+                            href="#install">Install</a><a href="#window">Window</a><a href="#builder">Builder</a><a
+                            href="#modules">Modules</a><a href="#errors">Errors</a><a href="#examples">Examples</a><a
+                            href="#practice">Practice</a></nav>
+                    <section class="lesson-section" id="scope">
+                        <h2 class="lesson-section-title"><i class="fas fa-map"></i> Where This Lesson Fits</h2>
+                        <div class="pygame-roadmap">
+                            <div class="roadmap-card today"><span class="roadmap-tag">Today</span><i
+                                    class="fas fa-window-maximize"></i><strong>Setup & Window</strong>
+                                <p>Import PyGame, initialise modules, create the display Surface, choose window size and
+                                    set the caption.</p>
+                            </div>
+                            <div class="roadmap-card"><span class="roadmap-tag">Next</span><i
+                                    class="fas fa-repeat"></i><strong>Game Loop</strong>
+                                <p>Keep the application running, process events and update frames.</p>
+                            </div>
+                            <div class="roadmap-card"><span class="roadmap-tag">Later</span><i
+                                    class="fas fa-shapes"></i><strong>Drawing Primitives</strong>
+                                <p>Draw rectangles, circles, lines and other graphics on a Surface.</p>
+                            </div>
+                            <div class="roadmap-card"><span class="roadmap-tag">Later</span><i
+                                    class="fas fa-gamepad"></i><strong>Movement & Control</strong>
+                                <p>Animate objects and respond to keyboard and mouse input.</p>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-compass"></i> Stay focused</h4>
+                            <p>The event loop and drawing code may appear as <em>support code</em> so that your window
+                                remains usable, but those ideas are taught in the next lessons. Today's assessed focus
+                                is setup and window creation.</p>
+                        </div>
+                    </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="anchor-grid">
+                            <div class="analogy-box" style="margin:0;">
+                                <h4><i class="fas fa-tv"></i> The TV Screen Analogy</h4>
+                                <p>Think of PyGame as setting up a TV. First you connect the system
+                                    (<code>import pygame</code>), switch its components on (<code>pygame.init()</code>),
+                                    choose the screen size (<code>set_mode()</code>), and give the window a title
+                                    (<code>set_caption()</code>).</p>
+                            </div>
+                            <div class="setup-pipeline">
+                                <div class="pipeline-node">
+                                    <div><i class="fas fa-plug"></i><strong>Connect</strong><code>import pygame</code>
+                                    </div>
+                                </div>
+                                <div class="pipeline-arrow">→</div>
+                                <div class="pipeline-node">
+                                    <div><i
+                                            class="fas fa-power-off"></i><strong>Initialise</strong><code>pygame.init()</code>
+                                    </div>
+                                </div>
+                                <div class="pipeline-arrow">→</div>
+                                <div class="pipeline-node">
+                                    <div><i class="fas fa-display"></i><strong>Create
+                                            Surface</strong><code>set_mode((w,h))</code></div>
+                                </div>
+                                <div class="pipeline-arrow">→</div>
+                                <div class="pipeline-node">
+                                    <div><i
+                                            class="fas fa-window-maximize"></i><strong>Window</strong><code>caption + size</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="install">
+                        <h2 class="lesson-section-title"><i class="fas fa-download"></i> Installing & Connecting PyGame
+                        </h2>
+                        <div class="install-grid">
+                            <div class="install-card"><strong>Install PyGame</strong>
+                                <pre>python -m pip install pygame</pre>
+                            </div>
+                            <div class="install-card"><strong>Verify the installation</strong>
+                                <pre>python -c "import pygame; print(pygame.version.ver)"</pre>
+                            </div>
+                        </div>
+                        <div class="code-block"><code>import pygame
 
-<div class="layout-wrapper">
-    <main class="main-content">
+pygame.init()</code></div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> What pygame.init() actually does</h4>
+                            <p><code>pygame.init()</code> initialises the imported PyGame modules. You can also
+                                initialise individual modules separately, such as <code>pygame.display.init()</code>,
+                                but the higher-level <code>pygame.init()</code> is the normal beginner setup.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-triangle-exclamation"></i> ModuleNotFoundError?</h4>
+                            <p>If Python reports <code>No module named 'pygame'</code>, make sure you installed PyGame
+                                into the same Python environment/interpreter that runs your program.</p>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="window">
+                        <h2 class="lesson-section-title"><i class="fas fa-window-maximize"></i> The Game Window &
+                            Display Surface</h2>
+                        <div class="window-anatomy-layout">
+                            <div class="fake-window-shell">
+                                <div class="fake-window">
+                                    <div class="fake-titlebar">
+                                        <div class="window-dots"><span class="window-dot"></span><span
+                                                class="window-dot"></span><span class="window-dot"></span></div>My First
+                                        Game
+                                    </div>
+                                    <div class="fake-canvas"><span>display Surface</span>
+                                        <div class="dim-h"><span>800 px width</span></div>
+                                        <div class="dim-v"><span>600 px height</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="anatomy-labels">
+                                <div class="anatomy-label">
+                                    <strong>Caption</strong><code>pygame.display.set_caption(...)</code>
+                                    <p>Controls the title shown by the operating system's window.</p>
+                                </div>
+                                <div class="anatomy-label"><strong>Size</strong><code>(width, height)</code>
+                                    <p>A pair of integer dimensions passed to <code>set_mode()</code>.</p>
+                                </div>
+                                <div class="anatomy-label"><strong>Display
+                                        Surface</strong><code>screen = pygame.display.set_mode(...)</code>
+                                    <p><code>set_mode()</code> returns the main display Surface. Later lessons will draw
+                                        graphics onto this Surface.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
+                            Core Setup Commands</h3>
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Command</th>
+                                    <th>Purpose in this lesson</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>import pygame</code></td>
+                                    <td>Connect the PyGame package to the Python program</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pygame.init()</code></td>
+                                    <td>Initialise the imported PyGame modules</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pygame.display.set_mode((w, h))</code></td>
+                                    <td>Create the display Surface/window and return the Surface object</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pygame.display.set_caption("Title")</code></td>
+                                    <td>Set the window title</td>
+                                </tr>
+                                <tr>
+                                    <td><code>pygame.quit()</code></td>
+                                    <td>Uninitialise PyGame modules when the program is finishing</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="note-box">
+                            <h4><i class="fas fa-forward"></i> What about flip() and update()?</h4>
+                            <p><code>pygame.display.flip()</code> and <code>pygame.display.update()</code> make drawing
+                                changes visible. They belong naturally with the <strong>Game Loop</strong>, so we only
+                                preview them here and study frame updates in the next lesson.</p>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="builder">
+                        <h2 class="lesson-section-title"><i class="fas fa-sliders"></i> Game Window Builder</h2>
+                        <p class="concept-text">Change the window dimensions and title. The browser preview and
+                            generated PyGame setup code update immediately.</p>
+                        <div class="lesson-lab">
+                            <div class="builder-layout">
+                                <div class="builder-controls"><label>Width<input id="builderWidth" type="number"
+                                            min="200" max="1600" step="10" value="800"></label><label>Height<input
+                                            id="builderHeight" type="number" min="150" max="1000" step="10"
+                                            value="600"></label><label>Window title<input id="builderTitle" type="text"
+                                            maxlength="40" value="My First Game"></label>
+                                    <div class="lesson-tabs"><button class="lesson-lab-btn builder-preset"
+                                            data-width="800" data-height="600" data-title="My First Game"
+                                            type="button">800×600</button><button class="lesson-lab-btn builder-preset"
+                                            data-width="1024" data-height="768" data-title="Space Invaders"
+                                            type="button">1024×768</button><button class="lesson-lab-btn builder-preset"
+                                            data-width="640" data-height="480" data-title="Arcade Window"
+                                            type="button">640×480</button></div>
+                                </div>
+                                <div class="builder-preview">
+                                    <div class="builder-window-shell">
+                                        <div id="builderWindow" class="builder-window">
+                                            <div class="builder-titlebar"><i class="fab fa-python"></i><span
+                                                    id="builderTitlePreview">My First Game</span></div>
+                                            <div class="builder-screen"><span id="builderSizePreview">800 × 600</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="builder-code">
+                                        <pre id="builderCode"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-code"></i> Code Anatomy</h2>
+                        <div class="code-anatomy-layout">
+                            <div id="clickableCode" class="clickable-code">
+                                <div class="clickable-line active" data-code-line="1"><span
+                                        class="line-no">1</span><span>import pygame</span></div>
+                                <div class="clickable-line" data-code-line="2"><span
+                                        class="line-no">2</span><span>pygame.init()</span></div>
+                                <div class="clickable-line" data-code-line="3"><span class="line-no">3</span><span>WIDTH
+                                        = 800</span></div>
+                                <div class="clickable-line" data-code-line="4"><span
+                                        class="line-no">4</span><span>HEIGHT = 600</span></div>
+                                <div class="clickable-line" data-code-line="5"><span
+                                        class="line-no">5</span><span>screen = pygame.display.set_mode((WIDTH,
+                                        HEIGHT))</span></div>
+                                <div class="clickable-line" data-code-line="6"><span
+                                        class="line-no">6</span><span>pygame.display.set_caption("My First Game")</span>
+                                </div>
+                            </div>
+                            <div class="code-explanation">
+                                <h4 id="codeExplanationTitle">Line 1 — Import</h4>
+                                <p id="codeExplanationText"><code>import pygame</code> connects the PyGame package so
+                                    its modules and functions can be accessed with dot notation.</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="modules">
+                        <h2 class="lesson-section-title"><i class="fas fa-sitemap"></i> PyGame Module Map</h2>
+                        <p class="concept-text">You do not need to learn every module today. Use this map to see how the
+                            PyGame unit will grow.</p>
+                        <div class="module-map">
+                            <div class="module-card today"><span
+                                    class="roadmap-tag">Today</span><code>pygame.display</code><strong>Window & display
+                                    Surface</strong>
+                                <p>Create/configure the game window and control display behaviour.</p>
+                            </div>
+                            <div class="module-card"><span class="roadmap-tag">Game
+                                    Loop</span><code>pygame.event</code><strong>Events</strong>
+                                <p>Read quit, keyboard, mouse and other application events.</p>
+                            </div>
+                            <div class="module-card"><span
+                                    class="roadmap-tag">Drawing</span><code>pygame.draw</code><strong>Primitives</strong>
+                                <p>Draw rectangles, circles, lines and polygons on a Surface.</p>
+                            </div>
+                            <div class="module-card"><span
+                                    class="roadmap-tag">Later</span><code>pygame.image</code><strong>Images</strong>
+                                <p>Load image files and work with image Surfaces.</p>
+                            </div>
+                            <div class="module-card"><span
+                                    class="roadmap-tag">Later</span><code>pygame.font</code><strong>Text</strong>
+                                <p>Create Font objects and render text to Surfaces.</p>
+                            </div>
+                            <div class="module-card"><span
+                                    class="roadmap-tag">Later</span><code>pygame.mixer</code><strong>Audio</strong>
+                                <p>Play sound effects and music.</p>
+                            </div>
+                            <div class="module-card"><span class="roadmap-tag">Game
+                                    Loop</span><code>pygame.time</code><strong>Timing</strong>
+                                <p>Control frame rate and measure time.</p>
+                            </div>
+                            <div class="module-card"><span
+                                    class="roadmap-tag">Control</span><code>pygame.key</code><strong>Keyboard</strong>
+                                <p>Check keyboard state and keys being held down.</p>
+                            </div>
+                            <div class="module-card"><span
+                                    class="roadmap-tag">Control</span><code>pygame.mouse</code><strong>Mouse</strong>
+                                <p>Read pointer position and mouse button state.</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title"><i class="fas fa-bug"></i> Spot the Setup Error</h2>
+                        <div class="lesson-lab">
+                            <div id="setupErrorCode" class="setup-error-code"></div>
+                            <div class="lesson-lab-options four"><button class="lesson-choice-btn setup-error-choice"
+                                    data-error="parentheses" type="button">set_mode needs one size tuple</button><button
+                                    class="lesson-choice-btn setup-error-choice" data-error="quotes"
+                                    type="button">Missing quotes</button><button
+                                    class="lesson-choice-btn setup-error-choice" data-error="call"
+                                    type="button">Function not called</button><button
+                                    class="lesson-choice-btn setup-error-choice" data-error="type" type="button">Wrong
+                                    value/type</button></div>
+                            <div id="setupErrorFeedback" class="lesson-lab-feedback">Identify the main setup mistake.
+                            </div>
+                            <div class="lesson-lab-footer"><span id="setupErrorProgress"></span><button
+                                    id="nextSetupError" class="lesson-lab-btn" type="button">Next example</button></div>
+                        </div>
+                        <details class="lesson-compact-details">
+                            <summary>Support code: keeping the window open</summary>
+                            <div class="lesson-details-body">
+                                <div class="support-code-note"><i class="fas fa-forward"></i>
+                                    <div>
+                                        <p class="concept-text">A real PyGame program needs an event loop to keep the
+                                            window responsive. You will study this properly in the <strong>next lesson:
+                                                Game Loop</strong>. For now, use this block as support code.</p>
+                                        <div class="code-block"><code>running = True
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+pygame.quit()</code></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                    </section>
+                    <section class="lesson-section" id="examples">
+                        <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="lesson-tabs-label"><i class="fas fa-hand-pointer"></i><span>Choose an
+                                example:</span></div>
+                        <div class="lesson-tabs lesson-tabs--examples"><button class="lesson-tab active"
+                                data-example="basic" type="button"><i class="fas fa-window-maximize"></i><span>Basic
+                                    Window</span></button><button class="lesson-tab" data-example="constants"
+                                type="button"><i class="fas fa-ruler-combined"></i><span>Named
+                                    Size</span></button><button class="lesson-tab" data-example="resizable"
+                                type="button"><i
+                                    class="fas fa-up-right-and-down-left-from-center"></i><span>Resizable</span></button>
+                        </div>
+                        <div class="lesson-tab-panel">
+                            <h4 id="workedTitle"></h4>
+                            <p id="workedDescription"></p>
+                            <div id="workedPreview"></div>
+                            <div class="code-block"><code id="workedCode"></code></div>
+                        </div>
+                    </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls & Common
+                            Errors</h2>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Wrong set_mode() argument</h4>
+                            <p>Pass the size as one pair: <code>pygame.display.set_mode((800, 600))</code>, not two
+                                separate positional size arguments.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Forgetting to store the Surface</h4>
+                            <p><code>set_mode()</code> returns the display Surface. Store it in a variable such as
+                                <code>screen</code> because later lessons draw onto it.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Wrong width / height order</h4>
+                            <p>The pair is <code>(width, height)</code>.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Confusing pygame.quit() with program exit</h4>
+                            <p><code>pygame.quit()</code> uninitialises PyGame modules; program termination is a
+                                separate Python control-flow issue.</p>
+                        </div>
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Window closes immediately</h4>
+                            <p>This is not a window-creation error. A usable application needs a loop that keeps
+                                processing events; that is the focus of the next lesson.</p>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>State the purpose of <code>pygame.init()</code>,
+                                    <code>pygame.display.set_mode()</code> and
+                                    <code>pygame.display.set_caption()</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>Name four PyGame modules and state what each module is responsible for.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain why the object returned by <code>set_mode()</code> is stored in a variable
+                                    such as <code>screen</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain the difference between the visible window and the display Surface referenced
+                                    by the program.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Create a <code>1024 × 768</code> window titled <code>"Space Invaders"</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Create constants <code>WIDTH</code> and <code>HEIGHT</code> and use them to make a
+                                    <code>900 × 500</code> window titled <code>"NIS Arcade"</code>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Find and correct every setup error:
+                                    <code>pygame.init; screen=pygame.display.set_mode(800,600); pygame.display.set_caption(My Game)</code>.
+                                </p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Design your own game-window setup: choose a meaningful title, dimensions and variable
+                                    names, then explain each setup statement.</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: Complete the statement to create an 800 × 600 display Surface.
+                                [2]</p>
+                            <div class="code-block"><code>screen = pygame.display.________((____, ____))</code></div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>screen = pygame.display.set_mode((800, 600))</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: Explain the purpose of the variable <code>screen</code>. [2]
+                            </p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>screen stores the display Surface returned by set_mode().
+                                    Graphics can later be drawn/blitted onto that Surface.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: Identify and correct the error. [2]</p>
+                            <div class="code-block"><code>pygame.display.set_mode(800, 600)</code></div>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>The size must be passed as one pair/tuple:
+                                    pygame.display.set_mode((800, 600))</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Write one statement that sets the window caption to
+                                <code>"Robot Arena"</code>. [1]</p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking point</summary>
+                                <div>pygame.display.set_caption("Robot Arena")</div>
+                            </details>
+                        </div>
+                    </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                        <div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to
+                                reveal</span></div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. What statement connects the PyGame package to a Python
+                                program?</div>
+                            <div class="quiz-answer" data-answer="import pygame">Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. What does <code>pygame.init()</code> do?</div>
+                            <div class="quiz-answer"
+                                data-answer="It initialises the imported PyGame modules so they are ready to use">Click
+                                to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What does <code>pygame.display.set_mode((800, 600))</code>
+                                return?</div>
+                            <div class="quiz-answer" data-answer="The main display Surface for the PyGame window">Click
+                                to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. In <code>(800, 600)</code>, which number is the width?</div>
+                            <div class="quiz-answer" data-answer="800 — the size is written as (width, height)">Click to
+                                reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. Which command changes the text in the window title bar?</div>
+                            <div class="quiz-answer" data-answer='pygame.display.set_caption("Title")'>Click to reveal
+                                answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">6. Which module is responsible for the game window/display?</div>
+                            <div class="quiz-answer" data-answer="pygame.display">Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. Does <code>pygame.quit()</code> itself mean “end all Python
+                                code immediately”?</div>
+                            <div class="quiz-answer"
+                                data-answer="No — pygame.quit() uninitialises PyGame modules; program termination is a separate Python control-flow issue">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">8. Why does a real PyGame window also need a main/event loop?
+                            </div>
+                            <div class="quiz-answer"
+                                data-answer="To keep the application responsive, process events and continue running — this is the focus of the next lesson">
+                                Click to reveal answer</div>
+                        </div>
+                    </section>
+                    <nav class="lesson-nav"><a href="../term1/wave-library.html"><span><span class="nav-label">←
+                                    Previous</span><span class="nav-title">Wave Library</span></span></a><a
+                            href="game-loop.html"><span><span class="nav-label">Next →</span><span
+                                    class="nav-title">Game Loop</span></span></a></nav>
+                </div>
+            </div>
+        </main>
     </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 PROG</a> <span class="sep">/</span>
-                <span>12.2A — PyGame Setup &amp; Window</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 12.2A · Term 2</div>
-                <h1 class="lesson-title">PyGame Setup &amp; Window</h1>
-                <p class="lesson-intro"><strong>PyGame</strong> is a Python library for building 2D games. Before you
-                    draw anything, you need to <strong>install</strong> the library, <strong>initialize</strong> its
-                    modules, and <strong>create a display window</strong>.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.5.1.1</span> Connect the PyGame library and its modules</li>
-                    <li><span class="lo-code">12.5.1.2</span> Create the game window</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.2A-pygame-setup.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
-
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-tv"></i> The TV Screen Analogy</h4>
-                    <p>Think of PyGame as setting up a TV: first you <strong>plug it in</strong>
-                        (<code>pygame.init()</code>), then you <strong>set the screen size</strong>
-                        (<code>set_mode()</code>), give it a <strong>channel name</strong> (<code>set_caption()</code>),
-                        and then you're ready to display content.</p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Installing PyGame
-                </h3>
-                <div class="code-block"><code># Install via pip
-pip install pygame
-
-# Verify installation
-python -c "import pygame; print(pygame.ver)"</code></div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Core
-                    Setup Commands</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Command</th>
-                            <th>Purpose</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>import pygame</code></td>
-                            <td>Import the PyGame library</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.init()</code></td>
-                            <td>Initialize ALL PyGame modules (display, sound, fonts, etc.)</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.display.set_mode((w, h))</code></td>
-                            <td>Create the game window with width × height</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.display.set_caption("Title")</code></td>
-                            <td>Set the window title bar text</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.display.flip()</code></td>
-                            <td>Update the full display surface</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.display.update()</code></td>
-                            <td>Update portions of the display (or full if no args)</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.quit()</code></td>
-                            <td>Shut down all PyGame modules</td>
-                        </tr>
-                        <tr>
-                            <td><code>sys.exit()</code></td>
-                            <td>Exit the Python program completely</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
-                    PyGame Modules</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Module</th>
-                            <th>Purpose</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>pygame.display</code></td>
-                            <td>Window and screen management</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.event</code></td>
-                            <td>Event handling (keyboard, mouse, quit)</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.draw</code></td>
-                            <td>Drawing shapes on surfaces</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.image</code></td>
-                            <td>Loading and saving images</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.font</code></td>
-                            <td>Rendering text</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.mixer</code></td>
-                            <td>Sound effects and music</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.time</code></td>
-                            <td>Timing and frame rate control</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.key</code></td>
-                            <td>Keyboard state checking</td>
-                        </tr>
-                        <tr>
-                            <td><code>pygame.mouse</code></td>
-                            <td>Mouse position and button state</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Minimal PyGame Window</h4>
-                    <div class="code-block"><code>import pygame
-import sys
-
-# 1. Initialize PyGame
-pygame.init()
-
-# 2. Create window (800 × 600 pixels)
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-# 3. Set window title
-pygame.display.set_caption("My First Game")
-
-# 4. Main loop (keeps window open)
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # Fill the screen with a color
-    screen.fill((30, 30, 30))  # dark gray
-
-    # Update the display
-    pygame.display.flip()
-
-# 5. Clean up
-pygame.quit()
-sys.exit()</code></div>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">2</span> Window with Custom Colors</h4>
-                    <div class="code-block"><code>import pygame, sys
-
-pygame.init()
-
-# Define colors
-SKY_BLUE = (135, 206, 235)
-DARK_GREEN = (34, 139, 34)
-
-screen = pygame.display.set_mode((640, 480))
-pygame.display.set_caption("Colored Window")
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # Sky background
-    screen.fill(SKY_BLUE)
-
-    # Green ground (bottom 100px)
-    pygame.draw.rect(screen, DARK_GREEN, (0, 380, 640, 100))
-
-    pygame.display.flip()
-
-pygame.quit()
-sys.exit()</code></div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Forgetting pygame.init()</h4>
-                    <p>Without <code>pygame.init()</code>, modules like <code>display</code>, <code>font</code>, and
-                        <code>mixer</code> won't work. Always call it before any other PyGame function.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Window Closes Immediately</h4>
-                    <p>Without a <strong>main loop</strong> (<code>while running</code>), the window flashes and closes.
-                        The loop keeps the program alive and processing events.</p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>List 5 PyGame modules and their purposes.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Create a 1024×768 window titled "Space Invaders" with a black background.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Create a window that changes background color every time it refreshes (hint: use
-                            <code>random.randint</code>).</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What does <code>pygame.init()</code> do?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Initializes all PyGame modules
-                        (display, sound, fonts, etc.) so they are ready to use.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is the difference between <code>flip()</code> and
-                        <code>update()</code>?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')"><code>flip()</code> updates the
-                        entire display surface. <code>update()</code> can update specific areas (or the whole display if
-                        no args). <code>flip()</code> is simpler and most commonly used for beginners.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: Why do we need a main loop?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To keep the window open,
-                        process events (keyboard, mouse, quit), update game state, and redraw the screen continuously.
-                    </div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="../term1/wave-library.html"><span class="nav-label">← Previous</span><span class="nav-title">Wave Library</span></a>
-                        <a href="game-loop.html"><span class="nav-label">Next →</span><span class="nav-title">Game Loop</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 12 Programming</p>
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 12 Programming</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
+        </div>
     </footer>
-
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const bw = document.getElementById("builderWidth"), bh = document.getElementById("builderHeight"), bt = document.getElementById("builderTitle"), win = document.getElementById("builderWindow"), tp = document.getElementById("builderTitlePreview"), sp = document.getElementById("builderSizePreview"), bc = document.getElementById("builderCode"); function clamp(v, min, max) { return Math.min(max, Math.max(min, v)) } function renderBuilder() { const w = clamp(Number(bw.value) || 800, 200, 1600), h = clamp(Number(bh.value) || 600, 150, 1000), title = bt.value.trim() || "PyGame Window"; bw.value = w; bh.value = h; win.style.width = clamp(48 + (w / h - 1) * 22, 48, 94) + "%"; win.style.aspectRatio = `${w} / ${h}`; tp.textContent = title; sp.textContent = `${w} × ${h}`; const safe = title.replace(/\\/g, "\\\\").replace(/\"/g, '\\\"'); bc.textContent = `import pygame\n\npygame.init()\n\nWIDTH = ${w}\nHEIGHT = ${h}\n\nscreen = pygame.display.set_mode((WIDTH, HEIGHT))\npygame.display.set_caption("${safe}")` } [bw, bh, bt].forEach(i => i.addEventListener("input", renderBuilder)); document.querySelectorAll(".builder-preset").forEach(b => b.addEventListener("click", () => { bw.value = b.dataset.width; bh.value = b.dataset.height; bt.value = b.dataset.title; renderBuilder() })); renderBuilder();
+            const info = { 1: ["Line 1 — Import PyGame", "<code>import pygame</code> connects the package to this program. After importing it, modules can be accessed with dot notation such as <code>pygame.display</code>."], 2: ["Line 2 — Initialise", "<code>pygame.init()</code> initialises the imported PyGame modules. It is the standard high-level beginner setup call."], 3: ["Line 3 — Width", "<code>WIDTH = 800</code> stores the horizontal size in pixels."], 4: ["Line 4 — Height", "<code>HEIGHT = 600</code> stores the vertical size in pixels. The final size uses <code>(width, height)</code>."], 5: ["Line 5 — Create the Display Surface", "<code>pygame.display.set_mode((WIDTH, HEIGHT))</code> creates the window/display mode and returns the main <code>Surface</code>, stored in <code>screen</code>."], 6: ["Line 6 — Set the Caption", "<code>pygame.display.set_caption(...)</code> changes the title shown in the window title bar."] }; const lines = document.querySelectorAll(".clickable-line"), ct = document.getElementById("codeExplanationTitle"), cx = document.getElementById("codeExplanationText"); lines.forEach(l => l.addEventListener("click", () => { lines.forEach(x => x.classList.remove("active")); l.classList.add("active"); const d = info[l.dataset.codeLine]; ct.textContent = d[0]; cx.innerHTML = d[1] }));
+            const errors = [{ code: 'screen = pygame.display.set_mode(800, 600)', answer: 'parentheses', why: 'set_mode() expects one size pair. Use pygame.display.set_mode((800, 600)).' }, { code: 'pygame.display.set_caption(My Game)', answer: 'quotes', why: 'The caption must be a string: pygame.display.set_caption("My Game").' }, { code: 'pygame.init', answer: 'call', why: 'This refers to the function but does not call it. Use pygame.init().' }, { code: 'screen = pygame.display.set_mode(("800", "600"))', answer: 'type', why: 'Window dimensions should be integers, not strings: (800, 600).' }, { code: 'WIDTH = 800\nHEIGHT = 600\nscreen = pygame.display.set_mode((HEIGHT, WIDTH))', answer: 'type', why: 'The values are valid integers, but they are passed in the wrong order for the intended 800×600 window: use (WIDTH, HEIGHT).' }]; let ei = 0; const ec = document.getElementById("setupErrorCode"), ef = document.getElementById("setupErrorFeedback"), ep = document.getElementById("setupErrorProgress"), choices = document.querySelectorAll(".setup-error-choice"); function loadError() { const x = errors[ei]; ec.textContent = x.code; ef.className = "lesson-lab-feedback"; ef.textContent = "Identify the main setup mistake."; ep.textContent = `Example ${ei + 1} of ${errors.length}`; choices.forEach(b => b.classList.remove("active")) } choices.forEach(b => b.addEventListener("click", () => { const x = errors[ei], ok = b.dataset.error === x.answer; choices.forEach(z => z.classList.remove("active")); b.classList.add("active"); ef.className = `lesson-lab-feedback ${ok ? "correct" : "wrong"}`; ef.innerHTML = `<strong>${ok ? "Correct." : "Not quite."}</strong><br>${x.why}` })); document.getElementById("nextSetupError").addEventListener("click", () => { ei = (ei + 1) % errors.length; loadError() }); loadError();
+            const ex = { basic: { title: 'Basic Window', description: 'A minimal setup for the assessed learning objective: import, initialise, create the display Surface and set the caption.', titlebar: 'My First Game', size: '800 × 600', code: 'import pygame\n\npygame.init()\n\nscreen = pygame.display.set_mode((800, 600))\npygame.display.set_caption("My First Game")' }, constants: { title: 'Named Width & Height', description: 'Named constants make the size easier to reuse and change throughout a larger game.', titlebar: 'NIS Arcade', size: '900 × 500', code: 'import pygame\n\npygame.init()\n\nWIDTH = 900\nHEIGHT = 500\n\nscreen = pygame.display.set_mode((WIDTH, HEIGHT))\npygame.display.set_caption("NIS Arcade")' }, resizable: { title: 'Extension — Resizable Window', description: 'The optional pygame.RESIZABLE flag requests a window that the user can resize. Flags are an extension beyond the basic LO.', titlebar: 'Resizable Game', size: '800 × 600 · RESIZABLE', code: 'import pygame\n\npygame.init()\n\nscreen = pygame.display.set_mode(\n    (800, 600),\n    pygame.RESIZABLE\n)\n\npygame.display.set_caption("Resizable Game")' } }; const tabs = document.querySelectorAll("[data-example]"), wt = document.getElementById("workedTitle"), wd = document.getElementById("workedDescription"), wp = document.getElementById("workedPreview"), wc = document.getElementById("workedCode"); function showEx(k) { const x = ex[k]; wt.textContent = x.title; wd.textContent = x.description; wc.textContent = x.code; wp.innerHTML = `<div class="worked-preview"><div class="worked-mini-window"><div class="worked-mini-screen"><div class="worked-mini-title">${x.titlebar}</div><div class="worked-mini-body">${x.size}</div></div></div><div class="worked-note"><p>The visible operating-system window is backed by the display <strong>Surface</strong> returned by <code>pygame.display.set_mode()</code>. Later lessons will draw and update content on that Surface.</p></div></div>`; tabs.forEach(b => b.classList.toggle("active", b.dataset.example === k)) } tabs.forEach(b => b.addEventListener("click", () => showEx(b.dataset.example))); showEx("basic");
+        });
+    </script>
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
 </body>
 
 </html>
