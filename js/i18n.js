@@ -63,6 +63,10 @@ const TRANSLATIONS = {
         'assess.res.title': 'Guides & Past Papers',
         'assess.res.desc': 'Guides, Mark Schemes and Cambridge Past Papers.',
         'assess.res.btn': 'Browse Resources',
+        'assess.fa.label': 'Online Formative Assessment',
+        'assess.fa.title': 'Grade 12 · Programming · Term 1',
+        'assess.fa.desc': '22 questions · 30 marks · 45 minutes · automatic feedback',
+        'assess.fa.btn': 'Open Assessment',
 
         // ── Footer ──
         'footer.standards': 'NIS 2025 · Cambridge AS & A Level 9618',
@@ -124,6 +128,10 @@ const TRANSLATIONS = {
         'assess.res.title': 'Гайды и Past Papers',
         'assess.res.desc': 'Гайды, Mark Schemes и Cambridge Past Papers.',
         'assess.res.btn': 'Открыть ресурсы',
+        'assess.fa.label': 'Онлайн-формативное оценивание',
+        'assess.fa.title': '12 класс · Программирование · 1 четверть',
+        'assess.fa.desc': '22 задания · 30 баллов · 45 минут · обратная связь',
+        'assess.fa.btn': 'Открыть оценивание',
 
         'footer.standards': 'НИШ 2025 · Cambridge AS & A Level 9618',
         'footer.copy': '© 2025 mr. TEA — Все права защищены.'
@@ -184,6 +192,10 @@ const TRANSLATIONS = {
         'assess.res.title': 'Нұсқаулықтар және Past Papers',
         'assess.res.desc': 'Нұсқаулықтар, Mark Schemes және Cambridge Past Papers.',
         'assess.res.btn': 'Ресурстарды ашу',
+        'assess.fa.label': 'Онлайн қалыптастырушы бағалау',
+        'assess.fa.title': '12-сынып · Бағдарламалау · 1-тоқсан',
+        'assess.fa.desc': '22 тапсырма · 30 балл · 45 минут · кері байланыс',
+        'assess.fa.btn': 'Бағалауды ашу',
 
         'footer.standards': 'НЗМ 2025 · Cambridge AS & A Level 9618',
         'footer.copy': '© 2025 mr. TEA — Барлық құқықтар қорғалған.'
