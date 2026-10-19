@@ -1,311 +1,624 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Relational Databases — mr. TEA</title>
-    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description"
-        content="Relational database concepts: tables, keys, attributes, records, data types. NIS Grade 11 CS.">
+    <link href="/assets/images/mr-tea.png" rel="icon" type="image/png" />
+    <meta
+        content="Relational databases and their purpose; table, attribute, record and index. NIS Grade 11 Computer Science 11.4.1.1, 11.4.1.2."
+        name="description" />
+    <meta content="website" property="og:type" />
+    <meta content="mr. TEA — CS Knowledge Base" property="og:site_name" />
+    <meta content="Relational Databases — mr. TEA" property="og:title" />
+    <meta
+        content="Relational databases and their purpose; table, attribute, record and index. NIS Grade 11 Computer Science 11.4.1.1, 11.4.1.2."
+        property="og:description" />
+    <meta content="https://mr-tea.net/pages/11-cs-theory/relational-databases.html" property="og:url" />
+    <meta content="https://mr-tea.net/assets/images/OG_mr-tea.net.png" property="og:image" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/lesson.css" rel="stylesheet" />
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="Relational Databases — mr. TEA">
-    <meta property="og:description" content="Relational database concepts: tables, keys, attributes, records, data types. NIS Grade 11 CS.">
-    <meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/relational-databases.html">
-    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/lesson.css">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-P4C0Y8SW2K');</script>
 </head>
 
 <body>
-
-<div class="layout-wrapper">
-    <main class="main-content">
-
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
+    <div class="layout-wrapper">
+        <main class="main-content">
+            <div class="mobile-header">
+                <div class="header-left"><button aria-label="Open menu" class="mobile-toggle" id="mobile-menu-btn"><i
+                            class="fas fa-bars"></i></button><a class="logo" href="/" style="margin-left:15px;"><i
+                            class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a></div>
+            </div>
+            <div class="lesson-page">
+                <div class="lesson-container">
+                    <nav aria-label="Breadcrumb" class="lesson-breadcrumb"><a href="/index.html">Home</a><span
+                            class="sep">/</span><a href="/index.html#syllabus">Grade 11 CS</a><span
+                            class="sep">/</span><span>11.2A — Relational Databases</span></nav>
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 11.2A · Term 2</div>
+                        <h1 class="lesson-title">Relational Databases</h1>
+                        <p class="lesson-intro">A <strong>relational database</strong> stores related data in
+                            <strong>tables</strong>. Each table contains named <strong>attributes</strong> (columns) and
+                            <strong>records</strong> (rows). Related tables allow connected information to be organised
+                            and managed efficiently.</p>
+                    </div>
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li><span class="lo-code">11.4.1.1</span> Describe relational databases and their purpose
+                            </li>
+                            <li><span class="lo-code">11.4.1.2</span> Use the terms "table", "attribute", "record", and
+                                "index" to describe databases</li>
+                        </ul>
+                    </div>
+                    <div class="lesson-video-block">
+                        <div class="lesson-video-header">
+                            <div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+                            <div class="lesson-video-info">
+                                <h4 id="lessonVideoTitle">Database &amp; Relational Database</h4>
+                                <p id="lessonVideoDescription">Craig'n'Dave — introduction to databases, flat files and
+                                    relational databases.</p>
+                            </div>
+                        </div>
+                        <div class="video-tabs"><button class="video-tab active" data-video="intro" type="button"><i
+                                    class="fas fa-database"></i> Database &amp; Relational Database</button><button
+                                class="video-tab" data-video="terms" type="button"><i class="fas fa-table-cells"></i>
+                                Table / Attribute / Record</button></div>
+                        <div class="lesson-video-wrapper"><iframe
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen="" id="lessonVideoFrame" loading="lazy"
+                                src="https://www.youtube-nocookie.com/embed/Q1b1mpl_oa0?start=12&amp;rel=0"
+                                title="Craig n Dave - Relational databases introduction"></iframe></div>
+                    </div>
+                    <div class="note-box">
+                        <h4><i class="fas fa-language"></i> Terminology note</h4>
+                        <p>This course uses the term <strong>attribute</strong>. Some textbooks and videos use
+                            <strong>field</strong> for a similar column-level concept. In answers for this lesson, use
+                            the syllabus term <strong>attribute</strong>.</p>
+                    </div>
+                    <nav aria-label="Lesson sections" class="lesson-section-jump"><a href="#purpose">Purpose</a><a
+                            href="#relational">Related Tables</a><a href="#anatomy">Table Anatomy</a><a
+                            href="#index">Index</a><a href="#builder">Build a Table</a><a href="#vocab">Vocabulary</a><a
+                            href="#practice">Practice</a></nav>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-table"></i> The Spreadsheet Evolved</h4>
+                            <p>Imagine a spreadsheet where each sheet is a <strong>table</strong>, each row is a
+                                <strong>record</strong>, and each column is an <strong>attribute</strong>. Now imagine
+                                that the sheets contain connected information and can be related to one another. That is
+                                the basic idea of a relational database.</p>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="purpose">
+                        <h2 class="lesson-section-title"><i class="fas fa-bullseye"></i> What Is the Purpose of a
+                            Database?</h2>
+                        <p class="concept-text">A school may need to manage thousands of students, classes, teachers and
+                            results. A database gives the organisation a structured way to store, find, update and
+                            connect that information.</p>
+                        <div class="definition-grid lesson-grid lesson-grid--4">
+                            <div class="definition-item"><i class="fas fa-box-archive"></i><strong>Store data</strong>
+                                <p>Keep large amounts of structured information in an organised form.</p>
+                            </div>
+                            <div class="definition-item"><i class="fas fa-magnifying-glass"></i><strong>Find
+                                    data</strong>
+                                <p>Locate required records instead of manually searching unstructured files.</p>
+                            </div>
+                            <div class="definition-item"><i class="fas fa-pen-to-square"></i><strong>Update
+                                    data</strong>
+                                <p>Change stored information when real-world information changes.</p>
+                            </div>
+                            <div class="definition-item"><i class="fas fa-link"></i><strong>Organise related
+                                    data</strong>
+                                <p>Keep connected information in related tables instead of one huge repeated list.</p>
+                            </div>
+                        </div>
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">A school stores 1,200 students, 45 classes and teacher
+                                information. Why is a database more suitable than a collection of unrelated notes?</div>
+                            <div class="lesson-lab-options four"><button class="lesson-choice-btn purpose-choice"
+                                    data-purpose="organise" type="button">Organise related data</button><button
+                                    class="lesson-choice-btn purpose-choice" data-purpose="search" type="button">Search
+                                    efficiently</button><button class="lesson-choice-btn purpose-choice"
+                                    data-purpose="update" type="button">Update records</button><button
+                                    class="lesson-choice-btn purpose-choice" data-purpose="all" type="button">All of
+                                    these</button></div>
+                            <div class="lesson-lab-feedback" id="purposeFeedback">Choose the best answer.</div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="relational">
+                        <h2 class="lesson-section-title"><i class="fas fa-link"></i> Why Relational?</h2>
+                        <div class="lesson-grid lesson-grid--2">
+                            <div class="worked-example">
+                                <h4>One large table</h4>
+                                <table class="theory-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Class</th>
+                                            <th>Tutor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Ali</td>
+                                            <td>11A</td>
+                                            <td>Ms Brown</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Arman</td>
+                                            <td>11A</td>
+                                            <td>Ms Brown</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dana</td>
+                                            <td>11B</td>
+                                            <td>Mr Green</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="concept-text">Class information is repeated every time a student belongs to
+                                    that class.</p>
+                            </div>
+                            <div class="worked-example">
+                                <h4>Related tables</h4>
+                                <div class="lesson-grid lesson-grid--flow">
+                                    <div class="worked-example">
+                                        <h4>STUDENTS</h4>
+                                        <code>Ali → 11A</code><br /><code>Arman → 11A</code><br /><code>Dana → 11B</code>
+                                    </div>
+                                    <div class="lesson-flow-arrow">↔</div>
+                                    <div class="worked-example">
+                                        <h4>CLASSES</h4><code>11A → Ms Brown</code><br /><code>11B → Mr Green</code>
+                                    </div>
+                                </div>
+                                <p class="concept-text">Related information is organised in separate tables and
+                                    connected through shared data values.</p>
+                            </div>
+                        </div>
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Scope of this lesson</h4>
+                            <p>The next database lessons will explain exactly how table relationships and keys are
+                                defined. Today the important idea is simpler: a relational database stores connected
+                                data in related tables.</p>
+                        </div>
+                        <h3 class="lesson-subheading">Relational Database Explorer</h3>
+                        <div class="lesson-lab">
+                            <div class="lesson-grid lesson-grid--flow">
+                                <div class="worked-example">
+                                    <h4>STUDENTS</h4>
+                                    <table class="theory-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>ClassCode</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Ali</td>
+                                                <td class="rel-class" data-class="11A">11A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Arman</td>
+                                                <td class="rel-class" data-class="11A">11A</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Dana</td>
+                                                <td class="rel-class" data-class="11B">11B</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="lesson-flow-arrow">→</div>
+                                <div class="worked-example">
+                                    <h4>CLASSES</h4>
+                                    <table class="theory-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ClassCode</th>
+                                                <th>Tutor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="class-record" data-class="11A">
+                                                <td>11A</td>
+                                                <td>Ms Brown</td>
+                                            </tr>
+                                            <tr class="class-record" data-class="11B">
+                                                <td>11B</td>
+                                                <td>Mr Green</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="lesson-tabs"><button class="lesson-lab-btn relation-choice" data-class="11A"
+                                    type="button">Show 11A relationship</button><button
+                                    class="lesson-lab-btn relation-choice" data-class="11B" type="button">Show 11B
+                                    relationship</button><button class="lesson-lab-btn" id="resetRelation"
+                                    type="button">Reset</button></div>
+                            <div class="lesson-lab-feedback" id="relationFeedback">Choose a class code to see how rows
+                                in separate tables contain connected information.</div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="anatomy">
+                        <h2 class="lesson-section-title"><i class="fas fa-table-cells"></i> Table Anatomy</h2>
+                        <div class="definition-grid lesson-grid lesson-grid--4">
+                            <div class="definition-item"><code>TABLE</code><strong>Whole organised structure</strong>
+                                <p>A collection of related records stored in rows and columns.</p>
+                            </div>
+                            <div class="definition-item"><code>ATTRIBUTE</code><strong>Named column</strong>
+                                <p>A characteristic stored for every record, such as Name or Email.</p>
+                            </div>
+                            <div class="definition-item"><code>RECORD</code><strong>Complete row</strong>
+                                <p>All the stored values for one person, object or item.</p>
+                            </div>
+                            <div class="definition-item"><code>INDEX</code><strong>Search structure</strong>
+                                <p>A separate database structure that helps locate records more quickly.</p>
+                            </div>
+                        </div>
+                        <div class="lesson-lab lesson-table-wrap">
+                            <table class="theory-table" id="anatomyTable">
+                                <thead>
+                                    <tr>
+                                        <th data-col="0">StudentID</th>
+                                        <th data-col="1">Name</th>
+                                        <th data-col="2">Class</th>
+                                        <th data-col="3">Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-row="0">
+                                        <td data-col="0">S001</td>
+                                        <td data-col="1">Ali</td>
+                                        <td data-col="2">11A</td>
+                                        <td data-col="3">ali@nis.edu.kz</td>
+                                    </tr>
+                                    <tr data-row="1">
+                                        <td data-col="0">S002</td>
+                                        <td data-col="1">Dana</td>
+                                        <td data-col="2">11B</td>
+                                        <td data-col="3">dana@nis.edu.kz</td>
+                                    </tr>
+                                    <tr data-row="2">
+                                        <td data-col="0">S003</td>
+                                        <td data-col="1">Arman</td>
+                                        <td data-col="2">11A</td>
+                                        <td data-col="3">arman@nis.edu.kz</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="lesson-tabs"><button class="lesson-lab-btn" id="showWholeTable"
+                                    type="button">Highlight TABLE</button><button class="lesson-lab-btn"
+                                    id="showAttribute" type="button">Highlight ATTRIBUTE: Name</button><button
+                                    class="lesson-lab-btn" id="showRecord" type="button">Highlight RECORD:
+                                    Dana</button><button class="lesson-lab-btn" id="clearAnatomy"
+                                    type="button">Clear</button></div>
+                            <div class="lesson-lab-feedback" id="anatomyCaption">Use the buttons to highlight each
+                                database structure.</div>
+                        </div>
+                        <h3 class="lesson-subheading">Quick Terminology Check</h3>
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt">In the STUDENTS table, what database term describes
+                                <code>Email</code>?</div>
+                            <div class="lesson-lab-options four"><button class="lesson-choice-btn anatomy-choice"
+                                    data-answer="table" type="button">Table</button><button
+                                    class="lesson-choice-btn anatomy-choice" data-answer="attribute"
+                                    type="button">Attribute</button><button class="lesson-choice-btn anatomy-choice"
+                                    data-answer="record" type="button">Record</button><button
+                                    class="lesson-choice-btn anatomy-choice" data-answer="index"
+                                    type="button">Index</button></div>
+                            <div class="lesson-lab-feedback" id="anatomyFeedback">Choose the correct term.</div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="index">
+                        <h2 class="lesson-section-title"><i class="fas fa-book-open"></i> What Is an Index?</h2>
+                        <div class="lesson-grid lesson-grid--2">
+                            <div class="analogy-box">
+                                <h4><i class="fas fa-book"></i> Book Index Analogy</h4>
+                                <p>A book index does not replace the pages of the book. It gives you a faster route to
+                                    the page you need. A database index works in a similar way: it stores search
+                                    information that helps the DBMS locate records without checking every record one by
+                                    one.</p>
+                            </div>
+                            <div class="worked-example">
+                                <h4>Example index on Name</h4>
+                                <div class="lesson-list-row"><span>Ali</span><strong>→ S001</strong></div>
+                                <div class="lesson-list-row"><span>Arman</span><strong>→ S003</strong></div>
+                                <div class="lesson-list-row"><span>Dana</span><strong>→ S002</strong></div>
+                                <div class="lesson-list-row"><span>Madi</span><strong>→ S004</strong></div>
+                            </div>
+                        </div>
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-triangle-exclamation"></i> Important</h4>
+                            <p><strong>Index ≠ ID column</strong> and <strong>Index ≠ row number</strong>. An index is a
+                                separate database structure used to speed up locating records.</p>
+                        </div>
+                        <h3 class="lesson-subheading">Index Search Simulator</h3>
+                        <div class="lesson-lab">
+                            <div class="lesson-grid lesson-grid--2">
+                                <div class="definition-item"><label>Find student<select class="lesson-control"
+                                            id="searchTarget">
+                                            <option value="Arman">Arman</option>
+                                            <option value="Dana">Dana</option>
+                                            <option value="Madi">Madi</option>
+                                            <option value="Ali">Ali</option>
+                                        </select></label><button class="lesson-lab-btn" id="searchSequential"
+                                        type="button">Search without index</button><button class="lesson-lab-btn"
+                                        id="searchIndexed" type="button">Search using index</button><button
+                                        class="lesson-lab-btn" id="resetIndexSearch" type="button">Reset</button></div>
+                                <div>
+                                    <div class="lesson-grid lesson-grid--2">
+                                        <div class="worked-example">
+                                            <h4>STUDENTS records</h4>
+                                            <div id="searchRecords"></div>
+                                        </div>
+                                        <div class="worked-example">
+                                            <h4>INDEX on Name</h4>
+                                            <div id="searchIndex"></div>
+                                        </div>
+                                    </div>
+                                    <div class="lesson-lab-feedback" id="searchStatus">Choose a search method.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="builder">
+                        <h2 class="lesson-section-title"><i class="fas fa-hammer"></i> Build a Table</h2>
+                        <p class="concept-text">Click each item and decide whether it is a table name, an attribute, or
+                            a value that belongs inside a record.</p>
+                        <div class="lesson-lab">
+                            <div class="lesson-grid lesson-grid--2">
+                                <div class="lesson-tab-panel" id="builderBank"></div>
+                                <div class="lesson-tab-panel">
+                                    <h4>Classification</h4>
+                                    <div class="lesson-grid lesson-grid--3">
+                                        <div class="lesson-lab-feedback" id="slotTable"><strong>Table name:</strong> —
+                                        </div>
+                                        <div class="lesson-lab-feedback" id="slotAttributes">
+                                            <strong>Attributes:</strong> —</div>
+                                        <div class="lesson-lab-feedback" id="slotValues"><strong>Record values:</strong>
+                                            —</div>
+                                    </div>
+                                    <div class="lesson-lab-options three"><button
+                                            class="lesson-choice-btn builder-category" data-category="table"
+                                            type="button">Table name</button><button
+                                            class="lesson-choice-btn builder-category" data-category="attribute"
+                                            type="button">Attribute</button><button
+                                            class="lesson-choice-btn builder-category" data-category="value"
+                                            type="button">Record value</button></div>
+                                    <div class="lesson-tabs"><button class="lesson-lab-btn" id="checkBuilder"
+                                            type="button">Check classification</button><button class="lesson-lab-btn"
+                                            id="resetBuilder" type="button">Reset</button></div>
+                                    <div class="lesson-lab-feedback" id="builderFeedback">Select an item, then choose
+                                        its category.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="vocab">
+                        <h2 class="lesson-section-title"><i class="fas fa-spell-check"></i> Database Vocabulary Lab</h2>
+                        <div class="lesson-lab">
+                            <div class="lesson-lab-prompt" id="vocabPrompt"></div>
+                            <div class="lesson-lab-options four"><button class="lesson-choice-btn vocab-choice"
+                                    data-vocab="table" type="button">Table</button><button
+                                    class="lesson-choice-btn vocab-choice" data-vocab="attribute"
+                                    type="button">Attribute</button><button class="lesson-choice-btn vocab-choice"
+                                    data-vocab="record" type="button">Record</button><button
+                                    class="lesson-choice-btn vocab-choice" data-vocab="index"
+                                    type="button">Index</button></div>
+                            <div class="lesson-lab-feedback" id="vocabFeedback">Choose the best term.</div>
+                            <div class="lesson-lab-footer"><span id="vocabProgress"></span><button
+                                    class="lesson-lab-btn" id="nextVocab" type="button">Next example</button></div>
+                        </div>
+                        <h3 class="lesson-subheading">Common Misconceptions</h3>
+                        <div class="definition-grid lesson-grid lesson-grid--2">
+                            <div class="definition-item"><strong>Attribute ≠ record</strong>
+                                <p>An attribute is one named column. A record is the complete set of stored values in
+                                    one row.</p>
+                            </div>
+                            <div class="definition-item"><strong>Index ≠ ID</strong>
+                                <p>An ID may be stored as an attribute. An index is a separate search structure.</p>
+                            </div>
+                            <div class="definition-item"><strong>Record ≠ one cell</strong>
+                                <p>One cell is a single value. A record includes all attribute values for one entry.</p>
+                            </div>
+                            <div class="definition-item"><strong>Relational ≠ just “a spreadsheet”</strong>
+                                <p>The defining idea is organised tables containing related data, not simply rows and
+                                    columns on one sheet.</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+                        <div class="lesson-tabs-label"><i class="fas fa-hand-pointer"></i><span>Choose an
+                                example:</span></div>
+                        <div class="lesson-tabs lesson-tabs--examples"><button class="lesson-tab active"
+                                data-example="school" type="button"><i
+                                    class="fas fa-school"></i><span>School</span></button><button class="lesson-tab"
+                                data-example="library" type="button"><i
+                                    class="fas fa-book"></i><span>Library</span></button><button class="lesson-tab"
+                                data-example="shop" type="button"><i class="fas fa-store"></i><span>Shop</span></button>
+                        </div>
+                        <div class="lesson-tab-panel">
+                            <h4 id="workedTitle"></h4>
+                            <p id="workedDescription"></p>
+                            <div id="workedContent"></div>
+                        </div>
+                    </section>
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                        <div class="assessment-tasks">
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>Define the term <strong>relational database</strong>.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level remember">Remember</span>
+                                <p>State two purposes of a database.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>In a STUDENTS table containing StudentID, Name, Class and Email, identify the table
+                                    and list its four attributes.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level understand">Understand</span>
+                                <p>Explain what is meant by a <strong>record</strong> using the STUDENTS table as an
+                                    example.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>A library table stores BookID, Title, Author and Year. Write one possible complete
+                                    record and identify its attributes.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level apply">Apply</span>
+                                <p>Explain how an index on <code>Name</code> can help a database locate a student record
+                                    more quickly.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level analyze">Analyze</span>
+                                <p>Compare storing class tutor information repeatedly in one large STUDENTS table with
+                                    storing it once in a separate CLASSES table.</p>
+                            </div>
+                            <div class="task-item"><span class="task-level create">Create</span>
+                                <p>Design two small related tables for a school club system. Name the tables, list
+                                    suitable attributes and provide two example records. Do not use SQL.</p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q1: A database contains a table called STUDENTS. StudentID, Name,
+                                Class and Email are stored for each student. An index has been created on Name. Using
+                                database terminology, describe the structure and explain the purpose of the index. [5]
+                            </p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>STUDENTS is the table.
+                                    StudentID, Name, Class and Email are attributes.
+                                    Each student's complete row is a record.
+                                    The index is a separate search structure on Name.
+                                    The index helps the database locate matching records more quickly without checking
+                                    every record sequentially.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q2: Explain one purpose of using related tables in a relational
+                                database. [2]</p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Related information can be organised in separate tables.
+                                    This can avoid repeatedly storing the same connected information and makes data
+                                    easier to manage consistently.</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q3: State whether each item is a table, attribute or record.
+                                [3]<br />(a) <code>Email</code>   (b) all data stored about Dana   (c)
+                                <code>STUDENTS</code></p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>(a) Attribute
+                                    (b) Record
+                                    (c) Table</div>
+                            </details>
+                        </div>
+                        <div class="quiz-item">
+                            <p class="quiz-question">Q4: Explain why an index is not the same thing as a StudentID
+                                attribute. [2]</p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>StudentID is stored data/an attribute in the table.
+                                    An index is a separate structure created to help locate records more quickly.</div>
+                            </details>
+                        </div>
+                    </section>
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                        <div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to
+                                reveal</span></div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. What is a relational database?</div>
+                            <div class="quiz-answer"
+                                data-answer="A database that organises related data into tables that can contain connected information">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. What is a table?</div>
+                            <div class="quiz-answer"
+                                data-answer="A collection of related records organised into rows and columns">Click to
+                                reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What is an attribute?</div>
+                            <div class="quiz-answer"
+                                data-answer="A named column or characteristic stored for the records in a table">Click
+                                to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. What is a record?</div>
+                            <div class="quiz-answer"
+                                data-answer="One complete row containing the stored values for one entry">Click to
+                                reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. What is the purpose of an index?</div>
+                            <div class="quiz-answer"
+                                data-answer="To help the database locate matching records more quickly">Click to reveal
+                                answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">6. Is an index the same thing as an ID attribute?</div>
+                            <div class="quiz-answer"
+                                data-answer="No — an ID is stored data in a table; an index is a separate search structure">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. Give two purposes of a database.</div>
+                            <div class="quiz-answer"
+                                data-answer="For example: structured storage, searching for records, updating data, and organising related information">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">8. Why can related tables be better than repeatedly storing all
+                                information in one large table?</div>
+                            <div class="quiz-answer"
+                                data-answer="They organise connected information separately and can reduce unnecessary repetition of the same data">
+                                Click to reveal answer</div>
+                        </div>
+                    </section>
+                    <nav class="lesson-nav"><a href="data-analysis.html"><span><span class="nav-label">←
+                                    Previous</span><span class="nav-title">Data analysis</span></span></a><a
+                            href="er-diagrams.html"><span><span class="nav-label">Next →</span><span
+                                    class="nav-title">The entity-relationship diagram</span></span></a></nav>
+                </div>
+            </div>
+        </main>
     </div>
-
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
-                <span>11.2A — Relational Databases</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 11.2A · Term 2</div>
-                <h1 class="lesson-title">Relational Databases</h1>
-                <p class="lesson-intro">A <strong>relational database</strong> organises data into
-                    <strong>tables</strong> (relations) that are linked together through <strong>keys</strong>. This
-                    structure eliminates data redundancy and makes querying efficient.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.4.1.1</span> Describe relational databases and their purpose</li>
-                    <li><span class="lo-code">11.4.1.2</span> Use terms: attribute, object, index, record, tuple</li>
-                    <li><span class="lo-code">11.4.1.4</span> Define data types</li>
-                    <li><span class="lo-code">11.4.1.3</span> Explain primary, composite, and foreign keys</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.2A-relational-databases.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-table"></i> The Spreadsheet Evolved</h4>
-                    <p>Imagine a <strong>spreadsheet</strong> where each sheet is a table, each row is a record, and
-                        each column is a field. Now imagine the sheets are <strong>linked</strong> — a student sheet
-                        connects to a grades sheet via student ID. That's a relational database: multiple linked tables
-                        working together.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Database Terminology
-                </h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Term</th>
-                            <th>Also Called</th>
-                            <th>Meaning</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Table (Relation)</strong></td>
-                            <td>Entity</td>
-                            <td>A collection of related data</td>
-                            <td>Students, Courses</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Record (Row)</strong></td>
-                            <td>Tuple</td>
-                            <td>A single entry in the table</td>
-                            <td>One student's data</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Field (Column)</strong></td>
-                            <td>Attribute</td>
-                            <td>A single category of data</td>
-                            <td>Name, Age, Email</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Object</strong></td>
-                            <td>—</td>
-                            <td>Any defined structure in the database</td>
-                            <td>Table, query, form</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Index</strong></td>
-                            <td>—</td>
-                            <td>A data structure that speeds up searching</td>
-                            <td>Index on StudentID</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Example
-                    Table: Students</h3>
-                <div class="code-block"><code>Students Table:
-┌──────────┬──────────┬─────┬──────────────────┬────────┐
-│ StudentID│ Name     │ Age │ Email            │ Class  │
-├──────────┼──────────┼─────┼──────────────────┼────────┤
-│ S001     │ Ali      │ 16  │ ali@nis.edu.kz   │ 11A    │
-│ S002     │ Dana     │ 16  │ dana@nis.edu.kz  │ 11B    │
-│ S003     │ Arman    │ 17  │ arman@nis.edu.kz │ 11A    │
-└──────────┴──────────┴─────┴──────────────────┴────────┘
-  ↑ Primary Key   ↑ Attributes (fields)
-  Each row = one record (tuple)</code></div>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Types of
-                    Keys</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Key Type</th>
-                            <th>Definition</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Primary Key (PK)</strong></td>
-                            <td>Uniquely identifies each record. Cannot be NULL or duplicate.</td>
-                            <td>StudentID</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Foreign Key (FK)</strong></td>
-                            <td>A field in one table that links to the PK of another table.</td>
-                            <td>StudentID in Grades table</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Composite Key</strong></td>
-                            <td>A PK made from two or more fields combined.</td>
-                            <td>(StudentID + CourseID)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Candidate Key</strong></td>
-                            <td>Any field that could serve as a PK.</td>
-                            <td>Email (unique per student)</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">How Keys
-                    Link Tables</h3>
-                <div class="code-block"><code>Students Table:                    Grades Table:
-┌──────────┬────────┐             ┌──────────┬──────────┬───────┐
-│ StudentID│ Name   │             │ GradeID  │ StudentID│ Mark  │
-├──────────┼────────┤             ├──────────┼──────────┼───────┤
-│ S001     │ Ali    │◄───────────│ G001     │ S001     │ 85    │
-│ S002     │ Dana   │◄───────────│ G002     │ S002     │ 92    │
-│ S003     │ Arman  │             │ G003     │ S001     │ 78    │
-└──────────┴────────┘             └──────────┴──────────┴───────┘
-  PK (Primary Key)                                FK (Foreign Key)
-                         Links to Students.StudentID</code></div>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Common
-                    Data Types</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Data Type</th>
-                            <th>Description</th>
-                            <th>Example Values</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>INTEGER</strong></td>
-                            <td>Whole numbers</td>
-                            <td>1, 42, -7</td>
-                        </tr>
-                        <tr>
-                            <td><strong>REAL / FLOAT</strong></td>
-                            <td>Decimal numbers</td>
-                            <td>3.14, 92.5</td>
-                        </tr>
-                        <tr>
-                            <td><strong>TEXT / VARCHAR</strong></td>
-                            <td>Strings of characters</td>
-                            <td>"Ali", "ali@nis.edu.kz"</td>
-                        </tr>
-                        <tr>
-                            <td><strong>BOOLEAN</strong></td>
-                            <td>True/False</td>
-                            <td>TRUE, FALSE</td>
-                        </tr>
-                        <tr>
-                            <td><strong>DATE</strong></td>
-                            <td>Calendar date</td>
-                            <td>2025-02-19</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CHAR(n)</strong></td>
-                            <td>Fixed-length string</td>
-                            <td>"S001" (CHAR(4))</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Why Relational?</h4>
-                    <p>The word "relational" comes from mathematical <strong>relations</strong> (tables). The key
-                        advantage is <strong>data integrity</strong> — by linking tables through keys, you avoid storing
-                        the same data in multiple places, reducing errors and saving storage.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Using Name as Primary Key</h4>
-                    <p>Names are NOT unique — two students can have the same name. Always use an <strong>ID
-                            field</strong> (e.g., StudentID) as the primary key.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Confusing Primary and Foreign Keys</h4>
-                    <p>A <strong>primary key</strong> uniquely identifies records in its OWN table. A <strong>foreign
-                            key</strong> is a reference to a primary key in ANOTHER table.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Define: table, record, field, primary key, foreign key, composite key.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Design a database for a school library with tables: Books, Members, Loans. Identify the PK
-                            and FK for each table.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>A student proposes using "Email" as the primary key for a Users table. Discuss 2 advantages
-                            and 2 disadvantages of this choice.</p>
-                    </div>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What is a primary key?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A field (or combination of
-                        fields) that uniquely identifies each record in a table. It cannot be NULL or duplicated.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is the difference between a record and a field?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A record (row/tuple) is a
-                        complete entry. A field (column/attribute) is a single category of data within that entry.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: When would you use a composite key?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">When no single field can
-                        uniquely identify a record. E.g., in an Enrolment table, the combination of StudentID + CourseID
-                        is unique.</div>
-                </div>
-            </section>
-            <nav class="lesson-nav">
-                        <a href="data-analysis.html"><span class="nav-label">← Previous</span><span class="nav-title">Data analysis</span></a>
-                        <a href="er-diagrams.html"><span class="nav-label">Next →</span><span class="nav-title">The entity-relationship diagram</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
+            <p>© 2026 IT-Tea. Educational use.</p>
+        </div>
     </footer>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const videos = { intro: { title: 'Database & Relational Database', description: "Craig'n'Dave — database definition from 00:12 and relational database explanation from 02:23.", src: 'https://www.youtube-nocookie.com/embed/Q1b1mpl_oa0?start=12&rel=0', iframeTitle: 'Craig n Dave - Relational databases introduction' }, terms: { title: 'Table / Attribute / Record', description: "Craig'n'Dave — uses field at 00:35, record at 01:01 and table at 01:18. In this course, use attribute for the column concept.", src: 'https://www.youtube-nocookie.com/embed/Hn3mv4dUjUo?start=35&rel=0', iframeTitle: 'Craig n Dave - Relational database concepts' } };
+            const videoTabs = document.querySelectorAll('.video-tab'), videoFrame = document.getElementById('lessonVideoFrame'), videoTitle = document.getElementById('lessonVideoTitle'), videoDescription = document.getElementById('lessonVideoDescription'); function showVideo(k) { const v = videos[k]; videoTitle.textContent = v.title; videoDescription.textContent = v.description; videoFrame.src = v.src; videoFrame.title = v.iframeTitle; videoTabs.forEach(b => b.classList.toggle('active', b.dataset.video === k)) } videoTabs.forEach(b => b.addEventListener('click', () => showVideo(b.dataset.video)));
+            const purposeChoices = document.querySelectorAll('.purpose-choice'), purposeFeedback = document.getElementById('purposeFeedback'); purposeChoices.forEach(b => b.addEventListener('click', () => { const ok = b.dataset.purpose === 'all'; purposeChoices.forEach(x => x.classList.remove('active')); b.classList.add('active'); purposeFeedback.className = 'lesson-lab-feedback ' + (ok ? 'correct' : 'wrong'); purposeFeedback.textContent = ok ? 'Correct. A database supports organised storage, searching and updating of related data.' : 'This is one useful purpose, but the scenario benefits from all three.' }));
+            const relBtns = document.querySelectorAll('.relation-choice'), relFb = document.getElementById('relationFeedback'), studentCells = document.querySelectorAll('.rel-class'), classRows = document.querySelectorAll('.class-record'); function clearRel() { studentCells.forEach(c => c.classList.remove('lesson-highlight-primary')); classRows.forEach(r => r.classList.remove('lesson-highlight-primary')); relBtns.forEach(b => b.classList.remove('active')); relFb.className = 'lesson-lab-feedback'; relFb.textContent = 'Choose a class code to see how rows in separate tables contain connected information.' } relBtns.forEach(b => b.addEventListener('click', () => { const cls = b.dataset.class; clearRel(); b.classList.add('active'); studentCells.forEach(c => { if (c.dataset.class === cls) c.classList.add('lesson-highlight-primary') }); classRows.forEach(r => { if (r.dataset.class === cls) r.classList.add('lesson-highlight-primary') }); relFb.className = 'lesson-lab-feedback correct'; relFb.textContent = cls === '11A' ? 'Ali and Arman both store 11A. The CLASSES table stores the connected tutor information for 11A.' : 'Dana stores 11B. The CLASSES table stores the connected tutor information for 11B.' })); document.getElementById('resetRelation').addEventListener('click', clearRel);
+            const at = document.getElementById('anatomyTable'), cap = document.getElementById('anatomyCaption'); function clearA() { at.querySelectorAll('th,td').forEach(c => c.classList.remove('lesson-highlight-primary')) } document.getElementById('showWholeTable').addEventListener('click', () => { clearA(); at.querySelectorAll('th,td').forEach(c => c.classList.add('lesson-highlight-primary')); cap.textContent = 'TABLE: the complete STUDENTS structure, including all attributes and records.' }); document.getElementById('showAttribute').addEventListener('click', () => { clearA(); at.querySelectorAll('[data-col="1"]').forEach(c => c.classList.add('lesson-highlight-primary')); cap.textContent = 'ATTRIBUTE: Name is one named column describing every student record.' }); document.getElementById('showRecord').addEventListener('click', () => { clearA(); at.querySelectorAll('tbody tr[data-row="1"] td').forEach(c => c.classList.add('lesson-highlight-primary')); cap.textContent = "RECORD: Dana's complete row is one record containing all stored attribute values for Dana." }); document.getElementById('clearAnatomy').addEventListener('click', () => { clearA(); cap.textContent = 'Use the buttons to highlight each database structure.' }); const aChoices = document.querySelectorAll('.anatomy-choice'), aFb = document.getElementById('anatomyFeedback'); aChoices.forEach(b => b.addEventListener('click', () => { const ok = b.dataset.answer === 'attribute'; aChoices.forEach(x => x.classList.remove('active')); b.classList.add('active'); aFb.className = 'lesson-lab-feedback ' + (ok ? 'correct' : 'wrong'); aFb.textContent = ok ? 'Correct. Email is a named column, so it is an attribute.' : 'Not quite. Email is a named column rather than the whole table, a whole row, or an index.' }));
+            const students = [{ id: 'S001', name: 'Ali', cls: '11A' }, { id: 'S002', name: 'Dana', cls: '11B' }, { id: 'S003', name: 'Arman', cls: '11A' }, { id: 'S004', name: 'Madi', cls: '11C' }], idx = [...students].sort((a, b) => a.name.localeCompare(b.name)).map(s => ({ name: s.name, id: s.id })), target = document.getElementById('searchTarget'), records = document.getElementById('searchRecords'), indexBox = document.getElementById('searchIndex'), status = document.getElementById('searchStatus'); function renderSearch() { records.innerHTML = ''; indexBox.innerHTML = ''; students.forEach(s => { const r = document.createElement('div'); r.className = 'lesson-list-row search-row'; r.dataset.id = s.id; r.innerHTML = `<span>${s.id}</span><span>${s.name}</span><span>${s.cls}</span>`; records.appendChild(r) }); idx.forEach(e => { const r = document.createElement('div'); r.className = 'lesson-list-row index-row'; r.dataset.name = e.name; r.innerHTML = `<span>${e.name}</span><strong>→ ${e.id}</strong>`; indexBox.appendChild(r) }) } function clearSearch() { records.querySelectorAll('.search-row').forEach(r => r.classList.remove('lesson-highlight-primary', 'lesson-highlight-success')); indexBox.querySelectorAll('.index-row').forEach(r => r.classList.remove('lesson-highlight-primary')) } document.getElementById('searchSequential').addEventListener('click', () => { clearSearch(); const t = target.value, rows = [...records.querySelectorAll('.search-row')]; let i = 0; status.textContent = `Sequential search for "${t}" — checking records one by one...`; function step() { rows.forEach(r => r.classList.remove('lesson-highlight-primary')); if (i >= rows.length) return; const r = rows[i]; r.classList.add('lesson-highlight-primary'); if (students[i].name === t) { r.classList.remove('lesson-highlight-primary'); r.classList.add('lesson-highlight-success'); status.textContent = `Found ${t} after checking ${i + 1} record(s).`; return } i++; setTimeout(step, 380) } step() }); document.getElementById('searchIndexed').addEventListener('click', () => { clearSearch(); const t = target.value, e = idx.find(x => x.name === t), ir = indexBox.querySelector(`[data-name="${t}"]`), rr = records.querySelector(`[data-id="${e.id}"]`); ir.classList.add('lesson-highlight-primary'); status.textContent = `Index lookup: "${t}" → ${e.id}. Jumping to the referenced record...`; setTimeout(() => { rr.classList.add('lesson-highlight-success'); status.textContent = `Index lookup found ${t} → ${e.id}, then located the matching record directly.` }, 500) }); document.getElementById('resetIndexSearch').addEventListener('click', () => { clearSearch(); status.textContent = 'Choose a search method.' }); renderSearch();
+            const items = [{ text: 'STUDENTS', category: 'table' }, { text: 'StudentID', category: 'attribute' }, { text: 'Name', category: 'attribute' }, { text: 'BirthYear', category: 'attribute' }, { text: 'S001', category: 'value' }, { text: 'Amina', category: 'value' }, { text: '2009', category: 'value' }]; let selected = null; const answers = {}, bank = document.getElementById('builderBank'), sTable = document.getElementById('slotTable'), sAttr = document.getElementById('slotAttributes'), sVal = document.getElementById('slotValues'), bFb = document.getElementById('builderFeedback'); function renderBank() { bank.innerHTML = ''; items.forEach((it, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'lesson-choice-btn builder-chip' + (selected === i ? ' active' : ''); b.textContent = it.text; b.addEventListener('click', () => { selected = i; renderBank(); bFb.className = 'lesson-lab-feedback'; bFb.textContent = `Selected "${it.text}". Now choose its category.` }); bank.appendChild(b) }) } function renderSlots() { const t = [], a = [], v = []; items.forEach((it, i) => { if (answers[i] === 'table') t.push(it.text); if (answers[i] === 'attribute') a.push(it.text); if (answers[i] === 'value') v.push(it.text) }); sTable.innerHTML = `<strong>Table name:</strong> ${t.length ? t.join(', ') : '—'}`; sAttr.innerHTML = `<strong>Attributes:</strong> ${a.length ? a.join(', ') : '—'}`; sVal.innerHTML = `<strong>Record values:</strong> ${v.length ? v.join(', ') : '—'}` } document.querySelectorAll('.builder-category').forEach(b => b.addEventListener('click', () => { if (selected === null) { bFb.className = 'lesson-lab-feedback wrong'; bFb.textContent = 'Select an item first.'; return } answers[selected] = b.dataset.category; const it = items[selected]; bFb.className = 'lesson-lab-feedback'; bFb.textContent = `"${it.text}" placed in ${b.textContent}.`; selected = null; renderBank(); renderSlots() })); document.getElementById('checkBuilder').addEventListener('click', () => { let c = 0; items.forEach((it, i) => { if (answers[i] === it.category) c++ }); const ok = c === items.length; bFb.className = 'lesson-lab-feedback ' + (ok ? 'correct' : 'wrong'); bFb.textContent = ok ? 'Correct. STUDENTS is the table, StudentID/Name/BirthYear are attributes, and S001/Amina/2009 are record values.' : `${c} of ${items.length} items are correctly classified.` }); document.getElementById('resetBuilder').addEventListener('click', () => { selected = null; Object.keys(answers).forEach(k => delete answers[k]); bFb.className = 'lesson-lab-feedback'; bFb.textContent = 'Select an item, then choose its category.'; renderBank(); renderSlots() }); renderBank(); renderSlots();
+            const vocab = [{ prompt: '"Email" is the heading of a column in the STUDENTS table.', answer: 'attribute', why: 'Email is a named column, so it is an attribute.' }, { prompt: 'All information stored about Dana occupies one complete row.', answer: 'record', why: 'One complete row for Dana is a record.' }, { prompt: 'STUDENTS contains rows and columns about students.', answer: 'table', why: 'STUDENTS is the whole table.' }, { prompt: 'A database structure on Name helps find matching student rows faster.', answer: 'index', why: 'A search structure created for faster lookup is an index.' }, { prompt: '"Class" stores one characteristic for every student.', answer: 'attribute', why: 'Class is one named attribute.' }, { prompt: 'The complete data entry S003, Arman, 11A, arman@nis.edu.kz.', answer: 'record', why: 'The complete row is a record.' }]; let vi = 0; const vp = document.getElementById('vocabPrompt'), vf = document.getElementById('vocabFeedback'), vprog = document.getElementById('vocabProgress'), vchoices = document.querySelectorAll('.vocab-choice'); function loadV() { const it = vocab[vi]; vp.textContent = it.prompt; vf.className = 'lesson-lab-feedback'; vf.textContent = 'Choose the best term.'; vprog.textContent = `Example ${vi + 1} of ${vocab.length}`; vchoices.forEach(b => b.classList.remove('active')) } vchoices.forEach(b => b.addEventListener('click', () => { const it = vocab[vi], ok = b.dataset.vocab === it.answer; vchoices.forEach(x => x.classList.remove('active')); b.classList.add('active'); vf.className = 'lesson-lab-feedback ' + (ok ? 'correct' : 'wrong'); vf.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${it.why}` })); document.getElementById('nextVocab').addEventListener('click', () => { vi = (vi + 1) % vocab.length; loadV() }); loadV();
+            const ex = { school: { title: 'School Database', description: 'A relational database can separate student data from class data while preserving the connection between them.', content: '<div class="lesson-grid lesson-grid--2"><div class="definition-item"><h4>STUDENTS</h4><p><strong>Attributes:</strong> StudentID, Name, ClassCode<br><strong>Example record:</strong> S001, Ali, 11A</p></div><div class="definition-item"><h4>CLASSES</h4><p><strong>Attributes:</strong> ClassCode, Tutor<br><strong>Example record:</strong> 11A, Ms Brown</p></div></div>' }, library: { title: 'Library Database', description: 'Tables can represent different kinds of data while each table still has its own attributes and records.', content: '<div class="lesson-grid lesson-grid--2"><div class="definition-item"><h4>BOOKS</h4><p><strong>Attributes:</strong> BookID, Title, Author<br><strong>Record:</strong> B101, Dune, Frank Herbert</p></div><div class="definition-item"><h4>MEMBERS</h4><p><strong>Attributes:</strong> MemberID, Name, Class<br><strong>Record:</strong> M015, Dana, 11B</p></div></div>' }, shop: { title: 'Shop Database', description: 'An index may be added to a frequently searched attribute such as ProductName to speed up locating records.', content: '<div class="lesson-grid lesson-grid--2"><div class="definition-item"><h4>PRODUCTS</h4><p><strong>Attributes:</strong> ProductID, ProductName, Price<br><strong>Record:</strong> P090, Keyboard, 12990</p></div><div class="definition-item"><h4>INDEX on ProductName</h4><p>Keyboard → P090<br>Monitor → P041<br>Mouse → P012</p></div></div>' } }; const exTabs = document.querySelectorAll('[data-example]'), wt = document.getElementById('workedTitle'), wd = document.getElementById('workedDescription'), wc = document.getElementById('workedContent'); function showEx(k) { const e = ex[k]; wt.textContent = e.title; wd.textContent = e.description; wc.innerHTML = e.content; exTabs.forEach(b => b.classList.toggle('active', b.dataset.example === k)) } exTabs.forEach(b => b.addEventListener('click', () => showEx(b.dataset.example))); showEx('school');
+        });
+    </script>
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
 </body>
 
 </html>

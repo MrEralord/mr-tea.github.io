@@ -2228,3 +2228,131 @@ details.compact-details>summary:focus-visible {
         transform: none !important;
     }
 }
+
+/* ============================================================
+   Shared lesson layout utilities
+   Reusable across database, programming and theory lesson pages.
+   ============================================================ */
+
+.lesson-subheading {
+    margin: var(--space-lg) 0 var(--space-sm);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.lesson-grid {
+    display: grid;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.lesson-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lesson-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.lesson-grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.lesson-grid--flow {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+}
+
+.lesson-grid>.analogy-box,
+.lesson-grid>.worked-example,
+.lesson-grid>.definition-item {
+    margin-bottom: 0;
+}
+
+.lesson-flow-arrow {
+    display: grid;
+    place-items: center;
+    color: var(--clr-tea);
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.lesson-table-wrap {
+    overflow-x: auto;
+}
+
+.lesson-table-wrap>.theory-table {
+    min-width: 620px;
+}
+
+.lesson-control {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    outline: none;
+}
+
+.lesson-control:focus {
+    border-color: var(--clr-tea);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.10);
+}
+
+.lesson-list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: 0.5rem 0.6rem;
+    margin-bottom: var(--space-xs);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-glass);
+    color: var(--text-secondary);
+    font-family: var(--font-code);
+    font-size: 0.72rem;
+    transition:
+        color var(--transition),
+        border-color var(--transition),
+        background var(--transition);
+}
+
+.lesson-highlight-primary,
+.theory-table tr.lesson-highlight-primary td {
+    border-color: rgba(13, 148, 136, 0.55) !important;
+    background: rgba(13, 148, 136, 0.10) !important;
+    color: var(--clr-tea) !important;
+}
+
+.lesson-highlight-success,
+.theory-table tr.lesson-highlight-success td {
+    border-color: rgba(22, 163, 74, 0.55) !important;
+    background: rgba(22, 163, 74, 0.08) !important;
+}
+
+@media (max-width: 900px) {
+    .lesson-grid--4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .lesson-grid--flow {
+        grid-template-columns: 1fr;
+    }
+
+    .lesson-grid--flow>.lesson-flow-arrow {
+        transform: rotate(90deg);
+    }
+}
+
+@media (max-width: 700px) {
+
+    .lesson-grid--2,
+    .lesson-grid--3,
+    .lesson-grid--4 {
+        grid-template-columns: 1fr;
+    }
+}
