@@ -36,7 +36,8 @@
         wrapper.insertBefore(overlay, mainContent);
 
         // Bind events
-        bindSidebarEvents();
+        if (typeof initMobileNav === 'function') initMobileNav();
+        if (typeof initSidebarSearch === 'function') initSidebarSearch();
 
         // Highlight active lesson
         highlightActiveLesson();
@@ -60,39 +61,6 @@
       .catch(err => {
         console.warn('Sidebar could not be loaded:', err.message);
       });
-  }
-
-  function bindSidebarEvents() {
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const closeBtn = document.getElementById('close-sidebar-btn');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-
-    if (!menuBtn || !sidebar || !overlay) return;
-
-    function openSidebar() {
-      sidebar.classList.add('active');
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeSidebar() {
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    menuBtn.addEventListener('click', openSidebar);
-    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
-    overlay.addEventListener('click', closeSidebar);
-
-    // Close sidebar when clicking a lesson link
-    const links = sidebar.querySelectorAll('.term-group a');
-    links.forEach(link => {
-      link.addEventListener('click', () => {
-        setTimeout(closeSidebar, 150);
-      });
-    });
   }
 
   function highlightActiveLesson() {

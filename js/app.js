@@ -19,7 +19,8 @@ function initSidebarSearch() {
   const clearBtn = document.getElementById('clear-search');
   const sidebarNav = document.querySelector('.sidebar-nav');
   
-  if (!searchInput || !sidebarNav) return;
+  if (!searchInput || !clearBtn || !sidebarNav || searchInput.dataset.searchReady) return;
+  searchInput.dataset.searchReady = 'true';
 
   const links = sidebarNav.querySelectorAll('ul a');
   const syllabusGroups = sidebarNav.querySelectorAll('.syllabus-group');
@@ -30,8 +31,7 @@ function initSidebarSearch() {
     clearBtn.style.display = query.length > 0 ? 'block' : 'none';
 
     if (query.length < 2) {
-      // Если запрос слишком короткий, сбрасываем фильтр (по желанию)
-      if (query.length === 0) resetSearch();
+      sidebarNav.querySelectorAll('.hidden-search-item').forEach(el => el.classList.remove('hidden-search-item'));
       return;
     }
 
@@ -134,32 +134,77 @@ function initMobileNav() {
   const closeBtn = document.getElementById('close-sidebar-btn');
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('sidebar-overlay');
-  
-  if (!menuToggle || !sidebar || !overlay) return;
+  if (!menuToggle || !sidebar || !overlay || sidebar.dataset.navReady) return;
+  sidebar.dataset.navReady = 'true';
+  menuToggle.setAttribute('aria-controls', sidebar.id);
+  menuToggle.setAttribute('aria-expanded', 'false');
+  sidebar.setAttribute('role', 'dialog');
+  sidebar.setAttribute('aria-label', 'Site navigation');
+  sidebar.inert = true;
+  let previousFocus;
+  let previousOverflow = '';
+  let blocked = [];
 
+  function focusableItems() {
+    return [...sidebar.querySelectorAll('a[href], button, input, select, textarea, summary, [tabindex="0"]')]
+      .filter(el => !el.disabled && !el.closest('[inert]') && el.getClientRects().length);
+  }
   function openSidebar() {
+    if (sidebar.classList.contains('active')) return;
+    previousFocus = document.activeElement;
+    previousOverflow = document.body.style.overflow;
+    sidebar.inert = false;
     sidebar.classList.add('active');
+    sidebar.setAttribute('aria-modal', 'true');
     overlay.classList.add('active');
-    document.body.style.overflow = 'hidden'; 
+    menuToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    // Make everything outside the drawer inert, including the header and footer.
+    blocked = [];
+    let branch = sidebar;
+    while (branch.parentElement && branch !== document.body) {
+      for (const sibling of branch.parentElement.children) {
+        if (sibling !== branch && sibling !== overlay && !sibling.inert) {
+          sibling.inert = true;
+          blocked.push(sibling);
+        }
+      }
+      branch = branch.parentElement;
+    }
+    (closeBtn || focusableItems()[0])?.focus();
   }
-
   function closeSidebar() {
+    if (!sidebar.classList.contains('active')) return;
     sidebar.classList.remove('active');
+    sidebar.removeAttribute('aria-modal');
     overlay.classList.remove('active');
-    document.body.style.overflow = '';
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = previousOverflow;
+    blocked.forEach(el => { el.inert = false; });
+    blocked = [];
+    sidebar.inert = true;
+    (previousFocus?.isConnected ? previousFocus : menuToggle).focus();
   }
-
   menuToggle.addEventListener('click', openSidebar);
-  
-  if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
-  
+  closeBtn?.addEventListener('click', closeSidebar);
   overlay.addEventListener('click', closeSidebar);
-
-  const links = sidebar.querySelectorAll('a:not(.teacher-area-link)');
-  links.forEach(link => {
-    link.addEventListener('click', () => {
-      setTimeout(closeSidebar, 150);
-    });
+  sidebar.addEventListener('click', event => {
+    if (event.target.closest('a:not(.teacher-area-link)')) closeSidebar();
+  });
+  document.addEventListener('keydown', event => {
+    if (!sidebar.classList.contains('active')) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeSidebar();
+    } else if (event.key === 'Tab') {
+      const items = focusableItems();
+      const first = items[0], last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault(); last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault(); first?.focus();
+      }
+    }
   });
 }
 
