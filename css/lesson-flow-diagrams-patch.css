@@ -1,0 +1,209 @@
+/* ============================================================
+   SHARED LESSON FLOW DIAGRAMS
+   Reusable across lesson pages
+   Append to /css/lesson.css
+   ============================================================ */
+
+.lesson-flow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-sm);
+    margin: var(--space-md) 0;
+}
+
+.lesson-flow--branching {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1.25fr);
+}
+
+.lesson-flow-node {
+    min-height: 132px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.lesson-flow-node > i {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.lesson-flow-node > strong {
+    color: var(--text-primary);
+    font-size: 0.86rem;
+}
+
+.lesson-flow-node > span {
+    max-width: 190px;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    line-height: 1.45;
+}
+
+.lesson-flow-node--accent {
+    border-color: rgba(13, 148, 136, 0.5);
+    background: rgba(13, 148, 136, 0.07);
+}
+
+.lesson-flow-node--accent > i,
+.lesson-flow-node--accent > strong {
+    color: var(--clr-tea);
+}
+
+.lesson-flow-node--protected {
+    border-color: rgba(99, 102, 241, 0.45);
+    background: rgba(99, 102, 241, 0.07);
+}
+
+.lesson-flow-node--protected > i,
+.lesson-flow-node--protected > strong {
+    color: #6366f1;
+}
+
+.lesson-flow-node--success {
+    border-color: rgba(22, 163, 74, 0.48);
+    background: rgba(22, 163, 74, 0.07);
+}
+
+.lesson-flow-node--success > i,
+.lesson-flow-node--success > strong {
+    color: #16a34a;
+}
+
+.lesson-flow-node--danger {
+    border-color: rgba(239, 68, 68, 0.48);
+    background: rgba(239, 68, 68, 0.07);
+}
+
+.lesson-flow-node--danger > i,
+.lesson-flow-node--danger > strong {
+    color: #ef4444;
+}
+
+.lesson-flow-arrow {
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
+
+.lesson-flow-branches {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.lesson-flow-path {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.lesson-flow-path .lesson-flow-node {
+    min-height: 94px;
+}
+
+.lesson-flow-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 0.28rem 0.45rem;
+    border-radius: var(--radius-full);
+    background: var(--bg-glass);
+    color: var(--text-secondary);
+    font-family: var(--font-code);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.lesson-flow-label--success {
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.09);
+}
+
+.lesson-flow-label--danger {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.09);
+}
+
+.lesson-flow-caption {
+    margin: var(--space-sm) 0 0;
+    color: var(--text-muted);
+    font-size: 0.76rem;
+    line-height: 1.55;
+    text-align: center;
+}
+
+.lesson-flow-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin: var(--space-sm) 0;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    text-align: center;
+}
+
+.lesson-flow-divider::before,
+.lesson-flow-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+@media (max-width: 760px) {
+    .lesson-flow,
+    .lesson-flow--branching {
+        grid-template-columns: 1fr;
+    }
+
+    .lesson-flow-arrow {
+        transform: rotate(90deg);
+    }
+
+    .lesson-flow-branches {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .lesson-flow-path {
+        grid-template-columns: 1fr;
+    }
+
+    .lesson-flow-label {
+        justify-self: center;
+    }
+}
+
+@media (max-width: 520px) {
+    .lesson-flow-branches {
+        grid-template-columns: 1fr;
+    }
+
+    .lesson-flow-node {
+        min-height: 112px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lesson-flow-arrow {
+        transform: none;
+    }
+
+    @media (max-width: 760px) {
+        .lesson-flow-arrow {
+            transform: rotate(90deg);
+        }
+    }
+}
