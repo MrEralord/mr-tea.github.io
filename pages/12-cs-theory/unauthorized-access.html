@@ -126,7 +126,7 @@
     <div class="worked-example">
         <h4>Authentication → Authorization → Access Decision</h4>
 
-        <div class="lesson-flow lesson-flow--branching" aria-label="Authentication and authorization flow">
+        <div class="lesson-flow" aria-label="Authentication and authorization flow">
             <div class="lesson-flow-node">
                 <i class="fas fa-user"></i>
                 <strong>User</strong>
@@ -152,29 +152,25 @@
                 <strong>Check role &amp; permissions</strong>
                 <span>Teacher, student, admin, guest...</span>
             </div>
+        </div>
 
-            <div class="lesson-flow-arrow" aria-hidden="true">
-                <i class="fas fa-arrow-right"></i>
+        <div class="lesson-flow-divider">
+            <span>Authorization result</span>
+        </div>
+
+        <div class="lesson-lab-options two" aria-label="Authorization result">
+            <div class="lesson-flow-node lesson-flow-node--success">
+                <span class="lesson-flow-label lesson-flow-label--success">ALLOW</span>
+                <i class="fas fa-unlock"></i>
+                <strong>Access granted</strong>
+                <span>Requested action is permitted</span>
             </div>
 
-            <div class="lesson-flow-branches">
-                <div class="lesson-flow-path">
-                    <span class="lesson-flow-label lesson-flow-label--success">ALLOW</span>
-                    <div class="lesson-flow-node lesson-flow-node--success">
-                        <i class="fas fa-unlock"></i>
-                        <strong>Access granted</strong>
-                        <span>Requested action is permitted</span>
-                    </div>
-                </div>
-
-                <div class="lesson-flow-path">
-                    <span class="lesson-flow-label lesson-flow-label--danger">DENY</span>
-                    <div class="lesson-flow-node lesson-flow-node--danger">
-                        <i class="fas fa-lock"></i>
-                        <strong>Access denied</strong>
-                        <span>Requested action exceeds permissions</span>
-                    </div>
-                </div>
+            <div class="lesson-flow-node lesson-flow-node--danger">
+                <span class="lesson-flow-label lesson-flow-label--danger">DENY</span>
+                <i class="fas fa-lock"></i>
+                <strong>Access denied</strong>
+                <span>Requested action exceeds permissions</span>
             </div>
         </div>
 
