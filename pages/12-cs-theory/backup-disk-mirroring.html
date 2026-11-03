@@ -4,242 +4,1195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Backup &amp; Disk Mirroring — mr. TEA</title>
-    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description"
-        content="Data backup strategies, data archiving, disk mirroring (RAID-1), and fault tolerance. NIS Grade 12 CS.">
 
-    <!-- Open Graph -->
+    <title>Backup & Disk Mirroring — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
+    <meta name="description"
+        content="Data backup and disk mirroring (RAID 1): recovery, redundancy, fault tolerance and why RAID is not a backup. NIS Grade 12 Computer Science 12.1.2.2.">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="Backup &amp;amp; Disk Mirroring — mr. TEA">
-    <meta property="og:description" content="Data backup strategies, data archiving, disk mirroring (RAID-1), and fault tolerance. NIS Grade 12 CS.">
+    <meta property="og:title" content="Backup & Disk Mirroring — mr. TEA">
+    <meta property="og:description"
+        content="Use data protection measures such as data backup and disk mirroring.">
     <meta property="og:url" content="https://mr-tea.net/pages/12-cs-theory/backup-disk-mirroring.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
 <div class="layout-wrapper">
-    <main class="main-content">
+<main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
+<div class="mobile-header">
+    <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
         </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
+
+        <a href="/" class="logo">
+            <i class="fas fa-mug-hot logo-icon"></i>
+            <span class="logo-text">mr. TEA</span>
         </a>
-      </div>
+    </div>
+</div>
+
+<div class="lesson-page">
+<div class="lesson-container">
+
+<nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+    <a href="/index.html">Home</a>
+    <span class="sep">/</span>
+    <a href="/index.html#syllabus">Grade 12 CS</a>
+    <span class="sep">/</span>
+    <span>Backup &amp; Disk Mirroring</span>
+</nav>
+
+<div class="lesson-header">
+    <div class="lesson-unit-badge">
+        <i class="fas fa-hard-drive"></i> Grade 12 CS · Term 2
     </div>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
-                <span>12.1C — Backup &amp; Disk Mirroring</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-hdd"></i> Unit 12.1C · Term 1</div>
-                <h1 class="lesson-title">Backup &amp; Disk Mirroring</h1>
-                <p class="lesson-intro">Protecting data is not just about stopping hackers; it is equally about ensuring
-                    data is not lost due to hardware failure, natural disasters, or human error. Organizations implement
-                    strict data retention strategies, including <strong>backups</strong>, <strong>archiving</strong>,
-                    and hardware-level redundancy like <strong>disk mirroring</strong>, to ensure high availability and
-                    security.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.5.2.9</span> Describe data protection measures (data backup and disk
-                        mirroring)</li>
-                </ul>
-            </div>
+    <h1 class="lesson-title">Backup &amp; Disk Mirroring</h1>
 
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.1C-encryption-backup.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="/assets/pdf/Disk_mirroring&Backup.pdf" class="lesson-pdf-btn view-btn"><i
-                            class="fas fa-eye"></i> View</a>
-                    <a href="/assets/pdf/Disk_mirroring&Backup.pdf" class="lesson-pdf-btn download-btn"><i
-                            class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
+    <p class="lesson-intro">
+        <strong>Backup</strong> and <strong>disk mirroring</strong> both protect
+        data, but they solve different problems. A backup gives you a
+        <strong>previous recoverable copy</strong>. Disk mirroring gives you a
+        <strong>live duplicate disk</strong> so the system can tolerate a drive failure.
+    </p>
+</div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-car"></i> The Spare Tire vs. The Photo Album</h4>
-                    <p><strong>Disk Mirroring</strong> is like having four wheels on the back of a truck — if one tire
-                        blows out, the truck keeps driving without stopping (uninterrupted service). <strong>Data
-                            Backup</strong> is like keeping a spare tire in the trunk — if a tire blows, you have to
-                        stop and manually replace it to recover. <strong>Data Archiving</strong> is like taking old
-                        childhood photo albums and moving them to the attic — you don't need them every day, but you
-                        keep them safe to free up space in your living room.</p>
-                </div>
-            </section>
+<div class="lesson-lo-card">
+    <h3><i class="fas fa-bullseye"></i> Learning Objective</h3>
+    <ul class="lesson-lo-list">
+        <li>
+            <span class="lo-code">12.1.2.2</span>
+            Use data protection measures such as data backup and disk mirroring
+        </li>
+    </ul>
+</div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Data Backup vs
-                    Data Archiving</h3>
-                <p style="margin-bottom: var(--space-md);">A common misconception is that backups and archives are the
-                    same. They serve entirely different purposes in data management.</p>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>Data Backup</th>
-                            <th>Data Archiving</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Purpose</strong></td>
-                            <td>Used as a data recovery tool to restore active data in case of accidental deletion,
-                                corruption, or hardware failure.</td>
-                            <td>Intended to protect older information that is not needed for everyday operations but may
-                                have to be accessed occasionally.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Data State</strong></td>
-                            <td>A copy of <strong>active</strong>, currently used data.</td>
-                            <td>Data that is <strong>not active</strong> but is too important to delete.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Primary Benefit</strong></td>
-                            <td>Ensures business continuity and disaster recovery.</td>
-                            <td>A way of reducing primary storage and the related costs, rather than acting as a data
-                                recovery tool.</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <br>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">A</span> Best Practice: The 3-2-1 Backup Rule</h4>
-                    <ul style="padding-left: 20px;">
-                        <li>Keep <strong>3</strong> copies of your data (1 original + 2 backups).</li>
-                        <li>Store them on <strong>2</strong> different types of media (e.g., local hard drive and cloud
-                            storage).</li>
-                        <li>Keep <strong>1</strong> copy stored securely off-site (in case of fire or physical
-                            disaster).</li>
-                    </ul>
-                </div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2. Disk
-                    Mirroring & Fault Tolerance</h3>
-                <p style="margin-bottom: var(--space-md);">Disk mirroring (also known as RAID-1 - Random Array of
-                    Independent Disks) is the practice of duplicating data in separate volumes on two hard disks
-                    simultaneously to make storage more fault-tolerant.</p>
-
-                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                    <li><strong>How it works:</strong> Data is written simultaneously to two or more hard disks.
-                        Mirroring provides continuous data protection because data is constantly updated to both disks.
-                    </li>
-                    <li><strong>Fault Tolerance:</strong> In the event of a disk failure, the computer automatically
-                        switches access to the next disk, without loss of data or interrupting data processing.
-                        Fault-tolerant technology is the capability of a computer system to deliver
-                        <strong>uninterrupted service</strong>, despite one or more of its components failing.
-                    </li>
-                    <li><strong>Remote Sites:</strong> In some high-security configurations, backup disks are maintained
-                        at a remote site (mirror site) for additional safety against physical disasters.</li>
-                </ul>
-
-                <br>
-
-
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Mirroring is NOT a replacement for Backups</h4>
-                    <p>If you accidentally delete a file, or if a virus corrupts your data, Disk Mirroring will
-                        instantly copy that deletion or corruption to the second drive! Mirroring protects against
-                        <strong>hardware failure</strong> (fault tolerance). You still need <strong>Backups</strong> to
-                        protect against human error and malware.
-                    </p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Confusing Backup and Archiving</h4>
-                    <p>Backups are for your <em>active</em> files (acting as a data recovery tool). Archives are for
-                        your <em>inactive</em> files to free up primary storage space.</p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Exam Style Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Define the term "Fault Tolerance" in the context of computer systems.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Describe how Disk Mirroring (RAID-1) operates during a hardware failure to prevent the
-                            interruption of data processing.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>A school wants to free up space on its main server by moving students' graduated files from 5
-                            years ago, but they cannot delete them. Would you recommend a Data Backup or Data Archiving
-                            solution? Justify your answer based on their distinct purposes.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What does RAID-1 stand for?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Random Array of Independent
-                        Disks (specifically the configuration used for disk mirroring).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is the main purpose of Data Archiving?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It is a way of reducing primary
-                        storage and related costs by retaining inactive data for long-term storage, rather than acting
-                        as a quick data recovery tool.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: Why might an organization keep mirror disks at a remote site?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To provide additional safety
-                        and fault tolerance in the event that the primary location is destroyed by a physical disaster
-                        like a fire or flood.</div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="data-protection-measures.html"><span class="nav-label">← Previous</span><span class="nav-title">Data Protection Measures</span></a>
-                        <a href="unauthorized-access.html"><span class="nav-label">Next →</span><span class="nav-title">Protect Data from Unauthorized Access</span></a>
-                    </nav>
+<!-- =========================================================
+     VIDEO
+     ========================================================= -->
+<div class="lesson-video-block">
+    <div class="lesson-video-header">
+        <div class="lesson-video-icon">
+            <i class="fab fa-youtube"></i>
         </div>
-        </div>
-    </main>
-  </div>
-    <footer class="site-footer">
-        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
-    </footer>
 
-    <script src="/js/sidebar.js"></script>
-    <script src="/js/app.js"></script>
+        <div class="lesson-video-info">
+            <h4 id="lessonVideoTitle">What Is Data Backup?</h4>
+            <p id="lessonVideoDescription">
+                Eye on Tech — a short explanation of data backup and why organisations need recoverable copies.
+            </p>
+        </div>
+    </div>
+
+    <div class="video-tabs">
+        <button class="video-tab active" data-video="backup" type="button">
+            <i class="fas fa-clock-rotate-left"></i> Backup
+        </button>
+
+        <button class="video-tab" data-video="raid" type="button">
+            <i class="fas fa-hard-drive"></i> RAID 1
+        </button>
+    </div>
+
+    <div class="lesson-video-wrapper">
+        <iframe
+            id="lessonVideoFrame"
+            src="https://www.youtube-nocookie.com/embed/FIL6L7f32Bs?rel=0"
+            title="Eye on Tech - What is Data Backup and Why is it Important?"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<nav class="lesson-section-jump" aria-label="Lesson sections">
+    <a href="#difference">Core Difference</a>
+    <a href="#backup">Backup</a>
+    <a href="#mirroring">Disk Mirroring</a>
+    <a href="#compare">Compare</a>
+    <a href="#protection">Protection Lab</a>
+    <a href="#practice">Practice</a>
+</nav>
+
+<!-- =========================================================
+     CONCEPTUAL ANCHOR
+     ========================================================= -->
+<section class="lesson-section" id="difference">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-lightbulb"></i> Conceptual Anchor
+    </h2>
+
+    <div class="analogy-box">
+        <h4><i class="fas fa-gamepad"></i> Save Point vs Twin Disks</h4>
+        <p>
+            A <strong>backup</strong> is like a save point in a game: if something
+            goes wrong later, you can return to an earlier state.
+            <strong>Disk mirroring</strong> is like running two identical live
+            copies at the same time: if one disk fails, the other still contains
+            the current data.
+        </p>
+    </div>
+
+    <div class="lesson-grid lesson-grid--2">
+        <div class="definition-item">
+            <i class="fas fa-clock-rotate-left"></i>
+            <strong>Backup = previous point in time</strong>
+            <p>
+                A separate copy is created so data can be restored after deletion,
+                corruption, malware or hardware failure.
+            </p>
+        </div>
+
+        <div class="definition-item">
+            <i class="fas fa-copy"></i>
+            <strong>Mirroring = current live state</strong>
+            <p>
+                Writes are duplicated to another disk in real time to provide
+                redundancy if one physical drive fails.
+            </p>
+        </div>
+    </div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-triangle-exclamation"></i> The key sentence</h4>
+        <p>
+            <strong>Backup gives you another point in time. Mirroring gives you another live disk.</strong>
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     BACKUP
+     ========================================================= -->
+<section class="lesson-section" id="backup">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-clock-rotate-left"></i> Data Backup
+    </h2>
+
+    <p class="concept-text">
+        A <strong>backup</strong> is a separate copy of data kept so that the
+        original data can be restored if it is lost, deleted, corrupted or damaged.
+        Backups should be created regularly and stored separately from the original data.
+    </p>
+
+    <div class="worked-example">
+        <h4><span class="step-num">1</span> Backup Timeline</h4>
+
+        <div class="lesson-flow" aria-label="Backup timeline">
+            <div class="lesson-flow-node lesson-flow-node--success">
+                <i class="fas fa-floppy-disk"></i>
+                <strong>08:00 Backup A</strong>
+                <span>Recoverable copy of the morning state</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--success">
+                <i class="fas fa-floppy-disk"></i>
+                <strong>18:00 Backup B</strong>
+                <span>Newest valid recoverable copy</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--danger">
+                <i class="fas fa-trash"></i>
+                <strong>20:00 File deleted</strong>
+                <span>Restore the newest valid copy from 18:00</span>
+            </div>
+        </div>
+
+        <p class="lesson-flow-caption">
+            A backup preserves an earlier state. Recovery normally returns the data
+            to the most suitable valid backup point.
+        </p>
+    </div>
+
+    <h3>Restore Point Lab</h3>
+
+    <div class="lesson-lab">
+        <div id="restorePrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options three">
+            <button class="lesson-choice-btn restore-choice" data-choice="a" type="button">
+                Backup A
+            </button>
+            <button class="lesson-choice-btn restore-choice" data-choice="b" type="button">
+                Backup B
+            </button>
+            <button class="lesson-choice-btn restore-choice" data-choice="c" type="button">
+                Backup C
+            </button>
+        </div>
+
+        <div id="restoreFeedback" class="lesson-lab-feedback">
+            Choose the newest valid backup that should be restored.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="restoreProgress"></span>
+            <button id="nextRestore" class="lesson-lab-btn" type="button">
+                Next scenario
+            </button>
+        </div>
+    </div>
+
+    <div class="pro-tip-box">
+        <h4><i class="fas fa-shield-halved"></i> 3-2-1 Backup Rule</h4>
+        <p>
+            Keep <strong>3 copies</strong> of important data, on
+            <strong>2 different types of storage</strong>, with
+            <strong>1 copy off-site</strong>. The purpose is to avoid one local
+            failure destroying every copy.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     DISK MIRRORING
+     ========================================================= -->
+<section class="lesson-section" id="mirroring">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-hard-drive"></i> Disk Mirroring — RAID 1
+    </h2>
+
+    <p class="concept-text">
+        <strong>Disk mirroring</strong> writes the same data to two or more disks
+        so that the disks contain identical current copies. A common implementation
+        is <strong>RAID 1</strong> — <strong>Redundant Array of Independent Disks</strong>.
+    </p>
+
+    <figure class="lesson-image-block">
+        <img
+            src="/assets/images/lessons/RAID-1-Diagram.jpg"
+            alt="RAID 1 architecture showing the same data written to mirrored disks"
+            loading="lazy">
+        <figcaption>
+            RAID 1 architecture — the same write is duplicated across mirrored disks.
+        </figcaption>
+    </figure>
+
+    <div class="worked-example">
+        <h4><span class="step-num">2</span> Live RAID 1 Write</h4>
+
+        <div class="lesson-flow lesson-flow--branching" aria-label="RAID 1 write flow">
+            <div class="lesson-flow-node">
+                <i class="fas fa-file"></i>
+                <strong>Application</strong>
+                <span>Writes coursework.docx</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--accent">
+                <i class="fas fa-code-branch"></i>
+                <strong>RAID 1 controller</strong>
+                <span>Duplicates the same write</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-branches">
+                <div class="lesson-flow-path">
+                    <span class="lesson-flow-label">COPY</span>
+                    <div class="lesson-flow-node lesson-flow-node--protected" id="raidDiskA">
+                        <i class="fas fa-hard-drive"></i>
+                        <strong>Disk A</strong>
+                        <span id="raidDiskAText">coursework.docx ✓</span>
+                    </div>
+                </div>
+
+                <div class="lesson-flow-path">
+                    <span class="lesson-flow-label">COPY</span>
+                    <div class="lesson-flow-node lesson-flow-node--protected" id="raidDiskB">
+                        <i class="fas fa-hard-drive"></i>
+                        <strong>Disk B</strong>
+                        <span id="raidDiskBText">coursework.docx ✓</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-tabs">
+            <button id="simulateFailure" class="lesson-lab-btn" type="button">
+                Simulate Disk A failure
+            </button>
+            <button id="simulateDeletion" class="lesson-lab-btn" type="button">
+                Delete the file
+            </button>
+            <button id="resetRaid" class="lesson-lab-btn" type="button">
+                Reset
+            </button>
+        </div>
+
+        <div id="raidFeedback" class="lesson-lab-feedback">
+            Try a disk failure and an accidental deletion. Notice the difference.
+        </div>
+    </div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-shield"></i> Fault tolerance</h4>
+        <p>
+            <strong>Fault tolerance</strong> is the ability of a system to continue
+            operating when a component fails. In RAID 1, data remains available
+            from the surviving mirrored disk if one drive fails.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     COMPARE
+     ========================================================= -->
+<section class="lesson-section" id="compare">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-scale-balanced"></i> Backup vs Disk Mirroring
+    </h2>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Backup</th>
+                <th>Disk Mirroring (RAID 1)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Timing</strong></td>
+                <td>Created at points in time / on a schedule</td>
+                <td>Updated continuously as writes occur</td>
+            </tr>
+            <tr>
+                <td><strong>Historical copies</strong></td>
+                <td>Yes — depending on backup policy</td>
+                <td>No — stores the current mirrored state</td>
+            </tr>
+            <tr>
+                <td><strong>Disk failure</strong></td>
+                <td>Can restore data from a separate backup</td>
+                <td>System can continue using the surviving disk</td>
+            </tr>
+            <tr>
+                <td><strong>Accidental deletion</strong></td>
+                <td>Can restore an earlier copy</td>
+                <td>Deletion is mirrored to both disks</td>
+            </tr>
+            <tr>
+                <td><strong>Ransomware / corruption</strong></td>
+                <td>A clean separate historical backup may allow recovery</td>
+                <td>Corrupted/encrypted data is mirrored too</td>
+            </tr>
+            <tr>
+                <td><strong>Main purpose</strong></td>
+                <td>Recovery</td>
+                <td>Redundancy / availability / fault tolerance</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <figure class="lesson-image-block">
+        <img
+            src="/assets/images/lessons/raid-backup-ransomware.jpg"
+            alt="Comparison showing why RAID 1 does not replace a backup during deletion or ransomware"
+            loading="lazy">
+        <figcaption>
+            RAID 1 protects against a drive failure, but a separate clean backup is needed to recover an earlier state after deletion, corruption or ransomware.
+        </figcaption>
+    </figure>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> RAID 1 is NOT a backup</h4>
+        <p>
+            Mirroring faithfully duplicates the current state. If a file is deleted,
+            corrupted or encrypted by ransomware, that change is also written to the
+            mirrored disk. RAID 1 protects against <strong>drive failure</strong>,
+            not against every form of data loss.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     PROTECTION LAB
+     ========================================================= -->
+<section class="lesson-section" id="protection">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-flask"></i> Which Protection Measure?
+    </h2>
+
+    <div class="lesson-lab">
+        <div id="measurePrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options three">
+            <button class="lesson-choice-btn measure-choice" data-measure="backup" type="button">
+                <i class="fas fa-clock-rotate-left"></i> Backup
+            </button>
+
+            <button class="lesson-choice-btn measure-choice" data-measure="mirroring" type="button">
+                <i class="fas fa-hard-drive"></i> Mirroring
+            </button>
+
+            <button class="lesson-choice-btn measure-choice" data-measure="both" type="button">
+                <i class="fas fa-layer-group"></i> Both
+            </button>
+        </div>
+
+        <div id="measureFeedback" class="lesson-lab-feedback">
+            Select the most suitable protection strategy.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="measureProgress"></span>
+            <button id="nextMeasure" class="lesson-lab-btn" type="button">
+                Next scenario
+            </button>
+        </div>
+    </div>
+
+    <h3>What Happens Next?</h3>
+
+    <div class="lesson-lab">
+        <div id="eventPrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options three">
+            <button class="lesson-choice-btn event-choice" data-choice="recover" type="button">
+                Recover older copy
+            </button>
+
+            <button class="lesson-choice-btn event-choice" data-choice="continue" type="button">
+                Continue on surviving disk
+            </button>
+
+            <button class="lesson-choice-btn event-choice" data-choice="mirror" type="button">
+                Change appears on both disks
+            </button>
+        </div>
+
+        <div id="eventFeedback" class="lesson-lab-feedback">
+            Predict the result.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="eventProgress"></span>
+            <button id="nextEvent" class="lesson-lab-btn" type="button">
+                Next event
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     EXTENSION
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-plus-circle"></i> Extension
+    </h2>
+
+    <details class="lesson-compact-details">
+        <summary>Full, Incremental and Differential Backups</summary>
+        <div class="lesson-details-body">
+            <p class="concept-text">
+                Organisations can create backups in different ways. A
+                <strong>full backup</strong> copies all selected data.
+                An <strong>incremental backup</strong> copies changes since the most
+                recent backup. A <strong>differential backup</strong> copies changes
+                since the most recent full backup.
+            </p>
+
+            <figure class="lesson-image-block">
+                <img
+                    src="/assets/images/lessons/different_backup.jpg"
+                    alt="Comparison of different backup strategies"
+                    loading="lazy">
+                <figcaption>
+                    Full, incremental and differential backup strategies.
+                </figcaption>
+            </figure>
+
+            <div class="note-box">
+                <h4><i class="fas fa-circle-info"></i> Scope</h4>
+                <p>
+                    The core Grade 12 objective on this page is to use
+                    <strong>data backup and disk mirroring</strong>. Detailed comparison
+                    of backup strategies is useful extension/revision material.
+                </p>
+            </div>
+        </div>
+    </details>
+
+    <details class="lesson-compact-details">
+        <summary>Backup vs Archive</summary>
+        <div class="lesson-details-body">
+            <table class="theory-table">
+                <thead>
+                    <tr>
+                        <th>Backup</th>
+                        <th>Archive</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Copy kept for recovery of working data</td>
+                        <td>Long-term retention of inactive/historical data</td>
+                    </tr>
+                    <tr>
+                        <td>Used after loss, deletion or corruption</td>
+                        <td>Used to retain information and reduce primary-storage use</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+</section>
+
+<!-- =========================================================
+     COMMON PITFALLS
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+    </h2>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> RAID ≠ backup</h4>
+        <p>
+            RAID 1 gives redundancy against a drive failure. It does not provide a
+            historical version to restore after an accidental deletion or ransomware.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> RAID = Redundant, not Random</h4>
+        <p>
+            RAID stands for <strong>Redundant Array of Independent Disks</strong>.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Mirroring ≠ remote backup</h4>
+        <p>
+            RAID 1 normally describes live redundant disks in the storage system.
+            Keeping a separate backup off-site is a different protection strategy.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Backup must be separate enough to survive the same incident</h4>
+        <p>
+            A backup stored next to the original system may be lost in the same
+            fire, theft or ransomware incident. Separation matters.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     GRADED TASKS
+     ========================================================= -->
+<section class="lesson-section" id="practice">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-tasks"></i> Graded Tasks
+    </h2>
+
+    <div class="assessment-tasks">
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>Define the term <strong>data backup</strong>.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>State what <strong>RAID</strong> stands for.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>Explain how RAID 1 disk mirroring works.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>Explain the meaning of <strong>fault tolerance</strong> in a RAID 1 system.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>
+                A server must remain available if one physical hard disk fails.
+                State the most suitable measure and explain why.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>
+                A teacher accidentally deletes yesterday's examination spreadsheet.
+                Explain which measure could allow recovery.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>
+                A company stops making backups after installing RAID 1.
+                Explain two risks of this decision.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>
+                Recommend how a school could use both backup and disk mirroring
+                to protect a critical server. Justify the role of each measure.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     EXAM PRACTICE
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-graduation-cap"></i> Exam Practice
+    </h2>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q1: Explain what is meant by backing up data. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>Making a separate copy of data. [1]
+The copy can be used to restore/recover the original data if it is lost, damaged, corrupted or deleted. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q2: A company's server uses RAID 1. One hard disk fails.
+            Explain one benefit of disk mirroring in this situation. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>An identical current copy of the data exists on the surviving mirrored disk. [1]
+The data/system can remain available while the failed drive is replaced/rebuilt. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q3: An employee accidentally deletes an important file from a RAID 1 server.
+            Explain why RAID 1 does not allow the deleted file to be recovered. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>The deletion is also written/mirrored to the other disk. [1]
+RAID 1 stores the current state and does not provide an earlier historical copy of the file. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q4: Explain why an organisation may use both regular backups and RAID 1. [4]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>RAID 1 provides redundancy / continued access if a physical disk fails. [1]
+The system can continue using the surviving disk. [1]
+Backups provide separate historical/recoverable copies. [1]
+Backups can restore data after deletion, corruption, ransomware or another event mirrored to both live disks. [1]</div>
+        </details>
+    </div>
+</section>
+
+<!-- =========================================================
+     SELF CHECK
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-check-circle"></i> Self-Check Quiz
+    </h2>
+
+    <div class="lesson-quiz-progress">
+        <span>Eight quick checks</span>
+        <span>Click each answer to reveal</span>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            1. What is a data backup?
+        </div>
+        <div class="quiz-answer"
+             data-answer="A separate copy of data that can be used to restore the original after loss, deletion, corruption or damage">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            2. What does RAID stand for?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Redundant Array of Independent Disks">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            3. What is disk mirroring?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Writing the same current data to two or more disks so that identical live copies are maintained">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            4. What is the main purpose of RAID 1?
+        </div>
+        <div class="quiz-answer"
+             data-answer="To provide storage redundancy and availability if a physical disk fails">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            5. Does RAID 1 protect against accidental deletion?
+        </div>
+        <div class="quiz-answer"
+             data-answer="No. The deletion is mirrored to the other live disk">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            6. What happens if one RAID 1 disk fails?
+        </div>
+        <div class="quiz-answer"
+             data-answer="The surviving mirrored disk still contains the data, so access can continue while the failed drive is replaced or rebuilt">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            7. Why is RAID 1 not a backup?
+        </div>
+        <div class="quiz-answer"
+             data-answer="It mirrors the current state, including deletions and corruption, and does not provide a separate historical recovery point">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            8. Why should backups be stored separately from the original data?
+        </div>
+        <div class="quiz-answer"
+             data-answer="So the same incident, such as fire, theft, ransomware or hardware failure, does not destroy both the original and the backup">
+            Click to reveal answer
+        </div>
+    </div>
+</section>
+
+<nav class="lesson-nav">
+    <a href="data-protection-measures.html">
+        <span>
+            <span class="nav-label">← Previous</span>
+            <span class="nav-title">Data Protection Measures</span>
+        </span>
+    </a>
+
+    <a href="unauthorized-access.html">
+        <span>
+            <span class="nav-label">Next →</span>
+            <span class="nav-title">Protect Data from Unauthorized Access</span>
+        </span>
+    </a>
+</nav>
+
+</div>
+</div>
+</main>
+</div>
+
+<footer class="site-footer">
+    <div class="container">
+        <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 12 Computer Science</p>
+        <p>&copy; 2026 IT-Tea. Educational use.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ============================================================
+    // VIDEO TABS
+    // ============================================================
+    const videos = {
+        backup: {
+            title: "What Is Data Backup?",
+            description:
+                "Eye on Tech — a short explanation of data backup and why organisations need recoverable copies.",
+            src: "https://www.youtube-nocookie.com/embed/FIL6L7f32Bs?rel=0",
+            iframeTitle: "Eye on Tech - What is Data Backup and Why is it Important?"
+        },
+
+        raid: {
+            title: "RAID 1 — Disk Mirroring",
+            description:
+                "PowerCert Animated Videos — RAID 1 mirroring segment from 01:55 to 02:27.",
+            src: "https://www.youtube-nocookie.com/embed/U-OCdTeZLac?start=115&end=147&rel=0",
+            iframeTitle: "PowerCert Animated Videos - RAID 1 disk mirroring"
+        }
+    };
+
+    const videoTabs = document.querySelectorAll(".video-tab");
+    const videoFrame = document.getElementById("lessonVideoFrame");
+    const videoTitle = document.getElementById("lessonVideoTitle");
+    const videoDescription = document.getElementById("lessonVideoDescription");
+
+    function showVideo(key) {
+        const item = videos[key];
+
+        videoTitle.textContent = item.title;
+        videoDescription.textContent = item.description;
+        videoFrame.src = item.src;
+        videoFrame.title = item.iframeTitle;
+
+        videoTabs.forEach(btn => {
+            btn.classList.toggle("active", btn.dataset.video === key);
+        });
+    }
+
+    videoTabs.forEach(btn => {
+        btn.addEventListener("click", () => showVideo(btn.dataset.video));
+    });
+
+    // ============================================================
+    // RESTORE POINT LAB
+    // ============================================================
+    const restoreCases = [
+        {
+            prompt:
+                "Backups were created at 08:00 (A), 12:00 (B) and 18:00 (C). At 20:00 a file was deleted. Which is the newest valid backup to restore?",
+            answer: "c",
+            why:
+                "Backup C. It is the newest valid copy created before the deletion."
+        },
+        {
+            prompt:
+                "Backup A was created Monday, B on Tuesday and C on Wednesday. Corruption first appeared on Wednesday before Backup C was created. Which is the newest known clean backup?",
+            answer: "b",
+            why:
+                "Backup B. Backup C may already contain the corrupted data."
+        },
+        {
+            prompt:
+                "Backup A is known to be damaged. Backup B is valid. Backup C was created after ransomware encrypted the files. Which backup should be used?",
+            answer: "b",
+            why:
+                "Backup B. It is the newest confirmed clean and usable copy."
+        }
+    ];
+
+    let restoreIndex = 0;
+
+    const restorePrompt = document.getElementById("restorePrompt");
+    const restoreChoices = document.querySelectorAll(".restore-choice");
+    const restoreFeedback = document.getElementById("restoreFeedback");
+    const restoreProgress = document.getElementById("restoreProgress");
+    const nextRestore = document.getElementById("nextRestore");
+
+    function loadRestore() {
+        const item = restoreCases[restoreIndex];
+
+        restorePrompt.textContent = item.prompt;
+        restoreProgress.textContent =
+            `Scenario ${restoreIndex + 1} of ${restoreCases.length}`;
+
+        restoreChoices.forEach(btn => btn.classList.remove("active"));
+
+        restoreFeedback.className = "lesson-lab-feedback";
+        restoreFeedback.textContent =
+            "Choose the newest valid backup that should be restored.";
+    }
+
+    restoreChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = restoreCases[restoreIndex];
+            const correct = btn.dataset.choice === item.answer;
+
+            restoreChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            restoreFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            restoreFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextRestore.addEventListener("click", () => {
+        restoreIndex = (restoreIndex + 1) % restoreCases.length;
+        loadRestore();
+    });
+
+    loadRestore();
+
+    // ============================================================
+    // RAID SIMULATOR
+    // ============================================================
+    const raidDiskA = document.getElementById("raidDiskA");
+    const raidDiskB = document.getElementById("raidDiskB");
+    const raidDiskAText = document.getElementById("raidDiskAText");
+    const raidDiskBText = document.getElementById("raidDiskBText");
+    const raidFeedback = document.getElementById("raidFeedback");
+
+    function resetRaidState() {
+        raidDiskA.className = "lesson-flow-node lesson-flow-node--protected";
+        raidDiskB.className = "lesson-flow-node lesson-flow-node--protected";
+        raidDiskAText.textContent = "coursework.docx ✓";
+        raidDiskBText.textContent = "coursework.docx ✓";
+        raidFeedback.className = "lesson-lab-feedback";
+        raidFeedback.textContent =
+            "Try a disk failure and an accidental deletion. Notice the difference.";
+    }
+
+    document.getElementById("simulateFailure").addEventListener("click", () => {
+        resetRaidState();
+
+        raidDiskA.className = "lesson-flow-node lesson-flow-node--danger";
+        raidDiskB.className = "lesson-flow-node lesson-flow-node--success";
+        raidDiskAText.textContent = "FAILED ✕";
+        raidDiskBText.textContent = "coursework.docx ✓ — system continues";
+
+        raidFeedback.className = "lesson-lab-feedback correct";
+        raidFeedback.innerHTML =
+            "<strong>Fault tolerance.</strong><br>Disk A failed, but the identical current data is still available on Disk B.";
+    });
+
+    document.getElementById("simulateDeletion").addEventListener("click", () => {
+        resetRaidState();
+
+        raidDiskA.className = "lesson-flow-node lesson-flow-node--danger";
+        raidDiskB.className = "lesson-flow-node lesson-flow-node--danger";
+        raidDiskAText.textContent = "coursework.docx DELETED";
+        raidDiskBText.textContent = "coursework.docx DELETED";
+
+        raidFeedback.className = "lesson-lab-feedback wrong";
+        raidFeedback.innerHTML =
+            "<strong>The deletion is mirrored.</strong><br>RAID 1 keeps both disks in the same current state. An earlier backup is needed to recover the file.";
+    });
+
+    document.getElementById("resetRaid").addEventListener("click", resetRaidState);
+
+    // ============================================================
+    // BACKUP / MIRRORING / BOTH
+    // ============================================================
+    const measureCases = [
+        {
+            prompt:
+                "A server must keep its current data available if one physical disk suddenly fails.",
+            answer: "mirroring",
+            why:
+                "Mirroring. RAID 1 keeps an identical live copy on another disk, so data remains available after a single-drive failure."
+        },
+        {
+            prompt:
+                "A teacher accidentally deletes yesterday's examination spreadsheet and needs the earlier version back.",
+            answer: "backup",
+            why:
+                "Backup. Recovery requires an earlier point-in-time copy; RAID 1 would mirror the deletion."
+        },
+        {
+            prompt:
+                "A hospital wants both continued service after a drive failure and recovery from accidental deletion or ransomware.",
+            answer: "both",
+            why:
+                "Both. Mirroring provides live disk redundancy; backups provide historical recovery points."
+        },
+        {
+            prompt:
+                "Ransomware encrypts the current files on the live server. The organisation needs a clean version from before the attack.",
+            answer: "backup",
+            why:
+                "Backup. A clean separate historical copy can be restored; RAID 1 would mirror the encrypted current state."
+        },
+        {
+            prompt:
+                "A bank cannot tolerate service interruption when one storage drive fails, but it also needs recovery from human error.",
+            answer: "both",
+            why:
+                "Both. The requirements include availability after hardware failure and historical recovery after logical/user errors."
+        }
+    ];
+
+    let measureIndex = 0;
+
+    const measurePrompt = document.getElementById("measurePrompt");
+    const measureChoices = document.querySelectorAll(".measure-choice");
+    const measureFeedback = document.getElementById("measureFeedback");
+    const measureProgress = document.getElementById("measureProgress");
+    const nextMeasure = document.getElementById("nextMeasure");
+
+    function loadMeasure() {
+        const item = measureCases[measureIndex];
+
+        measurePrompt.textContent = item.prompt;
+        measureProgress.textContent =
+            `Scenario ${measureIndex + 1} of ${measureCases.length}`;
+
+        measureChoices.forEach(btn => btn.classList.remove("active"));
+
+        measureFeedback.className = "lesson-lab-feedback";
+        measureFeedback.textContent = "Select the most suitable protection strategy.";
+    }
+
+    measureChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = measureCases[measureIndex];
+            const correct = btn.dataset.measure === item.answer;
+
+            measureChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            measureFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            measureFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextMeasure.addEventListener("click", () => {
+        measureIndex = (measureIndex + 1) % measureCases.length;
+        loadMeasure();
+    });
+
+    loadMeasure();
+
+    // ============================================================
+    // WHAT HAPPENS NEXT
+    // ============================================================
+    const eventCases = [
+        {
+            prompt:
+                "A file is accidentally deleted from a live RAID 1 volume. What happens to the mirrored copy?",
+            answer: "mirror",
+            why:
+                "The deletion is mirrored to the other disk because both disks maintain the same current state."
+        },
+        {
+            prompt:
+                "Disk A in a healthy RAID 1 array suffers a physical failure. What should happen to access to the data?",
+            answer: "continue",
+            why:
+                "The surviving disk still contains the current data, so access can continue."
+        },
+        {
+            prompt:
+                "A user needs the version of a document that existed yesterday, before today's corruption.",
+            answer: "recover",
+            why:
+                "A suitable historical backup can provide the older valid version."
+        },
+        {
+            prompt:
+                "Ransomware encrypts the current live files and the change is written across the RAID 1 mirror.",
+            answer: "mirror",
+            why:
+                "The encrypted current state appears on both live disks. A clean backup is required for recovery."
+        }
+    ];
+
+    let eventIndex = 0;
+
+    const eventPrompt = document.getElementById("eventPrompt");
+    const eventChoices = document.querySelectorAll(".event-choice");
+    const eventFeedback = document.getElementById("eventFeedback");
+    const eventProgress = document.getElementById("eventProgress");
+    const nextEvent = document.getElementById("nextEvent");
+
+    function loadEvent() {
+        const item = eventCases[eventIndex];
+
+        eventPrompt.textContent = item.prompt;
+        eventProgress.textContent =
+            `Event ${eventIndex + 1} of ${eventCases.length}`;
+
+        eventChoices.forEach(btn => btn.classList.remove("active"));
+
+        eventFeedback.className = "lesson-lab-feedback";
+        eventFeedback.textContent = "Predict the result.";
+    }
+
+    eventChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = eventCases[eventIndex];
+            const correct = btn.dataset.choice === item.answer;
+
+            eventChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            eventFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            eventFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextEvent.addEventListener("click", () => {
+        eventIndex = (eventIndex + 1) % eventCases.length;
+        loadEvent();
+    });
+
+    loadEvent();
+});
+</script>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
+
 </body>
-
 </html>
