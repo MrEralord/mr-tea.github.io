@@ -4,310 +4,1248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Data Protection Measures — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description"
-        content="Physical risks, biometrics (verification vs identification), encryption, digital signatures, and digital certificates. NIS Grade 12 CS.">
 
-    <!-- Open Graph -->
+    <meta name="description"
+        content="Data protection measures: firewalls, encryption and biometrics. NIS Grade 12 Computer Science 12.1.2.1.">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
     <meta property="og:title" content="Data Protection Measures — mr. TEA">
-    <meta property="og:description" content="Physical risks, biometrics (verification vs identification), encryption, digital signatures, and digital certificates. NIS Grade 12 CS.">
+    <meta property="og:description"
+        content="Describe protection measures for data and computer systems: firewalls, encryption and biometrics.">
     <meta property="og:url" content="https://mr-tea.net/pages/12-cs-theory/data-protection-measures.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
 <div class="layout-wrapper">
-    <main class="main-content">
+<main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
+<div class="mobile-header">
+    <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
         </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
+
+        <a href="/" class="logo">
+            <i class="fas fa-mug-hot logo-icon"></i>
+            <span class="logo-text">mr. TEA</span>
         </a>
-      </div>
+    </div>
+</div>
+
+<div class="lesson-page">
+<div class="lesson-container">
+
+<nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+    <a href="/index.html">Home</a>
+    <span class="sep">/</span>
+    <a href="/index.html#syllabus">Grade 12 CS</a>
+    <span class="sep">/</span>
+    <span>12.2A — Data Protection Measures</span>
+</nav>
+
+<div class="lesson-header">
+    <div class="lesson-unit-badge">
+        <i class="fas fa-shield-halved"></i> Grade 12 CS · Term 2
     </div>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
-                <span>12.1C — Data Protection Measures</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-lock"></i> Unit 12.1C · Term 1</div>
-                <h1 class="lesson-title">Data Protection Measures</h1>
-                <p class="lesson-intro">Data protection is essential to secure sensitive information from unauthorized
-                    access, loss, or damage. A robust security system must address both <strong>physical risks</strong>
-                    to the hardware and <strong>logical risks</strong> to the data using advanced authentication and
-                    encryption methods.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.5.2.5</span> Explain physical risks to data and protective measures
-                    </li>
-                    <li><span class="lo-code">12.5.2.6</span> Differentiate between biometric verification and
-                        identification</li>
-                    <li><span class="lo-code">12.5.2.7</span> Describe symmetric and asymmetric encryption</li>
-                    <li><span class="lo-code">12.5.2.8</span> Explain the purpose of Digital Signatures and Digital
-                        Certificates</li>
-                </ul>
-            </div>
+    <h1 class="lesson-title">Data Protection Measures</h1>
 
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentations</h4>
-                    <p>12.1C-data-protection.pdf, 12.1C-encryption-security.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="/assets/pdf/data_protection_measures.pdf" class="lesson-pdf-btn view-btn"><i
-                            class="fas fa-eye"></i> View</a>
-                    <a href="/assets/pdf/data_protection_measures.pdf" class="lesson-pdf-btn download-btn"><i
-                            class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
+    <p class="lesson-intro">
+        Computer systems use several layers of protection because no single
+        security measure can stop every threat. This lesson focuses on three
+        important measures: <strong>firewalls</strong>,
+        <strong>encryption</strong> and <strong>biometrics</strong>.
+    </p>
+</div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-id-card"></i> The Nightclub Bouncer Analogy</h4>
-                    <p>Biometric <strong>Verification</strong> is like handing the bouncer your ID: you claim to be
-                        "John", and he checks your face against the ID picture (1-to-1 comparison). Biometric
-                        <strong>Identification</strong> is like the bouncer scanning the crowd to find a known
-                        troublemaker without anyone showing an ID (1-to-many comparison).
-                    </p>
-                </div>
-            </section>
+<div class="lesson-lo-card">
+    <h3><i class="fas fa-bullseye"></i> Learning Objective</h3>
+    <ul class="lesson-lo-list">
+        <li>
+            <span class="lo-code">12.1.2.1</span>
+            Describe protection measures for data and computer systems such as firewalls, encryption, biometrics
+        </li>
+    </ul>
+</div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Physical Risks &
-                    Protection</h3>
-                <p style="margin-bottom: var(--space-md);">Before implementing complex software security, the physical
-                    hardware must be secured. Physical risks include threats to hardware and data from real-world events
-                    such as theft, fire, floods, power surges, and unauthorized physical access.</p>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Protection Measure</th>
-                            <th>Purpose / How it works</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Secure Server Rooms</strong></td>
-                            <td>Restricting physical access using locks, biometric scanners, and alarms.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Fireproof Safes</strong></td>
-                            <td>Protecting physical backup storage media from fire and extreme heat.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>UPS (Uninterruptible Power Supply)</strong></td>
-                            <td>Providing temporary battery power during power outages to prevent data loss and protect
-                                against power surges.</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2.
-                    Biometrics</h3>
-                <p style="margin-bottom: var(--space-md);">Biometrics is the measurement and statistical analysis of
-                    people's unique physical and behavioral characteristics. The system captures the biometric data,
-                    converts it into a mathematical model (a template), and saves it into a secure database.</p>
-                <br>
-
-
-                <div class="worked-example">
-                    <h4><span class="step-num">A</span> Verification vs Identification</h4>
-                    <table class="theory-table" style="margin-top: 10px;">
-                        <thead>
-                            <tr>
-                                <th>Verification (1-to-1 comparison)</th>
-                                <th>Identification (1-to-many comparison)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>The system checks if a person is who they claim to be by comparing their live
-                                    biometric data with their specific stored template.</td>
-                                <td>The system searches the entire database to find a matching template without knowing
-                                    the person’s identity upfront.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Example:</strong> Unlocking a smartphone using FaceID.</td>
-                                <td><strong>Example:</strong> Identifying a thief using CCTV at an airport.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">B</span> Types of Biometrics</h4>
-                    <ul style="padding-left: 20px;">
-                        <li><strong>Physical:</strong> Fingerprints, Hand Geometry, Retina Scanning, Iris Scanning,
-                            Facial Recognition, DNA Matching, Ear Shape.</li>
-                        <li><strong>Behavioural:</strong> Signature recognition, Voice Recognition, Key Stroke Pattern,
-                            Gait (Body Dynamics).</li>
-                    </ul>
-                </div>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">3.
-                    Encryption</h3>
-                <p style="margin-bottom: var(--space-md);">Encryption is the process of converting readable data (plain
-                    text) into unreadable characters (cipher text) so that only authorized parties can access it. The
-                    security effectiveness is determined by the strength of the algorithm and the length of the key.</p>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Symmetric Encryption</th>
-                            <th>Asymmetric Encryption</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Uses a <strong>single key</strong> to both encrypt and decrypt the data.</td>
-                            <td>Uses a mathematically linked <strong>key pair</strong>: a Public Key to encrypt, and a
-                                Private Key to decrypt.</td>
-                        </tr>
-                        <tr>
-                            <td>Faster, but poses a major security risk: the secret key must be safely shared with the
-                                receiver.</td>
-                            <td>Slower, but highly secure. The public key is shared openly, while the private key is
-                                never shared.</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
-
-
-                [Image of Asymmetric Encryption process]
-
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">4.
-                    Digital Signatures & Digital Certificates</h3>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">A</span> Digital Signatures</h4>
-                    <p>A digital signature ensures the <strong>authenticity</strong> and <strong>integrity</strong> of a
-                        document. It works by reversing the asymmetric encryption process:</p>
-                    <ul style="padding-left: 20px;">
-                        <li>The sender encrypts a hash of the document using their <strong>Private Key</strong>. This
-                            creates the digital signature.</li>
-                        <li>The receiver uses the sender's <strong>Public Key</strong> to decrypt the signature. If it
-                            decrypts successfully, it proves the sender genuinely sent it (because only they have their
-                            private key) and that the document has not been altered.</li>
-                    </ul>
-                </div>
-
-                <div class="worked-example">
-                    <h4><span class="step-num">B</span> Digital Certificates</h4>
-                    <p>An electronic document used to prove the ownership of a public key. It prevents hackers from
-                        distributing fake public keys.</p>
-                    <ul style="padding-left: 20px;">
-                        <li>A digital certificate includes information about the key, information about the owner's
-                            identity, and the digital signature of an entity that has verified the certificate's
-                            contents.</li>
-                        <li>They are issued by a trusted third party called a <strong>Certificate Authority
-                                (CA)</strong> as part of a Public Key Infrastructure (PKI).</li>
-                    </ul>
-                </div>
-
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Verification vs Identification</h4>
-                    <p>Remember the math: <strong>Verification</strong> is 1-to-1 (Are you who you say you are?).
-                        <strong>Identification</strong> is 1-to-many (Who are you among this huge database?).
-                    </p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Public vs Private Keys in Signatures</h4>
-                    <p>Normally, you encrypt with a Public key and decrypt with a Private key. But to create a
-                        <strong>Digital Signature</strong>, the roles are flipped: the sender encrypts with their
-                        <strong>Private key</strong>, and the receiver checks it using the sender's <strong>Public
-                            key</strong>.
-                    </p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Exam Style Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>List three physical risks to computer systems and provide one protective measure for each.
-                        </p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain the difference between Physical biometrics and Behavioural biometrics, providing two
-                            examples of each.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Explain how a Certificate Authority (CA) uses a Digital Certificate to prevent a hacker from
-                            impersonating a legitimate bank's website.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What is the purpose of an Uninterruptible Power Supply (UPS)?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">It provides temporary battery
-                        power during power outages to prevent data loss and protects hardware against power surges.
-                    </div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: Why is FaceID on a phone considered "Verification" rather than
-                        "Identification"?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Because the system is only
-                        performing a 1-to-1 comparison. It is checking if the live face matches the single stored
-                        template of the phone's owner, rather than searching a massive database.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What determines the security effectiveness of an encryption method?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The strength and complexity of
-                        the mathematical algorithm used, along with the length of the encryption key.</div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="threats-computer-system.html"><span class="nav-label">← Previous</span><span class="nav-title">Threats to Computer System</span></a>
-                        <a href="backup-disk-mirroring.html"><span class="nav-label">Next →</span><span class="nav-title">Backup &amp;amp; Disk Mirroring</span></a>
-                    </nav>
+<!-- =========================================================
+     VIDEO
+     ========================================================= -->
+<div class="lesson-video-block">
+    <div class="lesson-video-header">
+        <div class="lesson-video-icon">
+            <i class="fab fa-youtube"></i>
         </div>
-        </div>
-    </main>
-  </div>
-    <footer class="site-footer">
-        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
-    </footer>
 
-    <script src="/js/sidebar.js"></script>
-    <script src="/js/app.js"></script>
+        <div class="lesson-video-info">
+            <h4 id="lessonVideoTitle">How Firewalls Work</h4>
+            <p id="lessonVideoDescription">
+                Craig'n'Dave — firewall purpose and how network traffic is filtered.
+            </p>
+        </div>
+    </div>
+
+    <div class="video-tabs">
+        <button class="video-tab active" data-video="firewall" type="button">
+            <i class="fas fa-shield-halved"></i> Firewall
+        </button>
+
+        <button class="video-tab" data-video="encryption" type="button">
+            <i class="fas fa-lock"></i> Encryption
+        </button>
+
+        <button class="video-tab" data-video="biometrics" type="button">
+            <i class="fas fa-fingerprint"></i> Biometrics
+        </button>
+    </div>
+
+    <div class="lesson-video-wrapper">
+        <iframe
+            id="lessonVideoFrame"
+            src="https://www.youtube-nocookie.com/embed/AwNDuyxSh30?start=8&rel=0"
+            title="Craig n Dave - How firewalls work"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<nav class="lesson-section-jump" aria-label="Lesson sections">
+    <a href="#overview">Overview</a>
+    <a href="#firewall">Firewall</a>
+    <a href="#encryption">Encryption</a>
+    <a href="#biometrics">Biometrics</a>
+    <a href="#layered">Layered Protection</a>
+    <a href="#practice">Practice</a>
+</nav>
+
+<!-- =========================================================
+     CONCEPTUAL ANCHOR
+     ========================================================= -->
+<section class="lesson-section" id="overview">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-building-shield"></i> Conceptual Anchor
+    </h2>
+
+    <div class="analogy-box">
+        <h4><i class="fas fa-building"></i> The Secure Building Analogy</h4>
+        <p>
+            Imagine confidential data stored inside a secure building.
+            A <strong>firewall</strong> is the security checkpoint controlling
+            what may enter or leave. <strong>Biometrics</strong> checks who is
+            trying to enter. <strong>Encryption</strong> is like keeping the
+            documents in a coded safe so stolen data is unreadable without the
+            correct key.
+        </p>
+    </div>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Measure</th>
+                <th>Main purpose</th>
+                <th>Typical protection</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Firewall</strong></td>
+                <td>Controls network traffic according to security rules</td>
+                <td>Unauthorised or suspicious network connections</td>
+            </tr>
+            <tr>
+                <td><strong>Encryption</strong></td>
+                <td>Transforms readable data into ciphertext</td>
+                <td>Confidentiality if data is intercepted or stolen</td>
+            </tr>
+            <tr>
+                <td><strong>Biometrics</strong></td>
+                <td>Uses physical or behavioural characteristics to authenticate a person</td>
+                <td>Unauthorised access by someone who cannot provide the biometric characteristic</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note-box">
+        <h4><i class="fas fa-layer-group"></i> Defence in depth</h4>
+        <p>
+            These measures solve different security problems. A strong system
+            normally combines several measures rather than relying on only one.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     FIREWALL
+     ========================================================= -->
+<section class="lesson-section" id="firewall">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-shield-halved"></i> Firewall
+    </h2>
+
+    <p class="concept-text">
+        A <strong>firewall</strong> monitors incoming and outgoing network traffic
+        and applies a set of security rules to decide whether traffic should be
+        allowed or blocked.
+    </p>
+
+    <ul class="concept-list">
+        <li>Can be implemented as software, hardware or a combination of both.</li>
+        <li>Checks network traffic against configured rules.</li>
+        <li>Can block unwanted or suspicious connections.</li>
+        <li>Helps separate a trusted internal network from less trusted networks such as the Internet.</li>
+    </ul>
+
+    <div class="worked-example">
+        <h4><span class="step-num">1</span> HTML Visualisation — Firewall Gate</h4>
+
+        <table class="theory-table">
+            <thead>
+                <tr>
+                    <th>Internet traffic</th>
+                    <th>Firewall check</th>
+                    <th>Internal network</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><i class="fas fa-globe"></i> HTTPS request</td>
+                    <td><i class="fas fa-shield-halved"></i> Rule permits HTTPS</td>
+                    <td>✓ Allowed to web server</td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-triangle-exclamation"></i> Suspicious connection</td>
+                    <td><i class="fas fa-shield-halved"></i> Rule denies connection</td>
+                    <td>✗ Blocked</td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-laptop"></i> Internal application traffic</td>
+                    <td><i class="fas fa-shield-halved"></i> Rule permits trusted service</td>
+                    <td>✓ Allowed</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="code-block"><code>INTERNET
+   │
+   ▼
+[ FIREWALL ]
+   │  apply rules
+   ├── ALLOW ──► INTERNAL NETWORK
+   │
+   └── BLOCK ──► STOP</code></div>
+    </div>
+
+    <h3>Firewall Rule Simulator</h3>
+
+    <div class="lesson-lab">
+        <div id="firewallPrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options two">
+            <button class="lesson-choice-btn firewall-choice" data-choice="allow" type="button">
+                <i class="fas fa-check"></i> ALLOW
+            </button>
+
+            <button class="lesson-choice-btn firewall-choice" data-choice="block" type="button">
+                <i class="fas fa-ban"></i> BLOCK
+            </button>
+        </div>
+
+        <div id="firewallFeedback" class="lesson-lab-feedback">
+            Decide whether the firewall should allow or block this traffic.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="firewallProgress"></span>
+            <button id="nextFirewall" class="lesson-lab-btn" type="button">
+                Next traffic example
+            </button>
+        </div>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Firewall ≠ antivirus</h4>
+        <p>
+            A firewall controls <strong>network traffic</strong>. Antivirus software
+            scans for malicious software. They perform different jobs and may be
+            used together.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     ENCRYPTION
+     ========================================================= -->
+<section class="lesson-section" id="encryption">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-lock"></i> Encryption
+    </h2>
+
+    <p class="concept-text">
+        <strong>Encryption</strong> converts readable
+        <strong>plaintext</strong> into unreadable <strong>ciphertext</strong>
+        using an encryption algorithm and a key. The correct decryption process
+        and key are needed to recover the original plaintext.
+    </p>
+
+    <div class="worked-example">
+        <h4><span class="step-num">2</span> HTML Visualisation — Encryption Pipeline</h4>
+
+        <div class="code-block"><code>PLAINTEXT
+"Exam result: 87"
+        │
+        ▼
+ENCRYPTION ALGORITHM + KEY
+        │
+        ▼
+CIPHERTEXT
+"8F2A9C..."
+        │
+        ▼
+stored / transmitted
+        │
+        ▼
+DECRYPTION + CORRECT KEY
+        │
+        ▼
+PLAINTEXT
+"Exam result: 87"</code></div>
+
+        <p>
+            If an attacker steals or intercepts the ciphertext, the information
+            should remain unreadable without the correct key.
+        </p>
+    </div>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Keys</th>
+                <th>Main idea</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Symmetric encryption</strong></td>
+                <td>Same secret key for encryption and decryption</td>
+                <td>Fast, but the secret key must be shared securely</td>
+            </tr>
+            <tr>
+                <td><strong>Asymmetric encryption</strong></td>
+                <td>Public key + private key</td>
+                <td>Public key can be shared; private key remains secret</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Encryption Flow Lab</h3>
+
+    <div class="lesson-lab">
+        <div class="lesson-lab-prompt">
+            A laptop containing confidential student records is stolen.
+            The files on the drive are strongly encrypted.
+            What is the main benefit of the encryption?
+        </div>
+
+        <div class="lesson-lab-options four">
+            <button class="lesson-choice-btn encryption-choice" data-answer="wrong" type="button">
+                It prevents the laptop being physically stolen
+            </button>
+
+            <button class="lesson-choice-btn encryption-choice" data-answer="correct" type="button">
+                It makes the stored data unreadable without the correct key
+            </button>
+
+            <button class="lesson-choice-btn encryption-choice" data-answer="wrong" type="button">
+                It guarantees that the files cannot be deleted
+            </button>
+
+            <button class="lesson-choice-btn encryption-choice" data-answer="wrong" type="button">
+                It automatically identifies the thief
+            </button>
+        </div>
+
+        <div id="encryptionFeedback" class="lesson-lab-feedback">
+            Choose the best answer.
+        </div>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Encryption does not prevent theft</h4>
+        <p>
+            Encryption protects the <strong>confidentiality of data</strong>.
+            It does not physically stop a device being stolen and it does not
+            replace backups or access control.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     BIOMETRICS
+     ========================================================= -->
+<section class="lesson-section" id="biometrics">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-fingerprint"></i> Biometrics
+    </h2>
+
+    <p class="concept-text">
+        <strong>Biometric authentication</strong> uses measurable physical or
+        behavioural characteristics of a person, such as a fingerprint, face,
+        iris or voice pattern.
+    </p>
+
+    <div class="worked-example">
+        <h4><span class="step-num">3</span> HTML Visualisation — Biometric Authentication</h4>
+
+        <table class="theory-table">
+            <thead>
+                <tr>
+                    <th>Step 1</th>
+                    <th>Step 2</th>
+                    <th>Step 3</th>
+                    <th>Step 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <i class="fas fa-fingerprint"></i><br>
+                        Capture characteristic
+                    </td>
+                    <td>
+                        <i class="fas fa-file-code"></i><br>
+                        Create biometric template
+                    </td>
+                    <td>
+                        <i class="fas fa-code-compare"></i><br>
+                        Compare with stored template(s)
+                    </td>
+                    <td>
+                        <i class="fas fa-door-open"></i><br>
+                        Accept or reject
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="code-block"><code>FINGERPRINT / FACE / IRIS / VOICE
+              │
+              ▼
+       CAPTURE & TEMPLATE
+              │
+              ▼
+           COMPARE
+              │
+       ┌──────┴──────┐
+       ▼             ▼
+    MATCH         NO MATCH
+       │             │
+       ▼             ▼
+     ACCESS         DENY</code></div>
+    </div>
+
+    <div class="analogy-box">
+        <h4><i class="fas fa-id-card"></i> Verification vs Identification</h4>
+        <p>
+            <strong>Verification</strong> is a 1-to-1 comparison:
+            “I claim to be Alice — does this fingerprint match Alice's stored template?”
+            <br><br>
+            <strong>Identification</strong> is a 1-to-many comparison:
+            “Whose biometric is this? Compare it with many stored templates.”
+        </p>
+    </div>
+
+    <h3>Verification or Identification?</h3>
+
+    <div class="lesson-lab">
+        <div id="biometricPrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options two">
+            <button class="lesson-choice-btn biometric-choice" data-choice="verification" type="button">
+                Verification · 1:1
+            </button>
+
+            <button class="lesson-choice-btn biometric-choice" data-choice="identification" type="button">
+                Identification · 1:many
+            </button>
+        </div>
+
+        <div id="biometricFeedback" class="lesson-lab-feedback">
+            Choose the correct biometric process.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="biometricProgress"></span>
+            <button id="nextBiometric" class="lesson-lab-btn" type="button">
+                Next scenario
+            </button>
+        </div>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Biometrics ≠ password</h4>
+        <p>
+            A password is something a user <strong>knows</strong>. A biometric is
+            based on something the user <strong>is</strong> or a measurable
+            behavioural characteristic.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     LAYERED PROTECTION
+     ========================================================= -->
+<section class="lesson-section" id="layered">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-layer-group"></i> Layered Protection
+    </h2>
+
+    <p class="concept-text">
+        The same system may need all three measures because each one protects
+        against a different type of problem.
+    </p>
+
+    <div class="worked-example">
+        <h4>School Examination Server</h4>
+
+        <div class="code-block"><code>ATTACKER / INTERNET
+        │
+        ▼
+   [ FIREWALL ]
+controls network traffic
+        │
+        ▼
+ [ BIOMETRIC ACCESS ]
+checks authorised staff
+        │
+        ▼
+ [ ENCRYPTED FILES ]
+protects confidentiality
+        │
+        ▼
+EXAMINATION DATA</code></div>
+    </div>
+
+    <h3>Choose the Protection Measure</h3>
+
+    <div class="lesson-lab">
+        <div id="measurePrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options three">
+            <button class="lesson-choice-btn measure-choice" data-measure="firewall" type="button">
+                <i class="fas fa-shield-halved"></i> Firewall
+            </button>
+
+            <button class="lesson-choice-btn measure-choice" data-measure="encryption" type="button">
+                <i class="fas fa-lock"></i> Encryption
+            </button>
+
+            <button class="lesson-choice-btn measure-choice" data-measure="biometrics" type="button">
+                <i class="fas fa-fingerprint"></i> Biometrics
+            </button>
+        </div>
+
+        <div id="measureFeedback" class="lesson-lab-feedback">
+            Select the most suitable protection measure.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="measureProgress"></span>
+            <button id="nextMeasure" class="lesson-lab-btn" type="button">
+                Next scenario
+            </button>
+        </div>
+    </div>
+
+    <div class="pro-tip-box">
+        <h4><i class="fas fa-lightbulb"></i> Strong exam answers</h4>
+        <p>
+            Do not only name the measure. Explain <strong>how it works</strong>
+            and link it to the <strong>specific risk in the scenario</strong>.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     EXTENSION
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-plus-circle"></i> Extension
+    </h2>
+
+    <details class="lesson-compact-details">
+        <summary>Digital signatures and digital certificates</summary>
+        <div class="lesson-details-body">
+            <p class="concept-text">
+                A digital signature can be used to support authenticity and
+                integrity. In common public-key systems, a hash of the message is
+                signed using the sender's private key and verified using the
+                corresponding public key.
+            </p>
+
+            <p class="concept-text">
+                A digital certificate links a public key to an identity and is
+                normally issued or signed by a trusted certificate authority.
+            </p>
+
+            <div class="note-box">
+                <h4><i class="fas fa-circle-info"></i> Why this is extension</h4>
+                <p>
+                    These concepts are useful, but the core learning objective of
+                    this lesson is the description of protection measures such as
+                    firewalls, encryption and biometrics.
+                </p>
+            </div>
+        </div>
+    </details>
+</section>
+
+<!-- =========================================================
+     COMMON PITFALLS
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+    </h2>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Firewall ≠ antivirus</h4>
+        <p>
+            A firewall filters network traffic. Antivirus software detects,
+            quarantines or removes malicious software.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Encryption ≠ authentication</h4>
+        <p>
+            Encryption protects confidentiality by making data unreadable.
+            Authentication checks identity.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Verification ≠ identification</h4>
+        <p>
+            Verification compares one claimed identity with one stored template.
+            Identification searches many stored templates to determine identity.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> One measure is not enough</h4>
+        <p>
+            A firewall cannot make stolen files unreadable, and encryption cannot
+            decide whether network traffic should be allowed. Different controls
+            solve different security problems.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     GRADED TASKS
+     ========================================================= -->
+<section class="lesson-section" id="practice">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-tasks"></i> Graded Tasks
+    </h2>
+
+    <div class="assessment-tasks">
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>Define a <strong>firewall</strong>.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>Define <strong>encryption</strong> and the terms plaintext and ciphertext.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>
+                Describe how biometric authentication can protect a computer system.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>
+                Explain the difference between biometric verification and identification.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>
+                A school wants to block suspicious incoming network connections.
+                State the most suitable protection measure and explain how it helps.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>
+                A laptop containing confidential files is stolen.
+                Explain how encryption reduces the security risk.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>
+                Explain why a firewall alone would not fully protect confidential
+                examination files stored on a network server.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>
+                Recommend a combination of firewall, encryption and biometrics for
+                a hospital system. Justify the role of each measure.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     EXAM PRACTICE
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-graduation-cap"></i> Exam Practice
+    </h2>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q1: A school stores confidential examination files on a network server.
+            Describe how a firewall could help protect the system. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>Monitors/filters incoming and outgoing network traffic. [1]
+Applies security rules to allow legitimate traffic and block unauthorised/suspicious connections. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q2: Explain how encryption could protect confidential files if the
+            storage device is stolen. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>The files are stored as unreadable ciphertext. [1]
+Without the correct decryption key, the thief should not be able to understand the original data. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q3: A member of staff unlocks a computer by claiming an identity and
+            providing a fingerprint. Describe how biometric verification is used. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>The captured fingerprint is converted/processed as a biometric template. [1]
+It is compared with the stored template for the claimed identity in a 1-to-1 comparison. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q4: A hospital uses a firewall, encryption and biometric authentication.
+            Explain why using all three provides stronger protection than using only one. [3]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>Firewall controls network traffic / blocks unauthorised network connections. [1]
+Encryption protects confidentiality of stolen or intercepted data. [1]
+Biometrics authenticates users before access is granted; the measures protect against different risks. [1]</div>
+        </details>
+    </div>
+</section>
+
+<!-- =========================================================
+     SELF CHECK
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-check-circle"></i> Self-Check Quiz
+    </h2>
+
+    <div class="lesson-quiz-progress">
+        <span>Eight quick checks</span>
+        <span>Click each answer to reveal</span>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            1. What is the main purpose of a firewall?
+        </div>
+        <div class="quiz-answer"
+             data-answer="To monitor and filter network traffic according to security rules, allowing or blocking traffic">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            2. What is plaintext?
+        </div>
+        <div class="quiz-answer"
+             data-answer="The original readable form of data before encryption">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            3. What is ciphertext?
+        </div>
+        <div class="quiz-answer"
+             data-answer="The unreadable encoded form produced by encryption">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            4. Why is a key important in encryption?
+        </div>
+        <div class="quiz-answer"
+             data-answer="The key is used by the encryption/decryption process; the correct key is needed to recover protected data">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            5. Give two examples of biometric characteristics.
+        </div>
+        <div class="quiz-answer"
+             data-answer="For example: fingerprint, face, iris, voice pattern or another measurable physical/behavioural characteristic">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            6. What is biometric verification?
+        </div>
+        <div class="quiz-answer"
+             data-answer="A 1-to-1 comparison between a captured biometric and the stored template for a claimed identity">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            7. What is biometric identification?
+        </div>
+        <div class="quiz-answer"
+             data-answer="A 1-to-many search that compares a captured biometric with many stored templates to determine identity">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            8. Why are several protection measures often used together?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Different measures protect against different risks, so layered protection reduces reliance on a single control">
+            Click to reveal answer
+        </div>
+    </div>
+</section>
+
+<nav class="lesson-nav">
+    <a href="threats-computer-system.html">
+        <span>
+            <span class="nav-label">← Previous</span>
+            <span class="nav-title">Threats to Computer System</span>
+        </span>
+    </a>
+
+    <a href="backup-disk-mirroring.html">
+        <span>
+            <span class="nav-label">Next →</span>
+            <span class="nav-title">Backup &amp; Disk Mirroring</span>
+        </span>
+    </a>
+</nav>
+
+</div>
+</div>
+</main>
+</div>
+
+<footer class="site-footer">
+    <div class="container">
+        <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 12 Computer Science</p>
+        <p>&copy; 2026 IT-Tea. Educational use.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ============================================================
+    // VIDEO TABS
+    // ============================================================
+    const videos = {
+        firewall: {
+            title: "How Firewalls Work",
+            description:
+                "Craig'n'Dave — firewall purpose, packet filtering and stateful inspection. Core firewall explanation begins at 00:08.",
+            src: "https://www.youtube-nocookie.com/embed/AwNDuyxSh30?start=8&rel=0",
+            iframeTitle: "Craig n Dave - How firewalls work"
+        },
+
+        encryption: {
+            title: "Symmetric & Asymmetric Encryption",
+            description:
+                "Craig'n'Dave — encryption fundamentals, symmetric encryption and asymmetric encryption. Definition begins at 00:14.",
+            src: "https://www.youtube-nocookie.com/embed/Ih7BT2uFKh4?start=14&rel=0",
+            iframeTitle: "Craig n Dave - Symmetric and asymmetric encryption"
+        },
+
+        biometrics: {
+            title: "Security Measures — Biometrics",
+            description:
+                "Craig'n'Dave — biometrics and other authentication measures. Biometrics begins at 00:45.",
+            src: "https://www.youtube-nocookie.com/embed/Na0ko0rnOnQ?start=45&rel=0",
+            iframeTitle: "Craig n Dave - Security measures and biometrics"
+        }
+    };
+
+    const videoTabs = document.querySelectorAll(".video-tab");
+    const videoFrame = document.getElementById("lessonVideoFrame");
+    const videoTitle = document.getElementById("lessonVideoTitle");
+    const videoDescription = document.getElementById("lessonVideoDescription");
+
+    function showVideo(key) {
+        const item = videos[key];
+
+        videoTitle.textContent = item.title;
+        videoDescription.textContent = item.description;
+        videoFrame.src = item.src;
+        videoFrame.title = item.iframeTitle;
+
+        videoTabs.forEach(btn => {
+            btn.classList.toggle("active", btn.dataset.video === key);
+        });
+    }
+
+    videoTabs.forEach(btn => {
+        btn.addEventListener("click", () => showVideo(btn.dataset.video));
+    });
+
+    // ============================================================
+    // FIREWALL SIMULATOR
+    // ============================================================
+    const firewallCases = [
+        {
+            prompt:
+                "An external user sends a normal HTTPS request to the school's public web server. The firewall rule permits HTTPS to this server.",
+            answer: "allow",
+            why:
+                "ALLOW. The request matches a permitted rule for the public web service."
+        },
+        {
+            prompt:
+                "An unknown external host attempts to connect to a restricted administration service that is not permitted from the Internet.",
+            answer: "block",
+            why:
+                "BLOCK. The connection does not satisfy the firewall policy for the restricted service."
+        },
+        {
+            prompt:
+                "A trusted internal computer connects to an approved school learning service using a permitted protocol.",
+            answer: "allow",
+            why:
+                "ALLOW. The traffic matches the configured rule for the approved service."
+        },
+        {
+            prompt:
+                "Traffic arrives from an address on the organisation's deny list.",
+            answer: "block",
+            why:
+                "BLOCK. A deny rule explicitly rejects traffic from that source."
+        }
+    ];
+
+    let firewallIndex = 0;
+
+    const firewallPrompt = document.getElementById("firewallPrompt");
+    const firewallChoices = document.querySelectorAll(".firewall-choice");
+    const firewallFeedback = document.getElementById("firewallFeedback");
+    const firewallProgress = document.getElementById("firewallProgress");
+    const nextFirewall = document.getElementById("nextFirewall");
+
+    function loadFirewall() {
+        const item = firewallCases[firewallIndex];
+
+        firewallPrompt.textContent = item.prompt;
+        firewallProgress.textContent =
+            `Traffic example ${firewallIndex + 1} of ${firewallCases.length}`;
+
+        firewallChoices.forEach(btn => btn.classList.remove("active"));
+
+        firewallFeedback.className = "lesson-lab-feedback";
+        firewallFeedback.textContent =
+            "Decide whether the firewall should allow or block this traffic.";
+    }
+
+    firewallChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = firewallCases[firewallIndex];
+            const correct = btn.dataset.choice === item.answer;
+
+            firewallChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            firewallFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            firewallFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextFirewall.addEventListener("click", () => {
+        firewallIndex = (firewallIndex + 1) % firewallCases.length;
+        loadFirewall();
+    });
+
+    loadFirewall();
+
+    // ============================================================
+    // ENCRYPTION CHECK
+    // ============================================================
+    const encryptionChoices = document.querySelectorAll(".encryption-choice");
+    const encryptionFeedback = document.getElementById("encryptionFeedback");
+
+    encryptionChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const correct = btn.dataset.answer === "correct";
+
+            encryptionChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            encryptionFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            encryptionFeedback.textContent = correct
+                ? "Correct. Encryption protects confidentiality by making the stolen data unreadable without the correct key."
+                : "Not quite. Encryption protects the confidentiality of the data; it does not stop physical theft or guarantee availability.";
+        });
+    });
+
+    // ============================================================
+    // BIOMETRIC LAB
+    // ============================================================
+    const biometricCases = [
+        {
+            prompt:
+                "Alice claims to be Alice and unlocks her own phone using her fingerprint.",
+            answer: "verification",
+            why:
+                "Verification: the system compares the captured fingerprint with Alice's stored template (1-to-1)."
+        },
+        {
+            prompt:
+                "A security system compares an unknown face with thousands of stored templates to determine who the person is.",
+            answer: "identification",
+            why:
+                "Identification: the system searches many stored templates to determine identity (1-to-many)."
+        },
+        {
+            prompt:
+                "A member of staff enters an employee number, then scans a fingerprint to confirm the claimed identity.",
+            answer: "verification",
+            why:
+                "Verification: a claimed identity already exists, so the biometric is checked against one stored template."
+        },
+        {
+            prompt:
+                "A database receives an iris scan with no claimed identity and searches its registered users for a match.",
+            answer: "identification",
+            why:
+                "Identification: there is no claimed identity, so the system searches multiple stored templates."
+        }
+    ];
+
+    let biometricIndex = 0;
+
+    const biometricPrompt = document.getElementById("biometricPrompt");
+    const biometricChoices = document.querySelectorAll(".biometric-choice");
+    const biometricFeedback = document.getElementById("biometricFeedback");
+    const biometricProgress = document.getElementById("biometricProgress");
+    const nextBiometric = document.getElementById("nextBiometric");
+
+    function loadBiometric() {
+        const item = biometricCases[biometricIndex];
+
+        biometricPrompt.textContent = item.prompt;
+        biometricProgress.textContent =
+            `Scenario ${biometricIndex + 1} of ${biometricCases.length}`;
+
+        biometricChoices.forEach(btn => btn.classList.remove("active"));
+
+        biometricFeedback.className = "lesson-lab-feedback";
+        biometricFeedback.textContent = "Choose the correct biometric process.";
+    }
+
+    biometricChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = biometricCases[biometricIndex];
+            const correct = btn.dataset.choice === item.answer;
+
+            biometricChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            biometricFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            biometricFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextBiometric.addEventListener("click", () => {
+        biometricIndex = (biometricIndex + 1) % biometricCases.length;
+        loadBiometric();
+    });
+
+    loadBiometric();
+
+    // ============================================================
+    // CHOOSE THE PROTECTION MEASURE
+    // ============================================================
+    const measureCases = [
+        {
+            prompt:
+                "The school wants to block suspicious incoming connections from the Internet before they reach internal services.",
+            answer: "firewall",
+            why:
+                "Firewall: it monitors network traffic and blocks traffic that does not satisfy the configured security rules."
+        },
+        {
+            prompt:
+                "Confidential student records should remain unreadable if a storage device is stolen.",
+            answer: "encryption",
+            why:
+                "Encryption: the stolen data remains ciphertext unless the attacker has the correct key."
+        },
+        {
+            prompt:
+                "Only authorised staff should unlock a workstation by proving identity with a fingerprint.",
+            answer: "biometrics",
+            why:
+                "Biometrics: the fingerprint can be used to authenticate the authorised user."
+        },
+        {
+            prompt:
+                "Sensitive data sent across an untrusted network should not be readable if intercepted.",
+            answer: "encryption",
+            why:
+                "Encryption: intercepted ciphertext should not reveal the original data without the correct key."
+        },
+        {
+            prompt:
+                "An organisation wants a control at the network boundary that can allow permitted services and block other connections.",
+            answer: "firewall",
+            why:
+                "Firewall: a boundary firewall applies traffic rules between networks."
+        },
+        {
+            prompt:
+                "A system needs a physical characteristic to confirm that the person claiming an account is the registered user.",
+            answer: "biometrics",
+            why:
+                "Biometrics: verification can compare the captured characteristic with the stored template for the claimed identity."
+        }
+    ];
+
+    let measureIndex = 0;
+
+    const measurePrompt = document.getElementById("measurePrompt");
+    const measureChoices = document.querySelectorAll(".measure-choice");
+    const measureFeedback = document.getElementById("measureFeedback");
+    const measureProgress = document.getElementById("measureProgress");
+    const nextMeasure = document.getElementById("nextMeasure");
+
+    function loadMeasure() {
+        const item = measureCases[measureIndex];
+
+        measurePrompt.textContent = item.prompt;
+        measureProgress.textContent =
+            `Scenario ${measureIndex + 1} of ${measureCases.length}`;
+
+        measureChoices.forEach(btn => btn.classList.remove("active"));
+
+        measureFeedback.className = "lesson-lab-feedback";
+        measureFeedback.textContent =
+            "Select the most suitable protection measure.";
+    }
+
+    measureChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = measureCases[measureIndex];
+            const correct = btn.dataset.measure === item.answer;
+
+            measureChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            measureFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            measureFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextMeasure.addEventListener("click", () => {
+        measureIndex = (measureIndex + 1) % measureCases.length;
+        loadMeasure();
+    });
+
+    loadMeasure();
+});
+</script>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
+
 </body>
-
 </html>
