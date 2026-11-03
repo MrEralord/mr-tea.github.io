@@ -1,313 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Threats to Computer Systems — mr. TEA</title>
+    <title>Threats to Computer System — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description"
-        content="Computer security threats: intentional vs unintentional, malware types, social engineering, online tracking, and secure protocols (SSL/TLS). NIS Grade 12 CS.">
-
-    <!-- Open Graph -->
+    <meta name="description" content="Analyse problems caused by malware and physical risks, and ethical problems arising from computer system cracking. NIS Grade 12 Computer Science 12.1.3.1 and 12.1.3.2.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="Threats to Computer Systems — mr. TEA">
-    <meta property="og:description" content="Computer security threats: intentional vs unintentional, malware types, social engineering, online tracking, and secure protocols (SSL/TLS). NIS Grade 12 CS.">
+    <meta property="og:title" content="Threats to Computer System — mr. TEA">
+    <meta property="og:description" content="Malware, physical risks and ethical problems of computer system cracking. NIS Grade 12 Computer Science.">
     <meta property="og:url" content="https://mr-tea.net/pages/12-cs-theory/threats-computer-system.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
-
 <body>
-
 <div class="layout-wrapper">
-    <main class="main-content">
-
+<main class="main-content">
     <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
+        <div class="header-left">
+            <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+            <a href="/" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a>
+        </div>
     </div>
 
     <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
-                <span>12.1C — Threats to Computer Systems</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-shield-alt"></i> Unit 12.1C · Term 1</div>
-                <h1 class="lesson-title">Threats to Computer Systems</h1>
-                <p class="lesson-intro">In the digital world, data is one of the most valuable assets. <strong>Computer
-                        Security</strong> involves protecting this data, along with software and hardware, from various
-                    vulnerabilities. Threats to a computer can be either <strong>intentional</strong> (a deliberate act
-                    to destroy data) or <strong>unintentional</strong> (an accidental act that destroys data).</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.5.2.1</span> State what is meant by malware and describe different
-                        types of Malware</li>
-                    <li><span class="lo-code">12.5.2.2</span> State what is social engineering (Phishing and Pharming)
-                    </li>
-                    <li><span class="lo-code">12.5.2.3</span> Describe how online tracking is done and methods to
-                        prevent it</li>
-                    <li><span class="lo-code">12.5.2.4</span> Explain secure data transmission protocols (SSL and TLS)
-                    </li>
-                </ul>
-            </div>
+    <div class="lesson-container">
+        <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+            <a href="/index.html">Home</a><span class="sep">/</span>
+            <a href="/index.html#syllabus">Grade 12 CS</a><span class="sep">/</span>
+            <span>12.2A — Information Security</span>
+        </nav>
 
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.1C-computer-threats.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="/assets/pdf/computer_threats.pdf" class="lesson-pdf-btn view-btn"><i
-                            class="fas fa-eye"></i>
-                        View</a>
-                    <a href="/assets/pdf/computer_threats.pdf" class="lesson-pdf-btn download-btn"><i
-                            class="fas fa-download"></i>
-                        Download</a>
-                </div>
-            </div>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-chess-knight"></i> The Castle Defense Analogy</h4>
-                    <p>Securing a computer system is like defending a medieval castle. <strong>Malware</strong>
-                        represents enemies trying to breach the walls using brute force or disguised as a Trojan Horse.
-                        <strong>Social Engineering</strong> is when an enemy spy tricks your guards into willingly
-                        opening the gates. Finally, <strong>TLS/SSL protocols</strong> act as heavily armored, encrypted
-                        carriages transporting your valuable messages safely across hostile territory.
-                    </p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Malware
-                    (Malicious Software)</h3>
-                <p style="margin-bottom: var(--space-md);"><strong>Definition:</strong> An abbreviated form of
-                    "malicious software." This is software specifically designed to gain access to or damage a computer,
-                    usually without the knowledge of the owner.</p>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Description & Behavior</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Virus</strong></td>
-                            <td>A program that attaches itself to a legitimate file or executable program and spreads
-                                when that infected file is opened or executed by the user.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Worm</strong></td>
-                            <td>A program that copies itself repeatedly in the memory or on a disk drive until there is
-                                no memory or disk space left. Crucially, it stays active in the computer's memory and
-                                replicates itself over a network to infect other machines without user interaction.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Trojan Horse</strong></td>
-                            <td>A malicious program that pretends to be a useful and safe application to trick the user
-                                into installing it. Once inside, it creates a "backdoor" for hackers to access the
-                                system.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ransomware</strong></td>
-                            <td>Malware that encrypts the user's files or locks the entire system, demanding a financial
-                                payment (ransom) in exchange for the decryption key.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Spyware & Adware</strong></td>
-                            <td>Software that secretly monitors user activity (like keyloggers recording passwords) or
-                                bombards the user with unwanted advertising.</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Symptoms
-                    of a Malware Infection</h3>
-                <p>How do you know your computer is infected? Look out for these indicators:</p>
-                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                    <li>Increased CPU usage and significantly slow computer or web browser speeds.</li>
-                    <li>Freezing, crashing, or unexplained problems connecting to networks.</li>
-                    <li>Modified, deleted, or renamed files without your knowledge.</li>
-                    <li>The appearance of strange files, programs, or desktop icons.</li>
-                    <li>Security programs (antivirus/firewalls) turning off or reconfiguring themselves.</li>
-                    <li>Emails or messages being sent automatically from your account without your knowledge.</li>
-                    <li>Unusually high network activity when you are not actively using the internet.</li>
-                </ul>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">2. Social
-                    Engineering</h3>
-                <p style="margin-bottom: var(--space-md);">Unlike malware that attacks the machine, social engineering
-                    attacks the <strong>human psychology</strong>. It is the art of manipulating people so they give up
-                    confidential information.</p>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Technique</th>
-                            <th>Method of Attack</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Phishing</strong></td>
-                            <td>Sending fraudulent emails that look like they are from a reputable company (e.g., your
-                                bank). The email contains a link to a fake website designed to trick you into entering
-                                your login credentials or credit card numbers.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Pharming</strong></td>
-                            <td>A more advanced attack where malicious code is installed on your computer or a server.
-                                Even if you type the correct URL into your browser, the code secretly redirects you to a
-                                fake, fraudulent website to steal your data.</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">3. Online
-                    Tracking</h3>
-                <p>Organizations and malicious actors track user activity across the internet to build profiles. This is
-                    done using:</p>
-                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                    <li><strong>Cookies:</strong> Small text files saved in your browser that track website preferences,
-                        login status, and browsing history.</li>
-                    <li><strong>Web Beacons (Pixel Tags):</strong> Tiny, invisible image pixels embedded in web pages or
-                        emails to track whether a user has viewed the content.</li>
-                    <li><strong>Browser Fingerprinting:</strong> Collecting unique data about your device (screen
-                        resolution, OS, installed fonts, browser version) to identify you even if you delete cookies.
-                    </li>
-                </ul>
-
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">4. Secure
-                    Protocols: SSL and TLS</h3>
-                <p style="margin-bottom: var(--space-md);">To protect data as it travels across the internet, secure
-                    transmission protocols are used to encrypt the communication.</p>
-                <ul style="margin-bottom: var(--space-md); padding-left: 20px;">
-                    <li><strong>SSL (Secure Sockets Layer):</strong> The original security protocol used to establish
-                        encrypted links. It is now largely considered outdated and has been replaced by TLS.</li>
-                    <li><strong>TLS (Transport Layer Security):</strong> Works the same way as SSL but is much more
-                        secure, designed to provide encryption, authentication, and data integrity effectively to
-                        prevent a third-party hacking into the communication.</li>
-                </ul>
-                <div class="worked-example">
-                    <h4>The Two Layers of TLS</h4>
-                    <p>The TLS protocol forms two distinct layers during communication:</p>
-                    <ol style="padding-left: 20px;">
-                        <li><strong>Record Protocol:</strong> This part contains the actual data being transferred over
-                            the internet. It can be used with or without encryption.</li>
-                        <li><strong>Handshake Protocol:</strong> This permits the website and the client (user) to
-                            authenticate each other and establish the encryption algorithms to be used. This ensures a
-                            secure session is fully established before data is transferred.</li>
-                    </ol>
-                </div>
-
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Virus vs. Worm</h4>
-                    <p>Students frequently confuse these two. A <strong>Virus</strong> requires a host file and user
-                        action (like clicking an infected attachment) to spread. A <strong>Worm</strong> is a standalone
-                        program that replicates itself automatically across networks without needing a host or human
-                        interaction.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Phishing vs. Pharming</h4>
-                    <p><strong>Phishing</strong> relies on a fake email tricking you into clicking a bad link.
-                        <strong>Pharming</strong> redirects you to a fake site even if you type the 100% correct address
-                        into your browser, because the underlying DNS or host file has been poisoned.
-                    </p>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Exam Style Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Match</span>
-                        <p>Match the following malware types to their specific behavior:<br>
-                            1. Trojan Horse<br>
-                            2. Worm<br>
-                            3. Ransomware<br>
-                            <em>A. Encrypts files and demands payment.</em><br>
-                            <em>B. Pretends to be safe software to trick the user into installing it.</em><br>
-                            <em>C. Replicates repeatedly in memory until the disk is full.</em>
-                        </p>
-                    </div>
-                    <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain the difference between an Intentional threat and an Unintentional threat, providing
-                            one real-world example for each.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Describe the two layers of the Transport Layer Security (TLS) protocol. Explain the specific
-                            role of the Handshake Protocol versus the Record Protocol.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What is the main difference between Phishing and Pharming?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Phishing uses deceptive emails
-                        to trick users into clicking bad links. Pharming uses malicious code to redirect users to a fake
-                        website even when they type the correct URL.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: If your computer's firewall unexpectedly turns itself off and emails
-                        are sent to your contacts without your knowledge, what is the likely cause?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">These are classic symptoms of a
-                        malware infection. The malware is reconfiguring your security settings and using your system to
-                        spread.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What happens during the TLS Handshake Protocol?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">The website and the client
-                        authenticate each other and agree on the encryption algorithms to establish a secure session.
-                    </div>
-                </div>
-            </section>
-
-            <nav class="lesson-nav">
-                        <a href="testing-methods.html"><span class="nav-label">← Previous</span><span class="nav-title">Testing Methods</span></a>
-                        <a href="data-protection-measures.html"><span class="nav-label">Next →</span><span class="nav-title">Data Protection Measures</span></a>
-                    </nav>
+        <div class="lesson-header">
+            <div class="lesson-unit-badge"><i class="fas fa-shield-halved"></i> Unit 12.2A · Term 2</div>
+            <h1 class="lesson-title">Threats to Computer System</h1>
+            <p class="lesson-intro">Security threats are not only names to memorise. For this lesson, the key skill is to <strong>analyse how a threat causes harm</strong>: identify the threat, explain the immediate effect, and connect it to wider operational, financial, privacy or ethical consequences.</p>
         </div>
-        </div>
-    </main>
-  </div>
-    <footer class="site-footer">
-        <p>mr. TEA © 2026 — NIS Grade 12 Computer Science</p>
-    </footer>
 
-    <script src="/js/sidebar.js"></script>
-    <script src="/js/app.js"></script>
+        <div class="lesson-lo-card">
+            <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+            <ul class="lesson-lo-list">
+                <li><span class="lo-code">12.1.3.2</span> Analyze problems arising due to malware, physical risks</li>
+                <li><span class="lo-code">12.1.3.1</span> Analyze ethical problems arising due to computer system cracking</li>
+            </ul>
+        </div>
+
+        <nav class="lesson-section-jump" aria-label="Lesson sections">
+            <a href="#analysis-model">Analysis Model</a>
+            <a href="#malware">Malware</a>
+            <a href="#physical">Physical Risks</a>
+            <a href="#cracking">Cracking & Ethics</a>
+            <a href="#impact-lab">Impact Lab</a>
+            <a href="#practice">Practice</a>
+        </nav>
+
+        <section class="lesson-section">
+            <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+            <div class="analogy-box">
+                <h4><i class="fas fa-chess-rook"></i> The Castle Defense Analogy</h4>
+                <p>A computer system is like a castle containing valuable information. <strong>Malware</strong> is like something harmful that gets inside and damages or steals assets. <strong>Physical risks</strong> are threats to the building itself — fire, flood, theft, power problems or overheating. <strong>Cracking</strong> is entering restricted areas or bypassing security without permission. The important exam question is not only “What is the threat?” but also “What problems can it cause?”</p>
+            </div>
+        </section>
+
+        <section class="lesson-section" id="analysis-model">
+            <h2 class="lesson-section-title"><i class="fas fa-arrow-right-arrow-left"></i> Threat → Effect → Consequence</h2>
+            <p class="concept-text">For an <strong>analyse</strong> question, build a chain of reasoning. Do not stop after naming the threat.</p>
+            <table class="theory-table">
+                <thead><tr><th>Stage</th><th>Question to ask</th><th>Example: ransomware</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1. Threat</strong></td><td>What happened?</td><td>Ransomware infects a school server.</td></tr>
+                    <tr><td><strong>2. Immediate effect</strong></td><td>What does it directly do?</td><td>Files are encrypted and cannot be accessed.</td></tr>
+                    <tr><td><strong>3. Operational consequence</strong></td><td>How does work or service change?</td><td>Staff cannot access records or systems.</td></tr>
+                    <tr><td><strong>4. Wider consequence</strong></td><td>Why does that matter?</td><td>Lessons and administration may be disrupted; recovery may cost money and damage trust.</td></tr>
+                </tbody>
+            </table>
+            <div class="pro-tip-box">
+                <h4><i class="fas fa-graduation-cap"></i> Exam technique</h4>
+                <p>“Ransomware encrypts files” is usually only the start. A stronger answer continues: <strong>encrypted files → unavailable data → disrupted service → financial / safety / reputational impact</strong>.</p>
+            </div>
+        </section>
+
+        <section class="lesson-section" id="malware">
+            <h2 class="lesson-section-title"><i class="fas fa-virus"></i> Malware</h2>
+            <p class="concept-text"><strong>Malware</strong> is malicious software designed to perform an unauthorised or harmful action on a system. Different types spread or behave differently, but their consequences can overlap.</p>
+            <table class="theory-table">
+                <thead><tr><th>Type</th><th>How it behaves</th><th>Possible problems</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Virus</strong></td><td>Attaches to files or system areas and spreads when infected content is executed or shared.</td><td>Corrupted or deleted files, reduced performance, disruption.</td></tr>
+                    <tr><td><strong>Worm</strong></td><td>Self-replicates and spreads between systems or across networks without needing to attach to a host file.</td><td>Network congestion, rapid infection of many devices, service disruption.</td></tr>
+                    <tr><td><strong>Trojan</strong></td><td>Disguises itself as legitimate software or a normal file to trick a user into running it.</td><td>Unauthorised access, stolen data, installation of further malware.</td></tr>
+                    <tr><td><strong>Ransomware</strong></td><td>Restricts access to systems or encrypts data and demands payment.</td><td>Loss of availability, downtime, recovery cost, possible data loss or disclosure.</td></tr>
+                    <tr><td><strong>Spyware</strong></td><td>Secretly monitors activity or collects information.</td><td>Loss of privacy, stolen credentials, identity or financial harm.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Malware Case Analyzer</h3>
+            <div class="lesson-lab">
+                <div id="malwarePrompt" class="lesson-lab-prompt"></div>
+                <div class="lesson-lab-options five">
+                    <button class="lesson-choice-btn malware-choice" data-malware="virus" type="button">Virus</button>
+                    <button class="lesson-choice-btn malware-choice" data-malware="worm" type="button">Worm</button>
+                    <button class="lesson-choice-btn malware-choice" data-malware="trojan" type="button">Trojan</button>
+                    <button class="lesson-choice-btn malware-choice" data-malware="ransomware" type="button">Ransomware</button>
+                    <button class="lesson-choice-btn malware-choice" data-malware="spyware" type="button">Spyware</button>
+                </div>
+                <div id="malwareFeedback" class="lesson-lab-feedback">Identify the malware, then read the consequence chain.</div>
+                <div class="lesson-lab-footer"><span id="malwareProgress"></span><button id="nextMalware" class="lesson-lab-btn" type="button">Next case</button></div>
+            </div>
+        </section>
+
+        <section class="lesson-section" id="physical">
+            <h2 class="lesson-section-title"><i class="fas fa-building-shield"></i> Physical Risks</h2>
+            <p class="concept-text">Physical risks threaten hardware, storage media, infrastructure or the environment in which a computer system operates. Their effects often lead to <strong>loss of availability, loss of data, equipment damage and recovery cost</strong>.</p>
+            <table class="theory-table">
+                <thead><tr><th>Physical risk</th><th>Immediate effect</th><th>Wider problems</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Fire</strong></td><td>Hardware and storage devices may be destroyed.</td><td>Data loss, long downtime, replacement cost.</td></tr>
+                    <tr><td><strong>Flood / water leak</strong></td><td>Servers, power systems or storage may be damaged.</td><td>Systems unavailable, possible permanent data loss.</td></tr>
+                    <tr><td><strong>Theft</strong></td><td>Devices or storage media are removed.</td><td>Loss of service plus possible disclosure of confidential data.</td></tr>
+                    <tr><td><strong>Power failure</strong></td><td>Systems stop unexpectedly.</td><td>Unsaved work may be lost; services become unavailable.</td></tr>
+                    <tr><td><strong>Power surge</strong></td><td>Electrical components may be damaged.</td><td>Hardware failure, downtime and replacement cost.</td></tr>
+                    <tr><td><strong>Overheating</strong></td><td>Components become unstable or fail.</td><td>Reduced reliability, shutdowns and hardware damage.</td></tr>
+                    <tr><td><strong>Accidental damage / vandalism</strong></td><td>Equipment is physically damaged.</td><td>Interrupted service, repair cost, possible data loss.</td></tr>
+                    <tr><td><strong>Natural disaster</strong></td><td>Large-scale damage to buildings and infrastructure.</td><td>Extended downtime and difficult recovery.</td></tr>
+                </tbody>
+            </table>
+
+            <div class="note-box">
+                <h4><i class="fas fa-circle-info"></i> Threat vs consequence</h4>
+                <p><strong>Flood</strong> is the threat. <strong>Damaged servers, unavailable services and lost data</strong> are consequences. Keep these roles separate in exam answers.</p>
+            </div>
+
+            <h3>Physical Risk Analyzer</h3>
+            <div class="lesson-lab">
+                <div id="physicalPrompt" class="lesson-lab-prompt"></div>
+                <div class="lesson-lab-options four">
+                    <button class="lesson-choice-btn physical-choice" data-choice="a" type="button"></button>
+                    <button class="lesson-choice-btn physical-choice" data-choice="b" type="button"></button>
+                    <button class="lesson-choice-btn physical-choice" data-choice="c" type="button"></button>
+                    <button class="lesson-choice-btn physical-choice" data-choice="d" type="button"></button>
+                </div>
+                <div id="physicalFeedback" class="lesson-lab-feedback">Choose the strongest analysis.</div>
+                <div class="lesson-lab-footer"><span id="physicalProgress"></span><button id="nextPhysical" class="lesson-lab-btn" type="button">Next scenario</button></div>
+            </div>
+        </section>
+
+        <section class="lesson-section" id="cracking">
+            <h2 class="lesson-section-title"><i class="fas fa-user-secret"></i> Computer System Cracking & Ethics</h2>
+            <div class="note-box">
+                <h4><i class="fas fa-lock-open"></i> Meaning in this lesson</h4>
+                <p>Here, <strong>computer system cracking</strong> means gaining unauthorised access to a system, data or resource, or bypassing its security without permission. The focus is on the <strong>ethical problems and consequences</strong>, not on attack techniques.</p>
+            </div>
+
+            <table class="theory-table">
+                <thead><tr><th>Ethical issue</th><th>Why it is a problem</th><th>Possible consequence</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Privacy / confidentiality</strong></td><td>People's data is accessed without consent or authorisation.</td><td>Exposure of personal, medical, academic or financial information.</td></tr>
+                    <tr><td><strong>Integrity</strong></td><td>Data may be changed, deleted or falsified without permission.</td><td>Incorrect records, unsafe decisions, loss of trust.</td></tr>
+                    <tr><td><strong>Availability</strong></td><td>Systems may be disrupted or made unusable.</td><td>Users cannot access services when needed.</td></tr>
+                    <tr><td><strong>Financial harm</strong></td><td>Victims may face theft, recovery cost or lost business.</td><td>Direct financial loss and operational disruption.</td></tr>
+                    <tr><td><strong>Trust and responsibility</strong></td><td>Unauthorised access abuses trust and ignores rules or consent.</td><td>Reputational damage and reduced confidence in the organisation.</td></tr>
+                    <tr><td><strong>Intellectual property</strong></td><td>Private designs, source code or research may be copied without permission.</td><td>Loss of competitive advantage or ownership rights.</td></tr>
+                </tbody>
+            </table>
+
+            <div class="worked-example">
+                <h4><span class="step-num">1</span> Permission changes the ethical context</h4>
+                <p>A security professional who has <strong>explicit authorisation</strong> to test a system and stays within the agreed scope is different from a person who bypasses security without permission. Ethical analysis should consider <strong>authorisation, consent, purpose, scope and harm</strong>.</p>
+            </div>
+
+            <h3>Ethics Scenario Lab</h3>
+            <div class="lesson-lab">
+                <div id="ethicsPrompt" class="lesson-lab-prompt"></div>
+                <div class="lesson-lab-options three">
+                    <button class="lesson-choice-btn ethics-choice" data-ethics="authorised" type="button">Authorised security testing</button>
+                    <button class="lesson-choice-btn ethics-choice" data-ethics="responsible" type="button">Responsible disclosure</button>
+                    <button class="lesson-choice-btn ethics-choice" data-ethics="unauthorised" type="button">Unauthorised cracking</button>
+                </div>
+                <div id="ethicsFeedback" class="lesson-lab-feedback">Classify the scenario and justify it using permission, privacy and harm.</div>
+                <div class="lesson-lab-footer"><span id="ethicsProgress"></span><button id="nextEthics" class="lesson-lab-btn" type="button">Next scenario</button></div>
+            </div>
+        </section>
+
+        <section class="lesson-section" id="impact-lab">
+            <h2 class="lesson-section-title"><i class="fas fa-diagram-project"></i> Impact Analysis Lab</h2>
+            <p class="concept-text">Choose the chain that best links a threat to both its immediate effect and a meaningful wider consequence.</p>
+            <div class="lesson-lab">
+                <div id="impactPrompt" class="lesson-lab-prompt"></div>
+                <div class="lesson-lab-options four">
+                    <button class="lesson-choice-btn impact-choice" data-choice="a" type="button"></button>
+                    <button class="lesson-choice-btn impact-choice" data-choice="b" type="button"></button>
+                    <button class="lesson-choice-btn impact-choice" data-choice="c" type="button"></button>
+                    <button class="lesson-choice-btn impact-choice" data-choice="d" type="button"></button>
+                </div>
+                <div id="impactFeedback" class="lesson-lab-feedback">Choose the strongest cause-and-effect chain.</div>
+                <div class="lesson-lab-footer"><span id="impactProgress"></span><button id="nextImpact" class="lesson-lab-btn" type="button">Next case</button></div>
+            </div>
+        </section>
+
+        <section class="lesson-section">
+            <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
+            <div class="lesson-tabs-label"><i class="fas fa-hand-pointer"></i><span>Choose a scenario:</span></div>
+            <div class="lesson-tabs lesson-tabs--examples">
+                <button class="lesson-tab active" data-example="hospital" type="button"><i class="fas fa-hospital"></i><span>Hospital ransomware</span></button>
+                <button class="lesson-tab" data-example="flood" type="button"><i class="fas fa-water"></i><span>Server-room flood</span></button>
+                <button class="lesson-tab" data-example="school" type="button"><i class="fas fa-school"></i><span>School database access</span></button>
+            </div>
+            <div class="lesson-tab-panel">
+                <h4 id="workedTitle"></h4>
+                <p id="workedDescription"></p>
+                <div id="workedContent"></div>
+            </div>
+        </section>
+
+        <section class="lesson-section">
+            <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+            <div class="pitfall-box">
+                <h4><i class="fas fa-bug"></i> Virus vs Worm</h4>
+                <p>A virus normally attaches to files or system areas and spreads when infected content is executed or shared. A worm is designed to self-replicate and spread independently, often across networks.</p>
+            </div>
+            <div class="pitfall-box">
+                <h4><i class="fas fa-bug"></i> Malware ≠ Virus</h4>
+                <p><strong>Malware</strong> is the broad category. Virus, worm, Trojan, ransomware and spyware are examples of malware.</p>
+            </div>
+            <div class="pitfall-box">
+                <h4><i class="fas fa-bug"></i> Threat ≠ Consequence</h4>
+                <p>“Fire” is a threat. “Hardware destroyed, data unavailable and services interrupted” describes consequences.</p>
+            </div>
+            <div class="pitfall-box">
+                <h4><i class="fas fa-bug"></i> Cracking ≠ Authorised Testing</h4>
+                <p>Permission matters. Testing with explicit authorisation and agreed scope is ethically different from bypassing security without permission.</p>
+            </div>
+        </section>
+
+        <section class="lesson-section" id="practice">
+            <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+            <div class="assessment-tasks">
+                <div class="task-item"><span class="task-level remember">Remember</span><p>Define <strong>malware</strong>.</p></div>
+                <div class="task-item"><span class="task-level understand">Understand</span><p>Distinguish between a virus, worm, Trojan and ransomware.</p></div>
+                <div class="task-item"><span class="task-level understand">Understand</span><p>Identify four physical risks that may cause loss of data or system availability.</p></div>
+                <div class="task-item"><span class="task-level apply">Apply</span><p>A user installs a “free game” that secretly gives an attacker access to the computer. Identify the most likely malware type and explain one possible problem.</p></div>
+                <div class="task-item"><span class="task-level apply">Apply</span><p>A power surge damages a school's server. Explain two problems that may arise.</p></div>
+                <div class="task-item"><span class="task-level analyze">Analyze</span><p>Analyse two problems that ransomware could cause for a hospital.</p></div>
+                <div class="task-item"><span class="task-level analyze">Analyze</span><p>A student gains unauthorised access to classmates' marks but changes nothing. Analyse two ethical problems arising from this action.</p></div>
+                <div class="task-item"><span class="task-level analyze">Analyze</span><p>Compare a flood in a server room with spyware on staff computers. Explain which incident could have the greater impact on a school and justify your judgement.</p></div>
+            </div>
+        </section>
+
+        <section class="lesson-section">
+            <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+            <div class="quiz-item">
+                <p class="quiz-question">Q1: A hospital's computer network is infected with ransomware. Staff cannot access patient records for several hours. Analyse two problems that may arise. [4]</p>
+                <details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>1 mark for each valid problem + 1 mark for linked consequence, for example:
+• Patient records are unavailable → doctors may lack information needed for treatment.
+• Hospital systems are disrupted → appointments/treatment may be delayed, affecting service or patient safety.</div></details>
+            </div>
+            <div class="quiz-item">
+                <p class="quiz-question">Q2: A server room is flooded overnight. Analyse two problems this may cause for the organisation. [4]</p>
+                <details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Examples:
+• Servers/storage may be physically damaged → data or services may become unavailable.
+• Equipment may need replacement → recovery creates financial cost and extended downtime.</div></details>
+            </div>
+            <div class="quiz-item">
+                <p class="quiz-question">Q3: A student gains unauthorised access to the school database and reads confidential records but does not modify them. Analyse two ethical problems. [4]</p>
+                <details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Examples:
+• Privacy/confidentiality is violated because records are viewed without permission → students' personal information is exposed.
+• Trust and authorisation are breached → the school and students may lose confidence in the system even though the data was not changed.</div></details>
+            </div>
+            <div class="quiz-item">
+                <p class="quiz-question">Q4: Explain why authorised penetration/security testing is ethically different from unauthorised cracking. [3]</p>
+                <details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Authorised testing has explicit permission and an agreed purpose/scope. The tester is expected to report weaknesses rather than exploit them for unauthorised gain or harm. Unauthorised cracking bypasses security without permission.</div></details>
+            </div>
+        </section>
+
+        <section class="lesson-section">
+            <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+            <div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to reveal</span></div>
+            <div class="quiz-item"><div class="quiz-question">1. What is malware?</div><div class="quiz-answer" data-answer="Malicious software designed to perform an unauthorised or harmful action on a computer system">Click to reveal answer</div></div>
+            <div class="quiz-item"><div class="quiz-question">2. What is the key difference between a virus and a worm?</div><div class="quiz-answer" data-answer="A virus normally attaches to infected content, while a worm self-replicates and can spread independently, often across networks">Click to reveal answer</div></div>
+            <div class="quiz-item"><div class="quiz-question">3. What does ransomware typically do?</div><div class="quiz-answer" data-answer="It restricts access to a system or encrypts data and demands payment">Click to reveal answer</div></div>
+            <div class="quiz-item"><div class="quiz-question">4. Give two physical risks to computer systems.</div><div class="quiz-answer" data-answer="For example: fire, flood, theft, power failure, power surge, overheating, accidental damage or natural disaster">Click to reveal answer</div></div>
+            <div class="quiz-item"><div class="quiz-question">5. What is the difference between a threat and a consequence?</div><div class="quiz-answer" data-answer="A threat is the event or source of harm; a consequence is the problem or impact that results from it">Click to reveal answer</div></div>
+            <div class="quiz-item"><div class="quiz-question">6. What does computer system cracking mean in this lesson?</div><div class="quiz-answer" data-answer="Gaining unauthorised access to a system, data or resource, or bypassing security without permission">Click to reveal answer</div></div>
+            <div class="quiz-item"><div class="quiz-question">7. Why can reading confidential data without changing it still be unethical?</div><div class="quiz-answer" data-answer="Because accessing confidential data without permission violates privacy, confidentiality, consent and trust">Click to reveal answer</div></div>
+            <div class="quiz-item"><div class="quiz-question">8. Why is authorised security testing different from cracking?</div><div class="quiz-answer" data-answer="It is performed with explicit permission and agreed scope for a legitimate security purpose">Click to reveal answer</div></div>
+        </section>
+
+        <nav class="lesson-nav">
+            <a href="testing-methods.html"><span><span class="nav-label">← Previous</span><span class="nav-title">Testing Methods</span></span></a>
+            <a href="data-protection-measures.html"><span><span class="nav-label">Next →</span><span class="nav-title">Data Protection Measures</span></span></a>
+        </nav>
+    </div>
+    </div>
+</main>
+</div>
+
+<footer class="site-footer">
+    <div class="container">
+        <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 12 Computer Science</p>
+        <p>&copy; 2026 IT-Tea. Educational use.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const malwareCases = [
+        {
+            prompt: 'A file is shared between computers. When the infected file is opened, malicious code activates and infects other files.',
+            answer: 'virus',
+            why: 'This is a virus: it is associated with infected content/files. Consequence chain: infected files → possible corruption or deletion → loss of data and disruption.'
+        },
+        {
+            prompt: 'Malicious code automatically copies itself across many computers on a network without needing users to open an infected file.',
+            answer: 'worm',
+            why: 'This is a worm: self-replication and independent network spread are the key clues. Rapid spread may consume network resources and disrupt many devices.'
+        },
+        {
+            prompt: 'A user downloads a program that looks like a useful utility. After it runs, an attacker gains unauthorised access to the computer.',
+            answer: 'trojan',
+            why: 'This is a Trojan: malicious software is disguised as legitimate software. Unauthorised access can lead to stolen data or further malware installation.'
+        },
+        {
+            prompt: 'A company can no longer open its files. A message demands payment for a decryption key.',
+            answer: 'ransomware',
+            why: 'This is ransomware. Encrypted/unavailable files can stop business operations, create recovery costs and potentially cause data loss.'
+        },
+        {
+            prompt: 'Software secretly records a user\'s activity and sends collected information to an unauthorised third party.',
+            answer: 'spyware',
+            why: 'This is spyware. Hidden monitoring can expose private information, credentials and other sensitive data.'
+        }
+    ];
+    let malwareIndex = 0;
+    const malwarePrompt = document.getElementById('malwarePrompt');
+    const malwareChoices = document.querySelectorAll('.malware-choice');
+    const malwareFeedback = document.getElementById('malwareFeedback');
+    const malwareProgress = document.getElementById('malwareProgress');
+    function loadMalware(){
+        const item = malwareCases[malwareIndex];
+        malwarePrompt.textContent = item.prompt;
+        malwareProgress.textContent = `Case ${malwareIndex + 1} of ${malwareCases.length}`;
+        malwareChoices.forEach(b => b.classList.remove('active'));
+        malwareFeedback.className = 'lesson-lab-feedback';
+        malwareFeedback.textContent = 'Identify the malware, then read the consequence chain.';
+    }
+    malwareChoices.forEach(btn => btn.addEventListener('click', () => {
+        const item = malwareCases[malwareIndex];
+        const ok = btn.dataset.malware === item.answer;
+        malwareChoices.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        malwareFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+        malwareFeedback.textContent = `${ok ? 'Correct. ' : 'Not quite. '}${item.why}`;
+    }));
+    document.getElementById('nextMalware').addEventListener('click', () => { malwareIndex = (malwareIndex + 1) % malwareCases.length; loadMalware(); });
+    loadMalware();
+
+    const physicalCases = [
+        {
+            prompt: 'A water pipe bursts above a server room and several servers stop working. Which answer gives the strongest analysis?',
+            answer: 'b',
+            options: {
+                a: 'The risk is a server.',
+                b: 'Water may damage servers → systems/data become unavailable → the organisation may face downtime and recovery cost.',
+                c: 'Water is always malware.',
+                d: 'The only problem is that the room becomes wet.'
+            },
+            why: 'The best answer links the physical event to hardware damage and then to operational and financial consequences.'
+        },
+        {
+            prompt: 'A laptop containing confidential customer records is stolen. Which answer gives the strongest analysis?',
+            answer: 'c',
+            options: {
+                a: 'The laptop is now faster.',
+                b: 'The only issue is replacement cost.',
+                c: 'Theft removes the device → staff lose access and confidential records may be exposed → operational, privacy and reputational harm may follow.',
+                d: 'Theft is a type of virus.'
+            },
+            why: 'The analysis includes both availability and confidentiality consequences.'
+        },
+        {
+            prompt: 'A sudden power surge damages a network server. Which answer best analyses the impact?',
+            answer: 'a',
+            options: {
+                a: 'Electrical damage may stop the server → services become unavailable → work is disrupted and repair/replacement costs arise.',
+                b: 'A power surge only affects screen brightness.',
+                c: 'The server becomes a Trojan.',
+                d: 'There is no impact if users remember their passwords.'
+            },
+            why: 'The answer connects physical damage to downtime and wider operational/financial impact.'
+        }
+    ];
+    let physicalIndex = 0;
+    const physicalPrompt = document.getElementById('physicalPrompt');
+    const physicalChoices = document.querySelectorAll('.physical-choice');
+    const physicalFeedback = document.getElementById('physicalFeedback');
+    const physicalProgress = document.getElementById('physicalProgress');
+    function loadPhysical(){
+        const item = physicalCases[physicalIndex];
+        physicalPrompt.textContent = item.prompt;
+        physicalProgress.textContent = `Scenario ${physicalIndex + 1} of ${physicalCases.length}`;
+        physicalChoices.forEach(b => { b.textContent = item.options[b.dataset.choice]; b.classList.remove('active'); });
+        physicalFeedback.className = 'lesson-lab-feedback';
+        physicalFeedback.textContent = 'Choose the strongest analysis.';
+    }
+    physicalChoices.forEach(btn => btn.addEventListener('click', () => {
+        const item = physicalCases[physicalIndex];
+        const ok = btn.dataset.choice === item.answer;
+        physicalChoices.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        physicalFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+        physicalFeedback.textContent = `${ok ? 'Correct. ' : 'Not quite. '}${item.why}`;
+    }));
+    document.getElementById('nextPhysical').addEventListener('click', () => { physicalIndex = (physicalIndex + 1) % physicalCases.length; loadPhysical(); });
+    loadPhysical();
+
+    const ethicsCases = [
+        {
+            prompt: 'A company hires a security specialist, gives written permission to test its portal, and defines exactly which systems may be tested.',
+            answer: 'authorised',
+            why: 'This is authorised security testing because permission and scope are explicit.'
+        },
+        {
+            prompt: 'A researcher discovers a vulnerability accidentally, does not access private data, and privately reports the issue to the organisation so it can be fixed.',
+            answer: 'responsible',
+            why: 'This best fits responsible disclosure: the issue is reported without exploiting it for unauthorised gain or unnecessary harm.'
+        },
+        {
+            prompt: 'A student guesses another student\'s password and reads private messages without permission.',
+            answer: 'unauthorised',
+            why: 'This is unauthorised access. Reading private data without permission violates privacy, confidentiality, consent and trust even if nothing is changed.'
+        },
+        {
+            prompt: 'An employee uses administrator access outside their job role to view confidential salary records.',
+            answer: 'unauthorised',
+            why: 'Having technical access does not automatically provide permission. Using access outside the authorised role creates privacy and trust problems.'
+        }
+    ];
+    let ethicsIndex = 0;
+    const ethicsPrompt = document.getElementById('ethicsPrompt');
+    const ethicsChoices = document.querySelectorAll('.ethics-choice');
+    const ethicsFeedback = document.getElementById('ethicsFeedback');
+    const ethicsProgress = document.getElementById('ethicsProgress');
+    function loadEthics(){
+        const item = ethicsCases[ethicsIndex];
+        ethicsPrompt.textContent = item.prompt;
+        ethicsProgress.textContent = `Scenario ${ethicsIndex + 1} of ${ethicsCases.length}`;
+        ethicsChoices.forEach(b => b.classList.remove('active'));
+        ethicsFeedback.className = 'lesson-lab-feedback';
+        ethicsFeedback.textContent = 'Classify the scenario and justify it using permission, privacy and harm.';
+    }
+    ethicsChoices.forEach(btn => btn.addEventListener('click', () => {
+        const item = ethicsCases[ethicsIndex];
+        const ok = btn.dataset.ethics === item.answer;
+        ethicsChoices.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        ethicsFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+        ethicsFeedback.textContent = `${ok ? 'Correct. ' : 'Not quite. '}${item.why}`;
+    }));
+    document.getElementById('nextEthics').addEventListener('click', () => { ethicsIndex = (ethicsIndex + 1) % ethicsCases.length; loadEthics(); });
+    loadEthics();
+
+    const impactCases = [
+        {
+            prompt: 'Hospital ransomware: choose the strongest chain.',
+            answer: 'd',
+            options: {
+                a: 'Ransomware → computer is dangerous.',
+                b: 'Ransomware → password changes → internet becomes faster.',
+                c: 'Ransomware → files encrypted → only the desktop colour changes.',
+                d: 'Ransomware → patient records unavailable → staff lack information → treatment/services may be delayed.'
+            },
+            why: 'The strongest chain shows direct effect and a meaningful service/safety consequence.'
+        },
+        {
+            prompt: 'Spyware on staff computers: choose the strongest chain.',
+            answer: 'b',
+            options: {
+                a: 'Spyware → more storage space → lower cost.',
+                b: 'Spyware → credentials or private data collected → unauthorised parties gain information → privacy, financial or security harm.',
+                c: 'Spyware → physical flood → hardware destroyed.',
+                d: 'Spyware → monitor becomes heavier.'
+            },
+            why: 'Spyware threatens confidentiality by secretly collecting sensitive information.'
+        },
+        {
+            prompt: 'Theft of a database server: choose the strongest chain.',
+            answer: 'a',
+            options: {
+                a: 'Server stolen → service/data unavailable and stored data may be exposed → operational, privacy and reputational consequences.',
+                b: 'Server stolen → software becomes a worm.',
+                c: 'Server stolen → no effect because the building still exists.',
+                d: 'Server stolen → data automatically becomes encrypted.'
+            },
+            why: 'The same physical incident can affect availability and confidentiality at the same time.'
+        }
+    ];
+    let impactIndex = 0;
+    const impactPrompt = document.getElementById('impactPrompt');
+    const impactChoices = document.querySelectorAll('.impact-choice');
+    const impactFeedback = document.getElementById('impactFeedback');
+    const impactProgress = document.getElementById('impactProgress');
+    function loadImpact(){
+        const item = impactCases[impactIndex];
+        impactPrompt.textContent = item.prompt;
+        impactProgress.textContent = `Case ${impactIndex + 1} of ${impactCases.length}`;
+        impactChoices.forEach(b => { b.textContent = item.options[b.dataset.choice]; b.classList.remove('active'); });
+        impactFeedback.className = 'lesson-lab-feedback';
+        impactFeedback.textContent = 'Choose the strongest cause-and-effect chain.';
+    }
+    impactChoices.forEach(btn => btn.addEventListener('click', () => {
+        const item = impactCases[impactIndex];
+        const ok = btn.dataset.choice === item.answer;
+        impactChoices.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        impactFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+        impactFeedback.textContent = `${ok ? 'Correct. ' : 'Not quite. '}${item.why}`;
+    }));
+    document.getElementById('nextImpact').addEventListener('click', () => { impactIndex = (impactIndex + 1) % impactCases.length; loadImpact(); });
+    loadImpact();
+
+    const examples = {
+        hospital: {
+            title: 'Hospital Ransomware',
+            description: 'Analyse beyond the malware name.',
+            html: '<div class="worked-example"><h4><span class="step-num">1</span> Threat</h4><p>Ransomware encrypts or restricts access to hospital data.</p></div><div class="worked-example"><h4><span class="step-num">2</span> Immediate effect</h4><p>Staff cannot access patient records or systems.</p></div><div class="worked-example"><h4><span class="step-num">3</span> Wider consequence</h4><p>Treatment and administration may be delayed; recovery may be expensive; patient safety and trust may be affected.</p></div>'
+        },
+        flood: {
+            title: 'Flood in a Server Room',
+            description: 'A physical threat can cause both technical and organisational problems.',
+            html: '<div class="worked-example"><h4><span class="step-num">1</span> Threat</h4><p>Water enters the server room.</p></div><div class="worked-example"><h4><span class="step-num">2</span> Immediate effect</h4><p>Servers and storage devices may be damaged or shut down.</p></div><div class="worked-example"><h4><span class="step-num">3</span> Wider consequence</h4><p>Data/services may become unavailable; hardware replacement and recovery create cost and downtime.</p></div>'
+        },
+        school: {
+            title: 'Unauthorised Access to a School Database',
+            description: 'Ethical harm can occur even when no data is modified.',
+            html: '<div class="worked-example"><h4><span class="step-num">1</span> Action</h4><p>A student enters the database without permission and reads confidential records.</p></div><div class="worked-example"><h4><span class="step-num">2</span> Ethical problem</h4><p>Privacy and confidentiality are violated because personal data is accessed without consent.</p></div><div class="worked-example"><h4><span class="step-num">3</span> Wider consequence</h4><p>Students may be harmed by disclosure and may lose trust in the school system; the organisation must respond to the security breach.</p></div>'
+        }
+    };
+    const exampleTabs = document.querySelectorAll('[data-example]');
+    const workedTitle = document.getElementById('workedTitle');
+    const workedDescription = document.getElementById('workedDescription');
+    const workedContent = document.getElementById('workedContent');
+    function showExample(key){
+        const item = examples[key];
+        workedTitle.textContent = item.title;
+        workedDescription.textContent = item.description;
+        workedContent.innerHTML = item.html;
+        exampleTabs.forEach(b => b.classList.toggle('active', b.dataset.example === key));
+    }
+    exampleTabs.forEach(btn => btn.addEventListener('click', () => showExample(btn.dataset.example)));
+    showExample('hospital');
+});
+</script>
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
 </body>
-
 </html>
