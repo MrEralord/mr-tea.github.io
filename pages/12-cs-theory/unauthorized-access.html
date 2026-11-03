@@ -4,249 +4,1103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Protect Data from Unauthorized Access — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description"
-        content="Methods to protect data from unauthorized access: authentication, access control, encryption. NIS Grade 12 CS.">
 
-    <!-- Open Graph -->
+    <meta name="description"
+        content="Protect data from unauthorized access using authentication, MFA, authorization, access rights, roles, least privilege, session controls and audit logs. NIS Grade 12 Computer Science 12.1.2.3.">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
     <meta property="og:title" content="Protect Data from Unauthorized Access — mr. TEA">
-    <meta property="og:description" content="Methods to protect data from unauthorized access: authentication, access control, encryption. NIS Grade 12 CS.">
+    <meta property="og:description"
+        content="Authentication, authorization, access control, MFA, roles and least privilege.">
     <meta property="og:url" content="https://mr-tea.net/pages/12-cs-theory/unauthorized-access.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
 <div class="layout-wrapper">
-    <main class="main-content">
+<main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
+<div class="mobile-header">
+    <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
         </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
+
+        <a href="/" class="logo">
+            <i class="fas fa-mug-hot logo-icon"></i>
+            <span class="logo-text">mr. TEA</span>
         </a>
-      </div>
+    </div>
+</div>
+
+<div class="lesson-page">
+<div class="lesson-container">
+
+<nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+    <a href="/index.html">Home</a>
+    <span class="sep">/</span>
+    <a href="/index.html#syllabus">Grade 12 CS</a>
+    <span class="sep">/</span>
+    <span>Protect Data from Unauthorized Access</span>
+</nav>
+
+<div class="lesson-header">
+    <div class="lesson-unit-badge">
+        <i class="fas fa-user-shield"></i> Grade 12 CS · Term 2
     </div>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 12 CS</a> <span class="sep">/</span>
-                <span>12.2A — Unauthorized Access</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-shield-alt"></i> Unit 12.2A · Term 2</div>
-                <h1 class="lesson-title">Protect Data from Unauthorized Access</h1>
-                <p class="lesson-intro">Unauthorized access means someone gains entry to data or systems <strong>without
-                        permission</strong>. Protection involves controlling <em>who</em> can access <em>what</em>,
-                    through authentication, access rights, and physical security.</p>
+    <h1 class="lesson-title">Protect Data from Unauthorized Access</h1>
+
+    <p class="lesson-intro">
+        Preventing unauthorized access means controlling both
+        <strong>who a user is</strong> and <strong>what that user is allowed to do</strong>.
+        Effective protection combines authentication, authorization, access rights,
+        sensible account controls and monitoring.
+    </p>
+</div>
+
+<div class="lesson-lo-card">
+    <h3><i class="fas fa-bullseye"></i> Learning Objective</h3>
+    <ul class="lesson-lo-list">
+        <li>
+            <span class="lo-code">12.1.2.3</span>
+            Protect data from unauthorized access
+        </li>
+    </ul>
+</div>
+
+<nav class="lesson-section-jump" aria-label="Lesson sections">
+    <a href="#core">Core Idea</a>
+    <a href="#authentication">Authentication</a>
+    <a href="#authorization">Authorization</a>
+    <a href="#least-privilege">Least Privilege</a>
+    <a href="#labs">Labs</a>
+    <a href="#monitoring">Monitoring</a>
+    <a href="#practice">Practice</a>
+</nav>
+
+<!-- =========================================================
+     CORE IDEA
+     ========================================================= -->
+<section class="lesson-section" id="core">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-lightbulb"></i> Conceptual Anchor
+    </h2>
+
+    <div class="analogy-box">
+        <h4><i class="fas fa-hotel"></i> The Hotel Analogy</h4>
+        <p>
+            At a hotel, reception first checks <strong>who you are</strong>.
+            Then your key card only opens the rooms you are allowed to enter.
+            Staff may have wider access, while guests have limited access.
+            Logs can record when doors were used.
+        </p>
+    </div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-key"></i> Two questions every secure system must answer</h4>
+        <p>
+            <strong>Authentication:</strong> “Who are you?”<br>
+            <strong>Authorization:</strong> “What are you allowed to do?”
+        </p>
+    </div>
+
+    <div class="worked-example">
+        <h4>Authentication → Authorization → Access Decision</h4>
+
+        <div class="lesson-flow lesson-flow--branching" aria-label="Authentication and authorization flow">
+            <div class="lesson-flow-node">
+                <i class="fas fa-user"></i>
+                <strong>User</strong>
+                <span>Claims an identity</span>
             </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">12.1.2.3</span> Protect data from unauthorized access</li>
-                </ul>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
             </div>
 
-            <!-- <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>12.2A-unauthorized-access.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>-->
+            <div class="lesson-flow-node lesson-flow-node--accent">
+                <i class="fas fa-user-check"></i>
+                <strong>Authenticate</strong>
+                <span>Password, token, biometric or MFA</span>
+            </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-key"></i> The Hotel Analogy</h4>
-                    <p>A hotel gives you a <strong>key card</strong> (password) that only opens YOUR room. Staff have a
-                        <strong>master key</strong> (admin access). Guests can't enter the kitchen (access rights).
-                        Security cameras (audit logs) record who goes where.
-                    </p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Authentication
-                    Methods</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>Category</th>
-                            <th>Examples</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Something you know</strong></td>
-                            <td>Knowledge</td>
-                            <td>Password, PIN, security question</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Something you have</strong></td>
-                            <td>Possession</td>
-                            <td>Smart card, phone (2FA code), security token</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Something you are</strong></td>
-                            <td>Biometric</td>
-                            <td>Fingerprint, face scan, iris scan</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Multi-Factor Authentication (MFA)</h4>
-                    <p>Combining 2+ categories (e.g., password + phone code) dramatically increases security. Even if
-                        your password is stolen, the attacker still needs your phone.</p>
-                </div>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Access
-                    Control Methods</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>How It Works</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>User accounts &amp; passwords</strong></td>
-                            <td>Each user has unique credentials; password policy (length, complexity)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Access rights / permissions</strong></td>
-                            <td>Set read/write/execute per user or group (e.g., students can read but not edit)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>User levels (roles)</strong></td>
-                            <td>Admin, teacher, student — each level has different permissions</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Encryption of stored data</strong></td>
-                            <td>Even if accessed, data is unreadable without decryption key</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Audit logs</strong></td>
-                            <td>Record who accessed what and when — helps detect suspicious activity</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Automatic lock / timeout</strong></td>
-                            <td>System locks after period of inactivity</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Strong
-                    Password Guidelines</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Rule</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>At least 8–12 characters</td>
-                            <td>✓ <code>MyD0g$Run5</code></td>
-                        </tr>
-                        <tr>
-                            <td>Mix uppercase, lowercase, numbers, symbols</td>
-                            <td>✓ <code>P@ssw0rd!23</code></td>
-                        </tr>
-                        <tr>
-                            <td>Don't use personal info</td>
-                            <td>✗ <code>Ali2008</code>, <code>almaty123</code></td>
-                        </tr>
-                        <tr>
-                            <td>Don't reuse across sites</td>
-                            <td>Use a password manager</td>
-                        </tr>
-                        <tr>
-                            <td>Change regularly</td>
-                            <td>Every 90 days for sensitive systems</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Password ≠ Full Security</h4>
-                    <p>A strong password alone is not enough. Social engineering (phishing), keyloggers, and shoulder
-                        surfing can all bypass passwords. Always use <strong>MFA</strong> when available.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Name the 3 categories of authentication and give an example of each.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Design an access control system for a school network with 3 user levels (admin, teacher,
-                            student). What permissions would each level have?</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Why is MFA more secure than a single password? What are the drawbacks of MFA?</p>
-                    </div>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What are the 3 categories of authentication?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Something you know (password),
-                        something you have (phone/token), something you are (biometric).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is the purpose of access rights?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">To control what each user can
-                        do (read, write, execute, delete) — preventing unauthorized changes or viewing of data.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What is an audit log?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A record of who accessed what
-                        data, when, and what they did — used to detect and investigate suspicious activity.</div>
-                </div>
-            </section>
-            <nav class="lesson-nav">
-                        <a href="backup-disk-mirroring.html"><span class="nav-label">← Previous</span><span class="nav-title">Backup &amp;amp; Disk Mirroring</span></a>
-                        <a href="privacy-policies.html"><span class="nav-label">Next →</span><span class="nav-title">Privacy Policies</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
-    <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 12 Computer Science</p>
-    </footer>
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
 
-    <script src="/js/sidebar.js"></script>
-    <script src="/js/app.js"></script>
+            <div class="lesson-flow-node">
+                <i class="fas fa-id-badge"></i>
+                <strong>Check role &amp; permissions</strong>
+                <span>Teacher, student, admin, guest...</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-branches">
+                <div class="lesson-flow-path">
+                    <span class="lesson-flow-label lesson-flow-label--success">ALLOW</span>
+                    <div class="lesson-flow-node lesson-flow-node--success">
+                        <i class="fas fa-unlock"></i>
+                        <strong>Access granted</strong>
+                        <span>Requested action is permitted</span>
+                    </div>
+                </div>
+
+                <div class="lesson-flow-path">
+                    <span class="lesson-flow-label lesson-flow-label--danger">DENY</span>
+                    <div class="lesson-flow-node lesson-flow-node--danger">
+                        <i class="fas fa-lock"></i>
+                        <strong>Access denied</strong>
+                        <span>Requested action exceeds permissions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="lesson-flow-caption">
+            Successful authentication does not automatically mean full access.
+            The system must still check authorization.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     AUTHENTICATION
+     ========================================================= -->
+<section class="lesson-section" id="authentication">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-user-check"></i> Authentication
+    </h2>
+
+    <p class="concept-text">
+        <strong>Authentication</strong> is the process of confirming that a user is
+        the person they claim to be.
+    </p>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Factor</th>
+                <th>Meaning</th>
+                <th>Examples</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Something you know</strong></td>
+                <td>Knowledge factor</td>
+                <td>Password, PIN</td>
+            </tr>
+            <tr>
+                <td><strong>Something you have</strong></td>
+                <td>Possession factor</td>
+                <td>Security token, smart card, authenticator device</td>
+            </tr>
+            <tr>
+                <td><strong>Something you are</strong></td>
+                <td>Biometric factor</td>
+                <td>Fingerprint, face, iris</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note-box">
+        <h4><i class="fas fa-shield-halved"></i> Multi-Factor Authentication (MFA)</h4>
+        <p>
+            MFA combines factors from different categories. For example,
+            a password plus a security token. If one factor is compromised,
+            the attacker still needs the second factor.
+        </p>
+    </div>
+
+    <h3>Password Practice</h3>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Better practice</th>
+                <th>Why it helps</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Use long passwords or passphrases</strong></td>
+                <td>Longer passwords are harder to guess or brute-force.</td>
+            </tr>
+            <tr>
+                <td><strong>Use a unique password for each service</strong></td>
+                <td>A breach of one account does not automatically compromise other accounts.</td>
+            </tr>
+            <tr>
+                <td><strong>Avoid predictable personal information</strong></td>
+                <td>Names, birthdays and simple patterns are easier to guess.</td>
+            </tr>
+            <tr>
+                <td><strong>Use a password manager</strong></td>
+                <td>Supports long, unique passwords without relying on memory.</td>
+            </tr>
+            <tr>
+                <td><strong>Change a password if compromise is suspected</strong></td>
+                <td>Removes the usefulness of an exposed credential.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> “Complex-looking” does not automatically mean strong</h4>
+        <p>
+            A short predictable password with symbols can still be weak.
+            Length, uniqueness and avoiding known/predictable passwords are more important
+            than simply forcing every user to add one symbol and one capital letter.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     AUTHORIZATION
+     ========================================================= -->
+<section class="lesson-section" id="authorization">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-user-lock"></i> Authorization &amp; Access Rights
+    </h2>
+
+    <p class="concept-text">
+        <strong>Authorization</strong> determines what an authenticated user is
+        permitted to access or change.
+    </p>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Permission</th>
+                <th>Typical meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Read</strong></td>
+                <td>View data without changing it</td>
+            </tr>
+            <tr>
+                <td><strong>Write / Edit</strong></td>
+                <td>Create or modify data</td>
+            </tr>
+            <tr>
+                <td><strong>Delete</strong></td>
+                <td>Remove data</td>
+            </tr>
+            <tr>
+                <td><strong>Execute</strong></td>
+                <td>Run a program or script</td>
+            </tr>
+            <tr>
+                <td><strong>Deny / No access</strong></td>
+                <td>The resource or action is unavailable to that user</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Role-Based Access Control (RBAC)</h3>
+
+    <p class="concept-text">
+        Instead of configuring every user separately, systems often assign users
+        to <strong>roles</strong>. Each role has a predefined set of permissions.
+    </p>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Resource / Action</th>
+                <th>Student</th>
+                <th>Teacher</th>
+                <th>Admin</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>View own marks</td>
+                <td>Read</td>
+                <td>Read</td>
+                <td>Read</td>
+            </tr>
+            <tr>
+                <td>Edit class marks</td>
+                <td>Deny</td>
+                <td>Write</td>
+                <td>Write</td>
+            </tr>
+            <tr>
+                <td>Create user accounts</td>
+                <td>Deny</td>
+                <td>Deny</td>
+                <td>Create / Edit / Delete</td>
+            </tr>
+            <tr>
+                <td>Change system configuration</td>
+                <td>Deny</td>
+                <td>Deny</td>
+                <td>Write</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note-box">
+        <h4><i class="fas fa-layer-group"></i> Authentication ≠ authorization</h4>
+        <p>
+            A teacher may successfully log in, but that does not mean the teacher
+            should be allowed to create administrator accounts or change every system setting.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     LEAST PRIVILEGE
+     ========================================================= -->
+<section class="lesson-section" id="least-privilege">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-user-minus"></i> Principle of Least Privilege
+    </h2>
+
+    <p class="concept-text">
+        The <strong>principle of least privilege</strong> means giving a user only
+        the permissions needed to perform their role — no more.
+    </p>
+
+    <div class="worked-example">
+        <h4>Example</h4>
+        <p>
+            A school receptionist needs to view student names and contact details,
+            but does not need to edit examination marks or create administrator accounts.
+            The account should therefore receive access only to the required records and actions.
+        </p>
+    </div>
+
+    <div class="pro-tip-box">
+        <h4><i class="fas fa-lightbulb"></i> Why least privilege matters</h4>
+        <p>
+            If an account is misused or compromised, limiting its permissions
+            also limits the amount of damage the account can cause.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     LABS
+     ========================================================= -->
+<section class="lesson-section" id="labs">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-flask"></i> Access Control Labs
+    </h2>
+
+    <h3>Access Rights Matrix Lab</h3>
+
+    <div class="lesson-lab">
+        <div id="matrixPrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options four">
+            <button class="lesson-choice-btn matrix-choice" data-choice="read" type="button">
+                READ
+            </button>
+
+            <button class="lesson-choice-btn matrix-choice" data-choice="write" type="button">
+                WRITE
+            </button>
+
+            <button class="lesson-choice-btn matrix-choice" data-choice="admin" type="button">
+                ADMIN
+            </button>
+
+            <button class="lesson-choice-btn matrix-choice" data-choice="deny" type="button">
+                DENY
+            </button>
+        </div>
+
+        <div id="matrixFeedback" class="lesson-lab-feedback">
+            Choose the minimum suitable permission.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="matrixProgress"></span>
+            <button id="nextMatrix" class="lesson-lab-btn" type="button">
+                Next scenario
+            </button>
+        </div>
+    </div>
+
+    <h3>Least Privilege Lab</h3>
+
+    <div class="lesson-lab">
+        <div id="privilegePrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options three">
+            <button class="lesson-choice-btn privilege-choice" data-choice="limited" type="button">
+                Limited access
+            </button>
+
+            <button class="lesson-choice-btn privilege-choice" data-choice="standard" type="button">
+                Standard role access
+            </button>
+
+            <button class="lesson-choice-btn privilege-choice" data-choice="admin" type="button">
+                Full admin access
+            </button>
+        </div>
+
+        <div id="privilegeFeedback" class="lesson-lab-feedback">
+            Apply the principle of least privilege.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="privilegeProgress"></span>
+            <button id="nextPrivilege" class="lesson-lab-btn" type="button">
+                Next scenario
+            </button>
+        </div>
+    </div>
+
+    <h3>Account Security Scenario Lab</h3>
+
+    <div class="lesson-lab">
+        <div id="securityPrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options four">
+            <button class="lesson-choice-btn security-choice" data-choice="mfa" type="button">
+                MFA
+            </button>
+
+            <button class="lesson-choice-btn security-choice" data-choice="timeout" type="button">
+                Auto-lock / timeout
+            </button>
+
+            <button class="lesson-choice-btn security-choice" data-choice="disable" type="button">
+                Disable account
+            </button>
+
+            <button class="lesson-choice-btn security-choice" data-choice="permissions" type="button">
+                Change permissions
+            </button>
+        </div>
+
+        <div id="securityFeedback" class="lesson-lab-feedback">
+            Choose the most suitable control.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="securityProgress"></span>
+            <button id="nextSecurity" class="lesson-lab-btn" type="button">
+                Next scenario
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     MONITORING
+     ========================================================= -->
+<section class="lesson-section" id="monitoring">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-clipboard-list"></i> Additional Controls
+    </h2>
+
+    <div class="definition-grid">
+        <div class="definition-item">
+            <i class="fas fa-clock"></i>
+            <strong>Automatic lock / timeout</strong>
+            <p>
+                Locks a session after inactivity so an unattended device is less likely
+                to remain accessible to another person.
+            </p>
+        </div>
+
+        <div class="definition-item">
+            <i class="fas fa-ban"></i>
+            <strong>Disable unused accounts</strong>
+            <p>
+                Accounts belonging to users who no longer need access should be removed
+                or disabled.
+            </p>
+        </div>
+
+        <div class="definition-item">
+            <i class="fas fa-file-lines"></i>
+            <strong>Audit logs</strong>
+            <p>
+                Record access and actions so suspicious behaviour can be detected,
+                investigated and linked to an account.
+            </p>
+        </div>
+
+        <div class="definition-item">
+            <i class="fas fa-lock"></i>
+            <strong>Encryption reminder</strong>
+            <p>
+                Encryption protects confidentiality if data is exposed, but it does
+                not replace authentication or authorization.
+            </p>
+        </div>
+    </div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-eye"></i> Preventive vs detective controls</h4>
+        <p>
+            Authentication, permissions and session controls help
+            <strong>prevent</strong> unauthorized access.
+            Audit logs mainly help <strong>detect and investigate</strong> what happened.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     COMMON PITFALLS
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+    </h2>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Authentication ≠ authorization</h4>
+        <p>
+            Logging in proves identity. It does not automatically grant permission
+            to every file, record or action.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> MFA ≠ “two passwords”</h4>
+        <p>
+            Multi-factor authentication combines different factor categories,
+            such as something you know and something you have.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Admin rights should not be the default</h4>
+        <p>
+            Full administrator access increases the damage possible from mistakes,
+            misuse or a compromised account.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Audit logs do not directly stop an attacker</h4>
+        <p>
+            Logs provide evidence and visibility. They complement preventive controls
+            but do not replace them.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     GRADED TASKS
+     ========================================================= -->
+<section class="lesson-section" id="practice">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-tasks"></i> Graded Tasks
+    </h2>
+
+    <div class="assessment-tasks">
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>Define <strong>authentication</strong>.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>Define <strong>authorization</strong>.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>
+                Explain why a user may be authenticated successfully but still be denied access to a file.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>
+                Explain why MFA provides stronger protection than a single password.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>
+                A student should be able to view their own marks but not edit them.
+                State suitable access rights.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>
+                A school receptionist needs student contact details but not examination marks.
+                Apply the principle of least privilege.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>
+                Explain two risks of giving every employee administrator rights.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>
+                Design an access-control approach for students, teachers and administrators.
+                Explain how authentication, authorization and least privilege work together.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     EXAM PRACTICE
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-graduation-cap"></i> Exam Practice
+    </h2>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q1: Explain the difference between authentication and authorization. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>Authentication confirms/verifies the identity of a user. [1]
+Authorization determines what resources/actions that authenticated user is permitted to access. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q2: Explain why multi-factor authentication can reduce unauthorized access. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>It requires evidence from more than one authentication factor/category. [1]
+An attacker who obtains one factor, such as the password, still needs the additional factor to gain access. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q3: A teacher can edit marks for their own classes but cannot create user accounts.
+            Explain how authorization protects the system in this example. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>The teacher role is given only the permissions needed for teaching duties. [1]
+Administrative actions such as creating accounts are denied because they are outside the teacher's permissions/role. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q4: Explain why the principle of least privilege can reduce the impact of a compromised account. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>The account has only the permissions necessary for its role. [1]
+Therefore an attacker using that account can access/change fewer resources than if the account had wider/admin permissions. [1]</div>
+        </details>
+    </div>
+</section>
+
+<!-- =========================================================
+     SELF CHECK
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-check-circle"></i> Self-Check Quiz
+    </h2>
+
+    <div class="lesson-quiz-progress">
+        <span>Eight quick checks</span>
+        <span>Click each answer to reveal</span>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            1. What is authentication?
+        </div>
+        <div class="quiz-answer"
+             data-answer="The process of confirming that a user is the person they claim to be">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            2. What is authorization?
+        </div>
+        <div class="quiz-answer"
+             data-answer="The process of deciding which resources and actions an authenticated user is permitted to access">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            3. Give one example of something you know, something you have and something you are.
+        </div>
+        <div class="quiz-answer"
+             data-answer="For example: password; security token or authenticator device; fingerprint or face">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            4. What is MFA?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Authentication using more than one factor from different categories">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            5. What is the principle of least privilege?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Giving users only the permissions required to perform their role, and no unnecessary access">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            6. Why can role-based access control be useful?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Permissions can be assigned to roles such as student, teacher or admin instead of configuring every user separately">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            7. What is the purpose of an automatic session timeout?
+        </div>
+        <div class="quiz-answer"
+             data-answer="To lock an inactive session so an unattended logged-in device is less likely to be used by another person">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            8. What is the purpose of an audit log?
+        </div>
+        <div class="quiz-answer"
+             data-answer="To record access and actions so suspicious activity can be detected, investigated and linked to an account">
+            Click to reveal answer
+        </div>
+    </div>
+</section>
+
+<nav class="lesson-nav">
+    <a href="backup-disk-mirroring.html">
+        <span>
+            <span class="nav-label">← Previous</span>
+            <span class="nav-title">Backup &amp; Disk Mirroring</span>
+        </span>
+    </a>
+
+    <a href="privacy-policies.html">
+        <span>
+            <span class="nav-label">Next →</span>
+            <span class="nav-title">Privacy Policies</span>
+        </span>
+    </a>
+</nav>
+
+</div>
+</div>
+</main>
+</div>
+
+<footer class="site-footer">
+    <div class="container">
+        <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 12 Computer Science</p>
+        <p>&copy; 2026 IT-Tea. Educational use.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ============================================================
+    // ACCESS RIGHTS MATRIX LAB
+    // ============================================================
+    const matrixCases = [
+        {
+            prompt:
+                "A student wants to view their own final marks. What is the minimum suitable permission?",
+            answer: "read",
+            why:
+                "READ. The student needs to view the information but does not need permission to change it."
+        },
+        {
+            prompt:
+                "A teacher needs to enter and edit marks for their own class. What is the minimum suitable permission?",
+            answer: "write",
+            why:
+                "WRITE. The teacher needs permission to modify the class marks."
+        },
+        {
+            prompt:
+                "A student attempts to change their own final mark. What should the system do?",
+            answer: "deny",
+            why:
+                "DENY. Students may view their own marks but should not be authorised to edit them."
+        },
+        {
+            prompt:
+                "A system administrator must create and disable user accounts. What permission level is required?",
+            answer: "admin",
+            why:
+                "ADMIN. Account management is an administrative action."
+        }
+    ];
+
+    let matrixIndex = 0;
+
+    const matrixPrompt = document.getElementById("matrixPrompt");
+    const matrixChoices = document.querySelectorAll(".matrix-choice");
+    const matrixFeedback = document.getElementById("matrixFeedback");
+    const matrixProgress = document.getElementById("matrixProgress");
+    const nextMatrix = document.getElementById("nextMatrix");
+
+    function loadMatrix() {
+        const item = matrixCases[matrixIndex];
+
+        matrixPrompt.textContent = item.prompt;
+        matrixProgress.textContent =
+            `Scenario ${matrixIndex + 1} of ${matrixCases.length}`;
+
+        matrixChoices.forEach(btn => btn.classList.remove("active"));
+
+        matrixFeedback.className = "lesson-lab-feedback";
+        matrixFeedback.textContent = "Choose the minimum suitable permission.";
+    }
+
+    matrixChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = matrixCases[matrixIndex];
+            const correct = btn.dataset.choice === item.answer;
+
+            matrixChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            matrixFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            matrixFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextMatrix.addEventListener("click", () => {
+        matrixIndex = (matrixIndex + 1) % matrixCases.length;
+        loadMatrix();
+    });
+
+    loadMatrix();
+
+    // ============================================================
+    // LEAST PRIVILEGE LAB
+    // ============================================================
+    const privilegeCases = [
+        {
+            prompt:
+                "A receptionist needs to view student names and contact details, but does not need access to examination marks or account administration.",
+            answer: "limited",
+            why:
+                "Limited access. Give only the specific records and actions needed for reception duties."
+        },
+        {
+            prompt:
+                "A teacher needs normal teaching tools, access to class resources and permission to edit marks for assigned classes.",
+            answer: "standard",
+            why:
+                "Standard role access. The teacher should receive the permissions defined for the teacher role, not full administrator rights."
+        },
+        {
+            prompt:
+                "A system administrator is responsible for creating accounts, changing permissions and system configuration.",
+            answer: "admin",
+            why:
+                "Full admin access is justified because those tasks require administrative permissions."
+        },
+        {
+            prompt:
+                "A temporary visitor needs to view one shared presentation during a meeting.",
+            answer: "limited",
+            why:
+                "Limited access. Give only the specific resource needed for the temporary task."
+        }
+    ];
+
+    let privilegeIndex = 0;
+
+    const privilegePrompt = document.getElementById("privilegePrompt");
+    const privilegeChoices = document.querySelectorAll(".privilege-choice");
+    const privilegeFeedback = document.getElementById("privilegeFeedback");
+    const privilegeProgress = document.getElementById("privilegeProgress");
+    const nextPrivilege = document.getElementById("nextPrivilege");
+
+    function loadPrivilege() {
+        const item = privilegeCases[privilegeIndex];
+
+        privilegePrompt.textContent = item.prompt;
+        privilegeProgress.textContent =
+            `Scenario ${privilegeIndex + 1} of ${privilegeCases.length}`;
+
+        privilegeChoices.forEach(btn => btn.classList.remove("active"));
+
+        privilegeFeedback.className = "lesson-lab-feedback";
+        privilegeFeedback.textContent =
+            "Apply the principle of least privilege.";
+    }
+
+    privilegeChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = privilegeCases[privilegeIndex];
+            const correct = btn.dataset.choice === item.answer;
+
+            privilegeChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            privilegeFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            privilegeFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextPrivilege.addEventListener("click", () => {
+        privilegeIndex = (privilegeIndex + 1) % privilegeCases.length;
+        loadPrivilege();
+    });
+
+    loadPrivilege();
+
+    // ============================================================
+    // ACCOUNT SECURITY LAB
+    // ============================================================
+    const securityCases = [
+        {
+            prompt:
+                "An attacker has obtained a user's password, but does not have the user's second authentication factor. Which control can stop the login?",
+            answer: "mfa",
+            why:
+                "MFA. Possession of the password alone is insufficient if another authentication factor is required."
+        },
+        {
+            prompt:
+                "A teacher leaves a logged-in workstation unattended during lunch. Which control reduces the risk?",
+            answer: "timeout",
+            why:
+                "Auto-lock / timeout. The session should lock after inactivity."
+        },
+        {
+            prompt:
+                "An employee leaves the organisation permanently. What should happen to the account?",
+            answer: "disable",
+            why:
+                "Disable account. An account that is no longer required should not remain active."
+        },
+        {
+            prompt:
+                "A receptionist changes role and no longer needs access to student contact records. What should be updated?",
+            answer: "permissions",
+            why:
+                "Change permissions. Access should be reduced to match the new role."
+        }
+    ];
+
+    let securityIndex = 0;
+
+    const securityPrompt = document.getElementById("securityPrompt");
+    const securityChoices = document.querySelectorAll(".security-choice");
+    const securityFeedback = document.getElementById("securityFeedback");
+    const securityProgress = document.getElementById("securityProgress");
+    const nextSecurity = document.getElementById("nextSecurity");
+
+    function loadSecurity() {
+        const item = securityCases[securityIndex];
+
+        securityPrompt.textContent = item.prompt;
+        securityProgress.textContent =
+            `Scenario ${securityIndex + 1} of ${securityCases.length}`;
+
+        securityChoices.forEach(btn => btn.classList.remove("active"));
+
+        securityFeedback.className = "lesson-lab-feedback";
+        securityFeedback.textContent = "Choose the most suitable control.";
+    }
+
+    securityChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = securityCases[securityIndex];
+            const correct = btn.dataset.choice === item.answer;
+
+            securityChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            securityFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            securityFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextSecurity.addEventListener("click", () => {
+        securityIndex = (securityIndex + 1) % securityCases.length;
+        loadSecurity();
+    });
+
+    loadSecurity();
+});
+</script>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
+
 </body>
-
 </html>
