@@ -217,43 +217,54 @@
     </ul>
 
     <div class="worked-example">
-        <h4><span class="step-num">1</span> HTML Visualisation — Firewall Gate</h4>
+        <h4><span class="step-num">1</span> Firewall Gate</h4>
 
-        <table class="theory-table">
-            <thead>
-                <tr>
-                    <th>Internet traffic</th>
-                    <th>Firewall check</th>
-                    <th>Internal network</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><i class="fas fa-globe"></i> HTTPS request</td>
-                    <td><i class="fas fa-shield-halved"></i> Rule permits HTTPS</td>
-                    <td>✓ Allowed to web server</td>
-                </tr>
-                <tr>
-                    <td><i class="fas fa-triangle-exclamation"></i> Suspicious connection</td>
-                    <td><i class="fas fa-shield-halved"></i> Rule denies connection</td>
-                    <td>✗ Blocked</td>
-                </tr>
-                <tr>
-                    <td><i class="fas fa-laptop"></i> Internal application traffic</td>
-                    <td><i class="fas fa-shield-halved"></i> Rule permits trusted service</td>
-                    <td>✓ Allowed</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="lesson-flow lesson-flow--branching" aria-label="Firewall traffic flow">
+            <div class="lesson-flow-node">
+                <i class="fas fa-globe"></i>
+                <strong>Internet</strong>
+                <span>Incoming network traffic</span>
+            </div>
 
-        <div class="code-block"><code>INTERNET
-   │
-   ▼
-[ FIREWALL ]
-   │  apply rules
-   ├── ALLOW ──► INTERNAL NETWORK
-   │
-   └── BLOCK ──► STOP</code></div>
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--accent">
+                <i class="fas fa-shield-halved"></i>
+                <strong>Firewall</strong>
+                <span>Checks traffic against security rules</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-branches">
+                <div class="lesson-flow-path">
+                    <span class="lesson-flow-label lesson-flow-label--success">ALLOW</span>
+                    <div class="lesson-flow-node lesson-flow-node--success">
+                        <i class="fas fa-network-wired"></i>
+                        <strong>Internal network</strong>
+                        <span>Permitted traffic continues</span>
+                    </div>
+                </div>
+
+                <div class="lesson-flow-path">
+                    <span class="lesson-flow-label lesson-flow-label--danger">BLOCK</span>
+                    <div class="lesson-flow-node lesson-flow-node--danger">
+                        <i class="fas fa-ban"></i>
+                        <strong>Connection denied</strong>
+                        <span>Traffic is stopped</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="lesson-flow-caption">
+            The firewall does not decide whether a person is trustworthy.
+            It decides whether <strong>network traffic</strong> matches the configured rules.
+        </p>
     </div>
 
     <h3>Firewall Rule Simulator</h3>
@@ -309,31 +320,71 @@
     </p>
 
     <div class="worked-example">
-        <h4><span class="step-num">2</span> HTML Visualisation — Encryption Pipeline</h4>
+        <h4><span class="step-num">2</span> Encryption Pipeline</h4>
 
-        <div class="code-block"><code>PLAINTEXT
-"Exam result: 87"
-        │
-        ▼
-ENCRYPTION ALGORITHM + KEY
-        │
-        ▼
-CIPHERTEXT
-"8F2A9C..."
-        │
-        ▼
-stored / transmitted
-        │
-        ▼
-DECRYPTION + CORRECT KEY
-        │
-        ▼
-PLAINTEXT
-"Exam result: 87"</code></div>
+        <div class="lesson-flow" aria-label="Encryption process">
+            <div class="lesson-flow-node">
+                <i class="fas fa-file-lines"></i>
+                <strong>Plaintext</strong>
+                <span>Exam result: 87</span>
+            </div>
 
-        <p>
-            If an attacker steals or intercepts the ciphertext, the information
-            should remain unreadable without the correct key.
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--accent">
+                <i class="fas fa-key"></i>
+                <strong>Encrypt</strong>
+                <span>Algorithm + encryption key</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--protected">
+                <i class="fas fa-lock"></i>
+                <strong>Ciphertext</strong>
+                <span>8F2A9C...</span>
+            </div>
+        </div>
+
+        <div class="lesson-flow-divider">
+            <span>safe to store or transmit in encrypted form</span>
+        </div>
+
+        <div class="lesson-flow" aria-label="Decryption process">
+            <div class="lesson-flow-node lesson-flow-node--protected">
+                <i class="fas fa-lock"></i>
+                <strong>Ciphertext</strong>
+                <span>8F2A9C...</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--accent">
+                <i class="fas fa-key"></i>
+                <strong>Decrypt</strong>
+                <span>Correct decryption key</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--success">
+                <i class="fas fa-file-circle-check"></i>
+                <strong>Readable again</strong>
+                <span>Exam result: 87</span>
+            </div>
+        </div>
+
+        <p class="lesson-flow-caption">
+            If ciphertext is stolen or intercepted, the attacker should not be
+            able to recover the original plaintext without the correct key.
         </p>
     </div>
 
@@ -416,53 +467,64 @@ PLAINTEXT
     </p>
 
     <div class="worked-example">
-        <h4><span class="step-num">3</span> HTML Visualisation — Biometric Authentication</h4>
+        <h4><span class="step-num">3</span> Biometric Authentication</h4>
 
-        <table class="theory-table">
-            <thead>
-                <tr>
-                    <th>Step 1</th>
-                    <th>Step 2</th>
-                    <th>Step 3</th>
-                    <th>Step 4</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <i class="fas fa-fingerprint"></i><br>
-                        Capture characteristic
-                    </td>
-                    <td>
-                        <i class="fas fa-file-code"></i><br>
-                        Create biometric template
-                    </td>
-                    <td>
-                        <i class="fas fa-code-compare"></i><br>
-                        Compare with stored template(s)
-                    </td>
-                    <td>
-                        <i class="fas fa-door-open"></i><br>
-                        Accept or reject
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="lesson-flow lesson-flow--branching" aria-label="Biometric authentication process">
+            <div class="lesson-flow-node">
+                <i class="fas fa-fingerprint"></i>
+                <strong>Capture</strong>
+                <span>Fingerprint, face, iris or voice</span>
+            </div>
 
-        <div class="code-block"><code>FINGERPRINT / FACE / IRIS / VOICE
-              │
-              ▼
-       CAPTURE & TEMPLATE
-              │
-              ▼
-           COMPARE
-              │
-       ┌──────┴──────┐
-       ▼             ▼
-    MATCH         NO MATCH
-       │             │
-       ▼             ▼
-     ACCESS         DENY</code></div>
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node">
+                <i class="fas fa-file-code"></i>
+                <strong>Template</strong>
+                <span>Convert characteristic into digital features</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--accent">
+                <i class="fas fa-code-compare"></i>
+                <strong>Compare</strong>
+                <span>Captured template vs stored template(s)</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-branches">
+                <div class="lesson-flow-path">
+                    <span class="lesson-flow-label lesson-flow-label--success">MATCH</span>
+                    <div class="lesson-flow-node lesson-flow-node--success">
+                        <i class="fas fa-unlock"></i>
+                        <strong>Access granted</strong>
+                        <span>Biometric comparison accepted</span>
+                    </div>
+                </div>
+
+                <div class="lesson-flow-path">
+                    <span class="lesson-flow-label lesson-flow-label--danger">NO MATCH</span>
+                    <div class="lesson-flow-node lesson-flow-node--danger">
+                        <i class="fas fa-lock"></i>
+                        <strong>Access denied</strong>
+                        <span>Biometric comparison rejected</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="lesson-flow-caption">
+            The system usually compares a stored <strong>biometric template</strong>,
+            not a simple image of the fingerprint or face.
+        </p>
     </div>
 
     <div class="analogy-box">
