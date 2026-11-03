@@ -4,663 +4,1066 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Data Dictionary — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
     <meta name="description"
-        content="Data dictionary purpose and creation for database tables. NIS Grade 11 Computer Science 11.4.1.5 and 11.4.1.6.">
+        content="Explain the purpose of a data dictionary and create data dictionaries for database tables using SQL-style data types. NIS Grade 11 Computer Science 11.4.1.5 and 11.4.1.6.">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
     <meta property="og:title" content="Data Dictionary — mr. TEA">
     <meta property="og:description"
-        content="Data dictionary purpose and creation for database tables. NIS Grade 11 Computer Science 11.4.1.5 and 11.4.1.6.">
+        content="Purpose, structure and creation of data dictionaries for relational database tables.">
     <meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/data-dictionary.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
     <script>
-        window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments) } gtag('js', new Date()); gtag('config', 'G-P4C0Y8SW2K');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
     </script>
 </head>
 
 <body>
-    <div class="layout-wrapper">
-        <main class="main-content">
-            <div class="mobile-header">
-                <div class="header-left"><button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i
-                            class="fas fa-bars"></i></button><a href="/" class="logo"><i
-                            class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a></div>
-            </div>
-            <div class="lesson-page">
-                <div class="lesson-container">
-                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb"><a href="/index.html">Home</a><span
-                            class="sep">/</span><a href="/index.html#syllabus">Grade 11 CS</a><span
-                            class="sep">/</span><span>11.2A — Data Dictionary</span></nav>
-                    <div class="lesson-header">
-                        <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 11.2A · Term 2</div>
-                        <h1 class="lesson-title">Data Dictionary</h1>
-                        <p class="lesson-intro">A <strong>data dictionary</strong> is documentation that describes the
-                            data stored in a database. It records <strong>metadata</strong> — information about database
-                            attributes, such as their names, data types, sizes, meanings and rules.</p>
-                    </div>
-                    <div class="lesson-lo-card">
-                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                        <ul class="lesson-lo-list">
-                            <li><span class="lo-code">11.4.1.5</span> Explain the purpose of a data dictionary</li>
-                            <li><span class="lo-code">11.4.1.6</span> Create a data dictionary for database tables</li>
-                        </ul>
-                    </div>
-                    <nav class="lesson-section-jump" aria-label="Lesson sections"><a href="#purpose">Purpose</a><a
-                            href="#structure">Structure</a><a href="#method">Method</a><a href="#builder">Builder</a><a
-                            href="#errors">Error Lab</a><a href="#examples">Examples</a><a href="#practice">Practice</a>
-                    </nav>
 
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                        <div class="analogy-box">
-                            <h4><i class="fas fa-map"></i> The Blueprint Analogy</h4>
-                            <p>A building contains rooms, doors and furniture, but a blueprint describes how the
-                                building is structured. A database table contains actual records, while a <strong>data
-                                    dictionary describes the structure and rules of the data</strong> stored in that
-                                table.</p>
-                        </div>
-                        <div class="worked-example">
-                            <h4><span class="step-num">1</span> Data vs Metadata</h4>
-                            <p>The STUDENTS table below contains <strong>actual data</strong>:</p>
-                            <table class="theory-table">
-                                <thead>
-                                    <tr>
-                                        <th>StudentID</th>
-                                        <th>Name</th>
-                                        <th>BirthDate</th>
-                                        <th>Email</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>S001</td>
-                                        <td>Ali</td>
-                                        <td>2009-05-12</td>
-                                        <td>ali@nis.edu.kz</td>
-                                    </tr>
-                                    <tr>
-                                        <td>S002</td>
-                                        <td>Dana</td>
-                                        <td>2009-11-03</td>
-                                        <td>dana@nis.edu.kz</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p>A data dictionary does <strong>not</strong> mainly list Ali and Dana. Instead, it
-                                describes what <code>StudentID</code>, <code>Name</code>, <code>BirthDate</code> and
-                                <code>Email</code> mean and what values they are allowed to store.</p>
-                        </div>
-                    </section>
+<div class="layout-wrapper">
+<main class="main-content">
 
-                    <section class="lesson-section" id="purpose">
-                        <h2 class="lesson-section-title"><i class="fas fa-circle-question"></i> Purpose of a Data
-                            Dictionary</h2>
-                        <div class="definition-grid">
-                            <div class="definition-item">
-                                <dl>
-                                    <dt>Document the database structure</dt>
-                                    <dd>Gives a clear description of each attribute so developers and users understand
-                                        what data should be stored.</dd>
-                                </dl>
-                            </div>
-                            <div class="definition-item">
-                                <dl>
-                                    <dt>Keep data consistent</dt>
-                                    <dd>Agreed data types, lengths and formats reduce inconsistent definitions of the
-                                        same kind of data.</dd>
-                                </dl>
-                            </div>
-                            <div class="definition-item">
-                                <dl>
-                                    <dt>Support validation</dt>
-                                    <dd>Rules such as required values, allowed ranges or formats can be documented
-                                        before the table is implemented.</dd>
-                                </dl>
-                            </div>
-                            <div class="definition-item">
-                                <dl>
-                                    <dt>Support maintenance and teamwork</dt>
-                                    <dd>Another developer can understand a table without guessing what each attribute
-                                        was intended to represent.</dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div class="lesson-lab">
-                            <div class="lesson-lab-prompt">A new developer joins a school database project. They see an
-                                attribute called <code>Status</code>, but do not know what values it should contain. How
-                                can a data dictionary help?</div>
-                            <div class="lesson-lab-options four"><button class="lesson-choice-btn purpose-choice"
-                                    data-answer="wrong" type="button">Store another copy of every student
-                                    record</button><button class="lesson-choice-btn purpose-choice"
-                                    data-answer="correct" type="button">Describe the meaning, type and allowed values of
-                                    Status</button><button class="lesson-choice-btn purpose-choice" data-answer="wrong"
-                                    type="button">Replace the database table</button><button
-                                    class="lesson-choice-btn purpose-choice" data-answer="wrong"
-                                    type="button">Automatically create all records</button></div>
-                            <div id="purposeFeedback" class="lesson-lab-feedback">Choose the best answer.</div>
-                        </div>
-                    </section>
+<div class="mobile-header">
+    <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
+        </button>
 
-                    <section class="lesson-section" id="structure">
-                        <h2 class="lesson-section-title"><i class="fas fa-table-list"></i> What Goes in a Data
-                            Dictionary?</h2>
-                        <p class="concept-text">The exact columns used in a data dictionary can vary between
-                            organisations and database systems. A useful school-level dictionary normally records the
-                            attribute name, data type, size or format, description and important rules.</p>
-                        <table class="theory-table">
-                            <thead>
-                                <tr>
-                                    <th>Dictionary item</th>
-                                    <th>What it describes</th>
-                                    <th>Example</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Attribute name</strong></td>
-                                    <td>The name used for the column</td>
-                                    <td><code>Email</code></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Data type</strong></td>
-                                    <td>The kind of value that may be stored</td>
-                                    <td>Text, Integer, Date, Boolean</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Size / format</strong></td>
-                                    <td>Maximum length or required representation</td>
-                                    <td>100 characters; YYYY-MM-DD</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Description</strong></td>
-                                    <td>The meaning and purpose of the attribute</td>
-                                    <td>Student's school email address</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Required?</strong></td>
-                                    <td>Whether a value must be provided</td>
-                                    <td>Yes / No</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Validation / notes</strong></td>
-                                    <td>Rules or restrictions applied to values</td>
-                                    <td>Must contain <code>@nis.edu.kz</code></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="note-box">
-                            <h4><i class="fas fa-circle-info"></i> Metadata</h4>
-                            <p>A data dictionary stores <strong>metadata</strong>: data that describes other data. For
-                                example, <code>Email = Text, maximum 100 characters</code> describes how email values
-                                should be stored.</p>
-                        </div>
-                        <h3>Example: STUDENTS Data Dictionary</h3>
-                        <table class="theory-table">
-                            <thead>
-                                <tr>
-                                    <th>Attribute</th>
-                                    <th>Data Type</th>
-                                    <th>Size / Format</th>
-                                    <th>Description</th>
-                                    <th>Required?</th>
-                                    <th>Validation / Notes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><code>StudentID</code></td>
-                                    <td>Text</td>
-                                    <td>4 characters</td>
-                                    <td>Student identifier</td>
-                                    <td>Yes</td>
-                                    <td>Format: S followed by 3 digits</td>
-                                </tr>
-                                <tr>
-                                    <td><code>Name</code></td>
-                                    <td>Text</td>
-                                    <td>50 characters</td>
-                                    <td>Student full name</td>
-                                    <td>Yes</td>
-                                    <td>Must not be empty</td>
-                                </tr>
-                                <tr>
-                                    <td><code>BirthDate</code></td>
-                                    <td>Date</td>
-                                    <td>YYYY-MM-DD</td>
-                                    <td>Student date of birth</td>
-                                    <td>Yes</td>
-                                    <td>Must be a valid date</td>
-                                </tr>
-                                <tr>
-                                    <td><code>Email</code></td>
-                                    <td>Text</td>
-                                    <td>100 characters</td>
-                                    <td>Student school email address</td>
-                                    <td>No</td>
-                                    <td>Should contain @nis.edu.kz when supplied</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </section>
-
-                    <section class="lesson-section" id="method">
-                        <h2 class="lesson-section-title"><i class="fas fa-list-check"></i> How to Create a Data
-                            Dictionary</h2>
-                        <div class="worked-example">
-                            <h4><span class="step-num">1</span> Identify the attributes</h4>
-                            <p>Start from the table design or requirements. Example:
-                                <code>StudentID, Name, BirthDate, Email</code>.</p>
-                        </div>
-                        <div class="worked-example">
-                            <h4><span class="step-num">2</span> Choose an appropriate data type</h4>
-                            <p>Decide what kind of value each attribute stores. Choose a type that matches the meaning
-                                of the data.</p>
-                        </div>
-                        <div class="worked-example">
-                            <h4><span class="step-num">3</span> Decide size or format</h4>
-                            <p>Text attributes may need a maximum length. Dates may use a defined format. Numbers may
-                                need a sensible range.</p>
-                        </div>
-                        <div class="worked-example">
-                            <h4><span class="step-num">4</span> Write a precise description</h4>
-                            <p><em>Student's school email address</em> is useful. <em>Email data</em> is too vague.</p>
-                        </div>
-                        <div class="worked-example">
-                            <h4><span class="step-num">5</span> Record important rules</h4>
-                            <p>State whether a value is required and record validation, allowed ranges, values or
-                                formatting constraints when they matter.</p>
-                        </div>
-                        <div class="worked-example">
-                            <h4><span class="step-num">6</span> Review for consistency</h4>
-                            <p>Check that similar attributes use consistent definitions and that each dictionary row
-                                matches the intended table.</p>
-                        </div>
-                        <div class="pro-tip-box">
-                            <h4><i class="fas fa-lightbulb"></i> Exam technique</h4>
-                            <p>When asked to <strong>create</strong> a data dictionary, do not only list attribute
-                                names. Show enough metadata to describe how each attribute should be stored and
-                                interpreted.</p>
-                        </div>
-                    </section>
-
-                    <section class="lesson-section" id="builder">
-                        <h2 class="lesson-section-title"><i class="fas fa-hammer"></i> Build a Data Dictionary</h2>
-                        <p class="concept-text">Complete the missing metadata for the STUDENTS table. Requirements:
-                            StudentID is a required 4-character code; Name is required text up to 50 characters;
-                            BirthDate is a required date; Email is optional text up to 100 characters.</p>
-                        <div class="lesson-lab">
-                            <table class="theory-table">
-                                <thead>
-                                    <tr>
-                                        <th>Attribute</th>
-                                        <th>Data Type</th>
-                                        <th>Size / Format</th>
-                                        <th>Required?</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><code>StudentID</code></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="StudentID"
-                                                data-part="type">
-                                                <option value="">Choose</option>
-                                                <option>Text</option>
-                                                <option>Integer</option>
-                                                <option>Date</option>
-                                                <option>Boolean</option>
-                                            </select></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="StudentID"
-                                                data-part="size">
-                                                <option value="">Choose</option>
-                                                <option>4 characters</option>
-                                                <option>50 characters</option>
-                                                <option>YYYY-MM-DD</option>
-                                                <option>100 characters</option>
-                                            </select></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="StudentID"
-                                                data-part="required">
-                                                <option value="">Choose</option>
-                                                <option>Yes</option>
-                                                <option>No</option>
-                                            </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>Name</code></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="Name"
-                                                data-part="type">
-                                                <option value="">Choose</option>
-                                                <option>Text</option>
-                                                <option>Integer</option>
-                                                <option>Date</option>
-                                                <option>Boolean</option>
-                                            </select></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="Name"
-                                                data-part="size">
-                                                <option value="">Choose</option>
-                                                <option>4 characters</option>
-                                                <option>50 characters</option>
-                                                <option>YYYY-MM-DD</option>
-                                                <option>100 characters</option>
-                                            </select></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="Name"
-                                                data-part="required">
-                                                <option value="">Choose</option>
-                                                <option>Yes</option>
-                                                <option>No</option>
-                                            </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>BirthDate</code></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="BirthDate"
-                                                data-part="type">
-                                                <option value="">Choose</option>
-                                                <option>Text</option>
-                                                <option>Integer</option>
-                                                <option>Date</option>
-                                                <option>Boolean</option>
-                                            </select></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="BirthDate"
-                                                data-part="size">
-                                                <option value="">Choose</option>
-                                                <option>4 characters</option>
-                                                <option>50 characters</option>
-                                                <option>YYYY-MM-DD</option>
-                                                <option>100 characters</option>
-                                            </select></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="BirthDate"
-                                                data-part="required">
-                                                <option value="">Choose</option>
-                                                <option>Yes</option>
-                                                <option>No</option>
-                                            </select></td>
-                                    </tr>
-                                    <tr>
-                                        <td><code>Email</code></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="Email"
-                                                data-part="type">
-                                                <option value="">Choose</option>
-                                                <option>Text</option>
-                                                <option>Integer</option>
-                                                <option>Date</option>
-                                                <option>Boolean</option>
-                                            </select></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="Email"
-                                                data-part="size">
-                                                <option value="">Choose</option>
-                                                <option>4 characters</option>
-                                                <option>50 characters</option>
-                                                <option>YYYY-MM-DD</option>
-                                                <option>100 characters</option>
-                                            </select></td>
-                                        <td><select class="lesson-choice-btn dictionary-select" data-field="Email"
-                                                data-part="required">
-                                                <option value="">Choose</option>
-                                                <option>Yes</option>
-                                                <option>No</option>
-                                            </select></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="lesson-tabs"><button id="checkDictionary" class="lesson-lab-btn"
-                                    type="button">Check dictionary</button><button id="resetDictionary"
-                                    class="lesson-lab-btn" type="button">Reset</button></div>
-                            <div id="dictionaryFeedback" class="lesson-lab-feedback">Complete all twelve choices, then
-                                check your dictionary.</div>
-                        </div>
-                        <h3>From Requirement to Dictionary Row</h3>
-                        <div class="lesson-lab">
-                            <div id="requirementPrompt" class="lesson-lab-prompt"></div>
-                            <div class="lesson-lab-options four"><button class="lesson-choice-btn requirement-choice"
-                                    data-choice="a" type="button"></button><button
-                                    class="lesson-choice-btn requirement-choice" data-choice="b"
-                                    type="button"></button><button class="lesson-choice-btn requirement-choice"
-                                    data-choice="c" type="button"></button><button
-                                    class="lesson-choice-btn requirement-choice" data-choice="d" type="button"></button>
-                            </div>
-                            <div id="requirementFeedback" class="lesson-lab-feedback">Choose the best data-dictionary
-                                row.</div>
-                            <div class="lesson-lab-footer"><span id="requirementProgress"></span><button
-                                    id="nextRequirement" class="lesson-lab-btn" type="button">Next requirement</button>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="lesson-section" id="errors">
-                        <h2 class="lesson-section-title"><i class="fas fa-bug"></i> Spot the Dictionary Error</h2>
-                        <div class="lesson-lab">
-                            <div id="errorPrompt" class="lesson-lab-prompt"></div>
-                            <div class="lesson-lab-options four"><button class="lesson-choice-btn error-choice"
-                                    data-error="type" type="button">Wrong data type</button><button
-                                    class="lesson-choice-btn error-choice" data-error="size" type="button">Unsuitable
-                                    size / format</button><button class="lesson-choice-btn error-choice"
-                                    data-error="description" type="button">Vague description</button><button
-                                    class="lesson-choice-btn error-choice" data-error="required" type="button">Wrong
-                                    required rule</button></div>
-                            <div id="errorFeedback" class="lesson-lab-feedback">Identify the main problem.</div>
-                            <div class="lesson-lab-footer"><span id="errorProgress"></span><button id="nextError"
-                                    class="lesson-lab-btn" type="button">Next example</button></div>
-                        </div>
-                    </section>
-
-                    <section class="lesson-section" id="examples">
-                        <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
-                        <div class="lesson-tabs-label"><i class="fas fa-hand-pointer"></i><span>Choose a table:</span>
-                        </div>
-                        <div class="lesson-tabs lesson-tabs--examples"><button class="lesson-tab active"
-                                data-example="students" type="button"><i
-                                    class="fas fa-user-graduate"></i><span>Students</span></button><button
-                                class="lesson-tab" data-example="books" type="button"><i
-                                    class="fas fa-book"></i><span>Books</span></button><button class="lesson-tab"
-                                data-example="products" type="button"><i
-                                    class="fas fa-box"></i><span>Products</span></button></div>
-                        <div class="lesson-tab-panel">
-                            <h4 id="workedTitle"></h4>
-                            <p id="workedDescription"></p>
-                            <div id="workedContent"></div>
-                        </div>
-                    </section>
-
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls
-                        </h2>
-                        <div class="pitfall-box">
-                            <h4><i class="fas fa-bug"></i> Writing actual records instead of metadata</h4>
-                            <p>A dictionary row should describe an attribute such as <code>Email</code>. Do not replace
-                                it with example people such as Ali or Dana.</p>
-                        </div>
-                        <div class="pitfall-box">
-                            <h4><i class="fas fa-bug"></i> Descriptions that repeat the attribute name</h4>
-                            <p><em>Name — “name data”</em> is weak. Use a description that explains the meaning, for
-                                example <em>Student full name</em>.</p>
-                        </div>
-                        <div class="pitfall-box">
-                            <h4><i class="fas fa-bug"></i> Choosing a type from the current example value</h4>
-                            <p>If a code contains digits, that does not automatically make it an Integer. An identifier
-                                such as <code>S001</code> is Text because it is a code, not a number used in arithmetic.
-                            </p>
-                        </div>
-                        <div class="pitfall-box">
-                            <h4><i class="fas fa-bug"></i> Forgetting constraints</h4>
-                            <p>A useful dictionary should record important requirements such as maximum length,
-                                required/optional status, allowed ranges or formats when these rules are known.</p>
-                        </div>
-                    </section>
-
-                    <section class="lesson-section" id="practice">
-                        <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
-                        <div class="assessment-tasks">
-                            <div class="task-item"><span class="task-level remember">Remember</span>
-                                <p>Define the term <strong>data dictionary</strong>.</p>
-                            </div>
-                            <div class="task-item"><span class="task-level remember">Remember</span>
-                                <p>State two purposes of a data dictionary.</p>
-                            </div>
-                            <div class="task-item"><span class="task-level understand">Understand</span>
-                                <p>Explain the difference between data stored in a database table and metadata stored in
-                                    a data dictionary.</p>
-                            </div>
-                            <div class="task-item"><span class="task-level understand">Understand</span>
-                                <p>Explain why <code>StudentID</code> may use a Text data type even though part of the
-                                    identifier contains digits.</p>
-                            </div>
-                            <div class="task-item"><span class="task-level apply">Apply</span>
-                                <p>Create a data-dictionary row for <code>Title</code> in a BOOKS table. The title is
-                                    required text up to 120 characters.</p>
-                            </div>
-                            <div class="task-item"><span class="task-level apply">Apply</span>
-                                <p>Create four data-dictionary rows for a MEMBERS table containing MemberID, Name,
-                                    JoinDate and Active.</p>
-                            </div>
-                            <div class="task-item"><span class="task-level analyze">Analyze</span>
-                                <p>A dictionary describes <code>BirthDate</code> as Integer, size 2, description “birth
-                                    data”. Identify and explain the weaknesses.</p>
-                            </div>
-                            <div class="task-item"><span class="task-level create">Create</span>
-                                <p>Design a complete data dictionary for a small PRODUCTS table with at least five
-                                    attributes. Include data type, size/format, description and important rules.</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
-                        <div class="quiz-item">
-                            <p class="quiz-question">Q1: Explain the purpose of a data dictionary. [3]</p>
-                            <details class="lesson-exam-marking">
-                                <summary>Reveal marking points</summary>
-                                <div>It documents metadata about the database structure.
-                                    It describes attributes such as their data types, sizes/formats and meanings.
-                                    It helps keep the database design consistent and supports
-                                    implementation/maintenance.</div>
-                            </details>
-                        </div>
-                        <div class="quiz-item">
-                            <p class="quiz-question">Q2: A school requires the following attribute: <code>Email</code> —
-                                optional school email address, maximum 100 characters. Complete a suitable
-                                data-dictionary row. [4]</p>
-                            <details class="lesson-exam-marking">
-                                <summary>Reveal marking points</summary>
-                                <div>Attribute: Email
-                                    Data type: Text
-                                    Size: 100 characters
-                                    Description/Rule: student school email address; optional / not required</div>
-                            </details>
-                        </div>
-                        <div class="quiz-item">
-                            <p class="quiz-question">Q3: Explain why the following is a poor dictionary entry.
-                                [3]<br><code>BirthDate | Integer | 2 | birth data</code></p>
-                            <details class="lesson-exam-marking">
-                                <summary>Reveal marking points</summary>
-                                <div>BirthDate should normally use a Date type rather than Integer.
-                                    A size of 2 does not describe a complete date.
-                                    The description “birth data” is vague; “Student date of birth” is clearer.</div>
-                            </details>
-                        </div>
-                        <div class="quiz-item">
-                            <p class="quiz-question">Q4: State two items of metadata, other than the attribute name,
-                                that may be included in a data dictionary. [2]</p>
-                            <details class="lesson-exam-marking">
-                                <summary>Reveal marking points</summary>
-                                <div>Any two suitable examples: data type, size/format, description, required/optional
-                                    status, validation rule, allowed range/values.</div>
-                            </details>
-                        </div>
-                    </section>
-
-                    <section class="lesson-section">
-                        <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
-                        <div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to
-                                reveal</span></div>
-                        <div class="quiz-item">
-                            <div class="quiz-question">1. What is a data dictionary?</div>
-                            <div class="quiz-answer"
-                                data-answer="Documentation containing metadata that describes the structure and rules of data in a database">
-                                Click to reveal answer</div>
-                        </div>
-                        <div class="quiz-item">
-                            <div class="quiz-question">2. What is metadata?</div>
-                            <div class="quiz-answer"
-                                data-answer="Data that describes other data, for example an attribute's type, size, meaning or validation rule">
-                                Click to reveal answer</div>
-                        </div>
-                        <div class="quiz-item">
-                            <div class="quiz-question">3. Does a data dictionary mainly store the actual student
-                                records?</div>
-                            <div class="quiz-answer"
-                                data-answer="No — it mainly describes the attributes and rules of the database structure">
-                                Click to reveal answer</div>
-                        </div>
-                        <div class="quiz-item">
-                            <div class="quiz-question">4. Give three common items recorded for an attribute.</div>
-                            <div class="quiz-answer"
-                                data-answer="For example: data type, size/format, description, required status or validation rules">
-                                Click to reveal answer</div>
-                        </div>
-                        <div class="quiz-item">
-                            <div class="quiz-question">5. Why is a precise description useful?</div>
-                            <div class="quiz-answer"
-                                data-answer="It makes the meaning and intended use of the attribute clear to developers and users">
-                                Click to reveal answer</div>
-                        </div>
-                        <div class="quiz-item">
-                            <div class="quiz-question">6. Which type is more suitable for BirthDate: Integer or Date?
-                            </div>
-                            <div class="quiz-answer"
-                                data-answer="Date, because the attribute represents a calendar date">Click to reveal
-                                answer</div>
-                        </div>
-                        <div class="quiz-item">
-                            <div class="quiz-question">7. If Email is optional, what should Required? normally say?
-                            </div>
-                            <div class="quiz-answer" data-answer="No">Click to reveal answer</div>
-                        </div>
-                        <div class="quiz-item">
-                            <div class="quiz-question">8. Why should a data dictionary be reviewed for consistency?
-                            </div>
-                            <div class="quiz-answer"
-                                data-answer="So similar data is defined consistently and the documented rules match the intended database design">
-                                Click to reveal answer</div>
-                        </div>
-                    </section>
-
-                    <nav class="lesson-nav"><a href="relational-databases.html"><span><span class="nav-label">←
-                                    Previous</span><span class="nav-title">Relational Databases</span></span></a><a
-                            href="er-diagrams.html"><span><span class="nav-label">Next →</span><span
-                                    class="nav-title">The entity-relationship diagram</span></span></a></nav>
-                </div>
-            </div>
-        </main>
+        <a href="/" class="logo">
+            <i class="fas fa-mug-hot logo-icon"></i>
+            <span class="logo-text">mr. TEA</span>
+        </a>
     </div>
-    <footer class="site-footer">
-        <div class="container">
-            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
-            <p>&copy; 2026 IT-Tea. Educational use.</p>
+</div>
+
+<div class="lesson-page">
+<div class="lesson-container">
+
+<nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+    <a href="/index.html">Home</a>
+    <span class="sep">/</span>
+    <a href="/index.html#syllabus">Grade 11 CS</a>
+    <span class="sep">/</span>
+    <span>Data Dictionary</span>
+</nav>
+
+<div class="lesson-header">
+    <div class="lesson-unit-badge">
+        <i class="fas fa-database"></i> Unit 11.2A · Term 2
+    </div>
+
+    <h1 class="lesson-title">Data Dictionary</h1>
+
+    <p class="lesson-intro">
+        A <strong>data dictionary</strong> documents the structure and rules of data
+        in a database. It stores <strong>metadata</strong> — information such as an
+        attribute's name, data type, meaning, size and constraints.
+    </p>
+</div>
+
+<div class="lesson-lo-card">
+    <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+    <ul class="lesson-lo-list">
+        <li>
+            <span class="lo-code">11.4.1.5</span>
+            Explain the purpose of a data dictionary
+        </li>
+        <li>
+            <span class="lo-code">11.4.1.6</span>
+            Create a data dictionary for database tables
+        </li>
+    </ul>
+</div>
+
+<nav class="lesson-section-jump" aria-label="Lesson sections">
+    <a href="#purpose">Purpose</a>
+    <a href="#anatomy">Anatomy</a>
+    <a href="#method">Method</a>
+    <a href="#builder">Build a Row</a>
+    <a href="#errors">Error Lab</a>
+    <a href="#sql">SQL Link</a>
+    <a href="#practice">Practice</a>
+</nav>
+
+<!-- =========================================================
+     CONCEPTUAL ANCHOR
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-lightbulb"></i> Conceptual Anchor
+    </h2>
+
+    <div class="analogy-box">
+        <h4><i class="fas fa-map"></i> The Blueprint Analogy</h4>
+        <p>
+            A building contains real rooms, doors and furniture, while a blueprint
+            describes how the building is structured. In the same way, a database
+            table stores real values, while a <strong>data dictionary describes what
+            those values mean and the rules used to store them</strong>.
+        </p>
+    </div>
+
+    <div class="worked-example">
+        <h4><span class="step-num">1</span> Data vs Metadata</h4>
+
+        <div class="lesson-flow" aria-label="Data compared with metadata">
+            <div class="lesson-flow-node">
+                <i class="fas fa-table"></i>
+                <strong>Actual table data</strong>
+                <span>S001 · Dana · 2009-11-03 · dana@nis.edu.kz</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--accent">
+                <i class="fas fa-tags"></i>
+                <strong>Described by metadata</strong>
+                <span>StudentID · VARCHAR(4) · required · format S999</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--protected">
+                <i class="fas fa-book"></i>
+                <strong>Data Dictionary</strong>
+                <span>Meaning, type, size and rules for each attribute</span>
+            </div>
         </div>
-    </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const purposeChoices = document.querySelectorAll('.purpose-choice'), purposeFeedback = document.getElementById('purposeFeedback'); purposeChoices.forEach(btn => btn.addEventListener('click', () => { const ok = btn.dataset.answer === 'correct'; purposeChoices.forEach(b => b.classList.remove('active')); btn.classList.add('active'); purposeFeedback.className = 'lesson-lab-feedback ' + (ok ? 'correct' : 'wrong'); purposeFeedback.textContent = ok ? 'Correct. The dictionary documents what Status means and how values should be stored.' : 'Not quite. A data dictionary documents metadata about the structure and rules of the data.' }));
 
-            const answers = { StudentID: { type: 'Text', size: '4 characters', required: 'Yes' }, Name: { type: 'Text', size: '50 characters', required: 'Yes' }, BirthDate: { type: 'Date', size: 'YYYY-MM-DD', required: 'Yes' }, Email: { type: 'Text', size: '100 characters', required: 'No' } }, selects = document.querySelectorAll('.dictionary-select'), dictFb = document.getElementById('dictionaryFeedback');
-            document.getElementById('checkDictionary').addEventListener('click', () => { let correct = 0, completed = 0; const problems = []; selects.forEach(s => { const expected = answers[s.dataset.field][s.dataset.part]; if (s.value) completed++; if (s.value === expected) correct++; else if (s.value) problems.push(`${s.dataset.field} ${s.dataset.part}: expected ${expected}`) }); if (completed < selects.length) { dictFb.className = 'lesson-lab-feedback wrong'; dictFb.textContent = `Complete all ${selects.length} choices first. You have completed ${completed}.`; return } const all = correct === selects.length; dictFb.className = 'lesson-lab-feedback ' + (all ? 'correct' : 'wrong'); dictFb.textContent = all ? 'Excellent. All 12 metadata choices are correct.' : `${correct} of ${selects.length} choices are correct.\nReview:\n- ${problems.join('\n- ')}` });
-            document.getElementById('resetDictionary').addEventListener('click', () => { selects.forEach(s => s.value = ''); dictFb.className = 'lesson-lab-feedback'; dictFb.textContent = 'Complete all twelve choices, then check your dictionary.' });
+        <p class="lesson-flow-caption">
+            <strong>Database table = values.</strong>
+            <strong>Data dictionary = description of those values and their rules.</strong>
+        </p>
+    </div>
+</section>
 
-            const reqs = [{ prompt: 'Requirement: Student email is optional text and may contain up to 100 characters.', answer: 'b', options: { a: 'Email | Integer | 100 | Required', b: 'Email | Text | 100 characters | Not required', c: 'Email | Date | YYYY-MM-DD | Not required', d: 'Email | Text | 4 characters | Required' }, why: 'Email is Text, the maximum length is 100 characters, and the value is optional.' }, { prompt: 'Requirement: Active stores whether a member is currently active. A value must always be supplied.', answer: 'c', options: { a: 'Active | Text | 100 characters | Not required', b: 'Active | Date | YYYY-MM-DD | Required', c: 'Active | Boolean | True/False | Required', d: 'Active | Integer | 4 digits | Not required' }, why: 'A True/False state is best represented by Boolean, and the requirement says a value is required.' }, { prompt: 'Requirement: JoinDate stores the calendar date on which a member joined.', answer: 'a', options: { a: 'JoinDate | Date | YYYY-MM-DD | Member joining date', b: 'JoinDate | Integer | 2 | joining data', c: 'JoinDate | Boolean | True/False | member date', d: 'JoinDate | Text | 4 characters | member' }, why: 'The value represents a calendar date, so Date with a clear format and description is appropriate.' }]; let ri = 0; const rp = document.getElementById('requirementPrompt'), rc = document.querySelectorAll('.requirement-choice'), rf = document.getElementById('requirementFeedback'), rprog = document.getElementById('requirementProgress'); function loadReq() { const x = reqs[ri]; rp.textContent = x.prompt; rprog.textContent = `Requirement ${ri + 1} of ${reqs.length}`; rc.forEach(b => { b.textContent = x.options[b.dataset.choice]; b.classList.remove('active') }); rf.className = 'lesson-lab-feedback'; rf.textContent = 'Choose the best data-dictionary row.' } rc.forEach(b => b.addEventListener('click', () => { const x = reqs[ri], ok = b.dataset.choice === x.answer; rc.forEach(z => z.classList.remove('active')); b.classList.add('active'); rf.className = 'lesson-lab-feedback ' + (ok ? 'correct' : 'wrong'); rf.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}` })); document.getElementById('nextRequirement').addEventListener('click', () => { ri = (ri + 1) % reqs.length; loadReq() }); loadReq();
+<!-- =========================================================
+     PURPOSE
+     ========================================================= -->
+<section class="lesson-section" id="purpose">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-circle-question"></i> Why Use a Data Dictionary?
+    </h2>
 
-            const errs = [{ prompt: 'BirthDate | Integer | 8 | Student date of birth | Yes', answer: 'type', why: 'BirthDate represents a calendar date, so Date is a more appropriate data type than Integer.' }, { prompt: 'Email | Text | 5 characters | Student school email address | No', answer: 'size', why: 'Five characters is not a sensible maximum length for a school email address.' }, { prompt: 'Name | Text | 50 characters | data | Yes', answer: 'description', why: "The description 'data' does not explain the meaning of Name. 'Student full name' is clearer." }, { prompt: 'StudentID | Text | 4 characters | Student identifier | No', answer: 'required', why: 'In this design StudentID is required, so Required? should be Yes.' }]; let ei = 0; const ep = document.getElementById('errorPrompt'), ec = document.querySelectorAll('.error-choice'), ef = document.getElementById('errorFeedback'), eprog = document.getElementById('errorProgress'); function loadErr() { const x = errs[ei]; ep.textContent = x.prompt; eprog.textContent = `Example ${ei + 1} of ${errs.length}`; ec.forEach(b => b.classList.remove('active')); ef.className = 'lesson-lab-feedback'; ef.textContent = 'Identify the main problem.' } ec.forEach(b => b.addEventListener('click', () => { const x = errs[ei], ok = b.dataset.error === x.answer; ec.forEach(z => z.classList.remove('active')); b.classList.add('active'); ef.className = 'lesson-lab-feedback ' + (ok ? 'correct' : 'wrong'); ef.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}` })); document.getElementById('nextError').addEventListener('click', () => { ei = (ei + 1) % errs.length; loadErr() }); loadErr();
+    <div class="definition-grid">
+        <div class="definition-item">
+            <i class="fas fa-file-lines"></i>
+            <strong>Document the design</strong>
+            <p>
+                Makes the meaning, type and expected structure of each attribute clear.
+            </p>
+        </div>
 
-            const examples = { students: { title: 'STUDENTS', description: 'A student table needs clear definitions for identifiers, names, dates and optional contact data.', html: `<table class="theory-table"><thead><tr><th>Attribute</th><th>Type</th><th>Size / Format</th><th>Description</th><th>Required?</th></tr></thead><tbody><tr><td>StudentID</td><td>Text</td><td>4 characters</td><td>Student identifier</td><td>Yes</td></tr><tr><td>Name</td><td>Text</td><td>50 characters</td><td>Student full name</td><td>Yes</td></tr><tr><td>BirthDate</td><td>Date</td><td>YYYY-MM-DD</td><td>Student date of birth</td><td>Yes</td></tr><tr><td>Email</td><td>Text</td><td>100 characters</td><td>School email address</td><td>No</td></tr></tbody></table>` }, books: { title: 'BOOKS', description: 'A book table demonstrates that identifiers may still be Text even when they contain digits.', html: `<table class="theory-table"><thead><tr><th>Attribute</th><th>Type</th><th>Size / Format</th><th>Description</th><th>Required?</th></tr></thead><tbody><tr><td>BookID</td><td>Text</td><td>5 characters</td><td>Book identifier</td><td>Yes</td></tr><tr><td>Title</td><td>Text</td><td>120 characters</td><td>Published title of the book</td><td>Yes</td></tr><tr><td>Author</td><td>Text</td><td>80 characters</td><td>Author name</td><td>Yes</td></tr><tr><td>PublishedYear</td><td>Integer</td><td>4 digits</td><td>Year of publication</td><td>No</td></tr></tbody></table>` }, products: { title: 'PRODUCTS', description: 'Numeric values should use types that match how the values will be processed.', html: `<table class="theory-table"><thead><tr><th>Attribute</th><th>Type</th><th>Size / Format</th><th>Description</th><th>Required?</th></tr></thead><tbody><tr><td>ProductID</td><td>Text</td><td>6 characters</td><td>Product identifier</td><td>Yes</td></tr><tr><td>ProductName</td><td>Text</td><td>80 characters</td><td>Product display name</td><td>Yes</td></tr><tr><td>Price</td><td>Real / Decimal</td><td>2 decimal places</td><td>Current product price</td><td>Yes</td></tr><tr><td>InStock</td><td>Boolean</td><td>True / False</td><td>Whether stock is available</td><td>Yes</td></tr></tbody></table>` } }; const tabs = document.querySelectorAll('[data-example]'), wt = document.getElementById('workedTitle'), wd = document.getElementById('workedDescription'), wc = document.getElementById('workedContent'); function showEx(k) { const x = examples[k]; wt.textContent = x.title; wd.textContent = x.description; wc.innerHTML = x.html; tabs.forEach(b => b.classList.toggle('active', b.dataset.example === k)) } tabs.forEach(b => b.addEventListener('click', () => showEx(b.dataset.example))); showEx('students');
+        <div class="definition-item">
+            <i class="fas fa-check-double"></i>
+            <strong>Keep data consistent</strong>
+            <p>
+                Agreed types, sizes and constraints reduce inconsistent definitions.
+            </p>
+        </div>
+
+        <div class="definition-item">
+            <i class="fas fa-people-group"></i>
+            <strong>Support implementation &amp; maintenance</strong>
+            <p>
+                Developers can create, validate and maintain tables without guessing
+                what each attribute was intended to store.
+            </p>
+        </div>
+    </div>
+
+    <div class="lesson-lab">
+        <div class="lesson-lab-prompt">
+            A new developer sees an attribute called <code>Status</code>, but does not
+            know whether it stores <code>Active/Inactive</code>,
+            <code>Paid/Unpaid</code> or something else. What should the data dictionary provide?
+        </div>
+
+        <div class="lesson-lab-options four">
+            <button class="lesson-choice-btn purpose-choice" data-answer="wrong" type="button">
+                Another copy of all records
+            </button>
+            <button class="lesson-choice-btn purpose-choice" data-answer="correct" type="button">
+                Meaning, type and allowed values
+            </button>
+            <button class="lesson-choice-btn purpose-choice" data-answer="wrong" type="button">
+                A replacement for the table
+            </button>
+            <button class="lesson-choice-btn purpose-choice" data-answer="wrong" type="button">
+                Random example values only
+            </button>
+        </div>
+
+        <div id="purposeFeedback" class="lesson-lab-feedback">
+            Choose the best answer.
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     ANATOMY
+     ========================================================= -->
+<section class="lesson-section" id="anatomy">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-table-list"></i> Anatomy of a Data Dictionary Row
+    </h2>
+
+    <p class="concept-text">
+        The exact columns used in a data dictionary vary between organisations and
+        database systems. On this page we use a compact <strong>SQL-style</strong>
+        format that makes the link to database implementation clear.
+    </p>
+
+    <div class="note-box">
+        <h4><i class="fas fa-code"></i> SQL-style data types</h4>
+        <p>
+            This lesson uses familiar SQL-style names such as
+            <code>VARCHAR(50)</code>, <code>INT</code>, <code>DATE</code>,
+            <code>DECIMAL(8,2)</code> and <code>BOOLEAN</code>.
+            Exact type names can differ between database management systems.
+        </p>
+    </div>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Dictionary item</th>
+                <th>What it tells us</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Attribute</strong></td>
+                <td>Name of the field / column</td>
+                <td><code>Email</code></td>
+            </tr>
+            <tr>
+                <td><strong>SQL Data Type</strong></td>
+                <td>Kind of value and, where relevant, maximum size / precision</td>
+                <td><code>VARCHAR(100)</code></td>
+            </tr>
+            <tr>
+                <td><strong>Description</strong></td>
+                <td>Clear meaning of the attribute</td>
+                <td>Student school email address</td>
+            </tr>
+            <tr>
+                <td><strong>Constraints / Validation</strong></td>
+                <td>Important rules or restrictions</td>
+                <td>Optional; must use school email domain</td>
+            </tr>
+            <tr>
+                <td><strong>Example</strong></td>
+                <td>One valid sample value</td>
+                <td><code>dana@nis.edu.kz</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>One Complete Example: STUDENTS</h3>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Attribute</th>
+                <th>SQL Data Type</th>
+                <th>Description</th>
+                <th>Constraints / Validation</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>StudentID</code></td>
+                <td><code>VARCHAR(4)</code></td>
+                <td>Unique student identifier</td>
+                <td>Required; format <code>S999</code></td>
+                <td><code>S001</code></td>
+            </tr>
+            <tr>
+                <td><code>Name</code></td>
+                <td><code>VARCHAR(50)</code></td>
+                <td>Student full name</td>
+                <td>Required; must not be empty</td>
+                <td><code>Dana Kim</code></td>
+            </tr>
+            <tr>
+                <td><code>BirthDate</code></td>
+                <td><code>DATE</code></td>
+                <td>Student date of birth</td>
+                <td>Required; valid calendar date</td>
+                <td><code>2009-11-03</code></td>
+            </tr>
+            <tr>
+                <td><code>Email</code></td>
+                <td><code>VARCHAR(100)</code></td>
+                <td>Student school email address</td>
+                <td>Optional; school email format</td>
+                <td><code>dana@nis.edu.kz</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pro-tip-box">
+        <h4><i class="fas fa-lightbulb"></i> Identifier ≠ number</h4>
+        <p>
+            <code>StudentID</code> contains digits, but it is still stored as
+            <code>VARCHAR(4)</code> because values such as <code>S001</code> are
+            identifiers, not numbers used for arithmetic.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     METHOD
+     ========================================================= -->
+<section class="lesson-section" id="method">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-list-check"></i> From Requirement to Data Dictionary
+    </h2>
+
+    <div class="worked-example">
+        <h4><span class="step-num">2</span> The Design Process</h4>
+
+        <div class="lesson-flow" aria-label="Data dictionary design process part one">
+            <div class="lesson-flow-node">
+                <i class="fas fa-clipboard"></i>
+                <strong>Requirement</strong>
+                <span>What data must the system store?</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--accent">
+                <i class="fas fa-columns"></i>
+                <strong>Attributes</strong>
+                <span>Identify the required fields</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node">
+                <i class="fas fa-code"></i>
+                <strong>Data types</strong>
+                <span>Choose suitable SQL-style types and sizes</span>
+            </div>
+        </div>
+
+        <div class="lesson-flow-divider">
+            <span>Then define the rules</span>
+        </div>
+
+        <div class="lesson-flow" aria-label="Data dictionary design process part two">
+            <div class="lesson-flow-node">
+                <i class="fas fa-shield-halved"></i>
+                <strong>Constraints</strong>
+                <span>Required? range? format? allowed values?</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--protected">
+                <i class="fas fa-pen"></i>
+                <strong>Description</strong>
+                <span>Write what the attribute actually means</span>
+            </div>
+
+            <div class="lesson-flow-arrow" aria-hidden="true">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <div class="lesson-flow-node lesson-flow-node--success">
+                <i class="fas fa-check"></i>
+                <strong>Review</strong>
+                <span>Check consistency and completeness</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-graduation-cap"></i> Exam technique</h4>
+        <p>
+            If the question says <strong>create a data dictionary</strong>, do not
+            submit only a list of attribute names. Show enough metadata to explain
+            how each attribute should be stored and interpreted.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     BUILD A ROW
+     ========================================================= -->
+<section class="lesson-section" id="builder">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-hammer"></i> Build the Data-Dictionary Row
+    </h2>
+
+    <p class="concept-text">
+        Read the requirement and choose the row that best represents it.
+        Focus on <strong>meaning + type + constraints</strong>.
+    </p>
+
+    <div class="lesson-lab">
+        <div id="builderPrompt" class="lesson-lab-prompt"></div>
+
+        <div id="builderOptions" class="lesson-lab-options two"></div>
+
+        <div id="builderFeedback" class="lesson-lab-feedback">
+            Choose the best data-dictionary row.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="builderProgress"></span>
+            <button id="nextBuilder" class="lesson-lab-btn" type="button">
+                Next requirement
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     ERROR LAB
+     ========================================================= -->
+<section class="lesson-section" id="errors">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-bug"></i> Find the Dictionary Error
+    </h2>
+
+    <div class="lesson-lab">
+        <div id="errorPrompt" class="lesson-lab-prompt"></div>
+
+        <div class="lesson-lab-options four">
+            <button class="lesson-choice-btn error-choice" data-error="type" type="button">
+                Data type
+            </button>
+            <button class="lesson-choice-btn error-choice" data-error="size" type="button">
+                Size / precision
+            </button>
+            <button class="lesson-choice-btn error-choice" data-error="description" type="button">
+                Description
+            </button>
+            <button class="lesson-choice-btn error-choice" data-error="constraint" type="button">
+                Constraint
+            </button>
+        </div>
+
+        <div id="errorFeedback" class="lesson-lab-feedback">
+            Identify the main problem.
+        </div>
+
+        <div class="lesson-lab-footer">
+            <span id="errorProgress"></span>
+            <button id="nextError" class="lesson-lab-btn" type="button">
+                Next example
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     SQL LINK
+     ========================================================= -->
+<section class="lesson-section" id="sql">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-code"></i> Extension: Dictionary → SQL Table
+    </h2>
+
+    <p class="concept-text">
+        A data dictionary can guide the implementation of a database table.
+        The dictionary is documentation; SQL is the implementation.
+    </p>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Dictionary decision</th>
+                <th>Possible SQL implementation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>StudentID | VARCHAR(4) | Required</code></td>
+                <td><code>StudentID VARCHAR(4) NOT NULL</code></td>
+            </tr>
+            <tr>
+                <td><code>Name | VARCHAR(50) | Required</code></td>
+                <td><code>Name VARCHAR(50) NOT NULL</code></td>
+            </tr>
+            <tr>
+                <td><code>BirthDate | DATE | Required</code></td>
+                <td><code>BirthDate DATE NOT NULL</code></td>
+            </tr>
+            <tr>
+                <td><code>Email | VARCHAR(100) | Optional</code></td>
+                <td><code>Email VARCHAR(100)</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="code-block"><code>CREATE TABLE Student (
+    StudentID VARCHAR(4) NOT NULL,
+    Name VARCHAR(50) NOT NULL,
+    BirthDate DATE NOT NULL,
+    Email VARCHAR(100)
+);</code></div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-circle-info"></i> Important</h4>
+        <p>
+            The SQL shown here is an implementation example, not a replacement for
+            the data dictionary. The dictionary also explains meaning, examples and
+            validation rules that may not all appear directly in a short
+            <code>CREATE TABLE</code> statement.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     COMMON PITFALLS
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+    </h2>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Data ≠ metadata</h4>
+        <p>
+            <code>Dana Kim</code> is data. “Name is <code>VARCHAR(50)</code> and required”
+            is metadata.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Codes are not automatically numeric</h4>
+        <p>
+            An identifier such as <code>S001</code> should not be stored as
+            <code>INT</code> just because it contains digits.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Vague descriptions</h4>
+        <p>
+            “Email data” or “birth data” is too vague. Describe exactly what the
+            attribute represents.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Missing constraints</h4>
+        <p>
+            If a requirement says a value is required, optional, limited to a range
+            or must follow a format, record that rule.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> SQL type names can vary</h4>
+        <p>
+            Different DBMS products may use slightly different type names or features.
+            The important skill is choosing a type that matches the meaning of the data.
+        </p>
+    </div>
+</section>
+
+<!-- =========================================================
+     GRADED TASKS
+     ========================================================= -->
+<section class="lesson-section" id="practice">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-tasks"></i> Graded Tasks
+    </h2>
+
+    <div class="assessment-tasks">
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>Define the term <strong>data dictionary</strong>.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>State two purposes of a data dictionary.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>
+                Explain the difference between data stored in a table and metadata
+                stored in a data dictionary.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>
+                Explain why <code>StudentID</code> may use <code>VARCHAR(4)</code>
+                even though it contains digits.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>
+                Create a data-dictionary row for <code>Title</code> in a BOOK table.
+                The title is required text up to 120 characters.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>
+                Create suitable rows for <code>MemberID</code>, <code>JoinDate</code>,
+                <code>Balance</code> and <code>Active</code>.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>
+                A dictionary contains:
+                <code>BirthDate | INT | Student birth data | Required</code>.
+                Identify and explain two weaknesses.
+            </p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level create">Create</span>
+            <p>
+                Design a complete data dictionary for a PRODUCTS table with at least
+                five attributes. Include SQL-style type, description, constraints and an example.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     EXAM PRACTICE
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-graduation-cap"></i> Exam Practice
+    </h2>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q1: Explain the purpose of a data dictionary. [3]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>Documents metadata about the database structure. [1]
+Describes attributes such as data type, size/format, meaning or constraints. [1]
+Supports consistent implementation, validation, maintenance or communication between developers. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q2: A school requires an optional email address with a maximum length of 100 characters.
+            Create a suitable data-dictionary row for <code>Email</code>. [4]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>Attribute: Email [1]
+Suitable type/size: VARCHAR(100) or equivalent text type with size 100 [1]
+Suitable description: student/school email address [1]
+Constraint: optional / not required, plus suitable format rule if given [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q3: Explain why <code>ProductCode</code> may be stored as <code>VARCHAR</code>
+            even if every code contains digits. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>The value is an identifier/code rather than a quantity used in arithmetic. [1]
+The code may contain leading zeros or non-numeric characters / its formatting must be preserved. [1]</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q4: Identify two items of metadata, other than the attribute name,
+            that can be recorded in a data dictionary. [2]
+        </p>
+
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>Any two suitable examples: data type, maximum size/precision, description, required/optional status, validation rule, allowed range/values, example value. [1+1]</div>
+        </details>
+    </div>
+</section>
+
+<!-- =========================================================
+     SELF CHECK
+     ========================================================= -->
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-check-circle"></i> Self-Check Quiz
+    </h2>
+
+    <div class="lesson-quiz-progress">
+        <span>Eight quick checks</span>
+        <span>Click each answer to reveal</span>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            1. What is a data dictionary?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Documentation containing metadata that describes the structure, meaning and rules of data in a database">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            2. What is metadata?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Data that describes other data, for example an attribute's type, size, meaning or constraints">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            3. Does a data dictionary mainly store actual records such as student names?
+        </div>
+        <div class="quiz-answer"
+             data-answer="No. It mainly describes the attributes and rules used to store those records">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            4. What does <code>VARCHAR(50)</code> mean?
+        </div>
+        <div class="quiz-answer"
+             data-answer="A variable-length text value with a maximum length of 50 characters">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            5. Which SQL-style type is suitable for a calendar date?
+        </div>
+        <div class="quiz-answer"
+             data-answer="DATE">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            6. Why can an identifier such as S001 be stored as VARCHAR?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Because it is a code/identifier whose formatting must be preserved, not a number used for arithmetic">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            7. What belongs in the constraints/validation part of a dictionary?
+        </div>
+        <div class="quiz-answer"
+             data-answer="Rules such as required/optional status, allowed ranges, formats or permitted values">
+            Click to reveal answer
+        </div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">
+            8. Why should a data dictionary be reviewed for consistency?
+        </div>
+        <div class="quiz-answer"
+             data-answer="So similar data is defined consistently and the documented rules match the intended database design">
+            Click to reveal answer
+        </div>
+    </div>
+</section>
+
+<nav class="lesson-nav">
+    <a href="relational-databases.html">
+        <span>
+            <span class="nav-label">← Previous</span>
+            <span class="nav-title">Relational Databases</span>
+        </span>
+    </a>
+
+    <a href="er-diagrams.html">
+        <span>
+            <span class="nav-label">Next →</span>
+            <span class="nav-title">The Entity-Relationship Diagram</span>
+        </span>
+    </a>
+</nav>
+
+</div>
+</div>
+</main>
+</div>
+
+<footer class="site-footer">
+    <div class="container">
+        <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
+        <p>&copy; 2026 IT-Tea. Educational use.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ============================================================
+    // PURPOSE CHECK
+    // ============================================================
+    const purposeChoices = document.querySelectorAll(".purpose-choice");
+    const purposeFeedback = document.getElementById("purposeFeedback");
+
+    purposeChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const correct = btn.dataset.answer === "correct";
+
+            purposeChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            purposeFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            purposeFeedback.textContent = correct
+                ? "Correct. The dictionary should explain what Status means, how it is stored and which values are valid."
+                : "Not quite. A data dictionary documents metadata about the meaning, structure and rules of data.";
         });
-    </script>
-    <script src="/js/sidebar.js"></script>
-    <script src="/js/app.js"></script>
-    <script src="/js/lesson.js"></script>
-</body>
+    });
 
+    // ============================================================
+    // BUILD THE ROW
+    // ============================================================
+    const builderCases = [
+        {
+            prompt:
+                "Requirement: Email stores an optional school email address with a maximum length of 100 characters.",
+            answer: "b",
+            options: {
+                a: "Email | INT | Student email | Required",
+                b: "Email | VARCHAR(100) | Student school email address | Optional; school email format",
+                c: "Email | DATE | Student school email address | Optional",
+                d: "Email | VARCHAR(4) | Email data | Required"
+            },
+            why:
+                "VARCHAR(100) matches variable-length text, the description is precise, and the field is optional."
+        },
+        {
+            prompt:
+                "Requirement: JoinDate stores the required calendar date on which a member joined.",
+            answer: "a",
+            options: {
+                a: "JoinDate | DATE | Member joining date | Required; valid date",
+                b: "JoinDate | INT | joining data | Required",
+                c: "JoinDate | BOOLEAN | member date | Optional",
+                d: "JoinDate | VARCHAR(2) | Date | Required"
+            },
+            why:
+                "DATE is the suitable type for a calendar date and the requirement says the value is required."
+        },
+        {
+            prompt:
+                "Requirement: Price stores a required product price up to 999999.99.",
+            answer: "c",
+            options: {
+                a: "Price | VARCHAR(8) | Product price | Required",
+                b: "Price | DATE | Current product price | Required",
+                c: "Price | DECIMAL(8,2) | Current product price | Required; value >= 0",
+                d: "Price | BOOLEAN | Product value | Optional"
+            },
+            why:
+                "DECIMAL(8,2) is suitable for a fixed-precision monetary value with two decimal places."
+        },
+        {
+            prompt:
+                "Requirement: InStock records whether stock is currently available. A value must always be stored.",
+            answer: "d",
+            options: {
+                a: "InStock | VARCHAR(100) | stock data | Optional",
+                b: "InStock | DATE | Stock availability | Required",
+                c: "InStock | INT | Product identifier | Optional",
+                d: "InStock | BOOLEAN | Whether stock is available | Required; TRUE/FALSE"
+            },
+            why:
+                "BOOLEAN directly represents a two-state TRUE/FALSE value and the field is required."
+        }
+    ];
+
+    let builderIndex = 0;
+    const builderPrompt = document.getElementById("builderPrompt");
+    const builderOptions = document.getElementById("builderOptions");
+    const builderFeedback = document.getElementById("builderFeedback");
+    const builderProgress = document.getElementById("builderProgress");
+    const nextBuilder = document.getElementById("nextBuilder");
+
+    function loadBuilder() {
+        const item = builderCases[builderIndex];
+
+        builderPrompt.textContent = item.prompt;
+        builderProgress.textContent =
+            `Requirement ${builderIndex + 1} of ${builderCases.length}`;
+
+        builderOptions.innerHTML = "";
+
+        Object.entries(item.options).forEach(([key, text]) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "lesson-choice-btn builder-choice";
+            button.dataset.choice = key;
+            button.textContent = text;
+
+            button.addEventListener("click", () => {
+                const correct = key === item.answer;
+
+                builderOptions.querySelectorAll(".builder-choice")
+                    .forEach(b => b.classList.remove("active"));
+
+                button.classList.add("active");
+
+                builderFeedback.className =
+                    `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+                builderFeedback.innerHTML =
+                    `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+            });
+
+            builderOptions.appendChild(button);
+        });
+
+        builderFeedback.className = "lesson-lab-feedback";
+        builderFeedback.textContent = "Choose the best data-dictionary row.";
+    }
+
+    nextBuilder.addEventListener("click", () => {
+        builderIndex = (builderIndex + 1) % builderCases.length;
+        loadBuilder();
+    });
+
+    loadBuilder();
+
+    // ============================================================
+    // ERROR LAB
+    // ============================================================
+    const errorCases = [
+        {
+            prompt:
+                "BirthDate | INT | Student date of birth | Required",
+            answer: "type",
+            why:
+                "BirthDate represents a calendar date, so DATE is more appropriate than INT."
+        },
+        {
+            prompt:
+                "Email | VARCHAR(5) | Student school email address | Optional",
+            answer: "size",
+            why:
+                "A maximum length of 5 characters is unrealistic for an email address."
+        },
+        {
+            prompt:
+                "Name | VARCHAR(50) | data | Required",
+            answer: "description",
+            why:
+                "The description 'data' does not explain what Name represents. 'Student full name' is clearer."
+        },
+        {
+            prompt:
+                "StudentID | VARCHAR(4) | Unique student identifier | Optional",
+            answer: "constraint",
+            why:
+                "In this design StudentID identifies each student and should be required rather than optional."
+        }
+    ];
+
+    let errorIndex = 0;
+    const errorPrompt = document.getElementById("errorPrompt");
+    const errorChoices = document.querySelectorAll(".error-choice");
+    const errorFeedback = document.getElementById("errorFeedback");
+    const errorProgress = document.getElementById("errorProgress");
+    const nextError = document.getElementById("nextError");
+
+    function loadError() {
+        const item = errorCases[errorIndex];
+
+        errorPrompt.textContent = item.prompt;
+        errorProgress.textContent =
+            `Example ${errorIndex + 1} of ${errorCases.length}`;
+
+        errorChoices.forEach(btn => btn.classList.remove("active"));
+
+        errorFeedback.className = "lesson-lab-feedback";
+        errorFeedback.textContent = "Identify the main problem.";
+    }
+
+    errorChoices.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const item = errorCases[errorIndex];
+            const correct = btn.dataset.error === item.answer;
+
+            errorChoices.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            errorFeedback.className =
+                `lesson-lab-feedback ${correct ? "correct" : "wrong"}`;
+
+            errorFeedback.innerHTML =
+                `<strong>${correct ? "Correct." : "Not quite."}</strong><br>${item.why}`;
+        });
+    });
+
+    nextError.addEventListener("click", () => {
+        errorIndex = (errorIndex + 1) % errorCases.length;
+        loadError();
+    });
+
+    loadError();
+});
+</script>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
+
+</body>
 </html>
