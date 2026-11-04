@@ -1,265 +1,585 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Normalization (1NF, 2NF, 3NF) — mr. TEA</title>
-    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description" content="Database normalization: 1NF, 2NF, 3NF, eliminating redundancy. NIS Grade 11 CS.">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="Normalization (1NF, 2NF, 3NF) — mr. TEA">
-    <meta property="og:description" content="Database normalization: 1NF, 2NF, 3NF, eliminating redundancy. NIS Grade 11 CS.> <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/normalization.html">
-    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/lesson.css">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database Normalization (1NF, 2NF, 3NF) — mr. TEA</title>
+<link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+<meta name="description" content="Database normalization to 1NF, 2NF and 3NF: functional dependencies, anomalies and step-by-step decomposition. NIS Grade 11 Computer Science.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+<meta property="og:title" content="Database Normalization (1NF, 2NF, 3NF) — mr. TEA">
+<meta property="og:description" content="Normalize databases to 3NF using functional dependencies, keys and decomposition.">
+<meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/normalization.html">
+<meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/lesson.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-P4C0Y8SW2K');
 </script>
 </head>
-
 <body>
+<div class="layout-wrapper"><main class="main-content">
+<div class="mobile-header"><div class="header-left">
+<button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+<a href="/" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a>
+</div></div>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+<div class="lesson-page"><div class="lesson-container">
+<nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+<a href="/index.html">Home</a><span class="sep">/</span>
+<a href="/index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+<span>11.2A — Normalization</span>
+</nav>
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
+<div class="lesson-header">
+<div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 11.2A · Term 2</div>
+<h1 class="lesson-title">Database Normalization (1NF, 2NF, 3NF)</h1>
+<p class="lesson-intro"><strong>Normalization</strong> reorganizes database tables to reduce unnecessary duplication and prevent update, insert and delete anomalies. The key skill is recognising <strong>what an attribute depends on</strong> and decomposing the table correctly.</p>
+</div>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
-                <span>11.2A — Normalization</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 11.2A · Term 2</div>
-                <h1 class="lesson-title">Normalization (1NF, 2NF, 3NF)</h1>
-                <p class="lesson-intro"><strong>Normalization</strong> is the process of organizing a database to reduce
-                    <strong>redundancy</strong> (repeated data) and <strong>dependency problems</strong>. It involves
-                    splitting large tables into smaller, well-structured ones linked by keys.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.4.1.5</span> Define connections (1NF, 2NF, 3NF)</li>
-                </ul>
-            </div>
+<div class="lesson-lo-card">
+<h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+<ul class="lesson-lo-list">
+<li><span class="lo-code">11.4.1.9</span> List the normalisation rules for the first, second and third normal forms</li>
+<li><span class="lo-code">11.4.1.10</span> Normalise a database to the third normal form</li>
+</ul>
+</div>
 
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.2A-normalization.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
+<nav class="lesson-section-jump" aria-label="Lesson sections">
+<a href="#why">Why Normalize?</a>
+<a href="#dependencies">Dependencies</a>
+<a href="#forms">1NF–3NF</a>
+<a href="#worked">Full Example</a>
+<a href="#examples">More Examples</a>
+<a href="#labs">Labs</a>
+<a href="#practice">Practice</a>
+</nav>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-archive"></i> The Filing Cabinet Analogy</h4>
-                    <p>Imagine a messy filing cabinet where each folder duplicates information (student name in every
-                        grade folder). Normalization is like <strong>reorganizing</strong> the cabinet: put student info
-                        in ONE folder, grade info in ANOTHER, and link them with a student ID number. Less duplication,
-                        fewer errors.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Why Normalize?</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Problem</th>
-                            <th>Without Normalization</th>
-                            <th>With Normalization</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Data Redundancy</strong></td>
-                            <td>Same data stored multiple times</td>
-                            <td>Data stored once</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Update Anomaly</strong></td>
-                            <td>Change in one place but not another</td>
-                            <td>Change once, reflected everywhere</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Insert Anomaly</strong></td>
-                            <td>Can't add data without unrelated data</td>
-                            <td>Can add independently</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Delete Anomaly</strong></td>
-                            <td>Deleting one thing removes other data</td>
-                            <td>Deletion is isolated</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">The Three
-                    Normal Forms</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Form</th>
-                            <th>Rule</th>
-                            <th>In Simple Words</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>1NF</strong></td>
-                            <td>No repeating groups; each cell has a single atomic value</td>
-                            <td>"No lists in cells"</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2NF</strong></td>
-                            <td>1NF + no partial dependencies (all non-key fields depend on the WHOLE PK)</td>
-                            <td>"Depends on the whole key"</td>
-                        </tr>
-                        <tr>
-                            <td><strong>3NF</strong></td>
-                            <td>2NF + no transitive dependencies (non-key fields don't depend on other non-key fields)
-                            </td>
-                            <td>"Depends on nothing but the key"</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Memory Trick</h4>
-                    <p>"Every non-key attribute must depend on <strong>the key</strong> (1NF), <strong>the whole
-                            key</strong> (2NF), and <strong>nothing but the key</strong> (3NF) — so help me Codd!"</p>
-                </div>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">
-                    Step-by-Step Example</h3>
-                <div class="code-block"><code>UNNORMALIZED (UNF):
-┌──────────┬────────┬──────────────────────────────────┐
-│ StudentID│ Name   │ Courses                          │
-├──────────┼────────┼──────────────────────────────────┤
-│ S001     │ Ali    │ Maths, Physics, CS               │ ← list in cell!
-│ S002     │ Dana   │ CS, English                      │ ← list in cell!
-└──────────┴────────┴──────────────────────────────────┘</code></div>
-                <div class="code-block"><code>1NF — Remove repeating groups (one value per cell):
-┌──────────┬────────┬──────────┐
-│ StudentID│ Name   │ Course   │
-├──────────┼────────┼──────────┤
-│ S001     │ Ali    │ Maths    │
-│ S001     │ Ali    │ Physics  │ ← "Ali" repeated!
-│ S001     │ Ali    │ CS       │ ← redundancy
-│ S002     │ Dana   │ CS       │
-│ S002     │ Dana   │ English  │ ← "Dana" repeated!
-└──────────┴────────┴──────────┘
-PK = (StudentID + Course)  ← composite key</code></div>
-                <div class="code-block"><code>2NF — Remove partial dependencies:
-"Name" depends only on StudentID, not on the full PK
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+<div class="analogy-box">
+<h4><i class="fas fa-boxes-stacked"></i> Store Facts Where They Belong</h4>
+<p>If a teacher's name is written in every student-course row, changing that teacher's name requires many updates. Normalization asks: <strong>“What fact does this attribute really depend on?”</strong> Then it stores that fact where it belongs.</p>
+</div>
 
-Students Table:           Enrolment Table:
-┌──────────┬────────┐    ┌──────────┬──────────┐
-│ StudentID│ Name   │    │ StudentID│ Course   │
-├──────────┼────────┤    ├──────────┼──────────┤
-│ S001     │ Ali    │    │ S001     │ Maths    │
-│ S002     │ Dana   │    │ S001     │ Physics  │
-└──────────┴────────┘    │ S001     │ CS       │
-                         │ S002     │ CS       │
-                         │ S002     │ English  │
-                         └──────────┴──────────┘</code></div>
-                <div class="code-block"><code>3NF — Remove transitive dependencies:
-Suppose Enrolment also had TeacherName (which depends on Course, not the PK):
+<div class="worked-example">
+<h4>Three questions to remember</h4>
+<div class="lesson-flow">
+<div class="lesson-flow-node"><strong>1NF</strong><span>Does every cell contain one atomic value?</span></div>
+<div class="lesson-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="lesson-flow-node lesson-flow-node--accent"><strong>2NF</strong><span>Does every non-key attribute depend on the whole composite key?</span></div>
+<div class="lesson-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="lesson-flow-node lesson-flow-node--success"><strong>3NF</strong><span>Does any non-key attribute depend on another non-key attribute?</span></div>
+</div>
+</div>
+</section>
 
-Before 3NF:                        After 3NF:
-┌─────────┬────────┬────────────┐  Enrolment:       Courses:
-│ StudentID│ Course │ TeacherName│  ┌────────┬──────┐ ┌──────┬───────────┐
-│ S001    │ Maths  │ Mr Smith   │  │StudentID│Course│ │Course│TeacherName│
-│ S001    │ CS     │ Ms Lee     │  └────────┴──────┘ └──────┴───────────┘
-│ S002    │ CS     │ Ms Lee     │  (FK to both)
-└─────────┴────────┴────────────┘
-TeacherName depends on Course (non-key → non-key) = transitive!</code></div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Skipping Normal Forms</h4>
-                    <p>You cannot jump to 3NF without achieving 1NF and 2NF first. Normalization is
-                        <strong>sequential</strong> — each form builds on the previous one.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Over-Normalizing</h4>
-                    <p>In practice, going beyond 3NF can make queries very complex with many JOINs. <strong>3NF is
-                            usually sufficient</strong> for most databases.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>State the rules for 1NF, 2NF, and 3NF.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Normalize the following table to 3NF: OrderID, CustomerName, CustomerAddress, ProductName,
-                            ProductPrice, Quantity.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Explain what an "update anomaly" is and how normalization prevents it.</p>
-                    </div>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What does 1NF require?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">No repeating groups — each cell
-                        must contain a single, atomic value (no lists or arrays in a cell).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is a partial dependency?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">When a non-key attribute
-                        depends on only PART of a composite primary key (not the whole key). Violates 2NF.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What is the memory trick for the 3 normal forms?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Every non-key attribute must
-                        depend on "the key (1NF), the whole key (2NF), and nothing but the key (3NF)".</div>
-                </div>
-            </section>
-            <nav class="lesson-nav">
-                        <a href="er-diagrams.html"><span class="nav-label">← Previous</span><span class="nav-title">The entity-relationship diagram</span></a>
-                        <a href="sql.html"><span class="nav-label">Next →</span><span class="nav-title">SQL</span></a>
-                    </nav>
-        </div>
-        </div>
-    </main>
-  </div>
-    <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
-    </footer>
+<section class="lesson-section" id="why">
+<h2 class="lesson-section-title"><i class="fas fa-triangle-exclamation"></i> Why Normalize?</h2>
+<p class="concept-text">Repeated facts create opportunities for inconsistent data. The classic problems are called <strong>update, insert and delete anomalies</strong>.</p>
 
-    <script src="/js/sidebar.js"></script>
-    <script src="/js/app.js"></script>
+<table class="theory-table">
+<thead><tr><th>Anomaly</th><th>What goes wrong</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Update anomaly</strong></td><td>The same fact must be changed in several rows</td><td>A course name appears in 30 enrolment rows; one row is not updated</td></tr>
+<tr><td><strong>Insert anomaly</strong></td><td>A fact cannot be stored without an unrelated fact</td><td>A new course cannot be recorded until a student enrols</td></tr>
+<tr><td><strong>Delete anomaly</strong></td><td>Deleting one fact accidentally removes another useful fact</td><td>Deleting the last enrolment removes the only stored course information</td></tr>
+</tbody>
+</table>
+
+<h3>See the Redundancy</h3>
+<table class="theory-table">
+<thead><tr><th>StudentID</th><th>StudentName</th><th>CourseID</th><th>CourseName</th></tr></thead>
+<tbody>
+<tr><td>S001</td><td>Ali</td><td>C01</td><td>Computer Science</td></tr>
+<tr><td>S002</td><td>Dana</td><td>C01</td><td>Computer Science</td></tr>
+<tr><td>S003</td><td>Mira</td><td>C01</td><td>Computer Science</td></tr>
+</tbody>
+</table>
+
+<div class="note-box">
+<h4><i class="fas fa-pen"></i> Update anomaly</h4>
+<p>If the course name changes, the same fact must be updated three times. Storing the course once in a COURSE table removes that redundancy.</p>
+</div>
+</section>
+
+<section class="lesson-section" id="dependencies">
+<h2 class="lesson-section-title"><i class="fas fa-arrow-right-long"></i> Functional Dependencies</h2>
+<p class="concept-text">A <strong>functional dependency</strong> means that one attribute, or combination of attributes, determines another.</p>
+
+<div class="code-block"><code>StudentID → StudentName</code></div>
+<p class="concept-text">Read this as: <strong>StudentID determines StudentName</strong>.</p>
+
+<div class="definition-grid">
+<div class="definition-item">
+<strong>Full dependency</strong>
+<p>A non-key attribute depends on the complete composite key. Example: <code>(StudentID, CourseID) → Grade</code>.</p>
+</div>
+<div class="definition-item">
+<strong>Partial dependency</strong>
+<p>A non-key attribute depends on only part of a composite key. Example: <code>StudentID → StudentName</code> when PK = <code>(StudentID, CourseID)</code>.</p>
+</div>
+<div class="definition-item">
+<strong>Transitive dependency</strong>
+<p>A non-key attribute depends on another non-key attribute. Example: <code>CourseID → TeacherID → TeacherName</code>.</p>
+</div>
+</div>
+
+<div class="worked-example">
+<h4><span class="step-num">1</span> Dependency Map</h4>
+<div class="code-block"><code>Composite PK = (StudentID, CourseID)
+
+StudentID ─────────────────────→ StudentName
+
+CourseID ──────────────────────→ CourseName
+   │
+   └───────────────────────────→ TeacherID
+                                  │
+                                  └────────→ TeacherName
+
+(StudentID, CourseID) ─────────→ Grade</code></div>
+<p><strong>StudentName</strong> and <strong>CourseName</strong> show partial dependencies. <strong>TeacherName</strong> creates a transitive dependency through TeacherID. <strong>Grade</strong> depends on the whole composite key.</p>
+</div>
+
+<div class="pro-tip-box">
+<h4><i class="fas fa-lightbulb"></i> Important modelling rule</h4>
+<p>Functional dependencies come from the <strong>business rules</strong>, not merely from the values that happen to appear in a small sample of data.</p>
+</div>
+</section>
+
+<div class="lesson-video-block">
+<div class="lesson-video-header">
+<div class="lesson-video-icon"><i class="fab fa-youtube"></i></div>
+<div class="lesson-video-info">
+<h4>Database Normalization: First, Second &amp; Third Normal Form</h4>
+<p>CS Concepts — focused walkthrough with practical examples. 1NF ≈ 00:51 · 2NF ≈ 03:04 · 3NF ≈ 08:31.</p>
+</div>
+</div>
+<div class="lesson-video-wrapper">
+<iframe src="https://www.youtube-nocookie.com/embed/GqOlxf676A0?rel=0" title="Database Normalization: First, Second and Third Normal Form" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+</div>
+
+<section class="lesson-section" id="forms">
+<h2 class="lesson-section-title"><i class="fas fa-layer-group"></i> The Three Normal Forms</h2>
+
+<table class="theory-table">
+<thead><tr><th>Normal form</th><th>Core rule</th><th>Question to ask</th></tr></thead>
+<tbody>
+<tr><td><strong>1NF</strong></td><td>Atomic values; no repeating groups</td><td>Does every cell contain one value?</td></tr>
+<tr><td><strong>2NF</strong></td><td>1NF + no partial dependency on part of a composite key</td><td>Does every non-key attribute depend on the whole composite key?</td></tr>
+<tr><td><strong>3NF</strong></td><td>2NF + no transitive dependency between non-key attributes</td><td>Does any non-key attribute depend on another non-key attribute?</td></tr>
+</tbody>
+</table>
+
+<div class="note-box">
+<h4><i class="fas fa-brain"></i> About the mnemonic</h4>
+<p>“The key, the whole key, and nothing but the key” is useful for remembering dependencies, but it is <strong>not a complete definition of 1NF</strong>. For this course, remember 1NF first as atomic values and no repeating groups.</p>
+</div>
+
+<h3>1NF — One Value per Cell</h3>
+<div class="worked-example">
+<h4>Before 1NF</h4>
+<table class="theory-table">
+<thead><tr><th>StudentID</th><th>StudentName</th><th>Courses</th></tr></thead>
+<tbody>
+<tr><td>S001</td><td>Ali</td><td>C01, C02, C03</td></tr>
+<tr><td>S002</td><td>Dana</td><td>C01, C03</td></tr>
+</tbody>
+</table>
+<p><code>Courses</code> contains a list. The values are not atomic.</p>
+</div>
+
+<div class="worked-example">
+<h4>After 1NF</h4>
+<table class="theory-table">
+<thead><tr><th>StudentID</th><th>StudentName</th><th>CourseID</th></tr></thead>
+<tbody>
+<tr><td>S001</td><td>Ali</td><td>C01</td></tr>
+<tr><td>S001</td><td>Ali</td><td>C02</td></tr>
+<tr><td>S001</td><td>Ali</td><td>C03</td></tr>
+<tr><td>S002</td><td>Dana</td><td>C01</td></tr>
+<tr><td>S002</td><td>Dana</td><td>C03</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>2NF — Remove Partial Dependencies</h3>
+<div class="worked-example">
+<h4>Composite key example</h4>
+<div class="code-block"><code>ENROLMENT_RAW(
+    StudentID,
+    CourseID,
+    StudentName,
+    CourseName,
+    Grade
+)
+
+Primary Key = (StudentID, CourseID)
+
+StudentID → StudentName
+CourseID  → CourseName
+(StudentID, CourseID) → Grade</code></div>
+<p><strong>StudentName</strong> depends only on StudentID and <strong>CourseName</strong> depends only on CourseID. They do not depend on the whole composite key, so they violate 2NF.</p>
+</div>
+
+<div class="note-box">
+<h4><i class="fas fa-key"></i> Single-column key?</h4>
+<p>If a table has a single-attribute primary key, there cannot be a dependency on only <em>part</em> of that key. Partial dependency is mainly a concern when composite keys are involved.</p>
+</div>
+
+<h3>3NF — Remove Transitive Dependencies</h3>
+<div class="worked-example">
+<h4>True transitive dependency</h4>
+<div class="code-block"><code>COURSE(
+    CourseID,
+    CourseName,
+    TeacherID,
+    TeacherName
+)
+
+CourseID → CourseName, TeacherID
+TeacherID → TeacherName
+
+Therefore:
+CourseID → TeacherID → TeacherName</code></div>
+<p><strong>TeacherName</strong> describes the teacher, not the course. It depends on the non-key attribute <strong>TeacherID</strong>, so it should be moved to a TEACHER table.</p>
+</div>
+</section>
+
+<section class="lesson-section" id="worked">
+<h2 class="lesson-section-title"><i class="fas fa-route"></i> Full Worked Example: UNF → 1NF → 2NF → 3NF</h2>
+<p class="concept-text">Scenario: a student can enrol on many courses, each course has one teacher, and each enrolment stores a grade.</p>
+
+<div class="worked-example">
+<h4><span class="step-num">1</span> UNF — repeating course data</h4>
+<table class="theory-table">
+<thead><tr><th>StudentID</th><th>StudentName</th><th>Courses</th></tr></thead>
+<tbody>
+<tr><td>S001</td><td>Ali</td><td>C01 / CS / T01 / Ms Lee / A; C02 / Physics / T02 / Mr Khan / B</td></tr>
+<tr><td>S002</td><td>Dana</td><td>C01 / CS / T01 / Ms Lee / B</td></tr>
+</tbody>
+</table>
+<p>The <code>Courses</code> field contains a repeating group.</p>
+</div>
+
+<div class="worked-example">
+<h4><span class="step-num">2</span> 1NF — flatten to atomic rows</h4>
+<table class="theory-table">
+<thead><tr><th>StudentID</th><th>StudentName</th><th>CourseID</th><th>CourseName</th><th>TeacherID</th><th>TeacherName</th><th>Grade</th></tr></thead>
+<tbody>
+<tr><td>S001</td><td>Ali</td><td>C01</td><td>CS</td><td>T01</td><td>Ms Lee</td><td>A</td></tr>
+<tr><td>S001</td><td>Ali</td><td>C02</td><td>Physics</td><td>T02</td><td>Mr Khan</td><td>B</td></tr>
+<tr><td>S002</td><td>Dana</td><td>C01</td><td>CS</td><td>T01</td><td>Ms Lee</td><td>B</td></tr>
+</tbody>
+</table>
+<p>Use the composite key <code>(StudentID, CourseID)</code>.</p>
+</div>
+
+<div class="worked-example">
+<h4><span class="step-num">3</span> 2NF — remove partial dependencies</h4>
+<div class="code-block"><code>STUDENT
+StudentID (PK)
+StudentName
+
+COURSE_TEMP
+CourseID (PK)
+CourseName
+TeacherID
+TeacherName
+
+ENROLMENT
+StudentID (PK, FK)
+CourseID  (PK, FK)
+Grade</code></div>
+<p>Student facts move to STUDENT. Course facts move to COURSE_TEMP. Grade remains in ENROLMENT because it depends on <strong>both</strong> StudentID and CourseID.</p>
+</div>
+
+<div class="worked-example">
+<h4><span class="step-num">4</span> 3NF — remove transitive dependency</h4>
+<div class="code-block"><code>COURSE_TEMP:
+CourseID → TeacherID → TeacherName
+
+TeacherName depends on TeacherID,
+so move teacher facts to TEACHER.</code></div>
+
+<div class="code-block"><code>FINAL 3NF DESIGN
+
+STUDENT
+StudentID (PK)
+StudentName
+
+TEACHER
+TeacherID (PK)
+TeacherName
+
+COURSE
+CourseID (PK)
+CourseName
+TeacherID (FK)
+
+ENROLMENT
+StudentID (PK, FK)
+CourseID  (PK, FK)
+Grade</code></div>
+</div>
+
+<div class="lesson-flow">
+<div class="lesson-flow-node"><strong>UNF</strong><span>Repeating group</span></div>
+<div class="lesson-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="lesson-flow-node"><strong>1NF</strong><span>Atomic rows</span></div>
+<div class="lesson-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="lesson-flow-node lesson-flow-node--accent"><strong>2NF</strong><span>Remove partial dependencies</span></div>
+<div class="lesson-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="lesson-flow-node lesson-flow-node--success"><strong>3NF</strong><span>Remove transitive dependencies</span></div>
+</div>
+</section>
+
+<section class="lesson-section" id="examples">
+<h2 class="lesson-section-title"><i class="fas fa-layer-group"></i> More Short Examples</h2>
+
+<h3>Example A — 1NF Violation</h3>
+<table class="theory-table">
+<thead><tr><th>EmployeeID</th><th>Name</th><th>PhoneNumbers</th></tr></thead>
+<tbody><tr><td>E01</td><td>Aruzhan</td><td>8701..., 8777...</td></tr></tbody>
+</table>
+<p class="concept-text"><strong>Problem:</strong> PhoneNumbers contains several values in one cell. Use separate rows or a related EMPLOYEE_PHONE table.</p>
+
+<h3>Example B — 2NF Violation</h3>
+<div class="code-block"><code>ORDER_LINE(
+    OrderID,
+    ProductID,
+    OrderDate,
+    ProductName,
+    Quantity
+)
+
+PK = (OrderID, ProductID)
+
+OrderID → OrderDate
+ProductID → ProductName
+(OrderID, ProductID) → Quantity</code></div>
+<p class="concept-text"><strong>OrderDate</strong> and <strong>ProductName</strong> depend on only part of the composite key. Split ORDER, PRODUCT and ORDER_LINE.</p>
+
+<h3>Example C — 3NF Violation</h3>
+<div class="code-block"><code>EMPLOYEE(
+    EmployeeID,
+    EmployeeName,
+    DepartmentID,
+    DepartmentName
+)
+
+EmployeeID → EmployeeName, DepartmentID
+DepartmentID → DepartmentName</code></div>
+<p class="concept-text"><strong>DepartmentName</strong> depends on DepartmentID, a non-key attribute. Create DEPARTMENT(DepartmentID, DepartmentName).</p>
+
+<h3>Example D — Already in 3NF</h3>
+<div class="code-block"><code>PRODUCT(
+    ProductID,
+    ProductName,
+    UnitPrice
+)
+
+ProductID → ProductName, UnitPrice</code></div>
+<p class="concept-text">Each non-key attribute depends directly on the key, with no partial or transitive dependency.</p>
+</section>
+
+<section class="lesson-section" id="labs">
+<h2 class="lesson-section-title"><i class="fas fa-flask"></i> Interactive Labs</h2>
+
+<h3>Which Normal Form Is Violated?</h3>
+<div class="lesson-lab">
+<div id="nfPrompt" class="lesson-lab-prompt"></div>
+<div class="lesson-lab-options four">
+<button class="lesson-choice-btn nf-choice" data-nf="1nf" type="button">1NF</button>
+<button class="lesson-choice-btn nf-choice" data-nf="2nf" type="button">2NF</button>
+<button class="lesson-choice-btn nf-choice" data-nf="3nf" type="button">3NF</button>
+<button class="lesson-choice-btn nf-choice" data-nf="none" type="button">No violation</button>
+</div>
+<div id="nfFeedback" class="lesson-lab-feedback">Identify the first normal-form rule that is violated.</div>
+<div class="lesson-lab-footer"><span id="nfProgress"></span><button id="nextNf" class="lesson-lab-btn" type="button">Next scenario</button></div>
+</div>
+
+<h3>Dependency Classifier</h3>
+<div class="lesson-lab">
+<div id="depPrompt" class="lesson-lab-prompt"></div>
+<div class="lesson-lab-options three">
+<button class="lesson-choice-btn dep-choice" data-dep="full" type="button">Full dependency</button>
+<button class="lesson-choice-btn dep-choice" data-dep="partial" type="button">Partial dependency</button>
+<button class="lesson-choice-btn dep-choice" data-dep="transitive" type="button">Transitive dependency</button>
+</div>
+<div id="depFeedback" class="lesson-lab-feedback">Classify the dependency.</div>
+<div class="lesson-lab-footer"><span id="depProgress"></span><button id="nextDep" class="lesson-lab-btn" type="button">Next dependency</button></div>
+</div>
+
+<h3>Choose the Correct Decomposition</h3>
+<div class="lesson-lab">
+<div id="splitPrompt" class="lesson-lab-prompt"></div>
+<div id="splitOptions" class="lesson-lab-options two"></div>
+<div id="splitFeedback" class="lesson-lab-feedback">Choose the decomposition that removes the dependency problem.</div>
+<div class="lesson-lab-footer"><span id="splitProgress"></span><button id="nextSplit" class="lesson-lab-btn" type="button">Next table</button></div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Calling a partial dependency “transitive”</h4><p>If PK = <code>(StudentID, CourseID)</code> and <code>CourseID → TeacherName</code>, TeacherName depends on part of the key. That is a <strong>2NF / partial dependency</strong> problem.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Splitting without explaining why</h4><p>Link the decomposition to the dependency: “StudentName depends only on StudentID, so move it to STUDENT.”</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Thinking every repeated value violates 1NF</h4><p>The same value appearing in several rows is redundancy, but each individual cell can still be atomic.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Guessing dependencies from sample rows</h4><p>Dependencies come from business rules, not accidental patterns in a small data sample.</p></div>
+</section>
+
+<section class="lesson-section" id="practice">
+<h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+<div class="assessment-tasks">
+<div class="task-item"><span class="task-level remember">Remember</span><p>State the rule for 1NF.</p></div>
+<div class="task-item"><span class="task-level remember">Remember</span><p>Define partial dependency and transitive dependency.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain one update anomaly caused by storing CourseName in every enrolment row.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain why a single-column primary key cannot have a dependency on only part of that key.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Given <code>EMPLOYEE(EmployeeID, Name, DepartmentID, DepartmentName)</code>, identify the dependency that violates 3NF.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Normalize <code>ORDER_LINE(OrderID, ProductID, OrderDate, ProductName, Quantity)</code> to 2NF.</p></div>
+<div class="task-item"><span class="task-level analyze">Analyze</span><p>Explain why <code>CourseID → TeacherName</code> is a partial dependency when PK = <code>(StudentID, CourseID)</code>.</p></div>
+<div class="task-item"><span class="task-level create">Create</span><p>Normalize a SALES table containing OrderID, OrderDate, CustomerID, CustomerName, ProductID, ProductName and Quantity to 3NF. Show final relations, PKs and FKs.</p></div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+<div class="quiz-item">
+<p class="quiz-question">Q1: State two requirements for a table to be in first normal form. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Each field/cell contains a single atomic value. [1]
+No repeating groups / multi-valued fields. [1]</div></details>
+</div>
+<div class="quiz-item">
+<p class="quiz-question">Q2: PK = (StudentID, CourseID). StudentName depends only on StudentID. Explain why this violates 2NF. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>StudentName depends on only part of the composite primary key. [1]
+This is a partial dependency, so the non-key attribute does not depend on the whole key. [1]</div></details>
+</div>
+<div class="quiz-item">
+<p class="quiz-question">Q3: COURSE contains CourseID, CourseName, TeacherID and TeacherName. CourseID → TeacherID and TeacherID → TeacherName. Explain how to put the design into 3NF. [3]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Recognise the transitive dependency CourseID → TeacherID → TeacherName. [1]
+Create TEACHER(TeacherID, TeacherName). [1]
+Keep TeacherID as a foreign key in COURSE. [1]</div></details>
+</div>
+<div class="quiz-item">
+<p class="quiz-question">Q4: Explain one way normalization reduces the risk of an update anomaly. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>A repeated fact is stored once / in the appropriate related table. [1]
+The fact therefore needs to be changed in one place rather than several inconsistent copies. [1]</div></details>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+<div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to reveal</span></div>
+<div class="quiz-item"><div class="quiz-question">1. What is the main 1NF rule?</div><div class="quiz-answer" data-answer="Each cell contains one atomic value and there are no repeating groups">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">2. What is a composite key?</div><div class="quiz-answer" data-answer="A key formed from two or more attributes used together to uniquely identify a record">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">3. What is a partial dependency?</div><div class="quiz-answer" data-answer="A non-key attribute depends on only part of a composite key rather than the whole key">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">4. Which normal form removes partial dependencies?</div><div class="quiz-answer" data-answer="Second Normal Form (2NF)">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">5. What is a transitive dependency?</div><div class="quiz-answer" data-answer="A non-key attribute depends on another non-key attribute rather than directly on the key">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">6. Which normal form removes transitive dependencies?</div><div class="quiz-answer" data-answer="Third Normal Form (3NF)">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">7. If PK = (StudentID, CourseID), is (StudentID, CourseID) → Grade full or partial?</div><div class="quiz-answer" data-answer="Full dependency, because Grade depends on the whole composite key">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">8. Why can normalization prevent update anomalies?</div><div class="quiz-answer" data-answer="It reduces unnecessary duplication so the same fact does not need to be updated in many separate rows">Click to reveal answer</div></div>
+</section>
+
+<nav class="lesson-nav">
+<a href="er-diagrams.html"><span><span class="nav-label">← Previous</span><span class="nav-title">Entity-Relationship Diagrams</span></span></a>
+<a href="sql.html"><span><span class="nav-label">Next →</span><span class="nav-title">SQL</span></span></a>
+</nav>
+
+</div></div></main></div>
+
+<footer class="site-footer">
+<div class="container">
+<p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
+<p>&copy; 2026 IT-Tea. Educational use.</p>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+
+const nfCases=[
+{prompt:'PhoneNumbers contains "8701..., 8777..." in one cell.',answer:'1nf',why:'1NF is violated because the cell contains more than one value.'},
+{prompt:'PK = (OrderID, ProductID), but OrderDate depends only on OrderID.',answer:'2nf',why:'2NF is violated because OrderDate depends on only part of the composite key.'},
+{prompt:'EmployeeID → DepartmentID and DepartmentID → DepartmentName.',answer:'3nf',why:'3NF is violated because DepartmentName depends transitively on EmployeeID through DepartmentID.'},
+{prompt:'PRODUCT(ProductID, ProductName, UnitPrice), with ProductID determining both non-key attributes.',answer:'none',why:'No listed violation: values are atomic and the non-key attributes depend directly on the key.'},
+{prompt:'A Subjects cell contains "Maths, Physics, CS".',answer:'1nf',why:'A list in one cell violates atomicity / repeating-group rules for 1NF.'},
+{prompt:'PK = (StudentID, CourseID), and Grade depends on both StudentID and CourseID together.',answer:'none',why:'That is a full dependency on the composite key.'}
+];
+let nfIndex=0;
+const nfPrompt=document.getElementById('nfPrompt');
+const nfChoices=document.querySelectorAll('.nf-choice');
+const nfFeedback=document.getElementById('nfFeedback');
+const nfProgress=document.getElementById('nfProgress');
+function loadNf(){const x=nfCases[nfIndex];nfPrompt.textContent=x.prompt;nfProgress.textContent=`Scenario ${nfIndex+1} of ${nfCases.length}`;nfChoices.forEach(b=>b.classList.remove('active'));nfFeedback.className='lesson-lab-feedback';nfFeedback.textContent='Identify the first normal-form rule that is violated.';}
+nfChoices.forEach(btn=>btn.addEventListener('click',()=>{const x=nfCases[nfIndex],ok=btn.dataset.nf===x.answer;nfChoices.forEach(b=>b.classList.remove('active'));btn.classList.add('active');nfFeedback.className=`lesson-lab-feedback ${ok?'correct':'wrong'}`;nfFeedback.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.why}`;}));
+document.getElementById('nextNf').addEventListener('click',()=>{nfIndex=(nfIndex+1)%nfCases.length;loadNf();});
+loadNf();
+
+const depCases=[
+{prompt:'PK = (StudentID, CourseID). (StudentID, CourseID) → Grade',answer:'full',why:'Grade depends on the complete composite key.'},
+{prompt:'PK = (StudentID, CourseID). StudentID → StudentName',answer:'partial',why:'StudentName depends on only one part of the composite key.'},
+{prompt:'CourseID → TeacherID and TeacherID → TeacherName',answer:'transitive',why:'TeacherName depends on CourseID indirectly through the non-key attribute TeacherID.'},
+{prompt:'PK = (OrderID, ProductID). ProductID → ProductName',answer:'partial',why:'ProductName depends on only ProductID, one part of the composite key.'},
+{prompt:'EmployeeID → DepartmentID → DepartmentName',answer:'transitive',why:'DepartmentName depends on the key through another non-key attribute.'}
+];
+let depIndex=0;
+const depPrompt=document.getElementById('depPrompt');
+const depChoices=document.querySelectorAll('.dep-choice');
+const depFeedback=document.getElementById('depFeedback');
+const depProgress=document.getElementById('depProgress');
+function loadDep(){const x=depCases[depIndex];depPrompt.textContent=x.prompt;depProgress.textContent=`Dependency ${depIndex+1} of ${depCases.length}`;depChoices.forEach(b=>b.classList.remove('active'));depFeedback.className='lesson-lab-feedback';depFeedback.textContent='Classify the dependency.';}
+depChoices.forEach(btn=>btn.addEventListener('click',()=>{const x=depCases[depIndex],ok=btn.dataset.dep===x.answer;depChoices.forEach(b=>b.classList.remove('active'));btn.classList.add('active');depFeedback.className=`lesson-lab-feedback ${ok?'correct':'wrong'}`;depFeedback.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.why}`;}));
+document.getElementById('nextDep').addEventListener('click',()=>{depIndex=(depIndex+1)%depCases.length;loadDep();});
+loadDep();
+
+const splitCases=[
+{prompt:'EMPLOYEE(EmployeeID, Name, DepartmentID, DepartmentName), where DepartmentID → DepartmentName. Which decomposition removes the 3NF problem?',answer:'b',options:{a:'Keep the table unchanged',b:'EMPLOYEE(EmployeeID, Name, DepartmentID) + DEPARTMENT(DepartmentID, DepartmentName)',c:'EMPLOYEE(Name, DepartmentName) + DEPARTMENT(EmployeeID)',d:'Remove DepartmentID and keep DepartmentName only'},why:'DepartmentName belongs with DepartmentID; keep DepartmentID as the link.'},
+{prompt:'ORDER_LINE has PK (OrderID, ProductID). OrderDate depends on OrderID and ProductName depends on ProductID. Which design reaches 2NF?',answer:'c',options:{a:'Keep one ORDER_LINE table unchanged',b:'ORDER(OrderID, ProductName) + PRODUCT(ProductID, OrderDate)',c:'ORDER(OrderID, OrderDate) + PRODUCT(ProductID, ProductName) + ORDER_LINE(OrderID, ProductID, Quantity)',d:'ORDER_LINE(OrderDate, ProductName, Quantity) only'},why:'Each fact moves to the table whose key determines it; Quantity remains with the composite key.'},
+{prompt:'COURSE(CourseID, CourseName, TeacherID, TeacherName), with TeacherID → TeacherName. What should be created?',answer:'a',options:{a:'TEACHER(TeacherID, TeacherName) and keep TeacherID as FK in COURSE',b:'TEACHER(CourseID, CourseName)',c:'Remove TeacherID and store TeacherName in every course row',d:'Put CourseName inside TEACHER'},why:'TeacherName belongs with TeacherID, removing the transitive dependency.'}
+];
+let splitIndex=0;
+const splitPrompt=document.getElementById('splitPrompt');
+const splitOptions=document.getElementById('splitOptions');
+const splitFeedback=document.getElementById('splitFeedback');
+const splitProgress=document.getElementById('splitProgress');
+function loadSplit(){
+ const x=splitCases[splitIndex];
+ splitPrompt.textContent=x.prompt;
+ splitProgress.textContent=`Table ${splitIndex+1} of ${splitCases.length}`;
+ splitOptions.innerHTML='';
+ Object.entries(x.options).forEach(([key,value])=>{
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className='lesson-choice-btn split-choice';
+  btn.dataset.choice=key;
+  btn.textContent=value;
+  btn.addEventListener('click',()=>{
+   const ok=key===x.answer;
+   splitOptions.querySelectorAll('.split-choice').forEach(b=>b.classList.remove('active'));
+   btn.classList.add('active');
+   splitFeedback.className=`lesson-lab-feedback ${ok?'correct':'wrong'}`;
+   splitFeedback.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.why}`;
+  });
+  splitOptions.appendChild(btn);
+ });
+ splitFeedback.className='lesson-lab-feedback';
+ splitFeedback.textContent='Choose the decomposition that removes the dependency problem.';
+}
+document.getElementById('nextSplit').addEventListener('click',()=>{splitIndex=(splitIndex+1)%splitCases.length;loadSplit();});
+loadSplit();
+
+});
+</script>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
 </body>
-
 </html>
