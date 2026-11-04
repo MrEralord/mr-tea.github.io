@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Entity-Relationship Diagrams (ERD) — mr. TEA</title>
 <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-<meta name="description" content="Create, read and analyse entity-relationship diagrams (ERD) using Crow's Foot notation, entities, attributes, relationships and cardinality. NIS Grade 11 Computer Science 11.2.2.2.">
+<meta name="description" content="Create, read and analyse entity-relationship diagrams using conceptual and compact ERD notation. NIS Grade 11 Computer Science 11.2.2.2.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
 <meta property="og:title" content="Entity-Relationship Diagrams (ERD) — mr. TEA">
-<meta property="og:description" content="Create, read and analyse ER diagrams using Crow's Foot notation.">
+<meta property="og:description" content="Create and analyse ER diagrams using entity, attribute, relationship and cardinality notation.">
 <meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/er-diagrams.html">
 <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -28,7 +28,7 @@
 <div class="lesson-header">
 <div class="lesson-unit-badge"><i class="fas fa-project-diagram"></i> Unit 11.2A · Term 2</div>
 <h1 class="lesson-title">Entity-Relationship Diagrams (ERD)</h1>
-<p class="lesson-intro">An <strong>Entity-Relationship Diagram</strong> is a visual model of a database. It shows the <strong>entities</strong> we need to store, their <strong>attributes</strong>, and the <strong>relationships</strong> and <strong>cardinality</strong> between them. In exam questions you may need to <strong>draw, complete, read or correct</strong> an ERD.</p>
+<p class="lesson-intro">An <strong>Entity-Relationship Diagram</strong> is a visual model used in database design. It shows <strong>entities</strong>, their <strong>attributes</strong>, the <strong>relationships</strong> between them and the <strong>cardinality</strong> of those relationships. Exam questions may ask you to <strong>draw, complete, read or correct</strong> an ERD.</p>
 </div>
 
 <div class="lesson-lo-card"><h3><i class="fas fa-bullseye"></i> Learning Objective</h3><ul class="lesson-lo-list"><li><span class="lo-code">11.2.2.2</span> Create entity-relationship diagrams (ERD)</li></ul></div>
@@ -38,233 +38,221 @@
 <div class="lesson-video-wrapper"><iframe src="https://www.youtube-nocookie.com/embed/c-NwRgv2tTY?start=301&rel=0" title="Craig n Dave - Entity relationships and ERD" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
 </div>
 
-<nav class="lesson-section-jump" aria-label="Lesson sections"><a href="#concepts">Concepts</a><a href="#notation">Notation</a><a href="#cardinality">Cardinality</a><a href="#method">Build ERD</a><a href="#builder">Builder</a><a href="#manymany">M:M</a><a href="#visual-exam">Visual Exam</a><a href="#practice">Practice</a></nav>
+<nav class="lesson-section-jump" aria-label="Lesson sections"><a href="#conceptual">Conceptual ERD</a><a href="#components">Components</a><a href="#cardinality">Cardinality</a><a href="#compact">Compact ERD</a><a href="#method">Build ERD</a><a href="#manymany">M:N</a><a href="#visual-exam">Visual Exam</a><a href="#practice">Practice</a></nav>
 
 <section class="lesson-section">
 <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-<div class="analogy-box"><h4><i class="fas fa-drafting-compass"></i> The Database Blueprint</h4><p>An ERD is like a blueprint drawn before construction. It does not contain every database record. Instead, it shows <strong>what kinds of things must be stored</strong> and <strong>how those things are connected</strong>. A good ERD lets a developer check the structure before creating database tables.</p></div>
+<div class="analogy-box"><h4><i class="fas fa-drafting-compass"></i> The Database Blueprint</h4><p>An ERD is a blueprint of database structure. It shows <strong>what kinds of things are stored</strong> and <strong>how those things are connected</strong> before the final database tables are implemented.</p></div>
 </section>
 
-<section class="lesson-section" id="concepts">
-<h2 class="lesson-section-title"><i class="fas fa-shapes"></i> Core ERD Concepts</h2>
-<table class="theory-table"><thead><tr><th>Concept</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
-<tr><td><strong>Entity</strong></td><td>A person, object, place or concept about which data is stored</td><td>STUDENT, COURSE, TEACHER</td></tr>
-<tr><td><strong>Attribute</strong></td><td>A property that describes an entity</td><td>StudentID, Name, Email</td></tr>
-<tr><td><strong>Relationship</strong></td><td>An association between entities</td><td>STUDENT enrols on COURSE</td></tr>
-<tr><td><strong>Cardinality</strong></td><td>How many instances of one entity can relate to another</td><td>1:1, 1:M, M:M</td></tr>
-<tr><td><strong>Identifier / PK</strong></td><td>An attribute used to uniquely identify an entity instance</td><td>StudentID</td></tr>
+<section class="lesson-section" id="conceptual">
+<h2 class="lesson-section-title"><i class="fas fa-diagram-project"></i> Conceptual ERD Notation</h2>
+
+<p class="concept-text">The classroom material first introduces ERD using a <strong>conceptual notation</strong>: entities are rectangles, attributes are ovals, relationships are diamonds, and cardinality may be shown with labels such as <strong>1</strong>, <strong>N</strong> or <strong>M</strong>.</p>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/erd-conceptual-notation.png" alt="Conceptual ERD notation showing entity rectangles, attribute ovals, relationship diamond and N cardinality labels" loading="lazy">
+<figcaption>Conceptual ERD: entity → attribute → relationship → cardinality.</figcaption>
+</figure>
+
+<div class="note-box"><h4><i class="fas fa-circle-info"></i> Why this matters</h4><p>If an exam question gives you a diagram using diamonds and ovals, continue using that notation consistently. Do not suddenly switch to a table-style Crow’s Foot diagram halfway through the answer.</p></div>
+</section>
+
+<section class="lesson-section" id="components">
+<h2 class="lesson-section-title"><i class="fas fa-shapes"></i> ERD Components</h2>
+
+<table class="theory-table"><thead><tr><th>Component</th><th>Meaning</th><th>Typical conceptual symbol</th></tr></thead><tbody>
+<tr><td><strong>Entity</strong></td><td>A definable person, object, concept or event about which data is stored</td><td>Rectangle</td></tr>
+<tr><td><strong>Attribute</strong></td><td>A property or piece of data that describes an entity</td><td>Oval</td></tr>
+<tr><td><strong>Relationship</strong></td><td>Shows how two entities interact or are associated</td><td>Diamond / connector</td></tr>
+<tr><td><strong>Cardinality</strong></td><td>The possible number of occurrences of one entity associated with another</td><td>1, N/M or line-ending symbols</td></tr>
+<tr><td><strong>Identifier / PK</strong></td><td>An attribute that uniquely identifies an entity occurrence</td><td>Usually marked or underlined</td></tr>
 </tbody></table>
 
 <div class="lesson-lab">
 <div id="entityPrompt" class="lesson-lab-prompt"></div>
-<div class="lesson-lab-options two"><button class="lesson-choice-btn entity-choice" data-kind="entity" type="button">Entity</button><button class="lesson-choice-btn entity-choice" data-kind="attribute" type="button">Attribute</button></div>
+<div class="lesson-lab-options three">
+<button class="lesson-choice-btn entity-choice" data-kind="entity" type="button">Entity</button>
+<button class="lesson-choice-btn entity-choice" data-kind="attribute" type="button">Attribute</button>
+<button class="lesson-choice-btn entity-choice" data-kind="relationship" type="button">Relationship</button>
+</div>
 <div id="entityFeedback" class="lesson-lab-feedback">Classify the highlighted item.</div>
 <div class="lesson-lab-footer"><span id="entityProgress"></span><button id="nextEntity" class="lesson-lab-btn" type="button">Next example</button></div>
 </div>
 </section>
 
-<section class="lesson-section" id="notation">
-<h2 class="lesson-section-title"><i class="fas fa-diagram-project"></i> Crow’s Foot Notation</h2>
-
-<figure class="lesson-image-block">
-<img src="/assets/images/lessons/erd-crows-foot-reference.png" alt="Crow's Foot cardinality reference showing exactly one, zero or one, one or many, and zero or many" loading="lazy">
-<figcaption>Crow’s Foot reference: circle = zero/optional, bar = one, crow’s foot = many.</figcaption>
-</figure>
-
-<div class="note-box"><h4><i class="fas fa-circle-info"></i> Read the pair, not one symbol</h4><p>At each end of a relationship, the symbols work together: one mark gives the <strong>minimum</strong> participation and the other gives the <strong>maximum</strong>. For example, <code>O&lt;</code> means zero or many.</p></div>
-
-<figure class="lesson-image-block">
-<img src="/assets/images/lessons/erd-cardinality-examples.png" alt="Three ERD examples showing one-to-one, one-to-many and many-to-many cardinality" loading="lazy">
-<figcaption>Three core relationship patterns that commonly appear in exam questions.</figcaption>
-</figure>
-
-<details class="lesson-compact-details"><summary>Extension: other ERD notations</summary><div class="lesson-details-body"><p class="concept-text">Chen notation uses rectangles for entities, ovals for attributes and diamonds for relationships. This lesson uses <strong>Crow’s Foot</strong> consistently because it maps naturally to relational table design and is common in database tools.</p></div></details>
-</section>
-
 <section class="lesson-section" id="cardinality">
-<h2 class="lesson-section-title"><i class="fas fa-link"></i> Read Cardinality in Both Directions</h2>
+<h2 class="lesson-section-title"><i class="fas fa-link"></i> Cardinality</h2>
+
+<p class="concept-text">Cardinality describes how many occurrences of one entity can be associated with occurrences of another entity. Always read the relationship in <strong>both directions</strong>.</p>
 
 <figure class="lesson-image-block">
-<img src="/assets/images/lessons/erd-read-both-directions.png" alt="Customer and Order ERD showing how to read a one-to-many relationship in both directions" loading="lazy">
-<figcaption>Do not decide cardinality from only one sentence. Read the relationship left-to-right and right-to-left.</figcaption>
+<img src="/assets/images/lessons/erd-doctor-patient-conceptual.png" alt="Conceptual ERD for Doctor and Patient with relationship diamond and one-to-many cardinality" loading="lazy">
+<figcaption>Conceptual 1:N example using a relationship diamond and cardinality labels.</figcaption>
 </figure>
 
-<div class="pro-tip-box"><h4><i class="fas fa-lightbulb"></i> Exam technique</h4><p>Before drawing symbols, write two sentences: <strong>“One A can have how many B?”</strong> and <strong>“One B can have how many A?”</strong> This prevents many cardinality errors.</p></div>
+<table class="theory-table"><thead><tr><th>Relationship</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>1 : 1</strong></td><td>One occurrence relates to one occurrence</td><td>Person — Insurance Number</td></tr>
+<tr><td><strong>1 : N</strong></td><td>One occurrence relates to many occurrences</td><td>Company — Employee</td></tr>
+<tr><td><strong>N : 1</strong></td><td>Many occurrences relate to one occurrence</td><td>Students — Class</td></tr>
+<tr><td><strong>M : N</strong></td><td>Many occurrences relate to many occurrences</td><td>Order — Item</td></tr>
+</tbody></table>
+
+<div class="pro-tip-box"><h4><i class="fas fa-lightbulb"></i> Exam habit</h4><p>Write two sentences before drawing the connection: <strong>“One A can have how many B?”</strong> and <strong>“One B can have how many A?”</strong>.</p></div>
 
 <div class="lesson-lab">
 <div id="cardinalityPrompt" class="lesson-lab-prompt"></div>
-<div class="lesson-lab-options three"><button class="lesson-choice-btn cardinality-choice" data-cardinality="1:1" type="button">1 : 1</button><button class="lesson-choice-btn cardinality-choice" data-cardinality="1:M" type="button">1 : M</button><button class="lesson-choice-btn cardinality-choice" data-cardinality="M:M" type="button">M : M</button></div>
+<div class="lesson-lab-options three"><button class="lesson-choice-btn cardinality-choice" data-cardinality="1:1" type="button">1 : 1</button><button class="lesson-choice-btn cardinality-choice" data-cardinality="1:N" type="button">1 : N</button><button class="lesson-choice-btn cardinality-choice" data-cardinality="M:N" type="button">M : N</button></div>
 <div id="cardinalityFeedback" class="lesson-lab-feedback">Choose the correct cardinality.</div>
 <div class="lesson-lab-footer"><span id="cardinalityProgress"></span><button id="nextCardinality" class="lesson-lab-btn" type="button">Next scenario</button></div>
 </div>
 </section>
 
-<section class="lesson-section" id="method">
-<h2 class="lesson-section-title"><i class="fas fa-list-ol"></i> How to Build an ERD</h2>
+<section class="lesson-section" id="compact">
+<h2 class="lesson-section-title"><i class="fas fa-table"></i> Compact / Table-Style ERD</h2>
 
-<div class="worked-example"><h4><span class="step-num">1</span> Read the scenario</h4><p>Underline important nouns and verbs. Nouns often suggest entities; verbs often suggest relationships.</p></div>
-<div class="worked-example"><h4><span class="step-num">2</span> Identify entities</h4><p>Choose the major things that need their own stored records. Do not turn every word into an entity.</p></div>
-<div class="worked-example"><h4><span class="step-num">3</span> Add attributes and identifiers</h4><p>Add important properties and a suitable primary key / identifier to each entity.</p></div>
-<div class="worked-example"><h4><span class="step-num">4</span> Draw relationships</h4><p>Connect entities using the relationship described by the scenario.</p></div>
-<div class="worked-example"><h4><span class="step-num">5</span> Determine cardinality</h4><p>Read every relationship in both directions, then add the Crow’s Foot symbols.</p></div>
-<div class="worked-example"><h4><span class="step-num">6</span> Review the diagram</h4><p>Check entities, attributes, relationship lines, cardinality, optionality where stated, and whether an M:M relationship needs resolving for relational implementation.</p></div>
+<p class="concept-text">Later, the same model can be shown more compactly by <strong>placing the attributes inside each entity box</strong>. In this form, cardinality is often shown with line-ending symbols such as one, many, zero-or-one, one-or-many and zero-or-many.</p>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/erd-compact-table-notation.png" alt="Compact table-style ERD with Student and Course entities and many-to-many line endings" loading="lazy">
+<figcaption>The same ER model can be shown in a compact table-style form.</figcaption>
+</figure>
+
+<div class="worked-example"><h4>Connection symbols used in the material</h4>
+<table class="theory-table"><thead><tr><th>Symbol idea</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>single bar</td><td>One</td></tr>
+<tr><td>crow's-foot ending</td><td>Many</td></tr>
+<tr><td>double bar</td><td>One and only one</td></tr>
+<tr><td>circle + bar</td><td>Zero or one</td></tr>
+<tr><td>bar + crow's foot</td><td>One or many</td></tr>
+<tr><td>circle + crow's foot</td><td>Zero or many</td></tr>
+</tbody></table>
+</div>
+
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Conceptual notation ≠ compact notation</h4><p>They describe the same database ideas, but the shapes are different. Use the notation shown in the question or the notation requested by the teacher/exam.</p></div>
 </section>
 
-<section class="lesson-section" id="builder">
-<h2 class="lesson-section-title"><i class="fas fa-hammer"></i> Guided ERD Builder</h2>
-<p class="concept-text">Scenario: <strong>Students enrol on courses. A student can take many courses. A course can have many students. Each enrolment stores a grade.</strong></p>
-
-<div class="lesson-lab"><div class="lesson-lab-prompt">Step 1: Which are the main entities?</div><div class="lesson-lab-options four"><button class="lesson-choice-btn builder-entity" data-value="wrong" type="button">STUDENT + Grade</button><button class="lesson-choice-btn builder-entity" data-value="correct" type="button">STUDENT + COURSE</button><button class="lesson-choice-btn builder-entity" data-value="wrong" type="button">Name + COURSE</button><button class="lesson-choice-btn builder-entity" data-value="wrong" type="button">StudentID + CourseID</button></div><div id="builderEntityFeedback" class="lesson-lab-feedback">Choose the entity pair.</div></div>
-
-<div class="lesson-lab"><div class="lesson-lab-prompt">Step 2: What is the conceptual cardinality?</div><div class="lesson-lab-options three"><button class="lesson-choice-btn builder-card" data-value="1:1" type="button">1 : 1</button><button class="lesson-choice-btn builder-card" data-value="1:M" type="button">1 : M</button><button class="lesson-choice-btn builder-card" data-value="M:M" type="button">M : M</button></div><div id="builderCardFeedback" class="lesson-lab-feedback">Choose the cardinality.</div></div>
-
-<div class="lesson-lab"><div class="lesson-lab-prompt">Step 3: The relationship stores Grade. What is the best relational design?</div><div class="lesson-lab-options four"><button class="lesson-choice-btn builder-junction" data-value="wrong" type="button">Put Grade in STUDENT</button><button class="lesson-choice-btn builder-junction" data-value="correct" type="button">Add ENROLMENT between STUDENT and COURSE</button><button class="lesson-choice-btn builder-junction" data-value="wrong" type="button">Delete COURSE</button><button class="lesson-choice-btn builder-junction" data-value="wrong" type="button">Make Grade the only entity</button></div><div id="builderJunctionFeedback" class="lesson-lab-feedback">Choose the implementation.</div></div>
-
-<div class="worked-example"><h4>Builder output</h4><div class="code-block"><code id="builderOutput">Complete the three steps to reveal the ERD.</code></div></div>
+<section class="lesson-section" id="method">
+<h2 class="lesson-section-title"><i class="fas fa-list-ol"></i> How to Build an ERD</h2>
+<div class="worked-example"><h4><span class="step-num">1</span> Read the scenario</h4><p>Identify the important nouns and verbs.</p></div>
+<div class="worked-example"><h4><span class="step-num">2</span> Identify entities</h4><p>Choose the main things that require their own stored records.</p></div>
+<div class="worked-example"><h4><span class="step-num">3</span> Add attributes</h4><p>Add the properties that describe each entity and identify suitable primary keys.</p></div>
+<div class="worked-example"><h4><span class="step-num">4</span> Add relationships</h4><p>Connect related entities. In conceptual notation, represent the relationship consistently with the diagram style.</p></div>
+<div class="worked-example"><h4><span class="step-num">5</span> Determine cardinality</h4><p>Read each relationship in both directions and add 1/N/M or the required line-ending symbols.</p></div>
+<div class="worked-example"><h4><span class="step-num">6</span> Review</h4><p>Check entities, attributes, relationships, cardinality and whether an M:N relationship requires a junction table for relational implementation.</p></div>
 </section>
 
 <section class="lesson-section" id="manymany">
-<h2 class="lesson-section-title"><i class="fas fa-code-branch"></i> Many-to-Many Relationships</h2>
+<h2 class="lesson-section-title"><i class="fas fa-code-branch"></i> Resolving a Many-to-Many Relationship</h2>
 
-<div class="note-box"><h4><i class="fas fa-circle-info"></i> Conceptual vs relational design</h4><p>A conceptual ERD may show an <strong>M:M</strong> relationship directly. When implementing it as relational tables, it is normally resolved with an <strong>associative (junction) entity</strong>.</p></div>
+<p class="concept-text">A many-to-many relationship can be valid in a conceptual ERD. When implementing it as a relational database, introduce a <strong>junction table</strong> to convert the relationship into two one-to-many relationships.</p>
 
 <figure class="lesson-image-block">
-<img src="/assets/images/lessons/erd-many-to-many-resolution.png" alt="ERD showing a many-to-many Student Course relationship resolved through an Enrolment associative entity" loading="lazy">
-<figcaption>ENROLMENT resolves the M:M relationship and can store data about the relationship itself, such as Grade.</figcaption>
+<img src="/assets/images/lessons/erd-mm-junction-table.png" alt="Many-to-many Professor Subject relationship resolved with Professor Subject junction table" loading="lazy">
+<figcaption>PROFESSOR_SUBJECT is the junction table between PROFESSOR and SUBJECT.</figcaption>
 </figure>
-</section>
 
-<section class="lesson-section" id="errors">
-<h2 class="lesson-section-title"><i class="fas fa-bug"></i> Find the ERD Error</h2>
-<div class="lesson-lab">
-<div id="errorPrompt" class="lesson-lab-prompt"></div>
-<div class="lesson-lab-options four"><button class="lesson-choice-btn error-choice" data-error="cardinality" type="button">Wrong cardinality</button><button class="lesson-choice-btn error-choice" data-error="entity" type="button">Attribute used as entity</button><button class="lesson-choice-btn error-choice" data-error="relationship" type="button">Missing relationship</button><button class="lesson-choice-btn error-choice" data-error="junction" type="button">M:M not resolved for relational design</button></div>
-<div id="errorFeedback" class="lesson-lab-feedback">Identify the main problem.</div>
-<div class="lesson-lab-footer"><span id="errorProgress"></span><button id="nextError" class="lesson-lab-btn" type="button">Next example</button></div>
-</div>
+<div class="note-box"><h4><i class="fas fa-key"></i> Key link</h4><p>The junction table normally contains foreign keys referencing the primary keys of the two related tables. Those foreign keys may also form a composite key.</p></div>
 </section>
 
 <section class="lesson-section" id="visual-exam">
 <h2 class="lesson-section-title"><i class="fas fa-pen-ruler"></i> Visual Exam Practice</h2>
 
 <figure class="lesson-image-block">
-<img src="/assets/images/lessons/erd-exam-complete-cardinality.png" alt="Incomplete ERD exam question with MEMBER and LOAN entities and missing Crow's Foot cardinality" loading="lazy">
-<figcaption>Typical task: complete the missing symbols, then explain the relationship in both directions.</figcaption>
+<img src="/assets/images/lessons/erd-exam-connection-schemes.png" alt="Exam-style conceptual ERD with Customer, places relationship, Order and missing cardinality label" loading="lazy">
+<figcaption>Typical exam task: add the missing connection information, then express the same relationship in another notation.</figcaption>
 </figure>
 
 <div class="quiz-item">
-<p class="quiz-question">Q1: The diagram shows MEMBER and LOAN. One member may make zero or many loans; every loan belongs to exactly one member. Complete the missing cardinality near LOAN. [2]</p>
-<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Circle / optional minimum near LOAN [1]
-Crow’s Foot / many maximum near LOAN [1]</div></details>
+<p class="quiz-question">Q1: One CUSTOMER can place many ORDERS. Each ORDER belongs to one CUSTOMER. Add the missing cardinality near ORDER. [1]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking point</summary><div>N / many [1]</div></details>
 </div>
 
 <div class="quiz-item">
-<p class="quiz-question">Q2: An exam diagram shows CUSTOMER <code>1:1</code> ORDER. The scenario says one customer may place many orders and every order belongs to one customer. State the error and correct the relationship. [2]</p>
-<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>The shown cardinality is incorrect [1]
-Correct relationship is 1:M from CUSTOMER to ORDER (or equivalent Crow’s Foot notation) [1]</div></details>
+<p class="quiz-question">Q2: Redraw the same CUSTOMER—ORDER relationship using the compact/table-style notation. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>One side shown at CUSTOMER [1]
+Many side shown at ORDER [1]</div></details>
 </div>
 
 <div class="quiz-item">
-<p class="quiz-question">Q3: A diagram shows STUDENT M:M COURSE. Add the entity needed for relational implementation and state one attribute that belongs there. [2]</p>
-<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Add an associative entity such as ENROLMENT [1]
-Suitable relationship attribute, e.g. Grade / EnrolmentDate [1]</div></details>
+<p class="quiz-question">Q3: A conceptual ERD shows STUDENT M:N COURSE. Explain what must be added when the model is implemented as relational tables. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Add a junction/associative table such as ENROLMENT [1]
+Use foreign keys to link STUDENT and COURSE / produce two 1:N relationships [1]</div></details>
 </div>
 </section>
 
 <section class="lesson-section">
 <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Reading only one direction</h4><p>Always read a relationship both ways. The statement about one side does not automatically tell you the full cardinality.</p></div>
-<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Turning every noun into an entity</h4><p><code>Name</code>, <code>Email</code> and <code>DateOfBirth</code> are usually attributes, not separate entities.</p></div>
-<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Mixing ERD notations</h4><p>Do not use Crow's Foot on one relationship and Chen diamonds/ovals elsewhere in the same diagram unless the task explicitly asks for a different notation.</p></div>
-<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Treating M:M as impossible</h4><p>M:M is valid in a conceptual ERD. It normally needs an associative entity when converted into relational tables.</p></div>
-<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Adding optionality that the scenario never states</h4><p>If the question only asks for basic 1:1, 1:M or M:M cardinality, do not invent zero/optional participation unless the wording supports it.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Using the wrong connection scheme</h4><p>If the question gives 1/N labels and diamonds, continue with that style. If it gives compact entities with line-ending symbols, continue with that style.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Reading only one direction</h4><p>Always check both directions before deciding whether the relationship is 1:1, 1:N or M:N.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Attribute used as an entity</h4><p>Name, Email and DateOfBirth usually describe an entity rather than becoming separate entities themselves.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Leaving M:N unresolved in relational implementation</h4><p>Add a junction table when converting a many-to-many conceptual relationship into relational tables.</p></div>
 </section>
 
 <section class="lesson-section" id="practice">
 <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
 <div class="assessment-tasks">
-<div class="task-item"><span class="task-level remember">Remember</span><p>Define <strong>entity</strong>, <strong>attribute</strong>, <strong>relationship</strong> and <strong>cardinality</strong>.</p></div>
-<div class="task-item"><span class="task-level understand">Understand</span><p>Explain why an ERD is useful before database implementation begins.</p></div>
-<div class="task-item"><span class="task-level understand">Understand</span><p>A department has many employees, and every employee belongs to one department. State the cardinality and write it in both directions.</p></div>
-<div class="task-item"><span class="task-level apply">Apply</span><p>Draw an ERD for CUSTOMER and ORDER. One customer may place many orders; each order belongs to one customer.</p></div>
-<div class="task-item"><span class="task-level apply">Apply</span><p>Draw an ERD for TEACHER and CLASS. One teacher tutors many classes; each class has exactly one tutor.</p></div>
-<div class="task-item"><span class="task-level apply">Apply</span><p>Complete an ERD for MEMBER, LOAN and BOOK by adding suitable relationship lines and cardinality.</p></div>
-<div class="task-item"><span class="task-level analyze">Analyze</span><p>A STUDENT—COURSE diagram is marked 1:1, but the scenario says students take several courses and courses contain several students. Explain the error and correct the model.</p></div>
-<div class="task-item"><span class="task-level create">Create</span><p>Create a complete ERD for a school club system. Include entities, identifiers, attributes, relationships and cardinalities.</p></div>
+<div class="task-item"><span class="task-level remember">Remember</span><p>State the symbols used for entity, attribute and relationship in the conceptual notation.</p></div>
+<div class="task-item"><span class="task-level remember">Remember</span><p>Define cardinality.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain the difference between a conceptual ERD and a compact/table-style ERD.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain why a relationship should be read in both directions.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Draw a conceptual ERD for DOCTOR and PATIENT using a relationship diamond and suitable 1/N cardinality.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Redraw the same relationship using a compact entity/table style.</p></div>
+<div class="task-item"><span class="task-level analyze">Analyze</span><p>A diagram mixes relationship diamonds with Crow’s Foot endings on only one relationship. Explain why this is poor notation and correct it.</p></div>
+<div class="task-item"><span class="task-level create">Create</span><p>Create an ERD for a food-ordering system using one notation consistently. Include at least three entities and suitable cardinalities.</p></div>
 </div>
 </section>
 
 <section class="lesson-section">
 <h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
-<div class="quiz-item"><p class="quiz-question">Q1: A medical centre stores doctors and appointments. Each doctor can have many appointments. Each appointment is assigned to exactly one doctor. Draw an ERD showing both entities, suitable attributes and cardinality. [5]</p><details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>DOCTOR entity [1]
-APPOINTMENT entity [1]
-Suitable identifier/attributes shown [1]
-Relationship shown [1]
-Correct 1:M cardinality from DOCTOR to APPOINTMENT [1]</div></details></div>
-
-<div class="quiz-item"><p class="quiz-question">Q2: A student can join many clubs and each club can contain many students. State the conceptual cardinality and explain how it would normally be implemented in a relational database. [3]</p><details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>M:M relationship [1]
-Create an associative/junction entity such as MEMBERSHIP [1]
-This produces two 1:M relationships / stores the links between student and club [1]</div></details></div>
-
-<div class="quiz-item"><p class="quiz-question">Q3: A partially completed ERD shows LIBRARY_MEMBER and LOAN but no symbols at the LOAN end. The scenario states that a member may have no loans or many loans. Draw the missing symbols. [2]</p><details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Optional / zero symbol [1]
-Many / Crow’s Foot symbol [1]</div></details></div>
-
-<div class="quiz-item"><p class="quiz-question">Q4: Explain why Name is usually an attribute of STUDENT rather than a separate entity. [2]</p><details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Name is a property that describes a student [1]
-It does not normally require its own independent records/relationships [1]</div></details></div>
+<div class="quiz-item"><p class="quiz-question">Q1: Draw an ERD to represent a library system containing MEMBER, BOOK and LOAN. A member can borrow many books over time and a book can appear in many loan records. [6]</p><details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Three suitable entities [1]
+Suitable attributes / identifiers [1]
+MEMBER to LOAN relationship [1]
+Correct 1:N cardinality [1]
+BOOK to LOAN relationship [1]
+Correct 1:N cardinality [1]</div></details></div>
+<div class="quiz-item"><p class="quiz-question">Q2: A diagram shows an ORDER–ITEM relationship as M:N. Explain how it should be represented when implemented as relational tables. [3]</p><details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Add junction table such as ORDER_ITEM [1]
+Store OrderID and ItemID as foreign keys [1]
+Relationship becomes two 1:N relationships [1]</div></details></div>
+<div class="quiz-item"><p class="quiz-question">Q3: State what is represented by a diamond in the conceptual ERD notation used in this lesson. [1]</p><details class="lesson-exam-marking"><summary>Reveal marking point</summary><div>A relationship between entities [1]</div></details></div>
+<div class="quiz-item"><p class="quiz-question">Q4: In a compact ERD, state the meaning of circle + crow’s foot. [1]</p><details class="lesson-exam-marking"><summary>Reveal marking point</summary><div>Zero or many [1]</div></details></div>
 </section>
 
 <section class="lesson-section">
 <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
 <div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to reveal</span></div>
-<div class="quiz-item"><div class="quiz-question">1. What is an entity?</div><div class="quiz-answer" data-answer="A person, object, place or concept about which the database stores data">Click to reveal answer</div></div>
-<div class="quiz-item"><div class="quiz-question">2. What is an attribute?</div><div class="quiz-answer" data-answer="A property that describes an entity, such as Name or Email">Click to reveal answer</div></div>
-<div class="quiz-item"><div class="quiz-question">3. What do a circle, bar and Crow’s Foot represent?</div><div class="quiz-answer" data-answer="Circle = zero/optional, bar = one, Crow’s Foot = many">Click to reveal answer</div></div>
-<div class="quiz-item"><div class="quiz-question">4. Why should a relationship be read in both directions?</div><div class="quiz-answer" data-answer="Because each direction tells how many instances of one entity may be related to one instance of the other">Click to reveal answer</div></div>
-<div class="quiz-item"><div class="quiz-question">5. One customer can place many orders; each order belongs to one customer. What is the cardinality?</div><div class="quiz-answer" data-answer="1:M from CUSTOMER to ORDER">Click to reveal answer</div></div>
-<div class="quiz-item"><div class="quiz-question">6. What conceptual cardinality exists when many students can take many courses?</div><div class="quiz-answer" data-answer="M:M">Click to reveal answer</div></div>
-<div class="quiz-item"><div class="quiz-question">7. Why is an associative entity used?</div><div class="quiz-answer" data-answer="To resolve a many-to-many relationship for relational implementation and to store data about the relationship itself">Click to reveal answer</div></div>
-<div class="quiz-item"><div class="quiz-question">8. What should you identify before drawing cardinality symbols?</div><div class="quiz-answer" data-answer="The entities, the relationship, and how many instances can participate in each direction">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">1. What shape represents an entity in the conceptual notation?</div><div class="quiz-answer" data-answer="A rectangle">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">2. What shape represents an attribute?</div><div class="quiz-answer" data-answer="An oval">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">3. What shape represents a relationship?</div><div class="quiz-answer" data-answer="A diamond in the conceptual notation used here">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">4. What does cardinality describe?</div><div class="quiz-answer" data-answer="The possible number of occurrences of one entity associated with occurrences of another entity">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">5. What does 1:N mean?</div><div class="quiz-answer" data-answer="One occurrence of one entity may be related to many occurrences of the other">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">6. What is different about compact/table-style ERD notation?</div><div class="quiz-answer" data-answer="Attributes are placed inside entity boxes and cardinality is often shown with line-ending symbols">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">7. How is an M:N relationship normally resolved for relational implementation?</div><div class="quiz-answer" data-answer="By adding a junction/associative table, producing two 1:N relationships">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">8. What rule should you follow if an exam question already uses a specific ERD notation?</div><div class="quiz-answer" data-answer="Continue using the same notation consistently">Click to reveal answer</div></div>
 </section>
 
 <nav class="lesson-nav"><a href="data-dictionary.html"><span><span class="nav-label">← Previous</span><span class="nav-title">Data Dictionary</span></span></a><a href="normalization.html"><span><span class="nav-label">Next →</span><span class="nav-title">Normalization</span></span></a></nav>
 
 </div></div></main></div>
-
 <footer class="site-footer"><div class="container"><p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p><p>&copy; 2026 IT-Tea. Educational use.</p></div></footer>
 
 <script>
 document.addEventListener('DOMContentLoaded',function(){
 const entityItems=[
-{prompt:'In the scenario “A student has a Name and Email”, classify STUDENT.',answer:'entity',why:'STUDENT is the thing about which records are stored.'},
-{prompt:'In the same scenario, classify Email.',answer:'attribute',why:'Email is a property that describes a student.'},
-{prompt:'A library stores BOOK records. Classify BOOK.',answer:'entity',why:'BOOK is a main object about which the database stores data.'},
-{prompt:'A COURSE has CourseName and Duration. Classify Duration.',answer:'attribute',why:'Duration is a property of COURSE.'}
+{prompt:'STUDENT stores StudentID, Name and Email. Classify STUDENT.',answer:'entity',why:'STUDENT is the thing about which data is stored.'},
+{prompt:'In the same model, classify Email.',answer:'attribute',why:'Email is a property of STUDENT.'},
+{prompt:'STUDENT enrolls in COURSE. In conceptual notation, classify “enrolls”.',answer:'relationship',why:'“enrolls” describes the association between the two entities.'},
+{prompt:'BOOK has Title and ISBN. Classify ISBN.',answer:'attribute',why:'ISBN is an attribute that describes BOOK.'}
 ];let entityIndex=0;const entityPrompt=document.getElementById('entityPrompt'),entityFeedback=document.getElementById('entityFeedback'),entityProgress=document.getElementById('entityProgress'),entityChoices=document.querySelectorAll('.entity-choice');
 function loadEntity(){const x=entityItems[entityIndex];entityPrompt.textContent=x.prompt;entityProgress.textContent=`Example ${entityIndex+1} of ${entityItems.length}`;entityFeedback.className='lesson-lab-feedback';entityFeedback.textContent='Classify the highlighted item.';entityChoices.forEach(b=>b.classList.remove('active'))}entityChoices.forEach(b=>b.addEventListener('click',()=>{const x=entityItems[entityIndex],ok=b.dataset.kind===x.answer;entityChoices.forEach(y=>y.classList.remove('active'));b.classList.add('active');entityFeedback.className='lesson-lab-feedback '+(ok?'correct':'wrong');entityFeedback.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.why}`}));document.getElementById('nextEntity').addEventListener('click',()=>{entityIndex=(entityIndex+1)%entityItems.length;loadEntity()});loadEntity();
 
 const cardItems=[
-{prompt:'One person has one passport; one passport belongs to one person.',answer:'1:1',why:'This is one-to-one.'},
-{prompt:'One customer can place many orders; each order belongs to one customer.',answer:'1:M',why:'CUSTOMER to ORDER is one-to-many.'},
-{prompt:'Students can take many courses; each course can have many students.',answer:'M:M',why:'Both directions allow many.'},
-{prompt:'One department employs many employees; each employee belongs to one department.',answer:'1:M',why:'DEPARTMENT to EMPLOYEE is one-to-many.'},
-{prompt:'Authors can write many books and a book may have several authors.',answer:'M:M',why:'Both sides may have many.'}
+{prompt:'One person has one insurance number; each insurance number belongs to one person.',answer:'1:1',why:'One-to-one.'},
+{prompt:'One company employs many employees; each employee works for one company.',answer:'1:N',why:'One-to-many from COMPANY to EMPLOYEE.'},
+{prompt:'One order can contain many items; one item can appear in many orders.',answer:'M:N',why:'Many-to-many.'},
+{prompt:'One mother can have many children; each child has one biological mother.',answer:'1:N',why:'One-to-many from MOTHER to CHILD.'}
 ];let cardIndex=0;const cardPrompt=document.getElementById('cardinalityPrompt'),cardFeedback=document.getElementById('cardinalityFeedback'),cardProgress=document.getElementById('cardinalityProgress'),cardChoices=document.querySelectorAll('.cardinality-choice');
 function loadCard(){const x=cardItems[cardIndex];cardPrompt.textContent=x.prompt;cardProgress.textContent=`Scenario ${cardIndex+1} of ${cardItems.length}`;cardFeedback.className='lesson-lab-feedback';cardFeedback.textContent='Choose the correct cardinality.';cardChoices.forEach(b=>b.classList.remove('active'))}cardChoices.forEach(b=>b.addEventListener('click',()=>{const x=cardItems[cardIndex],ok=b.dataset.cardinality===x.answer;cardChoices.forEach(y=>y.classList.remove('active'));b.classList.add('active');cardFeedback.className='lesson-lab-feedback '+(ok?'correct':'wrong');cardFeedback.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.why}`}));document.getElementById('nextCardinality').addEventListener('click',()=>{cardIndex=(cardIndex+1)%cardItems.length;loadCard()});loadCard();
-
-const builder={entities:false,cardinality:false,junction:false};const output=document.getElementById('builderOutput');
-function refreshBuilder(){if(builder.entities&&builder.cardinality&&builder.junction){output.textContent='STUDENT   1  ────<  ENROLMENT  >────  1   COURSE\\n\\nSTUDENT\\nStudentID\\nName\\n\\nENROLMENT\\nStudentID\\nCourseID\\nGrade\\n\\nCOURSE\\nCourseID\\nCourseName';}else{const done=[builder.entities?'✓ Entities':'○ Entities',builder.cardinality?'✓ Cardinality':'○ Cardinality',builder.junction?'✓ Junction entity':'○ Junction entity'];output.textContent=done.join('\\n');}}
-function bindBuilder(selector,key,feedbackId,correctValue,correctText,wrongText){const buttons=document.querySelectorAll(selector),fb=document.getElementById(feedbackId);buttons.forEach(b=>b.addEventListener('click',()=>{const ok=b.dataset.value===correctValue;buttons.forEach(x=>x.classList.remove('active'));b.classList.add('active');builder[key]=ok;fb.className='lesson-lab-feedback '+(ok?'correct':'wrong');fb.textContent=ok?correctText:wrongText;refreshBuilder()}));}
-bindBuilder('.builder-entity','entities','builderEntityFeedback','correct','Correct. STUDENT and COURSE are the main entities.','Look for the main things that need their own records, not attribute values.');
-bindBuilder('.builder-card','cardinality','builderCardFeedback','M:M','Correct. Both students and courses can participate many times.','Read both directions: many courses per student and many students per course.');
-bindBuilder('.builder-junction','junction','builderJunctionFeedback','correct','Correct. ENROLMENT resolves the M:M relationship and can store Grade.','Because Grade describes one student-course enrolment, it belongs with the associative entity.');refreshBuilder();
-
-const errors=[
-{prompt:'Scenario: one customer can make many orders, each order belongs to one customer. Diagram: CUSTOMER 1 ─ 1 ORDER',answer:'cardinality',why:'The relationship should be 1:M, not 1:1.'},
-{prompt:'Diagram uses Email as a separate entity connected to STUDENT.',answer:'entity',why:'Email is normally an attribute of STUDENT, not an independent entity.'},
-{prompt:'STUDENT and CLUB are both shown, but no line connects them even though the scenario says students join clubs.',answer:'relationship',why:'The relationship is missing.'},
-{prompt:'Relational design keeps STUDENT M:M COURSE directly even though each enrolment has Grade.',answer:'junction',why:'Use an associative entity such as ENROLMENT to implement the M:M relationship and store Grade.'}
-];let errorIndex=0;const errorPrompt=document.getElementById('errorPrompt'),errorFeedback=document.getElementById('errorFeedback'),errorProgress=document.getElementById('errorProgress'),errorChoices=document.querySelectorAll('.error-choice');
-function loadError(){const x=errors[errorIndex];errorPrompt.textContent=x.prompt;errorProgress.textContent=`Example ${errorIndex+1} of ${errors.length}`;errorFeedback.className='lesson-lab-feedback';errorFeedback.textContent='Identify the main problem.';errorChoices.forEach(b=>b.classList.remove('active'))}errorChoices.forEach(b=>b.addEventListener('click',()=>{const x=errors[errorIndex],ok=b.dataset.error===x.answer;errorChoices.forEach(y=>y.classList.remove('active'));b.classList.add('active');errorFeedback.className='lesson-lab-feedback '+(ok?'correct':'wrong');errorFeedback.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.why}`}));document.getElementById('nextError').addEventListener('click',()=>{errorIndex=(errorIndex+1)%errors.length;loadError()});loadError();
 });
 </script>
 
