@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tkinter: GUI Basics &amp; Layout — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+    <meta name="description"
+        content="Python Tkinter GUI programming: windows, event loops, geometry managers (pack/grid), Label, Entry, and Button widgets. NIS Grade 11 Programming 11.3.3.1, 11.3.3.2.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+    <meta property="og:title" content="Tkinter: GUI Basics &amp; Layout — mr. TEA">
+    <meta property="og:description" content="Python Tkinter GUI programming: windows, event loops, geometry managers (pack/grid), Label, Entry, and Button widgets. NIS Grade 11 Programming 11.3.3.1, 11.3.3.2.">
+    <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term4/lesson-26-tkinter-basics.html">
+    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.4A — Tkinter: GUI Basics &amp; Layout</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Tkinter: GUI Basics &amp; Layout</h1>
+                <p class="lesson-intro">Until now, our Python programs interacted through the console (CLI). A <strong>Graphical User Interface (GUI)</strong> replaces textual input with visual windows, text boxes, and buttons. Python includes <strong>Tkinter</strong> in its standard library — the fastest way to build desktop graphical applications.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.3.1</span> Use widgets for data entry (<code>Entry</code>)</li>
+                    <li><span class="lo-code">11.3.3.2</span> Use widgets to show results or messages (<code>Label</code>)</li>
+                    <li><span class="lo-code">11.3.3.4</span> Solve applied problems from various subject areas</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-lesson-26-tkinter-basics.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-desktop"></i> Linear Flow vs Event-Driven Programming</h4>
+                    <p>In console scripts, execution is <strong>sequential</strong>: line 1, then line 2, then wait for <code>input()</code>. In a GUI, execution is <strong>event-driven</strong>: the application creates a window, displays buttons and text fields, and sits in an infinite loop (<code>mainloop()</code>) waiting for user actions (clicks, keypresses) to trigger corresponding callback functions.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. The Tkinter Skeleton</h3>
+                <div class="code-block"><code>import tkinter as tk
+
+# 1. Initialize root window
+root = tk.Tk()
+root.title("My First GUI")
+root.geometry("400x250")       # width x height in pixels
+root.resizable(False, False)  # prevent window resizing
+
+# 2. Add widgets here...
+
+# 3. Start the infinite event loop
+root.mainloop()</code></div>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">2. Core Widgets: Label, Entry, Button</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Widget</th>
+                            <th>Creation Syntax</th>
+                            <th>Key Methods &amp; Properties</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Label</strong> (Display text/image)</td>
+                            <td><code>lbl = tk.Label(root, text="Hello", font=("Arial", 14))</code></td>
+                            <td><code>lbl.config(text="New Text")</code> to update text dynamically.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Entry</strong> (Single-line input)</td>
+                            <td><code>entry = tk.Entry(root, width=25, font=("Arial", 12))</code></td>
+                            <td><code>entry.get()</code> reads text; <code>entry.delete(0, tk.END)</code> clears.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Button</strong> (Action trigger)</td>
+                            <td><code>btn = tk.Button(root, text="Click Me", command=on_click)</code></td>
+                            <td><code>command=func_name</code> attaches callback function (without parentheses).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">3. Geometry Managers: pack() vs grid()</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Manager</th>
+                            <th>Description</th>
+                            <th>Common Arguments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pack()</code></td>
+                            <td>Simple stacking (vertical or horizontal)</td>
+                            <td><code>side=tk.TOP</code>, <code>padx=10</code>, <code>pady=5</code>, <code>fill=tk.X</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>grid()</code></td>
+                            <td>Structured 2D spreadsheet layout (rows &amp; columns)</td>
+                            <td><code>row=0</code>, <code>column=1</code>, <code>columnspan=2</code>, <code>sticky="w"</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Interactive Greeting App (Pack Layout)</h4>
+                    <p>Read a user's name from an Entry field and display a personalized greeting on button click:</p>
+                    <div class="code-block"><code>import tkinter as tk
+
+def greet_user():
+    name = name_entry.get().strip()
+    if name:
+        result_label.config(text=f"Welcome to NIS, {name}! 🎉", fg="#00a65a")
+    else:
+        result_label.config(text="Please enter your name!", fg="#d9534f")
+
+root = tk.Tk()
+root.title("Greeting App")
+root.geometry("350x200")
+
+# Widgets
+prompt = tk.Label(root, text="Enter your name:", font=("Arial", 11))
+prompt.pack(pady=10)
+
+name_entry = tk.Entry(root, font=("Arial", 12), width=20)
+name_entry.pack(pady=5)
+
+greet_button = tk.Button(root, text="Greet Me", font=("Arial", 11, "bold"),
+                         bg="#007acc", fg="white", command=greet_user)
+greet_button.pack(pady=10)
+
+result_label = tk.Label(root, text="", font=("Arial", 12, "bold"))
+result_label.pack(pady=5)
+
+root.mainloop()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Temperature Converter: Celsius to Fahrenheit (Grid Layout)</h4>
+                    <p>Structured two-column form using <code>grid()</code> layout:</p>
+                    <div class="code-block"><code>import tkinter as tk
+
+def convert_temp():
+    try:
+        celsius = float(entry_c.get())
+        fahrenheit = celsius * 9 / 5 + 32
+        label_result.config(text=f"{fahrenheit:.1f} °F", fg="blue")
+    except ValueError:
+        label_result.config(text="Invalid input!", fg="red")
+
+root = tk.Tk()
+root.title("Temperature Converter")
+root.geometry("320x160")
+
+# Row 0: Input
+tk.Label(root, text="Celsius (°C):", font=("Arial", 11)).grid(row=0, column=0, padx=15, pady=15, sticky="e")
+entry_c = tk.Entry(root, font=("Arial", 11), width=10)
+entry_c.grid(row=0, column=1, padx=15, pady=15, sticky="w")
+
+# Row 1: Convert Button
+btn_convert = tk.Button(root, text="Convert", command=convert_temp, font=("Arial", 10, "bold"))
+btn_convert.grid(row=1, column=0, columnspan=2, pady=5)
+
+# Row 2: Result
+tk.Label(root, text="Fahrenheit:", font=("Arial", 11)).grid(row=2, column=0, padx=15, pady=10, sticky="e")
+label_result = tk.Label(root, text="--", font=("Arial", 12, "bold"))
+label_result.grid(row=2, column=1, padx=15, pady=10, sticky="w")
+
+root.mainloop()</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Passing <code>command=func()</code> Instead of <code>command=func</code></h4>
+                    <p>Writing <code>command=convert()</code> with parentheses executes the function <em>immediately when the window opens</em> and assigns its return value (<code>None</code>) to the button. Always pass the function name without parentheses: <code>command=convert</code>.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Mixing <code>pack()</code> and <code>grid()</code></h4>
+                    <p>Never call <code>.pack()</code> on one widget and <code>.grid()</code> on another widget within the same parent window! Doing so causes an infinite layout calculation loop and freezes the application.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Forgetting <code>entry.get()</code></h4>
+                    <p>Remember that an <code>Entry</code> widget itself is a graphical object. To get the text typed by the user, you must call its method: <code>text_value = my_entry.get()</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Checklist</h4>
+                    <ul>
+                        <li>All user input from <code>entry.get()</code> is returned as a <strong>string</strong>. Always cast to <code>int()</code> or <code>float()</code> inside a <code>try...except</code> block when doing calculations.</li>
+                        <li>To clear an entry box: <code>my_entry.delete(0, tk.END)</code>.</li>
+                        <li>To update text in a label: <code>my_label.config(text="Updated message")</code>.</li>
+                        <li>Every Tkinter program must terminate with <code>root.mainloop()</code>.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Name the primary method used to start a Tkinter window's event loop and prevent it from closing.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why passing <code>command=calculate()</code> causes bugs compared to <code>command=calculate</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create a GUI with an Entry field and a Button. When clicked, calculate and display the square of the entered number in a Label.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare the advantages of <code>grid()</code> over <code>pack()</code> when designing multi-field user registration forms.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build an interactive <strong>Currency Converter (KZT to USD / EUR)</strong>: two Entry boxes, conversion buttons, and formatted output with input error checking.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. Which Tkinter widget is used for single-line keyboard input?</div>
+                    <div class="quiz-answer" data-answer="Entry (tk.Entry).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What data type does <code>entry.get()</code> return?</div>
+                    <div class="quiz-answer" data-answer="Always str (string), even if numbers were typed.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How do you dynamically change the text of an existing Label <code>lbl</code>?</div>
+                    <div class="quiz-answer" data-answer="lbl.config(text='New text') or lbl['text'] = 'New text'.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Can you use both <code>pack()</code> and <code>grid()</code> inside the same parent window?</div>
+                    <div class="quiz-answer" data-answer="No, mixing them causes a layout freeze / deadlock error.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What does <code>root.geometry('400x300')</code> configure?</div>
+                    <div class="quiz-answer" data-answer="Initial window width (400px) and height (300px).">Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-25-oop-problems.html"><span class="nav-label">← Previous</span><span class="nav-title">Applied OOP Problems</span></a>
+                <a href="lesson-27-tkinter-widgets-project.html"><span class="nav-label">Next →</span><span class="nav-title">Tkinter: Advanced Widgets &amp; Project</span></a>
+            </nav>
+        </div>
+    </div>
+    </main>
+</div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+</body>
+
+</html>
+

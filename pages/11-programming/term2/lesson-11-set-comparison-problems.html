@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Comparison &amp; Applied Problems — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+    <meta name="description"
+        content="Python set comparison: subsets, supersets, disjoint sets, and applied problem solving. NIS Grade 11 Programming 11.2.1.4, 11.3.3.4.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+    <meta property="og:title" content="Set Comparison &amp; Applied Problems — mr. TEA">
+    <meta property="og:description" content="Python set comparison: subsets, supersets, disjoint sets, and applied problem solving. NIS Grade 11 Programming 11.2.1.4, 11.3.3.4.">
+    <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term2/lesson-11-set-comparison-problems.html">
+    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.2A — Set Comparison &amp; Applied Problems</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.2A · Term 2</div>
+                <h1 class="lesson-title">Set Comparison &amp; Applied Problems</h1>
+                <p class="lesson-intro">Beyond basic unions and intersections, Python sets offer powerful comparison operators to test relationships like <strong>subsets</strong>, <strong>supersets</strong>, and <strong>disjoint sets</strong>. These operations solve real-world verification and filtering challenges in O(1) time complexity.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.1.4</span> Compare sets</li>
+                    <li><span class="lo-code">11.3.3.4</span> Solve applied problems from various subject areas using sets</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2A-lesson-11-set-comparison-problems.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-id-badge"></i> The Security Clearance Checker</h4>
+                    <p>Imagine a high-security lab requiring clearances: <code>{"biometrics", "badge", "escort"}</code>. A visitor presents their clearances: <code>{"badge", "escort"}</code>. To check if they can enter, we test if required clearances are a <strong>subset</strong> of visitor clearances. If two groups have zero common members, they are <strong>disjoint</strong>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Set Comparison Methods &amp; Operators</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Relationship</th>
+                            <th>Method</th>
+                            <th>Operator</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Subset</strong></td>
+                            <td><code>A.issubset(B)</code></td>
+                            <td><code>A &lt;= B</code></td>
+                            <td>True if every element of A is also in B</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Proper Subset</strong></td>
+                            <td><em>None</em></td>
+                            <td><code>A &lt; B</code></td>
+                            <td>True if A is subset of B and <code>A != B</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Superset</strong></td>
+                            <td><code>A.issuperset(B)</code></td>
+                            <td><code>A &gt;= B</code></td>
+                            <td>True if every element of B is also in A</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Proper Superset</strong></td>
+                            <td><em>None</em></td>
+                            <td><code>A &gt; B</code></td>
+                            <td>True if A is superset of B and <code>A != B</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disjoint</strong></td>
+                            <td><code>A.isdisjoint(B)</code></td>
+                            <td><em>None</em></td>
+                            <td>True if A and B have <strong>no common elements</strong> (<code>A &amp; B == set()</code>)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Equality</strong></td>
+                            <td><em>None</em></td>
+                            <td><code>A == B</code></td>
+                            <td>True if both sets contain exactly the same elements</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Role-Based Access Control (RBAC)</h4>
+                    <p>Verify if a user has all permissions required for an administrative action:</p>
+                    <div class="code-block"><code>required_perms = {"read", "write", "delete"}
+
+user_perms = {"read", "write", "comment", "share"}
+admin_perms = {"read", "write", "delete", "export", "manage_users"}
+
+def check_access(user_role, perms, required):
+    if required.issubset(perms):
+        print(f"✓ {user_role}: Access Granted")
+    else:
+        missing = required - perms
+        print(f"✗ {user_role}: Access Denied. Missing: {missing}")
+
+check_access("Standard User", user_perms, required_perms)
+# ✗ Standard User: Access Denied. Missing: {'delete'}
+
+check_access("Admin User", admin_perms, required_perms)
+# ✓ Admin User: Access Granted</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Disjoint Schedules (Exam Clash Detector)</h4>
+                    <p>Detect whether two students or teachers have scheduling conflicts:</p>
+                    <div class="code-block"><code>slots_student_a = {"Mon-09:00", "Tue-11:00", "Wed-14:00"}
+slots_student_b = {"Tue-09:00", "Wed-10:00", "Thu-14:00"}
+slots_student_c = {"Mon-09:00", "Fri-12:00"}
+
+# Check if schedules can run concurrently without collision
+print("A & B clash?", not slots_student_a.isdisjoint(slots_student_b))  # False (No clash)
+print("A & C clash?", not slots_student_a.isdisjoint(slots_student_c))  # True (Clash on Mon-09:00)</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Vocabulary Richness &amp; Unique Word Analysis</h4>
+                    <p>Analyze unique vocabulary overlap between two essays:</p>
+                    <div class="code-block"><code>text1 = "algorithm complexity efficiency runtime memory space"
+text2 = "runtime latency throughput memory bandwidth"
+
+words1 = set(text1.split())
+words2 = set(text2.split())
+
+jaccard_similarity = len(words1 & words2) / len(words1 | words2)
+print(f"Common terms: {words1 & words2}")
+print(f"Similarity index: {jaccard_similarity:.2f}")</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Proper Subset (&lt;) vs Subset (&lt;=)</h4>
+                    <p>If <code>A = {1, 2}</code> and <code>B = {1, 2}</code>, then <code>A &lt;= B</code> is <code>True</code>, but <code>A &lt; B</code> is <code>False</code> because a proper subset must have strictly fewer elements.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> isdisjoint() with Empty Set</h4>
+                    <p><code>set().isdisjoint(any_set)</code> is always <code>True</code>! An empty set has no elements to share with anything.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Operator vs Method Argument Types</h4>
+                    <p>Methods like <code>A.issubset([1, 2, 3])</code> accept any iterable (lists, tuples, strings). Operators like <code>A &lt;= [1, 2, 3]</code> raise a <code>TypeError</code> because both sides must be sets.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Checklist</h4>
+                    <ul>
+                        <li>To verify if an array has duplicates: <code>has_duplicates = len(data) != len(set(data))</code></li>
+                        <li><code>A.isdisjoint(B)</code> is significantly faster than <code>len(A &amp; B) == 0</code> because it stops at the first common element without computing the full intersection.</li>
+                        <li>For checking if string contains all vowels: <code>set("aeiou").issubset(set(user_input.lower()))</code>.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Write the difference between <code>A &lt;= B</code> and <code>A &lt; B</code> in Python.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why <code>s.issubset([1, 2, 3])</code> is valid, but <code>s &lt;= [1, 2, 3]</code> throws an error.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that takes a sentence from the user and checks if it is a <strong>pangram</strong> (contains all 26 letters of the English alphabet) using set comparison.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare the time complexity of checking membership <code>x in my_list</code> vs <code>x in my_set</code> when searching 1,000,000 items.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build an automated "Course Prerequisite Validator": define course prerequisite sets, prompt the student for completed courses, and output which courses they are eligible to enroll in.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does <code>{1, 2}.issubset({1, 2})</code> evaluate to?</div>
+                    <div class="quiz-answer" data-answer="True — a set is always a subset of itself (A <= A).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What does <code>{1, 2} &lt; {1, 2}</code> evaluate to?</div>
+                    <div class="quiz-answer" data-answer="False — strictly smaller (proper subset) requires len(A) < len(B).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What will <code>{10, 20}.isdisjoint({30, 40})</code> return?</div>
+                    <div class="quiz-answer" data-answer="True — they share no common elements.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. How can you test if string <code>s</code> contains every letter in 'abc' using sets?</div>
+                    <div class="quiz-answer" data-answer="set('abc').issubset(set(s)) or set('abc') <= set(s).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. Which method tests if set A contains all elements of set B?</div>
+                    <div class="quiz-answer" data-answer="A.issuperset(B) or A >= B.">Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-10-set-operations.html"><span class="nav-label">← Previous</span><span class="nav-title">Set Operations &amp; Comparison</span></a>
+                <a href="lesson-12-string-indexing.html"><span class="nav-label">Next →</span><span class="nav-title">String Indexing &amp; Slicing</span></a>
+            </nav>
+        </div>
+    </div>
+    </main>
+</div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+</body>
+
+</html>
+

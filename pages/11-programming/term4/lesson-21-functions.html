@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Functions — mr. TEA</title>
+    <title>User-Defined Functions — mr. TEA</title>
     <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
     <meta name="description"
         content="Python functions: def, parameters, return values. NIS Grade 11 Programming 11.3.1.1.">
@@ -12,9 +12,9 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="Functions — mr. TEA">
-    <meta property="og:description" content="Python functions: def, parameters, return values. NIS Grade 11 Programming 11.3.1.1.">
-    <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term3/functions.html">
+    <meta property="og:title" content="User-Defined Functions — mr. TEA">
+    <meta property="og:description" content="Python user-defined functions: def, parameters, return values, variable scope (local vs global). NIS Grade 11 Programming 11.3.1.1, 11.3.1.2, 11.3.1.3.">
+    <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term4/lesson-21-functions.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -50,21 +50,24 @@
             <nav class="lesson-breadcrumb">
                 <a href="/index.html">Home</a> <span class="sep">/</span>
                 <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
-                <span>11.3B — Functions</span>
+                <span>11.4A — User-Defined Functions</span>
             </nav>
 
             <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3B · Term 3</div>
-                <h1 class="lesson-title">Functions</h1>
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">User-Defined Functions</h1>
                 <p class="lesson-intro">A <strong>function</strong> is a reusable block of code that performs a specific
-                    task. Functions make programs shorter, more organized, and easier to debug by breaking complex
-                    problems into smaller, named pieces.</p>
+                    task. Functions make programs modular, testable, and easier to debug by breaking complex
+                    problems into smaller, named procedures with explicit parameters, return values, and variable scopes.</p>
             </div>
 
             <div class="lesson-lo-card">
                 <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
                 <ul class="lesson-lo-list">
                     <li><span class="lo-code">11.3.1.1</span> Write code in a programming language using functions</li>
+                    <li><span class="lo-code">11.3.1.2</span> Assign function parameters</li>
+                    <li><span class="lo-code">11.3.1.3</span> Define the scope of variables (local vs global)</li>
+                    <li><span class="lo-code">11.3.3.4</span> Solve applied problems from various subject areas</li>
                 </ul>
             </div>
 
@@ -72,7 +75,7 @@
                 <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
                 <div class="lesson-pdf-info">
                     <h4>Lesson Presentation</h4>
-                    <p>11.3B-functions.pdf · Slides for classroom use</p>
+                    <p>11.4A-lesson-21-functions.pdf · Slides for classroom use</p>
                 </div>
                 <div class="lesson-pdf-actions">
                     <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
@@ -179,6 +182,50 @@ print(f"You are {age} years old.")</code></div>
                     <p>The body of the function must be indented. Unindented code is considered outside the function.
                     </p>
                 </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> UnboundLocalError with Global Variables</h4>
+                    <p>If you reassign a global variable inside a function without the <code>global</code> keyword, Python treats it as a local variable before initialization, raising an <code>UnboundLocalError</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-compass"></i> Scope of Variables (11.3.1.3)</h2>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Scope</th>
+                            <th>Where Defined</th>
+                            <th>Accessibility</th>
+                            <th>Lifetime</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Local</strong></td>
+                            <td>Inside a function body or as a parameter</td>
+                            <td>Only within that specific function</td>
+                            <td>Created on call, destroyed when function returns</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Global</strong></td>
+                            <td>Outside all functions (top-level)</td>
+                            <td>Everywhere in the file (read-only unless <code>global</code> used)</td>
+                            <td>Persists until the program terminates</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Checklist</h4>
+                    <ul>
+                        <li>Functions without an explicit <code>return</code> statement return <code>None</code> by default.</li>
+                        <li>Default parameters must follow positional parameters: <code>def func(a, b=10):</code> is valid, but <code>def func(a=10, b):</code> is a SyntaxError.</li>
+                        <li>Avoid mutable default arguments like <code>def add(item, lst=[]):</code> — use <code>None</code> instead.</li>
+                    </ul>
+                </div>
             </section>
 
             <section class="lesson-section">
@@ -188,21 +235,39 @@ print(f"You are {age} years old.")</code></div>
                         <p>What keyword is used to define a function? What keyword returns a value?</p>
                     </div>
                     <div class="task-item"><span class="task-level understand">Understand</span>
-                        <p>Explain the difference between `print(result)` inside a function vs `return result`.</p>
+                        <p>Explain the difference between <code>print(result)</code> inside a function vs <code>return result</code>.</p>
                     </div>
                     <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a function `max_of_three(a, b, c)` that returns the largest of three numbers.</p>
+                        <p>Write a function <code>is_prime(n)</code> that returns <code>True</code> if $n$ is prime, and <code>False</code> otherwise.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Predict the output of modifying a global variable inside a function with and without the <code>global</code> declaration.</p>
                     </div>
                     <div class="task-item"><span class="task-level create">Create</span>
-                        <p>Create a calculator program using separate functions for add, subtract, multiply, and divide.
-                        </p>
+                        <p>Create a modular banking system: separate functions for <code>deposit()</code>, <code>withdraw()</code>, and <code>check_balance()</code> validating user inputs.</p>
                     </div>
                 </div>
             </section>
 
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is returned if a function finishes without reaching a <code>return</code> statement?</div>
+                    <div class="quiz-answer" data-answer="None.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Can a local variable have the same name as a global variable?</div>
+                    <div class="quiz-answer" data-answer="Yes, the local variable shadows (hides) the global variable within the function.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What keyword allows modifying a global variable from inside a function?</div>
+                    <div class="quiz-answer" data-answer="global.">Click to reveal answer</div>
+                </div>
+            </section>
+
             <nav class="lesson-nav">
-                        <a href="list-string-methods.html"><span class="nav-label">← Previous</span><span class="nav-title">List &amp; String Methods</span></a>
-                        <a href="lambda-problem-solving.html"><span class="nav-label">Next →</span><span class="nav-title">Lambda &amp; Applied Problems</span></a>
+                        <a href="../term3/lesson-20-data-structures-revision.html"><span class="nav-label">← Previous</span><span class="nav-title">Data Structures Comparison &amp; Revision</span></a>
+                        <a href="lesson-22-lambda-functions.html"><span class="nav-label">Next →</span><span class="nav-title">Lambda &amp; Applied Problems</span></a>
                     </nav>
         </div>
         </div>

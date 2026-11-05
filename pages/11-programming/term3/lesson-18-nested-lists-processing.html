@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested Lists: Processing &amp; Algorithms — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+    <meta name="description"
+        content="Processing algorithms for 2D lists in Python: row/col sums, diagonals, finding min/max with coordinates, transposition. NIS Grade 11 Programming 11.2.3.4, 11.2.3.6, 11.3.3.4.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+    <meta property="og:title" content="Nested Lists: Processing &amp; Algorithms — mr. TEA">
+    <meta property="og:description" content="Processing algorithms for 2D lists in Python: row/col sums, diagonals, finding min/max with coordinates, transposition. NIS Grade 11 Programming 11.2.3.4, 11.2.3.6, 11.3.3.4.">
+    <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term3/lesson-18-nested-lists-processing.html">
+    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.3A — Nested Lists: Processing &amp; Algorithms</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">Nested Lists: Processing &amp; Algorithms</h1>
+                <p class="lesson-intro">Once a 2D matrix is initialized, programs must perform algorithmic operations: calculating row and column totals, navigating main and secondary diagonals, locating maximum elements with their indices, and transposing tables.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.3.4</span> Create and manipulate nested lists in Python</li>
+                    <li><span class="lo-code">11.2.3.6</span> Define the difference between different data structures</li>
+                    <li><span class="lo-code">11.3.3.4</span> Solve applied problems from various subject areas</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-lesson-18-nested-lists-processing.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-satellite"></i> The Meteorological Heatmap</h4>
+                    <p>Weather stations record temperatures across a regional geographic grid ($N \times M$). To extract insights, meteorologists calculate the <strong>average daily temperature per row</strong> (latitude bands), <strong>column maximums</strong> (peak regional stations), and cross-diagonal thermal fronts.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Traversal by Element vs Traversal by Index</h3>
+                <div class="code-block"><code>matrix = [[1, 2, 3], [4, 5, 6]]
+
+# Traversal by element (read-only)
+for row in matrix:
+    for val in row:
+        print(val, end=" ")
+
+# Traversal by indices (needed when modifying or needing coordinates)
+rows = len(matrix)
+cols = len(matrix[0])
+for i in range(rows):
+    for j in range(cols):
+        print(f"cell({i},{j}) = {matrix[i][j]}")</code></div>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">2. Row Sums vs Column Sums</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Calculation</th>
+                            <th>Code Example</th>
+                            <th>Logic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Row Sums</strong></td>
+                            <td><code>row_sums = [sum(row) for row in matrix]</code></td>
+                            <td>Trivial: Python's <code>sum()</code> works directly on each inner list.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Column Sums</strong></td>
+                            <td><code>col_sums = [sum(matrix[i][j] for i in range(rows)) for j in range(cols)]</code></td>
+                            <td>Outer loop runs across columns <code>j</code>, inner loop sums down rows <code>i</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">3. Diagonal Rules for $N \times N$ Square Matrices</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Region</th>
+                            <th>Condition on Indices $(i, j)$</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Main Diagonal</strong></td>
+                            <td><code>i == j</code></td>
+                            <td>Top-left to bottom-right: <code>(0,0), (1,1), (2,2)</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Secondary Diagonal</strong></td>
+                            <td><code>i + j == n - 1</code> (or <code>matrix[i][n - 1 - i]</code>)</td>
+                            <td>Top-right to bottom-left</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Above Main Diagonal</strong></td>
+                            <td><code>j &gt; i</code></td>
+                            <td>Upper triangular matrix</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Below Main Diagonal</strong></td>
+                            <td><code>j &lt; i</code></td>
+                            <td>Lower triangular matrix</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Locating the Global Maximum and its Coordinates</h4>
+                    <p>Find the highest value in an $N \times M$ matrix along with its row and column index:</p>
+                    <div class="code-block"><code>matrix = [
+    [12, 45, 19],
+    [87, 23, 91],
+    [54, 68, 33]
+]
+
+max_val = matrix[0][0]
+max_row, max_col = 0, 0
+
+for i in range(len(matrix)):
+    for j in range(len(matrix[i])):
+        if matrix[i][j] > max_val:
+            max_val = matrix[i][j]
+            max_row, max_col = i, j
+
+print(f"Maximum value: {max_val} at Row {max_row}, Column {max_col}")
+# Output: Maximum value: 91 at Row 1, Column 2</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Calculating Main and Secondary Diagonal Sums</h4>
+                    <p>Summing both diagonals in a single loop with $O(N)$ time complexity:</p>
+                    <div class="code-block"><code>n = 3
+grid = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+main_sum = 0
+sec_sum = 0
+
+for i in range(n):
+    main_sum += grid[i][i]              # 1 + 5 + 9 = 15
+    sec_sum += grid[i][n - 1 - i]       # 3 + 5 + 7 = 15
+
+print(f"Main diagonal sum: {main_sum}")
+print(f"Secondary diagonal sum: {sec_sum}")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Matrix Transposition (Flipping Rows and Columns)</h4>
+                    <p>Convert an $M \times N$ matrix into an $N \times M$ transposed matrix:</p>
+                    <div class="code-block"><code>table = [
+    ["Alice", 95, "A"],
+    ["Bob",   82, "B"],
+    ["Clara", 89, "A"]
+]
+
+# Method A: Comprehension
+transposed = [[row[j] for row in table] for j in range(len(table[0]))]
+
+# Method B: zip() unpacker
+transposed_fast = [list(col) for col in zip(*table)]
+
+for line in transposed_fast:
+    print(line)
+# ['Alice', 'Bob', 'Clara']
+# [95, 82, 89]
+# ['A', 'B', 'A']</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Non-Square Matrices and Diagonal Assumptions</h4>
+                    <p>Diagonals only make mathematical sense for square ($N \times N$) matrices. If a matrix is rectangular ($3 \times 5$), accessing <code>matrix[i][n - 1 - i]</code> where $n = 3$ will ignore the remaining columns!</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> O(N²) when O(N) is Possible</h4>
+                    <p>To access diagonal elements, beginners often write nested loops with <code>if i == j:</code>, which takes $N^2$ iterations. A single loop <code>for i in range(n): total += matrix[i][i]</code> does it in $N$ operations.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Checklist</h4>
+                    <ul>
+                        <li>Flattening a 2D list into a 1D list: <code>flat = [num for row in matrix for num in row]</code>.</li>
+                        <li>Global minimum: <code>min(min(row) for row in matrix)</code>.</li>
+                        <li>Symmetric matrix check: <code>all(matrix[i][j] == matrix[j][i] for i in range(n) for j in range(n))</code>.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>State the relationship between row index $i$ and column index $j$ for cells on the secondary diagonal of an $N \times N$ matrix.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain how <code>zip(*matrix)</code> works to transpose a matrix in Python.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that takes an $N \times M$ matrix of integers and replaces all negative numbers with zeros.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Write an algorithm to determine whether a given square matrix is symmetric with respect to its main diagonal.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a "Magic Square Checker": verify whether an $N \times N$ grid has equal sums for all rows, all columns, and both diagonals.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. How do you find the sum of all elements in row 2 of <code>m</code>?</div>
+                    <div class="quiz-answer" data-answer="sum(m[2]).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Which condition isolates elements strictly above the main diagonal?</div>
+                    <div class="quiz-answer" data-answer="j > i (column index greater than row index).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What does <code>len(matrix[0])</code> represent in a rectangular matrix?</div>
+                    <div class="quiz-answer" data-answer="The number of columns in the matrix.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What is the time complexity to find the maximum element in an N x M matrix?</div>
+                    <div class="quiz-answer" data-answer="O(N * M) — every cell must be inspected at least once.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. How can you unpack rows of a matrix into column tuples?</div>
+                    <div class="quiz-answer" data-answer="zip(*matrix).">Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-17-nested-lists-create.html"><span class="nav-label">← Previous</span><span class="nav-title">Nested Lists: Creation &amp; Input</span></a>
+                <a href="lesson-19-dictionaries.html"><span class="nav-label">Next →</span><span class="nav-title">Dictionaries</span></a>
+            </nav>
+        </div>
+    </div>
+    </main>
+</div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+</body>
+
+</html>
+

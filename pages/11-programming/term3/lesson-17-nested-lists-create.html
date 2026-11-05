@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested Lists: Creation &amp; Input — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+    <meta name="description"
+        content="Python nested lists (2D arrays): creation, matrix representation, keyboard input, and comprehension. NIS Grade 11 Programming 11.2.3.4, 11.2.3.5.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+    <meta property="og:title" content="Nested Lists: Creation &amp; Input — mr. TEA">
+    <meta property="og:description" content="Python nested lists (2D arrays): creation, matrix representation, keyboard input, and comprehension. NIS Grade 11 Programming 11.2.3.4, 11.2.3.5.">
+    <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term3/lesson-17-nested-lists-create.html">
+    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.3A — Nested Lists: Creation &amp; Input</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.3A · Term 3</div>
+                <h1 class="lesson-title">Nested Lists: Creation &amp; Input</h1>
+                <p class="lesson-intro">A <strong>nested list</strong> is a list whose elements are themselves lists. In Python, nested lists represent two-dimensional data structures such as tables, matrices, game boards, and grids. Understanding how to create and read them properly from keyboard input is fundamental for data processing.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.2.3.4</span> Create nested lists in Python</li>
+                    <li><span class="lo-code">11.2.3.5</span> Enter elements of nested lists from the keyboard</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.3A-lesson-17-nested-lists-create.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-th"></i> The Spreadsheet / Grid Model</h4>
+                    <p>Think of a nested list as a spreadsheet table or a chessboard. The outer list represents the <strong>rows</strong> of the table. Each inner list represents the <strong>columns</strong> within that row. To target a cell, we use two indices: <code>matrix[row][col]</code>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">Matrix Representation &amp; Indexing</h3>
+                <p>Consider the matrix:</p>
+                <div class="code-block"><code>matrix = [
+    [10, 20, 30],   # Row index 0
+    [40, 50, 60],   # Row index 1
+    [70, 80, 90]    # Row index 2
+]
+
+print(matrix[0])       # [10, 20, 30] (the entire first row)
+print(matrix[1][2])    # 60 (Row 1, Column 2)
+print(matrix[2][0])    # 70 (Row 2, Column 0)</code></div>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">Safe Creation with List Comprehensions</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Approach</th>
+                            <th>Code Snippet</th>
+                            <th>Status &amp; Behavior</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>List Comprehension (Recommended)</strong></td>
+                            <td><code>[[0] * cols for _ in range(rows)]</code></td>
+                            <td><span style="color:var(--accent-teal);font-weight:bold;">Safe ✓</span> Each row is an independent inner list in memory.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Repetition Operator (Dangerous)</strong></td>
+                            <td><code>[[0] * cols] * rows</code></td>
+                            <td><span style="color:var(--accent-coral);font-weight:bold;">Bug ✗</span> Copies the <em>reference</em> to one inner list. Modifying one cell modifies the whole column!</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">Reading a 2D List from Keyboard Input</h3>
+                <p>When input provides $N$ rows, each containing space-separated numbers, standard patterns include:</p>
+                <div class="code-block"><code># Pattern 1: Row-by-row comprehension using map()
+rows = int(input("Enter number of rows: "))
+matrix = [list(map(int, input().split())) for _ in range(rows)]
+
+# Pattern 2: Iterative building with append()
+matrix = []
+for i in range(rows):
+    row_data = list(map(int, input().split()))
+    matrix.append(row_data)</code></div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Generating an Identity Matrix</h4>
+                    <p>An $N \times N$ identity matrix contains 1s on the main diagonal and 0s elsewhere:</p>
+                    <div class="code-block"><code>n = 4
+identity = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
+
+for row in identity:
+    print(row)
+# Output:
+# [1, 0, 0, 0]
+# [0, 1, 0, 0]
+# [0, 0, 1, 0]
+# [0, 0, 0, 1]</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Reading Student Grade Sheet from User</h4>
+                    <p>Prompt the user for the number of students and their marks across 3 subjects:</p>
+                    <div class="code-block"><code>num_students = int(input("Number of students: "))
+grades = []
+
+for i in range(num_students):
+    # e.g., input: "85 92 78"
+    student_marks = [int(mark) for mark in input(f"Marks for student {i + 1}: ").split()]
+    grades.append(student_marks)
+
+# Formatted table output
+print("\n--- GRADE TABLE ---")
+print(f"{'Student':<10} {'Math':<6} {'CS':<6} {'Phys':<6}")
+for idx, marks in enumerate(grades, start=1):
+    print(f"Student {idx:<3} {marks[0]:<6} {marks[1]:<6} {marks[2]:<6}")</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">3</span> Formatting 2D Output into a Grid</h4>
+                    <p>Print a 2D matrix with aligned columns without bracket notation:</p>
+                    <div class="code-block"><code>grid = [
+    [5, 12, 108],
+    [99, 7, 3],
+    [1200, 45, 8]
+]
+
+for row in grid:
+    for cell in row:
+        print(f"{cell:6d}", end="")
+    print()  # Newline after each row</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> The Multiplication Pitfall: <code>[[0] * 3] * 3</code></h4>
+                    <p>Never initialize 2D arrays using <code>grid = [[0] * 3] * 3</code>! Doing <code>grid[0][0] = 5</code> will change the first element of <strong>every row</strong>: <code>[[5,0,0], [5,0,0], [5,0,0]]</code>, because all 3 rows reference the identical object in memory.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Swapping Row and Column Indices</h4>
+                    <p>Remember: <code>matrix[i][j]</code> where <code>i</code> is <strong>row</strong> (vertical position) and <code>j</code> is <strong>column</strong> (horizontal position). Inverting them leads to <code>IndexError</code> when rows and columns differ in length.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Checklist</h4>
+                    <ul>
+                        <li>Dimensions of a matrix: rows = <code>len(matrix)</code>, columns = <code>len(matrix[0])</code>.</li>
+                        <li>To read an $N \times M$ matrix in one clean line during exam tasks:<br>
+                            <code>matrix = [list(map(int, input().split())) for _ in range(n)]</code></li>
+                        <li>Main diagonal condition: <code>row_idx == col_idx</code>.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Write Python syntax to access the element at row 2, column 3 of a nested list called <code>data</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Draw memory diagrams illustrating why <code>[[0]*2 for _ in range(2)]</code> behaves differently from <code>[[0]*2]*2</code>.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Write a program that takes $N$ and $M$ as input, reads an $N \times M$ matrix from the keyboard, and prints each row on a separate line.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Given <code>arr = [[1, 2], [3, 4], [5, 6]]</code>, determine what <code>len(arr)</code> and <code>len(arr[1])</code> evaluate to.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Create a 3x3 Tic-Tac-Toe board initializer: ask two players to take turns inputting coordinates (row, col) and update the board with "X" and "O".</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. In <code>a = [[1, 2, 3], [4, 5, 6]]</code>, what does <code>a[1][0]</code> evaluate to?</div>
+                    <div class="quiz-answer" data-answer="4 — Row 1 is [4, 5, 6], and index 0 of that row is 4.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. How many rows and columns does <code>[[0] * 5 for _ in range(3)]</code> have?</div>
+                    <div class="quiz-answer" data-answer="3 rows and 5 columns (3 lists, each containing 5 zeros).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What is the standard idiom to read an integer row from user input?</div>
+                    <div class="quiz-answer" data-answer="list(map(int, input().split())) or [int(x) for x in input().split()].">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What error occurs if you call <code>grid[5][0]</code> on a 3-row grid?</div>
+                    <div class="quiz-answer" data-answer="IndexError: list index out of range.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">5. What does <code>len(matrix)</code> return for a 2D list?</div>
+                    <div class="quiz-answer" data-answer="The number of rows in the matrix.">Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-16-tuples.html"><span class="nav-label">← Previous</span><span class="nav-title">Tuples &amp; Type Conversion</span></a>
+                <a href="lesson-18-nested-lists-processing.html"><span class="nav-label">Next →</span><span class="nav-title">Nested Lists: Processing &amp; Algorithms</span></a>
+            </nav>
+        </div>
+    </div>
+    </main>
+</div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+</body>
+
+</html>
+

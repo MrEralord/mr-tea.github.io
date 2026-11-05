@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tkinter: Advanced Widgets &amp; Project — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+    <meta name="description"
+        content="Advanced Tkinter widgets: Frames, Radiobutton, Checkbutton, messagebox dialogs, and building a full GUI application. NIS Grade 11 Programming 11.3.3.2, 11.3.3.3, 11.3.3.4.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+    <meta property="og:title" content="Tkinter: Advanced Widgets &amp; Project — mr. TEA">
+    <meta property="og:description" content="Advanced Tkinter widgets: Frames, Radiobutton, Checkbutton, messagebox dialogs, and building a full GUI application. NIS Grade 11 Programming 11.3.3.2, 11.3.3.3, 11.3.3.4.">
+    <meta property="og:url" content="https://mr-tea.net/pages/11-programming/term4/lesson-27-tkinter-widgets-project.html">
+    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 PROG</a> <span class="sep">/</span>
+                <span>11.4A — Tkinter: Advanced Widgets &amp; Project</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fab fa-python"></i> Unit 11.4A · Term 4</div>
+                <h1 class="lesson-title">Tkinter: Advanced Widgets &amp; Project</h1>
+                <p class="lesson-intro">In this capstone programming lesson, we master containerization with <strong>Frames</strong>, multi-option selections with <strong>Checkbuttons</strong> and <strong>Radiobuttons</strong>, alert dialogs with <strong>messagebox</strong>, and bring all concepts together into a complete GUI project.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.3.3</span> Use widgets with buttons, switches, and containers (<code>Frame</code>, <code>Radiobutton</code>, <code>Checkbutton</code>)</li>
+                    <li><span class="lo-code">11.3.3.2</span> Use widgets to show results or messages (<code>messagebox</code>)</li>
+                    <li><span class="lo-code">11.3.3.4</span> Solve applied problems from various subject areas</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.4A-lesson-27-tkinter-widgets-project.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-boxes"></i> The Bento Box Architecture</h4>
+                    <p>A great user interface organizes controls into logical compartments. In Tkinter, a <strong>Frame</strong> is a bento box compartment: you can place multiple buttons or inputs inside a frame, and then position the entire frame anywhere on the window. Radiobuttons act like a radio tuner (only one station selected at a time), while Checkbuttons act like pizza toppings (select any combination).</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Tkinter Control Variables</h3>
+                <p>To connect widgets like Radiobuttons and Checkbuttons with Python data, Tkinter uses reactive variable classes:</p>
+                <div class="code-block"><code>var_str = tk.StringVar(value="Default text")
+var_int = tk.IntVar(value=1)
+var_bool = tk.BooleanVar(value=False)
+
+# Read value
+current = var_str.get()
+
+# Change value (updates connected GUI widgets automatically)
+var_str.set("Updated text")</code></div>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">2. Containers: Frames</h3>
+                <div class="code-block"><code># Frame acting as a grouped container
+header_frame = tk.Frame(root, padx=10, pady=10, bg="#f0f0f0", bd=2, relief=tk.GROOVE)
+header_frame.pack(fill=tk.X, padx=10, pady=5)
+
+# Place widgets inside the frame (parent is header_frame, not root!)
+lbl = tk.Label(header_frame, text="Control Panel")
+lbl.pack()</code></div>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">3. Switches &amp; Dialogs</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Syntax</th>
+                            <th>Rule</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Radiobutton</strong> (Mutual Exclusive)</td>
+                            <td><code>tk.Radiobutton(root, text="Option A", variable=radio_var, value="A")</code></td>
+                            <td>All options in the same group <strong>must share the same <code>variable</code></strong>, but have distinct <code>value</code> arguments.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Checkbutton</strong> (Independent Toggle)</td>
+                            <td><code>tk.Checkbutton(root, text="Agree", variable=chk_var)</code></td>
+                            <td>Each Checkbutton requires its <strong>own separate <code>IntVar()</code> or <code>BooleanVar()</code></strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>messagebox</strong> (Popups)</td>
+                            <td><code>from tkinter import messagebox<br>messagebox.showinfo("Title", "Content")</code></td>
+                            <td>Standard modal popups: <code>showinfo()</code>, <code>showwarning()</code>, <code>showerror()</code>, <code>askyesno()</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-code"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Radiobutton Quiz System with Messagebox</h4>
+                    <p>Interactive single-choice question with instant feedback popup:</p>
+                    <div class="code-block"><code>import tkinter as tk
+from tkinter import messagebox
+
+def check_answer():
+    selected = selected_option.get()
+    if selected == "Python":
+        messagebox.showinfo("Result", "Correct! Python was created by Guido van Rossum.")
+    elif selected == "":
+        messagebox.showwarning("Warning", "Please select an answer first!")
+    else:
+        messagebox.showerror("Result", f"Incorrect. '{selected}' is not correct.")
+
+root = tk.Tk()
+root.title("CS Quiz")
+root.geometry("380x250")
+
+tk.Label(root, text="Which language was created by Guido van Rossum?",
+         font=("Arial", 11, "bold"), wraplength=340).pack(pady=15)
+
+selected_option = tk.StringVar(value="")
+
+options = ["Java", "C++", "Python", "JavaScript"]
+for opt in options:
+    tk.Radiobutton(root, text=opt, variable=selected_option,
+                   value=opt, font=("Arial", 11)).pack(anchor="w", padx=40, pady=2)
+
+tk.Button(root, text="Submit Answer", command=check_answer,
+          bg="#007acc", fg="white", font=("Arial", 10, "bold")).pack(pady=15)
+
+root.mainloop()</code></div>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Complete GUI Project: Simple Desktop Calculator</h4>
+                    <p>A full responsive calculator implemented with Tkinter grid layout:</p>
+                    <div class="code-block"><code>import tkinter as tk
+
+def btn_click(item):
+    current = display_var.get()
+    display_var.set(current + str(item))
+
+def btn_clear():
+    display_var.set("")
+
+def btn_equal():
+    try:
+        result = str(eval(display_var.get()))
+        display_var.set(result)
+    except Exception:
+        display_var.set("Error")
+
+root = tk.Tk()
+root.title("NIS Calculator")
+root.geometry("300x380")
+root.resizable(False, False)
+
+display_var = tk.StringVar(value="")
+
+# Display Screen
+entry = tk.Entry(root, textvariable=display_var, font=("Arial", 20),
+                 bd=5, relief=tk.RIDGE, justify="right")
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=15, ipady=10)
+
+# Buttons Matrix
+buttons = [
+    ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3),
+    ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3),
+    ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3),
+    ('C', 4, 0), ('0', 4, 1), ('=', 4, 2), ('+', 4, 3),
+]
+
+for (text, r, c) in buttons:
+    if text == "=":
+        cmd = btn_equal
+        bg_col = "#00a65a"
+    elif text == "C":
+        cmd = btn_clear
+        bg_col = "#d9534f"
+    else:
+        cmd = lambda t=text: btn_click(t)
+        bg_col = "#e0e0e0"
+
+    tk.Button(root, text=text, font=("Arial", 14, "bold"), width=4, height=2,
+              bg=bg_col, command=cmd).grid(row=r, column=c, padx=4, pady=4)
+
+root.mainloop()</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Radiobuttons Not Mutually Exclusive</h4>
+                    <p>If each Radiobutton is assigned a different <code>StringVar()</code>, clicking one will not uncheck the others. Grouped Radiobuttons must share the exact same <code>variable</code> instance.</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Lambda Loop Late-Binding Bug</h4>
+                    <p>When creating buttons in a loop with <code>command=lambda: btn_click(text)</code>, all buttons end up using the final loop value of <code>text</code>! Always write <code>lambda t=text: btn_click(t)</code> to capture the current value as a default parameter.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Checklist</h4>
+                    <ul>
+                        <li>Use <code>messagebox.askyesno("Exit", "Are you sure?")</code> which returns boolean <code>True</code> or <code>False</code> to confirm destructive user actions.</li>
+                        <li>To arrange a layout cleanly, divide the window into 2–3 <code>Frame</code> widgets (e.g. <code>top_frame</code>, <code>content_frame</code>, <code>bottom_frame</code>). Inside each frame, you can use either <code>pack()</code> or <code>grid()</code> safely.</li>
+                        <li>To read a Checkbutton's state: <code>var.get()</code> returns <code>1</code> (checked) or <code>0</code> (unchecked).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>Which Tkinter widget groups and organizes other widgets into isolated rectangular sections?</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain how Radiobuttons ensure mutual exclusivity through the <code>variable</code> property.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>Create an application with 3 Checkbuttons for optional pizza toppings. Display the calculated total price as checkboxes are toggled.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Explain why <code>messagebox.showwarning()</code> pauses code execution until the dialog is closed (modal behavior).</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Build a comprehensive <strong>Student Registration Form</strong>: Name &amp; Surname entries, Grade level radio buttons, Extracurricular activities checkbuttons, and a Submit button with validation popups.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What widget creates a group of mutually exclusive options?</div>
+                    <div class="quiz-answer" data-answer="Radiobutton (tk.Radiobutton sharing the same variable).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. What return type does <code>messagebox.askyesno()</code> give?</div>
+                    <div class="quiz-answer" data-answer="A Boolean value: True (if Yes clicked) or False (if No clicked).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. How do you create an integer tracking variable in Tkinter?</div>
+                    <div class="quiz-answer" data-answer="var = tk.IntVar().">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. Can a Frame contain its own independent grid layout?</div>
+                    <div class="quiz-answer" data-answer="Yes! Frames isolate geometry managers, allowing grid() inside a frame packed in root.">Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson-26-tkinter-basics.html"><span class="nav-label">← Previous</span><span class="nav-title">Tkinter: GUI Basics &amp; Layout</span></a>
+                <a href="../../12-cs-theory/ai-applications.html"><span class="nav-label">Next →</span><span class="nav-title">AI Applications (Grade 12 CS)</span></a>
+            </nav>
+        </div>
+    </div>
+    </main>
+</div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+</body>
+
+</html>
+
