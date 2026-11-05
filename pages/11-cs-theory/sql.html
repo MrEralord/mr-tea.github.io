@@ -4,343 +4,1320 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL (DDL &amp; DML) — mr. TEA</title>
-    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description"
-        content="SQL Data Definition Language and Data Manipulation Language: CREATE, SELECT, INSERT, UPDATE, DELETE, JOIN. NIS Grade 11 CS.">
 
-    <!-- Open Graph -->
+    <title>SQL: DDL &amp; DML — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
+    <meta name="description"
+        content="SQL DDL and DML: CREATE, ALTER, DROP, SELECT, INSERT, UPDATE and DELETE, with constraints, filters, ordering, practice and exam-style tasks. NIS Grade 11 Computer Science.">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="SQL (DDL &amp;amp; DML) — mr. TEA">
-    <meta property="og:description" content="SQL Data Definition Language and Data Manipulation Language: CREATE, SELECT, INSERT, UPDATE, DELETE, JOIN. NIS Grade 11 CS.">
+    <meta property="og:title" content="SQL: DDL &amp; DML — mr. TEA">
+    <meta property="og:description"
+        content="Create database structures with DDL and manipulate data with SQL SELECT, INSERT, UPDATE and DELETE.">
     <meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/sql.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
-    </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
-                <span>11.2A — SQL (DDL &amp; DML)</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-database"></i> Unit 11.2A · Term 2</div>
-                <h1 class="lesson-title">SQL: DDL &amp; DML</h1>
-                <p class="lesson-intro"><strong>SQL (Structured Query Language)</strong> is the standard language for
-                    managing relational databases. It has two main sub-languages: <strong>DDL</strong> (Data Definition
-                    Language) for structure, and <strong>DML</strong> (Data Manipulation Language) for data.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.4.2.1</span> Explain the purpose of a data dictionary</li>
-                    <li><span class="lo-code">11.4.2.2</span> Compare DDL and DML</li>
-                    <li><span class="lo-code">11.4.2.3</span> Basic SQL: CREATE, ALTER, DROP</li>
-                    <li><span class="lo-code">11.4.2.4</span> Basic SQL: SELECT, UPDATE, INSERT, DELETE</li>
-                    <li><span class="lo-code">11.4.2.5</span> Use SELECT for multiple tables (JOIN)</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.2A-sql.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                    <a href="/" class="logo">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
                 </div>
             </div>
 
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-tools"></i> The Warehouse Analogy</h4>
-                    <p><strong>DDL</strong> is like building the warehouse — constructing shelves (CREATE), modifying
-                        layout (ALTER), and demolishing sections (DROP). <strong>DML</strong> is like working inside the
-                        warehouse — adding stock (INSERT), finding items (SELECT), updating labels (UPDATE), and
-                        removing products (DELETE).</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">DDL vs DML</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>DDL (Data Definition)</th>
-                            <th>DML (Data Manipulation)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Purpose</strong></td>
-                            <td>Define/modify table structure</td>
-                            <td>Work with the data inside tables</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Commands</strong></td>
-                            <td>CREATE, ALTER, DROP</td>
-                            <td>SELECT, INSERT, UPDATE, DELETE</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Affects</strong></td>
-                            <td>Schema (structure)</td>
-                            <td>Data (records)</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">DDL
-                    Commands</h3>
-                <div class="code-block"><code>-- CREATE: Build a new table
-CREATE TABLE Students (
-    StudentID   VARCHAR(4) PRIMARY KEY,
-    Name        VARCHAR(50) NOT NULL,
-    Age         INTEGER,
-    Email       VARCHAR(100),
-    Class       VARCHAR(3)
-);
+            <div class="lesson-page">
+                <div class="lesson-container">
 
--- ALTER: Modify an existing table
-ALTER TABLE Students ADD Phone VARCHAR(15);
-ALTER TABLE Students DROP COLUMN Phone;
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 CS</a>
+                        <span class="sep">/</span>
+                        <span>11.2A — SQL</span>
+                    </nav>
 
--- DROP: Delete entire table (WARNING: permanent!)
-DROP TABLE Students;</code></div>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">DML
-                    Commands</h3>
-                <div class="code-block"><code>-- INSERT: Add a new record
-INSERT INTO Students (StudentID, Name, Age, Email, Class)
-VALUES ('S001', 'Ali', 16, 'ali@nis.edu.kz', '11A');
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fas fa-database"></i> Unit 11.2A · Term 2
+                        </div>
 
--- SELECT: Retrieve data
-SELECT * FROM Students;                      -- all columns
-SELECT Name, Age FROM Students;              -- specific columns
-SELECT * FROM Students WHERE Class = '11A';  -- with filter
-SELECT * FROM Students ORDER BY Name ASC;    -- sorted
+                        <h1 class="lesson-title">SQL: DDL &amp; DML</h1>
 
--- UPDATE: Modify existing records
-UPDATE Students SET Age = 17 WHERE StudentID = 'S001';
-
--- DELETE: Remove records
-DELETE FROM Students WHERE StudentID = 'S003';</code></div>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">SELECT
-                    with Multiple Tables (JOIN)</h3>
-                <div class="code-block"><code>-- Tables:
--- Students: StudentID, Name, Class
--- Grades:   GradeID, StudentID, Subject, Mark
-
--- INNER JOIN: Get student names with their grades
-SELECT Students.Name, Grades.Subject, Grades.Mark
-FROM Students
-INNER JOIN Grades ON Students.StudentID = Grades.StudentID;
-
--- Result:
--- ┌────────┬─────────┬──────┐
--- │ Name   │ Subject │ Mark │
--- ├────────┼─────────┼──────┤
--- │ Ali    │ Maths   │ 85   │
--- │ Ali    │ CS      │ 92   │
--- │ Dana   │ CS      │ 88   │
--- └────────┴─────────┴──────┘
-
--- With WHERE filter:
-SELECT Students.Name, Grades.Mark
-FROM Students
-INNER JOIN Grades ON Students.StudentID = Grades.StudentID
-WHERE Grades.Mark > 90;</code></div>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Useful
-                    SELECT Clauses</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Clause</th>
-                            <th>Purpose</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>WHERE</strong></td>
-                            <td>Filter rows</td>
-                            <td>WHERE Age > 16</td>
-                        </tr>
-                        <tr>
-                            <td><strong>ORDER BY</strong></td>
-                            <td>Sort results</td>
-                            <td>ORDER BY Name ASC</td>
-                        </tr>
-                        <tr>
-                            <td><strong>AND / OR</strong></td>
-                            <td>Combine conditions</td>
-                            <td>WHERE Age > 16 AND Class = '11A'</td>
-                        </tr>
-                        <tr>
-                            <td><strong>LIKE</strong></td>
-                            <td>Pattern matching</td>
-                            <td>WHERE Name LIKE 'A%'</td>
-                        </tr>
-                        <tr>
-                            <td><strong>COUNT()</strong></td>
-                            <td>Count records</td>
-                            <td>SELECT COUNT(*) FROM Students</td>
-                        </tr>
-                        <tr>
-                            <td><strong>SUM() / AVG()</strong></td>
-                            <td>Aggregate functions</td>
-                            <td>SELECT AVG(Mark) FROM Grades</td>
-                        </tr>
-                        <tr>
-                            <td><strong>GROUP BY</strong></td>
-                            <td>Group results</td>
-                            <td>GROUP BY Class</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> Data Dictionary</h4>
-                    <p>A <strong>data dictionary</strong> is metadata about the database: table names, field names, data
-                        types, constraints, and relationships. It's like a "table of contents" for the database —
-                        essential for developers to understand the structure.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-pencil-alt"></i> Worked Examples</h2>
-                <div class="worked-example">
-                    <h4><span class="step-num">1</span> Create a School Database</h4>
-                    <div class="code-block"><code>-- Step 1: Create tables
-CREATE TABLE Courses (
-    CourseID   VARCHAR(5) PRIMARY KEY,
-    Title      VARCHAR(50) NOT NULL,
-    Credits    INTEGER
-);
-
-CREATE TABLE Enrolment (
-    StudentID  VARCHAR(4),
-    CourseID   VARCHAR(5),
-    Grade      INTEGER,
-    PRIMARY KEY (StudentID, CourseID),
-    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
-    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
-);
-
--- Step 2: Insert data
-INSERT INTO Courses VALUES ('CS101', 'Computer Science', 3);
-INSERT INTO Courses VALUES ('MA201', 'Mathematics', 4);
-
-INSERT INTO Enrolment VALUES ('S001', 'CS101', 92);
-INSERT INTO Enrolment VALUES ('S001', 'MA201', 85);
-
--- Step 3: Query across tables
-SELECT s.Name, c.Title, e.Grade
-FROM Students s
-INNER JOIN Enrolment e ON s.StudentID = e.StudentID
-INNER JOIN Courses c ON e.CourseID = c.CourseID
-WHERE e.Grade > 80
-ORDER BY e.Grade DESC;</code></div>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> DELETE without WHERE</h4>
-                    <p><code>DELETE FROM Students;</code> deletes <strong>ALL records</strong> in the table! Always
-                        include a WHERE clause unless you truly want to empty the entire table.</p>
-                </div>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> DROP vs DELETE</h4>
-                    <p><strong>DROP</strong> removes the entire table (structure + data). <strong>DELETE</strong>
-                        removes only records (keeps the table structure). They are very different!</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>List all DDL and DML commands and state what each does.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write SQL to: (a) Create a Products table with ProductID, Name, Price, Stock. (b) Insert 3
-                            records. (c) Select all products under $10.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Write a JOIN query that shows all students and their course names from the Enrolment table.
+                        <p class="lesson-intro">
+                            <strong>SQL (Structured Query Language)</strong> is used to define relational
+                            database structures and work with the records stored inside them.
+                            In this lesson, the core distinction is simple:
+                            <strong>DDL changes structure; DML works with data.</strong>
                         </p>
                     </div>
-                    <div class="task-item"><span class="task-level analyze">Analyze</span>
-                        <p>Explain the difference between DROP TABLE and DELETE FROM. When would you use each?</p>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                        <ul class="lesson-lo-list">
+                            <li>
+                                <span class="lo-code">11.4.2.2</span>
+                                Create a database structure using DDL commands: CREATE, ALTER and DROP
+                            </li>
+                            <li>
+                                <span class="lo-code">11.4.2.3</span>
+                                Use SQL SELECT, UPDATE, INSERT and DELETE queries
+                            </li>
+                        </ul>
                     </div>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What is the difference between DDL and DML?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">DDL defines/modifies the
-                        structure (CREATE, ALTER, DROP). DML works with the data inside tables (SELECT, INSERT, UPDATE,
-                        DELETE).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: Write SQL to get all students aged over 16, sorted by name.</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">SELECT * FROM Students WHERE
-                        Age > 16 ORDER BY Name ASC;</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: What does INNER JOIN do?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">INNER JOIN returns only the
-                        rows where there is a match in BOTH tables being joined (based on the ON condition).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q4: What is a data dictionary?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">Metadata describing the
-                        database structure: table names, field names, data types, constraints, and relationships.</div>
-                </div>
-            </section>
-            <nav class="lesson-nav">
-                        <a href="normalization.html"><span class="nav-label">← Previous</span><span class="nav-title">Normalization</span></a>
-                        <a href="number-systems.html"><span class="nav-label">Next →</span><span class="nav-title">Number representation</span></a>
+
+                    <nav class="lesson-section-jump" aria-label="Lesson sections">
+                        <a href="#ddl-dml">DDL vs DML</a>
+                        <a href="#create">CREATE</a>
+                        <a href="#select">SELECT</a>
+                        <a href="#modify">INSERT / UPDATE / DELETE</a>
+                        <a href="#labs">Labs</a>
+                        <a href="#w3schools">W3Schools</a>
+                        <a href="#extension">Extension</a>
+                        <a href="#practice">Practice</a>
                     </nav>
-        </div>
-        </div>
-    </main>
-  </div>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> Conceptual Anchor
+                        </h2>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-warehouse"></i> Build the Warehouse, Then Work Inside It</h4>
+                            <p>
+                                <strong>DDL</strong> is like constructing the warehouse:
+                                create shelves, change the layout, remove a section.
+                                <strong>DML</strong> is the work done inside it:
+                                add stock, find stock, change stock and remove stock.
+                            </p>
+                        </div>
+
+                        <div class="lesson-flow">
+                            <div class="lesson-flow-node lesson-flow-node--accent">
+                                <strong>DDL</strong>
+                                <span>CREATE · ALTER · DROP</span>
+                            </div>
+
+                            <div class="lesson-flow-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+
+                            <div class="lesson-flow-node">
+                                <strong>Database structure</strong>
+                                <span>tables · columns · data types · constraints</span>
+                            </div>
+
+                            <div class="lesson-flow-divider">
+                                <span>then</span>
+                            </div>
+
+                            <div class="lesson-flow-node lesson-flow-node--success">
+                                <strong>DML</strong>
+                                <span>INSERT · SELECT · UPDATE · DELETE</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="ddl-dml">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-code-branch"></i> DDL vs DML
+                        </h2>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>DDL</th>
+                                    <th>DML</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Full name</strong></td>
+                                    <td>Data Definition Language</td>
+                                    <td>Data Manipulation Language</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Main purpose</strong></td>
+                                    <td>Define or modify database structure</td>
+                                    <td>Add, retrieve, change or remove records</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Main commands</strong></td>
+                                    <td><code>CREATE</code>, <code>ALTER</code>, <code>DROP</code></td>
+                                    <td><code>INSERT</code>, <code>SELECT</code>, <code>UPDATE</code>,
+                                        <code>DELETE</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Affects</strong></td>
+                                    <td>Schema / structure</td>
+                                    <td>Data / records</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="lesson-lab">
+                            <div id="classifyPrompt" class="lesson-lab-prompt"></div>
+
+                            <div class="lesson-lab-options two">
+                                <button class="lesson-choice-btn classify-choice" data-class="ddl" type="button">
+                                    DDL
+                                </button>
+                                <button class="lesson-choice-btn classify-choice" data-class="dml" type="button">
+                                    DML
+                                </button>
+                            </div>
+
+                            <div id="classifyFeedback" class="lesson-lab-feedback">
+                                Decide whether the command changes structure or data.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="classifyProgress"></span>
+                                <button id="nextClassify" class="lesson-lab-btn" type="button">
+                                    Next command
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-arrow-right-long"></i> From Data Dictionary to SQL
+                        </h2>
+
+                        <p class="concept-text">
+                            The data dictionary describes the intended structure.
+                            A <code>CREATE TABLE</code> statement implements that design.
+                        </p>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Data Dictionary</th>
+                                    <th>SQL implementation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>StudentID | VARCHAR(4) | unique identifier | required</code></td>
+                                    <td><code>StudentID VARCHAR(4) PRIMARY KEY</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>Name | VARCHAR(50) | student full name | required</code></td>
+                                    <td><code>Name VARCHAR(50) NOT NULL</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>Age | INT | student age</code></td>
+                                    <td><code>Age INT</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>Class | VARCHAR(3) | class code</code></td>
+                                    <td><code>Class VARCHAR(3)</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-link"></i> Connection to previous lessons</h4>
+                            <p>
+                                <strong>Data Dictionary</strong> documents the structure,
+                                <strong>Normalization</strong> improves the structure,
+                                and <strong>SQL DDL</strong> creates that structure in the database.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="create">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-table"></i> CREATE TABLE
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> Create the STUDENT table</h4>
+
+                            <div class="code-block"><code>CREATE TABLE Student (
+    StudentID VARCHAR(4) PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Age INT,
+    Email VARCHAR(100),
+    Class VARCHAR(3)
+);</code></div>
+                        </div>
+
+                        <h3>Read the Statement</h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>SQL part</th>
+                                    <th>Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>CREATE TABLE Student</code></td>
+                                    <td>Create a new table named Student</td>
+                                </tr>
+                                <tr>
+                                    <td><code>StudentID</code></td>
+                                    <td>Column / attribute name</td>
+                                </tr>
+                                <tr>
+                                    <td><code>VARCHAR(4)</code></td>
+                                    <td>Variable-length text, maximum 4 characters</td>
+                                </tr>
+                                <tr>
+                                    <td><code>PRIMARY KEY</code></td>
+                                    <td>Uniquely identifies each record</td>
+                                </tr>
+                                <tr>
+                                    <td><code>NOT NULL</code></td>
+                                    <td>A value must be supplied</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Useful Data Types</h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Suitable for</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>VARCHAR(n)</code></td>
+                                    <td>Variable-length text</td>
+                                    <td><code>VARCHAR(50)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>INT</code></td>
+                                    <td>Whole numbers</td>
+                                    <td><code>17</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>DECIMAL(p,s)</code></td>
+                                    <td>Exact decimal values</td>
+                                    <td><code>DECIMAL(8,2)</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>DATE</code></td>
+                                    <td>Calendar dates</td>
+                                    <td><code>2026-11-05</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>BOOLEAN</code></td>
+                                    <td>True / false state</td>
+                                    <td><code>TRUE</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Constraints</h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Constraint</th>
+                                    <th>Purpose</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>PRIMARY KEY</code></td>
+                                    <td>Unique identifier</td>
+                                    <td><code>StudentID VARCHAR(4) PRIMARY KEY</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>NOT NULL</code></td>
+                                    <td>Value is required</td>
+                                    <td><code>Name VARCHAR(50) NOT NULL</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>UNIQUE</code></td>
+                                    <td>Prevents duplicate values</td>
+                                    <td><code>Email VARCHAR(100) UNIQUE</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>FOREIGN KEY</code></td>
+                                    <td>Links to another table's key</td>
+                                    <td><code>CourseID</code> referencing <code>Course</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> DBMS differences</h4>
+                            <p>
+                                Exact data types and some <code>ALTER TABLE</code> syntax can differ
+                                between MySQL, PostgreSQL, SQL Server, Oracle and MS Access.
+                                In this lesson, focus on the common SQL ideas and the syntax used in the examples.
+                            </p>
+                        </div>
+
+                        <h3>ALTER TABLE</h3>
+
+                        <div class="code-block"><code>ALTER TABLE Student
+ADD Phone VARCHAR(15);
+
+ALTER TABLE Student
+DROP COLUMN Phone;</code></div>
+
+                        <h3>DROP TABLE</h3>
+
+                        <div class="code-block"><code>DROP TABLE Student;</code></div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-triangle-exclamation"></i> DROP removes the table</h4>
+                            <p>
+                                <code>DROP TABLE Student;</code> removes the table structure and its data.
+                                It is not the same as deleting selected records.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="select">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-magnifying-glass"></i> SELECT — Retrieve Data
+                        </h2>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> SELECT as a query builder</h4>
+
+                            <div class="lesson-flow">
+                                <div class="lesson-flow-node">
+                                    <strong>SELECT</strong>
+                                    <span>Which columns?</span>
+                                </div>
+
+                                <div class="lesson-flow-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+
+                                <div class="lesson-flow-node">
+                                    <strong>FROM</strong>
+                                    <span>Which table?</span>
+                                </div>
+
+                                <div class="lesson-flow-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+
+                                <div class="lesson-flow-node lesson-flow-node--accent">
+                                    <strong>WHERE</strong>
+                                    <span>Which rows?</span>
+                                </div>
+
+                                <div class="lesson-flow-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+
+                                <div class="lesson-flow-node lesson-flow-node--success">
+                                    <strong>ORDER BY</strong>
+                                    <span>In what order?</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="code-block"><code>SELECT Name, Age
+FROM Student
+WHERE Class = '11A'
+ORDER BY Name ASC;</code></div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Part</th>
+                                    <th>Question answered</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>SELECT Name, Age</code></td>
+                                    <td>Which columns should be returned?</td>
+                                </tr>
+                                <tr>
+                                    <td><code>FROM Student</code></td>
+                                    <td>Which table contains the data?</td>
+                                </tr>
+                                <tr>
+                                    <td><code>WHERE Class = '11A'</code></td>
+                                    <td>Which records should be included?</td>
+                                </tr>
+                                <tr>
+                                    <td><code>ORDER BY Name ASC</code></td>
+                                    <td>How should the result be sorted?</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Core SELECT Patterns</h3>
+
+                        <div class="code-block"><code>-- All columns, all rows
+SELECT * FROM Student;
+
+-- Specific columns
+SELECT Name, Class
+FROM Student;
+
+-- Filter rows
+SELECT *
+FROM Student
+WHERE Age >= 16;
+
+-- Combine conditions
+SELECT Name
+FROM Student
+WHERE Age >= 16 AND Class = '11A';
+
+-- Pattern matching
+SELECT Name
+FROM Student
+WHERE Name LIKE 'A%';
+
+-- Sort
+SELECT Name, Age
+FROM Student
+ORDER BY Age DESC;</code></div>
+
+                        <h3>Comparison &amp; Logical Operators</h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Meaning</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>=</code></td>
+                                    <td>equal to</td>
+                                    <td><code>Class = '11A'</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>&lt;&gt;</code></td>
+                                    <td>not equal to</td>
+                                    <td><code>Class &lt;&gt; '11A'</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>&gt;</code>, <code>&lt;</code></td>
+                                    <td>greater / less than</td>
+                                    <td><code>Age &gt; 16</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>&gt;=</code>, <code>&lt;=</code></td>
+                                    <td>greater/less than or equal</td>
+                                    <td><code>Mark &gt;= 80</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>AND</code></td>
+                                    <td>both conditions must be true</td>
+                                    <td><code>Age &gt;= 16 AND Class = '11A'</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>OR</code></td>
+                                    <td>at least one condition is true</td>
+                                    <td><code>Class = '11A' OR Class = '11B'</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>NOT</code></td>
+                                    <td>negates a condition</td>
+                                    <td><code>NOT Class = '11A'</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Translate the Requirement into SQL</h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Requirement</th>
+                                    <th>SQL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Show names of students in class 11A</td>
+                                    <td><code>SELECT Name FROM Student WHERE Class = '11A';</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Show students older than 16, oldest first</td>
+                                    <td><code>SELECT * FROM Student WHERE Age &gt; 16 ORDER BY Age DESC;</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Show names beginning with A</td>
+                                    <td><code>SELECT Name FROM Student WHERE Name LIKE 'A%';</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="lesson-section" id="modify">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-pen-to-square"></i> INSERT, UPDATE &amp; DELETE
+                        </h2>
+
+                        <h3>INSERT — Add a Record</h3>
+
+                        <div class="code-block"><code>INSERT INTO Student (StudentID, Name, Age, Email, Class)
+VALUES ('S001', 'Ali', 16, 'ali@nis.edu.kz', '11A');</code></div>
+
+                        <h3>UPDATE — Change Existing Data</h3>
+
+                        <div class="code-block"><code>UPDATE Student
+SET Class = '11B'
+WHERE StudentID = 'S001';</code></div>
+
+                        <h3>DELETE — Remove Records</h3>
+
+                        <div class="code-block"><code>DELETE FROM Student
+WHERE StudentID = 'S003';</code></div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> UPDATE or DELETE without WHERE</h4>
+                            <p>
+                                <code>UPDATE Student SET Class = '11B';</code> changes every row.
+                                <code>DELETE FROM Student;</code> removes every row.
+                                Use <code>WHERE</code> when the task targets specific records.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> DELETE ≠ DROP</h4>
+                            <p>
+                                <strong>DELETE</strong> removes records but keeps the table.
+                                <strong>DROP TABLE</strong> removes the table itself.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="labs">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-flask"></i> Interactive SQL Labs
+                        </h2>
+
+                        <h3>1. Build the Correct Query</h3>
+
+                        <div class="lesson-lab">
+                            <div id="queryPrompt" class="lesson-lab-prompt"></div>
+
+                            <div id="queryOptions" class="lesson-lab-options two"></div>
+
+                            <div id="queryFeedback" class="lesson-lab-feedback">
+                                Choose the SQL statement that matches the requirement.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="queryProgress"></span>
+                                <button id="nextQuery" class="lesson-lab-btn" type="button">
+                                    Next requirement
+                                </button>
+                            </div>
+                        </div>
+
+                        <h3>2. Find the SQL Error</h3>
+
+                        <div class="lesson-lab">
+                            <div id="errorPrompt" class="lesson-lab-prompt"></div>
+
+                            <div class="lesson-lab-options four">
+                                <button class="lesson-choice-btn error-choice" data-error="keyword" type="button">
+                                    Wrong / missing keyword
+                                </button>
+                                <button class="lesson-choice-btn error-choice" data-error="quotes" type="button">
+                                    String quotes
+                                </button>
+                                <button class="lesson-choice-btn error-choice" data-error="where" type="button">
+                                    WHERE problem
+                                </button>
+                                <button class="lesson-choice-btn error-choice" data-error="columns" type="button">
+                                    Column/value mismatch
+                                </button>
+                            </div>
+
+                            <div id="errorFeedback" class="lesson-lab-feedback">
+                                Identify the main error.
+                            </div>
+
+                            <div class="lesson-lab-footer">
+                                <span id="errorProgress"></span>
+                                <button id="nextError" class="lesson-lab-btn" type="button">
+                                    Next query
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="w3schools">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-laptop-code"></i> Practice on W3Schools
+                        </h2>
+
+                        <p class="concept-text">
+                            W3Schools is useful here because the SQL tutorial includes runnable examples
+                            with a browser-based editor, and the exercise section lets you practise
+                            individual SQL topics.
+                        </p>
+
+                        <div class="definition-grid">
+                            <div class="definition-item">
+                                <strong>SQL Tutorial + Try it Yourself</strong>
+                                <p>
+                                    Read explanations, edit example queries and run them in the browser.
+                                </p>
+                                <p>
+                                    <a href="https://www.w3schools.com/sql/default.asp" target="_blank"
+                                        rel="noopener noreferrer">
+                                        Open W3Schools SQL Tutorial ↗
+                                    </a>
+                                </p>
+                            </div>
+
+                            <div class="definition-item">
+                                <strong>SQL Exercises</strong>
+                                <p>
+                                    Practise SELECT, WHERE, ORDER BY, INSERT, UPDATE, DELETE,
+                                    CREATE TABLE, ALTER TABLE, constraints and more.
+                                </p>
+                                <p>
+                                    <a href="https://www.w3schools.com/sql/sql_exercises.asp" target="_blank"
+                                        rel="noopener noreferrer">
+                                        Open SQL Exercises ↗
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <h3>Recommended Practice Sequence</h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Topic</th>
+                                    <th>W3Schools</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>SELECT</td>
+                                    <td><a href="https://www.w3schools.com/sql/sql_select.asp" target="_blank"
+                                            rel="noopener noreferrer">SELECT tutorial ↗</a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>WHERE</td>
+                                    <td><a href="https://www.w3schools.com/sql/sql_where.asp" target="_blank"
+                                            rel="noopener noreferrer">WHERE tutorial ↗</a></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>ORDER BY</td>
+                                    <td><a href="https://www.w3schools.com/sql/sql_orderby.asp" target="_blank"
+                                            rel="noopener noreferrer">ORDER BY tutorial ↗</a></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>INSERT INTO</td>
+                                    <td><a href="https://www.w3schools.com/sql/sql_insert.asp" target="_blank"
+                                            rel="noopener noreferrer">INSERT tutorial ↗</a></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>UPDATE</td>
+                                    <td><a href="https://www.w3schools.com/sql/sql_update.asp" target="_blank"
+                                            rel="noopener noreferrer">UPDATE tutorial ↗</a></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>DELETE</td>
+                                    <td><a href="https://www.w3schools.com/sql/sql_delete.asp" target="_blank"
+                                            rel="noopener noreferrer">DELETE tutorial ↗</a></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>CREATE TABLE</td>
+                                    <td><a href="https://www.w3schools.com/sql/sql_create_table.asp" target="_blank"
+                                            rel="noopener noreferrer">CREATE TABLE tutorial ↗</a></td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>ALTER TABLE</td>
+                                    <td><a href="https://www.w3schools.com/sql/sql_alter.asp" target="_blank"
+                                            rel="noopener noreferrer">ALTER TABLE tutorial ↗</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Important</h4>
+                            <p>
+                                W3Schools demonstrates several database systems, so some syntax may differ
+                                slightly from the syntax required by your course or chosen DBMS.
+                                Use the lesson examples as the course reference.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="extension">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-plus-circle"></i> Extension / Next Step
+                        </h2>
+
+                        <details class="lesson-compact-details">
+                            <summary>Aggregate functions and GROUP BY</summary>
+                            <div class="lesson-details-body">
+                                <div class="code-block"><code>SELECT COUNT(*) FROM Student;
+
+SELECT AVG(Grade)
+FROM Enrolment;
+
+SELECT CourseID, AVG(Grade)
+FROM Enrolment
+GROUP BY CourseID;</code></div>
+
+                                <p class="concept-text">
+                                    Useful aggregate functions include <code>COUNT()</code>,
+                                    <code>SUM()</code>, <code>AVG()</code>, <code>MIN()</code> and <code>MAX()</code>.
+                                </p>
+                            </div>
+                        </details>
+
+                        <details class="lesson-compact-details">
+                            <summary>11.4.2.4 — SELECT from multiple tables (JOIN)</summary>
+                            <div class="lesson-details-body">
+
+                                <p class="concept-text">
+                                    This is the next syllabus step rather than the core LO of this page.
+                                    JOIN combines related records using matching key values.
+                                </p>
+
+                                <div class="code-block"><code>SELECT s.Name, e.Grade
+FROM Student s
+INNER JOIN Enrolment e
+    ON s.StudentID = e.StudentID;</code></div>
+
+                                <div class="code-block"><code>SELECT s.Name, c.CourseName, e.Grade
+FROM Student s
+INNER JOIN Enrolment e
+    ON s.StudentID = e.StudentID
+INNER JOIN Course c
+    ON e.CourseID = c.CourseID;</code></div>
+
+                                <p class="concept-text">
+                                    The JOIN works because the normalized tables are connected by
+                                    primary-key / foreign-key relationships.
+                                </p>
+
+                                <p>
+                                    <a href="https://www.w3schools.com/sql/sql_join.asp" target="_blank"
+                                        rel="noopener noreferrer">
+                                        W3Schools SQL JOIN tutorial ↗
+                                    </a>
+                                </p>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Text values without quotes</h4>
+                            <p>
+                                Write <code>WHERE Class = '11A'</code>, not
+                                <code>WHERE Class = 11A</code>.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Missing WHERE in UPDATE / DELETE</h4>
+                            <p>
+                                Without a condition, the command can affect every record.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Mixing column and value counts</h4>
+                            <p>
+                                The number and order of values should match the listed columns in an
+                                <code>INSERT INTO ... VALUES ...</code> statement.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> DELETE vs DROP</h4>
+                            <p>
+                                <code>DELETE</code> removes records. <code>DROP TABLE</code> removes
+                                the table structure itself.
+                            </p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> WHERE before FROM</h4>
+                            <p>
+                                Basic query order is <code>SELECT ... FROM ... WHERE ... ORDER BY ...</code>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Graded Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>State the difference between DDL and DML and give two commands from each category.
+                                </p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>Explain the difference between <code>DELETE FROM Student;</code> and
+                                    <code>DROP TABLE Student;</code>.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>Write SQL to create PRODUCT with ProductID <code>VARCHAR(5)</code> as PK, Name
+                                    <code>VARCHAR(50)</code> required, Price <code>DECIMAL(8,2)</code> and Stock
+                                    <code>INT</code>.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>Write an <code>INSERT</code> statement to add product P001, Keyboard, 12990.00, stock
+                                    7.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>Write a query to show Name and Price for products costing less than 10000, cheapest
+                                    first.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>Write SQL to change the stock of product P001 to 10.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>Explain what is wrong with <code>UPDATE Product SET Price = 0;</code> if only P001
+                                    should be changed.</p>
+                            </div>
+
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>Create a BOOK table and write suitable INSERT, SELECT, UPDATE and DELETE statements
+                                    for it.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: Write SQL to create a COURSE table with CourseID VARCHAR(5) as primary key,
+                                CourseName VARCHAR(50) required, and Credits INT. [4]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>CREATE TABLE COURSE / equivalent [1]
+                                    CourseID VARCHAR(5) PRIMARY KEY [1]
+                                    CourseName VARCHAR(50) NOT NULL [1]
+                                    Credits INT and syntactically valid table definition [1]</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: Write a query to display Name and Age for all students in class 11A
+                                who are at least 16 years old, sorted by Name ascending. [4]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>SELECT Name, Age [1]
+                                    FROM Student [1]
+                                    WHERE Class = '11A' AND Age &gt;= 16 [1]
+                                    ORDER BY Name ASC [1]</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: A student's ID is S003. Write SQL to change their class to 11B. [2]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>UPDATE Student SET Class = '11B' [1]
+                                    WHERE StudentID = 'S003' [1]</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: Explain why a DELETE statement without a WHERE clause can be dangerous. [2]
+                            </p>
+
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Without WHERE, all rows in the table are targeted/removed [1]
+                                    This may delete records that were not intended to be removed / cause data loss [1]
+                                </div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-check-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="lesson-quiz-progress">
+                            <span>Eight quick checks</span>
+                            <span>Click each answer to reveal</span>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. Which commands are DDL?</div>
+                            <div class="quiz-answer" data-answer="CREATE, ALTER and DROP">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. Which commands are the core DML commands in this lesson?</div>
+                            <div class="quiz-answer" data-answer="SELECT, INSERT, UPDATE and DELETE">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What does PRIMARY KEY do?</div>
+                            <div class="quiz-answer" data-answer="It uniquely identifies each record in a table">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. What does NOT NULL mean?</div>
+                            <div class="quiz-answer" data-answer="A value must be provided for that column">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. Which clause filters rows?</div>
+                            <div class="quiz-answer" data-answer="WHERE">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">6. Which clause sorts query results?</div>
+                            <div class="quiz-answer" data-answer="ORDER BY">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. What happens if DELETE FROM Student is used with no WHERE
+                                clause?</div>
+                            <div class="quiz-answer"
+                                data-answer="All records in Student are deleted, while the table structure remains">
+                                Click to reveal answer
+                            </div>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">8. What does LIKE 'A%' mean?</div>
+                            <div class="quiz-answer" data-answer="Match text values that begin with A">
+                                Click to reveal answer
+                            </div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="normalization.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">Normalization</span>
+                            </span>
+                        </a>
+
+                        <a href="number-systems.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">Number Representation</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
+        </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const classifyCases = [
+                { prompt: 'CREATE TABLE Student (...);', answer: 'ddl', why: 'CREATE defines database structure, so it is DDL.' },
+                { prompt: "INSERT INTO Student VALUES ('S001', 'Ali', 16, '11A');", answer: 'dml', why: 'INSERT adds a record, so it is DML.' },
+                { prompt: 'ALTER TABLE Student ADD Phone VARCHAR(15);', answer: 'ddl', why: 'ALTER changes table structure, so it is DDL.' },
+                { prompt: "UPDATE Student SET Class = '11B' WHERE StudentID = 'S001';", answer: 'dml', why: 'UPDATE changes stored data, so it is DML.' },
+                { prompt: 'DROP TABLE Student;', answer: 'ddl', why: 'DROP removes the table structure, so it is DDL.' },
+                { prompt: "DELETE FROM Student WHERE StudentID = 'S003';", answer: 'dml', why: 'DELETE removes records, so it is DML.' },
+                { prompt: "SELECT Name FROM Student WHERE Class = '11A';", answer: 'dml', why: 'SELECT retrieves stored data, so it is treated as DML in this course.' }
+            ];
+
+            let classifyIndex = 0;
+            const classifyPrompt = document.getElementById('classifyPrompt');
+            const classifyChoices = document.querySelectorAll('.classify-choice');
+            const classifyFeedback = document.getElementById('classifyFeedback');
+            const classifyProgress = document.getElementById('classifyProgress');
+
+            function loadClassify() {
+                const x = classifyCases[classifyIndex];
+                classifyPrompt.textContent = x.prompt;
+                classifyProgress.textContent = `Command ${classifyIndex + 1} of ${classifyCases.length}`;
+                classifyChoices.forEach(b => b.classList.remove('active'));
+                classifyFeedback.className = 'lesson-lab-feedback';
+                classifyFeedback.textContent = 'Decide whether the command changes structure or data.';
+            }
+
+            classifyChoices.forEach(btn => btn.addEventListener('click', () => {
+                const x = classifyCases[classifyIndex];
+                const ok = btn.dataset.class === x.answer;
+
+                classifyChoices.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                classifyFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+                classifyFeedback.innerHTML =
+                    `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+            }));
+
+            document.getElementById('nextClassify').addEventListener('click', () => {
+                classifyIndex = (classifyIndex + 1) % classifyCases.length;
+                loadClassify();
+            });
+
+            loadClassify();
+
+            const queryCases = [
+                {
+                    prompt: 'Show the Name of every student in class 11A.',
+                    answer: 'b',
+                    options: {
+                        a: "SELECT Class FROM Student WHERE Name = '11A';",
+                        b: "SELECT Name FROM Student WHERE Class = '11A';",
+                        c: "UPDATE Student SET Name = '11A';",
+                        d: "SELECT Name WHERE Student FROM Class = '11A';"
+                    },
+                    why: 'SELECT Name chooses the required column and WHERE Class = \'11A\' filters the rows.'
+                },
+                {
+                    prompt: 'Show all students older than 16, oldest first.',
+                    answer: 'c',
+                    options: {
+                        a: "SELECT * FROM Student WHERE Age < 16 ORDER BY Age ASC;",
+                        b: "SELECT Age FROM Student ORDER BY Name DESC;",
+                        c: "SELECT * FROM Student WHERE Age > 16 ORDER BY Age DESC;",
+                        d: "UPDATE Student SET Age > 16 ORDER BY Age;"
+                    },
+                    why: 'The task needs all columns, Age > 16, and descending Age order.'
+                },
+                {
+                    prompt: 'Change student S003 to class 11B.',
+                    answer: 'a',
+                    options: {
+                        a: "UPDATE Student SET Class = '11B' WHERE StudentID = 'S003';",
+                        b: "INSERT INTO Student Class = '11B' WHERE StudentID = 'S003';",
+                        c: "DELETE FROM Student WHERE Class = '11B';",
+                        d: "SELECT Class = '11B' FROM Student WHERE StudentID = 'S003';"
+                    },
+                    why: 'UPDATE changes an existing row and WHERE targets S003.'
+                },
+                {
+                    prompt: 'Delete only student S005.',
+                    answer: 'd',
+                    options: {
+                        a: "DROP TABLE Student WHERE StudentID = 'S005';",
+                        b: "DELETE StudentID = 'S005' FROM Student;",
+                        c: "DELETE FROM Student;",
+                        d: "DELETE FROM Student WHERE StudentID = 'S005';"
+                    },
+                    why: 'DELETE FROM removes records; WHERE limits the operation to S005.'
+                }
+            ];
+
+            let queryIndex = 0;
+            const queryPrompt = document.getElementById('queryPrompt');
+            const queryOptions = document.getElementById('queryOptions');
+            const queryFeedback = document.getElementById('queryFeedback');
+            const queryProgress = document.getElementById('queryProgress');
+
+            function loadQuery() {
+                const x = queryCases[queryIndex];
+                queryPrompt.textContent = x.prompt;
+                queryProgress.textContent = `Requirement ${queryIndex + 1} of ${queryCases.length}`;
+                queryOptions.innerHTML = '';
+
+                Object.entries(x.options).forEach(([key, text]) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'lesson-choice-btn query-choice';
+                    btn.dataset.choice = key;
+                    btn.textContent = text;
+
+                    btn.addEventListener('click', () => {
+                        const ok = key === x.answer;
+                        queryOptions.querySelectorAll('.query-choice')
+                            .forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+
+                        queryFeedback.className =
+                            `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+                        queryFeedback.innerHTML =
+                            `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+                    });
+
+                    queryOptions.appendChild(btn);
+                });
+
+                queryFeedback.className = 'lesson-lab-feedback';
+                queryFeedback.textContent = 'Choose the SQL statement that matches the requirement.';
+            }
+
+            document.getElementById('nextQuery').addEventListener('click', () => {
+                queryIndex = (queryIndex + 1) % queryCases.length;
+                loadQuery();
+            });
+
+            loadQuery();
+
+            const errorCases = [
+                {
+                    prompt: "SELECT Name Student WHERE Class = '11A';",
+                    answer: 'keyword',
+                    why: 'The FROM keyword is missing: SELECT Name FROM Student WHERE Class = \'11A\';'
+                },
+                {
+                    prompt: 'SELECT * FROM Student WHERE Class = 11A;',
+                    answer: 'quotes',
+                    why: '11A is text, so it should be quoted: WHERE Class = \'11A\'.'
+                },
+                {
+                    prompt: "UPDATE Student SET Class = '11B';  -- only S001 should change",
+                    answer: 'where',
+                    why: 'The WHERE clause is missing, so every record would be updated.'
+                },
+                {
+                    prompt: "INSERT INTO Student (StudentID, Name, Age) VALUES ('S001', 'Ali');",
+                    answer: 'columns',
+                    why: 'Three columns are listed but only two values are supplied.'
+                },
+                {
+                    prompt: "DELETE FROM Student;  -- only S003 should be deleted",
+                    answer: 'where',
+                    why: 'The missing WHERE clause means every row would be deleted.'
+                }
+            ];
+
+            let errorIndex = 0;
+            const errorPrompt = document.getElementById('errorPrompt');
+            const errorChoices = document.querySelectorAll('.error-choice');
+            const errorFeedback = document.getElementById('errorFeedback');
+            const errorProgress = document.getElementById('errorProgress');
+
+            function loadError() {
+                const x = errorCases[errorIndex];
+                errorPrompt.textContent = x.prompt;
+                errorProgress.textContent = `Query ${errorIndex + 1} of ${errorCases.length}`;
+                errorChoices.forEach(b => b.classList.remove('active'));
+                errorFeedback.className = 'lesson-lab-feedback';
+                errorFeedback.textContent = 'Identify the main error.';
+            }
+
+            errorChoices.forEach(btn => btn.addEventListener('click', () => {
+                const x = errorCases[errorIndex];
+                const ok = btn.dataset.error === x.answer;
+
+                errorChoices.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                errorFeedback.className =
+                    `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+                errorFeedback.innerHTML =
+                    `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+            }));
+
+            document.getElementById('nextError').addEventListener('click', () => {
+                errorIndex = (errorIndex + 1) % errorCases.length;
+                loadError();
+            });
+
+            loadError();
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+
 </body>
 
 </html>
