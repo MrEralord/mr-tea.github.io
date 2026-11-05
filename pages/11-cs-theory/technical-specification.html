@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Specification &amp; System Requirements — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+    <meta name="description"
+        content="Determining hardware requirements and justifying software choices for new computing systems. NIS Grade 11 CS 11.3.2.1, 11.3.1.4.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+    <meta property="og:title" content="Technical Specification &amp; System Requirements — mr. TEA">
+    <meta property="og:description" content="Determining hardware requirements and justifying software choices for new computing systems. NIS Grade 11 CS 11.3.2.1, 11.3.1.4.">
+    <meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/technical-specification.html">
+    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+    <main class="main-content">
+
+    <div class="mobile-header">
+      <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo" style="margin-left: 15px;">
+          <i class="fas fa-mug-hot logo-icon"></i>
+          <span class="logo-text">mr. TEA</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lesson-page">
+        <div class="lesson-container">
+            <nav class="lesson-breadcrumb">
+                <a href="/index.html">Home</a> <span class="sep">/</span>
+                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
+                <span>11.2B — Technical Specification</span>
+            </nav>
+
+            <div class="lesson-header">
+                <div class="lesson-unit-badge"><i class="fas fa-project-diagram"></i> Unit 11.2B · Term 2</div>
+                <h1 class="lesson-title">Technical Specification &amp; System Requirements</h1>
+                <p class="lesson-intro">Before procuring equipment or deploying software, systems analysts must create a <strong>Technical Specification</strong>. This formal document quantifies the <strong>minimum hardware requirements</strong> (CPU, RAM, storage, network) and provides a rigorous <strong>justification for software selections</strong> (OS, DBMS, security tools) to guarantee performance, reliability, and cost-effectiveness.</p>
+            </div>
+
+            <div class="lesson-lo-card">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul class="lesson-lo-list">
+                    <li><span class="lo-code">11.3.2.1</span> Determine the minimum hardware requirements for the implementation of a new system</li>
+                    <li><span class="lo-code">11.3.1.4</span> Justify the choice of software for the implementation of a new system</li>
+                </ul>
+            </div>
+
+            <div class="lesson-pdf-block">
+                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
+                <div class="lesson-pdf-info">
+                    <h4>Lesson Presentation</h4>
+                    <p>11.2B-technical-specification.pdf · Slides for classroom use</p>
+                </div>
+                <div class="lesson-pdf-actions">
+                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
+                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
+                <div class="analogy-box">
+                    <h4><i class="fas fa-cogs"></i> The Commercial Aircraft Engine Specification</h4>
+                    <p>When an airline orders a cargo plane, they don't just ask for "a big engine". They specify the minimum thrust in kilonewtons, fuel burn rate per hour, wingspan tolerance, and certified navigation avionics. If you undersize the engine, the plane won't take off; if you oversize it, fuel costs bankrupt the airline. <strong>System sizing</strong> balances workload requirements with fiscal reality.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
+
+                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">1. Sizing Hardware Components (11.3.2.1)</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Hardware Component</th>
+                            <th>Key Measurable Metrics</th>
+                            <th>Design Considerations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Processor (CPU)</strong></td>
+                            <td>Cores, Threads, Clock Speed (GHz), Architecture (x86-64 / ARM)</td>
+                            <td>Single-threaded throughput vs multi-threaded concurrent user load. Database and web servers require high core counts.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Primary Memory (RAM)</strong></td>
+                            <td>Capacity (GB), Technology (DDR4 / DDR5), ECC (Error-Correcting Code)</td>
+                            <td>Must accommodate OS overhead, DBMS buffer cache, active web worker threads, and peak concurrent user sessions in memory.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Secondary Storage</strong></td>
+                            <td>Capacity (GB / TB), Medium (NVMe SSD vs HDD), IOPS, Redundancy</td>
+                            <td>SSD for active database transactions; high-capacity HDDs in RAID arrays (RAID 1 / RAID 5) for cold storage and automated daily backups.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Network Interface (NIC)</strong></td>
+                            <td>Bandwidth (1 Gbps / 10 Gbps), Full Duplex, Latency</td>
+                            <td>Calculated via formula: $\text{Bandwidth} \ge \text{Concurrent Users} \times \text{Average Payload Size} \times \text{Safety Factor}$.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Peripherals</strong></td>
+                            <td>Barcode scanners, thermal receipt printers, UPS (Uninterruptible Power Supply)</td>
+                            <td>Ensures business continuity during power outages and specialized physical data capture.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:1rem;margin-top:var(--space-md);margin-bottom:var(--space-sm);color:var(--text-primary);">2. Justifying Software Choices (11.3.1.4)</h3>
+                <table class="theory-table">
+                    <thead>
+                        <tr>
+                            <th>Software Layer</th>
+                            <th>Candidate Options</th>
+                            <th>Typical Justification Criteria</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Operating System (OS)</strong></td>
+                            <td>Linux (Ubuntu Server) vs Windows Server</td>
+                            <td><strong>Linux:</strong> Zero licensing fees, lower resource footprint, high stability, standard package management.<br><strong>Windows:</strong> Native Active Directory support, familiar GUI for non-CLI sysadmins.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database Engine (DBMS)</strong></td>
+                            <td>PostgreSQL / MySQL vs MongoDB</td>
+                            <td><strong>Relational (PostgreSQL):</strong> Strong ACID compliance, foreign key relational integrity, SQL standardization for structured financial and student records.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Web Server</strong></td>
+                            <td>Nginx vs Apache</td>
+                            <td><strong>Nginx:</strong> Event-driven asynchronous architecture handles tens of thousands of concurrent connections with low memory usage.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Security &amp; Backup</strong></td>
+                            <td>OpenSSL, UFW Firewall, Borg Backup / Restic</td>
+                            <td>End-to-end TLS encryption in transit, automated encrypted off-site snapshots for disaster recovery.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-file-alt"></i> Worked Examples</h2>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">1</span> Case Study: School Information System (SIS) Technical Specification</h4>
+                    <p>Technical requirements for a school serving 1,200 students and 150 staff members:</p>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Minimum Specification</th>
+                                <th>Engineering Justification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Server CPU</strong></td>
+                                <td>8-Core, 16-Thread (AMD EPYC or Intel Xeon @ 3.0 GHz)</td>
+                                <td>Handles concurrent exam submissions and report card generation during end-of-term peaks without CPU bottlenecks.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Server RAM</strong></td>
+                                <td>32 GB DDR4 ECC RAM</td>
+                                <td>Allows caching the entire relational database index pool in memory for sub-millisecond query responses.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Server Storage</strong></td>
+                                <td>2 × 1 TB NVMe SSD in RAID 1 (Mirroring)</td>
+                                <td>Provides high write speeds for logging and protects against immediate data loss if one physical drive fails.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Server OS</strong></td>
+                                <td>Ubuntu Server 24.04 LTS (64-bit)</td>
+                                <td>5-year guaranteed security support, zero license cost, robust security updates.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Database</strong></td>
+                                <td>PostgreSQL 16</td>
+                                <td>Guarantees relational integrity, supports complex analytical queries, and prevents race conditions in grade recording.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="worked-example">
+                    <h4><span class="step-num">2</span> Minimum vs Recommended Hardware Matrix</h4>
+                    <div class="code-block"><code>+-------------------+----------------------------+----------------------------+
+| Component         | Minimum Requirements       | Recommended Requirements   |
++-------------------+----------------------------+----------------------------+
+| Client Computer   | Dual-Core CPU @ 2.0 GHz    | Quad-Core CPU @ 3.2 GHz    |
+| Client Memory     | 4 GB RAM                   | 8 GB RAM                   |
+| Network Link      | 10 Mbps Broadband          | 100 Mbps Ethernet / Wi-Fi 6|
+| Client Browser    | Chrome 110+, Firefox 115+  | Latest Modern Evergreen    |
++-------------------+----------------------------+----------------------------+</code></div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Pitfalls &amp; Common Errors</h2>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Vague Hardware Descriptions</h4>
+                    <p>Writing "a fast computer" or "plenty of hard drive space" in an exam or specification earns zero marks. Specifications must contain <strong>concrete numerical values and units</strong> (e.g., <em>"Quad-Core 2.5 GHz CPU, 16 GB DDR4 RAM, 512 GB SSD"</em>).</p>
+                </div>
+                <div class="pitfall-box">
+                    <h4><i class="fas fa-bug"></i> Sizing for Average Load Instead of Peak Load</h4>
+                    <p>Systems fail on the first day of school or during Black Friday because hardware was dimensioned for average monthly traffic instead of <strong>peak concurrent user spikes</strong>.</p>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-star"></i> Pro-Tips for Exams</h2>
+                <div class="pro-tip-box">
+                    <h4><i class="fas fa-graduation-cap"></i> Exam Checklist</h4>
+                    <ul>
+                        <li><strong>Always link requirement to purpose:</strong> Don't just say <em>"Needs an SSD"</em>; say <em>"Needs an SSD to provide high IOPS and fast retrieval times when searching the customer database."</em></li>
+                        <li><strong>Software justification keywords:</strong> Mention <em>licensing costs (TCO), security, cross-platform compatibility, stability,</em> and <em>available technical support.</em></li>
+                        <li><strong>Hardware vs Software:</strong> Make sure you never list an Operating System or Anti-Virus under hardware!</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+                <div class="assessment-tasks">
+                    <div class="task-item"><span class="task-level remember">Remember</span>
+                        <p>List four major hardware components that must be specified for a new web server.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level understand">Understand</span>
+                        <p>Explain why an open-source operating system like Linux is frequently preferred for internet servers over commercial alternatives.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level apply">Apply</span>
+                        <p>A regional supermarket is upgrading its Point of Sale (POS) terminals. Write down the hardware specification for each checkout counter, including required peripherals.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level analyze">Analyze</span>
+                        <p>Compare the advantages and disadvantages of deploying an on-premises physical server versus leasing cloud infrastructure (IaaS) for a startup company.</p>
+                    </div>
+                    <div class="task-item"><span class="task-level create">Create</span>
+                        <p>Draft a complete Technical Specification section for a hospital patient monitoring system: determine hardware metrics, select and justify the OS and database software, and specify data backup hardware.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What does RAID 1 storage provide for database servers?</div>
+                    <div class="quiz-answer" data-answer="Disk mirroring — identical copies on two drives, providing redundancy against hardware disk failure.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">2. Why is ECC RAM chosen for mission-critical enterprise servers?</div>
+                    <div class="quiz-answer" data-answer="Error-Correcting Code RAM detects and fixes memory data corruption in real time, preventing sudden server crashes.">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What is the danger of writing 'needs a fast processor' in a technical specification?</div>
+                    <div class="quiz-answer" data-answer="It is ambiguous and unmeasurable; procurement requires specific metrics (clock speed, core count, cache size).">Click to reveal answer</div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-question">4. What does TCO stand for when justifying software selection?</div>
+                    <div class="quiz-answer" data-answer="Total Cost of Ownership (purchase price, licensing, maintenance, support, and upgrade costs).">Click to reveal answer</div>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="prototyping.html"><span class="nav-label">← Previous</span><span class="nav-title">Prototyping &amp; Interface Design</span></a>
+                <a href="number-systems.html"><span class="nav-label">Next →</span><span class="nav-title">Number Systems &amp; Representation</span></a>
+            </nav>
+        </div>
+    </div>
+    </main>
+</div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2025 · Cambridge AS &amp; A Level 9618</p>
+            <p>&copy; 2025 IT-Tea. Educational use.</p>
+        </div>
+    </footer>
+
+    <script src="/js/sidebar.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+</body>
+
+</html>
+
