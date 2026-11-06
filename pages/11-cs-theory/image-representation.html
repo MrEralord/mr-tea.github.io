@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Representation: Bitmaps — mr. TEA</title>
+<link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+<meta name="description" content="Bitmap image representation: pixels, resolution, colour depth, number of colours and bitmap file-size calculations. NIS Grade 11 Computer Science.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+<meta property="og:title" content="Image Representation: Bitmaps — mr. TEA">
+<meta property="og:description" content="Understand bitmap pixels, resolution, colour depth and calculate uncompressed bitmap image size.">
+<meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/image-representation.html">
+<meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/lesson.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-P4C0Y8SW2K');
+</script>
+</head>
+<body>
+<div class="layout-wrapper"><main class="main-content">
+<div class="mobile-header"><div class="header-left">
+<button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+<a href="/" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a>
+</div></div>
+
+<div class="lesson-page"><div class="lesson-container">
+<nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+<a href="/index.html">Home</a><span class="sep">/</span>
+<a href="/index.html#syllabus">Grade 11 CS</a><span class="sep">/</span>
+<span>11.3A — Data presentation</span>
+</nav>
+
+<div class="lesson-header">
+<div class="lesson-unit-badge"><i class="fas fa-image"></i> Unit 11.3A · Term 3</div>
+<h1 class="lesson-title">Image Representation: Bitmaps</h1>
+<p class="lesson-intro">A bitmap represents an image as a rectangular grid of <strong>pixels</strong>. Each pixel stores a colour value. The amount of detail and the amount of storage required depend mainly on the <strong>resolution</strong> and <strong>colour depth</strong>.</p>
+</div>
+
+<div class="lesson-lo-card">
+<h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+<ul class="lesson-lo-list">
+<li><span class="lo-code">11.1.1.5</span> Explain how bitmaps are represented in terms of number of pixels, resolution, and colour depth</li>
+<li><span class="lo-code">11.1.1.6</span> Calculate the size of a bitmap image file</li>
+</ul>
+</div>
+
+<nav class="lesson-section-jump" aria-label="Lesson sections">
+<a href="#bitmap">Bitmap</a><a href="#resolution">Resolution</a><a href="#depth">Colour Depth</a><a href="#size">File Size</a><a href="#labs">Labs</a><a href="#practice">Practice</a>
+</nav>
+
+<section class="lesson-section" id="bitmap">
+<h2 class="lesson-section-title"><i class="fas fa-border-all"></i> How a Bitmap Represents an Image</h2>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/bitmap-pixel-grid.svg" alt="Bitmap image shown as a grid of pixels, with one pixel enlarged and a 24-bit RGB example" loading="lazy">
+<figcaption>A bitmap stores a colour value for every pixel position.</figcaption>
+</figure>
+
+<div class="definition-grid">
+<div class="definition-item"><strong>Pixel</strong><p>The smallest addressable picture element in a bitmap image.</p></div>
+<div class="definition-item"><strong>Resolution</strong><p>The pixel dimensions of the image, usually written as width × height.</p></div>
+<div class="definition-item"><strong>Colour depth</strong><p>The number of bits used to represent the colour of one pixel.</p></div>
+</div>
+
+<div class="note-box">
+<h4><i class="fas fa-circle-info"></i> Resolution in these calculations</h4>
+<p>In this topic, resolution is normally given as pixel dimensions such as <code>1920 × 1080</code>. Pixel density such as PPI is related, but it is not used in the bitmap-size formula unless a question explicitly asks for it.</p>
+</div>
+</section>
+
+<section class="lesson-section" id="resolution">
+<h2 class="lesson-section-title"><i class="fas fa-expand"></i> Resolution &amp; Number of Pixels</h2>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/bitmap-resolution.svg" alt="Comparison of low and higher bitmap resolution showing a smoother shape with more pixels" loading="lazy">
+<figcaption>Higher resolution uses more pixels and can represent finer detail.</figcaption>
+</figure>
+
+<div class="worked-example">
+<h4><span class="step-num">1</span> Calculate total number of pixels</h4>
+<div class="code-block"><code>Resolution = 1920 × 1080
+
+Total pixels
+= width × height
+= 1920 × 1080
+= 2,073,600 pixels
+
+≈ 2.07 megapixels</code></div>
+</div>
+
+<table class="theory-table">
+<thead><tr><th>If resolution increases...</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Number of pixels</td><td>Increases</td></tr>
+<tr><td>Possible image detail</td><td>Generally increases</td></tr>
+<tr><td>Uncompressed storage requirement</td><td>Increases if colour depth stays the same</td></tr>
+</tbody>
+</table>
+
+<div class="pitfall-box">
+<h4><i class="fas fa-bug"></i> Doubling both dimensions does not double the pixels</h4>
+<p><code>800 × 600 = 480,000</code> pixels, but <code>1600 × 1200 = 1,920,000</code> pixels — four times as many.</p>
+</div>
+</section>
+
+<section class="lesson-section" id="depth">
+<h2 class="lesson-section-title"><i class="fas fa-palette"></i> Colour Depth</h2>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/bitmap-colour-depth.svg" alt="Examples of 1-bit, 2-bit, 4-bit, 8-bit and 24-bit colour depths and their number of possible colours" loading="lazy">
+<figcaption>More bits per pixel allow more possible colour values.</figcaption>
+</figure>
+
+<div class="worked-example">
+<h4><span class="step-num">2</span> Number of possible colours</h4>
+<div class="code-block"><code>Number of colours = 2^(colour depth)
+
+1 bit   → 2¹  = 2 colours
+4 bits  → 2⁴  = 16 colours
+8 bits  → 2⁸  = 256 colours
+24 bits → 2²⁴ = 16,777,216 colours</code></div>
+</div>
+
+<div class="note-box">
+<h4><i class="fas fa-circle-info"></i> 24-bit RGB</h4>
+<p>A common 24-bit representation uses <strong>8 bits for red + 8 bits for green + 8 bits for blue</strong>. The colour depth is 24 bits <em>per pixel</em>, not 24 bits per channel.</p>
+</div>
+
+<table class="theory-table">
+<thead><tr><th>If colour depth increases...</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Bits stored per pixel</td><td>Increases</td></tr>
+<tr><td>Possible colours</td><td>Increases exponentially: <code>2^n</code></td></tr>
+<tr><td>Colour detail / gradients</td><td>Can improve</td></tr>
+<tr><td>Uncompressed file size</td><td>Increases if resolution stays the same</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section" id="size">
+<h2 class="lesson-section-title"><i class="fas fa-calculator"></i> Calculating Bitmap Image Size</h2>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/bitmap-file-size.svg" alt="Flow showing bitmap file size calculation from width, height and colour depth" loading="lazy">
+<figcaption>Start in bits, then convert units only if the question requires it.</figcaption>
+</figure>
+
+<div class="code-block"><code>Uncompressed pixel data (bits)
+= width × height × colour depth</code></div>
+
+<div class="worked-example">
+<h4><span class="step-num">3</span> Example: 640 × 480, 8-bit colour</h4>
+<div class="code-block"><code>Number of pixels
+= 640 × 480
+= 307,200 pixels
+
+Size in bits
+= 307,200 × 8
+= 2,457,600 bits
+
+Size in bytes
+= 2,457,600 ÷ 8
+= 307,200 bytes
+
+Size in KiB
+= 307,200 ÷ 1024
+= 300 KiB</code></div>
+</div>
+
+<div class="worked-example">
+<h4><span class="step-num">4</span> Example: 1920 × 1080, 24-bit colour</h4>
+<div class="code-block"><code>Size in bits
+= 1920 × 1080 × 24
+= 49,766,400 bits
+
+Size in bytes
+= 49,766,400 ÷ 8
+= 6,220,800 bytes
+
+Size in MiB
+= 6,220,800 ÷ 1024 ÷ 1024
+≈ 5.93 MiB</code></div>
+</div>
+
+<div class="pro-tip-box">
+<h4><i class="fas fa-graduation-cap"></i> Unit conversions</h4>
+<p>This page uses <strong>1024 bytes = 1 KiB</strong> and <strong>1024 KiB = 1 MiB</strong>. If an exam question explicitly gives a different conversion such as 1000 bytes = 1 kB, use the conversion stated in the question.</p>
+</div>
+
+<div class="note-box">
+<h4><i class="fas fa-file-image"></i> Formula result vs actual file size</h4>
+<p><code>width × height × colour depth</code> calculates the raw, uncompressed pixel data. A real image file may also contain headers/metadata, and some formats may use compression, so its actual size on disk can differ.</p>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-scale-balanced"></i> The Quality–Storage Trade-off</h2>
+<table class="theory-table">
+<thead><tr><th>Change</th><th>Possible benefit</th><th>Cost</th></tr></thead>
+<tbody>
+<tr><td>Increase resolution</td><td>More spatial detail</td><td>More pixels to store</td></tr>
+<tr><td>Increase colour depth</td><td>More possible colours / smoother gradients</td><td>More bits for every pixel</td></tr>
+<tr><td>Reduce resolution / colour depth</td><td>Less storage and bandwidth</td><td>Possible loss of image detail or colour quality</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section" id="labs">
+<h2 class="lesson-section-title"><i class="fas fa-flask"></i> Interactive Labs</h2>
+
+<h3>1. Resolution Calculator</h3>
+<div class="lesson-lab">
+<div class="lesson-lab-prompt">Enter pixel dimensions and calculate the total number of pixels.</div>
+<div class="lesson-lab-options two">
+<label>Width (px)<input id="resolutionWidth" type="number" min="1" value="1920"></label>
+<label>Height (px)<input id="resolutionHeight" type="number" min="1" value="1080"></label>
+</div>
+<div class="lesson-lab-footer"><button id="calculatePixels" class="lesson-lab-btn" type="button">Calculate</button></div>
+<div id="resolutionFeedback" class="lesson-lab-feedback">Enter width and height, then calculate.</div>
+</div>
+
+<h3>2. Colour Depth Challenge</h3>
+<div class="lesson-lab">
+<div id="depthPrompt" class="lesson-lab-prompt"></div>
+<div class="lesson-lab-options four">
+<button class="lesson-choice-btn depth-choice" data-depth="2" type="button">2</button>
+<button class="lesson-choice-btn depth-choice" data-depth="16" type="button">16</button>
+<button class="lesson-choice-btn depth-choice" data-depth="256" type="button">256</button>
+<button class="lesson-choice-btn depth-choice" data-depth="16777216" type="button">16,777,216</button>
+</div>
+<div id="depthFeedback" class="lesson-lab-feedback">Use 2^(colour depth).</div>
+<div class="lesson-lab-footer"><span id="depthProgress"></span><button id="nextDepth" class="lesson-lab-btn" type="button">Next</button></div>
+</div>
+
+<h3>3. Bitmap Size Calculator</h3>
+<div class="lesson-lab">
+<div class="lesson-lab-prompt">Calculate the uncompressed pixel-data size.</div>
+<div class="lesson-lab-options three">
+<label>Width<input id="sizeWidth" type="number" min="1" value="800"></label>
+<label>Height<input id="sizeHeight" type="number" min="1" value="600"></label>
+<label>Colour depth (bits)<input id="sizeDepth" type="number" min="1" value="24"></label>
+</div>
+<div class="lesson-lab-footer"><button id="calculateSize" class="lesson-lab-btn" type="button">Calculate size</button></div>
+<div id="sizeFeedback" class="lesson-lab-feedback">Formula: width × height × colour depth.</div>
+</div>
+
+<h3>4. Predict the Effect</h3>
+<div class="lesson-lab">
+<div id="effectPrompt" class="lesson-lab-prompt"></div>
+<div id="effectOptions" class="lesson-lab-options two"></div>
+<div id="effectFeedback" class="lesson-lab-feedback">Choose the strongest answer.</div>
+<div class="lesson-lab-footer"><span id="effectProgress"></span><button id="nextEffect" class="lesson-lab-btn" type="button">Next</button></div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Resolution is not colour depth</h4><p>Resolution describes how many pixel positions the image has. Colour depth describes how many bits are used for each pixel.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Colour depth is not the number of colours</h4><p>An 8-bit colour depth does not mean 8 colours. It gives <code>2^8 = 256</code> possible colour values.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Forgetting bits → bytes</h4><p>After <code>width × height × depth</code>, the result is in <strong>bits</strong>. Divide by 8 to obtain bytes.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Raw formula ≠ every actual file size</h4><p>Headers, metadata and compression can change the size of a real image file.</p></div>
+<div class="pitfall-box"><h4><i class="fas fa-bug"></i> Doubling width and height</h4><p>Doubling both dimensions multiplies the number of pixels by four, not two.</p></div>
+</section>
+
+<section class="lesson-section" id="practice">
+<h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+<div class="assessment-tasks">
+<div class="task-item"><span class="task-level remember">Remember</span><p>Define pixel, resolution and colour depth.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain how a bitmap image is represented digitally.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Calculate the total number of pixels in a 1280 × 720 image.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Calculate the number of possible colours for 4-bit, 8-bit and 16-bit colour depth.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain two effects of increasing the resolution while keeping colour depth unchanged.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Calculate the uncompressed size in bytes of a 1024 × 768 image with 8-bit colour depth.</p></div>
+<div class="task-item"><span class="task-level analyze">Analyze</span><p>Compare two 800 × 600 images with colour depths of 8 bits and 24 bits. Explain the effect on possible colours and storage.</p></div>
+<div class="task-item"><span class="task-level analyze">Analyze</span><p>A developer needs to reduce image storage. Discuss the consequences of reducing resolution versus reducing colour depth.</p></div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+<div class="quiz-item"><p class="quiz-question">Q1: Explain how a bitmap image is represented using pixels and colour depth. [3]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Image is divided into a grid of pixels [1].
+Each pixel stores a colour value [1].
+Colour depth determines the number of bits used to represent each pixel / possible colours [1].</div></details></div>
+
+<div class="quiz-item"><p class="quiz-question">Q2: An image has a resolution of 1600 × 900. Calculate the total number of pixels. [1]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>1600 × 900 = 1,440,000 pixels [1].</div></details></div>
+
+<div class="quiz-item"><p class="quiz-question">Q3: A bitmap uses 6-bit colour depth. Calculate the maximum number of possible colours. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>2^6 [1].
+64 colours [1].</div></details></div>
+
+<div class="quiz-item"><p class="quiz-question">Q4: A 640 × 480 bitmap uses 16-bit colour depth. Calculate its uncompressed pixel-data size in bytes. [3]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>640 × 480 = 307,200 pixels [1].
+307,200 × 16 = 4,915,200 bits [1].
+4,915,200 ÷ 8 = 614,400 bytes [1].</div></details></div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+<div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to reveal</span></div>
+<div class="quiz-item"><div class="quiz-question">1. What is a pixel?</div><div class="quiz-answer" data-answer="The smallest addressable picture element in a bitmap image">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">2. What does 1920 × 1080 describe?</div><div class="quiz-answer" data-answer="The bitmap resolution: 1920 pixels wide by 1080 pixels high">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">3. How many pixels are in a 100 × 100 image?</div><div class="quiz-answer" data-answer="10,000 pixels">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">4. What does colour depth measure?</div><div class="quiz-answer" data-answer="The number of bits used to represent the colour of one pixel">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">5. How many colours can 8 bits represent?</div><div class="quiz-answer" data-answer="2^8 = 256 colours">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">6. What is the raw bitmap-size formula in bits?</div><div class="quiz-answer" data-answer="width × height × colour depth">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">7. How do you convert bits to bytes?</div><div class="quiz-answer" data-answer="Divide by 8">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">8. Why might an actual image file differ from the raw calculation?</div><div class="quiz-answer" data-answer="The file may include headers/metadata or use compression">Click to reveal answer</div></div>
+</section>
+
+<nav class="lesson-nav">
+<a href="number-systems.html"><span><span class="nav-label">← Previous</span><span class="nav-title">Number Representation</span></span></a>
+<a href="text-representation.html"><span><span class="nav-label">Next →</span><span class="nav-title">Text Representation</span></span></a>
+</nav>
+
+</div></div></main></div>
+
+<footer class="site-footer">
+<div class="container">
+<p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
+<p>&copy; 2026 IT-Tea. Educational use.</p>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+const rf=document.getElementById('resolutionFeedback');
+document.getElementById('calculatePixels').addEventListener('click',function(){
+ const w=Number(document.getElementById('resolutionWidth').value),h=Number(document.getElementById('resolutionHeight').value);
+ if(!Number.isFinite(w)||!Number.isFinite(h)||w<=0||h<=0){rf.className='lesson-lab-feedback wrong';rf.textContent='Enter positive width and height values.';return;}
+ const p=w*h,mp=p/1000000;rf.className='lesson-lab-feedback correct';rf.innerHTML=`<strong>${w.toLocaleString()} × ${h.toLocaleString()} = ${p.toLocaleString()} pixels</strong><br>≈ ${mp.toFixed(2)} megapixels.`;
+});
+
+const depthCases=[{bits:1,answer:'2'},{bits:4,answer:'16'},{bits:8,answer:'256'},{bits:24,answer:'16777216'}];
+let di=0;const dp=document.getElementById('depthPrompt'),dc=document.querySelectorAll('.depth-choice'),df=document.getElementById('depthFeedback'),dpr=document.getElementById('depthProgress');
+function loadDepth(){const x=depthCases[di];dp.textContent=`How many possible colours can ${x.bits}-bit colour depth represent?`;dpr.textContent=`Question ${di+1} of ${depthCases.length}`;dc.forEach(b=>b.classList.remove('active'));df.className='lesson-lab-feedback';df.textContent=`Use 2^${x.bits}.`;}
+dc.forEach(btn=>btn.addEventListener('click',function(){const x=depthCases[di],ok=btn.dataset.depth===x.answer;dc.forEach(b=>b.classList.remove('active'));btn.classList.add('active');df.className=`lesson-lab-feedback ${ok?'correct':'wrong'}`;df.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>2^${x.bits} = ${Number(x.answer).toLocaleString()} possible colours.`;}));
+document.getElementById('nextDepth').addEventListener('click',function(){di=(di+1)%depthCases.length;loadDepth();});loadDepth();
+
+const sf=document.getElementById('sizeFeedback');
+document.getElementById('calculateSize').addEventListener('click',function(){
+ const w=Number(document.getElementById('sizeWidth').value),h=Number(document.getElementById('sizeHeight').value),d=Number(document.getElementById('sizeDepth').value);
+ if(![w,h,d].every(Number.isFinite)||w<=0||h<=0||d<=0){sf.className='lesson-lab-feedback wrong';sf.textContent='Enter positive width, height and colour-depth values.';return;}
+ const pixels=w*h,bits=pixels*d,bytes=bits/8,kib=bytes/1024,mib=kib/1024;
+ sf.className='lesson-lab-feedback correct';
+ sf.innerHTML=`<strong>${pixels.toLocaleString()} pixels × ${d} bits = ${bits.toLocaleString()} bits</strong><br>${bytes.toLocaleString(undefined,{maximumFractionDigits:2})} bytes · ${kib.toLocaleString(undefined,{maximumFractionDigits:2})} KiB · ${mib.toLocaleString(undefined,{maximumFractionDigits:2})} MiB`;
+});
+
+const effects=[
+{prompt:'Resolution changes from 800 × 600 to 1600 × 1200. Colour depth stays the same.',answer:'b',options:{a:'Pixel count doubles and raw file size doubles.',b:'Pixel count becomes four times larger and raw file size becomes four times larger.',c:'Possible colours become four times larger.',d:'Colour depth automatically doubles.'},why:'Both width and height double: 2 × 2 = 4 times as many pixels.'},
+{prompt:'Colour depth changes from 8 bits to 24 bits. Resolution stays the same.',answer:'c',options:{a:'There are fewer possible colours and a smaller raw file.',b:'Resolution increases three times.',c:'More colours can be represented and raw pixel-data size becomes three times larger.',d:'The number of pixels changes.'},why:'Bits per pixel increase from 8 to 24, which is three times as many bits per pixel.'},
+{prompt:'A developer reduces resolution but keeps colour depth unchanged.',answer:'a',options:{a:'Fewer pixels are stored, so raw size decreases; some spatial detail may be lost.',b:'Possible colours decrease because colour depth changes.',c:'The image always becomes black and white.',d:'Raw size must increase.'},why:'Resolution changes pixel count, not the number of possible colours per pixel.'}
+];
+let ei=0;const ep=document.getElementById('effectPrompt'),eo=document.getElementById('effectOptions'),ef=document.getElementById('effectFeedback'),epr=document.getElementById('effectProgress');
+function loadEffect(){const x=effects[ei];ep.textContent=x.prompt;epr.textContent=`Scenario ${ei+1} of ${effects.length}`;eo.innerHTML='';Object.entries(x.options).forEach(([k,v])=>{const b=document.createElement('button');b.type='button';b.className='lesson-choice-btn effect-choice';b.textContent=v;b.addEventListener('click',()=>{const ok=k===x.answer;eo.querySelectorAll('.effect-choice').forEach(z=>z.classList.remove('active'));b.classList.add('active');ef.className=`lesson-lab-feedback ${ok?'correct':'wrong'}`;ef.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.why}`;});eo.appendChild(b);});ef.className='lesson-lab-feedback';ef.textContent='Choose the strongest answer.';}
+document.getElementById('nextEffect').addEventListener('click',function(){ei=(ei+1)%effects.length;loadEffect();});loadEffect();
+});
+</script>
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
+</body>
+</html>
