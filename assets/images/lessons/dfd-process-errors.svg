@@ -2,19 +2,16 @@
   <style>
     .process { fill: #FCF3CF; stroke: #1C2833; stroke-width: 2px; }
     .line { stroke: #1C2833; stroke-width: 2px; fill: none; }
-    .line-error { stroke: #E74C3C; stroke-width: 2px; fill: none; stroke-dasharray: 6,4; }
     .text-bold { font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; fill: #1C2833; }
     .text-title { font-family: Arial, sans-serif; font-weight: bold; font-size: 16px; fill: #E74C3C; }
     .text-normal { font-family: Arial, sans-serif; font-size: 13px; fill: #1C2833; }
     .text-desc { font-family: Arial, sans-serif; font-size: 12px; fill: #566573; font-style: italic; }
-    .text-error { font-family: Arial, sans-serif; font-weight: bold; font-size: 24px; fill: #E74C3C; }
+    .text-error { font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; fill: #E74C3C; letter-spacing: 1px; }
+    .text-fix { font-family: Arial, sans-serif; font-size: 12px; fill: #27AE60; font-weight: bold; }
   </style>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#1C2833" />
-    </marker>
-    <marker id="arrow-error" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#E74C3C" />
     </marker>
   </defs>
 
@@ -33,14 +30,17 @@
   <polyline points="20,160 125,160" class="line" marker-end="url(#arrow)" />
   <text x="70" y="150" text-anchor="middle" class="text-normal">Item Prices</text>
   
-  <!-- Missing output visualization -->
-  <polyline points="275,160 350,160" class="line-error" marker-end="url(#arrow-error)" />
-  <text x="312" y="150" text-anchor="middle" class="text-error">?</text>
+  <text x="330" y="165" text-anchor="middle" class="text-error">NO OUTPUT</text>
+
+  <text x="200" y="240" text-anchor="middle" class="text-fix">Fix: Add output flow</text>
+  <text x="200" y="255" text-anchor="middle" class="text-desc">(e.g., "Total Price")</text>
 
 
   <!-- 2. MIRACLE -->
   <text x="600" y="50" text-anchor="middle" class="text-title">2. MIRACLE</text>
   <text x="600" y="70" text-anchor="middle" class="text-desc">Data comes out from nowhere</text>
+
+  <text x="470" y="165" text-anchor="middle" class="text-error">NO INPUT</text>
 
   <g class="process-group">
     <rect x="525" y="120" width="150" height="80" rx="10" class="process" />
@@ -51,12 +51,11 @@
     <text x="620" y="180" class="text-bold" text-anchor="middle">INVOICE</text>
   </g>
   
-  <!-- Missing input visualization -->
-  <polyline points="450,160 525,160" class="line-error" marker-end="url(#arrow-error)" />
-  <text x="487" y="150" text-anchor="middle" class="text-error">?</text>
-
   <polyline points="675,160 780,160" class="line" marker-end="url(#arrow)" />
   <text x="730" y="150" text-anchor="middle" class="text-normal">Invoice Details</text>
+
+  <text x="600" y="240" text-anchor="middle" class="text-fix">Fix: Add input flow</text>
+  <text x="600" y="255" text-anchor="middle" class="text-desc">(e.g., "Order Details")</text>
 
 
   <!-- 3. GREY HOLE -->
@@ -78,6 +77,6 @@
   <polyline points="1075,160 1180,160" class="line" marker-end="url(#arrow)" />
   <text x="1130" y="150" text-anchor="middle" class="text-normal">Net Salary</text>
   
-  <text x="1000" y="225" text-anchor="middle" class="text-desc">Error: Cannot calculate salary</text>
-  <text x="1000" y="240" text-anchor="middle" class="text-desc">knowing only the name.</text>
+  <text x="1000" y="240" text-anchor="middle" class="text-fix">Fix: Provide necessary inputs</text>
+  <text x="1000" y="255" text-anchor="middle" class="text-desc">(e.g., "Gross Pay", "Deductions")</text>
 </svg>
