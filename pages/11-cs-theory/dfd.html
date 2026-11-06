@@ -4,282 +4,918 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Flow Diagrams — mr. TEA</title>
-    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
-    <meta name="description"
-        content="Data Flow Diagrams (DFD): symbols, context diagram, level 0, level 1. NIS Grade 11 CS.">
 
-    <!-- Open Graph -->
+    <title>Data Flow Diagrams (DFD) — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
+    <meta name="description"
+        content="Data Flow Diagrams: classroom notation, Context Diagram / Level 0, Level 1 decomposition, DFD rules, common errors and exam-style practice. NIS Grade 11 Computer Science.">
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
-    <meta property="og:title" content="Data Flow Diagrams — mr. TEA">
-    <meta property="og:description" content="Data Flow Diagrams (DFD): symbols, context diagram, level 0, level 1. NIS Grade 11 CS.">
+    <meta property="og:title" content="Data Flow Diagrams (DFD) — mr. TEA">
+    <meta property="og:description"
+        content="Create first-level data flow diagrams using the classroom DFD notation, rules and decomposition process.">
     <meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/dfd.html">
     <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/lesson.css">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P4C0Y8SW2K');
-</script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
 </head>
 
 <body>
 
-<div class="layout-wrapper">
-    <main class="main-content">
+    <div class="layout-wrapper">
+        <main class="main-content">
 
-    <div class="mobile-header">
-      <div class="header-left">
-        <button id="mobile-menu-btn" class="mobile-toggle">
-          <i class="fas fa-bars"></i>
-        </button>
-        <a href="/" class="logo" style="margin-left: 15px;">
-          <i class="fas fa-mug-hot logo-icon"></i>
-          <span class="logo-text">mr. TEA</span>
-        </a>
-      </div>
+            <div class="mobile-header">
+                <div class="header-left">
+                    <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <a href="/" class="logo">
+                        <i class="fas fa-mug-hot logo-icon"></i>
+                        <span class="logo-text">mr. TEA</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lesson-page">
+                <div class="lesson-container">
+
+                    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+                        <a href="/index.html">Home</a>
+                        <span class="sep">/</span>
+                        <a href="/index.html#syllabus">Grade 11 CS</a>
+                        <span class="sep">/</span>
+                        <span>11.2B — Data Flow Diagrams</span>
+                    </nav>
+
+                    <div class="lesson-header">
+                        <div class="lesson-unit-badge">
+                            <i class="fas fa-project-diagram"></i> Unit 11.2B · Term 2
+                        </div>
+
+                        <h1 class="lesson-title">Data Flow Diagrams (DFD)</h1>
+
+                        <p class="lesson-intro">
+                            A <strong>Data Flow Diagram</strong> shows how data enters a system, how processes
+                            transform it, where it is stored and what data leaves the system.
+                            This lesson uses the same notation and rules as the classroom materials:
+                            <strong>Context Diagram / Level 0 → Level 1 DFD</strong>.
+                        </p>
+                    </div>
+
+                    <div class="lesson-lo-card">
+                        <h3><i class="fas fa-bullseye"></i> Learning Objective</h3>
+                        <ul class="lesson-lo-list">
+                            <li>
+                                <span class="lo-code">11.2.2.1</span>
+                                Create a first-level data flow diagram (DFD) to represent input, processing,
+                                storage, and output in computing systems
+                            </li>
+                        </ul>
+                    </div>
+
+                    <nav class="lesson-section-jump" aria-label="Lesson sections">
+                        <a href="#purpose">Purpose</a>
+                        <a href="#symbols">Symbols</a>
+                        <a href="#level0">Level 0</a>
+                        <a href="#level1">Level 1</a>
+                        <a href="#rules">Rules</a>
+                        <a href="#errors">Errors</a>
+                        <a href="#labs">Labs</a>
+                        <a href="#practice">Practice</a>
+                    </nav>
+
+                    <section class="lesson-section" id="purpose">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-lightbulb"></i> What a DFD Shows
+                        </h2>
+
+                        <div class="analogy-box">
+                            <h4><i class="fas fa-water"></i> Follow the Data</h4>
+                            <p>
+                                A DFD focuses on the <strong>flow of data</strong> through a system.
+                                It identifies the sources and destinations of data, the processes that transform
+                                the data, and the stores where data is held.
+                            </p>
+                        </div>
+
+                        <div class="lesson-flow">
+                            <div class="lesson-flow-node">
+                                <strong>Input</strong>
+                                <span>Data enters from an external entity</span>
+                            </div>
+                            <div class="lesson-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="lesson-flow-node lesson-flow-node--accent">
+                                <strong>Processing</strong>
+                                <span>A process transforms the data</span>
+                            </div>
+                            <div class="lesson-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="lesson-flow-node">
+                                <strong>Storage</strong>
+                                <span>Data may be read from or written to a store</span>
+                            </div>
+                            <div class="lesson-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="lesson-flow-node lesson-flow-node--success">
+                                <strong>Output</strong>
+                                <span>Data leaves for an external entity</span>
+                            </div>
+                        </div>
+
+                        <h3>DFD vs Flowchart</h3>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>DFD</th>
+                                    <th>Flowchart</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Shows <strong>flow of data</strong></td>
+                                    <td>Shows <strong>flow of control / sequence</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Uses entities, processes, data stores and data flows</td>
+                                    <td>Uses process, decision, input/output and control-flow symbols</td>
+                                </tr>
+                                <tr>
+                                    <td>Does not model if/else branches or loops as control elements</td>
+                                    <td>Can show decisions, branches and loops</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <details class="lesson-compact-details">
+                            <summary>Logical DFD vs Physical DFD</summary>
+                            <div class="lesson-details-body">
+                                <p>
+                                    <strong>Logical DFD:</strong> focuses on what happens to the data and how
+                                    information moves through the business/system processes.
+                                </p>
+                                <p>
+                                    <strong>Physical DFD:</strong> is closer to implementation and shows how
+                                    the data flow is actually carried out.
+                                </p>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section class="lesson-section" id="symbols">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-shapes"></i> The Four DFD Symbols
+                        </h2>
+
+                        <figure class="lesson-image-block">
+                            <img src="/assets/images/lessons/dfd-symbols.svg"
+                                alt="DFD classroom notation showing external entity, process, data store and data flow"
+                                loading="lazy">
+                            <figcaption>Use one consistent notation throughout the diagram.</figcaption>
+                        </figure>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Element</th>
+                                    <th>Represents</th>
+                                    <th>Naming rule</th>
+                                    <th>Good example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>External Entity</strong></td>
+                                    <td>Source or destination outside the system</td>
+                                    <td>Noun</td>
+                                    <td><code>Customer</code>, <code>Bank</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Process</strong></td>
+                                    <td>Activity that transforms/manipulates data</td>
+                                    <td>Verb phrase</td>
+                                    <td><code>Calculate Pay</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Data Store</strong></td>
+                                    <td>Repository of stored data</td>
+                                    <td>Noun</td>
+                                    <td><code>D1 Employee File</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Data Flow</strong></td>
+                                    <td>Movement of data between elements</td>
+                                    <td>Name of the data</td>
+                                    <td><code>Hours Worked</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Name the data, not the action</h4>
+                            <p>
+                                Process: <strong>Process Payment</strong> ✓.
+                                Data flow: <strong>Payment Details</strong> ✓.
+                                A data-flow label such as “Send Payment” describes an action rather than the data
+                                itself.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="level0">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-circle-nodes"></i> Context Diagram / Level 0
+                        </h2>
+
+                        <p class="concept-text">
+                            The Context Diagram is the simplest DFD. It shows the <strong>whole system as one
+                                process</strong>,
+                            the external entities that interact with it, and the major data flows entering and leaving
+                            it.
+                            <strong>Data stores are not shown at this level.</strong>
+                        </p>
+
+                        <figure class="lesson-image-block">
+                            <img src="/assets/images/lessons/dfd-payroll-context.svg"
+                                alt="Context diagram level 0 for a payroll system" loading="lazy">
+                            <figcaption>Context Diagram / Level 0: one system process, external entities and major
+                                flows.</figcaption>
+                        </figure>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">1</span> How to draw Level 0 from a scenario</h4>
+                            <ul class="concept-list">
+                                <li>Identify the <strong>main system</strong> — this becomes the single process.</li>
+                                <li>Identify the <strong>external entities</strong> that interact with it.</li>
+                                <li>Identify the <strong>input data</strong> supplied by each entity.</li>
+                                <li>Identify the <strong>output data</strong> returned to each entity.</li>
+                                <li>Label every data flow clearly.</li>
+                            </ul>
+                        </div>
+
+                        <div class="note-box">
+                            <h4><i class="fas fa-circle-info"></i> Classroom convention</h4>
+                            <p>
+                                In these lesson materials, <strong>Context Diagram and Level 0 refer to the same
+                                    high-level diagram</strong>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="level1">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-diagram-project"></i> Level 1 DFD
+                        </h2>
+
+                        <p class="concept-text">
+                            A Level 1 DFD decomposes the single Level 0 process into the system's
+                            <strong>major processes</strong>. It can also introduce the <strong>data stores</strong>
+                            used by those processes.
+                        </p>
+
+                        <figure class="lesson-image-block">
+                            <img src="/assets/images/lessons/dfd-payroll-level1.svg"
+                                alt="Level 1 data flow diagram for the same payroll system" loading="lazy">
+                            <figcaption>Level 1: the Payroll System is decomposed into major processes and data stores.
+                            </figcaption>
+                        </figure>
+
+                        <div class="worked-example">
+                            <h4><span class="step-num">2</span> Level 0 → Level 1</h4>
+                            <p>
+                                Start with the Context Diagram. Break the one system process into smaller processes,
+                                identify the required data stores, keep the external entities, and ensure that the major
+                                data flows crossing the system boundary are still represented.
+                            </p>
+                        </div>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Check</th>
+                                    <th>Level 0</th>
+                                    <th>Level 1</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Number of system processes</td>
+                                    <td>One</td>
+                                    <td>Several major processes</td>
+                                </tr>
+                                <tr>
+                                    <td>External entities</td>
+                                    <td>Shown</td>
+                                    <td>Shown</td>
+                                </tr>
+                                <tr>
+                                    <td>Major boundary data flows</td>
+                                    <td>Shown</td>
+                                    <td>Still represented</td>
+                                </tr>
+                                <tr>
+                                    <td>Data stores</td>
+                                    <td>Not shown</td>
+                                    <td>May be introduced</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="lesson-section" id="rules">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-ruler-combined"></i> Level 1 Rules
+                        </h2>
+
+                        <figure class="lesson-image-block">
+                            <img src="/assets/images/lessons/dfd-valid-invalid.svg"
+                                alt="Examples of invalid DFD direct connections and corrected connections through a process"
+                                loading="lazy">
+                            <figcaption>Entities and data stores do not exchange data directly without a process.
+                            </figcaption>
+                        </figure>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Rule</th>
+                                    <th>Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Entity → Entity</strong></td>
+                                    <td>Not directly. Data must pass through a process.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Entity ↔ Data Store</strong></td>
+                                    <td>Not directly. A process must read/write the data.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Data Store → Data Store</strong></td>
+                                    <td>Not directly. A process must move/transform the data.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Process input/output</strong></td>
+                                    <td>Each process should have meaningful input and output flows.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Labels</strong></td>
+                                    <td>Entities, processes, stores and flows should all be labelled.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Layout</strong></td>
+                                    <td>Avoid crossing data-flow lines where possible; keep the diagram readable.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pro-tip-box">
+                            <h4><i class="fas fa-graduation-cap"></i> Exam drawing tip</h4>
+                            <p>
+                                Put major processes near the centre. Keep external entities and data stores toward the
+                                edges.
+                                Clear spacing makes direction and labels much easier to mark.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="errors">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-triangle-exclamation"></i> Black Hole, Miracle &amp; Gray Hole
+                        </h2>
+
+                        <figure class="lesson-image-block">
+                            <img src="/assets/images/lessons/dfd-process-errors.svg"
+                                alt="Black hole, miracle and gray hole process errors in data flow diagrams"
+                                loading="lazy">
+                            <figcaption>Three frequently-made DFD process errors from the classroom material.
+                            </figcaption>
+                        </figure>
+
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>Error</th>
+                                    <th>Pattern</th>
+                                    <th>Why it is wrong</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Black Hole</strong></td>
+                                    <td>Input(s), but no output</td>
+                                    <td>Data enters the process but nothing meaningful leaves it.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Miracle</strong></td>
+                                    <td>Output(s), but no input</td>
+                                    <td>The process produces data from nowhere.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Gray Hole</strong></td>
+                                    <td>Input exists, but is insufficient for the output</td>
+                                    <td>The stated input cannot logically produce the stated output.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="lesson-section" id="labs">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-flask"></i> Interactive DFD Labs
+                        </h2>
+
+                        <h3>1. Symbol &amp; Naming Rule</h3>
+                        <div class="lesson-lab">
+                            <div id="symbolPrompt" class="lesson-lab-prompt"></div>
+                            <div class="lesson-lab-options four">
+                                <button class="lesson-choice-btn symbol-choice" data-symbol="entity"
+                                    type="button">External Entity</button>
+                                <button class="lesson-choice-btn symbol-choice" data-symbol="process"
+                                    type="button">Process</button>
+                                <button class="lesson-choice-btn symbol-choice" data-symbol="store" type="button">Data
+                                    Store</button>
+                                <button class="lesson-choice-btn symbol-choice" data-symbol="flow" type="button">Data
+                                    Flow</button>
+                            </div>
+                            <div id="symbolFeedback" class="lesson-lab-feedback">Identify the DFD element from its role
+                                or naming rule.</div>
+                            <div class="lesson-lab-footer">
+                                <span id="symbolProgress"></span>
+                                <button id="nextSymbol" class="lesson-lab-btn" type="button">Next</button>
+                            </div>
+                        </div>
+
+                        <h3>2. Valid or Invalid Connection?</h3>
+                        <div class="lesson-lab">
+                            <div id="connectionPrompt" class="lesson-lab-prompt"></div>
+                            <div class="lesson-lab-options two">
+                                <button class="lesson-choice-btn connection-choice" data-valid="valid"
+                                    type="button">Valid</button>
+                                <button class="lesson-choice-btn connection-choice" data-valid="invalid"
+                                    type="button">Invalid</button>
+                            </div>
+                            <div id="connectionFeedback" class="lesson-lab-feedback">Decide whether the direct
+                                connection is allowed.</div>
+                            <div class="lesson-lab-footer">
+                                <span id="connectionProgress"></span>
+                                <button id="nextConnection" class="lesson-lab-btn" type="button">Next</button>
+                            </div>
+                        </div>
+
+                        <h3>3. Identify the DFD Error</h3>
+                        <div class="lesson-lab">
+                            <div id="errorPrompt" class="lesson-lab-prompt"></div>
+                            <div class="lesson-lab-options four">
+                                <button class="lesson-choice-btn error-choice" data-error="black" type="button">Black
+                                    Hole</button>
+                                <button class="lesson-choice-btn error-choice" data-error="miracle"
+                                    type="button">Miracle</button>
+                                <button class="lesson-choice-btn error-choice" data-error="gray" type="button">Gray
+                                    Hole</button>
+                                <button class="lesson-choice-btn error-choice" data-error="valid"
+                                    type="button">Valid</button>
+                            </div>
+                            <div id="errorFeedback" class="lesson-lab-feedback">Classify the process.</div>
+                            <div class="lesson-lab-footer">
+                                <span id="errorProgress"></span>
+                                <button id="nextError" class="lesson-lab-btn" type="button">Next</button>
+                            </div>
+                        </div>
+
+                        <h3>4. Level 0 → Level 1 Balancing</h3>
+                        <div class="lesson-lab">
+                            <div id="balancePrompt" class="lesson-lab-prompt"></div>
+                            <div id="balanceOptions" class="lesson-lab-options two"></div>
+                            <div id="balanceFeedback" class="lesson-lab-feedback">Choose what must still be represented
+                                in the Level 1 DFD.</div>
+                            <div class="lesson-lab-footer">
+                                <span id="balanceProgress"></span>
+                                <button id="nextBalance" class="lesson-lab-btn" type="button">Next</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-exclamation-circle"></i> Common Pitfalls
+                        </h2>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Drawing a flowchart instead of a DFD</h4>
+                            <p>Do not add decision diamonds, loops or control-flow arrows to a DFD.</p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Using actions as data-flow labels</h4>
+                            <p>Use <strong>Order Details</strong>, not “Send Order”. Use a verb phrase for the process
+                                instead.</p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Putting data stores in the Context Diagram</h4>
+                            <p>In the classroom convention, Level 0 shows one process, external entities and major flows
+                                only.</p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Losing an external flow during decomposition</h4>
+                            <p>If Level 0 shows an external entity/data flow, Level 1 should still represent that
+                                system-boundary interaction.</p>
+                        </div>
+
+                        <div class="pitfall-box">
+                            <h4><i class="fas fa-bug"></i> Direct Entity ↔ Store connection</h4>
+                            <p>An external entity cannot read from or write directly to a data store; use a process.</p>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section" id="practice">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-tasks"></i> Graded Tasks
+                        </h2>
+
+                        <div class="assessment-tasks">
+                            <div class="task-item">
+                                <span class="task-level remember">Remember</span>
+                                <p>Name the four DFD elements and state the naming rule for each.</p>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-level understand">Understand</span>
+                                <p>Explain why a DFD is different from a flowchart.</p>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>Draw a Context Diagram / Level 0 for a school event messaging system with Students,
+                                    Teachers and Parents as external entities.</p>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>Draw a Context Diagram / Level 0 for a tour-guide reservation system.</p>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>Identify and correct four invalid direct connections: Entity→Entity, Entity→Store,
+                                    Store→Entity and Store→Store.</p>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-level analyze">Analyze</span>
+                                <p>A process receives Employee Address and outputs Employee Bank Statement. Explain why
+                                    this may be a Gray Hole.</p>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-level apply">Apply</span>
+                                <p>Starting from a payroll Context Diagram, decompose the system into at least three
+                                    Level 1 processes and identify suitable data stores.</p>
+                            </div>
+                            <div class="task-item">
+                                <span class="task-level create">Create</span>
+                                <p>Create both a Context Diagram / Level 0 and a Level 1 DFD for a school admission
+                                    system. Label all entities, processes, stores and flows.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-graduation-cap"></i> Exam Practice
+                        </h2>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q1: State two features of a Context Diagram / Level 0 DFD. [2]
+                            </p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>One process represents the whole system [1].
+                                    Shows external entities and major data flows to/from the system [1].
+                                    Accept: does not contain data stores.</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q2: Explain why an external entity must not be connected directly to a data store in a
+                                DFD. [2]
+                            </p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>A process must handle/transform/control the data movement [1].
+                                    The entity should exchange data with a process, which then reads/writes the store
+                                    [1].</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q3: A process has two input flows but no output flow. Name the DFD error and explain it.
+                                [2]
+                            </p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>Black Hole [1].
+                                    Data enters the process but no data leaves / no output is produced [1].</div>
+                            </details>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p class="quiz-question">
+                                Q4: A Level 0 diagram shows Customer → Order System: Order, and Order System → Customer:
+                                Invoice.
+                                State what must happen to these boundary flows when the system is decomposed to Level 1.
+                                [2]
+                            </p>
+                            <details class="lesson-exam-marking">
+                                <summary>Reveal marking points</summary>
+                                <div>The Customer must still be represented as an external entity [1].
+                                    The Order input and Invoice output must still be represented through one or more
+                                    Level 1 processes [1].</div>
+                            </details>
+                        </div>
+                    </section>
+
+                    <section class="lesson-section">
+                        <h2 class="lesson-section-title">
+                            <i class="fas fa-check-circle"></i> Self-Check Quiz
+                        </h2>
+
+                        <div class="lesson-quiz-progress">
+                            <span>Eight quick checks</span>
+                            <span>Click each answer to reveal</span>
+                        </div>
+
+                        <div class="quiz-item">
+                            <div class="quiz-question">1. What does a DFD primarily show?</div>
+                            <div class="quiz-answer"
+                                data-answer="How data flows through a system, including sources/destinations, processes and storage">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">2. How should a process normally be named?</div>
+                            <div class="quiz-answer"
+                                data-answer="With a verb phrase, for example Calculate Pay or Process Order">Click to
+                                reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">3. What is shown in a Context Diagram / Level 0?</div>
+                            <div class="quiz-answer"
+                                data-answer="One process representing the whole system, its external entities and the major data flows to and from them">
+                                Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">4. Are data stores shown in the classroom Context Diagram / Level
+                                0?</div>
+                            <div class="quiz-answer" data-answer="No">Click to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">5. Can an external entity connect directly to a data store?</div>
+                            <div class="quiz-answer" data-answer="No. The data must pass through a process">Click to
+                                reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">6. What is a Black Hole?</div>
+                            <div class="quiz-answer" data-answer="A process with input flow(s) but no output flow">Click
+                                to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">7. What is a Miracle?</div>
+                            <div class="quiz-answer" data-answer="A process with output flow(s) but no input flow">Click
+                                to reveal answer</div>
+                        </div>
+                        <div class="quiz-item">
+                            <div class="quiz-question">8. What is the main purpose of a Level 1 DFD?</div>
+                            <div class="quiz-answer"
+                                data-answer="To decompose the whole system into major processes and show the data stores and flows used by those processes">
+                                Click to reveal answer</div>
+                        </div>
+                    </section>
+
+                    <nav class="lesson-nav">
+                        <a href="sql.html">
+                            <span>
+                                <span class="nav-label">← Previous</span>
+                                <span class="nav-title">SQL</span>
+                            </span>
+                        </a>
+
+                        <a href="flowcharts.html">
+                            <span>
+                                <span class="nav-label">Next →</span>
+                                <span class="nav-title">Process Design: Flowcharts</span>
+                            </span>
+                        </a>
+                    </nav>
+
+                </div>
+            </div>
+        </main>
     </div>
 
-    <div class="lesson-page">
-        <div class="lesson-container">
-            <nav class="lesson-breadcrumb">
-                <a href="/index.html">Home</a> <span class="sep">/</span>
-                <a href="/index.html#syllabus">Grade 11 CS</a> <span class="sep">/</span>
-                <span>11.2B — Data Flow Diagrams</span>
-            </nav>
-            <div class="lesson-header">
-                <div class="lesson-unit-badge"><i class="fas fa-project-diagram"></i> Unit 11.2B · Term 2</div>
-                <h1 class="lesson-title">Data Flow Diagrams (DFD)</h1>
-                <p class="lesson-intro">A <strong>Data Flow Diagram</strong> is a visual tool that shows how data moves
-                    through a system — where it comes from, what processes transform it, and where it is stored. DFDs
-                    are essential in the <strong>analysis and design</strong> stages of the SDLC.</p>
-            </div>
-            <div class="lesson-lo-card">
-                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
-                <ul class="lesson-lo-list">
-                    <li><span class="lo-code">11.2.2.1</span> Create a first-level data flow diagram (DFD) to represent input, processing, storage, and output in computing systems</li>
-                </ul>
-            </div>
-
-            <div class="lesson-pdf-block">
-                <div class="lesson-pdf-icon"><i class="fas fa-file-powerpoint"></i></div>
-                <div class="lesson-pdf-info">
-                    <h4>Lesson Presentation</h4>
-                    <p>11.2B-dfd.pdf · Slides for classroom use</p>
-                </div>
-                <div class="lesson-pdf-actions">
-                    <a href="#" class="lesson-pdf-btn view-btn"><i class="fas fa-eye"></i> View</a>
-                    <a href="#" class="lesson-pdf-btn download-btn"><i class="fas fa-download"></i> Download</a>
-                </div>
-            </div>
-
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-lightbulb"></i> Conceptual Anchor</h2>
-                <div class="analogy-box">
-                    <h4><i class="fas fa-map"></i> The Plumbing Map Analogy</h4>
-                    <p>A DFD is like a <strong>plumbing diagram</strong> for data. The pipes (arrows) show where data
-                        flows. The taps and sinks (external entities) are where data enters and leaves. Valves and
-                        filters (processes) transform the data. Tanks (data stores) hold data for later use.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-book"></i> Rules &amp; Theory</h2>
-                <h3 style="font-size:1rem;margin-bottom:var(--space-sm);color:var(--text-primary);">DFD Symbols</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Symbol</th>
-                            <th>Shape</th>
-                            <th>Represents</th>
-                            <th>Example</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>External Entity</strong></td>
-                            <td>Rectangle / Square</td>
-                            <td>Source or destination of data (outside the system)</td>
-                            <td>Customer, Bank, Teacher</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Process</strong></td>
-                            <td>Rounded rectangle / Circle</td>
-                            <td>An action that transforms data</td>
-                            <td>Validate login, Calculate total</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Data Store</strong></td>
-                            <td>Open-ended rectangle (two lines)</td>
-                            <td>Where data is stored permanently</td>
-                            <td>D1 Student Database</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Data Flow</strong></td>
-                            <td>Arrow (→)</td>
-                            <td>Direction data moves</td>
-                            <td>Order details, Payment</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">DFD
-                    Levels</h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Level</th>
-                            <th>Name</th>
-                            <th>Detail</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Level 0</strong></td>
-                            <td>Context Diagram</td>
-                            <td>Shows the entire system as ONE process, with external entities</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Level 1</strong></td>
-                            <td>Main DFD</td>
-                            <td>Breaks the system into major processes, shows data stores</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Level 2+</strong></td>
-                            <td>Detailed DFD</td>
-                            <td>Further decomposition of Level 1 processes</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">Example:
-                    Library System</h3>
-                <div class="code-block"><code>CONTEXT DIAGRAM (Level 0):
-
-  ┌──────────┐                              ┌──────────┐
-  │ Student  │──── Book Request ───────────→│          │
-  │          │←─── Book / Rejection ────────│ LIBRARY  │
-  └──────────┘                              │ SYSTEM   │
-                                            │          │
-  ┌──────────┐                              │          │
-  │ Librarian│──── New Book Details ───────→│          │
-  │          │←─── Reports ────────────────│          │
-  └──────────┘                              └──────────┘
-
-
-LEVEL 1 DFD:
-
-  ┌──────────┐   Book Request    ┌─────────────┐
-  │ Student  │─────────────────→│ 1. Search   │
-  └──────────┘                   │    Catalogue │
-       ↑                         └──────┬──────┘
-       │                                │ Book ID
-       │                                ↓
-       │                         ┌─────────────┐    ══════════
-       │    Book / Rejection     │ 2. Process  │←──║ D1 Books ║
-       └─────────────────────────│    Loan     │    ══════════
-                                 └──────┬──────┘
-                                        │ Loan record
-                                        ↓
-                                  ══════════════
-                                 ║ D2 Loans    ║
-                                  ══════════════</code></div>
-                <h3 style="font-size:1rem;margin:var(--space-lg) 0 var(--space-sm);color:var(--text-primary);">DFD Rules
-                </h3>
-                <table class="theory-table">
-                    <thead>
-                        <tr>
-                            <th>Rule</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>No data flow between entities</strong></td>
-                            <td>External entities don't communicate directly — data must flow through a process</td>
-                        </tr>
-                        <tr>
-                            <td><strong>No data flow between stores</strong></td>
-                            <td>Data stores don't connect directly — a process must move data between them</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Label all arrows</strong></td>
-                            <td>Every data flow must have a descriptive label</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Process must have I/O</strong></td>
-                            <td>Every process must have at least one input and one output</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Number processes</strong></td>
-                            <td>Use 1, 2, 3... for Level 1; 1.1, 1.2... for Level 2</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="note-box">
-                    <h4><i class="fas fa-info-circle"></i> DFD vs Flowchart</h4>
-                    <p>A DFD shows <strong>what data flows where</strong>. A flowchart shows <strong>the sequence of
-                            steps</strong>. DFDs don't show decisions (if/else) or loops — they focus purely on data
-                        movement.</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
-                <div class="pitfall-box">
-                    <h4><i class="fas fa-bug"></i> Connecting Entities Directly</h4>
-                    <p>Two external entities must NEVER have a data flow arrow between them. All data must flow through
-                        a <strong>process</strong> (the system must be involved).</p>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Tasks</h2>
-                <div class="assessment-tasks">
-                    <div class="task-item"><span class="task-level remember">Remember</span>
-                        <p>Draw and label the 4 DFD symbols.</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Draw a Context Diagram for a school exam system (entities: Student, Teacher, Admin).</p>
-                    </div>
-                    <div class="task-item"><span class="task-level apply">Apply</span>
-                        <p>Draw a Level 1 DFD for an online pizza ordering system.</p>
-                    </div>
-                </div>
-            </section>
-            <section class="lesson-section">
-                <h2 class="lesson-section-title"><i class="fas fa-question-circle"></i> Self-Check Quiz</h2>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q1: What are the 4 DFD symbols?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">External Entity (rectangle),
-                        Process (rounded rect/circle), Data Store (open-ended rectangle), Data Flow (arrow).</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q2: What is a Context Diagram?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">A Level 0 DFD that shows the
-                        entire system as a single process, with all external entities and their data flows.</div>
-                </div>
-                <div class="quiz-item">
-                    <p class="quiz-question">Q3: Can two external entities be connected directly?</p>
-                    <div class="quiz-answer" onclick="this.classList.toggle('revealed')">No — data must always flow
-                        through a process. External entities never communicate directly on a DFD.</div>
-                </div>
-            </section>
-            <nav class="lesson-nav">
-                <a href="sql.html"><span class="nav-label">← Previous</span><span class="nav-title">SQL</span></a>
-                <a href="flowcharts.html"><span class="nav-label">Next →</span><span
-                        class="nav-title">Process Design: Flowcharts</span></a>
-            </nav>
-        </div>
-        </div>
-    </main>
-  </div>
     <footer class="site-footer">
-        <p>mr. TEA © 2025 — NIS Grade 11 Computer Science</p>
+        <div class="container">
+            <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
+            <p>&copy; 2026 IT-Tea. Educational use.</p>
+        </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const symbolCases = [
+                { prompt: 'Source or destination of data outside the system. Naming rule: noun.', answer: 'entity', why: 'External Entity — e.g. Customer, Bank, Teacher.' },
+                { prompt: 'Transforms/manipulates incoming data. Naming rule: verb phrase.', answer: 'process', why: 'Process — e.g. Calculate Pay or Validate Login.' },
+                { prompt: 'Repository of stored data. Naming rule: noun.', answer: 'store', why: 'Data Store — e.g. D1 Employee File.' },
+                { prompt: 'Movement of data between DFD elements. Label should name the data.', answer: 'flow', why: 'Data Flow — e.g. Hours Worked or Payment Details.' }
+            ];
+            let symbolIndex = 0;
+            const symbolPrompt = document.getElementById('symbolPrompt');
+            const symbolChoices = document.querySelectorAll('.symbol-choice');
+            const symbolFeedback = document.getElementById('symbolFeedback');
+            const symbolProgress = document.getElementById('symbolProgress');
+
+            function loadSymbol() {
+                const x = symbolCases[symbolIndex];
+                symbolPrompt.textContent = x.prompt;
+                symbolProgress.textContent = `Item ${symbolIndex + 1} of ${symbolCases.length}`;
+                symbolChoices.forEach(b => b.classList.remove('active'));
+                symbolFeedback.className = 'lesson-lab-feedback';
+                symbolFeedback.textContent = 'Identify the DFD element from its role or naming rule.';
+            }
+            symbolChoices.forEach(btn => btn.addEventListener('click', () => {
+                const x = symbolCases[symbolIndex];
+                const ok = btn.dataset.symbol === x.answer;
+                symbolChoices.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                symbolFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+                symbolFeedback.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+            }));
+            document.getElementById('nextSymbol').addEventListener('click', () => {
+                symbolIndex = (symbolIndex + 1) % symbolCases.length;
+                loadSymbol();
+            });
+            loadSymbol();
+
+            const connectionCases = [
+                { prompt: 'External Entity → Process', answer: 'valid', why: 'Valid. External entities exchange data with processes.' },
+                { prompt: 'Process → Data Store', answer: 'valid', why: 'Valid. A process may write data to a store.' },
+                { prompt: 'Data Store → Process', answer: 'valid', why: 'Valid. A process may read data from a store.' },
+                { prompt: 'Process → External Entity', answer: 'valid', why: 'Valid. A process may output data to an entity.' },
+                { prompt: 'External Entity → External Entity', answer: 'invalid', why: 'Invalid. The system process must be involved.' },
+                { prompt: 'External Entity → Data Store', answer: 'invalid', why: 'Invalid. A process must handle the data before it reaches the store.' },
+                { prompt: 'Data Store → External Entity', answer: 'invalid', why: 'Invalid. A process must read the data and send it to the entity.' },
+                { prompt: 'Data Store → Data Store', answer: 'invalid', why: 'Invalid. A process must move or transform the data.' }
+            ];
+            let connectionIndex = 0;
+            const connectionPrompt = document.getElementById('connectionPrompt');
+            const connectionChoices = document.querySelectorAll('.connection-choice');
+            const connectionFeedback = document.getElementById('connectionFeedback');
+            const connectionProgress = document.getElementById('connectionProgress');
+
+            function loadConnection() {
+                const x = connectionCases[connectionIndex];
+                connectionPrompt.textContent = x.prompt;
+                connectionProgress.textContent = `Connection ${connectionIndex + 1} of ${connectionCases.length}`;
+                connectionChoices.forEach(b => b.classList.remove('active'));
+                connectionFeedback.className = 'lesson-lab-feedback';
+                connectionFeedback.textContent = 'Decide whether the direct connection is allowed.';
+            }
+            connectionChoices.forEach(btn => btn.addEventListener('click', () => {
+                const x = connectionCases[connectionIndex];
+                const ok = btn.dataset.valid === x.answer;
+                connectionChoices.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                connectionFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+                connectionFeedback.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+            }));
+            document.getElementById('nextConnection').addEventListener('click', () => {
+                connectionIndex = (connectionIndex + 1) % connectionCases.length;
+                loadConnection();
+            });
+            loadConnection();
+
+            const errorCases = [
+                { prompt: 'Order Details → Process Order → (no output)', answer: 'black', why: 'Black Hole: input enters the process, but no output leaves.' },
+                { prompt: '(no input) → Generate Invoice → Invoice', answer: 'miracle', why: 'Miracle: the process produces an output with no input.' },
+                { prompt: 'Employee Address → Generate Bank Statement → Bank Statement', answer: 'gray', why: 'Gray Hole: the stated input is not sufficient to justify the output.' },
+                { prompt: 'Order Details + Stock Data → Check Order → Confirmation / Rejection', answer: 'valid', why: 'Valid: the process has meaningful inputs and plausible outputs.' }
+            ];
+            let errorIndex = 0;
+            const errorPrompt = document.getElementById('errorPrompt');
+            const errorChoices = document.querySelectorAll('.error-choice');
+            const errorFeedback = document.getElementById('errorFeedback');
+            const errorProgress = document.getElementById('errorProgress');
+
+            function loadError() {
+                const x = errorCases[errorIndex];
+                errorPrompt.textContent = x.prompt;
+                errorProgress.textContent = `Case ${errorIndex + 1} of ${errorCases.length}`;
+                errorChoices.forEach(b => b.classList.remove('active'));
+                errorFeedback.className = 'lesson-lab-feedback';
+                errorFeedback.textContent = 'Classify the process.';
+            }
+            errorChoices.forEach(btn => btn.addEventListener('click', () => {
+                const x = errorCases[errorIndex];
+                const ok = btn.dataset.error === x.answer;
+                errorChoices.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                errorFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+                errorFeedback.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+            }));
+            document.getElementById('nextError').addEventListener('click', () => {
+                errorIndex = (errorIndex + 1) % errorCases.length;
+                loadError();
+            });
+            loadError();
+
+            const balanceCases = [
+                {
+                    prompt: 'Level 0: Customer sends Order to Order System. What must still appear in Level 1?',
+                    answer: 'a',
+                    options: {
+                        a: 'Customer plus an Order data flow entering one or more Level 1 processes',
+                        b: 'The Customer may disappear because Level 1 is internal',
+                        c: 'Only a new data store named Orders',
+                        d: 'A decision diamond showing whether the order is valid'
+                    },
+                    why: 'External system-boundary interactions from Level 0 must still be represented after decomposition.'
+                },
+                {
+                    prompt: 'Level 0: Payroll System sends Payslip to Employee. Which Level 1 choice is correct?',
+                    answer: 'c',
+                    options: {
+                        a: 'Remove Employee and store Payslip in D1 only',
+                        b: 'Replace Payslip with a control-flow arrow',
+                        c: 'At least one Level 1 process must output Payslip to Employee',
+                        d: 'Connect D1 Employee File directly to Employee'
+                    },
+                    why: 'The external output shown at the system boundary must remain represented in Level 1.'
+                },
+                {
+                    prompt: 'Which item may be introduced when moving from Context Diagram / Level 0 to Level 1?',
+                    answer: 'b',
+                    options: {
+                        a: 'Decision diamonds',
+                        b: 'Data stores',
+                        c: 'Loops',
+                        d: 'Direct Entity → Entity flows'
+                    },
+                    why: 'Level 1 introduces internal processes and data stores while keeping the DFD rules.'
+                }
+            ];
+            let balanceIndex = 0;
+            const balancePrompt = document.getElementById('balancePrompt');
+            const balanceOptions = document.getElementById('balanceOptions');
+            const balanceFeedback = document.getElementById('balanceFeedback');
+            const balanceProgress = document.getElementById('balanceProgress');
+
+            function loadBalance() {
+                const x = balanceCases[balanceIndex];
+                balancePrompt.textContent = x.prompt;
+                balanceProgress.textContent = `Scenario ${balanceIndex + 1} of ${balanceCases.length}`;
+                balanceOptions.innerHTML = '';
+                Object.entries(x.options).forEach(([key, value]) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'lesson-choice-btn balance-choice';
+                    btn.dataset.choice = key;
+                    btn.textContent = value;
+                    btn.addEventListener('click', () => {
+                        const ok = key === x.answer;
+                        balanceOptions.querySelectorAll('.balance-choice').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        balanceFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+                        balanceFeedback.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+                    });
+                    balanceOptions.appendChild(btn);
+                });
+                balanceFeedback.className = 'lesson-lab-feedback';
+                balanceFeedback.textContent = 'Choose what must still be represented in the Level 1 DFD.';
+            }
+            document.getElementById('nextBalance').addEventListener('click', () => {
+                balanceIndex = (balanceIndex + 1) % balanceCases.length;
+                loadBalance();
+            });
+            loadBalance();
+        });
+    </script>
 
     <script src="/js/sidebar.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/lesson.js"></script>
+
 </body>
 
 </html>
