@@ -2,10 +2,12 @@
   <style>
     .process { fill: #FCF3CF; stroke: #1C2833; stroke-width: 2px; }
     .line { stroke: #1C2833; stroke-width: 2px; fill: none; }
+    .line-error { stroke: #E74C3C; stroke-width: 2px; fill: none; stroke-dasharray: 6,4; }
     .text-bold { font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; fill: #1C2833; }
     .text-title { font-family: Arial, sans-serif; font-weight: bold; font-size: 16px; fill: #E74C3C; }
     .text-normal { font-family: Arial, sans-serif; font-size: 13px; fill: #1C2833; }
     .text-desc { font-family: Arial, sans-serif; font-size: 12px; fill: #566573; font-style: italic; }
+    .text-error { font-family: Arial, sans-serif; font-weight: bold; font-size: 24px; fill: #E74C3C; }
   </style>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -30,6 +32,11 @@
   </g>
   <polyline points="20,160 125,160" class="line" marker-end="url(#arrow)" />
   <text x="70" y="150" text-anchor="middle" class="text-normal">Item Prices</text>
+  
+  <!-- Missing output visualization -->
+  <polyline points="275,160 350,160" class="line-error" marker-end="url(#arrow-error)" />
+  <text x="312" y="150" text-anchor="middle" class="text-error">?</text>
+
 
   <!-- 2. MIRACLE -->
   <text x="600" y="50" text-anchor="middle" class="text-title">2. MIRACLE</text>
@@ -43,8 +50,14 @@
     <text x="620" y="165" class="text-bold" text-anchor="middle">GENERATE</text>
     <text x="620" y="180" class="text-bold" text-anchor="middle">INVOICE</text>
   </g>
+  
+  <!-- Missing input visualization -->
+  <polyline points="450,160 525,160" class="line-error" marker-end="url(#arrow-error)" />
+  <text x="487" y="150" text-anchor="middle" class="text-error">?</text>
+
   <polyline points="675,160 780,160" class="line" marker-end="url(#arrow)" />
   <text x="730" y="150" text-anchor="middle" class="text-normal">Invoice Details</text>
+
 
   <!-- 3. GREY HOLE -->
   <text x="1000" y="50" text-anchor="middle" class="text-title">3. GREY HOLE</text>
@@ -58,9 +71,13 @@
     <text x="1020" y="165" class="text-bold" text-anchor="middle">CALCULATE</text>
     <text x="1020" y="180" class="text-bold" text-anchor="middle">NET PAY</text>
   </g>
+  
   <polyline points="820,160 925,160" class="line" marker-end="url(#arrow)" />
   <text x="870" y="150" text-anchor="middle" class="text-normal">Employee Name</text>
   
   <polyline points="1075,160 1180,160" class="line" marker-end="url(#arrow)" />
   <text x="1130" y="150" text-anchor="middle" class="text-normal">Net Salary</text>
+  
+  <text x="1000" y="225" text-anchor="middle" class="text-desc">Error: Cannot calculate salary</text>
+  <text x="1000" y="240" text-anchor="middle" class="text-desc">knowing only the name.</text>
 </svg>
