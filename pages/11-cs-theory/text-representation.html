@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Text Representation: ASCII &amp; Unicode — mr. TEA</title>
+    <link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
+    <meta name="description"
+        content="Text representation with ASCII, Unicode, UTF-8 and text storage calculations. NIS Grade 11 Computer Science.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+    <meta property="og:title" content="Text Representation: ASCII &amp; Unicode — mr. TEA">
+    <meta property="og:description"
+        content="Compare ASCII and Unicode and calculate the number of bytes required to store text.">
+    <meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/text-representation.html">
+    <meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P4C0Y8SW2K');
+    </script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+<main class="main-content">
+
+<div class="mobile-header">
+    <div class="header-left">
+        <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo">
+            <i class="fas fa-mug-hot logo-icon"></i>
+            <span class="logo-text">mr. TEA</span>
+        </a>
+    </div>
+</div>
+
+<div class="lesson-page">
+<div class="lesson-container">
+
+<nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+    <a href="/index.html">Home</a>
+    <span class="sep">/</span>
+    <a href="/index.html#syllabus">Grade 11 CS</a>
+    <span class="sep">/</span>
+    <span>11.3A — Data presentation</span>
+</nav>
+
+<div class="lesson-header">
+    <div class="lesson-unit-badge">
+        <i class="fas fa-font"></i> Unit 11.3A · Term 3
+    </div>
+
+    <h1 class="lesson-title">Text Representation: ASCII &amp; Unicode</h1>
+
+    <p class="lesson-intro">
+        Computers store text as numbers. A character such as <strong>A</strong>,
+        <strong>Ә</strong> or <strong>中</strong> is assigned a numerical code, and an
+        <strong>encoding</strong> determines how that code is stored as bytes.
+        This lesson compares <strong>ASCII and Unicode</strong> and shows how to calculate
+        the storage required by a text fragment.
+    </p>
+</div>
+
+<div class="lesson-lo-card">
+    <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+    <ul class="lesson-lo-list">
+        <li>
+            <span class="lo-code">11.1.1.7</span>
+            Compare Unicode and ASCII
+        </li>
+        <li>
+            <span class="lo-code">11.1.1.8</span>
+            Calculate the number of bytes required to store a text fragment
+        </li>
+    </ul>
+</div>
+
+<nav class="lesson-section-jump" aria-label="Lesson sections">
+    <a href="#representation">Representation</a>
+    <a href="#ascii">ASCII</a>
+    <a href="#unicode">Unicode</a>
+    <a href="#compare">Compare</a>
+    <a href="#size">Text Size</a>
+    <a href="#labs">Labs</a>
+    <a href="#practice">Practice</a>
+</nav>
+
+<section class="lesson-section" id="representation">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-binary"></i> From Character to Binary
+    </h2>
+
+    <figure class="lesson-image-block">
+        <img src="/assets/images/lessons/text-character-to-bytes.svg"
+             alt="A character is mapped to a Unicode code point and then encoded into bytes"
+             loading="lazy">
+        <figcaption>Characters are assigned codes; an encoding defines the bytes used to store those codes.</figcaption>
+    </figure>
+
+    <div class="definition-grid">
+        <div class="definition-item">
+            <strong>Character</strong>
+            <p>A letter, digit, punctuation mark, symbol, emoji or other textual element.</p>
+        </div>
+
+        <div class="definition-item">
+            <strong>Character set</strong>
+            <p>A collection of characters with numerical codes assigned to them.</p>
+        </div>
+
+        <div class="definition-item">
+            <strong>Encoding</strong>
+            <p>A rule for converting character codes into bytes for storage or transmission.</p>
+        </div>
+    </div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-circle-info"></i> Important terminology</h4>
+        <p>
+            <strong>Unicode</strong> defines characters and their code points.
+            Encodings such as <strong>UTF-8</strong>, <strong>UTF-16</strong> and
+            <strong>UTF-32</strong> specify how Unicode code points are represented as bytes.
+        </p>
+    </div>
+</section>
+
+<section class="lesson-section" id="ascii">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-keyboard"></i> ASCII
+    </h2>
+
+    <p class="concept-text">
+        <strong>ASCII (American Standard Code for Information Interchange)</strong>
+        is an early character set designed mainly for English-language text and control characters.
+        Standard ASCII uses <strong>7 bits</strong>, giving <code>2^7 = 128</code> possible codes.
+    </p>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Character</th>
+                <th>Decimal ASCII</th>
+                <th>7-bit binary</th>
+                <th>Stored in an 8-bit byte</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>A</code></td><td>65</td><td><code>1000001</code></td><td><code>01000001</code></td></tr>
+            <tr><td><code>a</code></td><td>97</td><td><code>1100001</code></td><td><code>01100001</code></td></tr>
+            <tr><td><code>0</code></td><td>48</td><td><code>0110000</code></td><td><code>00110000</code></td></tr>
+            <tr><td>space</td><td>32</td><td><code>0100000</code></td><td><code>00100000</code></td></tr>
+        </tbody>
+    </table>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> “Extended ASCII” is not one universal standard</h4>
+        <p>
+            Standard ASCII is the 7-bit, 128-code set. Many older systems used different
+            8-bit code pages for additional characters; these are often loosely called
+            “extended ASCII”, but they are not one single universal character set.
+        </p>
+    </div>
+</section>
+
+<section class="lesson-section" id="unicode">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-globe"></i> Unicode
+    </h2>
+
+    <figure class="lesson-image-block">
+        <img src="/assets/images/lessons/ascii-vs-unicode.svg"
+             alt="Comparison showing a small ASCII character set and Unicode examples including Kazakh, Chinese and emoji"
+             loading="lazy">
+        <figcaption>Unicode is designed to represent characters from many writing systems and symbol sets.</figcaption>
+    </figure>
+
+    <p class="concept-text">
+        Unicode assigns each supported character a unique <strong>code point</strong>,
+        written in forms such as <code>U+0041</code> for A or <code>U+04D8</code> for Ә.
+        The same Unicode text can then be encoded using UTF-8, UTF-16 or another Unicode encoding.
+    </p>
+
+    <figure class="lesson-image-block">
+        <img src="/assets/images/lessons/utf8-variable-bytes.svg"
+             alt="UTF-8 examples showing characters that use one, two, three or four bytes"
+             loading="lazy">
+        <figcaption>UTF-8 is variable-length: different characters may use different numbers of bytes.</figcaption>
+    </figure>
+
+    <div class="pro-tip-box">
+        <h4><i class="fas fa-link"></i> ASCII compatibility</h4>
+        <p>
+            Standard ASCII characters are included in Unicode. In UTF-8, the first
+            128 code points use the same byte values as ASCII, so ordinary ASCII text
+            is automatically valid UTF-8.
+        </p>
+    </div>
+</section>
+
+<section class="lesson-section" id="compare">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-scale-balanced"></i> ASCII vs Unicode
+    </h2>
+
+    <table class="theory-table">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>ASCII</th>
+                <th>Unicode</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Character coverage</strong></td>
+                <td>Small set; mainly English letters, digits, punctuation and control characters</td>
+                <td>Designed for characters from many writing systems, symbols and emoji</td>
+            </tr>
+            <tr>
+                <td><strong>Standard size idea</strong></td>
+                <td>7-bit standard ASCII: 128 codes</td>
+                <td>Much larger code space</td>
+            </tr>
+            <tr>
+                <td><strong>Storage</strong></td>
+                <td>Commonly stored as one byte per ASCII character</td>
+                <td>Depends on the Unicode encoding and the character</td>
+            </tr>
+            <tr>
+                <td><strong>Compatibility</strong></td>
+                <td>ASCII is limited but simple</td>
+                <td>Includes all standard ASCII characters</td>
+            </tr>
+            <tr>
+                <td><strong>Example limitation / strength</strong></td>
+                <td>Cannot directly represent characters such as Ә, 中 or 🙂</td>
+                <td>Can assign code points to these characters</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="worked-example">
+        <h4>Exam-style comparison answer</h4>
+        <p>
+            <strong>Difference 1:</strong> ASCII has a much smaller character set,
+            while Unicode supports characters from many languages and symbol systems.
+        </p>
+        <p>
+            <strong>Difference 2:</strong> ASCII has a fixed 7-bit standard code set
+            and is commonly stored in one byte per character, while Unicode can use
+            encodings such as UTF-8 or UTF-16 that may require multiple bytes for some characters.
+        </p>
+    </div>
+</section>
+
+<section class="lesson-section" id="size">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-calculator"></i> Calculating Text Storage
+    </h2>
+
+    <figure class="lesson-image-block">
+        <img src="/assets/images/lessons/text-file-size.svg"
+             alt="Comparison of fixed-width text size calculation and variable-width UTF-8 calculation"
+             loading="lazy">
+        <figcaption>The correct method depends on the encoding assumptions in the question.</figcaption>
+    </figure>
+
+    <h3>Case 1 — Fixed number of bits per character</h3>
+
+    <div class="code-block"><code>size in bits
+= number of characters × bits per character
+
+size in bytes
+= size in bits ÷ 8</code></div>
+
+    <div class="worked-example">
+        <h4><span class="step-num">1</span> 250 characters at 8 bits per character</h4>
+        <div class="code-block"><code>250 × 8
+= 2000 bits
+
+2000 ÷ 8
+= 250 bytes</code></div>
+    </div>
+
+    <div class="worked-example">
+        <h4><span class="step-num">2</span> 120 characters at 16 bits per character</h4>
+        <div class="code-block"><code>120 × 16
+= 1920 bits
+
+1920 ÷ 8
+= 240 bytes</code></div>
+    </div>
+
+    <h3>Case 2 — UTF-8 variable-length text</h3>
+
+    <div class="worked-example">
+        <h4><span class="step-num">3</span> AӘ中🙂 in UTF-8</h4>
+        <div class="code-block"><code>A  → 1 byte
+Ә  → 2 bytes
+中 → 3 bytes
+🙂 → 4 bytes
+
+Total
+= 1 + 2 + 3 + 4
+= 10 bytes</code></div>
+    </div>
+
+    <div class="note-box">
+        <h4><i class="fas fa-graduation-cap"></i> Exam rule</h4>
+        <p>
+            Do not invent a fixed “Unicode bytes per character” value.
+            Use the encoding and bit/byte information stated in the question.
+            If the question uses a simplified model such as “16 bits per character”,
+            calculate with that model.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Character count alone may not determine UTF-8 size</h4>
+        <p>
+            Four ASCII characters need 4 bytes in UTF-8, but four non-ASCII characters
+            can require more. You need to know the actual characters or their byte lengths.
+        </p>
+    </div>
+</section>
+
+<section class="lesson-section" id="labs">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-flask"></i> Interactive Labs
+    </h2>
+
+    <h3>1. ASCII or Unicode?</h3>
+    <div class="lesson-lab">
+        <div id="coveragePrompt" class="lesson-lab-prompt"></div>
+        <div class="lesson-lab-options three">
+            <button class="lesson-choice-btn coverage-choice" data-answer="ascii" type="button">Standard ASCII</button>
+            <button class="lesson-choice-btn coverage-choice" data-answer="unicode" type="button">Unicode only</button>
+            <button class="lesson-choice-btn coverage-choice" data-answer="both" type="button">Both</button>
+        </div>
+        <div id="coverageFeedback" class="lesson-lab-feedback">Decide whether the character can be represented.</div>
+        <div class="lesson-lab-footer">
+            <span id="coverageProgress"></span>
+            <button id="nextCoverage" class="lesson-lab-btn" type="button">Next</button>
+        </div>
+    </div>
+
+    <h3>2. Fixed-Width Text Size Calculator</h3>
+    <div class="lesson-lab">
+        <div class="lesson-lab-prompt">
+            Calculate storage when a question gives a fixed number of bits per character.
+        </div>
+        <div class="lesson-lab-options two">
+            <label>
+                Number of characters
+                <input id="fixedChars" type="number" min="0" value="200">
+            </label>
+            <label>
+                Bits per character
+                <input id="fixedBits" type="number" min="1" value="8">
+            </label>
+        </div>
+        <div class="lesson-lab-footer">
+            <button id="calculateFixed" class="lesson-lab-btn" type="button">Calculate</button>
+        </div>
+        <div id="fixedFeedback" class="lesson-lab-feedback">
+            characters × bits per character ÷ 8
+        </div>
+    </div>
+
+    <h3>3. UTF-8 Byte Inspector</h3>
+    <div class="lesson-lab">
+        <div class="lesson-lab-prompt">
+            Enter text to see how many UTF-8 bytes it requires.
+        </div>
+        <label>
+            Text
+            <input id="utf8Text" type="text" value="AӘ中🙂">
+        </label>
+        <div class="lesson-lab-footer">
+            <button id="inspectUtf8" class="lesson-lab-btn" type="button">Inspect UTF-8</button>
+        </div>
+        <div id="utf8Feedback" class="lesson-lab-feedback">
+            UTF-8 uses 1–4 bytes for individual Unicode code points.
+        </div>
+    </div>
+
+    <h3>4. Storage Reasoning</h3>
+    <div class="lesson-lab">
+        <div id="storagePrompt" class="lesson-lab-prompt"></div>
+        <div id="storageOptions" class="lesson-lab-options two"></div>
+        <div id="storageFeedback" class="lesson-lab-feedback">Choose the best answer.</div>
+        <div class="lesson-lab-footer">
+            <span id="storageProgress"></span>
+            <button id="nextStorage" class="lesson-lab-btn" type="button">Next</button>
+        </div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-exclamation-triangle"></i> Common Pitfalls
+    </h2>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> “Unicode = 16 bits per character”</h4>
+        <p>
+            This is not generally correct. Unicode is a character standard;
+            encodings such as UTF-8 and UTF-16 determine the stored bytes.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> “ASCII = only letters”</h4>
+        <p>
+            ASCII also contains digits, punctuation, control characters and symbols.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Forgetting bits → bytes</h4>
+        <p>
+            If a calculation produces bits, divide by 8 to obtain bytes.
+        </p>
+    </div>
+
+    <div class="pitfall-box">
+        <h4><i class="fas fa-bug"></i> Counting characters but ignoring the encoding</h4>
+        <p>
+            For variable-length encodings such as UTF-8, different characters can use different numbers of bytes.
+        </p>
+    </div>
+</section>
+
+<section class="lesson-section" id="practice">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-tasks"></i> Graded Tasks
+    </h2>
+
+    <div class="assessment-tasks">
+        <div class="task-item">
+            <span class="task-level remember">Remember</span>
+            <p>State what ASCII stands for and how many codes are available in standard 7-bit ASCII.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>Explain two differences between ASCII and Unicode.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level understand">Understand</span>
+            <p>Explain the difference between a Unicode code point and a Unicode encoding such as UTF-8.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>A text fragment contains 450 characters stored at 8 bits per character. Calculate its size in bytes.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>A text fragment contains 300 characters stored at 16 bits per character. Calculate its size in bytes.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>Explain why the same number of characters can require different amounts of storage in UTF-8.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level apply">Apply</span>
+            <p>Using the byte lengths A = 1, Ә = 2, 中 = 3 and 🙂 = 4, calculate the UTF-8 size of <code>AӘ中🙂A</code>.</p>
+        </div>
+
+        <div class="task-item">
+            <span class="task-level analyze">Analyze</span>
+            <p>A school needs to store Kazakh, English and emoji in student messages. Justify why Unicode is more suitable than ASCII.</p>
+        </div>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-graduation-cap"></i> Exam Practice
+    </h2>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q1: State two differences between ASCII and Unicode. [2]
+        </p>
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>Any two valid differences, 1 mark each:
+ASCII has a much smaller character set than Unicode;
+Unicode supports characters from many writing systems / symbols / emoji;
+standard ASCII uses a 7-bit code set while Unicode can be encoded using variable/multiple bytes;
+ASCII characters are included within Unicode.</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q2: A text fragment contains 180 characters. It is stored using 8 bits per character.
+            Calculate the storage required in bytes. [2]
+        </p>
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>180 × 8 = 1440 bits [1].
+1440 ÷ 8 = 180 bytes [1].</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q3: A system stores 75 characters using 16 bits per character.
+            Calculate the size in bytes. [2]
+        </p>
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>75 × 16 = 1200 bits [1].
+1200 ÷ 8 = 150 bytes [1].</div>
+        </details>
+    </div>
+
+    <div class="quiz-item">
+        <p class="quiz-question">
+            Q4: Explain why the number of characters alone may be insufficient to calculate
+            the size of a Unicode text fragment stored using UTF-8. [2]
+        </p>
+        <details class="lesson-exam-marking">
+            <summary>Reveal marking points</summary>
+            <div>UTF-8 is a variable-length encoding [1].
+Different characters may require different numbers of bytes, so the actual characters / byte lengths are needed [1].</div>
+        </details>
+    </div>
+</section>
+
+<section class="lesson-section">
+    <h2 class="lesson-section-title">
+        <i class="fas fa-check-circle"></i> Self-Check Quiz
+    </h2>
+
+    <div class="lesson-quiz-progress">
+        <span>Eight quick checks</span>
+        <span>Click each answer to reveal</span>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">1. How many codes can 7-bit ASCII represent?</div>
+        <div class="quiz-answer" data-answer="2^7 = 128 codes">Click to reveal answer</div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">2. Can standard ASCII directly represent the character Ә?</div>
+        <div class="quiz-answer" data-answer="No. It requires a larger character standard such as Unicode">Click to reveal answer</div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">3. What is a Unicode code point?</div>
+        <div class="quiz-answer" data-answer="A numerical identifier assigned to a Unicode character, such as U+0041">Click to reveal answer</div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">4. Name one Unicode encoding.</div>
+        <div class="quiz-answer" data-answer="UTF-8, UTF-16 or UTF-32">Click to reveal answer</div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">5. How many bytes are required for 100 characters at 8 bits per character?</div>
+        <div class="quiz-answer" data-answer="100 bytes">Click to reveal answer</div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">6. How many bytes are required for 100 characters at 16 bits per character?</div>
+        <div class="quiz-answer" data-answer="200 bytes">Click to reveal answer</div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">7. Is UTF-8 fixed-width?</div>
+        <div class="quiz-answer" data-answer="No. It is variable-length">Click to reveal answer</div>
+    </div>
+
+    <div class="quiz-item">
+        <div class="quiz-question">8. Why is Unicode more suitable for multilingual text than ASCII?</div>
+        <div class="quiz-answer" data-answer="Unicode supports a far wider range of writing systems, symbols and other characters">Click to reveal answer</div>
+    </div>
+</section>
+
+<nav class="lesson-nav">
+    <a href="image-representation.html">
+        <span>
+            <span class="nav-label">← Previous</span>
+            <span class="nav-title">Image Representation</span>
+        </span>
+    </a>
+
+    <a href="sound-representation.html">
+        <span>
+            <span class="nav-label">Next →</span>
+            <span class="nav-title">Sound Representation</span>
+        </span>
+    </a>
+</nav>
+
+</div>
+</div>
+</main>
+</div>
+
+<footer class="site-footer">
+    <div class="container">
+        <p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
+        <p>&copy; 2026 IT-Tea. Educational use.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const coverageCases = [
+        {char:'A', answer:'both', why:'A is in standard ASCII and therefore also in Unicode.'},
+        {char:'7', answer:'both', why:'Digits are included in standard ASCII and Unicode.'},
+        {char:'Ә', answer:'unicode', why:'Ә is not in standard ASCII; Unicode includes it.'},
+        {char:'中', answer:'unicode', why:'Chinese characters are outside standard ASCII and are represented by Unicode.'},
+        {char:'🙂', answer:'unicode', why:'Emoji are outside standard ASCII and are represented by Unicode.'}
+    ];
+
+    let coverageIndex = 0;
+    const coveragePrompt = document.getElementById('coveragePrompt');
+    const coverageChoices = document.querySelectorAll('.coverage-choice');
+    const coverageFeedback = document.getElementById('coverageFeedback');
+    const coverageProgress = document.getElementById('coverageProgress');
+
+    function loadCoverage(){
+        const x = coverageCases[coverageIndex];
+        coveragePrompt.textContent = `Character: ${x.char}`;
+        coverageProgress.textContent = `Character ${coverageIndex + 1} of ${coverageCases.length}`;
+        coverageChoices.forEach(b => b.classList.remove('active'));
+        coverageFeedback.className = 'lesson-lab-feedback';
+        coverageFeedback.textContent = 'Decide whether the character can be represented.';
+    }
+
+    coverageChoices.forEach(btn => btn.addEventListener('click', function () {
+        const x = coverageCases[coverageIndex];
+        const ok = btn.dataset.answer === x.answer;
+        coverageChoices.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        coverageFeedback.className = `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+        coverageFeedback.innerHTML = `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+    }));
+
+    document.getElementById('nextCoverage').addEventListener('click', function () {
+        coverageIndex = (coverageIndex + 1) % coverageCases.length;
+        loadCoverage();
+    });
+    loadCoverage();
+
+    const fixedFeedback = document.getElementById('fixedFeedback');
+    document.getElementById('calculateFixed').addEventListener('click', function () {
+        const chars = Number(document.getElementById('fixedChars').value);
+        const bits = Number(document.getElementById('fixedBits').value);
+
+        if (!Number.isFinite(chars) || !Number.isFinite(bits) || chars < 0 || bits <= 0) {
+            fixedFeedback.className = 'lesson-lab-feedback wrong';
+            fixedFeedback.textContent = 'Enter valid non-negative character count and positive bit depth.';
+            return;
+        }
+
+        const totalBits = chars * bits;
+        const bytes = totalBits / 8;
+
+        fixedFeedback.className = 'lesson-lab-feedback correct';
+        fixedFeedback.innerHTML =
+            `<strong>${chars.toLocaleString()} × ${bits} = ${totalBits.toLocaleString()} bits</strong><br>` +
+            `${totalBits.toLocaleString()} ÷ 8 = ${bytes.toLocaleString(undefined,{maximumFractionDigits:2})} bytes`;
+    });
+
+    const utf8Feedback = document.getElementById('utf8Feedback');
+    document.getElementById('inspectUtf8').addEventListener('click', function () {
+        const value = document.getElementById('utf8Text').value;
+        const encoder = new TextEncoder();
+        const totalBytes = encoder.encode(value).length;
+
+        const rows = [];
+        for (const ch of value) {
+            const cp = ch.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
+            const count = encoder.encode(ch).length;
+            rows.push(`${ch} = U+${cp} = ${count} byte${count === 1 ? '' : 's'}`);
+        }
+
+        utf8Feedback.className = 'lesson-lab-feedback correct';
+        utf8Feedback.innerHTML =
+            `<strong>Total UTF-8 size: ${totalBytes} byte${totalBytes === 1 ? '' : 's'}</strong>` +
+            (rows.length ? `<br>${rows.join('<br>')}` : '<br>Empty text = 0 bytes');
+    });
+
+    const storageCases = [
+        {
+            prompt:'200 characters are stored using 8 bits per character. How many bytes?',
+            answer:'a',
+            options:{a:'200 bytes',b:'1600 bytes',c:'25 bytes',d:'Cannot be determined'},
+            why:'200 × 8 = 1600 bits; 1600 ÷ 8 = 200 bytes.'
+        },
+        {
+            prompt:'200 characters are stored using 16 bits per character. How many bytes?',
+            answer:'c',
+            options:{a:'200 bytes',b:'1600 bytes',c:'400 bytes',d:'3200 bytes'},
+            why:'200 × 16 = 3200 bits; 3200 ÷ 8 = 400 bytes.'
+        },
+        {
+            prompt:'A UTF-8 file contains 100 characters, but the actual characters are not given. Can its exact byte size always be calculated from the character count alone?',
+            answer:'d',
+            options:{a:'Yes, always 100 bytes',b:'Yes, always 200 bytes',c:'Yes, always 400 bytes',d:'No — UTF-8 is variable-length'},
+            why:'Different UTF-8 characters can use different numbers of bytes.'
+        }
+    ];
+
+    let storageIndex = 0;
+    const storagePrompt = document.getElementById('storagePrompt');
+    const storageOptions = document.getElementById('storageOptions');
+    const storageFeedback = document.getElementById('storageFeedback');
+    const storageProgress = document.getElementById('storageProgress');
+
+    function loadStorage(){
+        const x = storageCases[storageIndex];
+        storagePrompt.textContent = x.prompt;
+        storageProgress.textContent = `Scenario ${storageIndex + 1} of ${storageCases.length}`;
+        storageOptions.innerHTML = '';
+
+        Object.entries(x.options).forEach(([key,value]) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'lesson-choice-btn storage-choice';
+            btn.textContent = value;
+
+            btn.addEventListener('click', function () {
+                const ok = key === x.answer;
+                storageOptions.querySelectorAll('.storage-choice')
+                    .forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                storageFeedback.className =
+                    `lesson-lab-feedback ${ok ? 'correct' : 'wrong'}`;
+                storageFeedback.innerHTML =
+                    `<strong>${ok ? 'Correct.' : 'Not quite.'}</strong><br>${x.why}`;
+            });
+
+            storageOptions.appendChild(btn);
+        });
+
+        storageFeedback.className = 'lesson-lab-feedback';
+        storageFeedback.textContent = 'Choose the best answer.';
+    }
+
+    document.getElementById('nextStorage').addEventListener('click', function () {
+        storageIndex = (storageIndex + 1) % storageCases.length;
+        loadStorage();
+    });
+    loadStorage();
+});
+</script>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
+
+</body>
+</html>
