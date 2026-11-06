@@ -1,37 +1,90 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img">
-<defs>
-  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-    <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
-  </marker>
-  <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-    <path d="M 0 0 L 10 5 L 0 10 z" fill="#DC2626"/>
-  </marker>
-</defs>
-<rect width="100%" height="100%" fill="#FFFFFF"/>
-<text x="600" y="40" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="800" text-anchor="middle" fill="#0F172A">Context Diagram / Level 0 — Payroll System</text>
-<rect x="70" y="170" width="230" height="90" rx="2" fill="#F6E99A" stroke="#0F172A" stroke-width="2"/>
-<text x="185.0" y="221.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#0F172A">EMPLOYEE</text>
-<rect x="900" y="95" width="230" height="90" rx="2" fill="#F6E99A" stroke="#0F172A" stroke-width="2"/>
-<text x="1015.0" y="146.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#0F172A">HR / MANAGER</text>
-<rect x="900" y="310" width="230" height="90" rx="2" fill="#F6E99A" stroke="#0F172A" stroke-width="2"/>
-<text x="1015.0" y="361.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" text-anchor="middle" fill="#0F172A">BANK</text>
-<rect x="470" y="175" width="260" height="130" rx="16" fill="#F6E99A" stroke="#0F172A" stroke-width="2"/>
-<line x1="470" y1="205" x2="730" y2="205" stroke="#0F172A" stroke-width="2"/>
-<line x1="514" y1="175" x2="514" y2="205" stroke="#0F172A" stroke-width="2"/>
-<text x="492" y="196" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" text-anchor="middle" fill="#0F172A">0</text>
-<text x="600.0" y="233" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#0F172A">PAYROLL</text>
-<text x="600.0" y="255" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#0F172A">SYSTEM</text>
-<line x1="300" y1="195" x2="470" y2="205" stroke="#0F172A" stroke-width="2.5" marker-end="url(#arrow)"/>
-<text x="385.0" y="192.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#0F172A">Hours Worked</text>
-<line x1="470" y1="265" x2="300" y2="265" stroke="#0F172A" stroke-width="2.5" marker-end="url(#arrow)"/>
-<text x="385.0" y="257.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#0F172A">Payslip</text>
-<line x1="900" y1="125" x2="730" y2="200" stroke="#0F172A" stroke-width="2.5" marker-end="url(#arrow)"/>
-<text x="815.0" y="154.5" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#0F172A">Employee Details</text>
-<line x1="730" y1="245" x2="900" y2="160" stroke="#0F172A" stroke-width="2.5" marker-end="url(#arrow)"/>
-<text x="815.0" y="194.5" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#0F172A">Payroll Report</text>
-<line x1="730" y1="265" x2="900" y2="335" stroke="#0F172A" stroke-width="2.5" marker-end="url(#arrow)"/>
-<text x="815.0" y="292.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#0F172A">Payment Details</text>
-<line x1="900" y1="380" x2="730" y2="300" stroke="#0F172A" stroke-width="2.5" marker-end="url(#arrow)"/>
-<text x="815.0" y="332.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#0F172A">Payment Confirmation</text>
-<text x="600" y="455" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#0F766E">One process only · external entities + major data flows · no data stores</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" height="100%">
+  <style>
+    .entity { fill: #D4E6F1; stroke: #1C2833; stroke-width: 2px; }
+    .shadow { fill: #AAB7B8; }
+    .process { fill: #FCF3CF; stroke: #1C2833; stroke-width: 2px; }
+    .line { stroke: #1C2833; stroke-width: 2px; fill: none; }
+    .text-bold { font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; fill: #1C2833; }
+    .text-normal { font-family: Arial, sans-serif; font-size: 13px; fill: #1C2833; }
+    .title { font-family: Arial, sans-serif; font-weight: bold; font-size: 18px; fill: #1C2833; text-anchor: middle; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1C2833" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="500" y="40" class="title">DFD LEVEL 0 (CONTEXT DIAGRAM): PAYROLL SYSTEM</text>
+
+  <!-- Entity Shadows -->
+  <rect x="56" y="56" width="160" height="80" class="shadow" />
+  <rect x="56" y="256" width="160" height="80" class="shadow" />
+  <rect x="796" y="56" width="160" height="80" class="shadow" />
+  <rect x="796" y="256" width="160" height="80" class="shadow" />
+  <rect x="426" y="486" width="160" height="80" class="shadow" />
+
+  <!-- Entities -->
+  <!-- HR -->
+  <rect x="50" y="50" width="160" height="80" class="entity" />
+  <text x="130" y="85" text-anchor="middle" class="text-bold">HUMAN</text>
+  <text x="130" y="105" text-anchor="middle" class="text-bold">RESOURCES</text>
+
+  <!-- EMPLOYEES -->
+  <rect x="50" y="250" width="160" height="80" class="entity" />
+  <text x="130" y="295" text-anchor="middle" class="text-bold">EMPLOYEES</text>
+
+  <!-- MANAGEMENT -->
+  <rect x="790" y="50" width="160" height="80" class="entity" />
+  <text x="870" y="95" text-anchor="middle" class="text-bold">MANAGEMENT</text>
+
+  <!-- BANK -->
+  <rect x="790" y="250" width="160" height="80" class="entity" />
+  <text x="870" y="280" text-anchor="middle" class="text-bold">BANK /</text>
+  <text x="870" y="300" text-anchor="middle" class="text-bold">FINANCIAL</text>
+  <text x="870" y="320" text-anchor="middle" class="text-bold">INSTITUTIONS</text>
+
+  <!-- GOV -->
+  <rect x="420" y="480" width="160" height="80" class="entity" />
+  <text x="500" y="510" text-anchor="middle" class="text-bold">GOVERNMENT /</text>
+  <text x="500" y="530" text-anchor="middle" class="text-bold">TAX AUTHORITIES</text>
+
+  <!-- Process 0 (Gane & Sarson fix: empty top right section) -->
+  <rect x="410" y="240" width="180" height="100" rx="15" class="process" />
+  <line x1="410" y1="270" x2="590" y2="270" class="line" />
+  <line x1="450" y1="240" x2="450" y2="270" class="line" />
+  <text x="430" y="259" text-anchor="middle" class="text-bold">0</text>
+  <text x="500" y="305" text-anchor="middle" class="text-bold">PAYROLL</text>
+  <text x="500" y="325" text-anchor="middle" class="text-bold">SYSTEM</text>
+
+  <!-- Flows -->
+  <!-- HR to Process -->
+  <polyline points="130,130 130,200 450,200 450,240" class="line" marker-end="url(#arrow)" />
+  <text x="290" y="185" text-anchor="middle" class="text-normal">Employee records /</text>
+  <text x="290" y="200" text-anchor="middle" class="text-normal">Pay rate updates</text>
+
+  <!-- Process to MGT -->
+  <polyline points="550,240 550,200 870,200 870,130" class="line" marker-end="url(#arrow)" />
+  <text x="710" y="190" text-anchor="middle" class="text-normal">Payroll reports</text>
+
+  <!-- EMP to Process -->
+  <line x1="210" y1="270" x2="410" y2="270" class="line" marker-end="url(#arrow)" />
+  <text x="310" y="262" text-anchor="middle" class="text-normal">Timesheet data / Hours worked</text>
+
+  <!-- Process to EMP -->
+  <line x1="410" y1="310" x2="210" y2="310" class="line" marker-end="url(#arrow)" />
+  <text x="310" y="302" text-anchor="middle" class="text-normal">Payslips / Payroll details</text>
+
+  <!-- Process to BANK -->
+  <line x1="590" y1="270" x2="790" y2="270" class="line" marker-end="url(#arrow)" />
+  <text x="690" y="262" text-anchor="middle" class="text-normal">Direct deposit instructions</text>
+
+  <!-- BANK to Process -->
+  <line x1="790" y1="310" x2="590" y2="310" class="line" marker-end="url(#arrow)" />
+  <text x="690" y="302" text-anchor="middle" class="text-normal">Payment confirmations</text>
+
+  <!-- Process to GOV -->
+  <line x1="500" y1="340" x2="500" y2="480" class="line" marker-end="url(#arrow)" />
+  <text x="510" y="405" text-anchor="start" class="text-normal">Tax reports /</text>
+  <text x="510" y="420" text-anchor="start" class="text-normal">Tax withholding records</text>
 </svg>
