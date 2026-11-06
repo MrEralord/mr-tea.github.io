@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sound Representation — mr. TEA</title>
+<link rel="icon" type="image/png" href="/assets/images/mr-tea.png">
+
+<meta name="description" content="Digital sound representation: sampling rate, sample resolution/bit depth, analogue-to-digital conversion and audio file-size calculations. NIS Grade 11 Computer Science.">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="mr. TEA — CS Knowledge Base">
+<meta property="og:title" content="Sound Representation — mr. TEA">
+<meta property="og:description" content="Understand digital sound sampling and calculate uncompressed audio data size.">
+<meta property="og:url" content="https://mr-tea.net/pages/11-cs-theory/sound-representation.html">
+<meta property="og:image" content="https://mr-tea.net/assets/images/OG_mr-tea.net.png">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/lesson.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P4C0Y8SW2K"></script>
+<script>
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-P4C0Y8SW2K');
+</script>
+</head>
+
+<body>
+
+<div class="layout-wrapper">
+<main class="main-content">
+
+<div class="mobile-header">
+<div class="header-left">
+<button id="mobile-menu-btn" class="mobile-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+<a href="/" class="logo"><i class="fas fa-mug-hot logo-icon"></i><span class="logo-text">mr. TEA</span></a>
+</div>
+</div>
+
+<div class="lesson-page">
+<div class="lesson-container">
+
+<nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+<a href="/index.html">Home</a>
+<span class="sep">/</span>
+<a href="/index.html#syllabus">Grade 11 CS</a>
+<span class="sep">/</span>
+<span>11.3A — Data presentation</span>
+</nav>
+
+<div class="lesson-header">
+<div class="lesson-unit-badge"><i class="fas fa-wave-square"></i> Unit 11.3A · Term 3</div>
+<h1 class="lesson-title">Sound Representation</h1>
+<p class="lesson-intro">
+Sound in the real world is an <strong>analogue, continuous signal</strong>.
+To store and process it on a computer, the signal is measured at regular intervals
+and converted into binary values. Two key factors are <strong>sampling rate</strong>
+and <strong>sample resolution (bit depth)</strong>.
+</p>
+</div>
+
+<div class="lesson-lo-card">
+<h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+<ul class="lesson-lo-list">
+<li><span class="lo-code">11.1.1.9</span> Describe the digital representation of sound in terms of sampling rate and resolution</li>
+<li><span class="lo-code">11.1.1.10</span> Explain why analogue sound data needs to be converted to binary digits</li>
+<li><span class="lo-code">11.1.1.11</span> Calculate the size of an audio data file</li>
+</ul>
+</div>
+
+<nav class="lesson-section-jump" aria-label="Lesson sections">
+<a href="#conversion">Conversion</a>
+<a href="#sampling">Sampling Rate</a>
+<a href="#resolution">Resolution</a>
+<a href="#channels">Channels</a>
+<a href="#size">File Size</a>
+<a href="#labs">Labs</a>
+<a href="#practice">Practice</a>
+</nav>
+
+<section class="lesson-section" id="conversion">
+<h2 class="lesson-section-title"><i class="fas fa-microphone-lines"></i> From Analogue Sound to Binary</h2>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/sound-adc-process.svg"
+     alt="Analogue sound conversion process showing waveform, sampling, quantising and binary encoding"
+     loading="lazy">
+<figcaption>Analogue-to-digital conversion turns a continuous signal into discrete binary sample values.</figcaption>
+</figure>
+
+<div class="worked-example">
+<h4>The conversion process</h4>
+<ul class="concept-list">
+<li><strong>Sample:</strong> measure the amplitude of the analogue waveform at regular time intervals.</li>
+<li><strong>Quantise:</strong> map each measurement to one of the available amplitude levels.</li>
+<li><strong>Encode:</strong> represent the chosen level as a binary number.</li>
+</ul>
+</div>
+
+<div class="note-box">
+<h4><i class="fas fa-circle-info"></i> Why convert analogue sound to binary?</h4>
+<p>
+Computer systems store, process and transmit data digitally. Converting the analogue waveform
+into binary sample values allows the sound to be stored in memory/files, processed by software,
+copied and transmitted using digital systems.
+</p>
+</div>
+</section>
+
+<section class="lesson-section" id="sampling">
+<h2 class="lesson-section-title"><i class="fas fa-chart-line"></i> Sampling Rate</h2>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/sound-sampling-rate.svg"
+     alt="Comparison of lower and higher sampling rates on the same waveform"
+     loading="lazy">
+<figcaption>Sampling rate controls how often the waveform is measured.</figcaption>
+</figure>
+
+<div class="definition-grid">
+<div class="definition-item">
+<strong>Sample</strong>
+<p>One measurement of the waveform amplitude at a particular moment.</p>
+</div>
+<div class="definition-item">
+<strong>Sampling rate</strong>
+<p>The number of samples taken every second.</p>
+</div>
+<div class="definition-item">
+<strong>Hertz (Hz)</strong>
+<p>The unit used for samples per second; 1 kHz = 1000 samples per second.</p>
+</div>
+</div>
+
+<div class="worked-example">
+<h4>Example</h4>
+<div class="code-block"><code>44.1 kHz
+= 44,100 Hz
+= 44,100 samples per second per channel</code></div>
+</div>
+
+<table class="theory-table">
+<thead><tr><th>If sampling rate increases...</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Samples per second</td><td>Increases</td></tr>
+<tr><td>Time detail captured from the waveform</td><td>Can increase</td></tr>
+<tr><td>Uncompressed file size</td><td>Increases if all other factors stay the same</td></tr>
+</tbody>
+</table>
+
+<details class="lesson-compact-details">
+<summary>Extension: why sample fast enough?</summary>
+<div class="lesson-details-body">
+<p>
+If the sampling rate is too low, a digital recording may fail to represent high-frequency
+changes correctly. In more advanced study this is related to the Nyquist sampling rule and aliasing.
+</p>
+</div>
+</details>
+</section>
+
+<section class="lesson-section" id="resolution">
+<h2 class="lesson-section-title"><i class="fas fa-sliders"></i> Sample Resolution / Bit Depth</h2>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/sound-bit-depth.svg"
+     alt="Comparison of lower and higher sample bit depths and their available amplitude levels"
+     loading="lazy">
+<figcaption>Bit depth controls how many possible amplitude levels each sample can represent.</figcaption>
+</figure>
+
+<div class="code-block"><code>Number of possible amplitude levels
+= 2^(bit depth)</code></div>
+
+<div class="worked-example">
+<h4>Examples</h4>
+<div class="code-block"><code>3-bit sample resolution
+= 2³
+= 8 possible amplitude levels
+
+8-bit sample resolution
+= 2⁸
+= 256 possible amplitude levels
+
+16-bit sample resolution
+= 2¹⁶
+= 65,536 possible amplitude levels</code></div>
+</div>
+
+<table class="theory-table">
+<thead><tr><th>If bit depth increases...</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Possible amplitude levels</td><td>Increases</td></tr>
+<tr><td>Size of quantisation steps</td><td>Decreases</td></tr>
+<tr><td>Accuracy of amplitude representation</td><td>Can improve</td></tr>
+<tr><td>Uncompressed file size</td><td>Increases if all other factors stay the same</td></tr>
+</tbody>
+</table>
+
+<div class="pitfall-box">
+<h4><i class="fas fa-bug"></i> Sampling rate ≠ bit depth</h4>
+<p>
+Sampling rate describes <strong>how often</strong> measurements are taken.
+Bit depth / sample resolution describes <strong>how precisely each measurement's amplitude</strong> can be represented.
+</p>
+</div>
+</section>
+
+<section class="lesson-section" id="channels">
+<h2 class="lesson-section-title"><i class="fas fa-headphones"></i> Mono and Stereo Channels</h2>
+
+<table class="theory-table">
+<thead><tr><th>Audio type</th><th>Channels</th><th>Effect on raw data size</th></tr></thead>
+<tbody>
+<tr><td><strong>Mono</strong></td><td>1</td><td>One stream of samples</td></tr>
+<tr><td><strong>Stereo</strong></td><td>2</td><td>Two streams of samples → twice the raw data of mono at the same settings</td></tr>
+</tbody>
+</table>
+
+<div class="note-box">
+<h4><i class="fas fa-circle-info"></i> Per channel</h4>
+<p>
+A sample rate of 44.1 kHz means 44,100 samples per second <strong>for each channel</strong>.
+Stereo therefore stores two sample values for every sampling instant.
+</p>
+</div>
+</section>
+
+<section class="lesson-section" id="size">
+<h2 class="lesson-section-title"><i class="fas fa-calculator"></i> Calculating Audio Data Size</h2>
+
+<figure class="lesson-image-block">
+<img src="/assets/images/lessons/sound-file-size.svg"
+     alt="Formula for uncompressed audio size using sample rate, bit depth, channels and duration"
+     loading="lazy">
+<figcaption>Use the formula for uncompressed PCM-style audio data.</figcaption>
+</figure>
+
+<div class="code-block"><code>size in bits
+= sample rate × bit depth × number of channels × duration (seconds)</code></div>
+
+<div class="worked-example">
+<h4><span class="step-num">1</span> 44.1 kHz, 16-bit, stereo, 60 seconds</h4>
+<div class="code-block"><code>Sample rate = 44,100 samples/s
+Bit depth   = 16 bits/sample
+Channels    = 2
+Duration    = 60 s
+
+Size in bits
+= 44,100 × 16 × 2 × 60
+= 84,672,000 bits
+
+Size in bytes
+= 84,672,000 ÷ 8
+= 10,584,000 bytes
+
+Size in MiB
+= 10,584,000 ÷ 1024 ÷ 1024
+≈ 10.09 MiB</code></div>
+</div>
+
+<div class="worked-example">
+<h4><span class="step-num">2</span> 22.05 kHz, 8-bit, mono, 30 seconds</h4>
+<div class="code-block"><code>Size in bits
+= 22,050 × 8 × 1 × 30
+= 5,292,000 bits
+
+Size in bytes
+= 661,500 bytes
+
+Size in KiB
+= 661,500 ÷ 1024
+≈ 646.0 KiB</code></div>
+</div>
+
+<div class="pro-tip-box">
+<h4><i class="fas fa-graduation-cap"></i> Unit conversion</h4>
+<p>
+This page uses <strong>1024 bytes = 1 KiB</strong> and <strong>1024 KiB = 1 MiB</strong>.
+If the exam gives a different conversion, use the conversion stated in the question.
+</p>
+</div>
+
+<div class="note-box">
+<h4><i class="fas fa-file-audio"></i> Raw audio size vs real audio file size</h4>
+<p>
+The formula above calculates uncompressed sample data. Real files may include headers/metadata,
+and compressed formats such as MP3 or AAC can be much smaller. Use the assumptions stated in the question.
+</p>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-scale-balanced"></i> Quality–Storage Trade-off</h2>
+
+<table class="theory-table">
+<thead><tr><th>Change</th><th>Possible benefit</th><th>Cost</th></tr></thead>
+<tbody>
+<tr><td>Increase sample rate</td><td>More frequent measurements / more time detail</td><td>More samples to store</td></tr>
+<tr><td>Increase bit depth</td><td>More amplitude levels / smaller quantisation steps</td><td>More bits for every sample</td></tr>
+<tr><td>Use stereo instead of mono</td><td>Separate left and right channels</td><td>Twice as many sample values at the same settings</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="lesson-section" id="labs">
+<h2 class="lesson-section-title"><i class="fas fa-flask"></i> Interactive Labs</h2>
+
+<h3>1. Sampling Rate Challenge</h3>
+<div class="lesson-lab">
+<div id="samplePrompt" class="lesson-lab-prompt"></div>
+<div class="lesson-lab-options four">
+<button class="lesson-choice-btn sample-choice" data-answer="8000" type="button">8,000</button>
+<button class="lesson-choice-btn sample-choice" data-answer="22050" type="button">22,050</button>
+<button class="lesson-choice-btn sample-choice" data-answer="44100" type="button">44,100</button>
+<button class="lesson-choice-btn sample-choice" data-answer="48000" type="button">48,000</button>
+</div>
+<div id="sampleFeedback" class="lesson-lab-feedback">Convert the given kHz value into samples per second.</div>
+<div class="lesson-lab-footer"><span id="sampleProgress"></span><button id="nextSample" class="lesson-lab-btn" type="button">Next</button></div>
+</div>
+
+<h3>2. Bit Depth Challenge</h3>
+<div class="lesson-lab">
+<div id="bitPrompt" class="lesson-lab-prompt"></div>
+<div class="lesson-lab-options four">
+<button class="lesson-choice-btn bit-choice" data-answer="8" type="button">8</button>
+<button class="lesson-choice-btn bit-choice" data-answer="16" type="button">16</button>
+<button class="lesson-choice-btn bit-choice" data-answer="256" type="button">256</button>
+<button class="lesson-choice-btn bit-choice" data-answer="65536" type="button">65,536</button>
+</div>
+<div id="bitFeedback" class="lesson-lab-feedback">Use 2^(bit depth).</div>
+<div class="lesson-lab-footer"><span id="bitProgress"></span><button id="nextBit" class="lesson-lab-btn" type="button">Next</button></div>
+</div>
+
+<h3>3. Audio Size Calculator</h3>
+<div class="lesson-lab">
+<div class="lesson-lab-prompt">Calculate the uncompressed audio size.</div>
+<div class="lesson-lab-options four">
+<label>Sample rate (Hz)<input id="audioRate" type="number" min="1" value="44100"></label>
+<label>Bit depth<input id="audioDepth" type="number" min="1" value="16"></label>
+<label>Channels<input id="audioChannels" type="number" min="1" value="2"></label>
+<label>Duration (s)<input id="audioDuration" type="number" min="0" value="60"></label>
+</div>
+<div class="lesson-lab-footer"><button id="calculateAudio" class="lesson-lab-btn" type="button">Calculate size</button></div>
+<div id="audioFeedback" class="lesson-lab-feedback">sample rate × bit depth × channels × duration</div>
+</div>
+
+<h3>4. Predict the Effect</h3>
+<div class="lesson-lab">
+<div id="effectPrompt" class="lesson-lab-prompt"></div>
+<div id="effectOptions" class="lesson-lab-options two"></div>
+<div id="effectFeedback" class="lesson-lab-feedback">Choose the best answer.</div>
+<div class="lesson-lab-footer"><span id="effectProgress"></span><button id="nextEffect" class="lesson-lab-btn" type="button">Next</button></div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-exclamation-triangle"></i> Common Pitfalls</h2>
+
+<div class="pitfall-box">
+<h4><i class="fas fa-bug"></i> Confusing sampling rate and bit depth</h4>
+<p>Sampling rate = samples per second. Bit depth = bits used for each sample value.</p>
+</div>
+
+<div class="pitfall-box">
+<h4><i class="fas fa-bug"></i> Forgetting the number of channels</h4>
+<p>Stereo uses two channels, so the raw data size is twice that of mono at identical sample rate, bit depth and duration.</p>
+</div>
+
+<div class="pitfall-box">
+<h4><i class="fas fa-bug"></i> Using kHz as though it were Hz</h4>
+<p><code>44.1 kHz = 44,100 Hz</code>, not 44.1 samples per second.</p>
+</div>
+
+<div class="pitfall-box">
+<h4><i class="fas fa-bug"></i> Forgetting bits → bytes</h4>
+<p>The formula gives bits. Divide by 8 to obtain bytes.</p>
+</div>
+
+<div class="pitfall-box">
+<h4><i class="fas fa-bug"></i> Comparing the formula directly with an MP3 file</h4>
+<p>The basic formula describes uncompressed sample data; compressed audio uses a different storage model.</p>
+</div>
+</section>
+
+<section class="lesson-section" id="practice">
+<h2 class="lesson-section-title"><i class="fas fa-tasks"></i> Graded Tasks</h2>
+
+<div class="assessment-tasks">
+<div class="task-item"><span class="task-level remember">Remember</span><p>Define sampling rate and sample resolution / bit depth.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain why analogue sound needs to be converted to binary before it can be stored and processed by a computer.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Convert 48 kHz into samples per second.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Calculate the number of possible amplitude levels for 8-bit and 16-bit sample resolution.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain the effect of increasing sampling rate while keeping all other settings unchanged.</p></div>
+<div class="task-item"><span class="task-level understand">Understand</span><p>Explain the effect of increasing sample resolution while keeping all other settings unchanged.</p></div>
+<div class="task-item"><span class="task-level apply">Apply</span><p>Calculate the uncompressed size in bytes of 10 seconds of 8 kHz, 8-bit, mono audio.</p></div>
+<div class="task-item"><span class="task-level analyze">Analyze</span><p>Compare 44.1 kHz, 16-bit mono with 44.1 kHz, 16-bit stereo for the same duration. Explain the effect on stored data size.</p></div>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-graduation-cap"></i> Exam Practice</h2>
+
+<div class="quiz-item">
+<p class="quiz-question">Q1: Describe the terms sampling rate and sample resolution. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Sampling rate: number of samples taken per second [1].
+Sample resolution / bit depth: number of bits used to represent each sample / amplitude value [1].</div></details>
+</div>
+
+<div class="quiz-item">
+<p class="quiz-question">Q2: Explain why analogue sound is converted into binary data for use in a computer system. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Computers store/process data digitally / as binary [1].
+Conversion allows the sound to be stored, processed or transmitted using computer systems [1].</div></details>
+</div>
+
+<div class="quiz-item">
+<p class="quiz-question">Q3: A recording uses a sampling rate of 20 kHz and 8-bit sample resolution. It is mono and lasts 5 seconds. Calculate the size in bytes. [3]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>20 kHz = 20,000 samples/s [1].
+20,000 × 8 × 1 × 5 = 800,000 bits [1].
+800,000 ÷ 8 = 100,000 bytes [1].</div></details>
+</div>
+
+<div class="quiz-item">
+<p class="quiz-question">Q4: A mono recording and a stereo recording use the same sample rate, bit depth and duration. Explain the difference in uncompressed data size. [2]</p>
+<details class="lesson-exam-marking"><summary>Reveal marking points</summary><div>Stereo contains two channels / two sample streams [1].
+Therefore stereo requires twice the raw sample data of mono at the same settings [1].</div></details>
+</div>
+</section>
+
+<section class="lesson-section">
+<h2 class="lesson-section-title"><i class="fas fa-check-circle"></i> Self-Check Quiz</h2>
+<div class="lesson-quiz-progress"><span>Eight quick checks</span><span>Click each answer to reveal</span></div>
+
+<div class="quiz-item"><div class="quiz-question">1. What does sampling rate measure?</div><div class="quiz-answer" data-answer="The number of samples taken from the sound waveform each second">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">2. What does 44.1 kHz mean?</div><div class="quiz-answer" data-answer="44,100 samples per second per channel">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">3. What does sample resolution / bit depth measure?</div><div class="quiz-answer" data-answer="The number of bits used to represent each sample amplitude value">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">4. How many amplitude levels can 8 bits represent?</div><div class="quiz-answer" data-answer="2^8 = 256 levels">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">5. Why is analogue sound converted to binary?</div><div class="quiz-answer" data-answer="Because computers store and process data digitally, so the sound must be represented as binary sample values">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">6. How many channels does stereo audio have?</div><div class="quiz-answer" data-answer="Two channels">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">7. What is the raw audio-size formula in bits?</div><div class="quiz-answer" data-answer="sample rate × bit depth × channels × duration in seconds">Click to reveal answer</div></div>
+<div class="quiz-item"><div class="quiz-question">8. Why can an MP3 file be much smaller than this raw calculation?</div><div class="quiz-answer" data-answer="MP3 uses compression, while the basic formula calculates uncompressed sample data">Click to reveal answer</div></div>
+</section>
+
+<nav class="lesson-nav">
+<a href="text-representation.html"><span><span class="nav-label">← Previous</span><span class="nav-title">Text Representation</span></span></a>
+<a href="/index.html#syllabus"><span><span class="nav-label">Next →</span><span class="nav-title">11.3B Web Programming</span></span></a>
+</nav>
+
+</div>
+</div>
+</main>
+</div>
+
+<footer class="site-footer">
+<div class="container">
+<p><i class="fas fa-mug-hot"></i> mr. TEA · NIS 2026 · Grade 11 Computer Science</p>
+<p>&copy; 2026 IT-Tea. Educational use.</p>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+const sampleCases=[
+{khz:8,answer:'8000'},
+{khz:22.05,answer:'22050'},
+{khz:44.1,answer:'44100'},
+{khz:48,answer:'48000'}
+];
+let si=0;
+const sp=document.getElementById('samplePrompt');
+const sc=document.querySelectorAll('.sample-choice');
+const sf=document.getElementById('sampleFeedback');
+const spr=document.getElementById('sampleProgress');
+
+function loadSample(){
+ const x=sampleCases[si];
+ sp.textContent=`${x.khz} kHz equals how many samples per second?`;
+ spr.textContent=`Question ${si+1} of ${sampleCases.length}`;
+ sc.forEach(b=>b.classList.remove('active'));
+ sf.className='lesson-lab-feedback';
+ sf.textContent='Remember: 1 kHz = 1000 Hz.';
+}
+sc.forEach(btn=>btn.addEventListener('click',()=>{
+ const x=sampleCases[si],ok=btn.dataset.answer===x.answer;
+ sc.forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+ sf.className=`lesson-lab-feedback ${ok?'correct':'wrong'}`;
+ sf.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.khz} kHz = ${Number(x.answer).toLocaleString()} samples per second.`;
+}));
+document.getElementById('nextSample').addEventListener('click',()=>{si=(si+1)%sampleCases.length;loadSample();});
+loadSample();
+
+const bitCases=[
+{bits:3,answer:'8'},
+{bits:4,answer:'16'},
+{bits:8,answer:'256'},
+{bits:16,answer:'65536'}
+];
+let bi=0;
+const bp=document.getElementById('bitPrompt');
+const bc=document.querySelectorAll('.bit-choice');
+const bf=document.getElementById('bitFeedback');
+const bpr=document.getElementById('bitProgress');
+
+function loadBit(){
+ const x=bitCases[bi];
+ bp.textContent=`How many amplitude levels can ${x.bits}-bit sample resolution represent?`;
+ bpr.textContent=`Question ${bi+1} of ${bitCases.length}`;
+ bc.forEach(b=>b.classList.remove('active'));
+ bf.className='lesson-lab-feedback';
+ bf.textContent=`Use 2^${x.bits}.`;
+}
+bc.forEach(btn=>btn.addEventListener('click',()=>{
+ const x=bitCases[bi],ok=btn.dataset.answer===x.answer;
+ bc.forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+ bf.className=`lesson-lab-feedback ${ok?'correct':'wrong'}`;
+ bf.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>2^${x.bits} = ${Number(x.answer).toLocaleString()} levels.`;
+}));
+document.getElementById('nextBit').addEventListener('click',()=>{bi=(bi+1)%bitCases.length;loadBit();});
+loadBit();
+
+const af=document.getElementById('audioFeedback');
+document.getElementById('calculateAudio').addEventListener('click',()=>{
+ const rate=Number(document.getElementById('audioRate').value);
+ const depth=Number(document.getElementById('audioDepth').value);
+ const channels=Number(document.getElementById('audioChannels').value);
+ const duration=Number(document.getElementById('audioDuration').value);
+
+ if(![rate,depth,channels,duration].every(Number.isFinite)||rate<=0||depth<=0||channels<=0||duration<0){
+   af.className='lesson-lab-feedback wrong';
+   af.textContent='Enter valid positive audio settings and a non-negative duration.';
+   return;
+ }
+ const bits=rate*depth*channels*duration;
+ const bytes=bits/8;
+ const kib=bytes/1024;
+ const mib=kib/1024;
+ af.className='lesson-lab-feedback correct';
+ af.innerHTML=`<strong>${rate.toLocaleString()} × ${depth} × ${channels} × ${duration} = ${bits.toLocaleString()} bits</strong><br>${bytes.toLocaleString(undefined,{maximumFractionDigits:2})} bytes · ${kib.toLocaleString(undefined,{maximumFractionDigits:2})} KiB · ${mib.toLocaleString(undefined,{maximumFractionDigits:2})} MiB`;
+});
+
+const effects=[
+{
+prompt:'Sampling rate doubles while bit depth, channels and duration stay the same.',
+answer:'a',
+options:{
+a:'The raw audio data size doubles.',
+b:'The number of amplitude levels doubles.',
+c:'The raw data size stays the same.',
+d:'The audio becomes mono.'
+},
+why:'The formula is directly proportional to sample rate.'
+},
+{
+prompt:'Bit depth changes from 8 bits to 16 bits. All other factors stay the same.',
+answer:'c',
+options:{
+a:'Sampling rate doubles.',
+b:'The number of channels doubles.',
+c:'The raw data size doubles and more amplitude levels are available.',
+d:'The duration halves.'
+},
+why:'Each sample now uses twice as many bits.'
+},
+{
+prompt:'Mono audio is changed to stereo with the same sample rate, bit depth and duration.',
+answer:'b',
+options:{
+a:'The raw size halves.',
+b:'The raw size doubles.',
+c:'The sample rate doubles automatically.',
+d:'The bit depth doubles automatically.'
+},
+why:'Stereo has two channels instead of one.'
+}
+];
+let ei=0;
+const ep=document.getElementById('effectPrompt');
+const eo=document.getElementById('effectOptions');
+const ef=document.getElementById('effectFeedback');
+const epr=document.getElementById('effectProgress');
+
+function loadEffect(){
+ const x=effects[ei];
+ ep.textContent=x.prompt;
+ epr.textContent=`Scenario ${ei+1} of ${effects.length}`;
+ eo.innerHTML='';
+ Object.entries(x.options).forEach(([key,value])=>{
+   const btn=document.createElement('button');
+   btn.type='button';
+   btn.className='lesson-choice-btn effect-choice';
+   btn.textContent=value;
+   btn.addEventListener('click',()=>{
+      const ok=key===x.answer;
+      eo.querySelectorAll('.effect-choice').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      ef.className=`lesson-lab-feedback ${ok?'correct':'wrong'}`;
+      ef.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong><br>${x.why}`;
+   });
+   eo.appendChild(btn);
+ });
+ ef.className='lesson-lab-feedback';
+ ef.textContent='Choose the best answer.';
+}
+document.getElementById('nextEffect').addEventListener('click',()=>{ei=(ei+1)%effects.length;loadEffect();});
+loadEffect();
+
+});
+</script>
+
+<script src="/js/sidebar.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/lesson.js"></script>
+
+</body>
+</html>
