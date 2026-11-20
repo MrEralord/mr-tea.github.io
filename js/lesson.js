@@ -1,7 +1,9 @@
-/* ============================================================
-   IT-Tea.org — Lesson Page JS
-   Quiz reveal, scroll progress, nav
-   ============================================================ */
+/**
+ * MR-TEA Educational Web Platform
+ * Project concept and architecture: Yerassyl Tleudin
+ * Development: AI-assisted under author's direction
+ * © 2026 Yerassyl Tleudin
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
     initQuizReveal();

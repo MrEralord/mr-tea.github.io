@@ -1,7 +1,9 @@
-/* ============================================================
-   Syllabus Renderer — Dynamic tab content from JSON
-   Loads data/syllabus.json lazily, renders tables on demand
-   ============================================================ */
+/**
+ * MR-TEA Educational Web Platform
+ * Project concept and architecture: Yerassyl Tleudin
+ * Development: AI-assisted under author's direction
+ * © 2026 Yerassyl Tleudin
+ */
 
 (function () {
   'use strict';

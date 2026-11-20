@@ -1,3 +1,10 @@
+/**
+ * MR-TEA Educational Web Platform
+ * Project concept and architecture: Yerassyl Tleudin
+ * Development: AI-assisted under author's direction
+ * © 2026 Yerassyl Tleudin
+ */
+
 window.EXAM_CONFIG = {
   "examId": "g12-cs-component1-covered-topics-2026-v1",
   "title": "Computer Science Mock Examination — Component 1",

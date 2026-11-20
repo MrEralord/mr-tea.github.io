@@ -1,7 +1,9 @@
-/* ============================================================
-   IT-Tea.org — Core Application JS
-   System-aware theme, syllabus tabs, accordions, mobile nav
-   ============================================================ */
+/**
+ * MR-TEA Educational Web Platform
+ * Project concept and architecture: Yerassyl Tleudin
+ * Development: AI-assisted under author's direction
+ * © 2026 Yerassyl Tleudin
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();

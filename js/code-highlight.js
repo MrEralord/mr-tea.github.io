@@ -1,7 +1,9 @@
-/* ============================================================
-   ANTIgravity — Lightweight Syntax Highlighting
-   No dependencies. Supports Python, C++, and Pseudocode.
-   ============================================================ */
+/**
+ * MR-TEA Educational Web Platform
+ * Project concept and architecture: Yerassyl Tleudin
+ * Development: AI-assisted under author's direction
+ * © 2026 Yerassyl Tleudin
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('pre code[data-lang]').forEach(block => {
