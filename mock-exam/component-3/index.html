@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Computer Science Mock Examination — Component 3</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/lesson.css">
+  <link rel="stylesheet" href="./exam.css">
+</head>
+<body>
+  <div id="startScreen" class="exam-start">
+    <main class="exam-container">
+      <section class="exam-card exam-start-card">
+        <div class="exam-kicker">Grade 12 · Computer Science</div>
+        <h1 id="startTitle">Mock Examination — Component 3</h1>
+        <p id="startSubtitle" class="exam-muted"></p>
+        <dl class="exam-facts">
+          <div><dt>Time</dt><dd id="factTime">120 min</dd></div>
+          <div><dt>Maximum mark</dt><dd id="factMarks">60</dd></div>
+          <div><dt>Questions</dt><dd id="factQuestions">7</dd></div>
+        </dl>
+        <ul id="rulesList" class="exam-rules"></ul>
+        <div class="candidate-grid">
+          <label><span>Full name</span><input id="fullName" type="text" autocomplete="name" placeholder="Surname First name"></label>
+          <label><span>Class / group</span><input id="group" type="text" autocomplete="off" placeholder="12 A"></label>
+        </div>
+        <p id="startError" class="exam-error" role="alert"></p>
+        <div class="exam-actions"><button id="startBtn" class="exam-btn exam-btn-primary" type="button">Start examination</button><span class="exam-muted exam-small">The timer starts immediately.</span></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="examScreen" class="hidden exam-lock">
+    <header class="exam-bar">
+      <div class="exam-container">
+        <div class="exam-bar-top"><div class="candidate-mini"><strong id="candidateLabel"></strong><span id="progressLabel"></span></div><div id="timer" class="exam-timer" aria-label="Time remaining">120:00</div></div>
+        <nav id="qnav" class="exam-qnav" aria-label="Question navigation"></nav>
+      </div>
+    </header>
+    <main class="exam-container exam-paper">
+      <section class="exam-card exam-paper-head"><div><div class="exam-kicker">Component 3</div><h2 id="paperTitle">Computer Science Mock Examination</h2></div><div id="saveStatus" class="save-status" aria-live="polite">Saved locally</div></section>
+      <div id="questionContainer"></div>
+      <div class="exam-footer-actions"><p id="footerProgress" class="exam-muted"></p><button id="submitBtn" class="exam-btn exam-btn-primary" type="button">Submit examination</button></div>
+    </main>
+  </div>
+
+  <div id="doneScreen" class="hidden exam-done"><main class="exam-container"><section id="doneBox" class="exam-card"></section></main></div>
+  <dialog id="submitDialog" class="exam-dialog"><h3>Submit examination?</h3><p id="submitMessage"></p><div class="dialog-actions"><button id="cancelSubmit" class="exam-btn exam-btn-secondary" type="button">Return to questions</button><button id="confirmSubmit" class="exam-btn exam-btn-primary" type="button">Submit</button></div></dialog>
+  <div id="examToast" class="exam-toast" role="status" aria-live="polite"></div>
+  <script src="./exam-data.js"></script>
+  <script src="./exam.js"></script>
+</body>
+</html>
